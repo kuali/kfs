@@ -21,19 +21,23 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 public class PurapSearchUtils {
 
-    public static String getWorkFlowStatusString(FinancialSystemDocumentHeader documentHeader){
-        
-        if (StringUtils.equals(KFSConstants.DocumentStatusCodes.INITIATED,documentHeader.getFinancialDocumentStatusCode())){
+    public static String getWorkFlowStatusString(FinancialSystemDocumentHeader documentHeader) {
+        if (documentHeader.getWorkflowDocument().stateIsInitiated()) {
             return "INITIATED";
-        }else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.ENROUTE,documentHeader.getFinancialDocumentStatusCode())){
+        }
+        else if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
             return "ENROUTE";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.DISAPPROVED,documentHeader.getFinancialDocumentStatusCode())){
+        }
+        else if (documentHeader.getWorkflowDocument().stateIsDisapproved()) {
             return "DISAPPROVED";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.CANCELLED,documentHeader.getFinancialDocumentStatusCode())){
+        }
+        else if (documentHeader.getWorkflowDocument().stateIsCanceled()) {
             return "CANCELLED";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.APPROVED,documentHeader.getFinancialDocumentStatusCode())){
+        }
+        else if (documentHeader.getWorkflowDocument().stateIsApproved()) {
             return "APPROVED";
-        }else{
+        }
+        else {
             return StringUtils.EMPTY;
         }
     }

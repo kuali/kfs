@@ -49,10 +49,10 @@
     <property name="shortLabel" value="Type Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="TravelExpenseTypeCode-prepaidExpense" parent="TravelExpenseTypeCode-prepaidExpense-parentBean"/>

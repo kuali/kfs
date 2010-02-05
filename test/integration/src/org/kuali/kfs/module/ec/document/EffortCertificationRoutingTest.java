@@ -147,7 +147,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
 
         document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
         KNSServiceLocator.getDocumentService().saveDocument(document);
-        return document;
+        return (EffortCertificationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
     }
 
     public String serializeDocumentToXml(Document document) {

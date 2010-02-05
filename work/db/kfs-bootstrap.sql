@@ -382,8 +382,10 @@ WHERE ( dv_exp_cd, dv_exp_co_nm ) NOT IN (
 /
 
 /*  Financial Document Data  */
-/* No demo to bootstrap changes */
 
+/* clean out all non "01" origin codes */
+DELETE FROM fs_origin_code_t WHERE fs_origin_cd <> '01'
+/
 
 /*  Labor Distribution  */
 /* No demo to bootstrap changes */

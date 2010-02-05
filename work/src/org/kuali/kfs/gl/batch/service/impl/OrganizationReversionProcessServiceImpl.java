@@ -87,8 +87,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         if (LOG.isDebugEnabled()) {
             LOG.debug("organizationReversionProcessEndOfYear() started");
         }
-        Map<String, OrganizationReversionProcess> organizationReversionProcesses = SpringContext.getBeansOfType(OrganizationReversionProcess.class);
-        OrganizationReversionProcess orp = organizationReversionProcesses.get(OrganizationReversionProcessServiceImpl.ORGANIZATION_REVERSION_PRIOR_YEAR_ACCOUNT_PROCESS_BEAN_NAME);
+        OrganizationReversionProcess orp = SpringContext.getBean(OrganizationReversionProcess.class,OrganizationReversionProcessServiceImpl.ORGANIZATION_REVERSION_PRIOR_YEAR_ACCOUNT_PROCESS_BEAN_NAME);
 
         orp.organizationReversionProcess(jobParameters, organizationReversionCounts);
         
@@ -107,8 +106,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         if (LOG.isDebugEnabled()) {
             LOG.debug("organizationReversionProcessEndOfYear() started");
         }
-        Map<String, OrganizationReversionProcess> organizationReversionProcesses = SpringContext.getBeansOfType(OrganizationReversionProcess.class);
-        OrganizationReversionProcess orp = organizationReversionProcesses.get(OrganizationReversionProcessServiceImpl.ORGANIZATION_REVERSION_CURRENT_YEAR_ACCOUNT_PROCESS_BEAN_NAME);
+        OrganizationReversionProcess orp = SpringContext.getBean(OrganizationReversionProcess.class,OrganizationReversionProcessServiceImpl.ORGANIZATION_REVERSION_CURRENT_YEAR_ACCOUNT_PROCESS_BEAN_NAME);
 
         LOG.info("processing organization reversions for current year accounts");
         orp.organizationReversionProcess(jobParameters, organizationReversionCounts);

@@ -43,24 +43,15 @@
 
 
   <bean id="A21SubAccount-chartOfAccountsCode" parent="A21SubAccount-chartOfAccountsCode-parentBean"/>
-  <bean id="A21SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
+  <bean id="A21SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl" />
   
   <bean id="A21SubAccount-accountNumber" parent="A21SubAccount-accountNumber-parentBean"/>
   <bean id="A21SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
   
-  <bean id="A21SubAccount-subAccountNumber" parent="A21SubAccount-subAccountNumber-parentBean">
-    	<property name="forceUppercase" value="true"/>
-  </bean>
+  <bean id="A21SubAccount-subAccountNumber" parent="A21SubAccount-subAccountNumber-parentBean" />
+  <bean id="A21SubAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber" />
 
-  <bean id="A21SubAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-  </bean>
   <bean id="A21SubAccount-subAccountTypeCode" parent="A21SubAccount-subAccountTypeCode-parentBean"/>
-
   <bean id="A21SubAccount-subAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountTypeCode"/>
 	<property name="forceUppercase" value="false"/>    
@@ -68,10 +59,10 @@
     <property name="shortLabel" value="Type Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   
@@ -87,49 +78,41 @@
   </bean>
   
   <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" parent="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean"/>
-
-  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="indirectCostRecoveryChartOfAccountsCode"/>
     <property name="label" value="ICR Chart"/>
     <property name="shortLabel" value="ICR Chart"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
+  
   <bean id="A21SubAccount-indirectCostRecoveryAccountNumber" parent="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean"/>
-
   <bean id="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="indirectCostRecoveryAccountNumber"/>
-    
+    <property name="name" value="indirectCostRecoveryAccountNumber"/>    
     <property name="label" value="ICR Account"/>
     <property name="shortLabel" value="ICR Account"/>
   </bean>
-  <bean id="A21SubAccount-offCampusCode" parent="A21SubAccount-offCampusCode-parentBean"/>
 
+  <bean id="A21SubAccount-offCampusCode" parent="A21SubAccount-offCampusCode-parentBean"/>
   <bean id="A21SubAccount-offCampusCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="offCampusCode"/>
     <property name="label" value="Off Campus Indicator"/>
     <property name="shortLabel" value="Off Campus"/>
   </bean>
-  <bean id="A21SubAccount-costShareChartOfAccountCode" parent="A21SubAccount-costShareChartOfAccountCode-parentBean"/>
 
-  <bean id="A21SubAccount-costShareChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="A21SubAccount-costShareChartOfAccountCode" parent="A21SubAccount-costShareChartOfAccountCode-parentBean"/>
+  <bean id="A21SubAccount-costShareChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="costShareChartOfAccountCode"/>
     <property name="label" value="Cost Sharing Chart of Accounts Code"/>
     <property name="shortLabel" value="Cost Sharting Chart Code"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  <bean id="A21SubAccount-costShareSourceAccountNumber" parent="A21SubAccount-costShareSourceAccountNumber-parentBean"/>
 
+  <bean id="A21SubAccount-costShareSourceAccountNumber" parent="A21SubAccount-costShareSourceAccountNumber-parentBean"/>
   <bean id="A21SubAccount-costShareSourceAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="costShareSourceAccountNumber"/>
     <property name="label" value="Cost Sharing Account Number"/>
     <property name="shortLabel" value="Cost Sharing Account"/>
   </bean>
-  <bean id="A21SubAccount-costShareSourceSubAccountNumber" parent="A21SubAccount-costShareSourceSubAccountNumber-parentBean"/>
 
+  <bean id="A21SubAccount-costShareSourceSubAccountNumber" parent="A21SubAccount-costShareSourceSubAccountNumber-parentBean"/>
   <bean id="A21SubAccount-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="name" value="costShareSourceSubAccountNumber"/>
     <property name="label" value="Cost Sharing Sub-Account Number"/>

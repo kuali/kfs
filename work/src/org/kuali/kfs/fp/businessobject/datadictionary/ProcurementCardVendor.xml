@@ -127,7 +127,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="ProcurementCardVendor-vendorZipCode" parent="ProcurementCardVendor-vendorZipCode-parentBean"/>

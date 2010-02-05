@@ -76,10 +76,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   
@@ -128,7 +128,7 @@
   
   <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>	
 	
@@ -136,7 +136,7 @@
   
   <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>	
 	

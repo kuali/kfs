@@ -32,12 +32,12 @@
   </bean>  
 
   <bean id="PurchasingPaymentDetail-inquiryDefinition" parent="PurchasingPaymentDetail-inquiryDefinition-parentBean" />
-  <bean id="PurchasingPaymentDetail-inquiryDefinition-parentBean" abstract="true" parent="PaymentDetail-inquiryDefinition">  
+  <bean id="PurchasingPaymentDetail-inquiryDefinition-parentBean" abstract="true" parent="PaymentDetail-inquiryDefinition-parentBean">  
       <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PurchasingPaymentDetailInquirable" />
   </bean>
   
   <bean id="PurchasingPaymentDetail-lookupDefinition" parent="PurchasingPaymentDetail-lookupDefinition-parentBean" />
-  <bean id="PurchasingPaymentDetail-lookupDefinition-parentBean" abstract="true" parent="PaymentDetail-lookupDefinition">
+  <bean id="PurchasingPaymentDetail-lookupDefinition-parentBean" abstract="true" parent="PaymentDetail-lookupDefinition-parentBean">
     <property name="lookupableID" value="purchasingPaymentDetailLookupable" />
     <property name="lookupFields" >
       <list>     

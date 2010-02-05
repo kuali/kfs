@@ -48,11 +48,11 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CustomerType-customerTypeDescription" parent="CustomerType-customerTypeDescription-parentBean"/>
@@ -63,7 +63,7 @@
     <property name="shortLabel" value="Type Desc"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

@@ -53,11 +53,11 @@
     <property name="shortLabel" value="Tax Region Code"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -71,11 +71,11 @@
     <property name="shortLabel" value="Tax Region Name"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>   
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     

@@ -81,7 +81,7 @@
     <property name="maxLength" value="100"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationOptions-chartOfAccountsCode" parent="OrganizationOptions-chartOfAccountsCode-parentBean"/>
@@ -156,7 +156,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -187,7 +187,7 @@
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="80"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -203,7 +203,7 @@
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -234,7 +234,7 @@
     <property name="shortLabel" value="Address"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -250,7 +250,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -266,7 +266,7 @@
     <property name="shortLabel" value="Address"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -282,7 +282,7 @@
     <property name="shortLabel" value="Address"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -324,7 +324,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

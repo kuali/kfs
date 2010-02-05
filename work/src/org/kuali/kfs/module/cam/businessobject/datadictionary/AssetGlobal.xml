@@ -199,7 +199,7 @@
     <property name="label" value="Asset Representative"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="assetRepresentative.principalName"/>
   </bean>
@@ -266,10 +266,10 @@
     <property name="shortLabel" value="financialDocumentNextLineNumber"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   
@@ -279,7 +279,7 @@
     <property name="label" value="Financial Document Type Code"/>
     <property name="shortLabel" value="financialDocumentTypeCode"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   

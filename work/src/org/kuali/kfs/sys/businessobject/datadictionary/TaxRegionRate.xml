@@ -34,7 +34,7 @@
 	<property name="name" value="taxRegionCode"/>
 	<property name="forceUppercase" value="true"/>
 	<property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 
@@ -53,11 +53,11 @@
     <property name="shortLabel" value="Tax Rate"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     

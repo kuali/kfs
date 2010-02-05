@@ -46,10 +46,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier" parent="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean"/>
@@ -59,7 +59,7 @@
     <property name="label" value="Vendor Tax Change Person Identifier"/>
     <property name="shortLabel" value="Vendor Tax Change Person ID"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="vendorTaxChangePerson.principalName"/>
   </bean>

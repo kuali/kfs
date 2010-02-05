@@ -28,11 +28,17 @@
 <!-- Attribute Definitions -->
 
 	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" parent="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean"/>
-	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sensitiveDataAssignmentIdentifier"/>
 		<property name="label" value="Sensitive Data Assignment Identifier"/>
 		<property name="shortLabel" value="Assignment Identifier"/>
 		<property name="maxLength" value="9"/>
+	    <property name="validationPattern">
+	      <ref bean="NumericValidation" />
+	    </property>
+	    <property name="control">
+	      <ref bean="StandardShortNameTextControl" />
+	    </property>
 	</bean>
 
 	<bean id="SensitiveDataAssignment-purapDocumentIdentifier" parent="SensitiveDataAssignment-purapDocumentIdentifier-parentBean"/>
@@ -43,9 +49,6 @@
 		<property name="name" value="sensitiveDataAssignmentReasonText"/>
 		<property name="label" value="Sensitive Data Assignment Reason"/>
 		<property name="shortLabel" value="Assignment Reason"/>
-    	<property name="validationPattern">
-      		<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="100"/>
     	</property>		

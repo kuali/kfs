@@ -61,7 +61,7 @@
     <property name="shortLabel" value="ReportingNm"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -76,7 +76,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -103,7 +103,7 @@
     <property name="shortLabel" value="IndAmt"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="12" p:size="20"/>

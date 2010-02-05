@@ -43,6 +43,7 @@
                 <ref bean="Customer-customerLastActivityDate"/>
                 <ref bean="Customer-customerName"/>
                 <ref bean="Customer-customerNumber"/>
+                <ref bean="Customer-customerParentCompanyNumber"/>
                 <ref bean="Customer-customerPhoneNumber"/>
                 <ref bean="Customer-customerRecordAddDate"/>
                 <ref bean="Customer-customerTaxExemptIndicator"/>
@@ -158,7 +159,7 @@
         <property name="shortLabel" value="Name"/>
         <property name="maxLength" value="40"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="42"/>
@@ -173,7 +174,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -188,7 +189,7 @@
         <property name="shortLabel" value="Name"/>
         <property name="maxLength" value="40"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="42"/>
@@ -203,7 +204,7 @@
         <property name="shortLabel" value="Amount"/>
         <property name="maxLength" value="19"/>
         <property name="validationPattern">
-            <bean parent="FloatingPointValidationPattern"/>
+            <ref bean="FloatingPointValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="21"/>
@@ -255,7 +256,7 @@
         <property name="shortLabel" value="Name"/>
         <property name="maxLength" value="60"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="62"/>
@@ -270,12 +271,20 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="9"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
+            <ref bean="AnyCharacterValidation" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="11"/>
         </property>
     </bean>
+    
+    <bean id="Customer-customerParentCompanyNumber" parent="Customer-customerParentCompanyNumber-parentBean"/>
+    <bean id="Customer-customerParentCompanyNumber-parentBean" abstract="true" parent="Customer-customerNumber" >
+        <property name="name" value="customerParentCompanyNumber"/>
+        <property name="label" value="Customer Parent Company Number"/>
+        <property name="shortLabel" value="Parent Number"/>
+    </bean>
+    
     <bean id="Customer-customerPhoneNumber" parent="Customer-customerPhoneNumber-parentBean"/>
 
     <bean id="Customer-customerPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -320,7 +329,7 @@
         <property name="shortLabel" value="Type"/>
         <property name="maxLength" value="2"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
+            <ref bean="AnyCharacterValidation" />
         </property>
         <property name="control">
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerTypeValuesFinder" p:includeKeyInLabel="false"/>

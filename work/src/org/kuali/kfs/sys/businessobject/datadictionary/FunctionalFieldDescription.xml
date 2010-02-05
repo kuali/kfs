@@ -77,7 +77,7 @@
 
 	<bean id="FunctionalFieldDescription-componentClass-parentBean" abstract="true" parent="BusinessObjectComponent-componentClass">
 	  	<property name="control">
-			<bean parent="HiddenControlDefinition"/>
+			<ref bean="HiddenControl" />
 		</property> 
 	</bean>
 
@@ -91,7 +91,7 @@
 
 	<bean id="FunctionalFieldDescription-propertyName-parentBean" abstract="true" parent="BusinessObjectProperty-propertyName">
 		<property name="control">
-			<bean parent="HiddenControlDefinition"/>
+			<ref bean="HiddenControl" />
 		</property> 	
 	</bean>
 

@@ -24,6 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -37,8 +38,6 @@ import org.springframework.web.util.HtmlUtils;
 public class ReadOnlyRenderer extends FieldRendererBase {
     private boolean shouldRenderInquiry = true;
     
-    private final static String APPLICATION_URL_PROPERTY = "application.url";
-
     /**
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
@@ -112,7 +111,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         if (getField().getInquiryURL() instanceof AnchorHtmlData) {
             AnchorHtmlData htmlData = (AnchorHtmlData) getField().getInquiryURL();
             beginInquiryLink.append("<a href=\"");
-            beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ReadOnlyRenderer.APPLICATION_URL_PROPERTY));
+            beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY));
             beginInquiryLink.append("/kr/");
             beginInquiryLink.append(htmlData.getHref());
             beginInquiryLink.append("\" title=\"");

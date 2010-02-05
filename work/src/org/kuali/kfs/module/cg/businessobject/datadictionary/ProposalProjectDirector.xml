@@ -66,7 +66,7 @@
     <property name="label" value="Project Director ID"/>
     <property name="shortLabel" value="Proj Dir ID"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="ProposalProjectDirector-projectDirector.principalName" parent="ProposalProjectDirector-projectDirector.principalName-parentBean"/>
@@ -83,7 +83,7 @@
     <property name="label" value="Name"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="ProposalProjectDirector-proposalNumber" parent="ProposalProjectDirector-proposalNumber-parentBean"/>
@@ -95,7 +95,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>
@@ -120,10 +120,10 @@
     <property name="shortLabel" value="Title"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="ProposalProjectDirector-newCollectionRecord" parent="ProposalProjectDirector-newCollectionRecord-parentBean"/>
@@ -141,7 +141,7 @@
     <property name="label" value="Role Namespace Code"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   
@@ -150,7 +150,7 @@
     <property name="label" value="Role Name"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 

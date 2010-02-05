@@ -267,7 +267,7 @@
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
 
   </bean>
@@ -368,7 +368,7 @@
     <property name="shortLabel" value="PO Header"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderHeaderValuesFinder" p:includeKeyInLabel="false"/>
@@ -476,10 +476,10 @@
     <property name="shortLabel" value="Supplier Diversity"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-vendorContactsLabel" parent="PurchaseOrderDocument-vendorContactsLabel-parentBean"/>
@@ -491,10 +491,10 @@
     <property name="shortLabel" value="Contacts"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-billingName" parent="PurchaseOrderDocument-billingName-parentBean"/>
@@ -578,7 +578,7 @@
     <property name="shortLabel" value="Building"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -604,10 +604,10 @@
     <property name="shortLabel" value="Delivery Campus"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   
@@ -643,11 +643,11 @@
     <property name="shortLabel" value="Room"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryCityName" parent="PurchaseOrderDocument-deliveryCityName-parentBean"/>
@@ -681,7 +681,7 @@
     <property name="shortLabel" value="Instructions"/>
     <property name="maxLength" value="125"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
@@ -731,7 +731,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -764,7 +764,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -896,7 +896,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -935,7 +935,7 @@
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="255"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
@@ -1015,7 +1015,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -1037,7 +1037,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -1059,7 +1059,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -1081,7 +1081,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -1108,7 +1108,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp" parent="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean"/>
@@ -1127,7 +1127,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -1142,7 +1142,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -1157,7 +1157,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -1174,7 +1174,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderQuoteTypeValuesFinder" p:includeKeyInLabel="false"/>
@@ -1189,7 +1189,7 @@
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="255"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
@@ -1272,7 +1272,7 @@
     <property name="shortLabel" value="Status Change"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.StatusChangeValuesFinder" p:includeKeyInLabel="false"/>
@@ -1330,7 +1330,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>
@@ -1345,7 +1345,7 @@
     <property name="shortLabel" value="Type"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>

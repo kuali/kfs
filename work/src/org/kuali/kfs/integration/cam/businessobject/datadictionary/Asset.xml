@@ -48,10 +48,10 @@
     <property name="shortLabel" value="Sub Room"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   
@@ -64,10 +64,10 @@
     <property name="shortLabel" value="Tag Number"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
@@ -84,7 +84,7 @@
     <property name="shortLabel" value="Asset Description"/>
     <property name="maxLength" value="2000"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="10" p:cols="40"/>
@@ -104,7 +104,7 @@
     <property name="shortLabel" value="Asset Number"/>    
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>
@@ -119,7 +119,7 @@
     <property name="shortLabel" value="Model"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="27"/>
@@ -134,7 +134,7 @@
     <property name="shortLabel" value="Manufacturer"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
@@ -149,7 +149,7 @@
     <property name="shortLabel" value="Serial Number"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="27"/>
@@ -164,7 +164,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
@@ -214,7 +214,7 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>

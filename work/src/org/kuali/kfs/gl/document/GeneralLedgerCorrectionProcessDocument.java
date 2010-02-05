@@ -34,12 +34,17 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 
 /**
  * The General Ledger Correction Document, a document that allows editing and processing of origin entry groups and the origin
@@ -205,16 +210,20 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                     outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
                 }
                 doc.setCorrectionOutputFileName(outputFileName);
-                CorrectionProcessScrubberStep step = (CorrectionProcessScrubberStep) BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
-                step.setDocumentId(docId);
+                Step step = BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
+                CorrectionProcessScrubberStep correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                correctionStep.setDocumentId(docId);
+
                 try {
                     step.execute(getClass().getName(), dateTimeService.getCurrentDate());
                 }
-                catch (RuntimeException e) {
+                catch (Exception e) {
                     LOG.error("GLCP scrubber encountered error:", e);
-                    throw e;
+                    throw new RuntimeException("GLCP scrubber encountered error:", e);
                 }
-                step.setDocumentId(null);
+
+                correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                correctionStep.setDocumentId(null);
                 
                 correctionDocumentService.generateCorrectionReport(this);
                 correctionDocumentService.aggregateCorrectionDocumentReports(this);
@@ -291,6 +300,10 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     public KualiDecimal getCorrectionDebitTotalAmount() {
+        if (ObjectUtils.isNull(correctionDebitTotalAmount)) {
+            return KualiDecimal.ZERO;
+        }
+        
         return correctionDebitTotalAmount;
     }
 
@@ -299,6 +312,10 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     public KualiDecimal getCorrectionCreditTotalAmount() {
+        if (ObjectUtils.isNull(correctionCreditTotalAmount)) {
+            return KualiDecimal.ZERO;
+        }
+        
         return correctionCreditTotalAmount;
     }
 

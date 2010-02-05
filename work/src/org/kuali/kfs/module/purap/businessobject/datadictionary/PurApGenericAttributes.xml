@@ -61,7 +61,7 @@
     <property name="shortLabel" value="GenericTime"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
@@ -76,10 +76,10 @@
     <property name="shortLabel" value="PURAP Doc #"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-genericItemQuantity" parent="PurApGenericAttributes-genericItemQuantity-parentBean"/>
@@ -94,7 +94,7 @@
       <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-genericItemIdentifier" parent="PurApGenericAttributes-genericItemIdentifier-parentBean"/>
@@ -106,10 +106,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-genericItemUnitPrice" parent="PurApGenericAttributes-genericItemUnitPrice-parentBean"/>
@@ -136,7 +136,7 @@
     <property name="shortLabel" value="Return Current"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-receivingDocumentRequiredIndicator" parent="PurApGenericAttributes-receivingDocumentRequiredIndicator-parentBean"/>
@@ -148,7 +148,7 @@
     <property name="shortLabel" value="Receiving Required Document Indicator"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator" parent="PurApGenericAttributes-paymentRequestPositiveApprovalIndicator-parentBean"/>
@@ -160,7 +160,7 @@
     <property name="shortLabel" value="Payment Request Positive Approval Indicator"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-statusCode" parent="PurApGenericAttributes-statusCode-parentBean"/>
@@ -172,7 +172,7 @@
     <property name="shortLabel" value="Inc Statuses"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-purchaseOrderAutomaticIndicator" parent="PurApGenericAttributes-purchaseOrderAutomaticIndicator-parentBean"/>
@@ -184,7 +184,7 @@
     <property name="shortLabel" value="PO type"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PurApGenericAttributes-organizationCode" parent="PurApGenericAttributes-organizationCode-parentBean"/>
@@ -278,10 +278,10 @@
     <property name="shortLabel" value="Seq #"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     

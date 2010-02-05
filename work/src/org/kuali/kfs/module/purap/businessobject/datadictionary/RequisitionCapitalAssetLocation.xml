@@ -68,10 +68,10 @@
     <property name="shortLabel" value="Building"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-buildingRoomNumber" parent="RequisitionCapitalAssetLocation-buildingRoomNumber-parentBean"/>
@@ -83,10 +83,10 @@
     <property name="shortLabel" value="Room"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-campusCode" parent="RequisitionCapitalAssetLocation-campusCode-parentBean"/>
@@ -98,10 +98,10 @@
     <property name="shortLabel" value="Campus"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName" parent="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean"/>
@@ -112,7 +112,7 @@
     <property name="shortLabel" value="City"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -127,7 +127,7 @@
     <property name="shortLabel" value="Country"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
@@ -141,7 +141,7 @@
     <property name="shortLabel" value="Address"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -156,10 +156,10 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   
@@ -176,7 +176,7 @@
     <property name="shortLabel" value="State"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
@@ -191,10 +191,10 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-itemQuantity" parent="RequisitionCapitalAssetLocation-itemQuantity-parentBean"/>
@@ -206,7 +206,7 @@
     <property name="shortLabel" value="Item Quantity"/>
     <property name="maxLength" value="11"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>

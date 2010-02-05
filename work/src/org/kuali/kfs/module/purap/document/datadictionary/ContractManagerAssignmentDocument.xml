@@ -137,7 +137,7 @@
     <property name="shortLabel" value="First Object Code"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="22"/>
@@ -151,7 +151,7 @@
     <property name="shortLabel" value="University Fiscal Year"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="22"/>

@@ -146,8 +146,8 @@
 	<property name="routingTypeDefinitions">
     		
     		<map>
-    			<entry key="Chart" value-ref="OrganizationMaintenanceDocument-RoutingType-Chart"/>
-    			<entry key="OrganizationHierarchy" value-ref="OrganizationMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
     		</map>
     	
 		</property>
@@ -182,58 +182,5 @@
     		</list>
     	</property>
 	</bean>
-	
-	<bean id="OrganizationMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
-	</bean>
-	
-	<bean id="OrganizationMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="organizationCode"/>
-	</bean>
-	
-	
-	<bean id="OrganizationMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-    		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-    			<value>newMaintainableObject.businessObject.organizationCode</value>
-    		</list>
-    	</property>
-   	</bean>
-   	
-   	<bean id="OrganizationMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-    		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-    		</list>
-    	</property>
-   	</bean>
-   	
-   	<bean id="OrganizationMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart"/>
-    			<ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Organization"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
-    		</list>
-    	</property>
-    </bean>
-
-	<bean id="OrganizationMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="OrganizationMaintenanceDocument-RoutingAttribute-Chart"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="OrganizationMaintenanceDocument-DocumentValuePathGroup-Chart"/>
-    		</list>
-    	</property>
-    </bean>
 	
 </beans>

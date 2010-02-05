@@ -44,15 +44,15 @@
   <bean id="MandatoryTransferEliminationCode-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Mandatory Transfer Elimination Code"/>
-    <property name="shortLabel" value="Mand Xfr Elim Code"/>
+    <property name="label" value="Mandatory Transfer Or Eliminations Code"/>
+    <property name="shortLabel" value="ManTranOrElimCode"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="MandatoryTransferEliminationCode-name" parent="MandatoryTransferEliminationCode-name-parentBean"/>
@@ -64,7 +64,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="MandatoryTransferEliminationCode-active" parent="MandatoryTransferEliminationCode-active-parentBean"/>

@@ -64,11 +64,11 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="RestrictedStatus-codeAndDescription" parent="RestrictedStatus-codeAndDescription-parentBean"/>

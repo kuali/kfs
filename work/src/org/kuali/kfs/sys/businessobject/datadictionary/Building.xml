@@ -66,24 +66,14 @@
 
   <bean id="Building-campusCode" parent="Building-campusCode-parentBean"/>
 
-  <bean id="Building-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Building-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="campusCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Campus Code"/>
     <property name="shortLabel" value="Campus Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
     <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
-    </property>
-    
-    
   </bean>
-  <bean id="Building-buildingCode" parent="Building-buildingCode-parentBean"/>
 
+  <bean id="Building-buildingCode" parent="Building-buildingCode-parentBean"/>
   <bean id="Building-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="buildingCode"/>
     <property name="forceUppercase" value="true"/>
@@ -91,11 +81,11 @@
     <property name="shortLabel" value="Building Code"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -108,11 +98,11 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     
@@ -125,10 +115,10 @@
     <property name="shortLabel" value="Bldg. Street Addr."/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     
@@ -141,7 +131,7 @@
     <property name="shortLabel" value="Bldg. City"/>
     <property name="maxLength" value="37"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="37"/>
@@ -200,10 +190,10 @@
     <property name="shortLabel" value="Alt. Bldg. Code"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
     
     

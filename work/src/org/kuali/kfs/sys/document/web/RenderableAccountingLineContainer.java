@@ -362,6 +362,15 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public boolean isEditableLine() {
         return editableLine;
     }
+    
+    /**
+     * Sets the editableLine attribute value.
+     * 
+     * @param editableLine The editableLine to set.
+     */
+    public void setEditableLine(boolean editableLine) {
+        this.editableLine = editableLine;
+    }
 
     /**
      * Determines whether the line within this rendering context can be deleted.

@@ -168,8 +168,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
      */
     public DynamicNameLabelGenerator getDynamicNameLabelGenerator() {
         if (!StringUtils.isBlank(dynamicNameLabelGeneratorBeanName) && dynamicNameLabelGenerator == null) {
-            Map<String, DynamicNameLabelGenerator> generators = SpringContext.getBeansOfType(DynamicNameLabelGenerator.class);
-            dynamicNameLabelGenerator = generators.get(dynamicNameLabelGeneratorBeanName);
+            dynamicNameLabelGenerator = SpringContext.getBean(DynamicNameLabelGenerator.class,dynamicNameLabelGeneratorBeanName);
         }
         return dynamicNameLabelGenerator;
     }

@@ -64,7 +64,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(qualification==null || roleQualifier==null) {
             return false;
         }
-        String totalAmountStr = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
+        String totalAmountStr = qualification.get(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
         if ( StringUtils.isBlank(totalAmountStr) ) {
             return false;
         }
@@ -81,11 +81,6 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             LOG.error( "Exception comparing document amount to role qualifiers.", ex );
         }
         return isValidTotalAmount;
-    }
-
-
-    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
-        return qualificationAttributes;
     }
 
     private List<String> uniqueAttributes = new ArrayList<String>();

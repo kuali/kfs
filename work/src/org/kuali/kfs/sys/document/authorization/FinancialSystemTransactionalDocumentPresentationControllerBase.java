@@ -116,16 +116,24 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     // check if bank entry should be viewable for the given document
-    protected boolean canHaveBankEntry(Document document) {
-        boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
+    protected boolean canHaveBankEntry(Document document) {        
+        boolean bankSpecificationEnabled = getBankService().isBankSpecificationEnabled();
         
-        if (bankSpecificationEnabled) {
-            String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
+        if (bankSpecificationEnabled) {            
+            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
 
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
+            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
             return evaluator.evaluationSucceeds();
         }
 
         return false;
+    }
+    
+    private static BankService bankService;
+    protected BankService getBankService() {
+        if ( bankService == null ) {
+            bankService = SpringContext.getBean(BankService.class);
+        }
+        return bankService;
     }
 }

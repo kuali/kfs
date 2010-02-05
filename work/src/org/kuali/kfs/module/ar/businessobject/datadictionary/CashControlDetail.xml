@@ -76,7 +76,7 @@
     <property name="shortLabel" value="Medium ID"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -104,7 +104,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>

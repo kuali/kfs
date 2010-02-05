@@ -48,10 +48,10 @@
     <property name="shortLabel" value="Inc Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode" parent="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean"/>
@@ -63,7 +63,7 @@
     <property name="shortLabel" value="Inc Tx Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="1"/>

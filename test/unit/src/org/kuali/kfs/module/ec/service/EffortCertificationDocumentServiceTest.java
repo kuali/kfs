@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ec.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.util.List;
@@ -38,8 +37,10 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = kfs)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {
@@ -109,8 +110,12 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
-        assertTrue(isCreated);
+        try {
+            boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
+            assertTrue(isCreated);
+        } catch ( ValidationException ex ) {            
+            fail( "Business Rule Failure: " + GlobalVariables.getMessageMap() );
+        }
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
@@ -149,8 +154,12 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
-        assertTrue(isCreated);
+        try {
+            boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
+            assertTrue(isCreated);
+        } catch ( ValidationException ex ) {            
+            fail( "Business Rule Failure: " + GlobalVariables.getMessageMap() );
+        }
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 

@@ -159,14 +159,14 @@
   <bean id="OrgReviewRole-delegationMemberId" parent="OrgReviewRole-delegationMemberId-parentBean"/>
   <bean id="OrgReviewRole-delegationMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="delegationMemberId" p:label="Delegation Member Identifier" p:shortLabel="Delegation Member Identifier" p:maxLength="40" p:required="false">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 
   <bean id="OrgReviewRole-roleMemberId" parent="OrgReviewRole-roleMemberId-parentBean"/>
   <bean id="OrgReviewRole-roleMemberId-parentBean" parent="AttributeDefinition" abstract="true" p:name="roleMemberId" p:label="Role Member Identifier" p:shortLabel="Role Member Identifier" p:maxLength="40" p:required="false">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 
@@ -200,7 +200,7 @@
   <bean id="OrgReviewRole-memberPrincipal.principalId" parent="OrgReviewRole-memberPrincipal.principalId-parentBean"/>
   <bean id="OrgReviewRole-memberPrincipal.principalId-parentBean" parent="PersonImpl-principalId" abstract="true" p:name="principalMemberPrincipalId">
 		<property name="control">
-      		<bean parent="HiddenControlDefinition"/>
+      		<ref bean="HiddenControl" />
 	    </property>
   </bean>    
 
@@ -232,7 +232,7 @@
   <bean id="OrgReviewRole-memberRole.memberId" parent="OrgReviewRole-memberRole.memberId-parentBean"/>
   <bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="RoleImpl-roleId" abstract="true" p:name="roleMemberRoleId">
 		<property name="control">
-      		<bean parent="HiddenControlDefinition"/>
+      		<ref bean="HiddenControl" />
 	    </property>
   </bean>
 
@@ -251,7 +251,7 @@
   <bean id="OrgReviewRole-memberGroup.memberId" parent="OrgReviewRole-memberGroup.memberId-parentBean"/>
   <bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="GroupImpl-groupId" abstract="true" p:name="groupMemberGroupId">
 		<property name="control">
-      		<bean parent="HiddenControlDefinition"/>
+      		<ref bean="HiddenControl" />
 	    </property>
   </bean>
         

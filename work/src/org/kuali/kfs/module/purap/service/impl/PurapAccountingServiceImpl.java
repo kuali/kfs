@@ -870,6 +870,57 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
     
     /**
+     * 
+     * gets sum total of accounts
+     * @param accounts  
+     * @return 
+     */
+
+    protected KualiDecimal calculateSumTotal(List<SourceAccountingLine> accounts) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (SourceAccountingLine accountingLine : accounts) {
+            total = total.add( accountingLine.getAmount());
+        }
+        return total;
+    }
+ 
+        
+ 
+    /**
+     * 
+     * Replaces amount field with prorated tax amount in list
+     * @param accounts         list of accounts
+     * @param useTax           tax to be allocated to these accounts
+     * @param newSourceLines   rewrites the source account lines
+     */
+
+    protected  void convertAmtToTax(List<PurApAccountingLine> accounts, KualiDecimal useTax, List<SourceAccountingLine> newSourceLines) {
+        final KualiDecimal HUNDRED = new KualiDecimal(100);
+        PurApAccountingLine purApAccountingLine;
+        KualiDecimal proratedAmt;
+        //convert back to source
+        KualiDecimal total = KualiDecimal.ZERO;
+        int last = accounts.size() - 1;
+        for (int i = 0; i < last; i++) {
+            purApAccountingLine = accounts.get(i);
+            proratedAmt = useTax.multiply(new KualiDecimal(purApAccountingLine.getAccountLinePercent()));
+            // last object takes the rest of the amount
+            //proratedAmt = (accounts.indexOf(purApAccountingLine) == last) ? useTax.subtract(total) : proratedAmt.divide(HUNDRED);     
+            proratedAmt =  proratedAmt.divide(HUNDRED);     
+            SourceAccountingLine acctLine = purApAccountingLine.generateSourceAccountingLine();
+            acctLine.setAmount(proratedAmt);
+            newSourceLines.add(acctLine);
+            total = total.add(proratedAmt);
+        }
+        // update last object with remaining balance
+        proratedAmt = useTax.subtract(total);
+        purApAccountingLine = accounts.get(last);
+        SourceAccountingLine acctLine = purApAccountingLine.generateSourceAccountingLine();
+        acctLine.setAmount(proratedAmt);
+        newSourceLines.add(acctLine);
+    }
+  
+    /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateUseTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document) {
@@ -881,7 +932,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
               //not useTax, return
               return useTaxAccounts;
           }
-        for (PurApItem purApItem : document.getItems()) {
+         for (PurApItem purApItem : document.getItems()) {
             if(!purApItem.getUseTaxItems().isEmpty()) {
                 if(accountingLineClass==null) {
                     accountingLineClass = purApItem.getAccountingLineClass();
@@ -892,15 +943,20 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                        useTaxContainer = useTaxItemMap.get(itemUseTax);
                        PurApItemUseTax exisitingItemUseTax = useTaxContainer.getUseTax();
                        //if already in set we need to add on the old amount
-                       exisitingItemUseTax.getTaxAmount().add(itemUseTax.getTaxAmount());
-                       useTaxContainer.getItems().add(purApItem);
+                      KualiDecimal tax = exisitingItemUseTax.getTaxAmount();
+                       tax = tax.add(itemUseTax.getTaxAmount());
+                       exisitingItemUseTax.setTaxAmount(tax);
+                       
+                       List<PurApItem> items = useTaxContainer.getItems();
+                       items.add(purApItem);
+                       useTaxContainer.setItems(items);
+                       
                     } else {
                         useTaxContainer = new UseTaxContainer(itemUseTax,purApItem);
                         useTaxItemMap.put(itemUseTax, useTaxContainer);
-                    }
-                    
-                }
-                useTaxAccounts.add(useTaxContainer);
+                        useTaxAccounts.add(useTaxContainer);
+                    }   
+                }          
             }
         }
         // iterate over useTaxAccounts and set summary accounts using proration
@@ -908,19 +964,20 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             
             //create summary from items
             List<SourceAccountingLine> origSourceAccounts = this.generateSummaryWithNoZeroTotals(useTaxContainer.getItems());
-            //prorate to update amounts and come back with one list
-            List<PurApAccountingLine> accountingLines = generateAccountDistributionForProration(origSourceAccounts, useTaxContainer.getUseTax().getTaxAmount(), PurapConstants.PRORATION_SCALE, 
+            KualiDecimal totalAmount = calculateSumTotal(origSourceAccounts);
+            List<PurApAccountingLine> accountingLines = generateAccountDistributionForProration(origSourceAccounts, totalAmount, PurapConstants.PRORATION_SCALE, 
                                                         accountingLineClass);
+            
+            
+           
             List<SourceAccountingLine> newSourceLines = new ArrayList<SourceAccountingLine>();
             //convert back to source
-            for (PurApAccountingLine purApAccountingLine : accountingLines) {
-                newSourceLines.add(purApAccountingLine.generateSourceAccountingLine());
-            }
+            convertAmtToTax(accountingLines, useTaxContainer.getUseTax().getTaxAmount(), newSourceLines);
+            
             //do we need an update accounts here?
             useTaxContainer.setAccounts(newSourceLines);
         }
-        
-        
+         
         useTaxAccounts=new ArrayList<UseTaxContainer>(useTaxItemMap.values());
         return useTaxAccounts;
     }

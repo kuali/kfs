@@ -195,10 +195,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         JournalVoucherDocument document = buildDocument();
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
         if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(getValidObjectSubTypeTargetLine());
@@ -315,10 +314,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         JournalVoucherDocument document = buildDocument();
-        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)validations.get("JournalVoucher-accountingLineValuesAllowedValidation");
+        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)SpringContext.getBean(Validation.class,"JournalVoucher-accountingLineValuesAllowedValidation");
         AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)hutch.getObjectTypeAllowedValidation();
         if (validation != null) {
             validation.setAccountingDocumentForValidation(document);
@@ -331,10 +329,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
     
     private boolean testAddAccountingLineRule_IsObjectCodeAllowed(AccountingLine accountingLine, boolean expected) throws Exception {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         JournalVoucherDocument document = buildDocument();
-        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)validations.get("JournalVoucher-accountingLineValuesAllowedValidation");
+        AccountingLineValuesAllowedValidationHutch hutch = (AccountingLineValuesAllowedValidationHutch)SpringContext.getBean(Validation.class,"JournalVoucher-accountingLineValuesAllowedValidation");
         AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)hutch.getObjectCodeAllowedValidation();
         if (validation != null) {
             validation.setAccountingDocumentForValidation(document);

@@ -41,38 +41,24 @@
 
 
   <bean id="AccountGlobalDetail-accountNumber" parent="AccountGlobalDetail-accountNumber-parentBean"/>
+  <bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
 
-  <bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="AccountGlobalDetail-chartOfAccountsCode" parent="AccountGlobalDetail-chartOfAccountsCode-parentBean"/>
+  <bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl" />
 
-  <bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
   <bean id="AccountGlobalDetail-account.accountName" parent="AccountGlobalDetail-account.accountName-parentBean"/>
-
   <bean id="AccountGlobalDetail-account.accountName-parentBean" abstract="true" parent="Account-accountName">
     <property name="name" value="account.accountName"/>
   </bean>
+
   <bean id="AccountGlobalDetail-documentNumber" parent="AccountGlobalDetail-documentNumber-parentBean"/>
+  <bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
-  <bean id="AccountGlobalDetail-newCollectionRecord" parent="AccountGlobalDetail-newCollectionRecord-parentBean"/>
-
-  <bean id="AccountGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
+  <bean id="AccountGlobalDetail-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AccountGlobalDetail-inquiryDefinition" parent="AccountGlobalDetail-inquiryDefinition-parentBean"/>
-
   <bean id="AccountGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Account Change Detail Inquiry"/>
     <property name="inquirySections">
@@ -94,12 +80,9 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AccountGlobalDetail-lookupDefinition" parent="AccountGlobalDetail-lookupDefinition-parentBean"/>
-
   <bean id="AccountGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Change Detail Lookup"/>
-    
     <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>

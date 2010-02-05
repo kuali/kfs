@@ -315,7 +315,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
 
             boolean canBypass = isOverrideOriginCode || continuationAccountBypassBalanceTypeCodes.contains(laborOriginEntry.getFinancialBalanceTypeCode()) || continuationAccountBypassDocumentTypeCodes.contains(laborOriginEntry.getFinancialDocumentTypeCode().trim());
-            if (!account.isActive() && canBypass) {
+            if (account.isActive() && canBypass) {
                 return null;
             }
 

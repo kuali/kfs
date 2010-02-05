@@ -48,7 +48,7 @@
     <property name="shortLabel" value="Fed Function Code"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -64,7 +64,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="FederalFunction-active" parent="FederalFunction-active-parentBean"/>

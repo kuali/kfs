@@ -77,18 +77,18 @@
     <property name="shortLabel" value="Org Ref Id"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="CustomerInvoiceDetail-chartOfAccountsCode" parent="CustomerInvoiceDetail-chartOfAccountsCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSimpleSelectControl" />
     </property>
   </bean>
   <bean id="CustomerInvoiceDetail-postingYear" parent="CustomerInvoiceDetail-postingYear-parentBean"/>
@@ -183,7 +183,7 @@
     <property name="shortLabel" value="Item Code"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
@@ -198,7 +198,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="400"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="20"/>
@@ -237,10 +237,10 @@
     <property name="shortLabel" value="UOM"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemUnitPrice" parent="CustomerInvoiceDetail-invoiceItemUnitPrice-parentBean"/>

@@ -43,15 +43,16 @@ import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -66,6 +67,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
+    private LaborTransactionDescriptionService laborTransactionDescriptionService;
 
     private ReportWriterService reportWriterService;
     private ReportWriterService errorListingReportWriterService;
@@ -85,8 +87,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private String batchFileDirectoryName;
     private PrintStream POSTER_OUTPUT_ERR_FILE_ps;
     
-    protected static final String MOCK_REPORT_WRITER_BEAN_NAME = "mockReportWriterService";
-
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborPosterService#postMainEntries()
      */
@@ -273,8 +273,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param postDate the data when the transaction is processes return the operation type of the process
      */
     protected String postAsLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
-        ReportWriterService mockReportWriterService = SpringContext.getBeansOfType(ReportWriterService.class).get(LaborPosterServiceImpl.MOCK_REPORT_WRITER_BEAN_NAME);
-        return laborLedgerEntryPoster.post(originEntry, 0, postDate, mockReportWriterService);
+        return laborLedgerEntryPoster.post(originEntry, 0, postDate, null);
     }
 
     /**
@@ -284,8 +283,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param postDate the data when the transaction is processes return the operation type of the process
      */
     protected String updateLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
-        ReportWriterService mockReportWriterService = SpringContext.getBeansOfType(ReportWriterService.class).get(LaborPosterServiceImpl.MOCK_REPORT_WRITER_BEAN_NAME);
-        return laborLedgerBalancePoster.post(originEntry, 0, postDate, mockReportWriterService);
+        return laborLedgerBalancePoster.post(originEntry, 0, postDate, null);
     }
 
     /**
@@ -353,8 +351,15 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param lineNumber the line in the input file (used for error message only)
      */
     protected LaborOriginEntry summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+        // KFSMI-5308: Description update moved here due to requirement for this to happen before consolidation
+        if(ObjectUtils.isNotNull(laborOriginEntry)) {
+            String description = laborTransactionDescriptionService.getTransactionDescription(laborOriginEntry);
+            if(StringUtils.isNotEmpty(description)) {
+                laborOriginEntry.setTransactionLedgerEntryDescription(description);
+            }
+        }
+        
         LaborOriginEntry summarizedEntry = null;
-
         if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
             laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT);
@@ -376,9 +381,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         try {
             List<Message> errors = this.isPostableForLaborGLEntry(summarizedEntry);
             if (errors == null || errors.isEmpty()) {
-                ReportWriterService mockReportWriterService = SpringContext.getBeansOfType(ReportWriterService.class).get(LaborPosterServiceImpl.MOCK_REPORT_WRITER_BEAN_NAME);
-                
-                String operationType = laborGLLedgerEntryPoster.post(summarizedEntry, 0, runDate, mockReportWriterService);
+                String operationType = laborGLLedgerEntryPoster.post(summarizedEntry, 0, runDate, null);
                 updateReportSummary(glEntryReportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType);
             }
             else {
@@ -496,6 +499,14 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         this.originEntryGroupService = originEntryGroupService;
     }
 
+    /**
+     * Sets the laborTransactionDescriptionService attribute value.
+     * @param laborTransactionDescriptionService The laborTransactionDescriptionService to set.
+     */
+    public void setLaborTransactionDescriptionService(LaborTransactionDescriptionService laborTransactionDescriptionService) {
+        this.laborTransactionDescriptionService = laborTransactionDescriptionService;
+    }
+    
     /**
      * Sets the reportWriterService
      * 

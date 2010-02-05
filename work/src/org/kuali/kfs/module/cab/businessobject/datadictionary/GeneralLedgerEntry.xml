@@ -81,7 +81,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>

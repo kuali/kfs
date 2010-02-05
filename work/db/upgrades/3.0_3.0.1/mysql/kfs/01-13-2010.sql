@@ -1,0 +1,2 @@
+update krns_parm_t set txt = 'MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss;MM/dd/yyyy hh:mm a' where nmspc_cd = 'KR-NS' and parm_nm = 'STRING_TO_DATE_FORMATS'
+;

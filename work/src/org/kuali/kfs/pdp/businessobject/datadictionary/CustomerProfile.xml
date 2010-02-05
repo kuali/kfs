@@ -132,7 +132,7 @@
     <property name="shortLabel" value="Customer Profile ID"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -208,7 +208,7 @@
     <property name="maxLength" value="4"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   
@@ -220,7 +220,7 @@
     <property name="required" value="true"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   
@@ -349,7 +349,7 @@
     <property name="label" value="File Threshold Amount"/>
     <property name="shortLabel" value="File Threshold Amount"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="maxLength" value="14"/>
@@ -379,7 +379,7 @@
     <property name="label" value="Payment Threshold Amount"/>
     <property name="shortLabel" value="Payment Threshold Amount"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="maxLength" value="14"/>
@@ -423,7 +423,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   

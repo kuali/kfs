@@ -55,7 +55,7 @@
     <property name="maxLength" value="100"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationReversion-universityFiscalYear" parent="OrganizationReversion-universityFiscalYear-parentBean"/>

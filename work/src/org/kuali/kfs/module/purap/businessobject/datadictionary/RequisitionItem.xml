@@ -68,7 +68,7 @@
     <property name="shortLabel" value="Item Line #"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="1"/>
@@ -83,7 +83,7 @@
     <property name="shortLabel" value="UOM"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -99,7 +99,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="1"/>
@@ -140,7 +140,7 @@
     <property name="shortLabel" value="Item Type"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -156,7 +156,7 @@
     <property name="shortLabel" value="Catalog #"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="15"/>
@@ -170,7 +170,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="4000"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="2" p:cols="20"/>
@@ -186,7 +186,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="300"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
@@ -201,7 +201,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -215,7 +215,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="15"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="17"/>
@@ -237,10 +237,10 @@
     <property name="shortLabel" value="Commodity Code"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="RequisitionItem-itemRestrictedIndicator" parent="RequisitionItem-itemRestrictedIndicator-parentBean"/>

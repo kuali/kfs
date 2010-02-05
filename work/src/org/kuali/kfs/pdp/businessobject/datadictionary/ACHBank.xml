@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 <!--
  Copyright 2007-2009 The Kuali Foundation
  
@@ -49,12 +49,22 @@
     </property>
 	<property name="relationships">
       <list>
-        <dd:relationship objectAttribute="bankState">
-            <dd:primitiveAttribute source="bankStateCode" target="postalStateCode"/>
-        </dd:relationship> 
-        <dd:relationship objectAttribute="postalCode">
-            <dd:primitiveAttribute source="bankZipCode" target="postalCode"/>
-        </dd:relationship> 
+         <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="bankState"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankStateCode" p:targetName="postalStateCode"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="postalCode"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankZipCode" p:targetName="postalCode"/>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>    
   </bean>
@@ -71,7 +81,7 @@
     <property name="shortLabel" value="Bank Routing Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -94,7 +104,7 @@
     <property name="shortLabel" value="Office Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -109,7 +119,7 @@
     <property name="shortLabel" value="Bank Service Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -124,7 +134,7 @@
     <property name="shortLabel" value="Record Type Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -139,7 +149,7 @@
     <property name="shortLabel" value="Bank New Routing Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -154,7 +164,7 @@
     <property name="shortLabel" value="Bank Name"/>
     <property name="maxLength" value="36"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -169,7 +179,7 @@
     <property name="shortLabel" value="Bank Street Address"/>
     <property name="maxLength" value="36"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -184,7 +194,7 @@
     <property name="shortLabel" value="Bank City Name"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -204,7 +214,7 @@
     <property name="shortLabel" value="Bank Zip Code"/>
     <property name="maxLength" value="20"/>
     <!--property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <ref bean="NumericValidation" />
     </property-->
     <property name="required" value="true"/>
     <property name="control">
@@ -220,7 +230,7 @@
     <property name="shortLabel" value="Bank Phone Area Code"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -235,7 +245,7 @@
     <property name="shortLabel" value="Bank Phone Prefix Number"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -250,11 +260,11 @@
     <property name="shortLabel" value="Bank Phone Suffix Number"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="ACHBank-bankInstitutionStatusCode" parent="ACHBank-bankInstitutionStatusCode-parentBean"/>
@@ -265,7 +275,7 @@
     <property name="shortLabel" value="Bank Institution Status Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -280,7 +290,7 @@
     <property name="shortLabel" value="Bank Data View Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

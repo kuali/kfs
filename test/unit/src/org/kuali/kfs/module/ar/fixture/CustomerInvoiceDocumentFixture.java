@@ -232,7 +232,7 @@ public enum CustomerInvoiceDocumentFixture {
         //customerInvoiceDocument.getPaymentFinancialObject().refresh();
         
         SpringContext.getBean(DocumentService.class).saveDocument(customerInvoiceDocument);
-        
+        customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(customerInvoiceDocument.getDocumentNumber());
         return customerInvoiceDocument;
     }
 }

@@ -47,10 +47,10 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="ProposalStatus-proposalStatusDescription" parent="ProposalStatus-proposalStatusDescription-parentBean"/>
@@ -61,7 +61,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="15"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="17"/>

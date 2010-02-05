@@ -47,7 +47,7 @@
   <bean id="ProposalOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="forceUppercase" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSelectControl" />
     </property>
   </bean>
   <bean id="ProposalOrganization-organizationCode" parent="ProposalOrganization-organizationCode-parentBean">

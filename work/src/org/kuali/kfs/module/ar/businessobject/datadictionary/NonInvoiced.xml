@@ -77,7 +77,7 @@
   
   <bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSimpleSelectControl" />
     </property>
   </bean>
 
@@ -90,7 +90,7 @@
     <property name="shortLabel" value="DocNumber"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
@@ -113,7 +113,7 @@
     <property name="shortLabel" value="LineNumber"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
@@ -128,7 +128,7 @@
     <property name="shortLabel" value="DocOverrideCode"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
@@ -143,7 +143,7 @@
     <property name="shortLabel" value="PostingYear"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>

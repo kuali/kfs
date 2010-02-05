@@ -7,53 +7,12 @@
     <property name="objectLabel" value="Object Code Change Detail"/>
     <property name="attributes">
       <list>
-        <ref bean="SubObjectCodeGlobalDetail-universityFiscalYear"/>
-        <ref bean="SubObjectCodeGlobalDetail-chartOfAccountsCode"/>
-        <ref bean="SubObjectCodeGlobalDetail-financialObjectCode"/>
-        <ref bean="SubObjectCodeGlobalDetail-newCollectionRecord"/>
+        <bean parent="ObjectCode-universityFiscalYear"/>
+        <bean parent="ObjectCode-chartOfAccountsCode"/>
+        <bean parent="ObjectCode-financialObjectCode"/>
+        <bean parent="GenericAttributes-newCollectionRecord"/>
       </list>
     </property>
   </bean>
 
-<!-- Attribute Definitions -->
-
-
-  <bean id="SubObjectCodeGlobalDetail-universityFiscalYear" parent="SubObjectCodeGlobalDetail-universityFiscalYear-parentBean"/>
-
-  <bean id="SubObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Fiscal Year"/>
-    <property name="shortLabel" value="FY"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="SubObjectCodeGlobalDetail-chartOfAccountsCode" parent="SubObjectCodeGlobalDetail-chartOfAccountsCode-parentBean"/>
-
-  <bean id="SubObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="required" value="false"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-  <bean id="SubObjectCodeGlobalDetail-financialObjectCode" parent="SubObjectCodeGlobalDetail-financialObjectCode-parentBean"/>
-
-  <bean id="SubObjectCodeGlobalDetail-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Object Code"/>
-    <property name="shortLabel" value="Object"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-  </bean>
-  <bean id="SubObjectCodeGlobalDetail-newCollectionRecord" parent="SubObjectCodeGlobalDetail-newCollectionRecord-parentBean"/>
-
-  <bean id="SubObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
 </beans>

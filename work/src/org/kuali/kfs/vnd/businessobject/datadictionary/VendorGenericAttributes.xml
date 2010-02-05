@@ -50,29 +50,19 @@
 
   <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
     <property name="name" value="stateCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
-    <property name="maxLength" value="2"/>
     <property name="required" value="false"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="StateCodeSelectControl" />
     </property>
   </bean>
+  
   <bean id="VendorGenericAttributes-campusCode" parent="VendorGenericAttributes-campusCode-parentBean"/>
-
-  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="campusCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusWithBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
@@ -112,11 +102,11 @@
     <property name="shortLabel" value="Hidden?"/>
     <property name="maxLength" value="1"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
-  <bean id="VendorGenericAttributes-phoneNumberNoValidation" parent="VendorGenericAttributes-phoneNumberNoValidation-parentBean"/>
 
+  <bean id="VendorGenericAttributes-phoneNumberNoValidation" parent="VendorGenericAttributes-phoneNumberNoValidation-parentBean"/>
   <bean id="VendorGenericAttributes-phoneNumberNoValidation-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="phoneNumberNoValidation"/>
     <property name="forceUppercase" value="false"/>
@@ -124,27 +114,23 @@
     <property name="shortLabel" value="Phone"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="VendorGenericAttributes-phoneNumberWithValidation" parent="VendorGenericAttributes-phoneNumberWithValidation-parentBean"/>
 
-  <bean id="VendorGenericAttributes-phoneNumberWithValidation-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-phoneNumberWithValidation" parent="VendorGenericAttributes-phoneNumberWithValidation-parentBean"/>
+  <bean id="VendorGenericAttributes-phoneNumberWithValidation-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
     <property name="name" value="phoneNumberWithValidation"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Phone Number"/>
-    <property name="shortLabel" value="Phone"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="PhoneNumberValidationPattern"/>
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="42"/>
-    </property>
   </bean>
+
+  <bean id="AddressLineTextControl" parent="TextControlDefinition" p:size="45"/>
+
   <bean id="VendorGenericAttributes-line1Address" parent="VendorGenericAttributes-line1Address-parentBean"/>
 
   <bean id="VendorGenericAttributes-line1Address-parentBean" abstract="true" parent="AttributeDefinition">
@@ -154,98 +140,59 @@
     <property name="shortLabel" value="Address 1"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
+    <property name="control" ref="AddressLineTextControl" />
   </bean>
-  <bean id="VendorGenericAttributes-line2Address" parent="VendorGenericAttributes-line2Address-parentBean"/>
 
-  <bean id="VendorGenericAttributes-line2Address-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-line2Address" parent="VendorGenericAttributes-line2Address-parentBean"/>
+  <bean id="VendorGenericAttributes-line2Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="line2Address"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Address 2"/>
     <property name="shortLabel" value="Address 2"/>
-    <property name="maxLength" value="45"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
   </bean>
-  <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean"/>
 
+  <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean"/>
   <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
     <property name="name" value="zipCode"/>
     <property name="required" value="false"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
   </bean>
-  <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean"/>
 
-  <bean id="VendorGenericAttributes-cityName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean"/>
+  <bean id="VendorGenericAttributes-cityName-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="cityName"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="City"/>
     <property name="shortLabel" value="City"/>
-    <property name="maxLength" value="45"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
   </bean>
-  <bean id="VendorGenericAttributes-countryCode" parent="VendorGenericAttributes-countryCode-parentBean"/>
 
+  <bean id="VendorGenericAttributes-countryCode" parent="VendorGenericAttributes-countryCode-parentBean"/>
   <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
     <property name="name" value="countryCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
+  
   <bean id="VendorGenericAttributes-internationalProvinceName" parent="VendorGenericAttributes-internationalProvinceName-parentBean"/>
-
-  <bean id="VendorGenericAttributes-internationalProvinceName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-internationalProvinceName-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="internationalProvinceName"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Province"/>
     <property name="shortLabel" value="Province"/>
-    <property name="maxLength" value="45"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
   </bean>
-  <bean id="VendorGenericAttributes-attentionName" parent="VendorGenericAttributes-attentionName-parentBean"/>
 
-  <bean id="VendorGenericAttributes-attentionName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-attentionName" parent="VendorGenericAttributes-attentionName-parentBean"/>
+  <bean id="VendorGenericAttributes-attentionName-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">
     <property name="name" value="attentionName"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Attention"/>
     <property name="shortLabel" value="Attention"/>
-    <property name="maxLength" value="45"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
   </bean>
-  <bean id="VendorGenericAttributes-genericUrlAddress" parent="VendorGenericAttributes-genericUrlAddress-parentBean"/>
 
+  <bean id="VendorGenericAttributes-genericUrlAddress" parent="VendorGenericAttributes-genericUrlAddress-parentBean"/>
   <bean id="VendorGenericAttributes-genericUrlAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericUrlAddress"/>
     <property name="forceUppercase" value="false"/>
@@ -253,19 +200,17 @@
     <property name="shortLabel" value="URL"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
+    <property name="control" ref="AddressLineTextControl" />
   </bean>
-  <bean id="VendorGenericAttributes-vendorHeaderGeneratedIdentifier" parent="VendorGenericAttributes-vendorHeaderGeneratedIdentifier-parentBean"/>
 
+  <bean id="VendorGenericAttributes-vendorHeaderGeneratedIdentifier" parent="VendorGenericAttributes-vendorHeaderGeneratedIdentifier-parentBean"/>
   <bean id="VendorGenericAttributes-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="name" value="vendorHeaderGeneratedIdentifier"/>
   </bean>
-  <bean id="VendorGenericAttributes-vendorDetailAssignedIdentifier" parent="VendorGenericAttributes-vendorDetailAssignedIdentifier-parentBean"/>
 
+  <bean id="VendorGenericAttributes-vendorDetailAssignedIdentifier" parent="VendorGenericAttributes-vendorDetailAssignedIdentifier-parentBean"/>
   <bean id="VendorGenericAttributes-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="name" value="vendorDetailAssignedIdentifier"/>
   </bean>

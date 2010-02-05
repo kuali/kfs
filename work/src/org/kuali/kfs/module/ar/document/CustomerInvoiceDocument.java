@@ -1845,19 +1845,23 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public void setCustomerBillToAddressOnInvoice(CustomerAddress customerBillToAddress) {
         accountsReceivableDocumentHeader.refreshReferenceObject("customer");
-        this.setCustomerName(accountsReceivableDocumentHeader.getCustomer().getCustomerName());
-
-        this.setBillingAddressTypeCode(customerBillToAddress.getCustomerAddressTypeCode());
-        this.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
-        this.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
-        this.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
-        this.setBillingCityName(customerBillToAddress.getCustomerCityName());
-        this.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
-        this.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
-        this.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
-        this.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
-        this.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
-        this.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+        if (ObjectUtils.isNotNull(accountsReceivableDocumentHeader.getCustomer())) {
+            this.setCustomerName(accountsReceivableDocumentHeader.getCustomer().getCustomerName());
+        }
+        
+        if (ObjectUtils.isNotNull(customerBillToAddress)) {
+            this.setBillingAddressTypeCode(customerBillToAddress.getCustomerAddressTypeCode());
+            this.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
+            this.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
+            this.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
+            this.setBillingCityName(customerBillToAddress.getCustomerCityName());
+            this.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
+            this.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
+            this.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
+            this.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
+            this.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
+            this.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+        }
     }
 
     /**

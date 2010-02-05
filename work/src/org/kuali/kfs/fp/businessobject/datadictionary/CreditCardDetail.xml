@@ -80,11 +80,11 @@
     <property name="shortLabel" value="Type"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CreditCardDetail-financialDocumentCreditCardVendorNumber" parent="CreditCardDetail-financialDocumentCreditCardVendorNumber-parentBean"/>

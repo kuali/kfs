@@ -22,10 +22,8 @@
       <property name="objectLabel" value="Generic Attributes"/>
 	  <property name="attributes">
 		<list>
-		  <ref bean="GenericAttributes-namespaceCode"/>
 		  <ref bean="GenericAttributes-oneDigitTextCode"/>
 		  <ref bean="GenericAttributes-twoDigitTextCode"/>
-		  <ref bean="GenericAttributes-genericSystemId"/>
 		  <ref bean="GenericAttributes-genericDate"/>
 		  <ref bean="GenericAttributes-genericTimestamp"/>
 		  <ref bean="GenericAttributes-genericBoolean"/>
@@ -61,117 +59,87 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="TenCharacterTextControl" parent="TextControlDefinition" p:size="10" />
+  <bean id="FourCharacterTextControl" parent="TextControlDefinition" p:size="4" />
+  <bean id="TwoCharacterTextControl" parent="TextControlDefinition" p:size="2" />
+  <bean id="OneCharacterTextControl" parent="TextControlDefinition" p:size="2" />
+  
+  <bean id="StandardNameTextControl" parent="TextControlDefinition" p:size="40"/>
+  <bean id="StandardShortNameTextControl" parent="TextControlDefinition" p:size="12"/>
+  
+  <bean id="DateControl" parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
+  <bean id="HiddenControl" parent="HiddenControlDefinition" />
+  <bean id="CheckboxControl" parent="CheckboxControlDefinition"/>
+  <bean id="GenericAmountControl" parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
+  <bean id="GenericBigTextControl" parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+  <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+  <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
 
-  <bean id="GenericAttributes-namespaceCode" parent="GenericAttributes-namespaceCode-parentBean"/>
 
-  <bean id="GenericAttributes-namespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="namespaceCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Module Codes"/>
-    <property name="shortLabel" value="TextCode1"/>
-    <property name="maxLength" value="2"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
-    </property>
-  </bean>
-
- <bean id="GenericAttributes-oneDigitTextCode" parent="GenericAttributes-oneDigitTextCode-parentBean"/>
- 
- <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ExactlyOneCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="1"/>
+  <bean id="ExactlyTwoCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="2"/>
+  <bean id="GenericAmountValiationPattern" parent="FixedPointValidationPattern" p:precision="19" p:scale="2" p:allowNegative="true" />
+  <bean id="AnyCharacterValidation" parent="AnyCharacterValidationPattern" />
+  <bean id="AnyCharacterWithWhitespaceValidation" parent="AnyCharacterValidation" p:allowWhitespace="true"/>
+  <bean id="AlphaNumericValidation" parent="AlphaNumericValidationPattern" />
+  <bean id="AlphaNumericWithWhitespaceValidation" parent="AlphaNumericValidation" p:allowWhitespace="true" />
+  <bean id="NumericValidation" parent="NumericValidationPattern" />
+  <bean id="FloatingPointValidation" parent="FloatingPointValidationPattern"/>
+  <bean id="FloatingPointAllowNegativeValidation" parent="FloatingPointValidation" p:allowNegative="true" />
+  
+  <bean id="GenericAttributes-oneDigitTextCode" parent="GenericAttributes-oneDigitTextCode-parentBean"/>
+  <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneDigitTextCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic One-Digit Text Code"/>
     <property name="shortLabel" value="TextCode1"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="1"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="1"/>
-    </property>
-    
-    
+    <property name="validationPattern" ref="ExactlyOneCharacterValidationPattern" />
+    <property name="control" ref="OneCharacterTextControl" />
   </bean>
+  
   <bean id="GenericAttributes-twoDigitTextCode" parent="GenericAttributes-twoDigitTextCode-parentBean"/>
-
   <bean id="GenericAttributes-twoDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twoDigitTextCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic Two-Digit Text Code"/>
     <property name="shortLabel" value="TextCode2"/>
     <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
-    </property>
-    
-    
+    <property name="validationPattern" ref="ExactlyTwoCharacterValidationPattern" />
+    <property name="control" ref="TwoCharacterTextControl" />
   </bean>
-  <bean id="GenericAttributes-genericSystemId" parent="GenericAttributes-genericSystemId-parentBean"/>
 
-  <bean id="GenericAttributes-genericSystemId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="genericSystemId"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Generic SystemID Attribute"/>
-    <property name="shortLabel" value="GenericSysId"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    
-    
-  </bean>
   <bean id="GenericAttributes-genericDate" parent="GenericAttributes-genericDate-parentBean"/>
-
   <bean id="GenericAttributes-genericDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericDate"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic Date Style Attribute"/>
     <property name="shortLabel" value="GenericDate"/>
     <property name="maxLength" value="22"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
-    </property>
-    
-    
+    <property name="validationPattern" ref="DateValidation" />
+    <property name="control" ref="DateControl" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
   </bean>
+  
   <bean id="GenericAttributes-genericTimestamp" parent="GenericAttributes-genericTimestamp-parentBean"/>
-
   <bean id="GenericAttributes-genericTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericTimestamp"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic Timestamp Style Attribute"/>
     <property name="shortLabel" value="GenericTimestamp"/>
     <property name="maxLength" value="22"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
-    </property>
-    
-    
+    <property name="control" ref="DateControl" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
   </bean>
+  
   <bean id="GenericAttributes-genericBoolean" parent="GenericAttributes-genericBoolean-parentBean"/>
-
   <bean id="GenericAttributes-genericBoolean-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericBoolean"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic Boolean Attribute"/>
     <property name="shortLabel" value="GenericBool"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="CheckboxControl" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean"/>
@@ -182,52 +150,34 @@
     <property name="label" value="Active Indicator"/>
     <property name="shortLabel" value="active"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="CheckboxControl" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
+  
   <bean id="GenericAttributes-genericAmount" parent="GenericAttributes-genericAmount-parentBean"/>
-
   <bean id="GenericAttributes-genericAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericAmount"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Amount"/>
     <property name="shortLabel" value="Amt"/>
     <property name="maxLength" value="19"/>
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2" p:allowNegative="true"/>
-    </property>
-    <property name="control">
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
-    </property>
-    
-    
+    <property name="validationPattern" ref="GenericAmountValiationPattern" />
+    <property name="control" ref="GenericAmountControl" />
   </bean>
-  <bean id="GenericAttributes-genericBigText" parent="GenericAttributes-genericBigText-parentBean"/>
 
+
+  <bean id="GenericAttributes-genericBigText" parent="GenericAttributes-genericBigText-parentBean"/>
   <bean id="GenericAttributes-genericBigText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericBigText"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Generic Big Text Attribute"/>
     <property name="shortLabel" value="GenericBigText"/>
     <property name="maxLength" value="400"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
-    </property>
-    
-    
+    <property name="validationPattern" ref="AnyCharacterWithWhitespaceValidation" />
+    <property name="control" ref="GenericBigTextControl" />
   </bean>
-  <bean id="GenericAttributes-emailAddress" parent="GenericAttributes-emailAddress-parentBean"/>
 
+  <bean id="GenericAttributes-emailAddress" parent="GenericAttributes-emailAddress-parentBean"/>
   <bean id="GenericAttributes-emailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="emailAddress"/>
     <property name="forceUppercase" value="false"/>
@@ -238,13 +188,11 @@
       <bean parent="EmailAddressValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
-    
-    
   </bean>
-  <bean id="GenericAttributes-universityFiscalAccountingPeriod" parent="GenericAttributes-universityFiscalAccountingPeriod-parentBean"/>
 
+  <bean id="GenericAttributes-universityFiscalAccountingPeriod" parent="GenericAttributes-universityFiscalAccountingPeriod-parentBean"/>
   <bean id="GenericAttributes-universityFiscalAccountingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalAccountingPeriod"/>
     <property name="forceUppercase" value="true"/>
@@ -254,14 +202,10 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
-    </property>
-    
-    
+    <property name="control" ref="TwoCharacterTextControl" />
   </bean>
-  <bean id="GenericAttributes-transactionEntrySequenceId" parent="GenericAttributes-transactionEntrySequenceId-parentBean"/>
 
+  <bean id="GenericAttributes-transactionEntrySequenceId" parent="GenericAttributes-transactionEntrySequenceId-parentBean"/>
   <bean id="GenericAttributes-transactionEntrySequenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEntrySequenceId"/>
     <property name="forceUppercase" value="true"/>
@@ -269,16 +213,12 @@
     <property name="shortLabel" value="Seq #"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    
-    
+    <property name="control" ref="FourCharacterTextControl" />
   </bean>
+  
   <bean id="GenericAttributes-sequenceNumber" parent="GenericAttributes-sequenceNumber-parentBean"/>
-
   <bean id="GenericAttributes-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sequenceNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -286,14 +226,14 @@
     <property name="shortLabel" value="Seq #"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="GenericAttributes-itemSequenceNumber" parent="GenericAttributes-itemSequenceNumber-parentBean"/>
 
+  <bean id="GenericAttributes-itemSequenceNumber" parent="GenericAttributes-itemSequenceNumber-parentBean"/>
   <bean id="GenericAttributes-itemSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemSequenceId"/>
     <property name="forceUppercase" value="true"/>
@@ -301,14 +241,14 @@
     <property name="shortLabel" value="Item Seq Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="GenericAttributes-transactionEntrySequenceNumber" parent="GenericAttributes-transactionEntrySequenceNumber-parentBean"/>
 
+  <bean id="GenericAttributes-transactionEntrySequenceNumber" parent="GenericAttributes-transactionEntrySequenceNumber-parentBean"/>
   <bean id="GenericAttributes-transactionEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntrySequenceNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -316,7 +256,7 @@
     <property name="shortLabel" value="Seq #"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -324,7 +264,6 @@
   </bean>
   
   <bean id="GenericAttributes-genericFiscalYear" parent="GenericAttributes-genericFiscalYear-parentBean"/>
-
   <bean id="GenericAttributes-genericFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="genericFiscalYear"/>
     <property name="forceUppercase" value="true"/>
@@ -334,14 +273,10 @@
     <property name="validationPattern">
       <bean parent="YearValidationPattern"/>
     </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    
-    
+    <property name="control" ref="FourCharacterTextControl" />
   </bean>
-  <bean id="GenericAttributes-versionNumber" parent="GenericAttributes-versionNumber-parentBean"/>
 
+  <bean id="GenericAttributes-versionNumber" parent="GenericAttributes-versionNumber-parentBean"/>
   <bean id="GenericAttributes-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="versionNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -349,16 +284,12 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
   </bean>
-  <bean id="GenericAttributes-objectId" parent="GenericAttributes-objectId-parentBean"/>
 
+  <bean id="GenericAttributes-objectId" parent="GenericAttributes-objectId-parentBean"/>
   <bean id="GenericAttributes-objectId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="objectId"/>
     <property name="forceUppercase" value="false"/>
@@ -368,11 +299,9 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="36"/>
     </property>
-    
-    
   </bean>
-  <bean id="GenericAttributes-createDate" parent="GenericAttributes-createDate-parentBean"/>
 
+  <bean id="GenericAttributes-createDate" parent="GenericAttributes-createDate-parentBean"/>
   <bean id="GenericAttributes-createDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="createDate"/>
     <property name="forceUppercase" value="false"/>
@@ -380,7 +309,7 @@
     <property name="shortLabel" value="Created"/>
     <property name="maxLength" value="21"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -408,7 +337,7 @@
     <property name="shortLabel" value="Pct"/>
     <property name="maxLength" value="20"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -422,13 +351,11 @@
     <property name="shortLabel" value="Max Amt"/>
     <property name="maxLength" value="20"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
-    
-    
   </bean>
-  <bean id="GenericAttributes-minDollarAmount" parent="GenericAttributes-minDollarAmount-parentBean"/>
 
+  <bean id="GenericAttributes-minDollarAmount" parent="GenericAttributes-minDollarAmount-parentBean"/>
   <bean id="GenericAttributes-minDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="minDollarAmount"/>
     <property name="forceUppercase" value="false"/>
@@ -436,7 +363,7 @@
     <property name="shortLabel" value="Min Amt"/>
     <property name="maxLength" value="20"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -450,7 +377,7 @@
     <property name="shortLabel" value="Total Amt"/>
     <property name="maxLength" value="20"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -463,11 +390,7 @@
     <property name="label" value="New Collection Record Indicator"/>
     <property name="shortLabel" value="NewRecord"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
   <bean id="GenericAttributes-searchType" parent="GenericAttributes-searchType-parentBean"/>
@@ -478,11 +401,7 @@
     <property name="label" value="Search Type"/>
     <property name="shortLabel" value="Search"/>
     <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
   </bean>
   <bean id="GenericAttributes-displayType" parent="GenericAttributes-displayType-parentBean"/>
 
@@ -492,11 +411,7 @@
     <property name="label" value="Search Result Type"/>
     <property name="shortLabel" value="Result"/>
     <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
   </bean>
   <bean id="GenericAttributes-documentTotalAmount" parent="GenericAttributes-documentTotalAmount-parentBean"/>
 
@@ -506,11 +421,7 @@
     <property name="label" value="Total Amount"/>
     <property name="shortLabel" value="Total"/>
     <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
   </bean>
   <bean id="GenericAttributes-routingAttributeTitle" parent="GenericAttributes-routingAttributeTitle-parentBean"/>
 
@@ -520,11 +431,7 @@
     <property name="label" value="Not Used"/>
     <property name="shortLabel" value="Not Used"/>
     <property name="maxLength" value="20"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-    
-    
+    <property name="control" ref="HiddenControl" />
   </bean>
   <bean id="GenericAttributes-financialDocumentStatusName" parent="GenericAttributes-financialDocumentStatusName-parentBean"/>
 
@@ -534,11 +441,9 @@
     <property name="label" value="Financial Document Status Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterValidation" />
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   
@@ -549,7 +454,7 @@
     <property name="label" value="Document Type"/>
     <property name="shortLabel" value="Doc Type"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   
@@ -560,7 +465,7 @@
     <property name="label" value="Reference Document Type Code"/>
     <property name="name" value="referenceTypeCode"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   

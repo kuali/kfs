@@ -44,27 +44,27 @@
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetItemIdentifier" parent="PurchaseOrderCapitalAssetItem-capitalAssetItemIdentifier-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetItemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetItemIdentifier" p:forceUppercase="false" p:label="Capital Asset Item Identifier" p:shortLabel="Capital Asset Item Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-    	<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    	<ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-    	<bean parent="TextControlDefinition" p:size="10"/>
+    	<ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetSystemIdentifier" parent="PurchaseOrderCapitalAssetItem-capitalAssetSystemIdentifier-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemIdentifier" p:forceUppercase="false" p:label="Capital Asset System Identifier" p:shortLabel="Capital Asset System Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetTransactionTypeCode" parent="PurchaseOrderCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetItem-capitalAssetTransactionTypeCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetTransactionTypeCode" p:forceUppercase="false" p:label="Capital Asset Transaction Type Code" p:shortLabel="Capital Asset Transaction Type Code" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
           <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder" p:includeKeyInLabel="false"/>
@@ -74,20 +74,20 @@
   <bean id="PurchaseOrderCapitalAssetItem-documentNumber" parent="PurchaseOrderCapitalAssetItem-documentNumber-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetItem-documentNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="documentNumber" p:forceUppercase="false" p:label="Document Number" p:shortLabel="Document Number" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetItem-itemIdentifier" parent="PurchaseOrderCapitalAssetItem-itemIdentifier-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetItem-itemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="itemIdentifier" p:forceUppercase="false" p:label="Item Identifier" p:shortLabel="Item Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 

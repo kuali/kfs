@@ -37,7 +37,17 @@
 							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
-				</bean>			
+				</bean>		
+				<bean parent="AuxiliaryVoucher-accountingLinesBalanceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="auxiliaryVoucherDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>					
 				<bean parent="AuxiliaryVoucher-generalLedgerPendingEntriesBalanceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -246,7 +256,7 @@
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />
-							<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>

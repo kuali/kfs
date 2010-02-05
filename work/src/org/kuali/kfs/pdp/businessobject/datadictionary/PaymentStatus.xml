@@ -46,7 +46,7 @@
     <property name="shortLabel" value="Payment Status"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -62,7 +62,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
  

@@ -26,12 +26,15 @@ import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -43,22 +46,28 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.util.Map, java.lang.String, java.util.List)
      */
-    /*
+    // KFSMI-5158
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List returnKeys) {
-
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions restrictions) {
+        
         if (getParameters().containsValue(ArConstants.CREATE_TAX_REGION_FROM_LOOKUP_PARM)) {
-            Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl, returnKeys);
+            Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegion.class.getName());
             parameters.put(KFSConstants.OVERRIDE_KEYS, KFSConstants.TaxRegionConstants.TAX_REGION_TYPE_CODE);
             parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.TaxRegionConstants.TAX_REGION_TYPE_CODE + "::" + ((TaxRegionType) businessObject).getTaxRegionTypeCode());
-            return UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-        }
-        else {
-            return super.getReturnUrl(businessObject, fieldConversions, lookupImpl, returnKeys);
-        }
-    }*/
+            
+            final String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+            final String returnUrlAnchorLabel =
+                KNSServiceLocator.getKualiConfigurationService().getPropertyString(TITLE_RETURN_URL_PREPENDTEXT_PROPERTY);
+            AnchorHtmlData anchor = new AnchorHtmlData(href, HtmlData.getTitleText(returnUrlAnchorLabel, businessObject, returnKeys, restrictions));
+            anchor.setDisplayText(returnUrlAnchorLabel);
+           return anchor;
+       }
+       else {
+           return super.getReturnUrl(businessObject, lookupForm, returnKeys, restrictions);
+       }
+    }
     
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

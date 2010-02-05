@@ -92,7 +92,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
     
             String financialSystemDocumentTypeCodeCode = qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
-            String totalDollarAmount = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
+            String totalDollarAmount = qualification.get(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
     
             String fiscalOfficerPrincipalID = qualification.get(KFSPropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER);
             String accountSupervisorPrincipalID = qualification.get(KFSPropertyConstants.ACCOUNTS_SUPERVISORY_SYSTEMS_IDENTIFIER);
@@ -301,10 +301,6 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
-    }
-
-    public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
-        return qualificationAttributes;
     }
 
     protected ContractsAndGrantsModuleService getContractsAndGrantsModuleService() {

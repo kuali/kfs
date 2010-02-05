@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -97,6 +98,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         try {
             poChange = poService.createAndSavePotentialChangeDocument(
                     poTest.getDocumentNumber(), documentType, documentStatus);
+            poChange = (PurchaseOrderDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(poChange.getDocumentNumber());
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {

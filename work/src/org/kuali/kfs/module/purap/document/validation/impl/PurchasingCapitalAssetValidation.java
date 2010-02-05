@@ -72,13 +72,17 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
             
             if (!valid) {
                 GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);                
-                return valid;
+                return valid; 
             }
         }
         else {
             // if capital asset not required, reset system type and state code in case they are filled in
-            purchasingDocument.setCapitalAssetSystemTypeCode(null);
-            purchasingDocument.setCapitalAssetSystemStateCode(null);
+            // if capital asset items are empty, then set sytem type code and system state code to null
+            // fix to jira KFSMI-5146
+            if (purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()) {
+                purchasingDocument.setCapitalAssetSystemTypeCode(null);
+                purchasingDocument.setCapitalAssetSystemStateCode(null);
+            }
         }
 
         // We only need to do capital asset validations if the capital asset system type is not blank.

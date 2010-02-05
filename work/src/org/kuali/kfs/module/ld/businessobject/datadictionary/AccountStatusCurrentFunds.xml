@@ -83,7 +83,7 @@
   <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="AccountStatusCurrentFunds-financialObjectCode" parent="AccountStatusCurrentFunds-financialObjectCode-parentBean"/>
@@ -161,7 +161,7 @@
     <property name="shortLabel" value="Emplid"/>
     <property name="maxLength" value="11"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>
@@ -176,7 +176,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="80"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 

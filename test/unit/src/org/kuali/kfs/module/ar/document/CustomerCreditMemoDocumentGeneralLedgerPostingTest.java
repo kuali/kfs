@@ -49,11 +49,9 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
     private TaxService taxService;
     
     @Override
-    public void setUp() throws Exception {
-        
+    public void setUp() throws Exception {        
         //  wire up the mock instead of the regular TaxService
-        Map<String, TaxService> taxServices = SpringContext.getBeansOfType(TaxService.class);
-        taxService = taxServices.get("arTaxServiceMock");
+        taxService = SpringContext.getBean(TaxService.class,"arTaxServiceMock");
     }
     
     public void testMockTaxServiceWorks() {

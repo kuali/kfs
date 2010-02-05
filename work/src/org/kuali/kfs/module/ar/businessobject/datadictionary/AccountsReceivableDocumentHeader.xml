@@ -62,7 +62,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -77,42 +77,27 @@
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="400"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
+
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="processingChartOfAccountCode"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="required" value="false"/>
     <property name="label" value="Processing Chart Code"/>
-    <property name="shortLabel" value="Chart Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean"/>
 
-  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean"/>
+  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="processingOrganizationCode"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="required" value="false"/>
     <property name="label" value="Processing Organization Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
   </bean>
+
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean"/>
 
   <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" abstract="true" parent="AttributeDefinition">

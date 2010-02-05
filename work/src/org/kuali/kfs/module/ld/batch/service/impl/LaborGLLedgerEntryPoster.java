@@ -23,7 +23,6 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
-import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -39,7 +38,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
     
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
-    private LaborTransactionDescriptionService laborTransactionDescriptionService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
@@ -53,12 +51,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
-
-        String description = laborTransactionDescriptionService.getTransactionDescription(transaction);
-        if(StringUtils.isNotEmpty(description)) {
-            laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(description);
-        }
-
+        
         String encumbranceUpdateCode = this.getEncumbranceUpdateCode(transaction);
         if(StringUtils.isNotEmpty(encumbranceUpdateCode)) {
             laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(encumbranceUpdateCode);
@@ -116,13 +109,5 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     public void setLaborGeneralLedgerEntryService(LaborGeneralLedgerEntryService laborGeneralLedgerEntryService) {
         this.laborGeneralLedgerEntryService = laborGeneralLedgerEntryService;
-    }
-
-    /**
-     * Sets the laborTransactionDescriptionService attribute value.
-     * @param laborTransactionDescriptionService The laborTransactionDescriptionService to set.
-     */
-    public void setLaborTransactionDescriptionService(LaborTransactionDescriptionService laborTransactionDescriptionService) {
-        this.laborTransactionDescriptionService = laborTransactionDescriptionService;
     }
 }

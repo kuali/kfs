@@ -447,8 +447,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @return An ObjectType instance.
      */
     public ObjectType getObjectType() {
-        refreshReferenceObject("objectCode");
-        if (!ObjectUtils.isNull(objectCode)) return objectCode.getFinancialObjectType();
+        if ( getObjectTypeCode() != null ) {
+            return objectCode.getFinancialObjectType();
+        }
         return null;
     }
 
@@ -526,8 +527,17 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @return Returns the objectTypeCode.
      */
     public String getObjectTypeCode() {
-        refreshReferenceObject("objectCode");
-        if (!ObjectUtils.isNull(objectCode)) return objectCode.getFinancialObjectTypeCode();
+        if ( ObjectUtils.isNull(objectCode)
+                || !StringUtils.equals(getFinancialObjectCode(), objectCode.getFinancialObjectCode())
+                || !StringUtils.equals(getChartOfAccountsCode(), objectCode.getChartOfAccountsCode())
+                || !getPostingYear().equals(objectCode.getUniversityFiscalYear() )
+                        ) {
+            refreshReferenceObject("objectCode");
+        }
+       
+        if (!ObjectUtils.isNull(objectCode)) {
+            return objectCode.getFinancialObjectTypeCode();
+        }
         return null;
     }
 

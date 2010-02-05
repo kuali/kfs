@@ -47,7 +47,7 @@
     <property name="maxLength" value="2"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="ACHTransactionCode-name" parent="ACHTransactionCode-name-parentBean"/>

@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.batch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +25,7 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -39,6 +39,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.util.StopWatch;
 
 public class Job implements StatefulJob, InterruptableJob {
@@ -141,7 +143,11 @@ public class Job implements StatefulJob, InterruptableJob {
         else {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
         }
-        if (parameterService.parameterExists(step.getClass(), STEP_RUN_PARM_NM) && !parameterService.getIndicatorParameter(step.getClass(), STEP_RUN_PARM_NM)) {
+        
+        Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
+        Class stepClass = unProxiedStep.getClass();
+        
+        if (parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM) && !parameterService.getIndicatorParameter(stepClass, STEP_RUN_PARM_NM)) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM);
             }
@@ -149,16 +155,17 @@ public class Job implements StatefulJob, InterruptableJob {
         else {
             GlobalVariables.setErrorMap(new ErrorMap());
             GlobalVariables.setMessageList(new MessageList());
+            
             String stepUserName = KFSConstants.SYSTEM_USER;
-            if (parameterService.parameterExists(step.getClass(), STEP_USER_PARM_NM)) {
-                stepUserName = parameterService.getParameterValue(step.getClass(), STEP_USER_PARM_NM);
+            if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
+                stepUserName = parameterService.getParameterValue(stepClass, STEP_USER_PARM_NM);
             }
             if (LOG.isInfoEnabled()) {
                 LOG.info(new StringBuffer("Creating user session for step: ").append(step.getName()).append("=").append(stepUserName));
             }
             GlobalVariables.setUserSession(new UserSession(stepUserName));
             if (LOG.isInfoEnabled()) {
-                LOG.info(new StringBuffer("Executing step: ").append(step.getName()).append("=").append(step.getClass()));
+                LOG.info(new StringBuffer("Executing step: ").append(step.getName()).append("=").append(stepClass));
             }
             StopWatch stopWatch = new StopWatch();
             stopWatch.start(jobName);

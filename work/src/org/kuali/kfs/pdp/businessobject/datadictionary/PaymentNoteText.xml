@@ -27,10 +27,10 @@
     <property name="shortLabel" value="Note Line Nbr"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="PaymentNoteText-customerNoteText" parent="PaymentNoteText-customerNoteText-parentBean"/>
@@ -41,7 +41,7 @@
     <property name="shortLabel" value="Note Text"/>
     <property name="maxLength" value="90"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>

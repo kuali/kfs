@@ -908,6 +908,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             this.getDvPayeeDetail().setDisbVchrPayeeZipCode(vendorAddress.getVendorZipCode());
             this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(vendorAddress.getVendorCountryCode());
         }
+        else {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");      
+        }
 
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
         this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendor.getVendorHeader().getVendorTypeCode()));
@@ -962,6 +971,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                 this.getDvPayeeDetail().setDisbVchrPayeeStateCode(address.getStateCodeUnmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeZipCode(address.getPostalCodeUnmasked());
                 this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(address.getCountryCodeUnmasked());
+            }
+            else {
+                this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
+                this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
+                this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+                this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+                this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+                this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");            
             }
         }
 

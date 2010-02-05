@@ -67,10 +67,10 @@
     <property name="shortLabel" value="Header Generated ID" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <ref bean="NumericValidation" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="VendorHeader-vendorOwnershipCategoryCode" parent="VendorHeader-vendorOwnershipCategoryCode-parentBean" />
@@ -136,7 +136,7 @@
     <property name="shortLabel" value="Tax Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control" >
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.TaxPayerTypeWithNoneValuesFinder" p:includeKeyInLabel="false"/>
@@ -159,7 +159,7 @@
     <property name="shortLabel" value="Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.VendorTypeValuesFinder" p:includeKeyInLabel="false"/>
@@ -174,7 +174,7 @@
     <property name="shortLabel" value="Supplier Diversity" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="45"/>

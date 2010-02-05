@@ -59,11 +59,11 @@
     <property name="shortLabel" value="Origin Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
     
     
@@ -77,7 +77,7 @@
     <property name="shortLabel" value="Server Name"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -94,7 +94,7 @@
     <property name="shortLabel" value="DB Name"/>
     <property name="maxLength" value="15"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -111,10 +111,10 @@
     <property name="shortLabel" value="DB Desc"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AlphaNumericWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     
@@ -127,10 +127,10 @@
     <property name="shortLabel" value="Next Cap Asset No"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -143,10 +143,10 @@
     <property name="shortLabel" value="Next Non-Cap Asset No"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -159,10 +159,10 @@
     <property name="shortLabel" value="Next CG Proposal No"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -175,7 +175,7 @@
     <property name="shortLabel" value="Next CG Agency No"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -191,7 +191,7 @@
     <property name="shortLabel" value="Next CG Agency Subcontractor No"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -207,10 +207,10 @@
     <property name="shortLabel" value="Next DV Payee Id No"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -223,10 +223,10 @@
     <property name="shortLabel" value="Next Atchmt Id"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -239,10 +239,10 @@
     <property name="shortLabel" value="Next AR Cust No"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     
@@ -255,10 +255,10 @@
     <property name="shortLabel" value="Next Item Id"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
     
     

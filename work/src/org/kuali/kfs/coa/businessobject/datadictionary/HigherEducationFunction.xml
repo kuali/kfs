@@ -59,11 +59,11 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="HigherEducationFunction-financialHigherEdFunctionNm" parent="HigherEducationFunction-financialHigherEdFunctionNm-parentBean"/>
@@ -75,7 +75,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="HigherEducationFunction-codeAndDescription" parent="HigherEducationFunction-codeAndDescription-parentBean"/>

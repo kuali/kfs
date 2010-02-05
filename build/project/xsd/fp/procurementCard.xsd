@@ -17,58 +17,60 @@
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://www.kuali.org/kfs/fp/procurementCard"
     xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/fp/procurementCard" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
 
-    <xsd:element name="transactionCreditCardNumber" type="kfs:oneToSixteenCharType"/>
-    <xsd:element name="financialDocumentTotalAmount" type="kfs:amountType"/>
-    <xsd:element name="transactionDebitCreditCode" type="kfs:debitCreditCodeType"/>
-    <xsd:element name="chartOfAccountsCode" type="kfs:twoCharType"/>
-    <xsd:element name="accountNumber" type="kfs:accountType"/>
-    <xsd:element name="subAccountNumber" type="kfs:subAcctType"/>
-    <xsd:element name="financialObjectCode" type="kfs:objectType"/>
-    <xsd:element name="financialSubObjectCode" type="kfs:subObjectType"/>
-    <xsd:element name="projectCode" type="kfs:oneToTenCharType"/>
-    <xsd:element name="transactionCycleStartDate" type="xsd:date"/>
-    <xsd:element name="transactionCycleEndDate" type="xsd:date"/>
-    <xsd:element name="cardHolderName" type="kfs:oneToThirtyFiveCharType"/>
-    <xsd:element name="transactionDate" type="xsd:date"/>
-    <xsd:element name="transactionReferenceNumber" type="kfs:oneToTwentyThreeCharType"/>
-    <xsd:element name="transactionMerchantCategoryCode" type="kfs:oneToFourCharType"/>
-    <xsd:element name="transactionPostingDate" type="xsd:date"/>
-    <xsd:element name="transactionOriginalCurrencyCode" type="kfs:oneToThreeCharType"/>
-    <xsd:element name="transactionBillingCurrencyCode" type="kfs:oneToThreeCharType"/>
-    <xsd:element name="transactionOriginalCurrencyAmount" type="kfs:amountType"/>
-    <xsd:element name="transactionCurrencyExchangeRate" type="xsd:decimal"/>
-    <xsd:element name="transactionSettlementAmount" type="kfs:amountType"/>
-    <xsd:element name="transactionSalesTaxAmount" type="kfs:amountType"/>
-    <xsd:element name="transactionTaxExemptIndicator" type="kfs:indicatorType"/>
-    <xsd:element name="transactionPurchaseIdentifierIndicator" type="kfs:indicatorType"/>
-    <xsd:element name="transactionPurchaseIdentifierDescription" type="kfs:oneToTwentyFiveCharType"/>
-    <xsd:element name="transactionUnitContactName" type="kfs:oneToThirtyFiveCharType"/>
-    <xsd:element name="transactionTravelAuthorizationCode" type="kfs:oneToFiftyCharType"/>
-    <xsd:element name="transactionPointOfSaleCode" type="kfs:oneToTwentyFiveCharType"/>
-    <xsd:element name="vendorName" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="vendorLine1Address" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="vendorLine2Address" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="vendorCityName" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="vendorStateCode" type="kfs:twoCharType"/>
-    <xsd:element name="vendorZipCode" type="kfs:oneToTwentyCharType"/>
-    <xsd:element name="vendorOrderNumber" type="kfs:oneToTwelveCharType"/>
-    <xsd:element name="visaVendorIdentifier" type="kfs:oneToSixteenCharType"/>
-    <xsd:element name="cardHolderAlternateName" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="cardHolderLine1Address" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="cardHolderLine2Address" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="cardHolderCityName" type="kfs:oneToFortyFiveCharType"/>
-    <xsd:element name="cardHolderStateCode" type="kfs:twoCharType"/>
-    <xsd:element name="cardHolderZipCode" type="kfs:oneToTwentyCharType"/>
-    <xsd:element name="cardHolderWorkPhoneNumber" type="kfs:oneToTenCharType"/>
-    <xsd:element name="cardLimit" type="kfs:amountType"/>
-    <xsd:element name="cardCycleAmountLimit" type="kfs:amountType"/>
-    <xsd:element name="cardCycleVolumeLimit" type="kfs:amountType"/>
-    <xsd:element name="cardStatusCode" type="kfs:oneToTwoCharType"/>
-    <xsd:element name="cardNoteText" type="kfs:oneToFiftyCharType"/>
+    <xsd:element name="transactionCreditCardNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionCreditCardNumber}"/>
+    <xsd:element name="financialDocumentTotalAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.financialDocumentTotalAmount}"/>
+    <xsd:element name="transactionDebitCreditCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionDebitCreditCode}"/>
+    <xsd:element name="chartOfAccountsCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.chartOfAccountsCode}"/>
+    <xsd:element name="accountNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.accountNumber}"/>
+    <xsd:element name="subAccountNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.subAccountNumber}"/>
+    <xsd:element name="financialObjectCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.financialObjectCode}"/>
+    <xsd:element name="financialSubObjectCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.financialSubObjectCode}"/>
+    <xsd:element name="projectCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.projectCode}"/>
+    <xsd:element name="transactionCycleStartDate" type="${xsd:date,dd:ProcurementCardTransaction.transactionCycleStartDate}"/>
+    <xsd:element name="transactionCycleEndDate" type="${xsd:date,dd:ProcurementCardTransaction.transactionCycleEndDate}"/>
+    <xsd:element name="cardHolderName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderName}"/>
+    <xsd:element name="transactionDate" type="${xsd:date,dd:ProcurementCardTransaction.transactionDate}"/>
+    <xsd:element name="transactionReferenceNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionReferenceNumber}"/>
+    <xsd:element name="transactionMerchantCategoryCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionMerchantCategoryCode}"/>
+    <xsd:element name="transactionPostingDate" type="${xsd:date,dd:ProcurementCardTransaction.transactionPostingDate}"/>
+    <xsd:element name="transactionOriginalCurrencyCode" type="${xsd:date,dd:ProcurementCardTransaction.transactionOriginalCurrencyCode}"/>
+    <xsd:element name="transactionBillingCurrencyCode" type="${xsd:date,dd:ProcurementCardTransaction.transactionBillingCurrencyCode}"/>
+    <xsd:element name="transactionOriginalCurrencyAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionOriginalCurrencyAmount}"/>
+    <xsd:element name="transactionCurrencyExchangeRate" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionCurrencyExchangeRate}"/>
+    <xsd:element name="transactionSettlementAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionSettlementAmount}"/>
+    <xsd:element name="transactionSalesTaxAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionSalesTaxAmount}"/>
+    <xsd:element name="transactionTaxExemptIndicator" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionTaxExemptIndicator}"/>
+    <xsd:element name="transactionPurchaseIdentifierIndicator" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionPurchaseIdentifierIndicator}"/>
+    <xsd:element name="transactionPurchaseIdentifierDescription" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionPurchaseIdentifierDescription}"/>
+    <xsd:element name="transactionUnitContactName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionUnitContactName}"/>
+    <xsd:element name="transactionTravelAuthorizationCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionTravelAuthorizationCode}"/>
+    <xsd:element name="transactionPointOfSaleCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionPointOfSaleCode}"/>
+    <xsd:element name="vendorName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorName}"/>
+    <xsd:element name="vendorLine1Address" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorLine1Address}"/>
+    <xsd:element name="vendorLine2Address" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorLine2Address}"/>
+    <xsd:element name="vendorCityName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorCityName}"/>
+    <xsd:element name="vendorStateCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorStateCode}"/>
+    <xsd:element name="vendorZipCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorZipCode}"/>
+    <xsd:element name="vendorOrderNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.vendorOrderNumber}"/>
+    <xsd:element name="visaVendorIdentifier" type="${xsd:normalizedString,dd:ProcurementCardTransaction.visaVendorIdentifier}"/>
+    <xsd:element name="cardHolderAlternateName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderAlternateName}"/>
+    <xsd:element name="cardHolderLine1Address" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderLine1Address}"/>
+    <xsd:element name="cardHolderLine2Address" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderLine2Address}"/>
+    <xsd:element name="cardHolderCityName" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderCityName}"/>
+    <xsd:element name="cardHolderStateCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderStateCode}"/>
+    <xsd:element name="cardHolderZipCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderZipCode}"/>
+    <xsd:element name="cardHolderWorkPhoneNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardHolderWorkPhoneNumber}"/>
+    <xsd:element name="cardLimit" type="${xsd:decimal,dd:ProcurementCardTransaction.cardLimit}"/>
+    <xsd:element name="cardCycleAmountLimit" type="${xsd:decimal,dd:ProcurementCardTransaction.cardCycleAmountLimit}"/>
+    <xsd:element name="cardCycleVolumeLimit" type="${xsd:decimal,dd:ProcurementCardTransaction.cardCycleVolumeLimit}"/>
+    <xsd:element name="cardStatusCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardStatusCode}"/>
+    <xsd:element name="cardNoteText" type="${xsd:normalizedString,dd:ProcurementCardTransaction.cardNoteText}"/>
  
     <!-- definition of complex type elements -->
     <xsd:element name="transactions">

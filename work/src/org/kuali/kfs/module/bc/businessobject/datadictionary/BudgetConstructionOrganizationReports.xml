@@ -53,7 +53,7 @@
     <property name="name" value="chartOfAccounts.codeAndDescription"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     
@@ -78,7 +78,7 @@
     <property name="shortLabel" value="Repts to Cht"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     
@@ -100,10 +100,10 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
     
     
@@ -117,7 +117,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.PointOfViewOrgValuesFinder" p:includeKeyInLabel="false"/>

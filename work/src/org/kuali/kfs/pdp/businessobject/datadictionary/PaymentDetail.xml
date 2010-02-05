@@ -45,6 +45,7 @@
         <ref bean="PaymentDetail-paymentGroup.disbursementTypeCode"/>
         <ref bean="PaymentDetail-paymentGroup.processImmediate"/>
         <ref bean="PaymentDetail-requisitionNbr"/>
+        <ref bean="PaymentDetail-organizationDocNbr"/>
         <ref bean="PaymentDetail-paymentGroup.disbursementNbr"/>
         <ref bean="PaymentDetail-paymentGroup.pymtSpecialHandling"/>
         <ref bean="PaymentDetail-paymentGroup.customerInstitutionNumber"/>
@@ -136,7 +137,7 @@
     <property name="shortLabel" value="Doc Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -160,7 +161,7 @@
     <property name="shortLabel" value="Order Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -184,7 +185,7 @@
     <property name="shortLabel" value="Inv Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -210,12 +211,28 @@
     <property name="shortLabel" value="Requisition Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
+  
+  <bean id="PaymentDetail-organizationDocNbr" parent="PaymentDetail-organizationDocNbr-parentBean"/>
+
+  <bean id="PaymentDetail-organizationDocNbr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationDocNbr"/>
+    <property name="label" value="Organizaton Doc Number"/>
+    <property name="shortLabel" value="Org Doc Nbr"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+       <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+    
   <bean id="PaymentDetail-paymentGroup.disbursementNbr" parent="PaymentDetail-paymentGroup.disbursementNbr-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.disbursementNbr-parentBean" abstract="true" parent="PaymentGroup-disbursementNbr">
@@ -260,7 +277,7 @@
     <property name="shortLabel" value="Payment ID"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -486,7 +503,7 @@
     <property name="shortLabel" value="Number of Payments in this Payment Group"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -500,7 +517,7 @@
     <property name="shortLabel" value="Number of Payments in this Disbursement"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -515,7 +532,7 @@
     <property name="shortLabel" value="Payment Group Id"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -552,7 +569,6 @@
               <bean parent="FieldDefinition" p:attributeName="invoiceNbr"/>                         
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCodeWithHistory"/>   
               <bean parent="FieldDefinition" p:attributeName="requisitionNbr"/>                                      
-              <bean parent="FieldDefinition" p:attributeName="netPaymentAmount"/>                                                                                        
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>              
               <bean parent="FieldDefinition" p:attributeName="financialSystemOriginCode"/>
               <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>

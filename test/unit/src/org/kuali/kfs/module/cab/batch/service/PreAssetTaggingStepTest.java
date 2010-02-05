@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.module.cab.batch.PreAssetTaggingStep;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -37,7 +38,7 @@ public class PreAssetTaggingStepTest extends BatchTestBase {
     @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
-        preAssetTaggingStep = SpringContext.getBean(PreAssetTaggingStep.class);
+        preAssetTaggingStep = (PreAssetTaggingStep) ProxyUtils.getTargetIfProxied( SpringContext.getBean(PreAssetTaggingStep.class) );
         dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 

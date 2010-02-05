@@ -313,9 +313,15 @@ public class KFSPropertyConstants {
     public static final String CLASS_NAME = "className";
     public static final String CODE = "code";
     public static final String CODE_RETRIEVED = "codeRetrieved";
+    public static final String COLLECTOR_DETAIL_SEQUENCE_NUMBER = "collectorDetailSequenceNumber";
+    public static final String COLLECTOR_DETAIL_GL_CREDIT_CODE = "glCreditCode";    
+    public static final String COLLECTOR_DETAIL_AMOUNT = "collectorDetailItemAmount";
+    public static final String COLLECTOR_DETAIL_NOTE_TEXT = "collectorDetailNoteText";
+    public static final String COLLECTOR_BATCH_PERSON_USER_ID = "personUserID";    
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
+    public static final String DEPARTMENT_NAME = "departmentName";
     public static final String DESCRIPTION = KNSPropertyConstants.DESCRIPTION;
     public static final String EXTENSION = "extension";
     public static final String BUSINESS_OBJECT_COMPONENT_LABEL = "businessObjectComponent." + COMPONENT_LABEL;
@@ -704,11 +710,13 @@ public class KFSPropertyConstants {
     public static final String GENERIC_FISCAL_YEAR = "genericFiscalYear";
     public static final String GENERIC_SYSTEM_ID = KNSPropertyConstants.GENERIC_SYSTEM_ID;
     public static final String GENERIC_TIMESTAMP = KNSPropertyConstants.GENERIC_TIMESTAMP;
+    public static final String GL_CREDIT_CODE = "";
     public static final String GRADUATE_ASSISTANT_RATE = "graduateAssistantRate";
     public static final String GRADUATE_ASSISTANT_RATES = "graduateAssistantRates";
     public static final String GRANT_DESCRIPTION_CODE = "grantDescriptionCode";
     public static final String GROUP = "group";
     public static final String GROUPS = KNSPropertyConstants.GROUPS;
+    public static final String COLLECTOR_BATCH_RECORD_TYPE = "recordType";
     public static final String HISTORICAL_FINANCIAL_OBJECT_CODE = "historicalFinancialObjectCode";
     public static final String AGENCY_ACTIVE_INDICATOR = "active";
     public static final String HRIS_ORGANIZATION = "hrisOrganization";
@@ -781,6 +789,7 @@ public class KFSPropertyConstants {
     public static final String LOCKING_REPRESENTATION = "lockingRepresentation";
     public static final String LOOKUP_DATE = KNSPropertyConstants.LOOKUP_DATE;
     public static final String MAINTENANCE_USER = "maintenanceUser";
+    public static final String MAILING_ADDRESS = "mailingAddress";
     public static final String MILEAGE_LIMIT_AMOUNT = "mileageLimitAmount";
     public static final String MILEAGE_RATE = "mileageRate";
     public static final String MODULAR_BUDGET = "modularBudget";
@@ -973,6 +982,7 @@ public class KFSPropertyConstants {
     public static final String PERSON_WEEKS_JUSTIFICATION_TEXT = "personWeeksJustificationText";
     public static final String PERSONNEL = "personnel";
     public static final String PERSONNEL_NEXT_SEQUENCE_NUMBER = "personnelNextSequenceNumber";
+    public static final String PHONE_NUMBER = "phoneNumber";
     public static final String POSITION_NUMBER = "positionNumber";
     public static final String POSITION_OBJECT_GROUP_CODE = "positionObjectGroupCode";
     public static final String POSTAL_CITY_NAME = "postalCityName";
@@ -995,6 +1005,9 @@ public class KFSPropertyConstants {
     public static final String PROCESSING_FIN_CHART_OF_ACCT_CD = "processingFinChartOfAcctCd";
     public static final String PROCESSING_ORG = "processingOrg";
     public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+    public static final String CONTACT_DEPARTMENT_NAME = "contactDepartmentName";
+    public static final String CONTACT_MAILING_ADDRESS= "contactMailingAddress";
+    public static final String CONTACT_PERSON_PHONE_NUMBER = "contactPersonPhoneNumber";
     public static final String PROJECT = "project";
     public static final String PROJECT_CODE = "projectCode";
     public static final String PROJECT_DESCRIPTION = "projectDescription";
@@ -1116,6 +1129,8 @@ public class KFSPropertyConstants {
     public static final String TOTAL_RECORDS = "totalRecords";
     public static final String TOTAL_SALARY_AMOUNT = "totalSalaryAmount";
     public static final String TOTAL_TRAVEL_AMOUNT = "totalTravelAmount";
+    public static final String TRAILER_RECORD_FIRST_EMPTY_FIELD = "firstEmptyField";
+    public static final String TRAILER_RECORD_SECOND_EMPTY_FIELD = "secondEmptyField";
     public static final String TRANSACTION = "transaction";
     public static final String TRANSACTION_CREDIT_CARD_NUMBER = "transactionCreditCardNumber";
     public static final String TRANSACTION_DATE = "transactionDate";

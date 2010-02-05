@@ -23,16 +23,10 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.kfs.coa.businessobject.AccountGlobal;
-import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -45,6 +39,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.impl.KualiWorkflowDocumentImpl;
 
 @SuppressWarnings("deprecation")
 @ConfigureContext(session = khuntley)
@@ -153,6 +148,8 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         SpringContext.getBean(DocumentService.class).saveDocument(document);
+        
+        document = (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
         SpringContext.getBean(DocumentService.class).cancelDocument(document, "cancelling test document");

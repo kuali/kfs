@@ -28,7 +28,7 @@
     <property name="shortLabel" value="Nm"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd" parent="DisbursementVoucherPreConferenceRegistrant-disbVchrPreConfDepartmentCd-parentBean"/>
@@ -41,7 +41,7 @@
     <property name="maxLength" value="4"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber" parent="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber-parentBean"/>

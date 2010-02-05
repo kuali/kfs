@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.document.validation.Validation;
  */
 @ConfigureContext
 public class ValidationTest extends KualiTestBase {
-    protected final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ValidationTest.class);
+    private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ValidationTest.class);
     
     /**
      * Tests that all validations are at least configured correctly

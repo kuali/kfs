@@ -72,7 +72,7 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
-        laborLedgerEntryPoster = SpringContext.getBeansOfType(PostTransaction.class).get("laborLedgerEntryPoster");
+        laborLedgerEntryPoster = SpringContext.getBean(PostTransaction.class,"laborLedgerEntryPoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
@@ -95,7 +95,7 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
         List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
         
-        ReportWriterService mockReportWriterService = SpringContext.getBeansOfType(ReportWriterService.class).get(LaborLedgerEntryPosterTestBroken.MOCK_REPORT_WRITER_BEAN_NAME);
+        ReportWriterService mockReportWriterService = SpringContext.getBean(ReportWriterService.class,LaborLedgerEntryPosterTestBroken.MOCK_REPORT_WRITER_BEAN_NAME);
 
         for (LaborOriginEntry transaction : transactionList) {
             String operation = laborLedgerEntryPoster.post(transaction, 0, today, mockReportWriterService);

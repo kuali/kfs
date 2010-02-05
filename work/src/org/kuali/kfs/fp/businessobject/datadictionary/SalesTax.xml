@@ -40,7 +40,7 @@
 
   <bean id="SalesTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSimpleSelectControl" />
     </property>
   </bean>
   <bean id="SalesTax-accountNumber" parent="SalesTax-accountNumber-parentBean"/>
@@ -56,11 +56,11 @@
     <property name="shortLabel" value="Financial Doc Line Type"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="SalesTax-financialDocumentGrossSalesAmount" parent="SalesTax-financialDocumentGrossSalesAmount-parentBean"/>

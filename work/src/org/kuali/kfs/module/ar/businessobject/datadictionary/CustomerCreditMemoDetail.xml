@@ -35,7 +35,7 @@
   
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean">
       <property name="control">
-       <bean parent="TextControlDefinition" p:size="10"/>
+       <ref bean="TenCharacterTextControl" />
       </property>
   </bean>
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -45,7 +45,7 @@
     <property name="shortLabel" value="Line Number"/>
     <property name="maxLength" value="3"/>
     <property name="control">
-    	<bean parent="HiddenControlDefinition"/>
+    	<ref bean="HiddenControl" />
     </property>
   </bean>
 <!--  Ask Justin about this bean -->
@@ -64,7 +64,7 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

@@ -26,7 +26,7 @@
     <property name="shortLabel" value="File Type"/>
     <property name="maxLength" value="25"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     
@@ -40,7 +40,7 @@
     <property name="shortLabel" value="File Ident."/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     

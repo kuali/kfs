@@ -54,12 +54,10 @@
   </bean>
   
   <bean id="AssetObjectCode-chartOfAccountsCode" parent="AssetObjectCode-chartOfAccountsCode-parentBean"/>
-  <bean id="AssetObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  </bean>
+  <bean id="AssetObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
   
   <bean id="AssetObjectCode-financialObjectSubTypeCode" parent="AssetObjectCode-financialObjectSubTypeCode-parentBean"/>
-  <bean id="AssetObjectCode-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
-  </bean>
+  <bean id="AssetObjectCode-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode" />
   
   <bean id="AssetObjectCode-capitalizationFinancialObjectCode" parent="AssetObjectCode-capitalizationFinancialObjectCode-parentBean"/>
   <bean id="AssetObjectCode-capitalizationFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">

@@ -64,7 +64,7 @@
     <property name="shortLabel" value="Batch ID"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -83,7 +83,7 @@
     <property name="shortLabel" value="Payment Count"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -125,7 +125,7 @@
     <property name="shortLabel" value="File Name"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>

@@ -23,21 +23,18 @@ import org.kuali.rice.kns.service.DateTimeService;
 
 @ConfigureContext
 public class PurgeSessionDocumentsStepTest extends KualiTestBase {
-    private PurgeSessionDocumentsStep purgeSessionDocumentsStep;
-    private  DateTimeService dateTimeService;
+    private Step purgeSessionDocumentsStep;
+    private DateTimeService dateTimeService;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
-        purgeSessionDocumentsStep = SpringContext.getBean(PurgeSessionDocumentsStep.class);
+        purgeSessionDocumentsStep = SpringContext.getBean(Step.class, "purgeSessionDocumentsStep");
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
-        
     }
 
     public void testExecute() throws Exception {
-       
-       purgeSessionDocumentsStep.execute(purgeSessionDocumentsStep.getName(), dateTimeService.getCurrentDate());
+        purgeSessionDocumentsStep.execute(PurgeSessionDocumentsStep.class.getName(), dateTimeService.getCurrentDate());
     }
 }

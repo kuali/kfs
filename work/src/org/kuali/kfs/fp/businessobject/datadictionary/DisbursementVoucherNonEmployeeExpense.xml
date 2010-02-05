@@ -53,7 +53,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName" parent="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName-parentBean"/>
@@ -65,7 +65,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount-parentBean"/>

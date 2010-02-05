@@ -200,7 +200,7 @@
     <property name="shortLabel" value="Representative"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="AssetTransferDocument-assetRepresentative.principalName" parent="AssetTransferDocument-assetRepresentative.principalName-parentBean"/>
@@ -257,6 +257,7 @@
 
   <bean id="AssetTransferDocument-offCampusName-parentBean" abstract="true" parent="AssetGlobalDetail-offCampusName">
     <property name="label" value="Name"/>
+    <property name="required" value="false"/>    
   </bean>
   
 <!-- Exported Workflow Properties -->

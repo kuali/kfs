@@ -60,8 +60,5 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="AccountTypeMaintenanceDocument-workflowAttributes" parent="AccountTypeMaintenanceDocument-workflowAttributes-parentBean"/>
-  
-  <bean id="AccountTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
-  </bean>
+    <alias alias="AccountTypeMaintenanceDocument-workflowAttributes" name="EmptyWorkflowAttributes" />
 </beans>

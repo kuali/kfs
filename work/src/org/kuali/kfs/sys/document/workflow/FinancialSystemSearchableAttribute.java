@@ -239,14 +239,14 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
      */
     
     @Override
-    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
+    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, Object> paramMap, DocumentSearchContext searchContext) {
         // this list is irrelevant. the validation errors are put on the stack in the validationService.
         List<WorkflowAttributeValidationError> errors =  super.validateUserSearchInputs(paramMap, searchContext);
         
         DictionaryValidationService validationService = KNSServiceLocator.getDictionaryValidationService();
         
         for (Object key : paramMap.keySet()) {
-            String value = paramMap.get(key);
+            String value = (String)paramMap.get(key);
             
             if (!StringUtils.isEmpty(value)) {
                 

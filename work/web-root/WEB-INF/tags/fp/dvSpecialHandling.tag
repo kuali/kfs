@@ -12,6 +12,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ 
+ KFSMI-5067 Fixed the ability to edit the special handling tab when specialHandlingChangingEntryMode variable is true
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
@@ -23,33 +25,33 @@
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingPersonName" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingPersonName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCityName" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCityName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine1Addr" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine1Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingStateCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingStateCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine2Addr" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine2Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingZipCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingZipCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
@@ -59,7 +61,7 @@
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCountryCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCountryCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
      </table>

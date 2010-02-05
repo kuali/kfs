@@ -21,7 +21,7 @@
   <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode" parent="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean"/>
   <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemStateCode" p:forceUppercase="false" p:label="Capital Asset System State" p:shortLabel="Capital Asset System State" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="45"/>
@@ -31,7 +31,7 @@
   <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription" parent="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean"/>
   <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemStateDescription" p:forceUppercase="false" p:label="Capital Asset System State Description" p:shortLabel="Capital Asset System State Description" p:maxLength="45" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="45"/>

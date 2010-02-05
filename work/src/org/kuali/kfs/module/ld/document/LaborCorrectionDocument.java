@@ -24,6 +24,8 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.batch.LaborCorrectionProcessScrubberStep;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
@@ -75,16 +77,20 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 }
 
                 doc.setCorrectionOutputFileName(outputFileName);
-                LaborCorrectionProcessScrubberStep step = (LaborCorrectionProcessScrubberStep) BatchSpringContext.getStep(LaborCorrectionProcessScrubberStep.STEP_NAME);
-                step.setDocumentId(docId);
+                Step step = BatchSpringContext.getStep(LaborCorrectionProcessScrubberStep.STEP_NAME);
+                
+                LaborCorrectionProcessScrubberStep correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                correctionStep.setDocumentId(docId);
                 try {
                     step.execute(getClass().getName(), dateTimeService.getCurrentDate());
                 }
-                catch (RuntimeException e) {
+                catch (Exception e) {
                     LOG.error("LLCP scrubber encountered error:", e);
-                    throw e;
+                    throw new RuntimeException("LLCP scrubber encountered error:", e);
                 }
-                step.setDocumentId(null);
+                
+                correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                correctionStep.setDocumentId(null);
                 
                 laborCorrectionDocumentService.generateCorrectionReport(this);
                 laborCorrectionDocumentService.aggregateCorrectionDocumentReports(this);

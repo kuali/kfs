@@ -135,7 +135,7 @@
     <property name="required" value="false"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -185,7 +185,7 @@
     <property name="shortLabel" value="TotRecur"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -200,7 +200,7 @@
     <property name="shortLabel" value="IntCd"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceRecurrenceIntervalCodeValuesFinder" p:includeKeyInLabel="true"/>
@@ -214,7 +214,7 @@
     <property name="shortLabel" value="InvInitID"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="documentInitiatorUser.principalName"/>
   </bean>
@@ -227,7 +227,7 @@
     <property name="shortLabel" value="InvInitID"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="InvoiceRecurrence-documentInitiatorUser.principalName" parent="InvoiceRecurrence-documentInitiatorUser.principalName-parentBean"/>
@@ -260,7 +260,7 @@
     <property name="shortLabel" value="LstCrDt"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>

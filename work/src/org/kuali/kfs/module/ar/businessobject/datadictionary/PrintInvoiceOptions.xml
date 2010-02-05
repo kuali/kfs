@@ -59,7 +59,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
@@ -74,7 +74,7 @@
     <property name="shortLabel" value="Indicator"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>

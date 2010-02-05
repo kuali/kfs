@@ -110,7 +110,7 @@
     <property name="shortLabel" value="Report Number"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
@@ -131,7 +131,7 @@
     <property name="shortLabel" value="EmplUnvId"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="ledgerPerson.principalName"/>
   </bean>

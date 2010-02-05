@@ -150,16 +150,15 @@
     	<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
     	<property name="attributeName" value="chartOfAccountsCode" />
     </bean>
-    <bean id="RoutingAttribute-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="chartOfAccountsCode" />
-    </bean>
+
+    <alias name="RoutingAttribute-Chart" alias="RoutingAttribute-chartOfAccountsCode" />
+    <alias name="RoutingAttribute-Account" alias="RoutingAttribute-accountNumber" />
+    <alias name="RoutingAttribute-Organization" alias="RoutingAttribute-organizationCode" />
+    <alias name="RoutingAttribute-SubFund" alias="RoutingAttribute-subFundGroupCode" />
    
     <bean id="SearchingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
    		<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
     	<property name="attributeName" value="accountNumber" />
-    </bean>
-    <bean id="RoutingAttribute-accountNumber" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-    	<property name="qualificationAttributeName" value="accountNumber" />
     </bean>
     
     <bean id="RoutingAttribute-financialDocumentTotalAmount"  class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
@@ -169,9 +168,6 @@
     <bean id="SearchingAttribute-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
     	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
     	<property name="attributeName" value="organizationCode" />
-    </bean>
-    <bean id="RoutingAttribute-organizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-    	<property name="qualificationAttributeName" value="organizationCode" />
     </bean>
   
     <bean id="SearchingAttribute-overrideCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
@@ -185,9 +181,6 @@
     <bean id="SearchingAttribute-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
   		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubFundGroup" />
    		<property name="attributeName" value="subFundGroupCode" />
-    </bean>
-    <bean id="RoutingAttribute-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-    	<property name="qualificationAttributeName" value="subFundGroupCode" />
     </bean>
     
     <bean id="SearchingAttribute-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >

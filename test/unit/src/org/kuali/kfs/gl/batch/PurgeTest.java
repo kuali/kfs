@@ -22,13 +22,16 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
+import org.springframework.aop.support.AopUtils;
 
 /**
  * Tests the PurgeStep
@@ -72,7 +75,7 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values ("+pastFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1,'YYY', 0, 'D', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "'XX', '----------', 'X', null,null,null,null,' '," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + "," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = SpringContext.getBean(PurgeEntryStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        TestUtils.setSystemParameter(AopUtils.getTargetClass(purgeStep), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
@@ -106,8 +109,8 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values ("+currentFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = SpringContext.getBean(PurgeBalanceStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        Step purgeStep = BatchSpringContext.getStep("purgeBalanceStep");
+        TestUtils.setSystemParameter(AopUtils.getTargetClass(purgeStep), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
@@ -141,8 +144,9 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES ("+currentFiscalYear+", 'BL', '1031400', '-----', '5000', " + "'---'," + " 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = SpringContext.getBean(PurgeAccountBalancesStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        Step purgeStep = BatchSpringContext.getStep("purgeAccountBalancesStep");
+        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass();
+        TestUtils.setSystemParameter(purgeStepClass, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
@@ -176,8 +180,9 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_CD, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX', 'Desc', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", " + "0, 0, 'N', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = SpringContext.getBean(PurgeEncumbranceStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        Step purgeStep = BatchSpringContext.getStep("purgeEncumbranceStep");
+        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass();
+        TestUtils.setSystemParameter(purgeStepClass, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
@@ -211,8 +216,9 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+currentFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC', 2)");
 
-        Step purgeStep = SpringContext.getBean(PurgeCollectorDetailStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        Step purgeStep = BatchSpringContext.getStep("purgeCollectorDetailStep");
+        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass();
+        TestUtils.setSystemParameter(purgeStepClass, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
@@ -246,8 +252,9 @@ public class PurgeTest extends KualiTestBase {
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
-        Step purgeStep = SpringContext.getBean(PurgeSufficientFundBalancesStep.class);
-        TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
+        Step purgeStep = BatchSpringContext.getStep("purgeSufficientFundBalancesStep");
+        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass(); 
+        TestUtils.setSystemParameter(purgeStepClass, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));

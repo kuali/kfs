@@ -24,7 +24,7 @@
   <bean id="ProposalResearchRisk-researchRiskTypeCode-parentBean" abstract="true" parent="ResearchRiskType-researchRiskTypeCode">
     <property name="forceUppercase" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="ProposalResearchRisk-proposalNumber" parent="ProposalResearchRisk-proposalNumber-parentBean"/>

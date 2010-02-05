@@ -77,68 +77,10 @@
 	<bean id="AccountDelegateMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 		<property name="routingTypeDefinitions">
     		<map>
-	    		<entry key="Account" value-ref="AccountDelegateMaintenanceDocument-RoutingType-Account"/>
-    			<entry key="OrganizationHierarchy" value-ref="AccountDelegateMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+	    		<entry key="Account" value-ref="RoutingType-MaintenanceDocument-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromAccount"/>
     		</map>
 		</property>
 	</bean>
 	
-	<bean id="AccountDelegateMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
-	</bean>
-	
-	<bean id="AccountDelegateMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="accountNumber"/>
-	</bean>
-	
-	<bean id="AccountDelegateMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="organizationCode"/>
-	</bean>
-	
-	<bean id="AccountDelegateMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.account.organizationCode</value>
-	   		</list>
-   		</property>
-   	</bean>
-   	
-   	<bean id="AccountDelegateMaintenanceDocument-DocumentValuePathGroup-ChartAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.accountNumber</value>
-	   		</list>
-   		</property>
-   	</bean>
-   	
-   	<bean id="AccountDelegateMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountDelegateMaintenanceDocument-RoutingAttribute-Chart"/>
-    			<ref bean="AccountDelegateMaintenanceDocument-RoutingAttribute-Organization"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountDelegateMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
-    		</list>
-    	</property>
-    </bean>
-   	
-	<bean id="AccountDelegateMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountDelegateMaintenanceDocument-RoutingAttribute-Chart"/>
-		        <ref bean="AccountDelegateMaintenanceDocument-RoutingAttribute-Account"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountDelegateMaintenanceDocument-DocumentValuePathGroup-ChartAccount"/>
-    		</list>
-    	</property>
-    </bean>
- 
 </beans>

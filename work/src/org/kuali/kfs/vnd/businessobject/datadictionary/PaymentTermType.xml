@@ -53,10 +53,10 @@
     <property name="shortLabel" value="Discount Due Num."/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="PaymentTermType-vendorDiscountDueTypeDescription" parent="PaymentTermType-vendorDiscountDueTypeDescription-parentBean"/>
@@ -68,7 +68,7 @@
     <property name="shortLabel" value="Discount Due Type Desc."/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder" p:includeKeyInLabel="false"/>
@@ -83,10 +83,10 @@
     <property name="shortLabel" value="Net Due Num."/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="PaymentTermType-vendorNetDueTypeDescription" parent="PaymentTermType-vendorNetDueTypeDescription-parentBean"/>
@@ -98,7 +98,7 @@
     <property name="shortLabel" value="Net Due Type Desc."/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder" p:includeKeyInLabel="false"/>
@@ -113,7 +113,7 @@
     <property name="shortLabel" value="Payment Terms Cd."/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
@@ -128,7 +128,7 @@
     <property name="shortLabel" value="Payment Terms Desc."/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="47"/>
@@ -143,7 +143,7 @@
     <property name="shortLabel" value="Payment Terms Percent"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>

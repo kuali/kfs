@@ -45,24 +45,15 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="CommodityContractManager-campusCode" parent="CommodityContractManager-campusCode-parentBean"/>
-
-  <bean id="CommodityContractManager-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CommodityContractManager-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="campusCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Campus Code"/>
-    <property name="shortLabel" value="Campus"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
+  
   <bean id="CommodityContractManager-contractManagerCode" parent="CommodityContractManager-contractManagerCode-parentBean"/>
-
   <bean id="CommodityContractManager-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
     <property name="name" value="contractManagerCode"/>
     <property name="forceUppercase" value="true"/>
@@ -70,20 +61,17 @@
     <property name="shortLabel" value="Contract Manager"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ContractManagerValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean"/>
 
-  <bean id="CommodityContractManager-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
+  <bean id="CommodityContractManager-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
+
   <bean id="CommodityContractManager-purchasingCommodityCode" parent="CommodityContractManager-purchasingCommodityCode-parentBean"/>
-
-  <bean id="CommodityContractManager-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
-  </bean>
+  <bean id="CommodityContractManager-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode" />
 
 <!-- Business Object Inquiry Definition -->
 

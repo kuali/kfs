@@ -90,14 +90,18 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             accounts.add(new PaymentRequestAccount(this, poa));
         }
         this.setSourceAccountingLines(accounts);
-        
+        this.getUseTaxItems().clear();
+        //List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>(); 
+       /// this.setUseTaxItems(newUseTaxItems);
         //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
+        /*
         this.getUseTaxItems().clear();
         for (PurApItemUseTax useTaxItem : poi.getUseTaxItems()) {
             PaymentRequestItemUseTax newItemUseTax = new PaymentRequestItemUseTax(useTaxItem);
             this.getUseTaxItems().add(newItemUseTax);
 
         }
+        */
         
         // clear amount and desc on below the line - we probably don't need that null
         // itemType check but it's there just in case remove if it causes problems

@@ -52,7 +52,7 @@
     <property name="shortLabel" value="Rate Id"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

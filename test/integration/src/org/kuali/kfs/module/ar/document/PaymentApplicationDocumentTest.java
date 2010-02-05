@@ -325,6 +325,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         InvoiceAndCashControlDocumentPair pair = createCashControlDocument(invoiceDetailFixtures,cashControlDetailSpecs);
         CashControlDocument cashControlDocument = pair.cashControlDocument;
         CustomerInvoiceDocument invoice = pair.invoiceDocument;
+        assertNotNull( "invoiceDocument of the InvoiceAndCashControlDocumentPair must not be null", invoice );
         
         // Get convenient handles to the various relevant details.
         List<CashControlDetail> cashControlDetails = cashControlDocument.getCashControlDetails();

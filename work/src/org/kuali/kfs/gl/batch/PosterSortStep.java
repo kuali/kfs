@@ -30,13 +30,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.StopWatch;
+import org.kuali.kfs.gl.batch.PosterSortComparator;
 
 /**
  * A step to run the scrubber process.
  */
 public class PosterSortStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterSortStep.class);
-    private String batchFileDirectoryName;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterSortStep.class);
+    protected String batchFileDirectoryName;
+    
     /**
      * Runs the scrubber process.
      * 
@@ -59,32 +61,7 @@ public class PosterSortStep extends AbstractStep {
         }
         return true;
     }
-
     
-    public static class PosterSortComparator implements Comparator {
-
-        public int compare(Object object1, Object object2) {
-            OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
-            Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
-            
-            String string1 = (String) object1;
-            String string2 = (String) object2;
-            StringBuffer sb1 = new StringBuffer();
-            
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            //TODO:- something wrong
-            //sb1.append(string1.substring(129, 147));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
-            
-            StringBuffer sb2 = new StringBuffer();
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            //TODO:- something wrong
-            //sb2.append(string1.substring(129, 147));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
-            return sb1.toString().compareTo(sb2.toString());
-        }
-    }
-
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }

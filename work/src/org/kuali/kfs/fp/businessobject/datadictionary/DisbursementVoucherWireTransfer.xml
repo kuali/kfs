@@ -53,7 +53,7 @@
     <property name="maxLength" value="22"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber" parent="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber-parentBean"/>
@@ -92,7 +92,7 @@
     <property name="maxLength" value="2"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbVchrBankCountryCode" parent="DisbursementVoucherWireTransfer-disbVchrBankCountryCode-parentBean"/>
@@ -144,7 +144,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     <property name="attributeSecurity">
 		<bean parent="AttributeSecurity">
@@ -203,7 +203,7 @@
     <property name="shortLabel" value="Acct Nm"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode-parentBean"/>

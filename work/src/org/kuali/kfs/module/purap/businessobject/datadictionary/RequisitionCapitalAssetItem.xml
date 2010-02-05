@@ -44,7 +44,7 @@
   <bean id="RequisitionCapitalAssetItem-capitalAssetItemIdentifier" parent="RequisitionCapitalAssetItem-capitalAssetItemIdentifier-parentBean"/>
   <bean id="RequisitionCapitalAssetItem-capitalAssetItemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetItemIdentifier" p:forceUppercase="false" p:label="Capital Asset Item Identifier" p:shortLabel="Capital Asset Item Identifier" p:maxLength="11" p:required="false">
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -54,7 +54,7 @@
   <bean id="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier-parentBean"/>
   <bean id="RequisitionCapitalAssetItem-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemIdentifier" p:forceUppercase="false" p:label="Capital Asset System Identifier" p:shortLabel="Capital Asset System Identifier" p:maxLength="11" p:required="false">
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>

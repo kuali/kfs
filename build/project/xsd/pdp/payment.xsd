@@ -17,9 +17,11 @@
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://www.kuali.org/kfs/pdp/payment"
     xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/pdp/payment" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
         
     <!-- simple data types -->
     <xsd:simpleType name="versionType">
@@ -29,54 +31,54 @@
     </xsd:simpleType>
     
     <!-- definition of simple type elements -->
-    <xsd:element name="chart" type="kfs:twoCharType"/>
-    <xsd:element name="unit" type="kfs:oneToFourCharType"/>
-    <xsd:element name="sub_unit" type="kfs:oneToFourAlphaType"/>
-    <xsd:element name="creation_date" type="xsd:string"/>
-    <xsd:element name="source_doc_nbr" type="kfs:fdocNumberType"/>
-    <xsd:element name="invoice_nbr" type="kfs:fdocNumberType"/>
-    <xsd:element name="po_nbr" type="kfs:oneToNineCharType"/>
-    <xsd:element name="req_nbr" type="kfs:oneToEightCharType"/>
-    <xsd:element name="org_doc_nbr" type="kfs:oneToTenCharType"/>
-    <xsd:element name="payee_name" type="kfs:oneToFortyCharType"/>
-    <xsd:element name="payee_own_cd" type="kfs:twoAlphaType"/>
-    <xsd:element name="customer_institution_identifier" type="kfs:zeroToThirtyCharType"/>
-    <xsd:element name="address1" type="kfs:oneToFiftyFiveCharType"/>
-    <xsd:element name="address2" type="kfs:zeroToFiftyFiveCharType"/>
-    <xsd:element name="address3" type="kfs:zeroToFiftyFiveCharType"/>
-    <xsd:element name="address4" type="kfs:zeroToFiftyFiveCharType"/>
-    <xsd:element name="city" type="kfs:zeroToFortyFiveCharType"/>
-    <xsd:element name="state" type="kfs:zeroToThirtyCharType"/>
-    <xsd:element name="zip" type="kfs:zeroToTwentyCharType"/>
-    <xsd:element name="country" type="kfs:zeroToThirtyCharType"/>
-    <xsd:element name="campus_address_ind" type="kfs:indicatorType"/>
-    <xsd:element name="payment_date" type="xsd:string"/>
-    <xsd:element name="invoice_date" type="xsd:string"/>
-    <xsd:element name="attachment_ind" type="kfs:indicatorType"/>
-    <xsd:element name="special_handling_ind" type="kfs:indicatorType"/>
-    <xsd:element name="taxable_ind" type="kfs:indicatorType"/>
-    <xsd:element name="orig_invoice_amt" type="xsd:decimal"/>
-    <xsd:element name="net_payment_amt" type="xsd:decimal"/>
-    <xsd:element name="invoice_tot_discount_amt" type="xsd:decimal"/>
-    <xsd:element name="invoice_tot_ship_amt" type="xsd:decimal"/>
-    <xsd:element name="invoice_tot_other_debits" type="xsd:decimal"/>
-    <xsd:element name="invoice_tot_other_credits" type="xsd:decimal"/>
-    <xsd:element name="nra_ind" type="kfs:indicatorType"/>
-    <xsd:element name="combine_group_ind" type="kfs:indicatorType"/>
-    <xsd:element name="coa_cd" type="kfs:twoCharType"/>
-    <xsd:element name="account_nbr" type="kfs:accountType"/>
-    <xsd:element name="sub_account_nbr" type="xsd:string"/>
-    <xsd:element name="object_cd" type="kfs:objectType"/>
-    <xsd:element name="sub_object_cd" type="xsd:string"/>
-    <xsd:element name="org_ref_id" type="kfs:ZeroToEightCharType"/>
-    <xsd:element name="project_cd" type="xsd:string"/>
-    <xsd:element name="amount" type="xsd:decimal"/>
-    <xsd:element name="payment_text" type="kfs:zeroToNinetyCharType"/>
-    <xsd:element name="detail_count" type="xsd:integer"/>
-    <xsd:element name="detail_tot_amt" type="xsd:decimal"/>
-    <xsd:element name="bank_code" type="kfs:zeroToFourCharType"/> 
-    <xsd:element name="fs_origin_cd" type="kfs:zeroToTwoCharType"/> 
-    <xsd:element name="fdoc_typ_cd" type="kfs:zeroToFourCharType"/> 
+    <xsd:element name="chart" type="${xsd:normalizedString,dd:PaymentFileLoad.chart}"/>
+    <xsd:element name="unit" type="${xsd:normalizedString,dd:PaymentFileLoad.unit}"/>
+    <xsd:element name="sub_unit" type="${xsd:normalizedString,dd:PaymentFileLoad.subUnit}"/>
+    <xsd:element name="creation_date" type="${xsd:normalizedString,dd:PaymentFileLoad.creationDate}"/>
+    <xsd:element name="source_doc_nbr" type="${xsd:normalizedString,dd:PaymentDetail.custPaymentDocNbr}"/>
+    <xsd:element name="invoice_nbr" type="${xsd:normalizedString,dd:PaymentDetail.invoiceNbr}"/>
+    <xsd:element name="po_nbr" type="${xsd:normalizedString,dd:PaymentDetail.purchaseOrderNbr}"/>
+    <xsd:element name="req_nbr" type="${xsd:normalizedString,dd:PaymentDetail.requisitionNbr}"/>
+    <xsd:element name="org_doc_nbr" type="${xsd:normalizedString,dd:PaymentDetail.organizationDocNbr}"/>
+    <xsd:element name="payee_name" type="${xsd:normalizedString,dd:PaymentGroup.payeeName}"/>
+    <xsd:element name="payee_own_cd" type="${xsd:normalizedString,dd:PaymentGroup.payeeOwnerCd}"/>
+    <xsd:element name="customer_institution_identifier" type="${xsd:normalizedString,dd:PaymentGroup.customerInstitutionNumber}"/>
+    <xsd:element name="address1" type="${xsd:normalizedString,dd:PaymentGroup.line1Address}"/>
+    <xsd:element name="address2" type="${xsd:normalizedString,dd:PaymentGroup.line2Address}"/>
+    <xsd:element name="address3" type="${xsd:normalizedString,dd:PaymentGroup.line3Address}"/>
+    <xsd:element name="address4" type="${xsd:normalizedString,dd:PaymentGroup.line4Address}"/>
+    <xsd:element name="city" type="${xsd:normalizedString,dd:PaymentGroup.city}"/>
+    <xsd:element name="state" type="${xsd:normalizedString,dd:PaymentGroup.state}"/>
+    <xsd:element name="zip" type="${xsd:normalizedString,dd:PaymentGroup.zipCd}"/>
+    <xsd:element name="country" type="${xsd:normalizedString,dd:PaymentGroup.country}"/>
+    <xsd:element name="campus_address_ind" type="${xsd:normalizedString,dd:PaymentGroup.campusAddress}"/>
+    <xsd:element name="payment_date" type="${xsd:normalizedString,dd:PaymentGroup.paymentDate}"/>
+    <xsd:element name="invoice_date" type="${xsd:normalizedString,dd:PaymentDetail.invoiceDate}"/>
+    <xsd:element name="attachment_ind" type="${xsd:normalizedString,dd:PaymentGroup.pymtAttachment}"/>
+    <xsd:element name="special_handling_ind" type="${xsd:normalizedString,dd:PaymentGroup.pymtSpecialHandling}"/>
+    <xsd:element name="taxable_ind" type="${xsd:normalizedString,dd:PaymentGroup.taxablePayment}"/>
+    <xsd:element name="orig_invoice_amt" type="${xsd:decimal,dd:PaymentDetail.origInvoiceAmount}"/>
+    <xsd:element name="net_payment_amt" type="${xsd:decimal,dd:PaymentDetail.netPaymentAmount}"/>
+    <xsd:element name="invoice_tot_discount_amt" type="${xsd:decimal,dd:PaymentDetail.invTotDiscountAmount}"/>
+    <xsd:element name="invoice_tot_ship_amt" type="${xsd:decimal,dd:PaymentDetail.invTotShipAmount}"/>
+    <xsd:element name="invoice_tot_other_debits" type="${xsd:decimal,dd:PaymentDetail.invTotOtherDebitAmount}"/>
+    <xsd:element name="invoice_tot_other_credits" type="${xsd:decimal,dd:PaymentDetail.invTotOtherCreditAmount}"/>
+    <xsd:element name="nra_ind" type="${xsd:normalizedString,dd:PaymentGroup.nraPayment}"/>
+    <xsd:element name="combine_group_ind" type="${xsd:normalizedString,dd:PaymentGroup.combineGroups}"/>
+    <xsd:element name="coa_cd" type="${xsd:normalizedString,dd:PaymentAccountDetail.finChartCode}"/>
+    <xsd:element name="account_nbr" type="${xsd:normalizedString,dd:PaymentAccountDetail.accountNbr}"/>
+    <xsd:element name="sub_account_nbr"  type="${xsd:normalizedString,dd:PaymentAccountDetail.subAccountNbr}"/>
+    <xsd:element name="object_cd" type="${xsd:normalizedString,dd:PaymentAccountDetail.finObjectCode}"/>
+    <xsd:element name="sub_object_cd" type="${xsd:normalizedString,dd:PaymentAccountDetail.finSubObjectCode}"/>
+    <xsd:element name="org_ref_id" type="${xsd:normalizedString,dd:PaymentAccountDetail.orgReferenceId}"/>
+    <xsd:element name="project_cd" type="${xsd:normalizedString,dd:PaymentAccountDetail.projectCode}"/>
+    <xsd:element name="amount" type="${xsd:normalizedString,dd:PaymentAccountDetail.accountNetAmount}"/>
+    <xsd:element name="payment_text" type="${xsd:normalizedString,dd:PaymentNoteText.customerNoteText}"/>
+    <xsd:element name="detail_count" type="${xsd:integer,dd:PaymentFileLoad.paymentCount}"/>
+    <xsd:element name="detail_tot_amt" type="${xsd:decimal,dd:PaymentFileLoad.paymentTotalAmount}"/>
+    <xsd:element name="bank_code" type="${xsd:normalizedString,dd:Bank.bankCode}"/> 
+    <xsd:element name="fs_origin_cd" type="${xsd:normalizedString,dd:PaymentDetail.financialSystemOriginCode}"/> 
+    <xsd:element name="fdoc_typ_cd"  type="${xsd:normalizedString,dd:PaymentDetail.financialDocumentTypeCode}"/> 
     
     <!-- definition of attributes -->
     

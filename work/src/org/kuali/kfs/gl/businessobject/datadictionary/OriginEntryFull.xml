@@ -132,7 +132,7 @@
     <property name="shortLabel" value="DocRevDt"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-financialDocumentTypeCode" parent="OriginEntryFull-financialDocumentTypeCode-parentBean"/>
@@ -185,7 +185,7 @@
     <property name="name" value="financialObjectTypeCode"/>
     <property name="shortLabel" value="ObjTypCd"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-organizationDocumentNumber" parent="OriginEntryFull-organizationDocumentNumber-parentBean"/>
@@ -196,7 +196,7 @@
     <property name="shortLabel" value="OrgDocNbr"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-organizationReferenceId" parent="OriginEntryFull-organizationReferenceId-parentBean"/>
@@ -266,7 +266,7 @@
     <property name="shortLabel" value="TxnDt"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-transactionLedgerEntrySequenceNumber" parent="OriginEntryFull-transactionLedgerEntrySequenceNumber-parentBean"/>
@@ -300,7 +300,7 @@
     <property name="shortLabel" value="TxnLdgrEntryDesc"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-universityFiscalPeriodCode" parent="OriginEntryFull-universityFiscalPeriodCode-parentBean"/>
@@ -309,7 +309,7 @@
     <property name="label" value="Fiscal Period"/>
     <property name="shortLabel" value="UnivFsclAcctPrd"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="OriginEntryFull-universityFiscalYear" parent="OriginEntryFull-universityFiscalYear-parentBean"/>
@@ -320,7 +320,7 @@
     <property name="shortLabel" value="Fiscal Year"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
 

@@ -108,7 +108,7 @@
     <property name="shortLabel" value="Claiming Status"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" parent="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean"/>
@@ -144,7 +144,7 @@
   	<property name="shortLabel" value="Route Status"/>
   	<property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   

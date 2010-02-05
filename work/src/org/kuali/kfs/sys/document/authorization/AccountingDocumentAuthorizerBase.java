@@ -56,9 +56,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
         Document document = (Document)businessObject;
         // add the document amount
         if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
-            attributes.put(KfsKimAttributes.DOCUMENT_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
+            attributes.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());
         } else {
-            attributes.put(KfsKimAttributes.DOCUMENT_AMOUNT, "0" );
+            attributes.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, "0" );
         }
     }
 }

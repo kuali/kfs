@@ -60,7 +60,7 @@
   <bean id="PretagDetail-purchaseOrderNumber" parent="PretagDetail-purchaseOrderNumber-parentBean"/>
   <bean id="PretagDetail-purchaseOrderNumber-parentBean" abstract="true" parent="Pretag-purchaseOrderNumber">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   
@@ -68,7 +68,7 @@
   <bean id="PretagDetail-itemLineNumber-parentBean" abstract="true" parent="Pretag-itemLineNumber">
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   

@@ -50,7 +50,7 @@
     <property name="shortLabel" value="Bdgt. Rollover"/>
     <property name="maxLength" value="0"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -65,11 +65,11 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="AccountingPeriod-active" parent="AccountingPeriod-active-parentBean"/>
@@ -114,7 +114,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
 

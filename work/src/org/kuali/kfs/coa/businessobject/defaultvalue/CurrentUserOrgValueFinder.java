@@ -20,6 +20,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * A value finder that returns the current user's default organization code.
@@ -32,7 +33,7 @@ public class CurrentUserOrgValueFinder implements ValueFinder {
      * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        Person currentUser = ValueFinderUtil.getCurrentPerson();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (currentUser != null) {
             return SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.CHART).getOrganizationCode();
         }

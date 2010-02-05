@@ -47,7 +47,7 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
      */
     protected void setUp() throws Exception {
         super.setUp();
-        customerInvoiceDocumentBatchStep = SpringContext.getBean(CustomerInvoiceDocumentBatchStep.class);
+        //customerInvoiceDocumentBatchStep = SpringContext.getBean(CustomerInvoiceDocumentBatchStep.class);
         // customerAgingReportLookupableHelperServiceImpl =
         // SpringContext.getBean(CustomerAgingReportLookupableHelperServiceImpl.class);
         customerAgingReportLookupableHelperServiceImpl = new CustomerAgingReportLookupableHelperServiceImpl();

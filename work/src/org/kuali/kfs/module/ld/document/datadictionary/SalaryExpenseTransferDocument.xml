@@ -112,6 +112,7 @@
     	<property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/>
     	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-sourceGroupActions"/>
+    	<property name="importingAllowed" value="false" />
     </bean>
 
     <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean"/>
@@ -123,7 +124,8 @@
     	<property name="importedLinePropertyPrefix" value="target"/>
     	<property name="totals" ref="AccountingDocument-targetGroupTotals"/>
     	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
-    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-targetGroupActions"/>    	
+    	<property name="accountingLineGroupActions" ref="ExpenseTransferDocument-targetGroupActions"/>
+    	<property name="importingAllowed" value="false" />
     </bean>    
     
 </beans>

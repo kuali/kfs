@@ -10,44 +10,20 @@
         <ref bean="OrganizationReversionGlobalOrganization-documentNumber"/>
         <ref bean="OrganizationReversionGlobalOrganization-chartOfAccountsCode"/>
         <ref bean="OrganizationReversionGlobalOrganization-organizationCode"/>
-        <ref bean="OrganizationReversionGlobalOrganization-newCollectionRecord"/>
+        <bean parent="GenericAttributes-newCollectionRecord"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-
   <bean id="OrganizationReversionGlobalOrganization-documentNumber" parent="OrganizationReversionGlobalOrganization-documentNumber-parentBean"/>
+  <bean id="OrganizationReversionGlobalOrganization-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="OrganizationReversionGlobalOrganization-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="16"/>
-    </property>
-  </bean>
   <bean id="OrganizationReversionGlobalOrganization-chartOfAccountsCode" parent="OrganizationReversionGlobalOrganization-chartOfAccountsCode-parentBean"/>
+  <bean id="OrganizationReversionGlobalOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl" />
 
-  <bean id="OrganizationReversionGlobalOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
   <bean id="OrganizationReversionGlobalOrganization-organizationCode" parent="OrganizationReversionGlobalOrganization-organizationCode-parentBean"/>
+  <bean id="OrganizationReversionGlobalOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode" />
 
-  <bean id="OrganizationReversionGlobalOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
-  <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord" parent="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean"/>
-
-  <bean id="OrganizationReversionGlobalOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
 </beans>

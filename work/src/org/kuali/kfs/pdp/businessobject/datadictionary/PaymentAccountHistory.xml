@@ -46,7 +46,7 @@
     <property name="shortLabel" value="Change code"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -60,7 +60,7 @@
     <property name="shortLabel" value="Attribute Name"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -74,7 +74,7 @@
     <property name="shortLabel" value="Original Value"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -88,7 +88,7 @@
     <property name="shortLabel" value="New Value"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>

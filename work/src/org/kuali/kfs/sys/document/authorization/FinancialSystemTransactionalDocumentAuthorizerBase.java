@@ -39,11 +39,14 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
         
-        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) && !(documentActionsToReturn.contains(KNSConstants.KUALI_ACTION_CAN_COPY) && canErrorCorrect(document, user))) {
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) 
+                && !(documentActionsToReturn.contains(KNSConstants.KUALI_ACTION_CAN_COPY) 
+                && canErrorCorrect(document, user))) {
             documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
         }
         
-        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) && !canEditBankCode(document, user)) {
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) 
+                && !canEditBankCode(document, user)) {
             documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
         

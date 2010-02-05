@@ -87,11 +87,11 @@
     <property name="shortLabel" value="Financial Reporting Code"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="ReportingCode-financialReportingCodeDescription" parent="ReportingCode-financialReportingCodeDescription-parentBean"/>
@@ -102,11 +102,11 @@
     <property name="shortLabel" value="financialReportingCodeDescription"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="ReportingCode-financialReportingCodeMgrId" parent="ReportingCode-financialReportingCodeMgrId-parentBean"/>
@@ -117,7 +117,7 @@
     <property name="shortLabel" value="Manager Id"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="ReportingCode-person.principalName" parent="ReportingCode-person.principalName-parentBean"/>

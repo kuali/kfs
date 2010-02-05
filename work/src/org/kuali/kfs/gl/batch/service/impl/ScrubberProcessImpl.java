@@ -44,8 +44,8 @@ import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.ScrubberStep;
-import org.kuali.kfs.gl.batch.DemergerSortStep.DemergerSortComparator;
-import org.kuali.kfs.gl.batch.ScrubberSortStep.ScrubberSortComparator;
+import org.kuali.kfs.gl.batch.DemergerSortComparator;
+import org.kuali.kfs.gl.batch.ScrubberSortComparator;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcess;
@@ -674,8 +674,12 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     scrubbedEntry.setTransactionLedgerEntryDescription(unscrubbedEntry.getTransactionLedgerEntryDescription());
                     scrubbedEntry.setTransactionLedgerEntryAmount(unscrubbedEntry.getTransactionLedgerEntryAmount());
                     scrubbedEntry.setTransactionDebitCreditCode(unscrubbedEntry.getTransactionDebitCreditCode());
+    
+                    if (!collectorMode) {
+                        ledgerSummaryReport.summarizeEntry(unscrubbedEntry); 
+                    }
 
-                    // For Labor Scrubber
+                    // For Labor Scrubber  
                     boolean laborIndicator = false;
                     tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator, accountingCycleCachingService));
                     transactionErrors.addAll(tmperrors);
@@ -819,10 +823,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                         fatalErrorOccurred = true;
                     }
                     handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
-                    if (!collectorMode) {
-                        ledgerSummaryReport.summarizeEntry(unscrubbedEntry);
-                    }
-
+ 
                     if (saveValidTransaction) {
                         scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                         createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);
@@ -858,7 +859,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
             handleEndOfScrubberReport(scrubberReport);
 
-            if (!collectorMode) {
+            if (!collectorMode) {  // winston
                 ledgerSummaryReport.writeReport(this.scrubberLedgerReportWriterService);
             }
         }

@@ -47,7 +47,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -62,7 +62,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -77,7 +77,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>

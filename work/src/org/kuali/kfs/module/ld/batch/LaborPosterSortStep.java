@@ -30,13 +30,14 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.StopWatch;
+import org.kuali.kfs.module.ld.batch.LaborPosterSortComparator;
 
 /**
  * A step to run the scrubber process.
  */
 public class LaborPosterSortStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPosterSortStep.class);
-    private String batchFileDirectoryName;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPosterSortStep.class);
+    protected String batchFileDirectoryName;
     /**
      * Runs the scrubber process.
      * 
@@ -61,42 +62,8 @@ public class LaborPosterSortStep extends AbstractStep {
         }
         return true;
     }
-
     
-    public static class LaborPosterSortComparator implements Comparator {
-
-        public int compare(Object object1, Object object2) {
-            LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
-            Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
-            
-            String string1 = (String) object1;
-            String string2 = (String) object2;
-            StringBuffer sb1 = new StringBuffer();
-            
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.POSITION_NUMBER)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.POSITION_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.EMPLID), pMap.get(KFSPropertyConstants.EARN_CODE)));
-            
-            StringBuffer sb2 = new StringBuffer();
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.POSITION_NUMBER)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.POSITION_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.EMPLID), pMap.get(KFSPropertyConstants.EARN_CODE)));
-            return sb1.toString().compareTo(sb2.toString());
-        }
-    }
-
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-
 }

@@ -86,7 +86,7 @@
     <property name="shortLabel" value="Acct. Prd."/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

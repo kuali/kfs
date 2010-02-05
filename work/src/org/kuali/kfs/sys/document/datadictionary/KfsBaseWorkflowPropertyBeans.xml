@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	
+	<bean id="EmptyWorkflowAttributes" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" />
+	
+	<!-- ******************************************************************* -->
+	<!--  COMMON ROUTING ATTRIBUTE QUALIFIER NAMES -->
+	<!-- ******************************************************************* -->
+	
+	<bean id="RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
+	</bean>
+	<bean id="RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountNumber"/>
+	</bean>	
+	<bean id="RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="organizationCode"/>
+	</bean>
+	<bean id="RoutingAttribute-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="subFundGroupCode"/>
+	</bean>
+
+	<!-- ******************************************************************* -->
+	<!--  COMMON MAINTENANCE DOCUMENT ATTRIBUTE GROUPS -->
+	<!-- ******************************************************************* -->
+
+   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization-OrgFromAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.account.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	 <bean id="DocumentValuePathGroup-MaintenanceDocument-SubFund" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.subFundGroupCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+   	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.accountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+	<!-- ******************************************************************* -->
+	<!--  COMMON MAINTENANCE DOCUMENT ROUTING TYPES -->
+	<!-- ******************************************************************* -->
+
+   	 
+	<bean id="RoutingType-MaintenanceDocument-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-Chart"/>
+    		</list>
+    	</property>
+    </bean>
+
+	<bean id="RoutingType-MaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartAccount"/>
+    		</list>
+    	</property>
+    </bean>
+
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization"/>
+    		</list>
+    	</property>
+    </bean>
+
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromAccount" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization-OrgFromAccount"/>
+    		</list>
+    	</property>
+    </bean>
+
+	<bean id="RoutingType-MaintenanceDocument-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-SubFund"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-SubFund"/>
+    		</list>
+    	</property>
+    </bean>
+
+</beans>

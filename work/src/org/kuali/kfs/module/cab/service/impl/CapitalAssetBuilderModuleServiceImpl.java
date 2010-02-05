@@ -85,6 +85,7 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -241,18 +242,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validatePurchasingAccountsPayableData(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean validatePurchasingData(AccountingDocument accountingDocument) {
+        Boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
+        String systemTypeCode = purchasingDocument.getCapitalAssetSystemTypeCode();
+        String capitalAssetSystemStateCode = purchasingDocument.getCapitalAssetSystemStateCode();
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
-        if (PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-            return validateIndividualCapitalAssetSystemFromPurchasing(purchasingDocument.getCapitalAssetSystemStateCode(), purchasingDocument.getPurchasingCapitalAssetItems(), purchasingDocument.getChartOfAccountsCode(), documentType);
+        for (PurApItem item : purchasingDocument.getItems()) {
+            List accountingLines = item.getSourceAccountingLines();
+            for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
+                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
+                String coa = accountingLine.getChartOfAccountsCode();
+                 if (PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(systemTypeCode)) {
+                    valid &= validateIndividualCapitalAssetSystemFromPurchasing(capitalAssetSystemStateCode, purchasingDocument.getPurchasingCapitalAssetItems(), coa, documentType);
+                }
+                else if (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(systemTypeCode)) {
+                    valid &=  validateOneSystemCapitalAssetSystemFromPurchasing(capitalAssetSystemStateCode, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), coa, documentType);
+                }
+                else if (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(systemTypeCode)) {
+                    valid &= validateMultipleSystemsCapitalAssetSystemFromPurchasing(capitalAssetSystemStateCode, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), coa, documentType);
+                }
+            }
         }
-        else if (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-            return validateOneSystemCapitalAssetSystemFromPurchasing(purchasingDocument.getCapitalAssetSystemStateCode(), purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), purchasingDocument.getChartOfAccountsCode(), documentType);
-        }
-        else if (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-            return validateMultipleSystemsCapitalAssetSystemFromPurchasing(purchasingDocument.getCapitalAssetSystemStateCode(), purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), purchasingDocument.getChartOfAccountsCode(), documentType);
-        }
-        return false;
+        return valid;
     }
 
     public boolean validateAccountsPayableData(AccountingDocument accountingDocument) {
@@ -477,21 +488,31 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
+        
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
         boolean valid = true;
-        List<Parameter> results = new ArrayList<Parameter>();
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
-        criteria.put(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + purchasingDocument.getChartOfAccountsCode() + "%");
-        results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
-        for (Parameter parameter : results) {
-            if (ObjectUtils.isNotNull(parameter)) {
-                if (parameter.getParameterValue() != null) {
-                    return false;
+ 
+        for (PurApItem item : purchasingDocument.getItems()) {
+            String itemTypeCode = item.getItemTypeCode();
+            List accountingLines = item.getSourceAccountingLines();
+            for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
+                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
+                String coa = accountingLine.getChartOfAccountsCode();
+                List<Parameter> results = new ArrayList<Parameter>();
+                Map<String, String> criteria = new HashMap<String, String>();
+                criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+                criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
+                criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
+                criteria.put(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%");
+                results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
+                for (Parameter parameter : results) {
+                    if (ObjectUtils.isNotNull(parameter)) {
+                        if (parameter.getParameterValue() != null) {
+                            return false;
+                        }
+                    }
                 }
-            }
+            }      
         }
         return valid;
     }

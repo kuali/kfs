@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.kuali.kfs.sys.KFSConstants;
 
@@ -24,14 +24,14 @@ import org.kuali.kfs.sys.KFSConstants;
  */
 public class DepositWizardHelper {
     private String selectedValue;
-    private Timestamp cashReceiptCreateDate;
+    private Date cashReceiptCreateDate;
 
     /**
      * Constructs a JournalVoucherAccountingLineHelper.java.
      */
     public DepositWizardHelper() {
         selectedValue = KFSConstants.ParameterValues.NO;
-        cashReceiptCreateDate = new Timestamp(0);
+        cashReceiptCreateDate = new Date(0);
     }
 
     /**
@@ -55,7 +55,7 @@ public class DepositWizardHelper {
     /**
      * @return current value of cashReceiptCreateDate.
      */
-    public Timestamp getCashReceiptCreateDate() {
+    public Date getCashReceiptCreateDate() {
         return cashReceiptCreateDate;
     }
 
@@ -64,7 +64,7 @@ public class DepositWizardHelper {
      * 
      * @param cashReceiptCreateDate The cashReceiptCreateDate to set.
      */
-    public void setCashReceiptCreateDate(Timestamp cashReceiptCreateDate) {
+    public void setCashReceiptCreateDate(Date cashReceiptCreateDate) {
         this.cashReceiptCreateDate = cashReceiptCreateDate;
     }
 }

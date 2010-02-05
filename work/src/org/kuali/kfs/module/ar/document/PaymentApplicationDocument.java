@@ -287,7 +287,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     public boolean isApproved() {
-        return KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
+        return getDocumentHeader().getWorkflowDocument().stateIsApproved();
     }
     
     /**
@@ -585,6 +585,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             actualCreditUnapplied.setProjectCode(KFSConstants.getDashProjectCode());
             actualCreditUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            actualCreditUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualCreditUnapplied);
             sequenceHelper.increment();
             
@@ -607,6 +608,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetDebitUnapplied.setProjectCode(KFSConstants.getDashProjectCode());
             offsetDebitUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            offsetDebitUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetDebitUnapplied);
             sequenceHelper.increment();
 
@@ -629,6 +631,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             actualDebitUnapplied.setProjectCode(KFSConstants.getDashProjectCode());
             actualDebitUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            actualDebitUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualDebitUnapplied);
             sequenceHelper.increment();
             
@@ -653,6 +656,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditUnapplied.setProjectCode(KFSConstants.getDashProjectCode());
             offsetCreditUnapplied.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            offsetCreditUnapplied.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetCreditUnapplied);
             sequenceHelper.increment();
         }
@@ -670,7 +674,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
             if (StringUtils.isBlank(nonInvoiced.getSubAccountNumber())) {
                 actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -690,6 +694,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 actualCreditEntry.setProjectCode(nonInvoiced.getProjectCode());
             }
             actualCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            actualCreditEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualCreditEntry);
             sequenceHelper.increment();
             
@@ -716,7 +721,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
-            actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
+            actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -725,6 +730,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             actualDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
             actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            actualDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
 
@@ -748,6 +754,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
             offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            offsetDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
             
@@ -771,6 +778,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
             offsetCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            offsetCreditEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());
             generatedEntries.add(offsetCreditEntry);
             sequenceHelper.increment();
         }
@@ -822,6 +830,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            actualDebitEntry.setTransactionLedgerEntryDescription(ipa.getDocumentHeader().getDocumentDescription());            
             generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
             
@@ -837,7 +846,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             actualCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-            actualCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
+            actualCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());                        
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), actualDebitEntry, sequenceHelper, actualCreditEntry);
             actualCreditEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
             generatedEntries.add(actualCreditEntry);
@@ -872,6 +881,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 offsetDebitEntry.setProjectCode(ipa.getInvoiceDetail().getProjectCode());
             }
             offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+            offsetDebitEntry.setTransactionLedgerEntryDescription(ipa.getDocumentHeader().getDocumentDescription());            
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
 

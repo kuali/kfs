@@ -49,41 +49,16 @@
 
 
   <bean id="BudgetConstructionAccountSelect-accountNumber" parent="BudgetConstructionAccountSelect-accountNumber-parentBean"/>
-
-  <bean id="BudgetConstructionAccountSelect-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account"/>
-    <property name="shortLabel" value="Account"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-    
-    
+  <bean id="BudgetConstructionAccountSelect-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="BudgetConstructionAccountSelect-chartOfAccountsCode" parent="BudgetConstructionAccountSelect-chartOfAccountsCode-parentBean"/>
-
-  <bean id="BudgetConstructionAccountSelect-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart"/>
-    <property name="shortLabel" value="Chart"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    
-    
+  <bean id="BudgetConstructionAccountSelect-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="BudgetConstructionAccountSelect-financialDocumentCreateDate" parent="BudgetConstructionAccountSelect-financialDocumentCreateDate-parentBean"/>
 
+  <bean id="BudgetConstructionAccountSelect-financialDocumentCreateDate" parent="BudgetConstructionAccountSelect-financialDocumentCreateDate-parentBean"/>
   <bean id="BudgetConstructionAccountSelect-financialDocumentCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentCreateDate"/>
     <property name="forceUppercase" value="true"/>
@@ -91,33 +66,22 @@
     <property name="shortLabel" value="Last Upd"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier" parent="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier-parentBean"/>
 
-  <bean id="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier" parent="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier-parentBean"/>
+  <bean id="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="financialDocumentInitiatorIdentifier"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Upd by"/>
     <property name="shortLabel" value="Upd by"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    
-    
+    <property name="required" value="false"/>
   </bean>
-  <bean id="BudgetConstructionAccountSelect-documentNumber" parent="BudgetConstructionAccountSelect-documentNumber-parentBean"/>
 
+  <bean id="BudgetConstructionAccountSelect-documentNumber" parent="BudgetConstructionAccountSelect-documentNumber-parentBean"/>
   <bean id="BudgetConstructionAccountSelect-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -125,7 +89,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
@@ -142,31 +106,21 @@
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
     
     
   </bean>
   <bean id="BudgetConstructionAccountSelect-organizationChartOfAccountsCode" parent="BudgetConstructionAccountSelect-organizationChartOfAccountsCode-parentBean"/>
 
-  <bean id="BudgetConstructionAccountSelect-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionAccountSelect-organizationChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
     <property name="name" value="organizationChartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Org Chart"/>
-    <property name="shortLabel" value="Org Chart"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    
-    
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="BudgetConstructionAccountSelect-organizationCode" parent="BudgetConstructionAccountSelect-organizationCode-parentBean"/>
 
   <bean id="BudgetConstructionAccountSelect-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -176,7 +130,7 @@
     <property name="shortLabel" value="Org"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
@@ -193,7 +147,7 @@
     <property name="shortLabel" value="Org Level"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -201,23 +155,15 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAccountSelect-principalId" parent="BudgetConstructionAccountSelect-principalId-parentBean"/>
 
-  <bean id="BudgetConstructionAccountSelect-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Person Universal Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+  <bean id="BudgetConstructionAccountSelect-principalId" parent="BudgetConstructionAccountSelect-principalId-parentBean"/>
+  <bean id="BudgetConstructionAccountSelect-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
-    
-    
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="BudgetConstructionAccountSelect-subAccountNumber" parent="BudgetConstructionAccountSelect-subAccountNumber-parentBean"/>
 
   <bean id="BudgetConstructionAccountSelect-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -227,7 +173,7 @@
     <property name="shortLabel" value="Sub Acct"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
@@ -244,7 +190,7 @@
     <property name="shortLabel" value="Year"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
@@ -252,14 +198,12 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName" parent="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean"/>
 
+  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName" parent="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean"/>
   <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="budgetConstructionHeader.budgetLockUser.principalName"/>
     <property name="label" value="Bdgt. Lock Principal Name"/>
     <property name="shortLabel" value="Bdgt. Lock"/>
-    
-    
   </bean>
   
 

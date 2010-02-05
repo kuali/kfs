@@ -64,7 +64,7 @@
     <property name="shortLabel" value="Process ID"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -93,7 +93,7 @@
     <property name="shortLabel" value="Group Id"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -107,7 +107,7 @@
     <property name="shortLabel" value="Sort Group"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -121,7 +121,7 @@
     <property name="shortLabel" value="Begin Disbursement Nbr"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -135,7 +135,7 @@
     <property name="shortLabel" value="End Disbursement Nbr"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -155,7 +155,7 @@
     <property name="shortLabel" value="Process Total Count"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>

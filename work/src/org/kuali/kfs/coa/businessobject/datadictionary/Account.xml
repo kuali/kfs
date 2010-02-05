@@ -163,11 +163,8 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
-
-  <dd:boAttributeRef id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
+  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" />
+  <dd:boAttributeRef id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl"/>
   	
 
   <bean id="Account-chartOfAccounts.codeAndDescription" parent="Account-chartOfAccounts.codeAndDescription-parentBean"/>
@@ -178,16 +175,8 @@
 
   <dd:boAttributeRef id="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription" attributeName="endowmentIncomeChartOfAccounts.codeAndDescription" label="Endowment Chart of Accounts Code" shortLabel="Endowment Chart Code"/>
   
-  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
-
-  <dd:boAttribute id="Account-accountNumber-parentBean" abstract="true" attributeName="accountNumber" forceUppercase="true" label="Account Number" shortLabel="Account Number" required="true" maxLength="7">
-  	  <dd:text size="10"/>
-      <dd:validationPattern parent="AlphaNumericValidationPattern">
-        <dd:property name="exactLength" value="7"/>        
-      </dd:validationPattern>
-  </dd:boAttribute>
+  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
+  <bean id="Account-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
   
   <bean id="Account-accountName" parent="Account-accountName-parentBean"/>
   <dd:boAttribute id="Account-accountName-parentBean" abstract="true" attributeName="accountName" label="Account Name" shortLabel="AcctName" forceUppercase="false" maxLength="40" required="true">
@@ -215,7 +204,7 @@
   </dd:boAttributeRef>
 
   <bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean"/>
-  <dd:boAttributeRef id="Account-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode" shortLabel="SUbFundGrpCd"/>
+  <dd:boAttributeRef id="Account-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode" shortLabel="SubFundGrpCd"/>
 
   <bean id="Account-subFundGroup.codeAndDescription" parent="Account-subFundGroup.codeAndDescription-parentBean"/>
 
@@ -254,15 +243,15 @@
     <property name="label" value="Account Restricted Status Date"/>
     <property name="shortLabel" value="RstrcStatDt"/>
   </bean>
-  <bean id="Account-accountCityName" parent="Account-accountCityName-parentBean"/>
 
+  <bean id="Account-accountCityName" parent="Account-accountCityName-parentBean"/>
   <bean id="Account-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountCityName"/>
     <property name="label" value="Account City Name"/>
     <property name="shortLabel" value="CityName"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -289,7 +278,7 @@
     <property name="shortLabel" value="StreetAddr"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -309,14 +298,11 @@
   <dd:boAttributeRef id="Account-postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-postalCode" attributeName="postalZipCode.postalCode" label="Account Postal Code" shortLabel="ZipCode"/>
   <bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean"/>
 
-  <bean id="Account-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="reportsToChartOfAccountsCode"/>
     <property name="label" value="Fringe Benefit Chart Of Accounts Code"/>
     <property name="shortLabel" value="FringeChart"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-reportsToAccountNumber" parent="Account-reportsToAccountNumber-parentBean"/>
 
@@ -333,7 +319,7 @@
     <property name="label" value="Account Create Date"/>
     <property name="shortLabel" value="CreateDate"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="Account-accountEffectiveDate" parent="Account-accountEffectiveDate-parentBean"/>
@@ -353,14 +339,11 @@
   </bean>
   <bean id="Account-continuationFinChrtOfAcctCd" parent="Account-continuationFinChrtOfAcctCd-parentBean"/>
 
-  <bean id="Account-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="continuationFinChrtOfAcctCd"/>
     <property name="label" value="Continuation Chart Of Accounts Code"/>
     <property name="shortLabel" value="ContChartCd"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-continuationAccountNumber" parent="Account-continuationAccountNumber-parentBean"/>
 
@@ -373,14 +356,11 @@
   
   <bean id="Account-endowmentIncomeAcctFinCoaCd" parent="Account-endowmentIncomeAcctFinCoaCd-parentBean"/>
 
-  <bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="endowmentIncomeAcctFinCoaCd"/>
     <property name="label" value="Endowment Chart Of Accounts Code"/>
     <property name="shortLabel" value="EndowChart"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-endowmentIncomeAccountNumber" parent="Account-endowmentIncomeAccountNumber-parentBean"/>
 
@@ -392,14 +372,11 @@
   </bean>
   <bean id="Account-contractControlFinCoaCode" parent="Account-contractControlFinCoaCode-parentBean"/>
 
-  <bean id="Account-contractControlFinCoaCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-contractControlFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="contractControlFinCoaCode"/>
     <property name="label" value="Contract Control Chart of Accounts Code"/>
     <property name="shortLabel" value="CntrctChart"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-contractControlAccountNumber" parent="Account-contractControlAccountNumber-parentBean"/>
 
@@ -411,14 +388,11 @@
   </bean>
   <bean id="Account-incomeStreamFinancialCoaCode" parent="Account-incomeStreamFinancialCoaCode-parentBean"/>
 
-  <bean id="Account-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="incomeStreamFinancialCoaCode"/>
     <property name="label" value="Income Stream Chart Of Accounts Code"/>
     <property name="shortLabel" value="IncStrChart"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-incomeStreamAccountNumber" parent="Account-incomeStreamAccountNumber-parentBean"/>
 
@@ -444,7 +418,7 @@
     <property name="shortLabel" value="Account Indirect Cost Recovery Type Code"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="Account-acctCustomIndCstRcvyExclCd" parent="Account-acctCustomIndCstRcvyExclCd-parentBean"/>
@@ -463,7 +437,7 @@
     <property name="shortLabel" value="Indr Cost Rate"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -472,14 +446,11 @@
   </bean>
   <bean id="Account-indirectCostRcvyFinCoaCode" parent="Account-indirectCostRcvyFinCoaCode-parentBean"/>
 
-  <bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="indirectCostRcvyFinCoaCode"/>
     <property name="label" value="Indirect Cost Recovery Chart Of Accounts Code"/>
     <property name="shortLabel" value="IndCstChart"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="Account-indirectCostRecoveryAcctNbr" parent="Account-indirectCostRecoveryAcctNbr-parentBean"/>
 
@@ -594,7 +565,7 @@
     <property name="label" value="Fiscal Officer Unvl ID"/>
     <property name="shortLabel" value="FiscOffId"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName"/>
   </bean>
@@ -629,7 +600,7 @@
     <property name="label" value="Supervisor Unvl ID"/>
     <property name="shortLabel" value="SprvsrId"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName"/>
   </bean>
@@ -669,7 +640,7 @@
     <property name="label" value="Manager Unvl ID"/>
     <property name="shortLabel" value="MgrId"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="accountManagerUser.principalName"/>
   </bean>
@@ -758,7 +729,7 @@
     <property name="shortLabel" value="Responsibility Id"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder" p:includeKeyInLabel="false"/>

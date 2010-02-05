@@ -107,7 +107,7 @@
 
 	<bean id="DataMappingFieldDefinition-componentClass-parentBean" abstract="true" parent="BusinessObjectComponent-componentClass">
 		<property name="control">
-			<bean parent="HiddenControlDefinition"/>
+			<ref bean="HiddenControl" />
 		</property>
 	</bean>
 

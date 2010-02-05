@@ -79,7 +79,7 @@
     <property name="name" value="chartOfAccounts.codeAndDescription"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     
@@ -111,7 +111,7 @@
     <property name="shortLabel" value="Delete Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
@@ -128,7 +128,7 @@
     <property name="shortLabel" value="CSF FTE"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -145,7 +145,7 @@
     <property name="shortLabel" value="CSF Funding Status"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
@@ -162,7 +162,7 @@
     <property name="shortLabel" value="Percent Time"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -178,7 +178,7 @@
     <property name="label" value="Employee ID"/>
     <property name="shortLabel" value="Employee ID"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>
@@ -206,10 +206,10 @@
     <property name="shortLabel" value="Position Number"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -228,7 +228,7 @@
     <property name="shortLabel" value="Year"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>

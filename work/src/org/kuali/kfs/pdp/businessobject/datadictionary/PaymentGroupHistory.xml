@@ -111,7 +111,7 @@
     <property name="shortLabel" value="Requisition Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -167,7 +167,7 @@
     <property name="shortLabel" value="Payment ID"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -268,7 +268,7 @@
     <property name="shortLabel" value="Change Note Text"/>
     <property name="maxLength" value="250"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

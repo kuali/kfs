@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -43,8 +42,8 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
 import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
+import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
@@ -67,21 +66,15 @@ import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.actions.CompleteAction;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-import org.springframework.dao.DataAccessException;
 
 
 public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GenesisDao {
@@ -162,7 +155,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private WorkflowDocumentService workflowDocumentService;
     private DateTimeService dateTimeService;
     private DocumentDao documentDao;
-    private RouteHeaderService routeHeaderService = null;
     private KualiModuleService kualiModuleService;
     private BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;
 
@@ -190,16 +182,15 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public boolean getBudgetConstructionControlFlag(Integer universityFiscalYear, String FlagID) {
         /*  return true if a flag is on, false if it is not */
-        Boolean Result;
+        Boolean result;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, FlagID);
         String[] queryAttr = { KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(FiscalYearFunctionControl.class, queryAttr, criteriaID, true);
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        Result = (Boolean) ((Object[]) Results.next())[0];
-        return Result.booleanValue();
-
+        result = (Boolean) ((Object[]) Results.next())[0];
+        return result;
     }
 
 
@@ -1831,8 +1822,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, Chart);
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, ObjectCode);
         QueryByCriteria queryID = new QueryByCriteria(ObjectCode.class, criteriaID);
-        Integer Result = getPersistenceBrokerTemplate().getCount(queryID);
-        return (!Result.equals(0));
+        Integer result = getPersistenceBrokerTemplate().getCount(queryID);
+        return (!result.equals(0));
     }
 
     protected void readBaseYearInactiveObjects(Integer BaseYear) {
@@ -1842,9 +1833,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         baseYearInactiveObjects = new HashMap<String, String[]>(hashObjectSize(ObjectCode.class, criteriaID));
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_CODE };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(ObjectCode.class, queryAttr, criteriaID);
-        Iterator Result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        while (Result.hasNext()) {
-            Object[] resultRow = (Object[]) Result.next();
+        Iterator result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (result.hasNext()) {
+            Object[] resultRow = (Object[]) result.next();
             String[] hashMapValue = new String[2];
             hashMapValue[0] = (String) resultRow[0];
             hashMapValue[1] = (String) resultRow[1];
@@ -1863,9 +1854,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         gLBBObjects = new HashMap<String, String[]>(hashObjectSize(Balance.class, criteriaID));
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.OBJECT_CODE };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
-        Iterator Result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        while (Result.hasNext()) {
-            Object[] resultRow = (Object[]) Result.next();
+        Iterator result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (result.hasNext()) {
+            Object[] resultRow = (Object[]) result.next();
             String[] hashMapValue = new String[2];
             hashMapValue[0] = (String) resultRow[0];
             hashMapValue[1] = (String) resultRow[1];
@@ -2732,10 +2723,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
-            this.routeHeaderService = routeHeaderService;
     }
 
     /**

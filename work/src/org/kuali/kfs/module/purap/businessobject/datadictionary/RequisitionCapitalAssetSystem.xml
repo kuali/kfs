@@ -64,7 +64,7 @@
     <property name="shortLabel" value="Receiving Outside of Current Fiscal Year"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
@@ -74,7 +74,7 @@
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetNoteText" p:forceUppercase="false" p:label="Capital Asset Note Text" p:shortLabel="Capital Asset Note Text" p:maxLength="800" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="4" p:cols="60"/>
@@ -88,7 +88,7 @@
     <property name="shortLabel" value="Capital Asset System Description"/>
     <property name="maxLength" value="4000"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="4" p:cols="60"/>
@@ -103,7 +103,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -126,10 +126,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   
@@ -141,7 +141,7 @@
     <property name="shortLabel" value="How Many Assets?"/>
     <property name="maxLength" value="11"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>

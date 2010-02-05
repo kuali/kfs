@@ -40,19 +40,19 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This represents an accounting line group in renderable state
  */
 public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
-    private AccountingLineGroupDefinition groupDefinition;
-    private JspFragment importLineOverride;
-    private String collectionPropertyName;
-    private List<RenderableAccountingLineContainer> containers;
-    private AccountingDocument accountingDocument;
-    private int cellCount = 0;
-    private int arbitrarilyHighIndex;
-    private Map<String, Object> displayedErrors;
-    private Map<String, Object> displayedWarnings;
-    private Map<String, Object> displayedInfo;
-    private boolean canEdit;
-    private String collectionItemPropertyName;
-    private List errorKeys;
+    protected AccountingLineGroupDefinition groupDefinition;
+    protected JspFragment importLineOverride;
+    protected String collectionPropertyName;
+    protected List<RenderableAccountingLineContainer> containers;
+    protected AccountingDocument accountingDocument;
+    protected int cellCount = 0;
+    protected int arbitrarilyHighIndex;
+    protected Map<String, Object> displayedErrors;
+    protected Map<String, Object> displayedWarnings;
+    protected Map<String, Object> displayedInfo;
+    protected boolean canEdit;
+    protected String collectionItemPropertyName;
+    protected List errorKeys;
     
     /**
      * Constructs a DefaultAccountingLineGroupImpl

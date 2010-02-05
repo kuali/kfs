@@ -43,7 +43,7 @@
     <property name="shortLabel" value="* Reference Document Number"/>
     <property name="required" value="false"/>      
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
   </bean>
   <bean id="CashControlDocument-customerPaymentMediumCode" parent="CashControlDocument-customerPaymentMediumCode-parentBean"/>

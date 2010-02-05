@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
@@ -31,7 +33,6 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
-import org.kuali.kfs.module.purap.fixture.DeliveryRequiredDateFixture;
 import org.kuali.kfs.module.purap.fixture.ItemFieldsFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
@@ -47,8 +48,6 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 
@@ -434,12 +433,13 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);   
         
-        PurchasingCapitalAssetValidation validation = (PurchasingCapitalAssetValidation)validations.get("Purchasing-capitalAssetValidation-test");                
+        PurchasingCapitalAssetValidation validation = (PurchasingCapitalAssetValidation)validations.get("Purchasing-capitalAssetValidation-test");
         assertTrue( validation.validate(new AttributedDocumentEventBase("", "", requisition)) );                
         
         //BA is one of the chart code that requires some fields (e.g. comments) to be filled in.
-        requisition.setChartOfAccountsCode("BA");                       
-        assertFalse( validation.validate(new AttributedDocumentEventBase("", "", requisition)) );                
+        PurchasingDocument purchasingDocument = (PurchasingDocument)requisition;
+        purchasingDocument.getItems().get(0).getSourceAccountingLines().get(0).setChartOfAccountsCode("BA");        
+        assertFalse( "Chart BA should have required comments", validation.validate(new AttributedDocumentEventBase("", "", requisition)) );                
     }
 }
 

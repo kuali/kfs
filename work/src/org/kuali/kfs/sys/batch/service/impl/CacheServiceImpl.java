@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -67,6 +68,7 @@ public class CacheServiceImpl implements CacheService {
 
         roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
+        KEWServiceLocator.getCacheAdministrator().flushGroup("ResponsibilityImpl");
     }
 
     /**

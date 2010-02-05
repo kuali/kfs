@@ -80,7 +80,7 @@
     <property name="shortLabel" value="Dependencies"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     
@@ -94,7 +94,7 @@
     <property name="shortLabel" value="Steps"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     
@@ -108,7 +108,7 @@
     <property name="shortLabel" value="Run Time"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
     
     

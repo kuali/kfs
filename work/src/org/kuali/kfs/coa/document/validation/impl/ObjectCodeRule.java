@@ -290,14 +290,13 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * @param year
      * @return true if this is a valid year
      */
+    /*
+     *  KFSMI 5058 revised to return true value 
+     * 
+     */
+    @Deprecated
     public boolean isValidYear(Integer year) {
-        if (year == null)
-            return false;
-        int enteredYear = year.intValue();
-        int currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue();
-        if ((enteredYear - currentYear) == 0 || (enteredYear - currentYear) == 1)
-            return true;
-        return false;
+        return true;
     }
 
 

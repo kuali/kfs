@@ -62,37 +62,32 @@
     <property name="maxLength" value="100"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 
   <bean id="OffsetDefinition-universityFiscalYear" parent="OffsetDefinition-universityFiscalYear-parentBean"/>
-
   <bean id="OffsetDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear"/>
     <property name="required" value="true"/>
     <property name="forceUppercase" value="true"/>
   </bean>
+
   <bean id="OffsetDefinition-chartOfAccountsCode" parent="OffsetDefinition-chartOfAccountsCode-parentBean"/>
+  <bean id="OffsetDefinition-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
 
-  <bean id="OffsetDefinition-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="OffsetDefinition-financialObjectCode" parent="OffsetDefinition-financialObjectCode-parentBean"/>
+  <bean id="OffsetDefinition-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
 
-  <bean id="OffsetDefinition-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-  </bean>
   <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean"/>
-
   <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean"/>
 
+  <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean"/>
   <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode"/>
-    <property name="forceUppercase" value="true"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

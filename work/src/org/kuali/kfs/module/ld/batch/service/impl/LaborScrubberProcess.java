@@ -57,7 +57,7 @@ import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.batch.LaborScrubberSortStep.LaborScrubberSortComparator;
+import org.kuali.kfs.module.ld.batch.LaborScrubberSortComparator;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
@@ -420,6 +420,7 @@ public class LaborScrubberProcess {
 
                         // For Labor Scrubber
                         boolean laborIndicator = true;
+                        laborLedgerSummaryReport.summarizeEntry(unscrubbedEntry);
 
                         try {
                             tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator, laborAccountingCycleCachingService));
@@ -482,8 +483,7 @@ public class LaborScrubberProcess {
                             this.laborMainReportWriterService.writeError(unscrubbedEntry, transactionErrors);
                         }
 
-                        laborLedgerSummaryReport.summarizeEntry(unscrubbedEntry);
-
+  
                         if (saveValidTransaction) {
                             scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                             createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);

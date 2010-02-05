@@ -151,7 +151,12 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAllocate(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      java.util.List, org.kuali.kfs.module.cab.document.web.PurApLineSession, java.util.List)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs, boolean initiateFromBatch) {
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, 
+            List<PurchasingAccountsPayableItemAsset> allocateTargetLines, 
+            List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, 
+            List<PurchasingAccountsPayableDocument> purApDocs, 
+            boolean initiateFromBatch) {
+        
         boolean allocatedIndicator = true;
         // indicator of additional charge allocation
         boolean allocateAddlChrgIndicator = allocateSourceLine.isAdditionalChargeNonTradeInIndicator() | allocateSourceLine.isTradeInAllowance();
@@ -160,6 +165,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         // For each account in the source item, allocate it to the target items.
         for (PurchasingAccountsPayableLineAssetAccount sourceAccount : allocateSourceLine.getPurchasingAccountsPayableLineAssetAccounts()) {
+            sourceAccount.refresh();           
             // Get allocate to target account list
             List<PurchasingAccountsPayableLineAssetAccount> targetAccounts = getAllocateTargetAccounts(sourceAccount, allocateTargetLines, allocateAddlChrgIndicator);
             if (!targetAccounts.isEmpty()) {
@@ -339,7 +345,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
             // Code below mainly handle grouping account lines if they're from the same GL.
             PurchasingAccountsPayableLineAssetAccount newAccount = getMatchingFromAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier(), targetAccount);
-            if (newAccount != null) {
+            if (newAccount != null) {               
                 // If exists the same account line and GL entry, update its itemAccountTotalAmount. This account line could be other
                 // than targetAccount, but must belong to the same line item.
                 updateAccountAmount(additionalAmount, newAccount);
@@ -444,15 +450,18 @@ public class PurApLineServiceImpl implements PurApLineService {
         // object code. If no matching, select all account lines. For line item to line items, select all account lines as target.
         for (PurchasingAccountsPayableItemAsset item : allocateTargetLines) {
             for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                //KFSMI-5122: We need to refresh account general ledger entry so that the gl entries become visible as candidateEntry
+                account.refreshReferenceObject("generalLedgerEntry");
                 candidateEntry = account.getGeneralLedgerEntry();
-
+                
                 if (ObjectUtils.isNotNull(candidateEntry)) {
-                    allAccounts.add(account);
                     // For additional charge, select matching account when account number and object code both match.
                     if (addtionalCharge && StringUtils.equalsIgnoreCase(sourceEntry.getChartOfAccountsCode(), candidateEntry.getChartOfAccountsCode()) && StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) && StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
                         matchingAccounts.add(account);
                     }
                 }
+                
+                allAccounts.add(account);
             }
         }
 
@@ -1079,18 +1088,17 @@ public class PurApLineServiceImpl implements PurApLineService {
         boolean existTradeInIndicator = isTradeInIndicatorExistInAllLines(purApDocs);
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             boolean existAdditionalCharge = false;
-            boolean existItemAsset = false;
             // check if within the same document, exist both additional charge lines and normal line items.
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 existAdditionalCharge |= item.isAdditionalChargeNonTradeInIndicator();
-                // existItemAsset |= !item.isAdditionalChargeNonTradeInIndicator() & !item.isTradeInAllowance();
             }
-
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 // when the indicator is not set yet...
                 if (!item.isCreateAssetIndicator() || !item.isApplyPaymentIndicator()) {
                     // If the lines on the purchase order are all additional charge lines, or trade-in allowance then we can apply
                     // payment, or create asset.
+                    existTradeInIndicator = item.isItemAssignedToTradeInIndicator();
+                    
                     if (item.isAdditionalChargeNonTradeInIndicator() || (item.isTradeInAllowance() && !existTradeInIndicator)) {
                         item.setCreateAssetIndicator(true);
                         item.setApplyPaymentIndicator(true);

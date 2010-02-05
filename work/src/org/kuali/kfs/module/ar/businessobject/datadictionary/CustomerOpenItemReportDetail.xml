@@ -45,7 +45,7 @@
     <property name="shortLabel" value="Doc Nbr"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
 </bean>
 

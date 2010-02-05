@@ -41,43 +41,24 @@
 
 
   <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean"/>
+  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
 
-  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="IndirectCostRecoveryExclusionAccount-accountNumber" parent="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean"/>
-
-  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Number"/>
-    <property name="shortLabel" value="Acct"/>
-    <property name="maxLength" value="7"/>
+  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
   </bean>
+
   <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean"/>
-
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Object Code"/>
-    <property name="shortLabel" value="Object"/>
-    <property name="maxLength" value="4"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
     </property>
   </bean>
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean"/>
 
+  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean"/>
   <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true"/>
     <property name="name" value="financialObjectChartOfAccountCode"/>
     <property name="label" value="Object Chart"/>
     <property name="shortLabel" value="Object Chart"/>

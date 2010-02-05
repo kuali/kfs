@@ -23,6 +23,7 @@ import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentR
 import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
 import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
 
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
@@ -61,6 +62,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -325,7 +327,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         try {
             // get new document from doc service
-            pcardDocument = (ProcurementCardDocument) documentService.getNewDocument(ProcurementCardDocument.class);
+            pcardDocument = (ProcurementCardDocument) SpringContext.getBean(DocumentService.class).getNewDocument(PROCUREMENT_CARD);
             if (ObjectUtils.isNotNull(pcardDocument.getCapitalAssetInformation())) {
                 pcardDocument.getCapitalAssetInformation().setDocumentNumber(pcardDocument.getDocumentNumber());
             }

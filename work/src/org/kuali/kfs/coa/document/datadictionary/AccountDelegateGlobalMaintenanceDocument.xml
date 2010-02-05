@@ -197,8 +197,8 @@
    	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
-    			<ref bean="RoutingAttribute-organizationCode"/>
+		        <ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -211,7 +211,7 @@
 	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
+		        <ref bean="RoutingAttribute-Chart"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -224,8 +224,8 @@
     <bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
-		        <ref bean="RoutingAttribute-accountNumber" />
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account" />
     		</list>
     	</property>
     	<property name="documentValuePathGroups">

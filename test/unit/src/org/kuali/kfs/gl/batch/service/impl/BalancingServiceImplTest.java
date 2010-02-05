@@ -37,6 +37,7 @@ import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
@@ -196,11 +197,11 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
         
         try {
             // Run the poster
-            Step posterEntriesStep = SpringContext.getBean(PosterEntriesStep.class);
+            Step posterEntriesStep = BatchSpringContext.getStep("posterEntriesStep");
             assertTrue("posterEntriesStep should have succeeded", posterEntriesStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
             
             // Rename the file because that's what happens before the balancing job runs
-            Step fileRenameStep = SpringContext.getBean(FileRenameStep.class);
+            Step fileRenameStep = BatchSpringContext.getStep("fileRenameStep");
             assertTrue("fileRenameStep should have succeeded", fileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
         }
         catch (InterruptedException e) {

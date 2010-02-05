@@ -67,7 +67,7 @@
     <property name="shortLabel" value="Pay Type"/>
 	<property name="maxLength" value="50"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>  
   
@@ -145,7 +145,7 @@
     <property name="shortLabel" value="Address"/>
 	<property name="maxLength" value="100"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   

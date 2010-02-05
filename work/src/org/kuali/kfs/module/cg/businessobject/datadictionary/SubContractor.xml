@@ -65,7 +65,7 @@
     <property name="shortLabel" value="Nbr"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
@@ -78,7 +78,7 @@
     <property name="label" value="Subcontractor Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -93,7 +93,7 @@
     <property name="shortLabel" value="Address1"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -108,7 +108,7 @@
     <property name="shortLabel" value="Address2"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="20"/>
@@ -122,7 +122,7 @@
     <property name="shortLabel" value="City"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

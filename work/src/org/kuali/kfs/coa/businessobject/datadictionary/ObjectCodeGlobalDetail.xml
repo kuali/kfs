@@ -9,7 +9,7 @@
       <list>
         <ref bean="ObjectCodeGlobalDetail-universityFiscalYear"/>
         <ref bean="ObjectCodeGlobalDetail-chartOfAccountsCode"/>
-        <ref bean="ObjectCodeGlobalDetail-newCollectionRecord"/>
+        <bean parent="GenericAttributes-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -18,24 +18,12 @@
 
 
   <bean id="ObjectCodeGlobalDetail-universityFiscalYear" parent="ObjectCodeGlobalDetail-universityFiscalYear-parentBean"/>
-
-  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="label" value="Fiscal Year"/>
-    <property name="shortLabel" value="FY"/>
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="ObjectCodeGlobal-universityFiscalYear">
     <property name="required" value="false"/>
-    <property name="forceUppercase" value="true"/>
   </bean>
+
   <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode" parent="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean"/>
-
-  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCodeGlobal-chartOfAccountsCode">
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-  <bean id="ObjectCodeGlobalDetail-newCollectionRecord" parent="ObjectCodeGlobalDetail-newCollectionRecord-parentBean"/>
-
-  <bean id="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 </beans>

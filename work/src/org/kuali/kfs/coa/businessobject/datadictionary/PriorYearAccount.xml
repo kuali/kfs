@@ -149,462 +149,163 @@
 
 
   <bean id="PriorYearAccount-accountCityName" parent="PriorYearAccount-accountCityName-parentBean"/>
-
-  <bean id="PriorYearAccount-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountCityName"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account City Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="25"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="27"/>
-    </property>
+  <bean id="PriorYearAccount-accountCityName-parentBean" abstract="true" parent="Account-accountCityName">  	
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PriorYearAccount-active" parent="PriorYearAccount-active-parentBean"/>
+  
+  <bean id="PriorYearAccount-active" parent="Account-active" />
 
-  <bean id="PriorYearAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-    <property name="label" value="Account Closed Indicator"/>
-  </bean>
   <bean id="PriorYearAccount-accountCreateDate" parent="PriorYearAccount-accountCreateDate-parentBean"/>
-
-  <bean id="PriorYearAccount-accountCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountCreateDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Create Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-accountCreateDate-parentBean" abstract="true" parent="Account-accountCreateDate">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountEffectiveDate" parent="PriorYearAccount-accountEffectiveDate-parentBean"/>
-
-  <bean id="PriorYearAccount-accountEffectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountEffectiveDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Effective Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-accountEffectiveDate-parentBean" abstract="true" parent="Account-accountEffectiveDate">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountExpirationDate" parent="PriorYearAccount-accountExpirationDate-parentBean"/>
-
-  <bean id="PriorYearAccount-accountExpirationDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpirationDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Expiration Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-accountExpirationDate-parentBean" abstract="true" parent="Account-accountExpirationDate">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountFiscalOfficerSystemIdentifier" parent="PriorYearAccount-accountFiscalOfficerSystemIdentifier-parentBean"/>
-
-  <bean id="PriorYearAccount-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountFiscalOfficerSystemIdentifier"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Fiscal Officer System Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
+  <bean id="PriorYearAccount-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="Account-accountFiscalOfficerSystemIdentifier">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountInFinancialProcessingIndicator" parent="PriorYearAccount-accountInFinancialProcessingIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountInFinancialProcessingIndicator"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account In Financial Processing Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="Account-accountInFinancialProcessingIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountManagerSystemIdentifier" parent="PriorYearAccount-accountManagerSystemIdentifier-parentBean"/>
-
-  <bean id="PriorYearAccount-accountManagerSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountManagerSystemIdentifier"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Manager System Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
+  <bean id="PriorYearAccount-accountManagerSystemIdentifier-parentBean" abstract="true" parent="Account-accountManagerSystemIdentifier">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountName" parent="PriorYearAccount-accountName-parentBean"/>
-
-  <bean id="PriorYearAccount-accountName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountName"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="42"/>
-    </property>
+  <bean id="PriorYearAccount-accountName-parentBean" abstract="true" parent="Account-accountName">
+    <property name="required" value="false"/>
   </bean>
+  
   <bean id="PriorYearAccount-accountNumber" parent="PriorYearAccount-accountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountOffCampusIndicator" parent="PriorYearAccount-accountOffCampusIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-accountOffCampusIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountOffCampusIndicator"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Off Campus Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-accountOffCampusIndicator-parentBean" abstract="true" parent="Account-accountOffCampusIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountPhysicalCampusCode" parent="PriorYearAccount-accountPhysicalCampusCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountPhysicalCampusCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Physical Campus Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-accountPhysicalCampusCode-parentBean" abstract="true" parent="Account-accountPhysicalCampusCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountRestrictedStatusCode" parent="PriorYearAccount-accountRestrictedStatusCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountRestrictedStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountRestrictedStatusCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Restricted Status Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
+  <bean id="PriorYearAccount-accountRestrictedStatusCode-parentBean" abstract="true" parent="Account-accountRestrictedStatusCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountRestrictedStatusDate" parent="PriorYearAccount-accountRestrictedStatusDate-parentBean"/>
-
-  <bean id="PriorYearAccount-accountRestrictedStatusDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountRestrictedStatusDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Restricted Status Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-accountRestrictedStatusDate-parentBean" abstract="true" parent="Account-accountRestrictedStatusDate">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountStateCode" parent="PriorYearAccount-accountStateCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
-    <property name="name" value="accountStateCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account State Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-accountStateCode-parentBean" abstract="true" parent="Account-accountStateCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountStreetAddress" parent="PriorYearAccount-accountStreetAddress-parentBean"/>
-
-  <bean id="PriorYearAccount-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountStreetAddress"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Street Address"/>
-    <property name="shortLabel" value="Address"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="32"/>
-    </property>
+  <bean id="PriorYearAccount-accountStreetAddress-parentBean" abstract="true" parent="Account-accountStreetAddress">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountSufficientFundsCode" parent="PriorYearAccount-accountSufficientFundsCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountSufficientFundsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountSufficientFundsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Sufficient Funds Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
+  <bean id="PriorYearAccount-accountSufficientFundsCode-parentBean" abstract="true" parent="Account-accountSufficientFundsCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountTypeCode" parent="PriorYearAccount-accountTypeCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountTypeCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Type Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-accountTypeCode-parentBean" abstract="true" parent="Account-accountTypeCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountZipCode" parent="PriorYearAccount-accountZipCode-parentBean"/>
-
-  <bean id="PriorYearAccount-accountZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
-    <property name="name" value="accountZipCode"/>
-    <property name="label" value="Account Zip Code"/>
-    <property name="shortLabel" value="Code"/>
+  <bean id="PriorYearAccount-accountZipCode-parentBean" abstract="true" parent="Account-accountZipCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountsFringesBnftIndicator" parent="PriorYearAccount-accountsFringesBnftIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-accountsFringesBnftIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountsFringesBnftIndicator"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Accounts Fringes Bnft Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-accountsFringesBnftIndicator-parentBean" abstract="true" parent="Account-accountsFringesBnftIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountsSupervisorySystemsIdentifier" parent="PriorYearAccount-accountsSupervisorySystemsIdentifier-parentBean"/>
-
-  <bean id="PriorYearAccount-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountsSupervisorySystemsIdentifier"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Accounts Supervisory Systems Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
+  <bean id="PriorYearAccount-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="Account-accountsSupervisorySystemsIdentifier">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-acctCustomIndCstRcvyExclCd" parent="PriorYearAccount-acctCustomIndCstRcvyExclCd-parentBean"/>
-
-  <bean id="PriorYearAccount-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acctCustomIndCstRcvyExclCd"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Acct Custom Ind Cst Rcvy Excl Cd"/>
-    <property name="shortLabel" value="Cd"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
+  <bean id="PriorYearAccount-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="Account-acctCustomIndCstRcvyExclCd">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PriorYearAccount-acctIndirectCostRcvyTypeCd" parent="PriorYearAccount-acctIndirectCostRcvyTypeCd-parentBean"/>
 
-  <bean id="PriorYearAccount-acctIndirectCostRcvyTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acctIndirectCostRcvyTypeCd"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Acct Indirect Cost Rcvy Type Cd"/>
-    <property name="shortLabel" value="Cd"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-acctIndirectCostRcvyTypeCd" parent="PriorYearAccount-acctIndirectCostRcvyTypeCd-parentBean"/>
+  <bean id="PriorYearAccount-acctIndirectCostRcvyTypeCd-parentBean" abstract="true" parent="Account-acctIndirectCostRcvyTypeCd">
+	<property name="required" value="false"/>
   </bean>
   
   <bean id="PriorYearAccount-budgetRecordingLevelCode" parent="PriorYearAccount-budgetRecordingLevelCode-parentBean"/>
-
-  <bean id="PriorYearAccount-budgetRecordingLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetRecordingLevelCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Budget Recording Level Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
+  <bean id="PriorYearAccount-budgetRecordingLevelCode-parentBean" abstract="true" parent="Account-budgetRecordingLevelCode">
+	<property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-accountCfdaNumber" parent="PriorYearAccount-accountCfdaNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-accountCfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountCfdaNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Catalog of Federal Domestic Assistance Number"/>
-    <property name="shortLabel" value="Nbr"/>
-    <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="8"/>
-    </property>
+  <bean id="PriorYearAccount-accountCfdaNumber-parentBean" abstract="true" parent="Account-accountCfdaNumber">
+	<property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-chartOfAccountsCode" parent="PriorYearAccount-chartOfAccountsCode-parentBean"/>
-
-  <bean id="PriorYearAccount-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-continuationAccountNumber" parent="PriorYearAccount-continuationAccountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-continuationAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="continuationAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Continuation Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-continuationAccountNumber-parentBean" abstract="true" parent="Account-continuationAccountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-continuationFinChrtOfAcctCd" parent="PriorYearAccount-continuationFinChrtOfAcctCd-parentBean"/>
-
-  <bean id="PriorYearAccount-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="continuationFinChrtOfAcctCd"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Continuation Fin Chrt Of Acct Cd"/>
-    <property name="shortLabel" value="Cd"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="Account-continuationFinChrtOfAcctCd">
+    <property name="required" value="false"/>
   </bean>
+  
   <bean id="PriorYearAccount-contractControlAccountNumber" parent="PriorYearAccount-contractControlAccountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-contractControlAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractControlAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Contract Control Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-contractControlAccountNumber-parentBean" abstract="true" parent="Account-contractControlAccountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-contractControlFinCoaCode" parent="PriorYearAccount-contractControlFinCoaCode-parentBean"/>
-
-  <bean id="PriorYearAccount-contractControlFinCoaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractControlFinCoaCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Contract Control Fin Coa Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-contractControlFinCoaCode-parentBean" abstract="true" parent="Account-contractControlFinCoaCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-endowmentIncomeAccountNumber" parent="PriorYearAccount-endowmentIncomeAccountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-endowmentIncomeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="endowmentIncomeAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Endowment Income Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-endowmentIncomeAccountNumber-parentBean" abstract="true" parent="Account-endowmentIncomeAccountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-endowmentIncomeAcctFinCoaCd" parent="PriorYearAccount-endowmentIncomeAcctFinCoaCd-parentBean"/>
-
-  <bean id="PriorYearAccount-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="endowmentIncomeAcctFinCoaCd"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Endowment Income Acct Fin Coa Cd"/>
-    <property name="shortLabel" value="Cd"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="Account-endowmentIncomeAcctFinCoaCd">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PriorYearAccount-expired" parent="PriorYearAccount-expired-parentBean"/>
 
+  <bean id="PriorYearAccount-expired" parent="PriorYearAccount-expired-parentBean"/>
   <bean id="PriorYearAccount-expired-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="expired"/>
     <property name="forceUppercase" value="true"/>
@@ -615,72 +316,32 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
+
   <bean id="PriorYearAccount-extrnlFinEncumSufficntFndIndicator" parent="PriorYearAccount-extrnlFinEncumSufficntFndIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="extrnlFinEncumSufficntFndIndicator"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Extrnl Fin Encum Sufficnt Fnd Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="Account-extrnlFinEncumSufficntFndIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-finPreencumSufficientFundIndicator" parent="PriorYearAccount-finPreencumSufficientFundIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finPreencumSufficientFundIndicator"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Fin Preencum Sufficient Fund Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="Account-finPreencumSufficientFundIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-financialHigherEdFunctionCd" parent="PriorYearAccount-financialHigherEdFunctionCd-parentBean"/>
-
-  <bean id="PriorYearAccount-financialHigherEdFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialHigherEdFunctionCd"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Higher Education Function Code"/>
-    <property name="shortLabel" value="Higher Ed Func Cd"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+  <bean id="PriorYearAccount-financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-financialIcrSeriesIdentifier" parent="PriorYearAccount-financialIcrSeriesIdentifier-parentBean"/>
-
-  <bean id="PriorYearAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialIcrSeriesIdentifier"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Financial Icr Series Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
+  <bean id="PriorYearAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="Account-financialIcrSeriesIdentifier">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-financialObjectivePrsctrlIndicator" parent="PriorYearAccount-financialObjectivePrsctrlIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectivePrsctrlIndicator"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Financial Objective Prsctrl Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="Account-financialObjectivePrsctrlIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-forContractsAndGrants" parent="PriorYearAccount-forContractsAndGrants-parentBean"/>
 
   <bean id="PriorYearAccount-forContractsAndGrants-parentBean" abstract="true" parent="AttributeDefinition">
@@ -693,153 +354,58 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
+
   <bean id="PriorYearAccount-incomeStreamAccountNumber" parent="PriorYearAccount-incomeStreamAccountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-incomeStreamAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeStreamAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Income Stream Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-incomeStreamAccountNumber-parentBean" abstract="true" parent="Account-incomeStreamAccountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-incomeStreamFinancialCoaCode" parent="PriorYearAccount-incomeStreamFinancialCoaCode-parentBean"/>
-
-  <bean id="PriorYearAccount-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeStreamFinancialCoaCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Income Stream Financial Coa Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="Account-incomeStreamFinancialCoaCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-indirectCostRcvyFinCoaCode" parent="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean"/>
-
-  <bean id="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="indirectCostRcvyFinCoaCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Indirect Cost Rcvy Fin Coa Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="Account-indirectCostRcvyFinCoaCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-indirectCostRecoveryAcctNbr" parent="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean"/>
-
-  <bean id="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="indirectCostRecoveryAcctNbr"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Indirect Cost Recovery Acct Nbr"/>
-    <property name="shortLabel" value="Nbr"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="Account-indirectCostRecoveryAcctNbr">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-intrnlFinEncumSufficntFndIndicator" parent="PriorYearAccount-intrnlFinEncumSufficntFndIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-intrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="intrnlFinEncumSufficntFndIndicator"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Intrnl Fin Encum Sufficnt Fnd Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-intrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="Account-intrnlFinEncumSufficntFndIndicator">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-organizationCode" parent="PriorYearAccount-organizationCode-parentBean"/>
-
-  <bean id="PriorYearAccount-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Organization Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+  <bean id="PriorYearAccount-organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-pendingAcctSufficientFundsIndicator" parent="PriorYearAccount-pendingAcctSufficientFundsIndicator-parentBean"/>
-
-  <bean id="PriorYearAccount-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="pendingAcctSufficientFundsIndicator"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Pending Acct Sufficient Funds Indicator"/>
-    <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+  <bean id="PriorYearAccount-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="Account-pendingAcctSufficientFundsIndicator">
+    <property name="required" value="false"/>
   </bean>
+  
   <bean id="PriorYearAccount-reportsToAccountNumber" parent="PriorYearAccount-reportsToAccountNumber-parentBean"/>
-
-  <bean id="PriorYearAccount-reportsToAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportsToAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Reports To Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
+  <bean id="PriorYearAccount-reportsToAccountNumber-parentBean" abstract="true" parent="Account-reportsToAccountNumber">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="PriorYearAccount-reportsToChartOfAccountsCode" parent="PriorYearAccount-reportsToChartOfAccountsCode-parentBean"/>
-
-  <bean id="PriorYearAccount-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportsToChartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Reports To Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+  <bean id="PriorYearAccount-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Account-reportsToChartOfAccountsCode">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PriorYearAccount-subFundGroupCode" parent="PriorYearAccount-subFundGroupCode-parentBean"/>
 
-  <bean id="PriorYearAccount-subFundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subFundGroupCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Fund Group Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="8"/>
-    </property>
+  <bean id="PriorYearAccount-subFundGroupCode" parent="PriorYearAccount-subFundGroupCode-parentBean"/>
+  <bean id="PriorYearAccount-subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="required" value="false"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
-
 
   <bean id="PriorYearAccount-inquiryDefinition" parent="PriorYearAccount-inquiryDefinition-parentBean"/>
 

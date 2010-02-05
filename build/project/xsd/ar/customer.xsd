@@ -17,9 +17,11 @@
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://www.kuali.org/kfs/ar/customer"
     xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/ar/customer" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
   
 	<!--  elements -->
 	<xsd:element name="customers" type="customersType" />
@@ -27,190 +29,40 @@
 	<xsd:element name="addresses" type="addressesType" />
 	<xsd:element name="address" type="addressType" />
 	
-	<xsd:element name="customerNumber"                type="zeroToNineCharType" />
-	<xsd:element name="customerName"                  type="oneToSixtyCharType" />
-	<xsd:element name="customerParentCompanyNumber"   type="zeroToNineCharType" />
-	<xsd:element name="customerTypeCode"              type="oneToTwoCharType" />
-	<xsd:element name="customerAddressChangeDate"     type="yyyymmddDate" />
-	<xsd:element name="customerRecordAddDate"         type="yyyymmddDate" />
-	<xsd:element name="customerLastActivityDate"      type="yyyymmddDate" />
-	<xsd:element name="customerTaxTypeCode"           type="zeroToFourCharType" />
-	<xsd:element name="customerTaxNbr"                type="zeroToNineCharType" />
-	<xsd:element name="customerActiveIndicator"       type="indicatorType" />
-	<xsd:element name="customerPhoneNumber"           type="zeroToTwentyCharType" />
-	<xsd:element name="customer800PhoneNumber"        type="zeroToTwentyCharType" />
-	<xsd:element name="customerContactName"           type="zeroToFortyCharType" />
-	<xsd:element name="customerContactPhoneNumber"    type="zeroToTwentyCharType" />
-	<xsd:element name="customerFaxNumber"             type="zeroToTwentyCharType" />
-	<xsd:element name="customerBirthDate"             type="yyyymmddDate" />
-	<xsd:element name="customerTaxExemptIndicator"    type="indicatorType" />
-	<xsd:element name="customerCreditLimitAmount"     type="amountType" />
-	<xsd:element name="customerCreditApprovedByName"  type="zeroToFortyCharType" />
-	<xsd:element name="customerEmailAddress"          type="emailTypeMaxSixty" />
-	<xsd:element name="customerAddressIdentifier"     type="oneToSevenNumberType" />
-	<xsd:element name="customerAddressName"           type="oneToFortyCharType" />
-	<xsd:element name="customerLine1StreetAddress"    type="oneToThirtyCharType" />
-	<xsd:element name="customerLine2StreetAddress"    type="zeroToThirtyCharType" />
-	<xsd:element name="customerCityName"              type="oneToTwentyFiveCharType" />
-	<xsd:element name="customerStateCode"             type="zeroToTwoAlphaType" />
-	<xsd:element name="customerZipCode"               type="zeroToTwentyFiveCharType" />
-	<xsd:element name="customerCountryCode"           type="twoAlphaType" />
-	<xsd:element name="customerAddressInternationalProvinceName" type="zeroToFortyFiveCharType" />
-	<xsd:element name="customerInternationalMailCode" type="zeroToTwentyCharType" />
-	<xsd:element name="customerAddressTypeCode"       type="oneToTwoCharType" />
-	<xsd:element name="customerAddressEndDate"        type="yyyymmddDate" />
+	<xsd:element name="customerNumber"                type="${xsd:normalizedString,dd:Customer.customerNumber}" />
+	<xsd:element name="customerName"                  type="${xsd:normalizedString,dd:Customer.customerName}" />
+	<xsd:element name="customerParentCompanyNumber"   type="${xsd:normalizedString,dd:Customer.customerParentCompanyNumber}" />
+	<xsd:element name="customerTypeCode"              type="${xsd:normalizedString,dd:Customer.customerTypeCode}" />
+	<xsd:element name="customerAddressChangeDate"     type="${xsd:date,dd:Customer.customerAddressChangeDate}" />
+	<xsd:element name="customerRecordAddDate"         type="${xsd:date,dd:Customer.customerRecordAddDate}" />
+	<xsd:element name="customerLastActivityDate"      type="${xsd:date,dd:Customer.customerLastActivityDate}" />
+	<xsd:element name="customerTaxTypeCode"           type="${xsd:normalizedString,dd:Customer.customerTaxTypeCode}" />
+	<xsd:element name="customerTaxNbr"                type="${xsd:normalizedString,dd:Customer.customerTaxNbr}" />
+	<xsd:element name="customerActiveIndicator"       type="${xsd:normalizedString,dd:Customer.active}" />
+	<xsd:element name="customerPhoneNumber"           type="${xsd:normalizedString,dd:Customer.customerPhoneNumber}" />
+	<xsd:element name="customer800PhoneNumber"        type="${xsd:normalizedString,dd:Customer.customer800PhoneNumber}" />
+	<xsd:element name="customerContactName"           type="${xsd:normalizedString,dd:Customer.customerContactName}" />
+	<xsd:element name="customerContactPhoneNumber"    type="${xsd:normalizedString,dd:Customer.customerContactPhoneNumber}" />
+	<xsd:element name="customerFaxNumber"             type="${xsd:normalizedString,dd:Customer.customerFaxNumber}" />
+	<xsd:element name="customerBirthDate"             type="${xsd:date,dd:Customer.customerBirthDate}" />
+	<xsd:element name="customerTaxExemptIndicator"    type="${xsd:normalizedString,dd:Customer.customerTaxExemptIndicator}" />
+	<xsd:element name="customerCreditLimitAmount"     type="${xsd:decimal,dd:Customer.customerCreditLimitAmount}" />
+	<xsd:element name="customerCreditApprovedByName"  type="${xsd:normalizedString,dd:Customer.customerCreditApprovedByName}" />
+	<xsd:element name="customerEmailAddress"          type="${xsd:normalizedString,dd:Customer.customerEmailAddress}" />
+	<xsd:element name="customerAddressIdentifier"     type="${xsd:normalizedString,dd:CustomerAddress.customerAddressIdentifier}" />
+	<xsd:element name="customerAddressName"           type="${xsd:normalizedString,dd:CustomerAddress.customerAddressName}" />
+	<xsd:element name="customerLine1StreetAddress"    type="${xsd:normalizedString,dd:CustomerAddress.customerLine1StreetAddress}" />
+	<xsd:element name="customerLine2StreetAddress"    type="${xsd:normalizedString,dd:CustomerAddress.customerLine2StreetAddress}" />
+	<xsd:element name="customerCityName"              type="${xsd:normalizedString,dd:CustomerAddress.customerCityName}" />
+	<xsd:element name="customerStateCode"             type="${xsd:normalizedString,dd:CustomerAddress.customerStateCode}" />
+	<xsd:element name="customerZipCode"               type="${xsd:normalizedString,dd:CustomerAddress.customerZipCode}" />
+	<xsd:element name="customerCountryCode"           type="${xsd:normalizedString,dd:CustomerAddress.customerCountryCode}" />
+	<xsd:element name="customerAddressInternationalProvinceName" type="${xsd:normalizedString,dd:CustomerAddress.customerAddressInternationalProvinceName}" />
+	<xsd:element name="customerInternationalMailCode" type="${xsd:normalizedString,dd:CustomerAddress.customerInternationalMailCode}" />
+	<xsd:element name="customerAddressTypeCode"       type="${xsd:normalizedString,dd:CustomerAddress.customerAddressTypeCode}" />
+	<xsd:element name="customerAddressEndDate"        type="${xsd:date,dd:CustomerAddress.customerAddressEndDate}" />
 
-    <!-- simple data types -->
-    <xsd:simpleType name="amountType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="([0-9\.]{0,19})?" />
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="yyyymmddDate">
-    	<xsd:restriction base="xsd:string">
-    		<xsd:pattern value="([0-9]{4}\-[0-9]{2}\-[0-9]{2})|()" />
-    	</xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToTwoAlphaType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{0,2}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="twoAlphaType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z][A-Z]"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToTwoCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="2"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToSevenNumberType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{7}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToFourAlphaType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{0,4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToFourAlphaType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{1,4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToFourCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="4"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToFourCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="4"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToNineCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="9"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToNineCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="9"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToTwentyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="20"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToTwentyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="20"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToTwentyFiveCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="25"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToTwentyFiveCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="25"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToThirtyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="30"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToThirtyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="30"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToFortyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="40"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToFortyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="40"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToFortyFiveCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="45"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToFortyFiveCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="45"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zeroToSixtyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="60"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="oneToSixtyCharType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="60"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="emailTypeMaxSixty">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="60"/>
-	    <!-- FIXME: add regex for email address -->
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="indicatorType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Y"/>
-            <xsd:enumeration value="N"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    
     
     <!-- definition of complex type elements -->
     <xsd:complexType name="addressType">
@@ -226,7 +78,7 @@
 	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerInternationalMailCode" />
 	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerEmailAddress" />
 	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerAddressTypeCode" />
-	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerAddressEndDate" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerAddressEndDate" />
 	     </xsd:sequence>  
     </xsd:complexType>
 
@@ -242,7 +94,7 @@
 	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerName" />
 	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerParentCompanyNumber" />
 	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerTypeCode" />
-	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerLastActivityDate" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerLastActivityDate" />
 	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerTaxTypeCode" />
 	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerTaxNbr" />
 	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerActiveIndicator" />

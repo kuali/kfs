@@ -21,8 +21,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.batch.CollectorBatch;
+import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,7 +44,8 @@ public class GeneralLedgerConstants {
     public static final String SELECT_CODE = "S";
     public static final String EMPTY_CODE = "";
     public static final String ERROR_CODE = "E";
-
+    public static final String FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD = "AC";
+    
     //public static final String RETAIN_DAYS = "RETAIN_DAYS";
 
     public static class DummyBusinessObject {
@@ -417,6 +421,76 @@ public class GeneralLedgerConstants {
         return SPACE_ALL_ORIGIN_ENTRY_FIELDS;
     }
 
+    private static String SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS = null;
+    
+    public static String getSpaceAllCollectorBatchHeaderFields() {
+        if (SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS == null) {
+            List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorBatch.class.getName()).getAttributes();
+
+            int totalLength = 0;
+
+            for ( AttributeDefinition attributeDefinition : attributes ) {
+                if (!(KFSPropertyConstants.TRAILER_RECORD_FIRST_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
+                    KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) || 
+                    KFSPropertyConstants.TRAILER_RECORD_SECOND_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
+                    KFSPropertyConstants.TOTAL_AMOUNT.equals(attributeDefinition.getName()))) {
+                    totalLength += attributeDefinition.getMaxLength();
+                }
+            }
+
+            SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS = StringUtils.rightPad("", totalLength, ' ');
+        }
+
+        return SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS;
+    }
+    
+    private static String SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS = null;
+    
+    public static String getSpaceAllCollectorBatchTrailerFields() {
+        if (SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS == null) {
+            List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorBatch.class.getName()).getAttributes();
+
+            int totalLength = 0;
+            
+            for ( AttributeDefinition attributeDefinition : attributes ) {
+                if ((KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.ORGANIZATION_CODE.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.TRANSMISSION_DATE.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.COLLECTOR_BATCH_RECORD_TYPE.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.TRAILER_RECORD_FIRST_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) || 
+                     KFSPropertyConstants.TRAILER_RECORD_SECOND_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
+                     KFSPropertyConstants.TOTAL_AMOUNT.equals(attributeDefinition.getName()))) {
+                     totalLength += attributeDefinition.getMaxLength();
+                }
+            }
+
+            SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS = StringUtils.rightPad("", totalLength, ' ');
+        }
+
+        return SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS;
+    }
+    
+    private static String SPACE_ALL_COLLECTOR_DETAIL_FIELDS = null;
+    
+    public static String getSpaceAllCollectorDetailFields() {
+        if (SPACE_ALL_COLLECTOR_DETAIL_FIELDS == null) {
+            List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorDetail.class.getName()).getAttributes();
+
+            int totalLength = 0;
+
+            for ( AttributeDefinition attributeDefinition : attributes ) {
+                totalLength += attributeDefinition.getMaxLength();
+            }
+
+            SPACE_ALL_COLLECTOR_DETAIL_FIELDS = StringUtils.rightPad("", totalLength, ' ');
+        }
+
+        return SPACE_ALL_COLLECTOR_DETAIL_FIELDS;
+    }
+    
+    
     private static String ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
 
     public static String getZeroTransactionEntrySequenceNumber() {

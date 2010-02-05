@@ -250,9 +250,9 @@ public class PurApLineServiceTest extends KualiTestBase {
         purApLineService.processAllocate(sourceLineItem, allocateTargetLines, actionsTakeHistory, purApDocuments, false);
 
         // check the source item is removed from the document
-        assertTrue(ERROR_PROCESS_ALLOCATE, preqDocumentWithSingleItemSingleAccount.getPurchasingAccountsPayableItemAssets().isEmpty());
+        assertTrue("PurchasingAccountsPayableItemAssets was not empty", preqDocumentWithSingleItemSingleAccount.getPurchasingAccountsPayableItemAssets().isEmpty());
         // check the source is inactive
-        assertTrue(ERROR_PROCESS_ALLOCATE, !preqDocumentWithSingleItemSingleAccount.isActive());
+        assertFalse("preqDocumentWithSingleItemSingleAccount was active", preqDocumentWithSingleItemSingleAccount.isActive());
 
         // check total amount of all documents doesn't change after allocate
         KualiDecimal newTotalCost = KualiDecimal.ZERO;

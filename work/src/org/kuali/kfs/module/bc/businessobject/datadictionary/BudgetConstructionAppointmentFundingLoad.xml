@@ -56,24 +56,11 @@
 
 
   <bean id="BudgetConstructionAppointmentFundingLoad-accountNumber" parent="BudgetConstructionAppointmentFundingLoad-accountNumber-parentBean"/>
-
-  <bean id="BudgetConstructionAppointmentFundingLoad-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-    
-    
+  <bean id="BudgetConstructionAppointmentFundingLoad-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentFundingDeleteCode"/>
     <property name="forceUppercase" value="false"/>
@@ -81,7 +68,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
@@ -89,8 +76,8 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDurationCode" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingDurationCode-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDurationCode" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingDurationCode-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDurationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentFundingDurationCode"/>
     <property name="forceUppercase" value="true"/>
@@ -98,7 +85,7 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
@@ -106,8 +93,8 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingMonth" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingMonth-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingMonth" parent="BudgetConstructionAppointmentFundingLoad-appointmentFundingMonth-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingMonth-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentFundingMonth"/>
     <property name="forceUppercase" value="true"/>
@@ -115,16 +102,16 @@
     <property name="shortLabel" value="Month"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedAmount-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedAmount-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedAmount"/>
     <property name="forceUppercase" value="true"/>
@@ -132,7 +119,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -140,8 +127,8 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfAmount-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfAmount-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedCsfAmount"/>
     <property name="forceUppercase" value="true"/>
@@ -149,7 +136,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -157,8 +144,8 @@
     
     
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfFteQuantity-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfFteQuantity-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedCsfFteQuantity"/>
     <property name="forceUppercase" value="true"/>
@@ -166,16 +153,14 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfTimePercent" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfTimePercent-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfTimePercent" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfTimePercent-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedCsfTimePercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedCsfTimePercent"/>
     <property name="forceUppercase" value="true"/>
@@ -183,16 +168,14 @@
     <property name="shortLabel" value="Percent"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedFteQuantity-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedFteQuantity-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedFteQuantity"/>
     <property name="forceUppercase" value="true"/>
@@ -200,16 +183,14 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedPayRate" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedPayRate-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedPayRate" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedPayRate-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedPayRate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedPayRate"/>
     <property name="forceUppercase" value="true"/>
@@ -217,16 +198,14 @@
     <property name="shortLabel" value="Rate"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedTimePercent" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedTimePercent-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedTimePercent" parent="BudgetConstructionAppointmentFundingLoad-appointmentRequestedTimePercent-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentRequestedTimePercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentRequestedTimePercent"/>
     <property name="forceUppercase" value="true"/>
@@ -234,16 +213,14 @@
     <property name="shortLabel" value="Percent"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedAmount-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedAmount" parent="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedAmount-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentTotalIntendedAmount"/>
     <property name="forceUppercase" value="true"/>
@@ -251,16 +228,14 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedFteQuantity-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedFteQuantity-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentTotalIntendedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentTotalIntendedFteQuantity"/>
     <property name="forceUppercase" value="true"/>
@@ -268,80 +243,43 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    
-    
   </bean>
+
   <bean id="BudgetConstructionAppointmentFundingLoad-chartOfAccountsCode" parent="BudgetConstructionAppointmentFundingLoad-chartOfAccountsCode-parentBean"/>
-
-  <bean id="BudgetConstructionAppointmentFundingLoad-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    
-    
+  <bean id="BudgetConstructionAppointmentFundingLoad-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-emplid" parent="BudgetConstructionAppointmentFundingLoad-emplid-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-emplid" parent="BudgetConstructionAppointmentFundingLoad-emplid-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>
     </property>
-    
-    
   </bean>
+
   <bean id="BudgetConstructionAppointmentFundingLoad-financialObjectCode" parent="BudgetConstructionAppointmentFundingLoad-financialObjectCode-parentBean"/>
-
-  <bean id="BudgetConstructionAppointmentFundingLoad-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Financial Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    
-    
+  <bean id="BudgetConstructionAppointmentFundingLoad-financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="BudgetConstructionAppointmentFundingLoad-financialSubObjectCode" parent="BudgetConstructionAppointmentFundingLoad-financialSubObjectCode-parentBean"/>
-
   <bean id="BudgetConstructionAppointmentFundingLoad-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="label" value="Financial Sub Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>    
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-    
-    
+    <property name="required" value="false"/>
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-positionNumber" parent="BudgetConstructionAppointmentFundingLoad-positionNumber-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-positionNumber" parent="BudgetConstructionAppointmentFundingLoad-positionNumber-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -349,16 +287,14 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-subAccountNumber" parent="BudgetConstructionAppointmentFundingLoad-subAccountNumber-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-subAccountNumber" parent="BudgetConstructionAppointmentFundingLoad-subAccountNumber-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -366,16 +302,14 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    
-    
   </bean>
-  <bean id="BudgetConstructionAppointmentFundingLoad-universityFiscalYear" parent="BudgetConstructionAppointmentFundingLoad-universityFiscalYear-parentBean"/>
 
+  <bean id="BudgetConstructionAppointmentFundingLoad-universityFiscalYear" parent="BudgetConstructionAppointmentFundingLoad-universityFiscalYear-parentBean"/>
   <bean id="BudgetConstructionAppointmentFundingLoad-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYear"/>
     <property name="forceUppercase" value="true"/>
@@ -383,13 +317,11 @@
     <property name="shortLabel" value="Year"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
     </property>
-    
-    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -101,7 +101,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private OptionsService optionsService;
     private PersistenceService persistenceService;
     private OrganizationService organizationService;
-    private RouteHeaderService routeHeaderService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -1224,13 +1223,4 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.kualiModuleService = kualiModuleService;
     }
 
-    /**
-     * Sets the routeHeaderService attribute value.
-     * 
-     * @param routeHeaderService The routeHeaderService to set.
-     */
-    @NonTransactional
-    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
-        this.routeHeaderService = routeHeaderService;
-    }
 }

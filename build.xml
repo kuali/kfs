@@ -24,7 +24,7 @@
 		</classpath>
 	</taskdef>    	
 
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 		<if>
 			<isset property="additional.lib.directory" />
@@ -426,12 +426,36 @@
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
-		<copy todir="${static.directory}">
-			<fileset dir="${build.project.directory}" includes="xsd/**/**" />
-			<filterset>
-				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
-			</filterset>
-		</copy>
+	</target>
+
+	<target name="check-filter-project-schema" if="dont.filter.project.schema">
+		<property name="dont.make.source" value="true"/>
+	</target>
+	
+	<target name="filter-project-schema" unless="dont.filter.project.schema" depends="init-properties,init-make-references,check-filter-project-schema,make-source">
+		<path id="run.source.classpath">
+			<pathelement location="${war.classes.directory}" />
+			<path refid="compile.source.classpath" />
+		</path>
+		
+		<condition property="rebuild.dd.schema" value='false'><not><isset property="rebuild.dd.schema"/></not></condition>
+		
+		<java classname="org.kuali.kfs.sys.context.SchemaBuilder" fork="true">
+		    <arg value="${build.project.directory}"/>
+		    <arg value="${static.directory}"/>
+		    <arg value="${use.dd.schema.validation}"/>
+		    <arg value="${externalizable.static.content.url}"/>
+		    <arg value="${rebuild.dd.schema}"/>
+		    <jvmarg value="-Xms${run.tests.min.memory}" />
+			<jvmarg value="-Xmx${run.tests.max.memory}" />
+			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+		    <classpath refid="run.source.classpath" />
+		</java>
+	</target>
+	
+	<target name="rebuild-xsd-from-datadictionary">
+		<property name="rebuild.dd.schema" value="true"/>
+		<antcall target="filter-project-schema"/>
 	</target>
 	
 	<target name="filter-local" if="is.local.build" depends="init-properties">
@@ -456,9 +480,9 @@
 		</copy>
 	</target>
 
-	<target name="make-source" depends="make-foundation-source,make-additional-source" />
+	<target name="make-source" unless="dont.make.source" depends="make-foundation-source,make-additional-source" />
 	
-	<target name="make-foundation-source" depends="init-make-references,filter-project">
+	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
 		<javac destdir="${war.classes.directory}" srcdir="${source.directory}"
@@ -471,7 +495,7 @@
 		</copy>
 	</target>
 	
-	<target name="make-additional-source" depends="init-make-references,filter-project" if="additional.source.directory">
+	<target name="make-additional-source" if="additional.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
         <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
                debug="true" nowarn="true" optimize="true" fork="true" 
@@ -584,7 +608,7 @@
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 	
-	<target name="dist" depends="make-source,overlay-additional-web-content">
+	<target name="dist" depends="make-source,overlay-additional-web-content,filter-project-schema">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>

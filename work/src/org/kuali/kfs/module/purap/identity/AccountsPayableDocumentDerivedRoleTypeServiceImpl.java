@@ -61,7 +61,7 @@ public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends KimDerive
                 
                 AttributeSet roleQualifier = new AttributeSet();
                 roleQualifier.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, apDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                roleQualifier.put(KfsKimAttributes.DOCUMENT_AMOUNT, apDocument.getDocumentHeader().getFinancialDocumentTotalAmount().toString());
+                roleQualifier.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, apDocument.getDocumentHeader().getFinancialDocumentTotalAmount().toString());
                 roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
                 roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, accountingLine.getAccount().getOrganizationCode());
                 roleQualifier.put(KfsKimAttributes.ACCOUNT_NUMBER, accountingLine.getAccountNumber());

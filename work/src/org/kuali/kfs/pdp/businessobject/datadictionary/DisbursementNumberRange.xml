@@ -73,7 +73,7 @@
     <property name="shortLabel" value="Beginning Disbursement Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -88,7 +88,7 @@
     <property name="shortLabel" value="End Disbursement Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -103,7 +103,7 @@
     <property name="shortLabel" value="Last Assigned Disbursement Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

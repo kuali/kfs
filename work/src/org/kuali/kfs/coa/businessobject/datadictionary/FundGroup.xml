@@ -54,7 +54,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="FundGroup-active" parent="FundGroup-active-parentBean"/>
@@ -70,11 +70,11 @@
     <property name="shortLabel" value="Fin. Rpt. Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern" p:exactLength="2"/>
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="2"/>
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="FundGroup-name" parent="FundGroup-name-parentBean"/>
@@ -85,7 +85,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

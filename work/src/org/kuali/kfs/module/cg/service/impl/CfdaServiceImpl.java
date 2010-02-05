@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -30,6 +29,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
 import org.kuali.kfs.module.cg.businessobject.CFDA;
@@ -66,38 +67,74 @@ public class CfdaServiceImpl implements CfdaService {
     public SortedMap<String, CFDA> getGovCodes() throws IOException {
         Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
-        // ftp://ftp.cfda.gov/programs09187.csv
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER));
-        // need to pull off the '20' in 2009 
-        String year = ""+calendar.get(Calendar.YEAR);
-        year = year.substring(2, 4);
-        urlBuilder.append(year);
-        //the last 3 numbers in the file name are the day of the year, but the files are from "yesterday"
-        urlBuilder.append(calendar.get(Calendar.DAY_OF_YEAR)-1);
-        urlBuilder.append(".csv");
-        
-        URL url = new URL(urlBuilder.toString());
-        InputStream inputStream = url.openStream();
-        InputStreamReader screenReader = new InputStreamReader(inputStream);
-        BufferedReader screen = new BufferedReader(screenReader);
-        
-        CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
-        
-        List<String[]> lines = csvReader.readAll();
-        
-        for (String[] line : lines) {
-            String title = line[0];
-            String number = line[1];
-            
-            CFDA cfda = new CFDA();
-            cfda.setCfdaNumber(number);
-            cfda.setCfdaProgramTitleName(title);
 
-            govMap.put(number, cfda);
-            
+        // ftp://ftp.cfda.gov/programs09187.csv
+        String govURL = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
+        String fileName = StringUtils.substringAfterLast(govURL, "/");
+        govURL = StringUtils.substringBeforeLast(govURL, "/");
+        if (StringUtils.contains(govURL, "ftp://")) {
+            govURL = StringUtils.remove(govURL, "ftp://");
         }
-        
+
+        // need to pull off the '20' in 2009
+        String year = "" + calendar.get(Calendar.YEAR);
+        year = year.substring(2, 4);
+        fileName = fileName + year;
+
+        // the last 3 numbers in the file name are the day of the year, but the files are from "yesterday"
+        fileName = fileName + String.format("%03d", calendar.get(Calendar.DAY_OF_YEAR) - 1);
+        fileName = fileName + ".csv";
+
+        LOG.info("Getting government file: " + fileName + " for update");
+
+        InputStream inputStream = null;
+        FTPClient ftp = new FTPClient();
+        try {
+            ftp.connect(govURL);
+            int reply = ftp.getReplyCode();
+
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                LOG.error("FTP connection to server not established.");
+                throw new IOException("FTP connection to server not established.");
+            }
+
+            boolean loggedIn = ftp.login("anonymous", "");
+            if (!loggedIn) {
+                LOG.error("Could not login as anonymous.");
+                throw new IOException("Could not login as anonymous.");
+            }
+
+            LOG.info("Successfully connected and logged in");
+
+            inputStream = ftp.retrieveFileStream(fileName);
+            if (inputStream != null) {
+                LOG.info("reading input stream");
+                InputStreamReader screenReader = new InputStreamReader(inputStream);
+                BufferedReader screen = new BufferedReader(screenReader);
+
+                CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
+                List<String[]> lines = csvReader.readAll();
+                for (String[] line : lines) {
+                    String title = line[0];
+                    String number = line[1];
+
+                    CFDA cfda = new CFDA();
+                    cfda.setCfdaNumber(number);
+                    cfda.setCfdaProgramTitleName(title);
+
+                    govMap.put(number, cfda);
+                }
+            }
+
+            ftp.logout();
+            ftp.disconnect();
+        }
+        finally {
+            if (ftp.isConnected()) {
+                ftp.disconnect();
+            }
+        }
+
         return govMap;
     }
 
@@ -128,6 +165,7 @@ public class CfdaServiceImpl implements CfdaService {
             govMap = getGovCodes();
         }
         catch (IOException ioe) {
+            LOG.error("Error connecting to URL resource: " + ioe.getMessage(), ioe);
             StringBuilder builder = new StringBuilder();
             builder.append("No updates took place.\n");
             builder.append(ioe.getMessage());
@@ -169,7 +207,7 @@ public class CfdaServiceImpl implements CfdaService {
                         cfdaKfs.setActive(true);
                         results.setNumberOfRecordsReActivated(results.getNumberOfRecordsReActivated() + 1);
                     }
-                    
+
                     cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
                     businessObjectService.save(cfdaKfs);
                 }
@@ -196,7 +234,7 @@ public class CfdaServiceImpl implements CfdaService {
     }
 
     public CFDA getByPrimaryId(String cfdaNumber) {
-        if ( StringUtils.isBlank(cfdaNumber) ) {
+        if (StringUtils.isBlank(cfdaNumber)) {
             return null;
         }
         return (CFDA) businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));

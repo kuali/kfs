@@ -106,7 +106,7 @@
     <property name="shortLabel" value="linkButtonOption"/>
     <property name="maxLength" value="20"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="TransientBalanceInquiryAttributes-genericText" parent="TransientBalanceInquiryAttributes-genericText-parentBean"/>
@@ -118,7 +118,7 @@
     <property name="shortLabel" value="genericText"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 </beans>

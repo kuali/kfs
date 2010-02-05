@@ -65,145 +65,68 @@
     <property name="label" value="Taxable"/>
     <property name="shortLabel" value="Taxable"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
+    <property name="control" ref="CheckboxControl" />
   </bean>  
   
   <bean id="CustomerInvoiceItemCode-chartOfAccountsCode" parent="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
+  <bean id="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
     <property name="label" value="Billing Chart"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean" abstract="true" parent="AccountAttribute">
     <property name="name" value="defaultInvoiceAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode" parent="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
     <property name="name" value="defaultInvoiceChartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
     <property name="name" value="defaultInvoiceFinancialObjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectAttribute">
     <property name="name" value="defaultInvoiceFinancialSubObjectCode"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>    
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
   </bean>
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier" parent="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean"/>
 
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier" parent="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean"/>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="defaultInvoiceOrganizationReferenceIdentifier"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Organization Reference Identifier"/>
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="8"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterValidation" />
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode" parent="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean"/>
 
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="defaultInvoiceProjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Project Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber" parent="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="name" value="defaultInvoiceSubAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode" parent="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean"/>
 
+  <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode" parent="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean"/>
   <bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="defaultUnitOfMeasureCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Item Unit Of Measure"/>
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterValidation" />
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CustomerInvoiceItemCode-invoiceItemCode" parent="CustomerInvoiceItemCode-invoiceItemCode-parentBean"/>
@@ -214,9 +137,7 @@
     <property name="label" value="Item Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterValidation" />
     <property name="required" value="true"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
@@ -230,9 +151,7 @@
     <property name="label" value="Item Description"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterWithWhitespaceValidation" />
     <property name="required" value="true"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
@@ -247,7 +166,7 @@
     <property name="shortLabel" value="Price"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -262,41 +181,28 @@
     <property name="shortLabel" value="Quantity"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
+
   <bean id="CustomerInvoiceItemCode-organizationCode" parent="CustomerInvoiceItemCode-organizationCode-parentBean"/>
-
-  <bean id="CustomerInvoiceItemCode-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode"/>
-    <property name="forceUppercase" value="true"/>
+  <bean id="CustomerInvoiceItemCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="label" value="Billing Organization"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
   </bean>
-  <bean id="CustomerInvoiceItemCode-relatedStockNumber" parent="CustomerInvoiceItemCode-relatedStockNumber-parentBean"/>
 
+  <bean id="CustomerInvoiceItemCode-relatedStockNumber" parent="CustomerInvoiceItemCode-relatedStockNumber-parentBean"/>
   <bean id="CustomerInvoiceItemCode-relatedStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="relatedStockNumber"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Related Stock Number"/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterValidation" />
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
 

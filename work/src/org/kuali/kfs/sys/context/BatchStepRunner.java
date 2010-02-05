@@ -34,6 +34,8 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 
 public class BatchStepRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchStepRunner.class);
@@ -62,7 +64,10 @@ public class BatchStepRunner {
             for (int i = 0; i < stepNames.length; ++i) {
                 Step step = BatchSpringContext.getStep(stepNames[i]);
                 if ( step != null ) {
-                    ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( step.getClass() );                    
+                    Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
+                    Class stepClass = unProxiedStep.getClass();
+                    
+                    ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );                    
                     Appender ndcAppender = null; 
                     String nestedDiagnosticContext = 
                             StringUtils.substringAfter( module.getModuleConfiguration().getNamespaceCode(), "-").toLowerCase()

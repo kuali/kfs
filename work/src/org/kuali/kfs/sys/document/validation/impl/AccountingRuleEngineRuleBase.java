@@ -68,9 +68,9 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
             return true; // no validation?  just return true
         } else {
             final String beanName = validationMap.get(event.getClass());
-            final Map<String, Validation> validationBeans = SpringContext.getBeansOfType(Validation.class);
+            Validation validationBean = SpringContext.getBean(Validation.class, beanName);
             
-            final boolean valid = validationBeans.get(beanName).stageValidation(event);            
+            final boolean valid = validationBean.stageValidation(event);            
             return valid;
         }
     }

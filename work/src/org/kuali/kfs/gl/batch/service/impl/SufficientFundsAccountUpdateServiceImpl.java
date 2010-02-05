@@ -110,6 +110,8 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @see org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService#rebuildSufficientFunds()
      */
     public void rebuildSufficientFunds() { // driver
+        List <SufficientFundRebuild> rebuildSfrbList = new ArrayList<SufficientFundRebuild>(); 
+        
         LOG.debug("rebuildSufficientFunds() started");
 
         universityFiscalYear = getFiscalYear();
@@ -135,11 +137,9 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
             if (transactionErrors.size() > 0) {
                 reportWriterService.writeError(sfrb, transactionErrors);
+                rebuildSfrbList.add(sfrb);
             }
-//            else {
-//                sufficientFundRebuildService.delete(sfrb);
-//            }
-        }
+          }
         criteria.clear();
         
         // Get all the A types and process them
@@ -157,13 +157,12 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
             if (transactionErrors.size() > 0) {
                 reportWriterService.writeError(sfrb, transactionErrors);
+                rebuildSfrbList.add(sfrb);
             }
 
-            //sufficientFundRebuildService.delete(sfrb);
-
         }
-        
-        sufficientFundRebuildDao.purgeAccountAndObjectBalances();
+        sufficientFundRebuildDao.purgeSufficientFundRebuild();
+        boService.save( rebuildSfrbList);
 
         // Look at all the left over rows. There shouldn't be any left if all are O's and A's without error.
         // Write out error messages for any that aren't A or O
@@ -221,12 +220,10 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
     public void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
         ++sfrbRecordsConvertedCount;
         Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
-
         Map criteria = new HashMap();
         
         for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
             SufficientFundBalances sfbl = (SufficientFundBalances) fundBalancesIter.next();
-
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, sfbl.getChartOfAccountsCode());
             criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_ACCOUNT);
             criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER_FINANCIAL_OBJECT_CODE, sfbl.getAccountNumber());
@@ -250,7 +247,6 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      */
     public void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
-
         if ((sfrbAccount.getAccountSufficientFundsCode() != null) 
                 && (KFSConstants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) 
                         || KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) 
@@ -259,8 +255,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
                         || KFSConstants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) 
                         || KFSConstants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
             ++sfrbRecordsDeletedCount;
-            //sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
-            sfblDeletedCount += sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
+             sfblDeletedCount += sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
             if ((!sfrbAccount.isPendingAcctSufficientFundsIndicator()) || (KFSConstants.SF_TYPE_NO_CHECKING.equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()))) {
                 // nothing to do here, no errors either, just return
@@ -277,10 +272,8 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             }
 
             String currentFinObjectCd = "";
-
             while (balancesIterator.hasNext()) {
                 Balance balance = (Balance) balancesIterator.next();
-
                 String tempFinObjectCd = sufficientFundsService.getSufficientFundsObjectCode(balance.getFinancialObject(), sfrbAccount.getAccountSufficientFundsCode());
 
                 if (!tempFinObjectCd.equals(currentFinObjectCd)) {
@@ -309,10 +302,10 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
                 if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                     processCash(sfrbAccount, balance);
-                }
+                 }
                 else {
                     processObjectOrAccount(sfrbAccount, balance);
-                }
+                 }
             }
 
             // save the last one
@@ -320,7 +313,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
                 sufficientFundBalancesDao.save(currentSfbl);
                 ++sfblInsertedCount;
             }
-        }
+         }
         else {
             addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_ACCOUNT_SF_CODE_FOR));
             ++warningCount;

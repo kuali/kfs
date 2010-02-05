@@ -15,25 +15,21 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.purap.util.PurapSearchUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Country;
@@ -44,7 +40,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BulkReceivingDocument extends ReceivingDocumentBase{
 
@@ -467,19 +462,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
     }
     
     public String getWorkflowStatusForResult(){
-        if (StringUtils.equals(KFSConstants.DocumentStatusCodes.INITIATED,getDocumentHeader().getFinancialDocumentStatusCode())){
-            return "INITIATED";
-        }else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.ENROUTE,getDocumentHeader().getFinancialDocumentStatusCode())){
-            return "ENROUTE";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.DISAPPROVED,getDocumentHeader().getFinancialDocumentStatusCode())){
-            return "DISAPPROVED";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.CANCELLED,getDocumentHeader().getFinancialDocumentStatusCode())){
-            return "CANCELLED";
-        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.APPROVED,getDocumentHeader().getFinancialDocumentStatusCode())){
-            return "APPROVED";
-        }else{
-            return StringUtils.EMPTY;
-        }
+        return PurapSearchUtils.getWorkFlowStatusString(getDocumentHeader());
     }
 
     /**

@@ -93,7 +93,7 @@
   <bean id="OrganizationReversionDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationReversionDetail-newCollectionRecord" parent="OrganizationReversionDetail-newCollectionRecord-parentBean"/>

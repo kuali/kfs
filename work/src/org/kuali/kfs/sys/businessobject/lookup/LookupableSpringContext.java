@@ -21,14 +21,18 @@ import org.kuali.rice.kns.lookup.LookupableHelperService;
 
 public class LookupableSpringContext {
     public static Lookupable getLookupable(String beanId) {
-        return SpringContext.getBeansOfType(Lookupable.class).get(beanId);
+        try {
+            return SpringContext.getBean(Lookupable.class,beanId);
+        } catch ( RuntimeException ex ) {
+            return null;
+        }
     }
 
     public static LookupableHelperService getLookupableHelperService(String beanId) {
-        return SpringContext.getBeansOfType(LookupableHelperService.class).get(beanId);
+        try {
+            return SpringContext.getBean(LookupableHelperService.class,beanId);
+        } catch ( RuntimeException ex ) {
+            return null;
+        }
     }
-
-//    public static WorkflowLookupable getWorkflowLookupable(String beanId) {
-//        return SpringContext.getBeansOfType(WorkflowLookupable.class).get(beanId);
-//    }
 }

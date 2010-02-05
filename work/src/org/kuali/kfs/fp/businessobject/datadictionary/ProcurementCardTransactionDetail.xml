@@ -66,7 +66,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -91,10 +91,10 @@
     <property name="shortLabel" value="Rate"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="ProcurementCardTransactionDetail-transactionDate" parent="ProcurementCardTransactionDetail-transactionDate-parentBean"/>
@@ -105,7 +105,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -119,7 +119,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -155,7 +155,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -202,7 +202,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointAllowNegativeValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -216,7 +216,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
@@ -250,6 +250,7 @@
     <property name="name" value="transactionUnitContactName"/>
     <property name="label" value="Transaction Unit Contact Name"/>
     <property name="shortLabel" value="Name"/>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="37"/>
     </property>
@@ -262,7 +263,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -276,7 +277,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>

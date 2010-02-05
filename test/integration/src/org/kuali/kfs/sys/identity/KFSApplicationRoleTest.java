@@ -94,7 +94,7 @@ public class KFSApplicationRoleTest extends KualiTestBase {
         AttributeSet roleQualifications = new AttributeSet();
         roleQualifications.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         roleQualifications.put(KfsKimAttributes.ACCOUNT_NUMBER, account.getAccountNumber());
-        roleQualifications.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, "10.0");
+        roleQualifications.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, "10.0");
         roleQualifications.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, ACCOUNT_DERIVED_DELEGATE_PRIMARY_DOC_TYPE);
         
         // 1. test fiscal officer
@@ -213,7 +213,7 @@ public class KFSApplicationRoleTest extends KualiTestBase {
     
     public AttributeSet buildAccountingOrganizationHierarchyReviewRoleQualifiers(String chartCode, String organizationCode, String documentTypeName, String amount) {
         AttributeSet roleQualifiers = buildOrganizationHierarchyRoleQualifiers(chartCode, organizationCode, documentTypeName);
-        roleQualifiers.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, amount);
+        roleQualifiers.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, amount);
         roleQualifiers.put(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, "");
         return roleQualifiers;
     }

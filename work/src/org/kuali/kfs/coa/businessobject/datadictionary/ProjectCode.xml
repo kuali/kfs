@@ -64,32 +64,29 @@
 
 
   <bean id="ProjectCode-active" parent="ProjectCode-active-parentBean"/>
-
   <bean id="ProjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
     <property name="shortLabel" value="Active"/>
   </bean>
+
   <bean id="ProjectCode-chartOfAccountsCode" parent="ProjectCode-chartOfAccountsCode-parentBean"/>
-
-  <bean id="ProjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  </bean>
+  <bean id="ProjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
+  
   <bean id="ProjectCode-organizationCode" parent="ProjectCode-organizationCode-parentBean"/>
+  <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode" />
 
-  <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-  </bean>
   <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean"/>
-
   <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="projectManagerUniversalId"/>
     <property name="label" value="Project Manager UserID"/>
     <property name="shortLabel" value="Mgr"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.principalName" parent="ProjectCode-projectManagerUniversal.principalName-parentBean"/>
 
+  <bean id="ProjectCode-projectManagerUniversal.principalName" parent="ProjectCode-projectManagerUniversal.principalName-parentBean"/>
   <bean id="ProjectCode-projectManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="projectManagerUniversal.principalName"/>
     <property name="label" value="Project Manager Principal Name"/>
@@ -99,57 +96,38 @@
       <bean parent="KualiUserControlDefinition" p:personNameAttributeName="projectManagerUniversal.name" p:universalIdAttributeName="projectManagerUniversalId" p:userIdAttributeName="projectManagerUniversal.principalName"/>
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.name" parent="ProjectCode-projectManagerUniversal.name-parentBean"/>
 
+  <bean id="ProjectCode-projectManagerUniversal.name" parent="ProjectCode-projectManagerUniversal.name-parentBean"/>
   <bean id="ProjectCode-projectManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="projectManagerUniversal.name"/>
     <property name="label" value="Project Manager Name"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="ProjectCode-code" parent="ProjectCode-code-parentBean"/>
 
-  <bean id="ProjectCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProjectCode-code" parent="ProjectCode-code-parentBean"/>
+  <bean id="ProjectCode-code-parentBean" abstract="true" parent="ProjectCodeAttribute">
     <property name="name" value="code"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Project Code"/>
-    <property name="shortLabel" value="Project"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
   </bean>
-  <bean id="ProjectCode-projectDescription" parent="ProjectCode-projectDescription-parentBean"/>
 
-  <bean id="ProjectCode-projectDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProjectCode-projectDescription" parent="ProjectCode-projectDescription-parentBean"/>
+  <bean id="ProjectCode-projectDescription-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="projectDescription"/>
     <property name="label" value="Project Description"/>
     <property name="shortLabel" value="Desc"/>
-    <property name="maxLength" value="400"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
     <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
-    </property>
   </bean>
-  <bean id="ProjectCode-name" parent="ProjectCode-name-parentBean"/>
 
+  <bean id="ProjectCode-name" parent="ProjectCode-name-parentBean"/>
   <bean id="ProjectCode-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name"/>
     <property name="label" value="Project Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
+    <property name="validationPattern" ref="AnyCharacterWithWhitespaceValidation" />
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
 

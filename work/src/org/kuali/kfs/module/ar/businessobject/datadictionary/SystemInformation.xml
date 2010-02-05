@@ -99,7 +99,7 @@
     <property name="maxLength" value="100"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   
@@ -123,11 +123,11 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   
@@ -137,10 +137,10 @@
     <property name="label" value="Lockbox Document Initiator ID"/>
     <property name="shortLabel" value="Initiator ID"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>    
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 
@@ -164,49 +164,25 @@
   </bean>
   
   <bean id="SystemInformation-creditCardObjectCode" parent="SystemInformation-creditCardObjectCode-parentBean"/>
-  <bean id="SystemInformation-creditCardObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-creditCardObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="creditCardObjectCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Credit Card Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="required" value="true"/>
   </bean>
 
   <bean id="SystemInformation-processingChartOfAccountCode" parent="SystemInformation-processingChartOfAccountCode-parentBean"/>
-  <bean id="SystemInformation-processingChartOfAccountCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-processingChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
     <property name="name" value="processingChartOfAccountCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Processing Chart Code"/>
     <property name="shortLabel" value="Processing Chart Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="SystemInformation-processingOrganizationCode" parent="SystemInformation-processingOrganizationCode-parentBean"/>
-  <bean id="SystemInformation-processingOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-processingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="processingOrganizationCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Processing Organization Code"/>
     <property name="shortLabel" value="Processing Organization Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="SystemInformation-processingOrganization.codeAndDescription" parent="SystemInformation-processingOrganization.codeAndDescription-parentBean"/>
@@ -216,33 +192,16 @@
   </bean>    
   
   <bean id="SystemInformation-discountObjectCode" parent="SystemInformation-discountObjectCode-parentBean"/>
-  <bean id="SystemInformation-discountObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-discountObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="discountObjectCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Discount Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="SystemInformation-universityClearingSubAccountNumber" parent="SystemInformation-universityClearingSubAccountNumber-parentBean"/>
-  <bean id="SystemInformation-universityClearingSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SystemInformation-universityClearingSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="name" value="universityClearingSubAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="SystemInformation-universityFiscalYear" parent="SystemInformation-universityFiscalYear-parentBean"/>
@@ -276,50 +235,6 @@
     <property name="label" value="Unapplied Payment Sub Object Code"/>
     <property name="shortLabel" value="Unappl Pmnt SubObj Cd"/>
   </bean>
-  
-<!-- 
-  <bean id="SystemInformation-wireSubAccountNumber" parent="SystemInformation-wireSubAccountNumber-parentBean" />
-  <bean id="SystemInformation-wireSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="wireSubAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
-  </bean>
-  
-  <bean id="SystemInformation-wireChartOfAccountsCode" parent="SystemInformation-wireChartOfAccountsCode-parentBean" />
-  <bean id="SystemInformation-wireChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="wireChartOfAccountsCode" />
-    <property name="label" value="Chart Of Account" />
-    <property name="shortLabel" value="Wire Chart Of Accounts Code" />
-  </bean>
-  
-  <bean id="SystemInformation-wireAccountNumber" parent="SystemInformation-wireAccountNumber-parentBean" />
-  <bean id="SystemInformation-wireAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="wireAccountNumber" />
-    <property name="label" value="Account Number" />
-  </bean>
-  
-  <bean id="SystemInformation-wireObjectCode" parent="SystemInformation-wireObjectCode-parentBean" />
-  <bean id="SystemInformation-wireObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="wireObjectCode" />
-    <property name="label" value="Object Code" />
-  </bean>
-  
-  <bean id="SystemInformation-wireSubObjectCode" parent="SystemInformation-wireSubObjectCode-parentBean" />
-  <bean id="SystemInformation-wireSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="name" value="wireSubObjectCode" />
-    <property name="label" value="Sub Object Code" />
-    <property name="shortLabel" value="Wire Sub Object Code" />
-  </bean>
--->
   
   <bean id="SystemInformation-universityFederalEmployerIdentificationNumber" parent="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean"/>
   <bean id="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" abstract="true" parent="AttributeDefinition">

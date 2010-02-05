@@ -18,7 +18,10 @@ package org.kuali.kfs.gl.batch;
 import java.io.File;
 
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -105,7 +108,9 @@ public class CollectorStepTest extends KualiTestBase {
     // @RelatesTo(RelatesTo.JiraIssue.KULUT29)
     public void testAll() throws Exception {
         try {
-            CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);
+            Step step = BatchSpringContext.getStep("collectorStep");
+            CollectorStep collectorStep = (CollectorStep) ProxyUtils.getTargetIfProxied(step);
+            
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
             boolean goodExit = collectorStep.execute(getClass().getName(), dateTimeService.getCurrentDate());

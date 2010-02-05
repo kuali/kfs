@@ -51,11 +51,11 @@
     <property name="shortLabel" value="Balance Type"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="BalanceType-name" parent="BalanceType-name-parentBean"/>
@@ -68,7 +68,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="BalanceType-financialBalanceTypeShortNm" parent="BalanceType-financialBalanceTypeShortNm-parentBean"/>
@@ -80,7 +80,7 @@
     <property name="maxLength" value="12"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="BalanceType-financialOffsetGenerationIndicator" parent="BalanceType-financialOffsetGenerationIndicator-parentBean"/>

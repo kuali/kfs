@@ -17,16 +17,18 @@
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://www.kuali.org/kfs/ar/customerInvoiceWriteoffBatch"
     xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
     xmlns="http://www.kuali.org/kfs/ar/customerInvoiceWriteoffBatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
   
 	<!--  elements -->
 	<xsd:element name="invoiceWriteoffBatch"   type="invoiceWriteoffBatchType" />
 	<xsd:element name="invoiceNumbers"         type="invoiceNumbersType" />
-	<xsd:element name="invoiceNumber"          type="oneToSixtyCharType" />
-	<xsd:element name="submittedByPrincipalId" type="oneToSixtyCharType" />
-	<xsd:element name="submittedOn"            type="oneToSixtyCharType" />
+	<xsd:element name="invoiceNumber"          type="${xsd:normalizedString,dd:CustomerInvoiceDocument.documentNumber}" />
+	<xsd:element name="submittedByPrincipalId" type="${xsd:normalizedString,dd:PersonImpl.principalName}" />
+	<xsd:element name="submittedOn"            type="${xsd:normalizedString,dd:GenericAttributes.genericTimestamp}" />
 	<xsd:element name="note"                   type="oneToOneThousandCharType" />
 	
     <!-- simple data types -->

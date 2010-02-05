@@ -93,7 +93,7 @@
     <property name="shortLabel" value="Contract Name"/>
     <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -109,7 +109,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="60"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -228,10 +228,10 @@
     <property name="shortLabel" value="Vendor Contract Generated Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean"/>

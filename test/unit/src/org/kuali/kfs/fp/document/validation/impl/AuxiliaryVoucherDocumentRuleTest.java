@@ -122,10 +122,9 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         AuxiliaryVoucherDocument document = createDocument();
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectCodeAllowed-DefaultValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectCodeAllowed-DefaultValidation");
         if (validation == null) throw new IllegalStateException("No object code value allowed validation");
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(getValidObjectCodeSourceLine());
@@ -366,10 +365,9 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private void testAddAccountingLineRule_IsObjectTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         AuxiliaryVoucherDocument document = createDocument();
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectTypeAllowed-DefaultValidation"); 
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectTypeAllowed-DefaultValidation"); 
         if (validation == null) throw new IllegalStateException("No object type value allowed validation");
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(accountingLine);
@@ -378,10 +376,9 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
     
     private void testAddAccountingLine_IsObjectSubTypeAllowed(AccountingLine accountingLine, boolean expected) throws Exception  {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
         AuxiliaryVoucherDocument document = createDocument();
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
         if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(accountingLine);

@@ -28,7 +28,7 @@
     <property name="objectLabel" value="Award Account"/>
     <property name="attributes">
       <list>
-        <ref bean="AwardAccount-proposalNumber"/>
+        <bean parent="Proposal-proposalNumber"/>
         <ref bean="AwardAccount-principalId"/>
         <ref bean="AwardAccount-projectDirector.principalName"/>
         <ref bean="AwardAccount-projectDirector.name"/>
@@ -67,18 +67,12 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean"/>
-
-  <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean"/>
-
   <bean id="AwardAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="label" value="Project Director ID"/>
     <property name="shortLabel" value="Proj Dir ID"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="AwardAccount-projectDirector.principalName" parent="AwardAccount-projectDirector.principalName-parentBean"/>
@@ -95,7 +89,7 @@
     <property name="label" value="Director Name"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="AwardAccount-projectDirectorName" parent="AwardAccount-projectDirectorName-parentBean"/>
@@ -103,26 +97,15 @@
   <bean id="AwardAccount-projectDirectorName-parentBean" abstract="true" parent="AwardAccount-projectDirector.name">
     <property name="name" value="projectDirectorName"/>
   </bean>
+
   <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean"/>
-
-  <bean id="AwardAccount-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+  <bean id="AwardAccount-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean"/>
+  <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
 
-  <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean"/>
 
   <bean id="AwardAccount-account.accountName-parentBean" abstract="true" parent="Account-accountName">
@@ -147,12 +130,9 @@
     <property name="name" value="award.proposal.grantNumber"/>
   </bean>
 
-  <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean"/>
+  <bean id="AwardAccount-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
 
-  <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
   <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean"/>
-
   <bean id="AwardAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
   </bean>

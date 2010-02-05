@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -100,6 +101,11 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         //    boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
            boolean isSaved = true; 
             
+            // KFSMI-5288: Don't want any control characters in output files. They potentially disrupt further processing
+            if (ObjectUtils.isNotNull(entry.getTransactionLedgerEntryDescription())) {
+                entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().replaceAll("\\p{Cntrl}", " "));
+            }
+
             try {
                 outputFilePs.printf("%s\n", entry.getLine());
                 nightlyOutLedgerSummaryReport.summarizeEntry(entry);

@@ -450,18 +450,20 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     // do refresh after a payee is selected
     protected ActionForward refreshAfterPayeeSelection(ActionMapping mapping, DisbursementVoucherForm dvForm, HttpServletRequest request) {
         String refreshCaller = dvForm.getRefreshCaller();
+        
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         boolean isPayeeLookupable = KFSConstants.KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL.equals(refreshCaller);
         boolean isAddressLookupable = KFSConstants.KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL.equals(refreshCaller);
 
+        // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct information
         if (refreshCaller == null) {
             dvForm.setPayeeIdNumber(dvForm.getTempPayeeIdNumber());
             dvForm.setHasMultipleAddresses(false);
-            if (StringUtils.equals(dvForm.getOldPayeeType(), "Employee")) {
-                this.setupPayeeAsEmployee(dvForm, dvForm.getPayeeIdNumber());
-            } else if (StringUtils.equals(dvForm.getOldPayeeType(), "Vendor")) {
-                this.setupPayeeAsVendor(dvForm, dvForm.getPayeeIdNumber(), dvForm.getTempVendorAddressGeneratedIdentifier());
-            }
+            document.getDvPayeeDetail().setDisbVchrPayeeIdNumber(dvForm.getTempPayeeIdNumber());
+            document.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(dvForm.getOldPayeeType());
+            
+            return null;
         }
         
         // do not execute the further refreshing logic if the refresh caller is not a lookupable
@@ -470,7 +472,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         // do not execute the further refreshing logic if a payee is not selected
-        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
         String payeeIdNumber = document.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
         if (payeeIdNumber == null) {
             return null;
@@ -578,7 +579,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
             dvForm.setTempPayeeIdNumber(payeeIdNumber);
-            dvForm.setOldPayeeType("Employee");
+            dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
 
         }
         else {
@@ -600,7 +601,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
                 vendorAddress.setVendorAddressGeneratedIdentifier(new Integer(payeeAddressIdentifier));
                 vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
                 dvForm.setTempPayeeIdNumber(payeeIdNumber);
-                dvForm.setOldPayeeType("Vendor");
+                dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
 
             }
             catch (Exception e) {

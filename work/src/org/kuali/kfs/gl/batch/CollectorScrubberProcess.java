@@ -25,22 +25,24 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
-import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
-import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 
 
 /**
@@ -102,17 +104,18 @@ public class CollectorScrubberProcess {
         // for the collector origin entry group scrub, we make sure that we're using a custom impl of the origin entry service and
         // group service.
         ScrubberStatus scrubberStatus = new ScrubberStatus();
-        CollectorScrubberStep step = (CollectorScrubberStep) BatchSpringContext.getStep(CollectorScrubberStep.STEP_NAME);
-        step.setScrubberStatus(scrubberStatus);
-        step.setBatch(batch);
-        step.setCollectorReportData(collectorReportData);
-                
+        Step step = BatchSpringContext.getStep(CollectorScrubberStep.STEP_NAME);
+        CollectorScrubberStep collectorStep = (CollectorScrubberStep) ProxyUtils.getTargetIfProxied(step);
+        collectorStep.setScrubberStatus(scrubberStatus);
+        collectorStep.setBatch(batch);
+        collectorStep.setCollectorReportData(collectorReportData);
+
         try {
             step.execute(getClass().getName(), dateTimeService.getCurrentDate());
         }
-        catch (RuntimeException e) {
+        catch (Exception e) {
             LOG.error("Exception occured executing step", e);
-            throw e;
+            throw new RuntimeException("Exception occured executing step", e);
         }
         
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();

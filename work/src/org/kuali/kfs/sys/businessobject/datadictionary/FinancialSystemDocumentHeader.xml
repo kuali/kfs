@@ -71,7 +71,7 @@
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
     
     <property name="name" value="financialDocumentStatusCode"/>
@@ -85,7 +85,7 @@
     <property name="shortLabel" value="Corrects Document Id"/>
     <property name="maxLength" value="14"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     <property name="name" value="financialDocumentInErrorNumber"/>
@@ -99,7 +99,7 @@
     <property name="shortLabel" value="Corrected by Document Id"/>
     <property name="maxLength" value="14"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     <property name="name" value="correctedByDocumentId"/>

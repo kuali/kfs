@@ -94,9 +94,8 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
      * @return true if the sub fund group is allowed, false otherwise
      */
     public boolean isSubFundGroupAllowed(InternalBillingDocument ibDoc, AccountingLine line) {
-        Map<String, Validation> validations = SpringContext.getBeansOfType(Validation.class);
         boolean result = true;
-        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)validations.get("AccountingDocument-IsSubFundGroupAllowed-DefaultValidation");
+        AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsSubFundGroupAllowed-DefaultValidation");
         if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
         validation.setAccountingDocumentForValidation(ibDoc);
         validation.setAccountingLineForValidation(line);

@@ -26,12 +26,14 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * This class returns list of ba fund restriction levels.
  */
 public class BudgetAdjustmentFundRestrictionsValuesFinder extends KeyValuesBase {
-
+    
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyValues = new ArrayList();
+        
         keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_FUND, "Fund"));
         keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_CHART, "Chart"));
         keyValues.add(new KeyLabelPair(BudgetAdjustmentDocumentConstants.ADJUSTMENT_RESTRICTION_LEVEL_ORGANIZATION, "Organization"));

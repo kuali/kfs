@@ -31,8 +31,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.service.AccountsReceivableModuleService#getAccountsReceivablePaymentClaimingStrategy()
      */
     public ElectronicPaymentClaimingDocumentGenerationStrategy getAccountsReceivablePaymentClaimingStrategy() {
-        Map<String, ElectronicPaymentClaimingDocumentGenerationStrategy> eftClaimingDocumentGenerationStrategies = SpringContext.getBeansOfType(ElectronicPaymentClaimingDocumentGenerationStrategy.class);
-        return eftClaimingDocumentGenerationStrategies.get(AccountsReceivableModuleServiceImpl.CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME);
+        return SpringContext.getBean(ElectronicPaymentClaimingDocumentGenerationStrategy.class,AccountsReceivableModuleServiceImpl.CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME);
     }
 
 }

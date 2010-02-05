@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.beans.factory.BeanIsAbstractException;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
 /**
@@ -112,12 +113,17 @@ public class TransactionalAnnotationTest extends KualiTestBase {
        
         String[] beanNames = SpringContext.getBeanNames();
         for (String beanName : beanNames) {
+            if ( beanName.endsWith( "-parentBean" ) ) {
+                continue;
+            }
             Object bean = null;
             try {
                 bean = SpringContext.getBean(beanName);
-            }
-            catch (Exception e) {
+            } catch ( BeanIsAbstractException ex ) {
+                // do nothing, ignore
+            } catch (Exception e) {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);
+                LOG.warn(e.getClass().getName() + " : " + e.getMessage() );
             }
             if (bean != null) {
                 Class<? extends Object> beanClass = bean.getClass();

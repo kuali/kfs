@@ -31,7 +31,7 @@
         <ref bean="IndirectCostRecoveryExclusionType-chartOfAccountsCode"/>
         <ref bean="IndirectCostRecoveryExclusionType-financialObjectCode"/>
         <ref bean="IndirectCostRecoveryExclusionType-active"/>
-		<ref bean="IndirectCostRecoveryExclusionType-newCollectionRecord"/>
+		<bean parent="GenericAttributes-newCollectionRecord"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -54,41 +54,22 @@
   
   <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean"/>
   <bean id="IndirectCostRecoveryExclusionType-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Chart Code"/>
-    <property name="shortLabel" value="Chart"/>
-    <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
   </bean>
   
   <bean id="IndirectCostRecoveryExclusionType-financialObjectCode" parent="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Object Code"/>
-    <property name="shortLabel" value="Object"/>
-    <property name="maxLength" value="4"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+  <bean id="IndirectCostRecoveryExclusionType-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
     </property>
   </bean>
-  
   
   <bean id="IndirectCostRecoveryExclusionType-active" parent="IndirectCostRecoveryExclusionType-active-parentBean"/>
   <bean id="IndirectCostRecoveryExclusionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
   </bean>
-  
-  <bean id="IndirectCostRecoveryExclusionType-newCollectionRecord" parent="IndirectCostRecoveryExclusionType-newCollectionRecord-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionType-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord"/>
 
 <!-- Business Object Inquiry Definition -->
 

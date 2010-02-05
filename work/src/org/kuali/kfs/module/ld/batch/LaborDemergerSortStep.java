@@ -27,13 +27,14 @@ import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
+import org.kuali.kfs.module.ld.batch.LaborDemergerSortComparator;
 
 /**
  * A step to run the scrubber process.
  */
 public class LaborDemergerSortStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborDemergerSortStep.class);
-    private String batchFileDirectoryName;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborDemergerSortStep.class);
+    protected String batchFileDirectoryName;
 
     /**
      * Runs the scrubber process.
@@ -50,43 +51,11 @@ public class LaborDemergerSortStep extends AbstractStep {
         String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new LaborDemergerSortComparator());
 
-        // sorting reverse order for TransactionEntrySequenceNumber
-        // BatchSortUtil.sortTextFileWithFields(batchFileDirectoryName+"/tempsort", batchFileDirectoryName+"/sorterr1", new
-        // LaborDemergerSortComparator());
-
         stopWatch.stop();
         if (LOG.isDebugEnabled()) {
             LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
         }
         return true;
-    }
-
-
-    public static class LaborDemergerSortComparator implements Comparator {
-
-        public int compare(Object object1, Object object2) {
-            
-            LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
-            Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
-            
-            String string1 = (String) object1;
-            String string2 = (String) object2;
-            StringBuffer sb1 = new StringBuffer();
-
-            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            // sb1.append(string1.substring(51, 56)); // reverse???
-            StringBuffer sb2 = new StringBuffer();
-            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-            // sb2.append(string1.substring(51, 56));
-
-            int returnValue = sb1.toString().compareTo(sb2.toString());
-            if (returnValue == 0) {
-                sb1.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))); // reverse???
-                sb2.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
-                returnValue = sb2.toString().compareTo(sb1.toString());
-            }
-            return returnValue;
-        }
     }
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {

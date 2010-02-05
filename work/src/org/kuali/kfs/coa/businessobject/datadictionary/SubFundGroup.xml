@@ -98,12 +98,7 @@
   </bean>
   <bean id="SubFundGroup-subFundGroupTypeCode" parent="SubFundGroup-subFundGroupTypeCode-parentBean"/>
 
-  <bean id="SubFundGroup-subFundGroupTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subFundGroupTypeCode"/>
-    <property name="label" value="Sub-Fund Group Type Code"/>
-    <property name="shortLabel" value="Sub-Fund Type Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="required" value="true"/>
+  <bean id="SubFundGroup-subFundGroupTypeCode-parentBean" abstract="true" parent="SubFundGroupType-subFundGroupTypeCode">
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubFundGroupTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
@@ -116,7 +111,7 @@
     <property name="shortLabel" value="Desc."/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -140,11 +135,11 @@
     <property name="shortLabel" value="Fin. Rpt. Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern" p:exactLength="2"/>
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="2"/>
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" parent="SubFundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean"/>

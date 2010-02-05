@@ -46,6 +46,7 @@ import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
 import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -102,15 +103,22 @@ public class SpringContext {
                 } else {
                     bean = beansOfType.iterator().next();
                 }
-            } else { // unable to find bean - check GRL
-                // this is needed in case no beans of the given type exist locally
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("Bean not found in local context: " + type.getName() + " - calling GRL");
+            } else {
+                try { 
+                    bean = getBean(type, StringUtils.uncapitalize(type.getSimpleName()) );
+                } catch ( Exception ex ) {
+                    // do nothing, let fall through
                 }
-                Object remoteServiceBean = getService( StringUtils.uncapitalize(type.getSimpleName()) );
-                if ( remoteServiceBean != null ) {
-                    if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
-                        bean = (T)remoteServiceBean;
+                if ( bean == null ) { // unable to find bean - check GRL
+                    // this is needed in case no beans of the given type exist locally
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("Bean not found in local context: " + type.getName() + " - calling GRL");
+                    }
+                    Object remoteServiceBean = getService( StringUtils.uncapitalize(type.getSimpleName()) );
+                    if ( remoteServiceBean != null ) {
+                        if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
+                            bean = (T)remoteServiceBean;
+                        }
                     }
                 }
             }
@@ -122,7 +130,7 @@ public class SpringContext {
                     }
                 }
             } else {
-                throw new RuntimeException( "Request for non-existent bean.  Unable to find in local context on on the GRL: " + type.getName() );
+                throw new RuntimeException( "Request for non-existent bean.  Unable to find in local context or on the GRL: " + type.getName() );
             }
         }
         return bean;
@@ -163,7 +171,7 @@ public class SpringContext {
         return beansOfType;
     }
 
-    private static <T> T getBean(Class<T> type, String name) {
+    public static <T> T getBean(Class<T> type, String name) {
         T bean = null;
         if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
             bean = (T) SINGLETON_BEANS_BY_NAME_CACHE.get(name);
@@ -181,8 +189,8 @@ public class SpringContext {
                     LOG.debug("Bean with name and type not found in local context: " + name + "/" + type.getName() + " - calling GRL");
                 }
                 Object remoteServiceBean = getService( name );
-                if ( remoteServiceBean != null ) {
-                    if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
+                if ( remoteServiceBean != null ) {                    
+                    if ( type.isAssignableFrom( AopUtils.getTargetClass(remoteServiceBean) ) ) {
                         bean = (T)remoteServiceBean;
                         // assume remote beans are services and thus singletons
                         synchronized( SINGLETON_BEANS_BY_NAME_CACHE ) {
@@ -222,6 +230,10 @@ public class SpringContext {
 
     protected static void initializeApplicationContext() {
         initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
+    }
+    
+    protected static void initializeApplicationContextWithoutSchedule() {
+        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, false);
     }
 
     protected static void initializeBatchApplicationContext() {

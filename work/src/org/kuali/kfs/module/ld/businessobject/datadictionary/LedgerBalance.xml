@@ -106,10 +106,10 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-emplid" parent="LedgerBalance-emplid-parentBean"/>
@@ -125,7 +125,7 @@
     <property name="shortLabel" value="EmplUnvId"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     <property name="displayLabelAttribute" value="ledgerPerson.principalName"/>
   </bean>
@@ -151,7 +151,7 @@
 
   <bean id="LedgerBalance-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-universityFiscalYear" parent="LedgerBalance-universityFiscalYear-parentBean"/>
@@ -165,21 +165,21 @@
 
   <bean id="LedgerBalance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-accountNumber" parent="LedgerBalance-accountNumber-parentBean"/>
 
   <bean id="LedgerBalance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-chartOfAccountsCode" parent="LedgerBalance-chartOfAccountsCode-parentBean"/>
 
   <bean id="LedgerBalance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-financialBalanceTypeCode" parent="LedgerBalance-financialBalanceTypeCode-parentBean"/>
@@ -194,7 +194,7 @@
 
   <bean id="LedgerBalance-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-financialObjectTypeCode" parent="LedgerBalance-financialObjectTypeCode-parentBean"/>
@@ -202,14 +202,14 @@
   <bean id="LedgerBalance-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
     <property name="name" value="financialObjectTypeCode"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-financialSubObjectCode" parent="LedgerBalance-financialSubObjectCode-parentBean"/>
 
   <bean id="LedgerBalance-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="LedgerBalance-accountLineAnnualBalanceAmount" parent="LedgerBalance-accountLineAnnualBalanceAmount-parentBean"/>

@@ -185,11 +185,11 @@
 		<property name="routingTypeDefinitions">
     		<map>
 	    		<entry key="Account" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
-    			<entry key="OrganizationHierarchy" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
-    			<entry key="Chart" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
-    			<entry key="AccountSupervisor" value-ref="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="AccountSupervisor" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
     			<entry key="Award" value-ref="AccountMaintenanceDocument-RoutingType-Award"/>
-    			<entry key="SubFund" value-ref="AccountMaintenanceDocument-RoutingType-SubFund"/>
+    			<entry key="SubFund" value-ref="RoutingType-MaintenanceDocument-SubFund"/>
     		</map>
 		</property>
 		
@@ -251,10 +251,6 @@
     	</property>
 	</bean>
 	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
-	</bean>
-	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="accountFiscalOfficerSystemIdentifier"/>
 	</bean>
@@ -263,31 +259,9 @@
     	<property name="qualificationAttributeName" value="accountsSupervisorySystemsIdentifier"/>
 	</bean>
 	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-Account" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="accountNumber"/>
-	</bean>
-	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="organizationCode"/>
-	</bean>
-	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="subFundGroupCode"/>
-	</bean>
-	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId"/>
 	</bean>
-	
-	
-   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.organizationCode</value>
-	   		</list>
-   		</property>
-   	</bean>
 	
    	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
@@ -296,22 +270,6 @@
 	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>
-	   		</list>
-   		</property>
-   	</bean>
-   	
-   	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   		</list>
-   		</property>
-   	</bean>
-   	
-   	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-SubFund" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.subFundGroupCode</value>
 	   		</list>
    		</property>
    	</bean>
@@ -329,40 +287,13 @@
     		<list>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier"/>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Account"/>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
     			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount"/>
-    		</list>
-    	</property>
-    </bean>
-   	
-   	<bean id="AccountMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
-    			<ref bean="AccountMaintenanceDocument-RoutingAttribute-Organization"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
-    		</list>
-    	</property>
-    </bean>
-   	 
-	<bean id="AccountMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Chart"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-Chart"/>
     		</list>
     	</property>
     </bean>
@@ -380,16 +311,4 @@
     	</property>
     </bean>
  
-	<bean id="AccountMaintenanceDocument-RoutingType-SubFund" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-SubFund"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-SubFund"/>
-    		</list>
-    	</property>
-    </bean>
 </beans>

@@ -48,7 +48,7 @@
     <!-- Required checking will be handled within the CloseDocumentRule class -->
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     
@@ -65,7 +65,7 @@
     <!-- Required checking will be handled within the CloseDocumentRule class -->
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
     
     

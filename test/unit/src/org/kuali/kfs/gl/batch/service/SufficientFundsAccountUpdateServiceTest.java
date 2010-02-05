@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
@@ -28,7 +29,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
@@ -61,25 +64,40 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
         persistenceService = SpringContext.getBean(PersistenceService.class);
         boService = SpringContext.getBean(BusinessObjectService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-       
-    }
-    
-    /**
-     * TODO: Remove once other tests are fixed
-     */
-    public void testNothing() {
-        
     }
 
+ 
+  
+  private Integer getYear() {
+      String val = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+      return Integer.parseInt(val);
+  }
+    /**
+     * Tests that added SF balance records exist after all SF balances are rebuilt
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testAddedSFBLRecords() throws Exception {
+        final Integer currentFiscalYear = getYear();
+        String[] expectedOutput = new String[] {currentFiscalYear+"BL22314084938O                0           348.27                0", currentFiscalYear+"BL22314085215O                0              100                0", currentFiscalYear+"BL2231415    A            12000           2748.8                0" };
+        updateAccount();
+        clearSufficientFundBalanceTable();
+        clearSufficientFundRebuildTable();
+        populateGLSFRebuildTable();
+        prepareGLBalancesTable();
+        sufficientFundsAccountUpdateService.rebuildSufficientFunds();
+        assertSFRBEmpty();
+        assertSFBLEntries(expectedOutput);
+    }
+    
     /**
      * Tests SF fund rebuilding conversion
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
-    public void PATCHFIX_testConversion() throws Exception {
-        final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] expectedOutput = new String[] { currentFiscalYear+"BL2220090    H                1                1                1", currentFiscalYear+"BL2231406PRINL                0           180.35                0", currentFiscalYear+"BL2231406S&E L            12000             9.55                0", currentFiscalYear+"BL2231406TRAVL                0           2558.9                0", currentFiscalYear+"BL2231407GENXC                1                1                1", currentFiscalYear+"BL22314084938O                0           348.27                0", currentFiscalYear+"BL22314085215O                0              100                0", };
-
+    public void testConversion() throws Exception {
+        final Integer currentFiscalYear = getYear();
+        String[] expectedOutput = new String[] {currentFiscalYear+"BL22314084938O                0           348.27                0", currentFiscalYear+"BL22314085215O                0              100                0", currentFiscalYear+"BL2231415    A            12000           2748.8                0" };
         updateAccount();
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();
@@ -90,26 +108,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
-
-    /**
-     * Tests that added SF balance records exist after all SF balances are rebuilt
-     * 
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void PATCHFIX_testAddedSFBLRecords() throws Exception {
-        final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] expectedOutput = new String[] { currentFiscalYear+"BL2220090    H         10756.57                0            503.5", currentFiscalYear+"BL2231406PRINL                0           180.35                0", currentFiscalYear+"BL2231406S&E L            12000             9.55                0", currentFiscalYear+"BL2231406TRAVL                0           2558.9                0", currentFiscalYear+"BL2231407GENXC                0          -984.12                0", currentFiscalYear+"BL22314084938O                0           348.27                0", currentFiscalYear+"BL22314085215O                0              100                0", currentFiscalYear+"BL2231415    A            12000           2748.8                0" };
-
-        updateAccount();
-        clearSufficientFundBalanceTable();
-        clearSufficientFundRebuildTable();
-        populateGLSFRebuildTable();
-        prepareGLBalancesTable();
-        sufficientFundsAccountUpdateService.rebuildSufficientFunds();
-        assertSFRBEmpty();
-        assertSFBLEntries(expectedOutput);
-    }
-
+    
     /**
      * This converts an array of String-transactions to SF balances in the database
      * 
@@ -159,8 +158,9 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
     protected void assertSFRBEmpty() {
         List l = unitTestSqlDao.sqlSelect("select * from GL_SF_REBUILD_T");
     // TODO: put back in assertion once service is cleaning out rebuild table again, see Jira KFSMI-5057
-    //    assertEquals("GL_SF_REBUILD_T should be empty", 0, l.size());
+       assertEquals("GL_SF_REBUILD_T should be empty", 0, l.size());
     }
+
 
     /**
      * Check all the entries in gl_sf_balances_t against the data passed in. If any of them are different, assert an error.
@@ -184,6 +184,11 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
                 }
                 ++count;
             }
+        } else {
+            for (Iterator iter = c.iterator(); iter.hasNext();) {
+                SufficientFundBalances foundSFBL = (SufficientFundBalances) iter.next();
+                LOG.info("Found:     " + foundSFBL.getLine());
+            }
         }
     }
 
@@ -203,11 +208,13 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
      */
     private void populateGLSFRebuildTable() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
+        /*
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BA','A','6044913','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','1031420','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2220090','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231406','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231407','" + new Guid().toString() + "',1)");
+        */
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231408','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231415','" + new Guid().toString() + "',1)");
     }
@@ -217,7 +224,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
      */
     private void populateGLSFRebuildTableForConversion() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
-        unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN','" + new Guid().toString() + "',1)");
+       // unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','4938','" + new Guid().toString() + "',1)");
     }
 
@@ -225,23 +232,29 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
      * Populates the SF balances table with expected values for testConversion()
      */
     private void populateGLSFBalanceTableForConversion() {
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
+        final int currentFiscalYear = getYear();
         unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T");
-        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2220090','    ','H',1,1,1)");
+        /*
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ("+currentFiscalYear+",'BL','2220090','    ','H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231406','PRIN','L',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231406','S&E ','H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231406','TRAV','H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231407','GENX','C',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231408','4938','H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('"+currentFiscalYear+"','BL','2231408','5215','H',1,1,1)");
+
+        */
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ("+currentFiscalYear+",'BL','2231408','4938','O',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ("+currentFiscalYear+",'BL','2231408','5215','O',1,1,1)");
     }
 
     /**
      * Populates the SF balances table with expected values for testAddedSFBLRecords()
      */
     private void prepareGLBalancesTable() {
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
+        final int currentFiscalYear = getYear();
         unitTestSqlDao.sqlCommand("delete from gl_balance_t where account_nbr in ('6044913','1031420','2220090','2231406','2231407','2231408','2231415')");
+        /*
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','1031420','-----','8000','---','AC','AS',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2220090','-----','5050','---','AC','EX',466,0,0,0,0,0,0,0,0,40,60,32,74,0,260,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2220090','-----','8000','---','AC','AS',10756.57,0,0,0,0,0,0,0,0,-330.88,-1119.2,17391.01,-1068.19,-2828.47,-1287.7,0)");
@@ -286,31 +299,33 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231407','-----','8000','---','AC','AS',1033.82,597.82,0,0,-348.69,-9.05,-12.34,0,2894.2,0,-235,0,49.7,0,-1305,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231407','-----','4061','---','AC','EX',-2554.5,0,0,0,339.7,0,0,0,-2894.2,0,0,0,0,0,0,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231407','-----','4616','---','AC','EX',235,0,0,0,0,0,0,0,0,0,235,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','1800','---','AC','IN',50,0,0,0,0,0,0,0,0,0,50,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','8000','---','AC','AS',-398.27,1918.46,0,0,-291.66,-56.61,0,0,0,0,50,0,0,0,-100,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','9899','---','NB','FB',-398.27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-398.27)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','5000','---','NB','EX',-448.27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-448.27)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','1800','---','NB','IN',-50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-50)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','9041','---','AC','LI',0,0,0,0,0,0,0,0,0,0,0,0,0,100,-100,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','5215','---','AC','EX',100,0,0,0,0,0,0,0,0,0,0,0,0,100,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','9892','---','EX','FB',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','5215','---','EX','EX',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','4938','---','AC','EX',348.27,0,0,0,291.66,56.61,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231408','-----','9899','---','AC','FB',0,1918.46,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','0110','---','BB','IN',-12000,12000,0,0,0,0,0,0,0,-12000,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','9899','---','NB','FB',-2748.8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2748.8)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','5000','---','NB','EX',-2748.8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2748.8)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','5027','---','AC','EX',9.55,0,0,0,0,0,0,0,0,0,0,0,0,0,9.55,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','4110','---','AC','EX',92.55,0,0,0,0,0,0,0,0,0,0,0,0,0,92.55,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','5000','---','CB','EX',0,12000,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','0110','---','CB','IN',0,12000,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','9899','---','AC','FB',0,12007.47,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','9892','---','EX','FB',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','4055','---','AC','EX',87.8,0,0,62.31,0,0,0,25.49,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','8000','---','AC','AS',-2748.8,12007.47,0,-62.31,0,0,-2558.9,-25.49,0,0,0,0,0,0,-102.1,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','6200','---','EX','EX',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','6200','---','AC','EX',2558.9,0,0,0,0,0,2558.9,0,0,0,0,0,0,0,0,0)");
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BL','2231415','-----','5000','---','BB','EX',-12000,12000,0,0,0,0,0,0,0,-12000,0,0,0,0,0,0)");
+        */
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','1800','---','AC','IN',50,0,0,0,0,0,0,0,0,0,50,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','8000','---','AC','AS',-398.27,1918.46,0,0,-291.66,-56.61,0,0,0,0,50,0,0,0,-100,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','9899','---','NB','FB',-398.27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-398.27)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','5000','---','NB','EX',-448.27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-448.27)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','1800','---','NB','IN',-50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-50)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','9041','---','AC','LI',0,0,0,0,0,0,0,0,0,0,0,0,0,100,-100,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','5215','---','AC','EX',100,0,0,0,0,0,0,0,0,0,0,0,0,100,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','9892','---','EX','FB',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','5215','---','EX','EX',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','4938','---','AC','EX',348.27,0,0,0,291.66,56.61,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231408','-----','9899','---','AC','FB',0,1918.46,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','0110','---','BB','IN',-12000,12000,0,0,0,0,0,0,0,-12000,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','9899','---','NB','FB',-2748.8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2748.8)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','5000','---','NB','EX',-2748.8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2748.8)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','5027','---','AC','EX',9.55,0,0,0,0,0,0,0,0,0,0,0,0,0,9.55,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','4110','---','AC','EX',92.55,0,0,0,0,0,0,0,0,0,0,0,0,0,92.55,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','5000','---','CB','EX',0,12000,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','0110','---','CB','IN',0,12000,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','9899','---','AC','FB',0,12007.47,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','9892','---','EX','FB',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','4055','---','AC','EX',87.8,0,0,62.31,0,0,0,25.49,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','8000','---','AC','AS',-2748.8,12007.47,0,-62.31,0,0,-2558.9,-25.49,0,0,0,0,0,0,-102.1,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','6200','---','EX','EX',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','6200','---','AC','EX',2558.9,0,0,0,0,0,2558.9,0,0,0,0,0,0,0,0,0)");
+        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ("+currentFiscalYear+",'BL','2231415','-----','5000','---','BB','EX',-12000,12000,0,0,0,0,0,0,0,-12000,0,0,0,0,0,0)");
+        /*
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','1476','---','AC','IC',18675,0,0,2700,900,1425,0,1050,0,0,0,0,0,0,12600,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','9899','---','AC','FB',0,49525.04,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','8000','---','AC','AS',2700,49525.04,0,0,0,0,0,0,0,0,0,0,0,0,2700,0)");
@@ -321,5 +336,6 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','4768','---','IE','EX',0,0.03,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','9891','---','IE','FB',0,0.03,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('"+currentFiscalYear+"','BA','6044913','-----','9897','---','AC','FB',-18675,0,0,-2700,-900,-1425,0,-1050,0,0,0,0,0,0,-12600,0)");
+     */
     }
 }

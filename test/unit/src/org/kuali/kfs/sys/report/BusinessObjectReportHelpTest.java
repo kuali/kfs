@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.report;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -27,37 +28,38 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
 @ConfigureContext
 public class BusinessObjectReportHelpTest extends KualiTestBase {
 
+    private static final Logger LOG = Logger.getLogger(BusinessObjectReportHelpTest.class);
+    
     private BusinessObjectReportHelper summaryReportHelper;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
-        Map<String, BusinessObjectReportHelper> businessObjectReportHelperBeans = SpringContext.getBeansOfType(BusinessObjectReportHelper.class);
-        summaryReportHelper = businessObjectReportHelperBeans.get("summaryReportHelperForTesting");
+        summaryReportHelper = SpringContext.getBean(BusinessObjectReportHelper.class,"summaryReportHelperForTesting");
     }
 
     public void testGetTableDefintion() throws Exception {
         Map<String, String> tableDefintion = summaryReportHelper.getTableDefinition();
 
-        System.out.println(tableDefintion.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
-        System.out.println(tableDefintion.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY));
-        System.out.println(tableDefintion.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY));
+        LOG.info(tableDefintion.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
+        LOG.info(tableDefintion.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY));
+        LOG.info(tableDefintion.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY));
     }
     
     public void testApplyColumnSpanOnCellWidth() throws Exception {        
         List<Integer> cellWidthList = summaryReportHelper.getTableCellWidth();
         
-        System.out.println("===before: " + cellWidthList);        
+        LOG.info("===before: " + cellWidthList);        
         summaryReportHelper.applyColspanOnCellWidth(cellWidthList);        
-        System.out.println("===after : " + cellWidthList);
+        LOG.info("===after : " + cellWidthList);
     }
     
     public void testGetTableCellFormat() throws Exception {        
         String tabelCellFormatWithoutColspan = summaryReportHelper.getTableCellFormat(false, true, null);
-        System.out.println("===Without Colspan: " + tabelCellFormatWithoutColspan);
+        LOG.info("===Without Colspan: " + tabelCellFormatWithoutColspan);
         
         String tabelCellFormatWithColspan = summaryReportHelper.getTableCellFormat(true, true, null);
-        System.out.println("===With Colspan:    " + tabelCellFormatWithColspan);
+        LOG.info("===With Colspan:    " + tabelCellFormatWithColspan);
     }
 }

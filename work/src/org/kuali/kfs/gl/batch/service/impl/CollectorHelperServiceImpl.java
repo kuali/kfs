@@ -341,6 +341,8 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      */
     protected boolean performValidation(CollectorBatch batch, MessageMap MessageMap) {
         boolean valid = performCollectorHeaderValidation(batch, MessageMap);
+        
+        performUppercasing(batch);
 
         boolean performDuplicateHeaderCheck = parameterService.getIndicatorParameter(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
         if (valid && performDuplicateHeaderCheck) {
@@ -359,6 +361,37 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         return valid;
+    }
+    
+    /**
+     * Uppercases sub-account, sub-object, and project fields
+     * 
+     * @param batch CollectorBatch with data to uppercase
+     */
+    protected void performUppercasing(CollectorBatch batch) {
+        for (OriginEntryFull originEntry : batch.getOriginEntries()) {
+            if (StringUtils.isNotBlank(originEntry.getSubAccountNumber())) {
+                originEntry.setSubAccountNumber(originEntry.getSubAccountNumber().toUpperCase());
+            }
+
+            if (StringUtils.isNotBlank(originEntry.getFinancialSubObjectCode())) {
+                originEntry.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode().toUpperCase());
+            }
+
+            if (StringUtils.isNotBlank(originEntry.getProjectCode())) {
+                originEntry.setProjectCode(originEntry.getProjectCode().toUpperCase());
+            }
+        }
+
+        for (CollectorDetail detail : batch.getCollectorDetails()) {
+            if (StringUtils.isNotBlank(detail.getSubAccountNumber())) {
+                detail.setSubAccountNumber(detail.getSubAccountNumber().toUpperCase());
+            }
+
+            if (StringUtils.isNotBlank(detail.getFinancialSubObjectCode())) {
+                detail.setFinancialSubObjectCode(detail.getFinancialSubObjectCode().toUpperCase());
+            }
+        }
     }
 
     protected boolean performCollectorHeaderValidation(CollectorBatch batch, MessageMap messageMap) {

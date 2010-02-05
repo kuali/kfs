@@ -47,10 +47,10 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
      * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getAccountingLinesForItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public List getAccountingLinesForItem(PurApItem item) {
-        String itemIdentifier = Integer.toString(item.getItemIdentifier());
         Class clazz = item.getAccountingLineClass();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("itemIdentifier", itemIdentifier);
+        criteria.addEqualTo("itemIdentifier", item.getItemIdentifier());
+        
         // if it's a purchaseOrderItem, we need to make sure we're getting for the right doc number
         if (item instanceof PurchaseOrderItem) {
             criteria.addEqualTo("documentNumber", ((PurchaseOrderItem) item).getDocumentNumber());

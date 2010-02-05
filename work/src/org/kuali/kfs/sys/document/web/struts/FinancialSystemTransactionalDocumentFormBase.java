@@ -104,26 +104,27 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = super.getExtraButtons();
-        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
-        final Set<String> documentActionsFromPresentationController = documentHelperService.getDocumentPresentationController(getDocument())
-                .getDocumentActions(getDocument());
-        final Set<String> documentActionsFromAuthorizer = documentHelperService.getDocumentAuthorizer(getDocument())
-                .getDocumentActions(getDocument(), GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
-        if (documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
+        if (getDocumentActions().containsKey(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) {
             buttons.add(generateErrorCorrectionButton());
         }
         return buttons;
     }
     
+    private ExtraButton errorCorrectionButton;
+    
     /**
      * Generates an ExtraButton which represents the error correction button
+     * 
      * @return an ExtraButton representing an ErrorCorrection button
      */
     protected ExtraButton generateErrorCorrectionButton() {
-        ExtraButton button = new ExtraButton();
-        button.setExtraButtonAltText("Create error correction document from current document");
-        button.setExtraButtonProperty("methodToCall.correct");
-        button.setExtraButtonSource(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"buttonsmall_errcorr.gif");
-        return button;
+        if ( errorCorrectionButton == null ) {
+            ExtraButton button = new ExtraButton();
+            button.setExtraButtonAltText("Create error correction document from current document");
+            button.setExtraButtonProperty("methodToCall.correct");
+            button.setExtraButtonSource(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"buttonsmall_errcorr.gif");
+            errorCorrectionButton = button;
+        }
+        return errorCorrectionButton;
     }
 }

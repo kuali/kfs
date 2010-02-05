@@ -23,6 +23,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import org.kuali.rice.kns.service.DateTimeService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -182,7 +186,14 @@ public class DepositWizardAction extends KualiAction {
             else {
                 dform.getDepositableCashReceipts().add(receipt);
                 DepositWizardHelper d = dform.getDepositWizardHelper(index++);
-                d.setCashReceiptCreateDate(receipt.getDocumentHeader().getWorkflowDocument().getCreateDate());
+                //KFSMI-5232 Jira fix.  Convert the time stamp to SQL date format
+                Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getCreateDate();
+                
+                try {
+                    d.setCashReceiptCreateDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(ts));
+                } catch (Exception e) {
+                    
+                }
             }
         }
     }

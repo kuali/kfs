@@ -392,6 +392,9 @@
         <property name="originEntryGroupService">
             <ref bean="originEntryGroupService" />
         </property>
+        <property name="laborTransactionDescriptionService">
+            <ref bean="laborTransactionDescriptionService" />
+        </property>   
 
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
@@ -567,11 +570,7 @@
     <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">
         <property name="laborGeneralLedgerEntryService">
             <ref bean="laborGeneralLedgerEntryService" />
-        </property>
-        
-        <property name="laborTransactionDescriptionService">
-            <ref bean="laborTransactionDescriptionService" />
-        </property>        
+        </property>     
     </bean>
 
     <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator"/> 

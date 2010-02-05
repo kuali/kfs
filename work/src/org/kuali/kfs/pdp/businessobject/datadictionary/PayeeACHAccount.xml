@@ -79,11 +79,11 @@
     <property name="shortLabel" value="ACH Account ID"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="PayeeACHAccount-bankAccountNumber" parent="PayeeACHAccount-bankAccountNumber-parentBean"/>
@@ -94,7 +94,7 @@
     <property name="shortLabel" value="Bank Account Number"/>
     <property name="maxLength" value="17"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

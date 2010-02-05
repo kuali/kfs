@@ -64,11 +64,11 @@
     <property name="shortLabel" value="Vendor Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="CreditCardVendor-financialDocumentCreditCardVendorName" parent="CreditCardVendor-financialDocumentCreditCardVendorName-parentBean"/>
@@ -80,7 +80,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="CreditCardVendor-financialDocumentCreditCardTypeCode" parent="CreditCardVendor-financialDocumentCreditCardTypeCode-parentBean"/>
@@ -99,7 +99,7 @@
     <property name="label" value="Income Chart"/>
     <property name="shortLabel" value="Income Chart"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSelectControl" />
     </property>
   </bean>
   <bean id="CreditCardVendor-incomeAccountNumber" parent="CreditCardVendor-incomeAccountNumber-parentBean"/>
@@ -139,7 +139,7 @@
     <property name="label" value="Expense Chart"/>
     <property name="shortLabel" value="Expense Chart"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSelectControl" />
     </property>
   </bean>
   <bean id="CreditCardVendor-expenseAccountNumber" parent="CreditCardVendor-expenseAccountNumber-parentBean"/>

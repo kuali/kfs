@@ -89,10 +89,10 @@
     <property name="shortLabel" value="Vendor Address Generated Identifier"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="VendorAddress-vendorBusinessToBusinessUrlAddress" parent="VendorAddress-vendorBusinessToBusinessUrlAddress-parentBean"/>
@@ -104,7 +104,7 @@
     <property name="shortLabel" value="URL"/>
     <property name="maxLength" value="90"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="45"/>

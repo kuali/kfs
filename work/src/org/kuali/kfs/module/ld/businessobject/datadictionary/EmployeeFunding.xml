@@ -106,7 +106,7 @@
   <bean id="EmployeeFunding-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="financialBalanceTypeCode"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="EmployeeFunding-financialObjectCode" parent="EmployeeFunding-financialObjectCode-parentBean"/>

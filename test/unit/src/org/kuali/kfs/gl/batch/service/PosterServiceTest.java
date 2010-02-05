@@ -65,7 +65,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
         // Set the run date of the job
         dateTimeService.setCurrentDate(date);
 
-        posterService = SpringContext.getBeansOfType(PosterService.class).get("glMockPosterService");
+        posterService = SpringContext.getBean(PosterService.class,"glMockPosterService");
         posterService.setDateTimeService(dateTimeService);
     }
 

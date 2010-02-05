@@ -65,7 +65,9 @@ public class PurApObjectUtils {
                 fieldNames.add(field.getName());
             }
             else {
-                LOG.warn("field " + field.getName() + " is transient, skipping ");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("field " + field.getName() + " is transient, skipping ");
+                }
             }
         }
         int counter = 0;
@@ -75,7 +77,9 @@ public class PurApObjectUtils {
                 counter++;
             }
         }
-        LOG.debug("Population complete for " + counter + " fields out of a total of " + fieldNames.size() + " potential fields in object with base class '" + base + "'");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("Population complete for " + counter + " fields out of a total of " + fieldNames.size() + " potential fields in object with base class '" + base + "'");
+        }
     }
     
     /**
@@ -111,12 +115,16 @@ public class PurApObjectUtils {
 
             Object propertyValue = ObjectUtils.getPropertyValue(sourceObject, fieldName);
             if ((ObjectUtils.isNotNull(propertyValue)) && (Collection.class.isAssignableFrom(propertyValue.getClass()))) {
-                LOG.debug("attempting to copy collection field '" + fieldName + "' using base class '" + baseClassName + "' and property value class '" + propertyValue.getClass() + "'");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("attempting to copy collection field '" + fieldName + "' using base class '" + baseClassName + "' and property value class '" + propertyValue.getClass() + "'");
+                }
                 copyCollection(fieldName, targetObject, propertyValue, supplementalUncopyable);
             }
             else {
                 String propertyValueClass = (ObjectUtils.isNotNull(propertyValue)) ? propertyValue.getClass().toString() : "(null)";
-                LOG.debug("attempting to set field '" + fieldName + "' using base class '" + baseClassName + "' and property value class '" + propertyValueClass + "'");
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("attempting to set field '" + fieldName + "' using base class '" + baseClassName + "' and property value class '" + propertyValueClass + "'");
+                }
                 ObjectUtils.setObjectProperty(targetObject, fieldName, propertyValue);
             }
         }
@@ -124,7 +132,9 @@ public class PurApObjectUtils {
             // purposefully skip for now
             // (I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
             // selectively skip
-            LOG.debug("couldn't set field '" + fieldName + "' using base class '" + baseClassName + "' due to exception with class name '" + e.getClass().getName() + "'", e);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("couldn't set field '" + fieldName + "' using base class '" + baseClassName + "' due to exception with class name '" + e.getClass().getName() + "'", e);
+            }
         }
     }
 
@@ -153,12 +163,16 @@ public class PurApObjectUtils {
         // TypedArrayList requires argument so handle differently than below
         if (sourceList instanceof TypedArrayList) {
             TypedArrayList typedArray = (TypedArrayList) sourceList;
-            LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");
+            }
             try {
                 listToSet = new TypedArrayList(typedArray.getListObjectType());
             }
             catch (Exception e) {
-                LOG.info("couldn't set class '" + propertyValue.getClass() + "' on collection... using TypedArrayList using ", e);
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("couldn't set class '" + propertyValue.getClass() + "' on collection... using TypedArrayList using ", e);
+                }
                 listToSet = new ArrayList();
             }
         }
@@ -167,7 +181,9 @@ public class PurApObjectUtils {
                 listToSet = sourceList.getClass().newInstance();
             }
             catch (Exception e) {
-                LOG.info("couldn't set class '" + propertyValue.getClass() + "' on collection..." + fieldName + " using " + sourceList.getClass());
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("couldn't set class '" + propertyValue.getClass() + "' on collection..." + fieldName + " using " + sourceList.getClass());
+                }
                 listToSet = new ArrayList();
             }
         }
@@ -175,7 +191,9 @@ public class PurApObjectUtils {
 
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
-            LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
+            }
             BusinessObject targetCollectionObject = (BusinessObject) createNewObjectFromClass(sourceCollectionObject.getClass());
             populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
             // BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);

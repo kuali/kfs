@@ -105,11 +105,11 @@
     <property name="shortLabel" value="HunCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentFiftyCentAmount" parent="CashDrawer-financialDocumentFiftyCentAmount-parentBean"/>
@@ -132,11 +132,11 @@
     <property name="shortLabel" value="FtyCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentTwentyFiveCentAmount" parent="CashDrawer-financialDocumentTwentyFiveCentAmount-parentBean"/>
@@ -159,11 +159,11 @@
     <property name="shortLabel" value="TwyFvCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentTenCentAmount" parent="CashDrawer-financialDocumentTenCentAmount-parentBean"/>
@@ -186,11 +186,11 @@
     <property name="shortLabel" value="TnCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentFiveCentAmount" parent="CashDrawer-financialDocumentFiveCentAmount-parentBean"/>
@@ -213,11 +213,11 @@
     <property name="shortLabel" value="FvCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentOneCentAmount" parent="CashDrawer-financialDocumentOneCentAmount-parentBean"/>
@@ -240,11 +240,11 @@
     <property name="shortLabel" value="OneCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CashDrawer-financialDocumentOtherCentAmount" parent="CashDrawer-financialDocumentOtherCentAmount-parentBean"/>
@@ -279,7 +279,7 @@
     <property name="shortLabel" value="HunDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -306,7 +306,7 @@
     <property name="shortLabel" value="FtyDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -333,7 +333,7 @@
     <property name="shortLabel" value="TwyDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -360,7 +360,7 @@
     <property name="shortLabel" value="TenDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -387,7 +387,7 @@
     <property name="shortLabel" value="FvDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -414,7 +414,7 @@
     <property name="shortLabel" value="TwoDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -441,7 +441,7 @@
     <property name="shortLabel" value="OneDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

@@ -155,12 +155,6 @@
 		<form-bean name="BudgetExpansionForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm" />
 
-		<!-- KRA Module Bean Definitions -->
-		<form-bean name="BudgetForm"
-			type="org.kuali.kfs.module.cg.document.web.struts.BudgetForm" />
-		<form-bean name="RoutingForm"
-			type="org.kuali.kfs.module.cg.document.web.struts.RoutingForm" />
-
 		<!-- General Ledger Bean Definitions -->
 		<form-bean name="CorrectionForm"
 			type="org.kuali.kfs.gl.document.web.struts.CorrectionForm" />
@@ -431,6 +425,7 @@
 		</action>
 
 		<action path="/depositWizard" name="DepositWizardForm"
+		    input="/jsp/fp/DepositWizard.jsp"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.fp.document.web.struts.DepositWizardAction">
 			<set-property property="cancellable" value="true" />
@@ -574,104 +569,6 @@
 			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
-		<action path="/researchBudget*" name="BudgetForm"
-			input="/jsp/module/cg/Budget{1}.jsp"
-			type="org.kuali.kfs.module.cg.document.web.struts.Budget{1}Action"
-			scope="request" parameter="methodToCall" validate="true"
-			attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/cg/Budget{1}.jsp" />
-			<forward name="parameters"
-				path="/jsp/module/cg/BudgetParameters.jsp"
-				redirect="false" />
-			<forward name="overview"
-				path="/jsp/module/cg/BudgetOverview.jsp"
-				redirect="false" />
-			<forward name="template"
-				path="/jsp/module/cg/BudgetTemplate.jsp"
-				redirect="false" />
-			<forward name="nonpersonnel"
-				path="/jsp/module/cg/BudgetNonpersonnel.jsp"
-				redirect="false" />
-			<forward name="nonpersonnelCopyOver"
-				path="/jsp/module/cg/BudgetNonpersonnelCopyOver.jsp"
-				redirect="false" />
-			<forward name="personnel"
-				path="/jsp/module/cg/BudgetPersonnel.jsp"
-				redirect="false" />
-			<forward name="costshare"
-				path="/jsp/module/cg/BudgetCostShare.jsp"
-				redirect="false" />
-			<forward name="output"
-				path="/jsp/module/cg/BudgetOutput.jsp"
-				redirect="false" />
-			<forward name="modular"
-				path="/jsp/module/cg/BudgetModular.jsp"
-				redirect="false" />
-			<forward name="indirectcost"
-				path="/jsp/module/cg/BudgetIndirectCost.jsp"
-				redirect="false" />
-			<forward name="auditmode"
-				path="/jsp/module/cg/BudgetAuditMode.jsp"
-				redirect="false" />
-			<forward name="permissions"
-				path="/jsp/module/cg/BudgetPermissions.jsp"
-				redirect="false" />
-			<forward name="notes"
-				path="/jsp/module/cg/BudgetNotes.jsp"
-				redirect="false" />
-		</action>
-
-		<action path="/researchRoutingForm*" name="RoutingForm"
-			input="/jsp/module/cg/RoutingForm{1}.jsp"
-			type="org.kuali.kfs.module.cg.document.web.struts.RoutingForm{1}Action"
-			scope="request" parameter="methodToCall" validate="true"
-			attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/cg/RoutingForm{1}.jsp" />
-			<forward name="mainpage"
-				path="/jsp/module/cg/RoutingFormMainPage.jsp"
-				redirect="false" />
-			<forward name="personnel"
-				path="/jsp/module/cg/RoutingFormPersonnel.jsp"
-				redirect="false" />
-			<forward name="researchrisks"
-				path="/jsp/module/cg/RoutingFormResearchRisks.jsp"
-				redirect="false" />
-			<forward name="projectdetails"
-				path="/jsp/module/cg/RoutingFormProjectDetails.jsp"
-				redirect="false" />
-			<forward name="agencyspecific"
-				path="/jsp/module/cg/RoutingFormAgencySpecific.jsp"
-				redirect="false" />
-			<forward name="sf424"
-				path="/jsp/module/cg/RoutingFormSF424.jsp"
-				redirect="false" />
-			<forward name="link"
-				path="/jsp/module/cg/RoutingFormLink.jsp"
-				redirect="false" />
-			<forward name="notes"
-				path="/jsp/module/cg/RoutingFormNotes.jsp"
-				redirect="false" />
-			<forward name="output"
-				path="/jsp/module/cg/RoutingFormOutput.jsp"
-				redirect="false" />
-			<forward name="template"
-				path="/jsp/module/cg/RoutingFormTemplate.jsp"
-				redirect="false" />
-			<forward name="auditmode"
-				path="/jsp/module/cg/RoutingFormAuditMode.jsp"
-				redirect="false" />
-			<forward name="permissions"
-				path="/jsp/module/cg/RoutingFormPermissions.jsp"
-				redirect="false" />
-			<forward name="approvals"
-				path="/jsp/module/cg/RoutingFormApprovals.jsp"
-				redirect="false" />
-		</action>
-
 		<action path="/cashManagementStatus"
 			name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction"
@@ -793,10 +690,8 @@
 	<controller
 		processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor"
 		maxFileSize="5M" />
-
-	<message-resources
-		factory="org.kuali.kfs.sys.web.struts.KFSMessageResourcesFactory"
-		parameter="" />
+		
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
 
 	<plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
 </struts-config>

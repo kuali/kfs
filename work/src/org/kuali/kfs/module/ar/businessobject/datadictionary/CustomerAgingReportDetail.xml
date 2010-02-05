@@ -37,7 +37,7 @@
     <property name="shortLabel" value="Report Option shortLabel"/>
     <property name="maxLength" value="99"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

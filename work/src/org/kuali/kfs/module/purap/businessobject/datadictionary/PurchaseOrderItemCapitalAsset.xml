@@ -37,20 +37,20 @@
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" parent="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean"/>
   <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemIdentifier" p:forceUppercase="false" p:label="Capital Asset System Identifier" p:shortLabel="Capital Asset System Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier" parent="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier-parentBean"/>
   <bean id="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="itemCapitalAssetIdentifier" p:forceUppercase="false" p:label="Purchase Order Item Capital Asset Identifier" p:shortLabel="Purchase Order Item Capital Asset Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 

@@ -18,22 +18,19 @@
 
 
   <bean id="AccountDelegateGlobal-model.chartOfAccountsCode" parent="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean"/>
-
-  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" abstract="true" parent="AccountDelegateModel-chartOfAccountsCode">
+  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
     <property name="name" value="model.chartOfAccountsCode"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  <bean id="AccountDelegateGlobal-model.organizationCode" parent="AccountDelegateGlobal-model.organizationCode-parentBean"/>
 
+  <bean id="AccountDelegateGlobal-model.organizationCode" parent="AccountDelegateGlobal-model.organizationCode-parentBean"/>
   <bean id="AccountDelegateGlobal-model.organizationCode-parentBean" abstract="true" parent="AccountDelegateModel-organizationCode">
     <property name="name" value="model.organizationCode"/>
     <property name="shortLabel" value="Org"/>
+    <property name="required" value="false" />
   </bean>
-  <bean id="AccountDelegateGlobal-model.accountDelegateModelName" parent="AccountDelegateGlobal-model.accountDelegateModelName-parentBean"/>
 
+  <bean id="AccountDelegateGlobal-model.accountDelegateModelName" parent="AccountDelegateGlobal-model.accountDelegateModelName-parentBean"/>
   <bean id="AccountDelegateGlobal-model.accountDelegateModelName-parentBean" abstract="true" parent="AccountDelegateModel-accountDelegateModelName">
     <property name="name" value="model.accountDelegateModelName"/>
     <property name="label" value="Model Name"/>

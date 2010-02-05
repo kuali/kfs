@@ -39,6 +39,7 @@
         <ref bean="CollectorDetail-documentNumber"/>
         <ref bean="CollectorDetail-collectorDetailItemAmount"/>
         <ref bean="CollectorDetail-collectorDetailNoteText"/>
+        <ref bean="CollectorDetail-glCreditCode"/>        
       </list>
     </property>
   </bean>
@@ -53,7 +54,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="shortLabel" value="UnivFsclAcctPrd"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="CollectorDetail-universityFiscalYear" parent="CollectorDetail-universityFiscalYear-parentBean"/>
@@ -65,7 +66,7 @@
     <property name="shortLabel" value="Fiscal Year"/>
     <property name="maxLength" value="4"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CollectorDetail-createDate" parent="CollectorDetail-createDate-parentBean"/>
@@ -77,7 +78,7 @@
     <property name="shortLabel" value="CreateDt"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="CollectorDetail-transactionLedgerEntrySequenceNumber" parent="CollectorDetail-transactionLedgerEntrySequenceNumber-parentBean"/>
@@ -139,7 +140,7 @@
     <property name="shortLabel" value="ClctrSeqId"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="CollectorDetail-financialDocumentTypeCode" parent="CollectorDetail-financialDocumentTypeCode-parentBean"/>
@@ -149,7 +150,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="shortLabel" value="DocTypCd"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CollectorDetail-financialSystemOriginationCode" parent="CollectorDetail-financialSystemOriginationCode-parentBean"/>
@@ -193,4 +194,16 @@
       <bean parent="TextControlDefinition" p:size="120"/>
     </property>
   </bean>
+  <bean id="CollectorDetail-glCreditCode" parent="CollectorDetail-glCreditCode-parentBean"/>
+
+  <bean id="CollectorDetail-glCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="glCreditCode"/>
+    <property name="label" value="GL Credit Code"/>
+    <property name="shortLabel" value="GLCrdtCd"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+  </bean>
+  
 </beans>

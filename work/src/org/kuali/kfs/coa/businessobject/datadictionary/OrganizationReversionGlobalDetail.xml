@@ -26,7 +26,7 @@
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionCategoryCode"/>
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionObjectCode"/>
         <ref bean="OrganizationReversionGlobalDetail-organizationReversionCode"/>
-        <ref bean="OrganizationReversionGlobalDetail-newCollectionRecord"/>
+        <bean parent="GenericAttributes-newCollectionRecord"/>
       </list>
     </property>
     <property name="relationships">
@@ -47,22 +47,9 @@
 <!-- Attribute Definitions -->
 
   <bean id="OrganizationReversionGlobalDetail-documentNumber" parent="OrganizationReversionGlobalDetail-documentNumber-parentBean"/>
+  <bean id="OrganizationReversionGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="OrganizationReversionGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="16"/>
-    </property>
-  </bean>
   <bean id="OrganizationReversionGlobalDetail-organizationReversionCategoryCode" parent="OrganizationReversionGlobalDetail-organizationReversionCategoryCode-parentBean"/>
-
   <bean id="OrganizationReversionGlobalDetail-organizationReversionCategoryCode-parentBean" abstract="true" parent="OrganizationReversionCategory-organizationReversionCategoryCode">
     <property name="label" value="Organization Reversion Category"/>
     <property name="forceUppercase" value="true"/>
@@ -71,26 +58,19 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrganizationReversionCategoryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="OrganizationReversionGlobalDetail-organizationReversionObjectCode" parent="OrganizationReversionGlobalDetail-organizationReversionObjectCode-parentBean"/>
 
+  <bean id="OrganizationReversionGlobalDetail-organizationReversionObjectCode" parent="OrganizationReversionGlobalDetail-organizationReversionObjectCode-parentBean"/>
   <bean id="OrganizationReversionGlobalDetail-organizationReversionObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="organizationReversionObjectCode"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="OrganizationReversionGlobalDetail-organizationReversionCode" parent="OrganizationReversionGlobalDetail-organizationReversionCode-parentBean"/>
 
-  <bean id="OrganizationReversionGlobalDetail-organizationReversionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReversionCode"/>
-    <property name="label" value="Org Reversion Code"/>
-    <property name="shortLabel" value="Org Reversion Code"/>
-    <property name="maxLength" value="2"/>
+  <bean id="OrganizationReversionGlobalDetail-organizationReversionCode" parent="OrganizationReversionGlobalDetail-organizationReversionCode-parentBean"/>
+  <bean id="OrganizationReversionGlobalDetail-organizationReversionCode-parentBean" abstract="true" parent="OrganizationReversionDetail-organizationReversionCode">
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrganizationReversionCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="OrganizationReversionGlobalDetail-newCollectionRecord" parent="OrganizationReversionGlobalDetail-newCollectionRecord-parentBean"/>
 
-  <bean id="OrganizationReversionGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
 </beans>

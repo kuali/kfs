@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2010 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+
+	<!-- ******************************************************************* -->
+	<!--  COMMON VALIDATION DEFINITIONS -->
+	<!-- ******************************************************************* -->
+
+    <bean id="DateValidation" parent="DateValidationPattern"/>
+    
+	<!-- ******************************************************************* -->
+	<!--  COMMON SECURITY DEFINITIONS -->
+	<!-- ******************************************************************* -->
+
+	<bean id="ReadOnlyAttributeSecurity" parent="AttributeSecurity" p:readOnly="true" />
+	<bean id="HiddenAttributeSecurity" parent="AttributeSecurity" p:hide="true" />
+
+	<!-- ******************************************************************* -->
+	<!--  CHART OF ACCOUNTS CODE -->
+	<!-- ******************************************************************* -->
+
+	<bean id="ChartAttribute-TextControl" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="chartOfAccountsCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Chart Code" />
+		<property name="shortLabel" value="Chart" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern" ref="ChartValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="ChartTextControl" />
+	</bean>
+
+	<bean id="ChartValidationPattern" parent="AlphaValidationPattern" p:exactLength="2" />
+
+	<alias alias="ChartTextControl" name="TwoCharacterTextControl" />
+
+	<bean id="ChartSelectControl" parent="SelectControlDefinition" 
+			p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false" />
+
+	<bean id="ChartSimpleSelectControl" parent="SelectControlDefinition" 
+			p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false" />
+	
+	<bean id="ChartAttribute-SelectControl" abstract="true" parent="ChartAttribute-TextControl">
+		<property name="control" ref="ChartSelectControl" />
+	</bean>
+
+	<bean id="ChartAttribute-SimpleSelectControl" abstract="true" parent="ChartAttribute-TextControl">
+		<property name="control" ref="ChartSimpleSelectControl" />
+	</bean>
+
+	<!-- ******************************************************************* -->
+	<!--  ACCOUNT NUMBER -->
+	<!-- ******************************************************************* -->
+
+	<bean id="AccountValidationPattern" parent="AlphaNumericValidation" p:exactLength="7" />
+	<bean id="AccountTextControl" parent="TextControlDefinition" p:size="10" />
+
+	<bean id="AccountAttribute" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountNumber" />
+		<property name="label" value="Account Number" />
+		<property name="shortLabel" value="Account Number" />
+		<property name="forceUppercase" value="true" />
+		<property name="required" value="true" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern" ref="AccountValidationPattern" />
+		<property name="control" ref="AccountTextControl" />
+	</bean>
+
+	<!-- ******************************************************************* -->
+	<!--  SUB ACCOUNT NUMBER -->
+	<!-- ******************************************************************* -->
+
+	<bean id="SubAccountValidationPattern" parent="AnyCharacterValidation" p:maxLength="5" />
+	<bean id="SubAccountTextControl" parent="TextControlDefinition" p:size="5" />
+
+	<bean id="SubAccountAttribute" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="subAccountNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Sub-Account Number" />
+		<property name="shortLabel" value="Sub-Account" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern" ref="SubAccountValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="SubAccountTextControl" />
+	</bean>
+
+	<!-- ******************************************************************* -->
+	<!--  OBJECT CODE -->
+	<!-- ******************************************************************* -->
+
+	<bean id="ObjectCodeAttribute" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialObjectCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Object Code" />
+		<property name="shortLabel" value="Object" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" ref="ObjectCodeValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="ObjectCodeTextControl" />
+	</bean>
+
+	<bean id="ObjectCodeValidationPattern" parent="AlphaNumericValidation" />
+	<alias alias="ObjectCodeTextControl" name="FourCharacterTextControl" />
+
+	<!-- ******************************************************************* -->
+	<!-- SUB OBJECT CODE -->
+	<!-- ******************************************************************* -->
+
+	<bean id="SubObjectAttribute" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialSubObjectCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Sub-Object Code" />
+		<property name="shortLabel" value="Sub-Object" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" ref="SubObjectValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="SubObjectTextControl" />
+	</bean>
+
+	<bean id="SubObjectValidationPattern" parent="AnyCharacterWithWhitespaceValidation" />
+	<bean id="SubObjectTextControl" parent="TextControlDefinition" p:size="3" />
+
+	<!-- ******************************************************************* -->
+	<!-- PROJECT CODE -->
+	<!-- ******************************************************************* -->
+
+	<bean id="ProjectCodeValidationPattern" parent="AnyCharacterWithWhitespaceValidation" />
+	<bean id="ProjectCodeTextControl" parent="TextControlDefinition" p:size="10" />
+
+	<bean id="ProjectCodeAttribute" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="projectCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Project Code" />
+		<property name="shortLabel" value="Project" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern" ref="ProjectCodeValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="ProjectCodeTextControl" />
+	</bean>
+	
+</beans>

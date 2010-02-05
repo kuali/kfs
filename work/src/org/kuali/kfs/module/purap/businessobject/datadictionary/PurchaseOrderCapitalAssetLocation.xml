@@ -51,47 +51,47 @@
   <bean id="PurchaseOrderCapitalAssetLocation-buildingCode" parent="PurchaseOrderCapitalAssetLocation-buildingCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-buildingCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="buildingCode" p:forceUppercase="false" p:label="Building" p:shortLabel="Building" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-buildingRoomNumber" parent="PurchaseOrderCapitalAssetLocation-buildingRoomNumber-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-buildingRoomNumber-parentBean" parent="AttributeDefinition" abstract="true" p:name="buildingRoomNumber" p:forceUppercase="false" p:label="Room" p:shortLabel="Room" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-campusCode" parent="PurchaseOrderCapitalAssetLocation-campusCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="campusCode" p:forceUppercase="false" p:label="Campus" p:shortLabel="Campus" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetCityName" p:forceUppercase="false" p:label="City" p:shortLabel="City" p:maxLength="45" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetCountryCode" p:forceUppercase="false" p:label="Country" p:shortLabel="Country" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
@@ -101,37 +101,37 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address" parent="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLine1Address-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetLine1Address" p:forceUppercase="false" p:label="Address" p:shortLabel="Address" p:maxLength="45" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLocationIdentifier" parent="PurchaseOrderCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetLocationIdentifier" p:forceUppercase="false" p:label="Capital Asset Location Identifier" p:shortLabel="Capital Asset Location Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-postalCode" abstract="true" p:name="capitalAssetPostalCode" p:forceUppercase="false" p:label="Postal Code" p:shortLabel="Postal Code" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetStateCode" p:forceUppercase="false" p:label="State" p:shortLabel="State" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
@@ -141,20 +141,20 @@
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetSystemIdentifier" parent="PurchaseOrderCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemIdentifier" p:forceUppercase="false" p:label="Capital Asset System Identifier" p:shortLabel="Capital Asset System Identifier" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity" parent="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean"/>
   <bean id="PurchaseOrderCapitalAssetLocation-itemQuantity-parentBean" parent="AttributeDefinition" abstract="true" p:name="itemQuantity" p:forceUppercase="false" p:label="Item Quantity" p:shortLabel="Item Quantity" p:maxLength="10" p:required="false">
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
 

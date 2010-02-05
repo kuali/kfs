@@ -49,11 +49,9 @@
 
 
   <bean id="ObjectLevel-chartOfAccountsCode" parent="ObjectLevel-chartOfAccountsCode-parentBean"/>
-
-  <bean id="ObjectLevel-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  </bean>
+  <bean id="ObjectLevel-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl" />
+  
   <bean id="ObjectLevel-financialObjectLevelCode" parent="ObjectLevel-financialObjectLevelCode-parentBean"/>
-
   <bean id="ObjectLevel-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelCode"/>
     <property name="forceUppercase" value="true"/>
@@ -61,15 +59,15 @@
     <property name="shortLabel" value="Level Code"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
+  
   <bean id="ObjectLevel-financialObjectLevelName" parent="ObjectLevel-financialObjectLevelName-parentBean"/>
-
   <bean id="ObjectLevel-financialObjectLevelName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelName"/>
     <property name="forceUppercase" value="false"/>
@@ -77,11 +75,11 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="ObjectLevel-financialObjectLevelShortNm" parent="ObjectLevel-financialObjectLevelShortNm-parentBean"/>
@@ -93,27 +91,27 @@
     <property name="shortLabel" value="ObjLevel"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
+  
   <bean id="ObjectLevel-financialConsolidationObjectCode" parent="ObjectLevel-financialConsolidationObjectCode-parentBean"/>
-
   <bean id="ObjectLevel-financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
     <property name="name" value="financialConsolidationObjectCode"/>
     <property name="shortLabel" value="Consolidation Code"/>
   </bean>
+  
   <bean id="ObjectLevel-active" parent="ObjectLevel-active-parentBean"/>
-
   <bean id="ObjectLevel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
     <property name="required" value="true"/>
   </bean>
-  <bean id="ObjectLevel-financialReportingSortCode" parent="ObjectLevel-financialReportingSortCode-parentBean"/>
 
+  <bean id="ObjectLevel-financialReportingSortCode" parent="ObjectLevel-financialReportingSortCode-parentBean"/>
   <bean id="ObjectLevel-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode"/>
     <property name="forceUppercase" value="false"/>
@@ -125,7 +123,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
 

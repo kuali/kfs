@@ -37,7 +37,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String DESCEND_HIERARCHY = "descendHierarchy";
     public static final String FROM_AMOUNT = "fromAmount";
     public static final String TO_AMOUNT = "toAmount";
-    public static final String DOCUMENT_AMOUNT = "documentAmount";
+    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT = "financialDocumentTotalAmount";
     public static final String ACCOUNTING_LINE_OVERRIDE_CODE = "accountingLineOverrideCode";
     public static final String SUB_FUND_GROUP_CODE = "subFundGroupCode";
     public static final String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";

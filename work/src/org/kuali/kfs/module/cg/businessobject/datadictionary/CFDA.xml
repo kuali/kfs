@@ -47,7 +47,7 @@
     <property name="shortLabel" value="Id"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder" p:includeKeyInLabel="false"/>
@@ -62,7 +62,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
@@ -76,7 +76,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="300"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>

@@ -62,7 +62,7 @@
     <property name="maxLength" value="4"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="CurrencyDetail-cashieringRecordSource" parent="CurrencyDetail-cashieringRecordSource-parentBean"/>
@@ -75,7 +75,7 @@
     <property name="maxLength" value="1"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="CurrencyDetail-financialDocumentHundredDollarAmount" parent="CurrencyDetail-financialDocumentHundredDollarAmount-parentBean"/>
@@ -98,7 +98,7 @@
     <property name="shortLabel" value="HunDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -125,7 +125,7 @@
     <property name="shortLabel" value="FtyDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -152,7 +152,7 @@
     <property name="shortLabel" value="TwyDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -179,7 +179,7 @@
     <property name="shortLabel" value="TenDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -206,7 +206,7 @@
     <property name="shortLabel" value="FvDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -233,7 +233,7 @@
     <property name="shortLabel" value="TwoDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -260,7 +260,7 @@
     <property name="shortLabel" value="OneDlrCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

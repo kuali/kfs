@@ -29,6 +29,4 @@ public interface SufficientFundRebuildDao {
     
     public void populateSufficientFundRebuild();
     
-    public void purgeAccountAndObjectBalances();
-    
 }

@@ -430,6 +430,7 @@ public class CloseServiceTest extends KualiTestBase {
     private void saveAndRoute(ProposalAwardCloseDocument close) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         saveDocument(close, documentService);
+        close = (ProposalAwardCloseDocument) documentService.getByDocumentHeaderId(close.getDocumentNumber());
         routeDocument(close, documentService);
     }
 
@@ -441,7 +442,12 @@ public class CloseServiceTest extends KualiTestBase {
         assertFalse(ENROUTE_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
 
         // Route the doc.
-        documentService.routeDocument(document, "routing test doc", new Vector());
+        try {
+            documentService.routeDocument(document, "routing test doc", new Vector());
+        } catch ( ValidationException e ) {
+            // If the business rule evaluation fails then give us more info for debugging this test.
+            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
+        }
 
         // Routing should be configured to go straight to final.
       //  assertTrue(FINAL_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));

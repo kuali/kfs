@@ -108,37 +108,12 @@
 
 
   <bean id="LaborOriginEntry-accountNumber" parent="LaborOriginEntry-accountNumber-parentBean"/>
+  <bean id="LaborOriginEntry-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
 
-  <bean id="LaborOriginEntry-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
   <bean id="LaborOriginEntry-chartOfAccountsCode" parent="LaborOriginEntry-chartOfAccountsCode-parentBean"/>
+  <bean id="LaborOriginEntry-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
 
-  <bean id="LaborOriginEntry-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-  </bean>
   <bean id="LaborOriginEntry-earnCode" parent="LaborOriginEntry-earnCode-parentBean"/>
-
   <bean id="LaborOriginEntry-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="earnCode"/>
     <property name="forceUppercase" value="false"/>
@@ -146,14 +121,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-emplid" parent="LaborOriginEntry-emplid-parentBean"/>
 
+  <bean id="LaborOriginEntry-emplid" parent="LaborOriginEntry-emplid-parentBean"/>
   <bean id="LaborOriginEntry-emplid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="false"/>
@@ -161,14 +136,14 @@
     <property name="shortLabel" value="Emplid"/>
     <property name="maxLength" value="11"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-employeeRecord" parent="LaborOriginEntry-employeeRecord-parentBean"/>
 
+  <bean id="LaborOriginEntry-employeeRecord" parent="LaborOriginEntry-employeeRecord-parentBean"/>
   <bean id="LaborOriginEntry-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="employeeRecord"/>
     <property name="forceUppercase" value="true"/>
@@ -176,14 +151,14 @@
     <property name="shortLabel" value="Record"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-financialBalanceTypeCode" parent="LaborOriginEntry-financialBalanceTypeCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-financialBalanceTypeCode" parent="LaborOriginEntry-financialBalanceTypeCode-parentBean"/>
   <bean id="LaborOriginEntry-financialBalanceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialBalanceTypeCode"/>
     <property name="forceUppercase" value="false"/>
@@ -191,14 +166,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
+  
   <bean id="LaborOriginEntry-financialDocumentApprovedCode" parent="LaborOriginEntry-financialDocumentApprovedCode-parentBean"/>
-
   <bean id="LaborOriginEntry-financialDocumentApprovedCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentApprovedCode"/>
     <property name="forceUppercase" value="false"/>
@@ -206,14 +181,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-documentNumber" parent="LaborOriginEntry-documentNumber-parentBean"/>
 
+  <bean id="LaborOriginEntry-documentNumber" parent="LaborOriginEntry-documentNumber-parentBean"/>
   <bean id="LaborOriginEntry-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -221,77 +196,44 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-financialDocumentReversalDate" parent="LaborOriginEntry-financialDocumentReversalDate-parentBean"/>
 
+  <bean id="LaborOriginEntry-financialDocumentReversalDate" parent="LaborOriginEntry-financialDocumentReversalDate-parentBean"/>
   <bean id="LaborOriginEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentReversalDate"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Financial Document Reversal Date"/>
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="DateValidation" />
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-financialDocumentTypeCode" parent="LaborOriginEntry-financialDocumentTypeCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-financialDocumentTypeCode" parent="LaborOriginEntry-financialDocumentTypeCode-parentBean"/>
   <bean id="LaborOriginEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode"/>
   </bean>
+
   <bean id="LaborOriginEntry-financialObjectCode" parent="LaborOriginEntry-financialObjectCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Financial Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+  <bean id="LaborOriginEntry-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
+
   <bean id="LaborOriginEntry-financialObjectTypeCode" parent="LaborOriginEntry-financialObjectTypeCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
     <property name="name" value="financialObjectTypeCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Financial Object Type Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
   </bean>
+
   <bean id="LaborOriginEntry-financialSubObjectCode" parent="LaborOriginEntry-financialSubObjectCode-parentBean"/>
+  <bean id="LaborOriginEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode" />
 
-  <bean id="LaborOriginEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Financial Sub Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>    
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-  </bean>
   <bean id="LaborOriginEntry-financialSystemOriginationCode" parent="LaborOriginEntry-financialSystemOriginationCode-parentBean"/>
-
   <bean id="LaborOriginEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode"/>
     <property name="forceUppercase" value="false"/>
@@ -302,8 +244,8 @@
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-grade" parent="LaborOriginEntry-grade-parentBean"/>
 
+  <bean id="LaborOriginEntry-grade" parent="LaborOriginEntry-grade-parentBean"/>
   <bean id="LaborOriginEntry-grade-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grade"/>
     <property name="forceUppercase" value="false"/>
@@ -311,14 +253,14 @@
     <property name="shortLabel" value="Grade"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
+  
   <bean id="LaborOriginEntry-hrmsCompany" parent="LaborOriginEntry-hrmsCompany-parentBean"/>
-
   <bean id="LaborOriginEntry-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsCompany"/>
     <property name="forceUppercase" value="false"/>
@@ -326,89 +268,47 @@
     <property name="shortLabel" value="Company"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
+
   <bean id="LaborOriginEntry-laborLedgerOriginalAccountNumber" parent="LaborOriginEntry-laborLedgerOriginalAccountNumber-parentBean"/>
-
-  <bean id="LaborOriginEntry-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="LaborOriginEntry-accountNumber">
     <property name="name" value="laborLedgerOriginalAccountNumber"/>
-    <property name="forceUppercase" value="false"/>
+    <property name="required" value="false"/>
     <property name="label" value="Labor Ledger Original Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
   </bean>
+
   <bean id="LaborOriginEntry-laborLedgerOriginalChartOfAccountsCode" parent="LaborOriginEntry-laborLedgerOriginalChartOfAccountsCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="LaborOriginEntry-chartOfAccountsCode">
     <property name="name" value="laborLedgerOriginalChartOfAccountsCode"/>
-    <property name="forceUppercase" value="false"/>
+    <property name="required" value="false"/>
     <property name="label" value="Labor Ledger Original Chart Of Accounts Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
   </bean>
+
   <bean id="LaborOriginEntry-laborLedgerOriginalFinancialObjectCode" parent="LaborOriginEntry-laborLedgerOriginalFinancialObjectCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="LaborOriginEntry-financialObjectCode">
     <property name="name" value="laborLedgerOriginalFinancialObjectCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Labor Ledger Original Financial Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
+
   <bean id="LaborOriginEntry-laborLedgerOriginalFinancialSubObjectCode" parent="LaborOriginEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode">
     <property name="name" value="laborLedgerOriginalFinancialSubObjectCode"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Labor Ledger Original Financial Sub Object Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
   </bean>
+
   <bean id="LaborOriginEntry-laborLedgerOriginalSubAccountNumber" parent="LaborOriginEntry-laborLedgerOriginalSubAccountNumber-parentBean"/>
-
-  <bean id="LaborOriginEntry-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="LaborOriginEntry-subAccountNumber">
     <property name="name" value="laborLedgerOriginalSubAccountNumber"/>
-    <property name="forceUppercase" value="false"/>
+    <property name="required" value="false"/>
     <property name="label" value="Labor Ledger Original Sub Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
   </bean>
-  <bean id="LaborOriginEntry-organizationDocumentNumber" parent="LaborOriginEntry-organizationDocumentNumber-parentBean"/>
 
+  <bean id="LaborOriginEntry-organizationDocumentNumber" parent="LaborOriginEntry-organizationDocumentNumber-parentBean"/>
   <bean id="LaborOriginEntry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDocumentNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -416,14 +316,14 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-organizationReferenceId" parent="LaborOriginEntry-organizationReferenceId-parentBean"/>
 
+  <bean id="LaborOriginEntry-organizationReferenceId" parent="LaborOriginEntry-organizationReferenceId-parentBean"/>
   <bean id="LaborOriginEntry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId"/>
     <property name="forceUppercase" value="false"/>
@@ -431,14 +331,14 @@
     <property name="shortLabel" value="Id"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-entryGroupId" parent="LaborOriginEntry-entryGroupId-parentBean"/>
 
+  <bean id="LaborOriginEntry-entryGroupId" parent="LaborOriginEntry-entryGroupId-parentBean"/>
   <bean id="LaborOriginEntry-entryGroupId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="entryGroupId"/>
     <property name="forceUppercase" value="true"/>
@@ -446,14 +346,14 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-entryId" parent="LaborOriginEntry-entryId-parentBean"/>
 
+  <bean id="LaborOriginEntry-entryId" parent="LaborOriginEntry-entryId-parentBean"/>
   <bean id="LaborOriginEntry-entryId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="entryId"/>
     <property name="forceUppercase" value="true"/>
@@ -461,14 +361,14 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-payGroup" parent="LaborOriginEntry-payGroup-parentBean"/>
 
+  <bean id="LaborOriginEntry-payGroup" parent="LaborOriginEntry-payGroup-parentBean"/>
   <bean id="LaborOriginEntry-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payGroup"/>
     <property name="forceUppercase" value="false"/>
@@ -476,29 +376,27 @@
     <property name="shortLabel" value="Group"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-payPeriodEndDate" parent="LaborOriginEntry-payPeriodEndDate-parentBean"/>
 
+  <bean id="LaborOriginEntry-payPeriodEndDate" parent="LaborOriginEntry-payPeriodEndDate-parentBean"/>
   <bean id="LaborOriginEntry-payPeriodEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payPeriodEndDate"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Pay Period End Date"/>
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="DateValidation" />
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-payrollEndDateFiscalPeriodCode" parent="LaborOriginEntry-payrollEndDateFiscalPeriodCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-payrollEndDateFiscalPeriodCode" parent="LaborOriginEntry-payrollEndDateFiscalPeriodCode-parentBean"/>
   <bean id="LaborOriginEntry-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payrollEndDateFiscalPeriodCode"/>
     <property name="forceUppercase" value="false"/>
@@ -506,14 +404,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-payrollEndDateFiscalYear" parent="LaborOriginEntry-payrollEndDateFiscalYear-parentBean"/>
 
+  <bean id="LaborOriginEntry-payrollEndDateFiscalYear" parent="LaborOriginEntry-payrollEndDateFiscalYear-parentBean"/>
   <bean id="LaborOriginEntry-payrollEndDateFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payrollEndDateFiscalYear"/>
     <property name="forceUppercase" value="true"/>
@@ -521,14 +419,14 @@
     <property name="shortLabel" value="Year"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-positionNumber" parent="LaborOriginEntry-positionNumber-parentBean"/>
 
+  <bean id="LaborOriginEntry-positionNumber" parent="LaborOriginEntry-positionNumber-parentBean"/>
   <bean id="LaborOriginEntry-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -536,29 +434,20 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
+
   <bean id="LaborOriginEntry-projectCode" parent="LaborOriginEntry-projectCode-parentBean"/>
-
-  <bean id="LaborOriginEntry-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborOriginEntry-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Project Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="LaborOriginEntry-referenceFinancialDocumentNumber" parent="LaborOriginEntry-referenceFinancialDocumentNumber-parentBean"/>
 
+  <bean id="LaborOriginEntry-referenceFinancialDocumentNumber" parent="LaborOriginEntry-referenceFinancialDocumentNumber-parentBean"/>
   <bean id="LaborOriginEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -566,20 +455,20 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-referenceFinancialDocumentTypeCode" parent="LaborOriginEntry-referenceFinancialDocumentTypeCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-referenceFinancialDocumentTypeCode" parent="LaborOriginEntry-referenceFinancialDocumentTypeCode-parentBean"/>
   <bean id="LaborOriginEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode"/>
     <property name="maxLength" value="4"/>
   </bean>
-  <bean id="LaborOriginEntry-referenceFinancialSystemOriginationCode" parent="LaborOriginEntry-referenceFinancialSystemOriginationCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-referenceFinancialSystemOriginationCode" parent="LaborOriginEntry-referenceFinancialSystemOriginationCode-parentBean"/>
   <bean id="LaborOriginEntry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialSystemOriginationCode"/>
     <property name="forceUppercase" value="false"/>
@@ -587,14 +476,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-runIdentifier" parent="LaborOriginEntry-runIdentifier-parentBean"/>
 
+  <bean id="LaborOriginEntry-runIdentifier" parent="LaborOriginEntry-runIdentifier-parentBean"/>
   <bean id="LaborOriginEntry-runIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="runIdentifier"/>
     <property name="forceUppercase" value="false"/>
@@ -602,14 +491,14 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-salaryAdministrationPlan" parent="LaborOriginEntry-salaryAdministrationPlan-parentBean"/>
 
+  <bean id="LaborOriginEntry-salaryAdministrationPlan" parent="LaborOriginEntry-salaryAdministrationPlan-parentBean"/>
   <bean id="LaborOriginEntry-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salaryAdministrationPlan"/>
     <property name="forceUppercase" value="false"/>
@@ -617,14 +506,14 @@
     <property name="shortLabel" value="Plan"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-setid" parent="LaborOriginEntry-setid-parentBean"/>
 
+  <bean id="LaborOriginEntry-setid" parent="LaborOriginEntry-setid-parentBean"/>
   <bean id="LaborOriginEntry-setid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setid"/>
     <property name="forceUppercase" value="false"/>
@@ -632,59 +521,45 @@
     <property name="shortLabel" value="Setid"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
+
   <bean id="LaborOriginEntry-subAccountNumber" parent="LaborOriginEntry-subAccountNumber-parentBean"/>
-
-  <bean id="LaborOriginEntry-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Sub Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
+  <bean id="LaborOriginEntry-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="required" value="false"/>
   </bean>
-  <bean id="LaborOriginEntry-transactionDate" parent="LaborOriginEntry-transactionDate-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionDate" parent="LaborOriginEntry-transactionDate-parentBean"/>
   <bean id="LaborOriginEntry-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDate"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Date"/>
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="DateValidation" />
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionDateTimeStamp" parent="LaborOriginEntry-transactionDateTimeStamp-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionDateTimeStamp" parent="LaborOriginEntry-transactionDateTimeStamp-parentBean"/>
   <bean id="LaborOriginEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDateTimeStamp"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Date Time Stamp"/>
     <property name="shortLabel" value="Stamp"/>
     <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
+    <property name="validationPattern" ref="DateValidation" />
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionDebitCreditCode" parent="LaborOriginEntry-transactionDebitCreditCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionDebitCreditCode" parent="LaborOriginEntry-transactionDebitCreditCode-parentBean"/>
   <bean id="LaborOriginEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode"/>
     <property name="forceUppercase" value="false"/>
@@ -692,14 +567,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionEncumbranceUpdateCode" parent="LaborOriginEntry-transactionEncumbranceUpdateCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionEncumbranceUpdateCode" parent="LaborOriginEntry-transactionEncumbranceUpdateCode-parentBean"/>
   <bean id="LaborOriginEntry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceUpdateCode"/>
     <property name="forceUppercase" value="false"/>
@@ -707,14 +582,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionEntryOffsetCode" parent="LaborOriginEntry-transactionEntryOffsetCode-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionEntryOffsetCode" parent="LaborOriginEntry-transactionEntryOffsetCode-parentBean"/>
   <bean id="LaborOriginEntry-transactionEntryOffsetCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEntryOffsetCode"/>
     <property name="forceUppercase" value="false"/>
@@ -722,14 +597,14 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionEntryProcessedTimestamp" parent="LaborOriginEntry-transactionEntryProcessedTimestamp-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionEntryProcessedTimestamp" parent="LaborOriginEntry-transactionEntryProcessedTimestamp-parentBean"/>
   <bean id="LaborOriginEntry-transactionEntryProcessedTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEntryProcessedTimestamp"/>
     <property name="forceUppercase" value="true"/>
@@ -737,14 +612,14 @@
     <property name="shortLabel" value="Timestamp"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionLedgerEntryAmount" parent="LaborOriginEntry-transactionLedgerEntryAmount-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionLedgerEntryAmount" parent="LaborOriginEntry-transactionLedgerEntryAmount-parentBean"/>
   <bean id="LaborOriginEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryAmount"/>
     <property name="forceUppercase" value="true"/>
@@ -752,14 +627,14 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="21"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionLedgerEntryDescription" parent="LaborOriginEntry-transactionLedgerEntryDescription-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionLedgerEntryDescription" parent="LaborOriginEntry-transactionLedgerEntryDescription-parentBean"/>
   <bean id="LaborOriginEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription"/>
     <property name="forceUppercase" value="false"/>
@@ -767,14 +642,14 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
+  
   <bean id="LaborOriginEntry-transactionLedgerEntrySequenceNumber" parent="LaborOriginEntry-transactionLedgerEntrySequenceNumber-parentBean"/>
-
   <bean id="LaborOriginEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntrySequenceNumber"/>
     <property name="forceUppercase" value="true"/>
@@ -782,14 +657,14 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="LaborOriginEntry-transactionPostingDate" parent="LaborOriginEntry-transactionPostingDate-parentBean"/>
 
+  <bean id="LaborOriginEntry-transactionPostingDate" parent="LaborOriginEntry-transactionPostingDate-parentBean"/>
   <bean id="LaborOriginEntry-transactionPostingDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPostingDate"/>
     <property name="forceUppercase" value="true"/>
@@ -797,7 +672,7 @@
     <property name="shortLabel" value="Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
+      <ref bean="DateValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
@@ -812,7 +687,7 @@
     <property name="shortLabel" value="Hours"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
@@ -827,10 +702,10 @@
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="LaborOriginEntry-universityFiscalYear" parent="LaborOriginEntry-universityFiscalYear-parentBean"/>
@@ -842,7 +717,7 @@
     <property name="shortLabel" value="Year"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>

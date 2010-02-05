@@ -49,22 +49,22 @@
 
   <bean id="PaymentAccountDetail-finChartCode" parent="PaymentAccountDetail-finChartCode-parentBean"/>
 
-  <bean id="PaymentAccountDetail-finChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="PaymentAccountDetail-finChartCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
    <property name="name" value="finChartCode"/>
   </bean>
   <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode" parent="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean"/>
 
-  <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
    <property name="name" value="chartOfAccounts.chartOfAccountsCode"/>
   </bean>  
   <bean id="PaymentAccountDetail-accountNbr" parent="PaymentAccountDetail-accountNbr-parentBean"/>
 
-  <bean id="PaymentAccountDetail-accountNbr-parentBean" abstract="true" parent="Account-accountNumber">
+  <bean id="PaymentAccountDetail-accountNbr-parentBean" abstract="true" parent="AccountAttribute">
   <property name="name" value="accountNbr"/>
   </bean>
   <bean id="PaymentAccountDetail-account.accountNumber" parent="PaymentAccountDetail-account.accountNumber-parentBean"/>
 
-  <bean id="PaymentAccountDetail-account.accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  <bean id="PaymentAccountDetail-account.accountNumber-parentBean" abstract="true" parent="AccountAttribute">
   <property name="name" value="account.accountNumber"/>
   </bean>
   <bean id="PaymentAccountDetail-subAccountNbr" parent="PaymentAccountDetail-subAccountNbr-parentBean"/>
@@ -79,13 +79,13 @@
   </bean>
   <bean id="PaymentAccountDetail-objectCode.financialObjectCode" parent="PaymentAccountDetail-objectCode.financialObjectCode-parentBean"/>
 
-  <bean id="PaymentAccountDetail-objectCode.financialObjectCode-parentBean" abstract="true" parent="ObjectCodeCurrent-financialObjectCode">
+  <bean id="PaymentAccountDetail-objectCode.financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
   <property name="name" value="objectCode.financialObjectCode"/>
   </bean>
   
   <bean id="PaymentAccountDetail-finObjectCode" parent="PaymentAccountDetail-finObjectCode-parentBean"/>
 
-  <bean id="PaymentAccountDetail-finObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  <bean id="PaymentAccountDetail-finObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
   <property name="name" value="finObjectCode"/>
   </bean>
   
@@ -102,7 +102,7 @@
     <property name="shortLabel" value="Organization Reference ID"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
-       <bean parent="AnyCharacterValidationPattern"/>
+       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>

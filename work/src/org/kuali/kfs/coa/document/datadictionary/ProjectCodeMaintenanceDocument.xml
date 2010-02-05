@@ -80,7 +80,7 @@
 	<property name="routingTypeDefinitions">
     		
     		<map>
-    			<entry key="OrganizationHierarchy" value-ref="ProjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
     		</map>
     	
 		</property>
@@ -115,37 +115,5 @@
     		</list>
     	</property>
 	</bean>
-	
-	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
-	</bean>
-	
-	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="organizationCode"/>
-	</bean>
-	
-	
-	<bean id="ProjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-    		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-    			<value>newMaintainableObject.businessObject.organizationCode</value>
-    		</list>
-    	</property>
-   	</bean>
-   	
-   	<bean id="ProjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart"/>
-    			<ref bean="ProjectCodeMaintenanceDocument-RoutingAttribute-Organization"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="ProjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
-    		</list>
-    	</property>
-    </bean>
 	
 </beans>

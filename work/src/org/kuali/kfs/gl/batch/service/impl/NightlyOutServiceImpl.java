@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,6 +109,11 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
             
             OriginEntryFull entry = new OriginEntryFull(pendingEntry);
+            
+            // KFSMI-5288: Don't want any control characters in output files. They potentially disrupt further processing
+            if (ObjectUtils.isNotNull(entry.getTransactionLedgerEntryDescription())) {
+              entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().replaceAll("\\p{Cntrl}", " "));
+            }
             
             // write entry to reports
             entryListReport.writeEntry(entry, pendingEntryListReportWriterService);

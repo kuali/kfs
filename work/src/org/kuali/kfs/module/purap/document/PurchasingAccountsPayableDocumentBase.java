@@ -29,9 +29,11 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.Status;
@@ -370,7 +372,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             //super.buildListOfDeletionAwareLists() is executed when it calls getSourceAccountingLines(). 
             //So we can remove the old codes that used to exist here to add the accounts to the
             //managedLists and just use the one from the super.buildListOfDeletionAwareLists()
+            List<PurApItemBase> subManageList = this.getItems();
+            List useTaxItems = new ArrayList();
+        	for (PurApItemBase subManage : subManageList) {
+        		useTaxItems.addAll(subManage.getUseTaxItems());
+        	}
+        
             managedLists.add(this.getItems());
+            managedLists.add(useTaxItems);
         }
         return managedLists;
     }   

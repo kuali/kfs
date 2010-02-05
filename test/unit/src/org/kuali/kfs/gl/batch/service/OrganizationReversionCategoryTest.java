@@ -44,8 +44,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        Map<String, OrganizationReversionService> orgRevServiceBeans = SpringContext.getBeansOfType(OrganizationReversionService.class);
-        organizationReversionService = orgRevServiceBeans.get("organizationReversionService");
+        organizationReversionService = SpringContext.getBean(OrganizationReversionService.class,"organizationReversionService");
         categories = organizationReversionService.getCategories();
         objectCodeService = SpringContext.getBean(ObjectCodeService.class);
     }

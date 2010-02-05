@@ -212,8 +212,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Map<String, OrganizationReversionService> orgRevServiceBeans = SpringContext.getBeansOfType(OrganizationReversionService.class);
-        organizationReversionService = orgRevServiceBeans.get("glOrganizationReversionMockService");
+        organizationReversionService = SpringContext.getBean(OrganizationReversionService.class,"glOrganizationReversionMockService");
         DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
         balanceService = SpringContext.getBean(BalanceService.class);
         cashOrganizationReversionCategoryLogic = SpringContext.getBean(CashOrganizationReversionCategoryLogic.class);
@@ -227,8 +226,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
 
-        Map<String, OrganizationReversionProcess> organizationReversionProcesses = SpringContext.getBeansOfType(OrganizationReversionProcess.class);
-        orgRevProcess = organizationReversionProcesses.get("glOrganizationReversionTestProcess");
+        orgRevProcess = SpringContext.getBean(OrganizationReversionProcess.class,"glOrganizationReversionTestProcess");
     }
 
     /**

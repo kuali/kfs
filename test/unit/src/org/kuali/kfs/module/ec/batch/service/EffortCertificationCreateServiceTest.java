@@ -34,7 +34,9 @@ import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class EffortCertificationCreateServiceTest extends KualiTestBase {
@@ -97,7 +99,7 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         }
         catch (Exception e) {
             e.printStackTrace();
-            fail(message.getProperty("error.validParameters"));
+            fail(message.getProperty("error.validParameters") + " - Reported Errors: " + GlobalVariables.getMessageMap() );
         }
     }
 
@@ -291,7 +293,12 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        effortCertificationCreateService.create(fiscalYear, reportNumber);
+        try {
+            effortCertificationCreateService.create(fiscalYear, reportNumber);
+        } catch ( ValidationException e ) {
+            // If the business rule evaluation fails then give us more info for debugging this test.
+            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
+        }
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
@@ -324,7 +331,12 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        effortCertificationCreateService.create(fiscalYear, reportNumber);
+        try {
+            effortCertificationCreateService.create(fiscalYear, reportNumber);
+        } catch ( ValidationException e ) {
+            // If the business rule evaluation fails then give us more info for debugging this test.
+            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
+        }
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 

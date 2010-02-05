@@ -52,10 +52,10 @@
     <property name="shortLabel" value="Phone Gen. ID"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="VendorPhoneNumber-vendorPhoneTypeCode" parent="VendorPhoneNumber-vendorPhoneTypeCode-parentBean"/>
@@ -83,10 +83,10 @@
     <property name="shortLabel" value="Extension"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="VendorPhoneNumber-newCollectionRecord" parent="VendorPhoneNumber-newCollectionRecord-parentBean"/>

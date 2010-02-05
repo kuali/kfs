@@ -166,7 +166,7 @@
       <bean parent="AnyCharacterValidationPattern" p:maxLength="10"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OrganizationExtension-hrmsIuCampusRoom" parent="OrganizationExtension-hrmsIuCampusRoom-parentBean"/>
@@ -190,7 +190,7 @@
     <property name="label" value="Personnel Approver UserID"/>
     <property name="shortLabel" value="Personnel Approver UserID"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName-parentBean"/>
@@ -218,7 +218,7 @@
     <property name="label" value="Fiscal Approver UserID"/>
     <property name="shortLabel" value="Fiscal Approver UserID"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationExtension-fiscalApproverUniversal.principalName" parent="OrganizationExtension-fiscalApproverUniversal.principalName-parentBean"/>

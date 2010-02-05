@@ -73,7 +73,7 @@
     <property name="maxLength" value="100"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="OrganizationAccountingDefault-chartOfAccountsCode" parent="OrganizationAccountingDefault-chartOfAccountsCode-parentBean"/>
@@ -118,10 +118,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OrganizationAccountingDefault-defaultInvoiceProjectCode" parent="OrganizationAccountingDefault-defaultInvoiceProjectCode-parentBean"/>
@@ -162,10 +162,10 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OrganizationAccountingDefault-defaultPaymentProjectCode" parent="OrganizationAccountingDefault-defaultPaymentProjectCode-parentBean"/>
@@ -271,10 +271,10 @@
     <property name="shortLabel" value="Writeoff Identifier"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="OrganizationAccountingDefault-universityFiscalYear" parent="OrganizationAccountingDefault-universityFiscalYear-parentBean"/>

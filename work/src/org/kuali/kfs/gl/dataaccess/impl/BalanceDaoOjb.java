@@ -788,8 +788,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
-        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
-        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceAnnualAndCGTotalNotZeroIterator");
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class,"glBalanceAnnualAndCGTotalNotZeroIterator");
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;

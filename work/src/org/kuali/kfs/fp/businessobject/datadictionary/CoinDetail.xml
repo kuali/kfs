@@ -60,7 +60,7 @@
     <property name="maxLength" value="4"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="CoinDetail-cashieringRecordSource" parent="CoinDetail-cashieringRecordSource-parentBean"/>
@@ -73,7 +73,7 @@
     <property name="maxLength" value="1"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentHundredCentAmount" parent="CoinDetail-financialDocumentHundredCentAmount-parentBean"/>
@@ -96,11 +96,11 @@
     <property name="shortLabel" value="HunCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentFiftyCentAmount" parent="CoinDetail-financialDocumentFiftyCentAmount-parentBean"/>
@@ -123,11 +123,11 @@
     <property name="shortLabel" value="FtyCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentTwentyFiveCentAmount" parent="CoinDetail-financialDocumentTwentyFiveCentAmount-parentBean"/>
@@ -150,11 +150,11 @@
     <property name="shortLabel" value="TwyFvCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentTenCentAmount" parent="CoinDetail-financialDocumentTenCentAmount-parentBean"/>
@@ -177,11 +177,11 @@
     <property name="shortLabel" value="TnCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentFiveCentAmount" parent="CoinDetail-financialDocumentFiveCentAmount-parentBean"/>
@@ -204,11 +204,11 @@
     <property name="shortLabel" value="FvCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentOneCentAmount" parent="CoinDetail-financialDocumentOneCentAmount-parentBean"/>
@@ -231,11 +231,11 @@
     <property name="shortLabel" value="OneCntCnt"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
   <bean id="CoinDetail-financialDocumentOtherCentAmount" parent="CoinDetail-financialDocumentOtherCentAmount-parentBean"/>

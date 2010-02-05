@@ -55,7 +55,7 @@
     <property name="name" value="chartOfAccounts.codeAndDescription"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     
@@ -76,7 +76,7 @@
     <property name="shortLabel" value="Repts to Cht"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="HiddenControlDefinition"/>
+      <ref bean="HiddenControl" />
     </property>
     
     

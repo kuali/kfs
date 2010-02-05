@@ -61,7 +61,7 @@
     <property name="shortLabel" value="ID"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
-       <bean parent="NumericValidationPattern"/>
+       <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
@@ -97,7 +97,7 @@
     <property name="shortLabel" value="Extracted Indicator"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
@@ -111,7 +111,7 @@
     <property name="shortLabel" value="Formatted Indicator"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>

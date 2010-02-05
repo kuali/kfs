@@ -51,7 +51,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
+      <ref bean="FloatingPointAllowNegativeValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
@@ -100,7 +100,7 @@
     <property name="shortLabel" value="Percent"/>
     <property name="maxLength" value="22"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <ref bean="FloatingPointValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="24"/>
@@ -127,7 +127,7 @@
     <property name="shortLabel" value="Amount"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
+      <ref bean="FloatingPointAllowNegativeValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

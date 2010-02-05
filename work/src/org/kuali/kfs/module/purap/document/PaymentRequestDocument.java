@@ -40,7 +40,9 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -50,6 +52,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -572,10 +575,18 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     if (purchasingCAMSItem != null) {
                         paymentRequestItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
                     }
+                    
+                    /*
+                    // copy usetaxitems over
+                    paymentRequestItem.getUseTaxItems().clear();
+                    for (PurApItemUseTax useTax : poi.getUseTaxItems()) {
+                        paymentRequestItem.getUseTaxItems().add(useTax);
+                    }
+                    */
                 }
             }
         }
-        
+   
         // add missing below the line
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
@@ -682,12 +693,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return "";
     }
 
+
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
+        
         super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
@@ -1069,13 +1082,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             LOG.error("fail to access Workflow." + e);
         }
 
-
         // first populate, then call super
         if (event instanceof AttributedContinuePurapEvent) {
             SpringContext.getBean(PaymentRequestService.class).populatePaymentRequest(this);
         }
-
         super.prepareForSave(event);
+     
     }
 
     /**

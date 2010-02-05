@@ -9,8 +9,8 @@
       <list>
         <ref bean="SubObjectCodeGlobal-universityFiscalYear"/>
         <ref bean="SubObjectCodeGlobal-chartOfAccountsCode"/>
-        <ref bean="SubObjectCodeGlobal-financialSubObjectCode"/>
-        <ref bean="SubObjectCodeGlobal-financialSubObjectCodeName"/>
+        <bean parent="SubObjectCode-financialSubObjectCode"/>
+        <bean parent="SubObjectCode-financialSubObjectCodeName" />
         <ref bean="SubObjectCodeGlobal-financialSubObjectCodeShortName"/>
         <ref bean="SubObjectCodeGlobal-active"/>
       </list>
@@ -21,60 +21,20 @@
 
 
   <bean id="SubObjectCodeGlobal-universityFiscalYear" parent="SubObjectCodeGlobal-universityFiscalYear-parentBean"/>
-
-  <bean id="SubObjectCodeGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="label" value="Fiscal Year"/>
-    <property name="shortLabel" value="FY"/>
+  <bean id="SubObjectCodeGlobal-universityFiscalYear-parentBean" abstract="true" parent="ObjectCode-universityFiscalYear">
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="SubObjectCodeGlobal-chartOfAccountsCode" parent="SubObjectCodeGlobal-chartOfAccountsCode-parentBean"/>
-
-  <bean id="SubObjectCodeGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  <bean id="SubObjectCodeGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCode-chartOfAccountsCode">
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  <bean id="SubObjectCodeGlobal-financialSubObjectCode" parent="SubObjectCodeGlobal-financialSubObjectCode-parentBean"/>
-
-  <bean id="SubObjectCodeGlobal-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode"/>
   
-  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName" parent="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean"/>
-  
-  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCodeName"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Sub-Object Code Name"/>
-    <property name="shortLabel" value="SubObjCodeName"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-  </bean>
   <bean id="SubObjectCodeGlobal-financialSubObjectCodeShortName" parent="SubObjectCodeGlobal-financialSubObjectCodeShortName-parentBean"/>
-
-  <bean id="SubObjectCodeGlobal-financialSubObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeShortName-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCdshortNm">
     <property name="name" value="financialSubObjectCodeShortName"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Object Code Short Name"/>
-    <property name="shortLabel" value="SubObjCodeShortName"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
   </bean>
+  
   <bean id="SubObjectCodeGlobal-active" parent="SubObjectCodeGlobal-active-parentBean"/>
-
-  <bean id="SubObjectCodeGlobal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
+  <bean id="SubObjectCodeGlobal-active-parentBean" abstract="true" parent="SubObjectCode-active" />
 </beans>

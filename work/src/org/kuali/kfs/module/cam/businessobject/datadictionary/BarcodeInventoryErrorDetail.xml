@@ -68,10 +68,10 @@
     <property name="shortLabel" value="Error(s)"/>
     <property name="maxLength" value="200"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
 
@@ -116,18 +116,10 @@
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier" parent="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BarcodeInventoryErrorDetail-correctorUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="correctorUniversalIdentifier"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Corrector Universal Identifier"/>
     <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-documentNumber" parent="BarcodeInventoryErrorDetail-documentNumber-parentBean"/>
@@ -143,7 +135,7 @@
     <property name="shortLabel" value="Error Status"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
@@ -165,7 +157,7 @@
     <property name="shortLabel" value="L#"/>
     <property name="maxLength" value="12"/>
     <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
+      <ref bean="NumericValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>

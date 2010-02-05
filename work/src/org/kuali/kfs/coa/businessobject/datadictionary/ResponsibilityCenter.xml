@@ -41,23 +41,22 @@
 
 
   <bean id="ResponsibilityCenter-responsibilityCenterCode" parent="ResponsibilityCenter-responsibilityCenterCode-parentBean"/>
-
   <bean id="ResponsibilityCenter-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Responsibility Center Code"/>
-    <property name="shortLabel" value="Code"/>
+    <property name="shortLabel" value="RC"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
+  
   <bean id="ResponsibilityCenter-responsibilityCenterName" parent="ResponsibilityCenter-responsibilityCenterName-parentBean"/>
-
   <bean id="ResponsibilityCenter-responsibilityCenterName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterName"/>
     <property name="label" value="Responsibility Center Name"/>
@@ -65,7 +64,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="ResponsibilityCenter-responsibilityCenterShortName" parent="ResponsibilityCenter-responsibilityCenterShortName-parentBean"/>
@@ -77,7 +76,7 @@
     <property name="maxLength" value="12"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="ResponsibilityCenter-active" parent="ResponsibilityCenter-active-parentBean"/>

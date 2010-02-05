@@ -113,10 +113,10 @@
     <property name="required" value="true"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>    
     <property name="forceUppercase" value="true"/>
   </bean>
@@ -234,7 +234,7 @@
   <bean id="AssetPaymentDetail-chartOfAccountsCode" parent="AssetPaymentDetail-chartOfAccountsCode-parentBean"/>
   <bean id="AssetPaymentDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
+      <ref bean="ChartSimpleSelectControl" />
     </property>
   </bean>
   

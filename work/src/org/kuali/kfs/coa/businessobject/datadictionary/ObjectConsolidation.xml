@@ -43,12 +43,9 @@
 
 
   <bean id="ObjectConsolidation-chartOfAccountsCode" parent="ObjectConsolidation-chartOfAccountsCode-parentBean"/>
+  <bean id="ObjectConsolidation-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
 
-  <bean id="ObjectConsolidation-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="ObjectConsolidation-finConsolidationObjectCode" parent="ObjectConsolidation-finConsolidationObjectCode-parentBean"/>
-
   <bean id="ObjectConsolidation-finConsolidationObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finConsolidationObjectCode"/>
     <property name="forceUppercase" value="true"/>
@@ -57,11 +54,11 @@
     <property name="maxLength" value="4"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="4"/>
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
-  <bean id="ObjectConsolidation-finConsolidationObjectName" parent="ObjectConsolidation-finConsolidationObjectName-parentBean"/>
 
+  <bean id="ObjectConsolidation-finConsolidationObjectName" parent="ObjectConsolidation-finConsolidationObjectName-parentBean"/>
   <bean id="ObjectConsolidation-finConsolidationObjectName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finConsolidationObjectName"/>
     <property name="forceUppercase" value="false"/>
@@ -70,11 +67,11 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
-  <bean id="ObjectConsolidation-finConsolidationObjShortName" parent="ObjectConsolidation-finConsolidationObjShortName-parentBean"/>
 
+  <bean id="ObjectConsolidation-finConsolidationObjShortName" parent="ObjectConsolidation-finConsolidationObjShortName-parentBean"/>
   <bean id="ObjectConsolidation-finConsolidationObjShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finConsolidationObjShortName"/>
     <property name="forceUppercase" value="false"/>
@@ -83,17 +80,16 @@
     <property name="maxLength" value="12"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
-  <bean id="ObjectConsolidation-active" parent="ObjectConsolidation-active-parentBean"/>
 
+  <bean id="ObjectConsolidation-active" parent="ObjectConsolidation-active-parentBean"/>
   <bean id="ObjectConsolidation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
   </bean>
   
   <bean id="ObjectConsolidation-financialReportingSortCode" parent="ObjectConsolidation-financialReportingSortCode-parentBean"/>
-
   <bean id="ObjectConsolidation-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode"/>
     <property name="forceUppercase" value="true"/>
@@ -105,7 +101,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
 

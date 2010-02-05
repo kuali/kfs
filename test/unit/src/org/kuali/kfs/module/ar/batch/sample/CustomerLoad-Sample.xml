@@ -15,9 +15,7 @@
 		<customerContactName>John Doe</customerContactName>
 		<customerContactPhoneNumber>5205551212</customerContactPhoneNumber>
 		<customerFaxNumber>5205551213</customerFaxNumber>
-		<customerBirthDate></customerBirthDate>
 		<customerTaxExemptIndicator>Y</customerTaxExemptIndicator>
-		<customerCreditLimitAmount></customerCreditLimitAmount>
 		<customerCreditApprovedByName></customerCreditApprovedByName>
 		<customerEmailAddress>johndoe@samplecustomerone.com</customerEmailAddress>
 		<addresses>
@@ -72,7 +70,6 @@
 		<customerFaxNumber></customerFaxNumber>
 		<customerBirthDate>1974-08-23</customerBirthDate>
 		<customerTaxExemptIndicator>N</customerTaxExemptIndicator>
-		<customerCreditLimitAmount></customerCreditLimitAmount>
 		<customerCreditApprovedByName></customerCreditApprovedByName>
 		<customerEmailAddress>jackbrown@aol.com</customerEmailAddress>
 		<addresses>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2007 The Kuali Foundation.
+  
+  Licensed under the Educational Community License, Version 1.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+  http://www.opensource.org/licenses/ecl1.php
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<xsd:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.w3.org/2001/XMLSchema check2.xsd"
+ xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+ xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns="http://www.kuali.org/kfs/pdp/check"
+ elementFormDefault="qualified"
+ targetNamespace="http://www.kuali.org/kfs/pdp/check">
+
+  <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+  <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
+  
+  <!-- simple data types -->
+  <xsd:simpleType name="versionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="1.0"/>      
+    </xsd:restriction>
+  </xsd:simpleType>
+ 
+  <!-- definition of simple type elements -->
+  <xsd:element name="chartCode" type="${xsd:normalizedString,dd:PaymentFileLoad.chart}"/>    
+  <xsd:element name="orgCode" type="${xsd:normalizedString,dd:Organization.organizationCode}"/>
+  <xsd:element name="subUnitCode" type="${xsd:normalizedString,dd:PaymentFileLoad.subUnit}"/> 
+  <xsd:element name="disbursementDate" type="${xsd:normalizedString,dd:PaymentGroup.disbursementDate}"/>
+  <xsd:element name="netAmount" type="${xsd:decimal,dd:PaymentAccountDetail.accountNetAmount}"/>
+  <xsd:element name="campusAddressIndicator" type="${xsd:normalizedString,dd:PaymentGroup.campusAddress}" /> 
+  <xsd:element name="attachmentIndicator" type="${xsd:normalizedString,dd:PaymentGroup.pymtAttachment"/>
+  <xsd:element name="specialHandlingIndicator" type="${xsd:normalizedString,dd:PaymentGroup.pymtSpecialHandling}"/>
+  <xsd:element name="immediatePaymentIndicator" type="${xsd:normalizedString,dd:PaymentGroup.processImmediate}"/>
+  <xsd:element name="customerUnivNbr" type="${xsd:integer,dd:PaymentGroup.customerInstitutionNumber}"/>  
+  <xsd:element name="paymentDate" type="${xsd:normalizedString,dd:PaymentGroup.paymentDate}"/>  
+  <xsd:element name="custPaymentDocNbr" type="${xsd:normalizedString,dd:PaymentDetail.custPaymentDocNbr}"/>
+  <xsd:element name="invoiceNbr" type="${xsd:normalizedString,dd:PaymentDetail.invoiceNbr}"/>
+  <xsd:element name="purchaseOrderNbr" type="${xsd:normalizedString,dd:PaymentDetail.purchaseOrderNbr}"/>
+  <xsd:element name="requisitionNbr" type="${xsd:normalizedString,dd:PaymentDetail.requisitionNbr}"/>
+  <xsd:element name="payeeName" type="${xsd:normalizedString,dd:PaymentGroup.payeeName}"/>    
+  <xsd:element name="line1Address" type="${xsd:normalizedString,dd:PaymentGroup.line1Address}"/>  
+  <xsd:element name="line2Address" type="${xsd:normalizedString,dd:PaymentGroup.line2Address}"/>
+  <xsd:element name="line3Address" type="${xsd:normalizedString,dd:PaymentGroup.line3Address}"/>
+  <xsd:element name="line4Address" type="${xsd:normalizedString,dd:PaymentGroup.line4Address}"/>
+  <xsd:element name="city" type="${xsd:normalizedString,dd:PaymentGroup.city}"/>
+  <xsd:element name="state" type="${xsd:normalizedString,dd:PaymentGroup.state}"/>
+  <xsd:element name="zipCd" type="${xsd:normalizedString,dd:PaymentGroup.zipCd}"/>
+  <xsd:element name="country" type="${xsd:normalizedString,dd:PaymentGroup.country}"/>
+  <xsd:element name="invoiceDate" type="${xsd:date,dd:PaymentDetail.invoiceDate}"/>  
+  <xsd:element name="origInvoiceAmount" type="${xsd:decimal,dd:PaymentDetail.origInvoiceAmount}"/>
+  <xsd:element name="netPaymentAmount" type="${xsd:decimal,dd:PaymentDetail.netPaymentAmount}"/>
+  <xsd:element name="invTotDiscountAmount" type="${xsd:decimal,dd:PaymentDetail.invTotDiscountAmount}"/>
+  <xsd:element name="invTotShipAmount" type="${xsd:decimal,dd:PaymentDetail.invTotShipAmount}"/>
+  <xsd:element name="invTotOtherDebitAmount" type="${xsd:decimal,dd:PaymentDetail.invTotOtherDebitAmount}"/>
+  <xsd:element name="invTotOtherCreditAmount" type="${xsd:decimal,dd:PaymentDetail.invTotOtherCreditAmount}"/>
+  <xsd:element name="accountNumber" type="${xsd:normalizedString,dd:AchAccountNumber.achBankAccountNbr}"/>    
+  <xsd:element name="routingNumber" type="${xsd:integer,dd:ACHBank.bankRoutingNumber}"/> 
+  <xsd:element name="note" type="${xsd:normalizedString,dd:PaymentNoteText.customerNoteText}"/>
+    
+  <!-- definition of complex type elements --> 
+  <xsd:element name="checks">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" ref="check"/>
+      </xsd:sequence>
+      <xsd:attribute name="campusCode" use="required" type="kfs:twoCharType"/>
+      <xsd:attribute name="processId" use="required" type="xsd:integer"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="check">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="bank"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="disbursementDate"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="netAmount"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="payee"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="campusAddressIndicator"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="attachmentIndicator"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="specialHandlingIndicator"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="immediatePaymentIndicator"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="customerUnivNbr" />
+        <xsd:element maxOccurs="1" minOccurs="1" ref="paymentDate"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="customerProfile"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="payments"/>
+      </xsd:sequence>
+      <xsd:attribute name="disbursementNbr" use="required" type="xsd:integer"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="bank">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="routingNumber"/>
+      </xsd:sequence>
+      <xsd:attribute name="code" use="required" type="xsd:integer"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="payee">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="payeeName"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="line1Address"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="line2Address"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="line3Address"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="line4Address"/>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="city"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="state"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="zipCd"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="country"/>
+      </xsd:sequence>
+      <xsd:attribute name="id" use="required" type="xsd:string"/>
+      <xsd:attribute name="type" use="required" type="kfs:oneAlphaType"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="customerProfile">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="1" ref="chartCode"/>  
+        <xsd:element maxOccurs="1" minOccurs="1" ref="orgCode"/>  
+        <xsd:element maxOccurs="1" minOccurs="1" ref="subUnitCode"/>  
+        <xsd:element maxOccurs="4" minOccurs="0" ref="checkHeaderNoteLines"/>
+        <xsd:element maxOccurs="4" minOccurs="0" ref="additionalCheckNoteLines"/> 
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="payments">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="payment" maxOccurs="unbounded" minOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="payment">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="purchaseOrderNbr"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceNbr"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="requisitionNbr"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="custPaymentDocNbr"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invoiceDate"/>   
+        <xsd:element maxOccurs="1" minOccurs="0" ref="origInvoiceAmount"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="netPaymentAmount"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invTotDiscountAmount"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invTotShipAmount"/>  
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invTotOtherDebitAmount"/>
+        <xsd:element maxOccurs="1" minOccurs="0" ref="invTotOtherCreditAmount"/>
+        <xsd:element ref="notes"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="checkHeaderNoteLines">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="note" maxOccurs="4" minOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="additionalCheckNoteLines">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="note" maxOccurs="4" minOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- The maxOccurs of the notes should match the MAX_NOTE_LINES parameter. The default in KFS is 27 -->
+  
+  <xsd:element name="notes">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="999999" minOccurs="0" ref="note"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

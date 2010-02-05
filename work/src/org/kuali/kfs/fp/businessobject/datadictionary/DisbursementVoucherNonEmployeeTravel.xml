@@ -66,7 +66,7 @@
     <property name="shortLabel" value="Nm"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc" parent="DisbursementVoucherNonEmployeeTravel-disbVchrServicePerformedDesc-parentBean"/>
@@ -92,7 +92,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName" parent="DisbursementVoucherNonEmployeeTravel-dvServiceRegularEmprName-parentBean"/>
@@ -105,7 +105,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromCityName-parentBean"/>
@@ -118,7 +118,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean"/>
@@ -179,7 +179,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   
@@ -278,7 +278,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean"/>
@@ -301,7 +301,7 @@
     <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean"/>

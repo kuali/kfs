@@ -172,7 +172,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="Entry-transactionLedgerEntryAmount" parent="Entry-transactionLedgerEntryAmount-parentBean"/>
@@ -191,7 +191,7 @@
     <property name="shortLabel" value="D/C"/>
     <property name="maxLength" value="1"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="Entry-transactionDate" parent="Entry-transactionDate-parentBean"/>
@@ -209,7 +209,7 @@
     <property name="shortLabel" value="Org. Doc. Nbr."/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="Entry-projectCode" parent="Entry-projectCode-parentBean"/>
@@ -225,7 +225,7 @@
     <property name="shortLabel" value="Org Ref ID"/>
     <property name="maxLength" value="8"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
   <bean id="Entry-referenceFinancialDocumentTypeCode" parent="Entry-referenceFinancialDocumentTypeCode-parentBean"/>
@@ -242,7 +242,7 @@
     <property name="shortLabel" value="Ref Origin Code"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="Entry-referenceFinancialDocumentNumber" parent="Entry-referenceFinancialDocumentNumber-parentBean"/>

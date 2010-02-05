@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborEntryHistory;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
@@ -160,11 +161,11 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
         
         try {
             // Run the poster
-            Step laborPosterStep = SpringContext.getBean(LaborPosterStep.class);
+            Step laborPosterStep = BatchSpringContext.getStep("laborPosterStep");
             assertTrue("laborPosterStep should have succeeded", laborPosterStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
             
             // Rename the file because that's what happens before the balancing job runs
-            Step laborFileRenameStep = SpringContext.getBean(LaborFileRenameStep.class);
+            Step laborFileRenameStep = BatchSpringContext.getStep("laborFileRenameStep");
             assertTrue("laborFileRenameStep should have succeeded", laborFileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
         }
         catch (InterruptedException e) {

@@ -108,7 +108,7 @@
     <property name="shortLabel" value="Balance Type"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
   <bean id="Encumbrance-accountLineEncumbranceAmount" parent="Encumbrance-accountLineEncumbranceAmount-parentBean"/>
@@ -143,7 +143,7 @@
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="40"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
+      <ref bean="StandardNameTextControl" />
     </property>
   </bean>
   <bean id="Encumbrance-documentTypeCode" parent="Encumbrance-documentTypeCode-parentBean"/>
@@ -160,7 +160,7 @@
     <property name="shortLabel" value="Doc Number"/>
     <property name="maxLength" value="10"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <ref bean="StandardShortNameTextControl" />
     </property>
   </bean>
   <bean id="Encumbrance-originCode" parent="Encumbrance-originCode-parentBean"/>

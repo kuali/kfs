@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ParameterDetailType;
@@ -40,6 +41,7 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
             Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
             components.addAll(baseClassTypes);
             for (Step step : SpringContext.getBeansOfType(Step.class).values()) {
+                step = (Step) ProxyUtils.getTargetIfProxied(step);
                 try {
                     ParameterDetailType parameterDetailType = getParameterDetailType(step.getClass());
                     uniqueParameterDetailTypeMap.put(parameterDetailType.getParameterDetailTypeCode(), parameterDetailType);

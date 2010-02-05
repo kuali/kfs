@@ -21,45 +21,60 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
+import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.CollectorDetailService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.ParseException;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.kfs.gl.batch.CollectorBatchHeaderFieldUtil;
+import org.kuali.kfs.gl.batch.CollectorBatchTrailerRecordFieldUtil;
 
 /**
  * Object representation of collector xml input.
  */
-public class CollectorBatch implements Serializable {
+public class CollectorBatch extends PersistableBusinessObjectBase {
     // way to distinguish this batch from others
     private String batchName;
 
-    // header records
+    // common field for header records and trailer records
+    private String universityFiscalYear;
     private String chartOfAccountsCode;
     private String organizationCode;
     private Date transmissionDate;
+    private String recordType;
+    
+    // header record additional fields
     private String personUserID;
     private Integer batchSequenceNumber;
     private String emailAddress;
-
     private String campusCode;
     private String phoneNumber;
     private String mailingAddress;
@@ -69,13 +84,18 @@ public class CollectorBatch implements Serializable {
     private List<CollectorDetail> collectorDetails;
 
     // trailer records
+    private String firstEmptyField; //first,second,third Empty Fields are dummy fields to read the spaces in the file using dd
+    private String secondEmptyField;
     private Integer totalRecords;
     private KualiDecimal totalAmount;
-
+    
     private MessageMap messageMap;
     private OriginEntryTotals originEntryTotals;
     
     private boolean headerlessBatch;
+    
+    private static CollectorBatchHeaderFieldUtil collectorBatchHeaderFieldUtil;
+    private static CollectorBatchTrailerRecordFieldUtil collectorBatchTrailerRecordFieldUtil;
     
     /**
      * Constructs a CollectorBatch
@@ -89,6 +109,20 @@ public class CollectorBatch implements Serializable {
         headerlessBatch = false;
     }
 
+    /**
+     * Gets the universityFiscalYear attribute. 
+     */
+    public String getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+    
+    /**
+     * Sets the universityFiscalYear attribute
+     */
+    public void setUniversityFiscalYear(String universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+    
     /**
      * Gets the batchSequenceNumber attribute.
      */
@@ -160,6 +194,34 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
+     * Gets the secondEmptyField attribute
+     */
+    public String getSecondEmptyField() {
+        return secondEmptyField;
+    }
+    
+    /**
+     * Sets the secondEmptyField attribute
+     */
+    public void setSecondEmptyField(String secondEmptyField) {
+        this.secondEmptyField = secondEmptyField;
+    }
+    
+    /**
+     * Gets the firstEmptyField attribute
+     */
+    public String getFirstEmptyField() {
+        return firstEmptyField;
+    }
+    
+    /**
+     * Sets the firstEmptyField attribute
+     */
+    public void setFirstEmptyField(String firstEmptyField) {
+        this.firstEmptyField = firstEmptyField;
+    }
+
+    /**
      * Gets the totalRecords attribute.
      */
     public Integer getTotalRecords() {
@@ -187,6 +249,20 @@ public class CollectorBatch implements Serializable {
         this.transmissionDate = transmissionDate;
     }
 
+    /**
+     * Gets the recordType attribute.
+     */
+    public String getRecordType() {
+        return recordType;
+    }
+    
+    /**
+     * Sets the recordType attribute.
+     */
+    public void setRecordType(String recordType) {
+        this.recordType = recordType;
+    }
+        
     /**
      * Gets the emailAddress attribute.
      */
@@ -551,5 +627,114 @@ public class CollectorBatch implements Serializable {
 
     public void setHeaderlessBatch(boolean headerlessBatch) {
         this.headerlessBatch = headerlessBatch;
+    }
+    
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("chartOfAccountsCode", getChartOfAccountsCode());
+        map.put("organizationCode", getOrganizationCode());
+        map.put("transmissionDate", getTransmissionDate());
+        map.put("personUserID", getPersonUserID());
+        map.put("batchSequenceNumber", getBatchSequenceNumber());
+        map.put("emailAddress", getEmailAddress());
+        map.put("campusCode", getCampusCode());
+        map.put("phoneNumber", getPhoneNumber());
+        map.put("mailingAddress", getMailingAddress());
+        map.put("departmentName", getDepartmentName());
+        map.put("firstEmptyField", getFirstEmptyField());
+        map.put("totalRecords", getTotalRecords());        
+        map.put("secondEmptyField", getSecondEmptyField());
+        map.put("totalAmount", getTotalAmount());
+        
+        return map;
+    }
+    
+    protected Date parseSqlDate(String date) throws ParseException {
+        try {
+            return new Date(new SimpleDateFormat("yy-MM-dd").parse(date).getTime());
+        }
+        catch (java.text.ParseException e) {
+            throw new ParseException(e.getMessage(), e);
+        }
+    }
+    
+    protected String getValue(String headerLine, int s, int e) {
+          return org.springframework.util.StringUtils.trimTrailingWhitespace(StringUtils.substring(headerLine, s, e));
+      }
+    
+    /**
+     * @return the static instance of the CollectorBatchHeaderFieldUtil
+     */
+    protected static CollectorBatchHeaderFieldUtil getCollectorBatchHeaderFieldUtil() {
+        if (collectorBatchHeaderFieldUtil == null) {
+            collectorBatchHeaderFieldUtil = new CollectorBatchHeaderFieldUtil();
+        }
+        return collectorBatchHeaderFieldUtil;
+    }
+    
+    public void setFromTextFileForCollectorBatch(String headerLine) {
+        final Map<String, Integer> pMap = getCollectorBatchHeaderFieldUtil().getFieldBeginningPositionMap();
+        
+        headerLine = org.apache.commons.lang.StringUtils.rightPad(headerLine, GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length(), ' ');
+        
+        setChartOfAccountsCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ORGANIZATION_CODE)));
+        setOrganizationCode(getValue(headerLine, pMap.get(KFSPropertyConstants.ORGANIZATION_CODE), pMap.get(KFSPropertyConstants.TRANSMISSION_DATE)));
+
+        String transmissionDate = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.TRANSMISSION_DATE), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_RECORD_TYPE)));
+        try {
+            setTransmissionDate(parseSqlDate(transmissionDate));
+        }
+        catch (ParseException e) {
+            getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_BAD_TRANSMISSION_DATE_FORMAT, transmissionDate);
+            setTransmissionDate(null);
+        }
+        String batchNumber = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.BATCH_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.EMAIL_ADDRESS)));
+        
+        if (Character.isDigit(batchNumber.charAt(0))) {
+            setBatchSequenceNumber(new Integer(batchNumber));
+        } else {
+            setBatchSequenceNumber(0);
+        }
+        setEmailAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.EMAIL_ADDRESS), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID)));
+        setPersonUserID(getValue(headerLine, pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID), pMap.get(KFSPropertyConstants.DEPARTMENT_NAME)));
+        setDepartmentName(getValue(headerLine, pMap.get(KFSPropertyConstants.DEPARTMENT_NAME), pMap.get(KFSPropertyConstants.MAILING_ADDRESS)));
+        setMailingAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.MAILING_ADDRESS), pMap.get(KFSPropertyConstants.CAMPUS_CODE)));
+        setCampusCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CAMPUS_CODE), pMap.get(KFSPropertyConstants.PHONE_NUMBER)));
+        setPhoneNumber(org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.PHONE_NUMBER), GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length())));
+    }
+    
+    /**
+     * @return the static instance of the CollectorBatchTrailerRecordFieldUtil
+     */
+    protected static CollectorBatchTrailerRecordFieldUtil getCollectorBatchTrailerRecordFieldUtil() {
+        if (collectorBatchTrailerRecordFieldUtil == null) {
+            collectorBatchTrailerRecordFieldUtil = new CollectorBatchTrailerRecordFieldUtil();
+        }
+        return collectorBatchTrailerRecordFieldUtil;
+    }
+    
+    protected String addDecimalPoint (String amount) {
+        if (!amount.contains(".")) {  //have to add decimal point if it's missing
+            int length = amount.length();
+            amount = amount.substring(0, length - 2) + "." + amount.substring(length - 2, length);
+        }
+        return amount;
+    }
+    
+    public void setFromTextFileForCollectorBatchTrailerRecord(String trailerLine, int lineNumber) {
+        final Map<String, Integer> pMap = getCollectorBatchTrailerRecordFieldUtil().getFieldBeginningPositionMap();
+
+        trailerLine = org.apache.commons.lang.StringUtils.rightPad(trailerLine, GeneralLedgerConstants.getSpaceAllCollectorBatchTrailerFields().length(), ' ');
+        setTotalRecords(new Integer(org.apache.commons.lang.StringUtils.trim(getValue(trailerLine, pMap.get(KFSPropertyConstants.TOTAL_RECORDS), pMap.get(KFSPropertyConstants.TRAILER_RECORD_SECOND_EMPTY_FIELD)))));
+        
+        String trailerAmount = org.apache.commons.lang.StringUtils.trim(getValue(trailerLine, pMap.get(KFSPropertyConstants.TOTAL_AMOUNT), GeneralLedgerConstants.getSpaceAllCollectorBatchTrailerFields().length()));
+        
+        try {
+            setTotalAmount(addDecimalPoint(trailerAmount));
+        }
+        catch (NumberFormatException e) {
+            setTotalAmount(KualiDecimal.ZERO);
+            getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector trailer total amount cannot be parsed on line " + lineNumber + " amount string " + trailerAmount);
+        }
     }
 }

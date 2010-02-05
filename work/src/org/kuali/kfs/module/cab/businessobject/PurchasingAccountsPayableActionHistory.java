@@ -48,9 +48,11 @@ public class PurchasingAccountsPayableActionHistory extends PersistableBusinessO
         this.fromDocumentNumber = fromItem.getDocumentNumber();
         this.fromPurApLineItemIdentifier = fromItem.getAccountsPayableLineItemIdentifier();
         this.fromCabLineNumber = fromItem.getCapitalAssetBuilderLineNumber();
-        this.toDocumentNumber = toItem.getDocumentNumber();
-        this.toPurApLineItemIdentifier = toItem.getAccountsPayableLineItemIdentifier();
-        this.toCabLineNumber = toItem.getCapitalAssetBuilderLineNumber();
+        if (toItem != null) {
+            this.toDocumentNumber = toItem.getDocumentNumber();
+            this.toPurApLineItemIdentifier = toItem.getAccountsPayableLineItemIdentifier();
+            this.toCabLineNumber = toItem.getCapitalAssetBuilderLineNumber();
+        }
         this.active = true;
     }
 

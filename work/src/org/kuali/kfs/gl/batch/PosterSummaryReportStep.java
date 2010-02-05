@@ -133,6 +133,7 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
         } else {
             LOG.warn("Could not Main Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
         }
+
         // summarize today's reversals
         Iterator<?> reversalsIterator = getReversalService().getByDate(runDate);
         while (reversalsIterator.hasNext()) {

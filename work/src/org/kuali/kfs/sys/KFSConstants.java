@@ -50,6 +50,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     // special user used in the post-processor
+    //TODO: eventually this should be removed and the system user should be pulled from a parameter
+    // right now, you HAVE to make sure that a 'kfs' user exists in your system, either in the DB
+    // or in an external system such as LDAP if implemented
     public static final String SYSTEM_USER = "kfs";
 
     public static final String ENVIRONMENT_KEY = "environment";
@@ -1237,5 +1240,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
+    
+    public static class SchemaBuilder {
+        public static final String SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_BEGIN = "${";
+        public static final String SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_END = "}";      
+        public static final String XSD_VALIDATION_PREFIX = "xsd:";
+        public static final String DD_VALIDATION_PREFIX = "dd:";
+    }
+
 }
 

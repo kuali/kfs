@@ -46,7 +46,7 @@
     <property name="shortLabel" value="Disbursement Type"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <ref bean="AlphaNumericValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">

@@ -16,19 +16,26 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
+import org.kuali.kfs.module.cam.CamsConstants.DateFormats;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.kns.web.format.DateFormatter;
+
+import uk.ltd.getahead.dwr.convert.DateConverter;
 
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
@@ -83,8 +90,8 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         keys.put("universityFiscalYear", fiscalYear);
         AccountingPeriod acctPeriod = (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, keys);
         return acctPeriod;
-    }
-
+    }    
+    
     /**
      * This method is a helper method to get the current period.
      * 
@@ -145,4 +152,26 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    /**
+     * This method allows for AccountingPeriod retrieval via String date.
+     * 
+     * @param String
+     */
+    public AccountingPeriod getByStringDate(String dateString){
+        AccountingPeriod acctPeriod;
+        try{
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            java.util.Date jud = df.parse(dateString);
+            java.sql.Date jsd = new java.sql.Date(jud.getTime());
+            acctPeriod = getByDate(jsd);
+        }
+        catch(Exception pe){
+            return null;
+        }
+        return acctPeriod;
+    }
+    
+    
+    
 }

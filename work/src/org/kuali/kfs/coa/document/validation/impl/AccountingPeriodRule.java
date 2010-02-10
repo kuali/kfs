@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.Iterator;
 import java.util.List;
-
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -97,14 +96,15 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         List optionList = (List) boService.findAll(SystemOptions.class);
-        for (Iterator iter = optionList.iterator(); iter.hasNext();) {
-            SystemOptions options = (SystemOptions) iter.next();
-            if (options.getUniversityFiscalYear().compareTo(newAccountingPeriod.getUniversityFiscalYear()) == 0) {
-                foundYear = true;
-                break;
+        if ( newAccountingPeriod.getUniversityFiscalYear() != null) {
+            for (Iterator iter = optionList.iterator(); iter.hasNext();) {
+                SystemOptions options = (SystemOptions) iter.next();
+                if (options.getUniversityFiscalYear().compareTo(newAccountingPeriod.getUniversityFiscalYear()) == 0) {
+                    foundYear = true;
+                    break;
+                }
             }
         }
-
         if (!foundYear) {
             // display an error
             putFieldError("universityFiscalYear", KFSKeyConstants.ERROR_DOCUMENT_FISCAL_PERIOD_YEAR_DOESNT_EXIST);

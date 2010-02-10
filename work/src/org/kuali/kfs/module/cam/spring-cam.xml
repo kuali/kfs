@@ -54,6 +54,11 @@
 				<value>org/kuali/kfs/module/cam/ojb-cam.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+            <list>
+                <value>org/kuali/kfs/module/cam/dwr-cam.xml</value>
+            </list>
+        </property>		
 		<property name="jobNames">
 			<list>
 				<value>assetDepreciationBatchJob</value>
@@ -355,7 +360,11 @@
 	
 <!-- END of Asset Bar Code inventory batch job -->
 	
-	<bean id="assetGlobalService" class="org.kuali.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl">
+	<bean id="accountingPeriodService" class="org.kuali.kfs.coa.service.impl.AccountingPeriodServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+ 
+ 	<bean id="assetGlobalService" class="org.kuali.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="assetService" ref="assetService"/>
     	<property name="assetObjectCodeService" ref="assetObjectCodeService"></property>

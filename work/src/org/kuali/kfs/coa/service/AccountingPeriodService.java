@@ -48,6 +48,14 @@ public interface AccountingPeriodService {
      */
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear);
 
+    
+    /**
+     * This method allows for AccountingPeriod retrieval via String date.
+     * 
+     * @param String
+     */
+    public AccountingPeriod getByStringDate(String dateString);
+    
     /**
      * This method takes a date and returns the corresponding period
      * 

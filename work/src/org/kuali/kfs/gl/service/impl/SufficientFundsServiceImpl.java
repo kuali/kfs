@@ -399,8 +399,8 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             amounts.actual = amounts.actual.subtract(generalLedgerPendingEntryService.getCashSummary(years, chart, account, false));
 
             // Get Payables (credit amount - debit amount)
-            amounts.actual = amounts.actual.add(generalLedgerPendingEntryService.getActualSummary(years, chart, account, false));
-            amounts.actual = amounts.actual.subtract(generalLedgerPendingEntryService.getActualSummary(years, chart, account, true));
+            amounts.actual = amounts.actual.add(generalLedgerPendingEntryService.getActualSummary(years, chart, account, true));
+            amounts.actual = amounts.actual.subtract(generalLedgerPendingEntryService.getActualSummary(years, chart, account, false));
         }
         else {
             // Non-Cash checking

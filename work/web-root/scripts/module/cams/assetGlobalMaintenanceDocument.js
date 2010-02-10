@@ -41,3 +41,29 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
         }
     };
 }
+
+
+function onblur_postingYearAndPeriodCode(field, callbackFunction) {
+	var postedDate = getElementValue(field.name);
+
+	if (postedDate != "") {
+		var dwrReply = {
+			callback :callbackFunction,
+			errorHandler : function(errorMessage) {
+				setRecipientValue(
+						"document.newMaintainableObject.add.assetPaymentDetails.postingYear",
+						wrapError("Fiscal Year and Period not found"), true);
+			}
+		};
+        AssetGlobalMaintenanceDocumentService.getByStringDate( postedDate, dwrReply);
+	}
+}
+
+function postingYearAndPeriodCode_Callback(data) {
+	setRecipientValue(
+			"document.newMaintainableObject.add.assetPaymentDetails.postingYear",
+			data.universityFiscalYear);
+	setRecipientValue(
+			"document.newMaintainableObject.add.assetPaymentDetails.postingPeriodCode",
+			data.universityFiscalPeriodCode);
+}

@@ -285,6 +285,7 @@ public class PosterServiceImpl implements PosterService {
                 }
                 
                 OUTPUT_ERR_FILE_ps.close();
+                
                 reportWriterService.writeStatisticLine("GLRV RECORDS READ (GL_REVERSAL_T)          %,9d", reportSummary.get("GL_REVERSAL_T,S"));
                 reversalListingReport.generateStatistics(reversalReportWriterService);
             }

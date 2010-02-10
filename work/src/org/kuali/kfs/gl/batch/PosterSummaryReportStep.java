@@ -131,7 +131,7 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
                 posterOutputSummaryReport.summarize(originEntry);
             }
         } else {
-            LOG.warn("Could not Main Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
+            LOG.warn("Could not open Main Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
         }
 
         // summarize today's reversals
@@ -140,6 +140,19 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
             final Reversal reversal = (Reversal)reversalsIterator.next();
             posterOutputSummaryReport.summarize(reversal);
         }
+        
+        // summarize the reversal poster
+        File reversalPosterFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), new RegexFileFilter(GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + "\\.[0-9_\\-]+\\" + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+        if (reversalPosterFile != null && reversalPosterFile.exists()) {
+            OriginEntryFileIterator reversalIterator = new OriginEntryFileIterator(reversalPosterFile);
+            while (reversalIterator.hasNext()) {
+                final OriginEntryInformation originEntry = reversalIterator.next();
+                posterOutputSummaryReport.summarize(originEntry);
+            }
+        } else {
+            LOG.warn("Could not open Reversal Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE+" for tabulation in the Poster Output Summary Report");
+        }        
+        
         // summarize the icr poster
         File icrPosterFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), new RegexFileFilter(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + "\\.[0-9_\\-]+\\" + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
         if (icrPosterFile != null && icrPosterFile.exists()) {
@@ -149,7 +162,7 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
                 posterOutputSummaryReport.summarize(originEntry);
             }
         } else {
-            LOG.warn("Could not Indirect Cost Recovery Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
+            LOG.warn("Could not open Indirect Cost Recovery Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
         }
         
         posterOutputSummaryReport.writeReport(posterOutputSummaryReportWriterService);

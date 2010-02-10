@@ -57,6 +57,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
+        <value>../dwr/interface/AssetGlobalMaintenanceDocumentService.js</value>
         <value>../scripts/module/cams/assetGlobalMaintenanceDocument.js</value>
       </list>
     </property>
@@ -211,7 +212,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:readOnlyAfterAdd="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:name="financialObjectCode" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:readOnlyAfterAdd="true" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:readOnlyAfterAdd="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:readOnlyAfterAdd="true"/>
@@ -220,9 +221,9 @@
               <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentTypeCode" p:readOnlyAfterAdd="true" p:required="false"/>
               <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="requisitionNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="postingYear" p:readOnlyAfterAdd="true" p:unconditionallyReadOnly="false"/>
-              <bean parent="MaintainableFieldDefinition" p:name="postingPeriodCode" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:webUILeaveFieldFunction="onblur_postingYearAndPeriodCode" p:webUILeaveFieldCallbackFunction="postingYearAndPeriodCode_Callback" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="postingYear" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="postingPeriodCode" p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" p:name="amount" p:readOnlyAfterAdd="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>

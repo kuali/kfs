@@ -32,6 +32,7 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
@@ -46,8 +47,14 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
         }
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
-        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         
+        //  this should only be run if the document is enRoute
+        KualiWorkflowDocument workflowDoc = dvDocument.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDoc.stateIsEnroute()) {
+            return true;
+        }
+        
+        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         final Set<String> currentEditModes = getEditModesFromDocument(dvDocument, financialSystemUser);
         
         // amounts can only decrease

@@ -45,8 +45,10 @@ public class TaxServiceImpl implements TaxService {
             List<TaxRegion> salesTaxRegions = taxRegionService.getSalesTaxRegions(postalCode);
             TaxDetail newTaxDetail = null;
             for (TaxRegion taxRegion : salesTaxRegions) {
-                newTaxDetail = populateTaxDetail(taxRegion, dateOfTransaction, amount);
-                salesTaxDetails.add(newTaxDetail);
+                if (taxRegion.isActive()) {
+                    newTaxDetail = populateTaxDetail(taxRegion, dateOfTransaction, amount);
+                    salesTaxDetails.add(newTaxDetail);
+                }
             }
         }
 

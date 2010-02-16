@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +31,8 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.gl.service.EntryService;
+import org.kuali.kfs.sys.KFSConstants;
 
 public class CashControlDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
@@ -73,6 +77,17 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                 if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
+                }
+                Map<String, Object> pkMap = new HashMap<String, Object>();
+                pkMap.put("documentNumber", cashControlDocument.getDocumentNumber());
+                pkMap.put("universityFiscalYear", cashControlDocument.getPostingYear().toString());
+                pkMap.put("universityFiscalPeriodCode", cashControlDocument.getPostingPeriodCode());
+                pkMap.put("chartOfAccountsCode", cashControlDocument.getChartOfAccountsCode());
+                
+                Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);
+                if (totalGLRecordsCreated.intValue() > 0) {
+                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
+                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);                    
                 }
             }
             if (workflowDocument.isApprovalRequested() && ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {

@@ -26,6 +26,7 @@
         <ref bean="CustomerBank-bankCode"/>
         <ref bean="CustomerBank-disbursementTypeCode"/>
         <ref bean="CustomerBank-newCollectionRecord"/>
+        <ref bean="CustomerBank-active"/>
       </list>
     </property>  
     <property name="inactivationBlockingDefinitions">
@@ -58,5 +59,11 @@
   <bean id="CustomerBank-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   
-  
+  <bean id="CustomerBank-active" parent="CustomerBank-active-parentBean"/>
+  <bean id="CustomerBank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="control">
+        <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 </beans>

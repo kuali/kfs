@@ -165,6 +165,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="disbursementTypeCode" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="bankCode" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>

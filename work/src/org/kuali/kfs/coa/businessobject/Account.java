@@ -128,6 +128,12 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private SufficientFundsCode sufficientFundsCode;
     private ContractsAndGrantsCfda cfda;
 
+    protected Chart fringeBenefitsChartOfAccount;
+    protected Chart continuationChartOfAccount;
+    protected Chart incomeStreamChartOfAccounts;
+    protected Chart contractControlChartOfAccounts;
+    protected Chart indirectCostRcvyChartOfAccounts;
+    
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
     private String accountResponsibilitySection;
@@ -1770,4 +1776,95 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
+    
+    /**
+     * Gets the fringeBenefitsChartOfAccount attribute.
+     * 
+     * @return Returns the fringeBenefitsChartOfAccount.
+     */
+    public Chart getFringeBenefitsChartOfAccounts() {
+        return fringeBenefitsChartOfAccount;
+    }
+
+    /**
+     * Sets the fringeBenefitsChartOfAccount attribute value.
+     * 
+     * @param fringeBenefitsChartOfAccount The fringeBenefitsChartOfAccount to set.
+     */
+    public void setFringeBenefitsChartOfAccounts(Chart fringeBenefitsChartOfAccounts) {
+        this.fringeBenefitsChartOfAccount = fringeBenefitsChartOfAccounts;
+    }    
+    
+    /**
+     * Gets the continuationChartOfAccount attribute.
+     * 
+     * @return Returns the continuationChartOfAccount.
+     */
+    public Chart getContinuationChartOfAccount() {
+        return continuationChartOfAccount;
+    }
+
+    /**
+     * Sets the continuationChartOfAccount attribute value.
+     * 
+     * @param continuationChartOfAccount The continuationChartOfAccount to set.
+     */
+    public void setContinuationChartOfAccount(Chart continuationChartOfAccount) {
+        this.continuationChartOfAccount = continuationChartOfAccount;
+    }    
+    
+    /**
+     * Gets the incomeStreamChartOfAccounts attribute.
+     * 
+     * @return Returns the incomeStreamChartOfAccounts.
+     */
+    public Chart getIncomeStreamChartOfAccounts() {
+        return incomeStreamChartOfAccounts;
+    }
+
+    /**
+     * Sets the incomeStreamChartOfAccounts attribute value.
+     * 
+     * @param incomeStreamChartOfAccounts The incomeStreamChartOfAccounts to set.
+     */
+    public void setIncomeStreamChartOfAccounts(Chart incomeStreamChartOfAccounts) {
+        this.incomeStreamChartOfAccounts = incomeStreamChartOfAccounts;
+    }    
+    
+    /**
+    * Gets the incomeStreamChartOfAccounts attribute.
+    * 
+    * @return Returns the incomeStreamChartOfAccounts.
+    */
+   public Chart getContractControlChartOfAccounts() {
+       return contractControlChartOfAccounts;
+   }
+
+   /**
+    * Sets the contractControlChartOfAccounts attribute value.
+    * 
+    * @param contractControlChartOfAccounts The contractControlChartOfAccounts to set.
+    */
+   public void setContractControlChartOfAccounts(Chart contractControlChartOfAccounts) {
+       this.contractControlChartOfAccounts = contractControlChartOfAccounts;
+   }    
+   
+   /**
+    * Gets the indirectCostRcvyChartOfAccounts attribute.
+    * 
+    * @return Returns the indirectCostRcvyChartOfAccounts.
+    */
+   public Chart getIndirectCostRcvyChartOfAccounts() {
+       return indirectCostRcvyChartOfAccounts;
+   }
+
+   /**
+    * Sets the indirectCostRcvyChartOfAccounts attribute value.
+    * 
+    * @param indirectCostRcvyChartOfAccounts The indirectCostRcvyChartOfAccounts to set.
+    */
+   public void setIndirectCostRcvyChartOfAccounts(Chart indirectCostRcvyChartOfAccounts) {
+       this.indirectCostRcvyChartOfAccounts = indirectCostRcvyChartOfAccounts;
+   }   
+   
 }

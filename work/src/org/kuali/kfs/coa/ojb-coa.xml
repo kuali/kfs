@@ -92,14 +92,26 @@
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
 
+    <reference-descriptor name="fringeBenefitsChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="reportsToChartOfAccountsCode" />
+    </reference-descriptor>
+    
     <reference-descriptor name="reportsToAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToAccountNumber" />
     </reference-descriptor>
 
+    <reference-descriptor name="continuationChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
+    </reference-descriptor>
+    
     <reference-descriptor name="continuationAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
         <foreignkey field-ref="continuationAccountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
     </reference-descriptor>
 
     <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -107,8 +119,8 @@
         <foreignkey field-ref="endowmentIncomeAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
+    <reference-descriptor name="contractControlChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="contractControlFinCoaCode" />
     </reference-descriptor>
 
     <reference-descriptor name="contractControlAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -116,14 +128,21 @@
         <foreignkey field-ref="contractControlAccountNumber" />
     </reference-descriptor>
 
+    <reference-descriptor name="incomeStreamChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="incomeStreamFinancialCoaCode" />
+    </reference-descriptor>
+    
     <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
 
-
     <reference-descriptor name="acctIndirectCostRcvyType" class-ref="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="acctIndirectCostRcvyTypeCd" />
+    </reference-descriptor>
+
+    <reference-descriptor name="indirectCostRcvyChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
     </reference-descriptor>
 
     <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

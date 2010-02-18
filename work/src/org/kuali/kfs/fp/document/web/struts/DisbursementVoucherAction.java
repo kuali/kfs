@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +50,8 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -457,7 +460,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         boolean isAddressLookupable = KFSConstants.KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL.equals(refreshCaller);
 
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct information
-        if (refreshCaller == null) {
+        if (refreshCaller == null && hasFullEdit(document)) {
             dvForm.setPayeeIdNumber(dvForm.getTempPayeeIdNumber());
             dvForm.setHasMultipleAddresses(false);
             document.getDvPayeeDetail().setDisbVchrPayeeIdNumber(dvForm.getTempPayeeIdNumber());
@@ -520,6 +523,28 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         addPaymentCodeWarningMessage(dvForm, paymentReasonCode);
 
         return null;
+    }
+    
+    /**
+     * Determines if the current user has full edit permissions on the document, which would allow them to repopulate the payee
+     * @param document the document to check for full edit permissions on
+     * @return true if full edit is allowed on the document, false otherwise
+     */
+    protected boolean hasFullEdit(DisbursementVoucherDocument document) {
+        final Person user = GlobalVariables.getUserSession().getPerson();
+        final TransactionalDocumentPresentationController documentPresentationController = (TransactionalDocumentPresentationController)getDocumentHelperService().getDocumentPresentationController(document);
+        final TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer)getDocumentHelperService().getDocumentAuthorizer(document);
+        Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
+        documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
+
+        if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
+            documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
+        }
+        
+        Set<String> editModes = documentPresentationController.getEditModes(document);
+        editModes = documentAuthorizer.getEditModes(document, user, editModes);
+        
+        return documentActions.contains(KNSConstants.KUALI_ACTION_CAN_EDIT) && editModes.contains("fullEntry");
     }
 
     /**

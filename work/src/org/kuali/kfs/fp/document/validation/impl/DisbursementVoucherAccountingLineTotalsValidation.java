@@ -48,11 +48,6 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         
-        //  this should only be run if the document is enRoute
-        KualiWorkflowDocument workflowDoc = dvDocument.getDocumentHeader().getWorkflowDocument();
-        if (!workflowDoc.stateIsEnroute()) {
-            return true;
-        }
         
         Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         final Set<String> currentEditModes = getEditModesFromDocument(dvDocument, financialSystemUser);
@@ -69,7 +64,9 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
                     handleNonExistentDocumentWhenApproving(dvDocument);
                     return true;
                 }
-
+                // KFSMI- 5183
+                if (persistedDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() && persistedDocument.getDisbVchrCheckTotalAmount().isZero()) return true;
+                                   
                 // check total cannot decrease
                 if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
                     GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KFSKeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);

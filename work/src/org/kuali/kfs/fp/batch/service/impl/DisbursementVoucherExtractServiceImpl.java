@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
@@ -475,22 +476,49 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             }
         }
 
-        String text = document.getDisbVchrCheckStubText();
+        // Get the original, raw form, note text from the DV document. 
+        String text    = document.getDisbVchrCheckStubText();
         if (text.length() > 0) {
-            String[] lines = text.split("\\n");
-            for (int i = 0; i < lines.length; i++) {
-                if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(lines[i])) {
+            
+            // The WordUtils should be sufficient for the majority of cases.  This method will
+            // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, seperating each wrapped
+            // word by a newline character.
+            String   wrappedText = WordUtils.wrap(text, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE);
+            String[] noteLines   = wrappedText.split("\\n");
+            
+            // Loop through all the note lines.
+            for (String noteLine : noteLines) {
+                if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(noteLine)) {
                     
-                    pnt = new PaymentNoteText();
-                    pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-                    if (lines[i].length() > 90) {
-                        pnt.setCustomerNoteText(lines[i].substring(0, 90));
+                    // This should only happen if we encounter a word that is greater than the max length.
+                    // The only concern I have for this occurring is with URLs/email addresses.
+                    if (noteLine.length() > DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE) {
+                        for (String choppedWord : chopWord(noteLine, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE)) {
+                            
+                            // Make sure we're still under the maximum number of note lines.
+                            if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(choppedWord)) {
+                                pnt = new PaymentNoteText();
+                                pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
+                                pnt.setCustomerNoteText(choppedWord.replaceAll("\\n", "").trim());
+                            }
+                            // We can't add any additional note lines, or we'll exceed the maximum, therefore
+                            // just break out of the loop early - there's nothing left to do.
+                            else {
+                                break;
+                            }
+                        }
                     }
+                    // This should be the most common case.  Simply create a new PaymentNoteText,
+                    // add the line at the correct line location.
                     else {
-                        pnt.setCustomerNoteText(lines[i]);
+                        pnt = new PaymentNoteText();
+                        pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
+                        pnt.setCustomerNoteText(noteLine.replaceAll("\\n", "").trim());
                     }
+                    
+                    // Logging...
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Creating check stub text note: "+pnt.getCustomerNoteText());
+                        LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
                     }
                     pd.addNote(pnt);
                 }
@@ -498,6 +526,53 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
         
         return pd;
+    }
+    
+    /**
+     * This method will take a word and simply chop into smaller
+     * text segments that satisfy the limit requirements.  All words
+     * brute force chopped, with no regard to preserving whole words.
+     * 
+     * For example:
+     * 
+     *      "Java is a fun programming language!"
+     * 
+     * Might be chopped into:
+     * 
+     *      "Java is a fun prog"
+     *      "ramming language!"
+     *  
+     * @param word The word that needs chopping
+     * @param limit Number of character that should represent a chopped word
+     * @return String [] of chopped words
+     */
+    private String [] chopWord(String word, int limit)
+    {
+        StringBuilder builder = new StringBuilder();
+        if (word != null && word.trim().length() > 0) {
+            
+            char[] chars = word.toCharArray();
+            int index = 0;
+            
+            // First process all the words that fit into the limit.
+            for (int i = 0; i < chars.length/limit; i++) {
+                builder.append(String.copyValueOf(chars, index, limit));
+                builder.append("\n");
+                
+                index += limit;
+            }
+            
+            // Not all words will fit perfectly into the limit amount, so
+            // calculate the modulus value to determine any remaining characters.
+            int modValue =  chars.length%limit;
+            if (modValue > 0) {
+                builder.append(String.copyValueOf(chars, index, modValue));
+            }
+            
+        }
+        
+        // Split the chopped words into individual segments.
+        return builder.toString().split("\\n");
     }
 
     /**

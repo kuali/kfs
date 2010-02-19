@@ -33,6 +33,9 @@ import org.kuali.rice.kns.service.ParameterService;
 // TODO: after DisbursementVoucherDocumentRule is remove, it is good to change this interface into a class
 public interface DisbursementVoucherConstants extends ParameterKeyConstants {
 
+    // Text limits
+    public static final int MAX_NOTE_LINE_SIZE = 90;
+    
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
     public static String PAYMENT_METHOD_WIRE = "W";

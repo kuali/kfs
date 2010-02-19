@@ -63,8 +63,8 @@
 			viewList="document.relatedViews.relatedCreditMemoViews"
 			limitByPoId="${limitByPoId}" /> 
 			
-		<c:if test="${!isATypeOfPurAPRecDoc}">		
-			<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+		<c:if test="${!isATypeOfPurAPRecDoc}">
+			<purap:relatedElectronicRejectDocumentsDetail documentAttributes="${documentAttributes}"
 				viewList="document.relatedViews.relatedRejectViews"
 				limitByPoId="${limitByPoId}" /> 	
 		</c:if>

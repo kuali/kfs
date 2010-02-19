@@ -34,6 +34,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-purapDocumentIdentifier"/>
         <ref bean="ElectronicInvoiceRejectDocument-accountsPayablePurchasingDocumentLinkIdentifier"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceLoadSummaryIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectDocument-paymentRequestIdentifier"/>
         <ref bean="ElectronicInvoiceRejectDocument-purchaseOrderDeliveryCampusCode"/>
         <ref bean="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceCustomerNumber"/>
@@ -192,6 +193,22 @@
       <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
+  
+  <bean id="ElectronicInvoiceRejectDocument-paymentRequestIdentifier" parent="ElectronicInvoiceRejectDocument-paymentRequestIdentifier-parentBean"/>
+  <bean id="ElectronicInvoiceRejectDocument-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentRequestIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Request #"/>
+    <property name="shortLabel" value="Payment Request #"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+  
   <bean id="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier" parent="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

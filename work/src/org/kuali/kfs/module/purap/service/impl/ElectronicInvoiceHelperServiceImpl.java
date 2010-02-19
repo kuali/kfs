@@ -1045,7 +1045,13 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         Map kualiItemTypes = getKualiItemTypes();
 
         ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
-        createPaymentRequest(rejectDocHolder);
+        
+        /**
+         * First, create a new payment request document.  Once this document is created, then update the reject document's PREQ_ID field
+         * with the payment request document identifier.  This identifier is used to associate the reject document with the payment request.
+         */
+        PaymentRequestDocument preqDocument = createPaymentRequest(rejectDocHolder);
+        rejectDocument.setPaymentRequestIdentifier(preqDocument.getPurapDocumentIdentifier());
         
         return !rejectDocHolder.isInvoiceRejected();
         

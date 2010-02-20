@@ -157,13 +157,12 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             }
 
             glPendingTransaction.setProjectCd(paymentAccountDetail.getProjectCode());
-
-            if (paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() >= 0) {
-                glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
+            if (paymentAccountDetail.getPaymentDetail().getNetPaymentAmount().bigDecimalValue().signum() >= 0) {
+                 glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
             }
             else {
-                glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-            }
+                 glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+              }
             glPendingTransaction.setAmount(paymentAccountDetail.getAccountNetAmount().abs());
 
             String trnDesc = "";

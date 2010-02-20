@@ -36,7 +36,9 @@ import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.kfs.module.ec.businessobject.inquiry.EffortPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -254,6 +256,12 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @return the inquiry URL for the specified attribute
      */
     protected HtmlData getCustomizedInquiryUrl(EffortCertificationDetail detailLine, String attributeName) {
+        if (StringUtils.equals(attributeName, KFSPropertyConstants.POSITION_NUMBER)) {
+            AnchorHtmlData inquiryHref = (AnchorHtmlData) getEffortPositionDataDetailsInquirableImpl().getInquiryUrl(detailLine, attributeName);
+            inquiryHref.setHref(this.getCompleteURL(inquiryHref.getHref()));
+            return inquiryHref;
+        }
+        
         AnchorHtmlData inquiryHref = (AnchorHtmlData) getInquirable().getInquiryUrl(detailLine, attributeName, false);
         inquiryHref.setHref(this.getCompleteURL(inquiryHref.getHref()));
 
@@ -296,9 +304,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         inquirableFieldNames.add(EffortPropertyConstants.COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER);
 
         inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT);
         inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT);
 
         return inquirableFieldNames;
     }
@@ -310,11 +316,10 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      */
     public List<String> getCustomizedInquirableFieldNames() {
         List<String> inquirableFieldNames = new ArrayList<String>();
-
+        
+        inquirableFieldNames.add(KFSPropertyConstants.POSITION_NUMBER);
         inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT);
         inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT);
 
         return inquirableFieldNames;
     }
@@ -407,6 +412,15 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         return new EffortLedgerBalanceInquirableImpl();
     }
 
+    /**
+     * get the EffortPositionDataDetailsInquirableImpl implmentation
+     * 
+     * @return the EffortPositionDataDetailsInquirableImpl implmentation
+     */
+    protected EffortPositionDataDetailsInquirableImpl getEffortPositionDataDetailsInquirableImpl() {
+        return new EffortPositionDataDetailsInquirableImpl();
+    }
+    
     /**
      * build the descriptive information of the given account. The information includes account name and project director's name if
      * any

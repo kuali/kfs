@@ -62,41 +62,12 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
             return false;
         }
         
-        //check item if item is taxable
-        /*
-        if( StringUtils.isNotEmpty(customerInvoiceDetail.getInvoiceItemCode()) ){
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("invoiceItemCode", customerInvoiceDetail.getInvoiceItemCode());
-            criteria.put("chartOfAccountsCode", customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
-            criteria.put("organizationCode", customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
-            CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode) businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
-            
-            if (ObjectUtils.isNotNull(customerInvoiceItemCode) && !customerInvoiceItemCode.isTaxableIndicator()){
-                return false;
-            }
+        //check if the shipping address has Postal Code in the same country and state as the Billing Org. If not, the item is not taxable.
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getShippingZipCode()) && 
+            StringUtils.equals(customerInvoiceDocument.getShippingCountryCode(), customerInvoiceDocument.getBillingCountryCode()) &&
+            !StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), customerInvoiceDocument.getBillingStateCode())) {               
+            return false;
         }
-        */
-        
-        //check if the shipping address has Postal Code in the same state as the Billing Org. If not, the item is not taxable.
-        if (ObjectUtils.isNotNull(customerInvoiceDocument.getShippingZipCode())){ 
-
-//            Map<String, String> criteria = new HashMap<String, String>();
-//            criteria.put("chartOfAccountsCode", customerInvoiceDocument.getBillByChartOfAccountCode());
-//            criteria.put("organizationCode", customerInvoiceDocument.getBilledByOrganizationCode());
-//            OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
-//
-//            if (ObjectUtils.isNotNull(organizationOptions)) {
-//                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), organizationOptions.getOrganizationRemitToStateCode())){
-//                    return false;
-//                }
-//            }
-            if (StringUtils.equals(customerInvoiceDocument.getShippingCountryCode(), customerInvoiceDocument.getBillingCountryCode())) {
-                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), customerInvoiceDocument.getBillingStateCode())) {
-                    return false;
-                }
-            }
-        }
-
         
         return true;
     }

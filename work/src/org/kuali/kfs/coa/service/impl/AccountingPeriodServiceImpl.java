@@ -24,18 +24,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.module.cam.CamsConstants.DateFormats;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.spring.Cached;
-import org.kuali.rice.kns.web.format.DateFormatter;
-
-import uk.ltd.getahead.dwr.convert.DateConverter;
 
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
@@ -43,6 +39,7 @@ import uk.ltd.getahead.dwr.convert.DateConverter;
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
 
     protected static final Set _invalidPeriodCodes = new TreeSet();
 
@@ -91,6 +88,22 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         AccountingPeriod acctPeriod = (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, keys);
         return acctPeriod;
     }    
+    
+    /**
+     * This method allows for AccountingPeriod retrieval via String date.
+     * 
+     * @param String
+     */
+    public AccountingPeriod getByStringDate(String dateString){
+        AccountingPeriod acctPeriod;
+        try{
+            acctPeriod = getByDate(dateTimeService.convertToSqlDate(dateString));
+        }
+        catch(Exception pe){
+            return null;
+        }
+        return acctPeriod;
+    }
     
     /**
      * This method is a helper method to get the current period.
@@ -154,24 +167,20 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     }
     
     /**
-     * This method allows for AccountingPeriod retrieval via String date.
-     * 
-     * @param String
+     * Gets the dateTimeService attribute. 
+     * @return Returns the dateTimeService.
      */
-    public AccountingPeriod getByStringDate(String dateString){
-        AccountingPeriod acctPeriod;
-        try{
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            java.util.Date jud = df.parse(dateString);
-            java.sql.Date jsd = new java.sql.Date(jud.getTime());
-            acctPeriod = getByDate(jsd);
-        }
-        catch(Exception pe){
-            return null;
-        }
-        return acctPeriod;
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
     }
-    
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
     
     
 }

@@ -192,6 +192,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
 	</bean>
 
 	<bean id="subFundGroupService" class="org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl">

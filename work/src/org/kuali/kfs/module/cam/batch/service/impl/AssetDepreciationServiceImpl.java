@@ -157,10 +157,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
         }
         catch (Exception e) {
-            //
-            //LOG.error will print the stack trace for the exception thrown above on line 157 - which is stated below on line 164 in a more user friendly manner
-            //LOG.error("Error occurred", e);
-            //
             LOG.info("Error occurred");
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "**************************************************************************");
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "AN ERROR HAS OCCURRED! - ERROR: " + e.getMessage());

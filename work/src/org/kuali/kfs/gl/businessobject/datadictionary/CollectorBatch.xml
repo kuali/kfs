@@ -96,7 +96,7 @@
   <bean id="CollectorBatch-emailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="emailAddress"/>
     <property name="label" value="Email Address"/>
-    <property name="maxLength" value="70"/>
+    <property name="maxLength" value="40"/>
   </bean>
   <bean id="CollectorBatch-campusCode" parent="CollectorBatch-campusCode-parentBean"/>
   
@@ -111,7 +111,7 @@
     <property name="label" value="Phone Number"/>
   	<property name="forceUppercase" value="true"/>
     <property name="shortLabel" value="Phone Number"/>
-    <property name="maxLength" value="20"/>    
+    <property name="maxLength" value="10"/>    
     <property name="control">
     	<bean parent="TextControlDefinition" p:size="10"/>
     </property>

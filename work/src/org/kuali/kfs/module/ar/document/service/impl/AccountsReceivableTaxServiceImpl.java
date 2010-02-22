@@ -80,13 +80,18 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
         //check if the shipping address has Postal Code in the same state as the Billing Org. If not, the item is not taxable.
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getShippingZipCode())){ 
 
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("chartOfAccountsCode", customerInvoiceDocument.getBillByChartOfAccountCode());
-            criteria.put("organizationCode", customerInvoiceDocument.getBilledByOrganizationCode());
-            OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
-
-            if (ObjectUtils.isNotNull(organizationOptions)) {
-                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), organizationOptions.getOrganizationRemitToStateCode())){
+//            Map<String, String> criteria = new HashMap<String, String>();
+//            criteria.put("chartOfAccountsCode", customerInvoiceDocument.getBillByChartOfAccountCode());
+//            criteria.put("organizationCode", customerInvoiceDocument.getBilledByOrganizationCode());
+//            OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+//
+//            if (ObjectUtils.isNotNull(organizationOptions)) {
+//                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), organizationOptions.getOrganizationRemitToStateCode())){
+//                    return false;
+//                }
+//            }
+            if (StringUtils.equals(customerInvoiceDocument.getShippingCountryCode(), customerInvoiceDocument.getBillingCountryCode())) {
+                if (!StringUtils.equals(customerInvoiceDocument.getShippingStateCode(), customerInvoiceDocument.getBillingStateCode())) {
                     return false;
                 }
             }

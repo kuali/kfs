@@ -44,18 +44,21 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
 
 
 function onblur_postingYearAndPeriodCode(field, callbackFunction) {
-	var postedDate = getElementValue(field.name);
-
+	var postedDate = getElementValue(field.name).trim();
+	
 	if (postedDate != "") {
 		var dwrReply = {
 			callback :callbackFunction,
 			errorHandler : function(errorMessage) {
 				setRecipientValue(
 						"document.newMaintainableObject.add.assetPaymentDetails.postingYear",
-						wrapError("Fiscal Year and Period not found"), true);
+						wrapError("Fiscal Year not found based on Posted Date above"), true);
+				setRecipientValue(
+						"document.newMaintainableObject.add.assetPaymentDetails.postingPeriodCode",
+						wrapError("Fiscal Period not found based on Posted Date above"), true);
 			}
 		};
-        AssetGlobalMaintenanceDocumentService.getByStringDate( postedDate, dwrReply);
+       AccountingPeriodService.getByStringDate(postedDate, dwrReply);
 	}
 }
 

@@ -87,9 +87,8 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
      */
     public void setAccountDelegateUniversalId(String accountDelegateUniversalId) {
         this.accountDelegateUniversalId = accountDelegateUniversalId;
-    }
-
-
+    }    
+    
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 

@@ -95,9 +95,6 @@
     <property name="label" value="Account Delegate Principal Name"/>
     <property name="shortLabel" value="Principal Name"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountDelegate.name" p:universalIdAttributeName="accountDelegateUniversalId" p:userIdAttributeName="accountDelegate.principalName"/>
-    </property>
   </bean>
   <bean id="AccountDelegateGlobalDetail-accountDelegate.name" parent="AccountDelegateGlobalDetail-accountDelegate.name-parentBean"/>
 
@@ -105,6 +102,9 @@
     <property name="name" value="accountDelegate.name"/>
     <property name="label" value="Account Delegate User Name"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>    
   </bean>
   <bean id="AccountDelegateGlobalDetail-approvalFromThisAmount" parent="AccountDelegateGlobalDetail-approvalFromThisAmount-parentBean"/>
 

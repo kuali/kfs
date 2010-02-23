@@ -39,6 +39,7 @@
       <list>
         <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountGlobal.js</value>
+        <value>../scripts/coa/accountDelegateGlobalDetail.js</value>        
         <value>../scripts/sys/objectInfo.js</value>
       </list>
     </property>
@@ -75,7 +76,8 @@
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegatePrimaryRoutingIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegateStartDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegateUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true" p:webUILeaveFieldFunction="principalNameLookup"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.name" p:unconditionallyReadOnly="true" p:required="false"/>              
               <bean parent="MaintainableFieldDefinition" p:name="approvalFromThisAmount"/>
               <bean parent="MaintainableFieldDefinition" p:name="approvalToThisAmount"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>

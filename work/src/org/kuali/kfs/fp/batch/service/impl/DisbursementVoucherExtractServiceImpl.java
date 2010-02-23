@@ -477,14 +477,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get the original, raw form, note text from the DV document. 
-        String text    = document.getDisbVchrCheckStubText();
-        if (text.length() > 0) {
+        String text = document.getDisbVchrCheckStubText();
+        if (text != null && text.length() > 0) {
             
             // The WordUtils should be sufficient for the majority of cases.  This method will
-            // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, seperating each wrapped
-            // word by a newline character.
+            // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, separating each wrapped
+            // word by a newline character.  The 'wrap' method adds line feeds to the end causing
+            // the character length to exceed the max length by 1, hence the need for the replace
+            // method before splitting.
             String   wrappedText = WordUtils.wrap(text, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE);
-            String[] noteLines   = wrappedText.split("\\n");
+            String[] noteLines   = wrappedText.replaceAll("[\r]", "").split("\\n");
             
             // Loop through all the note lines.
             for (String noteLine : noteLines) {

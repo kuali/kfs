@@ -1277,8 +1277,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         setDisbVchrContactPhoneNumber(currentUser.getPhoneNumber());
         setDisbVchrContactEmailId(currentUser.getEmailAddress());
         ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
+        
+        // Does a valid campus code exist for this person?  If so, simply grab
+        // the campus code via the business object service.  
         if (chartOrg != null && chartOrg.getOrganization() != null) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
+        }
+        // A valid campus code was not found; therefore, use the default affiliated
+        // campus code.
+        else {
+            String affiliatedCampusCode = currentUser.getCampusCode();
+            setCampusCode(affiliatedCampusCode);
         }
 
         // due date

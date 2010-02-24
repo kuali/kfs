@@ -53,7 +53,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="domesticChargeAmt" p:required="true"/>

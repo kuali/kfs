@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAccountingLineAuthorizer.class);
@@ -35,6 +36,19 @@ public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessing
     }
 
     /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getDeleteLineMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
+     *      java.lang.String, java.lang.Integer)
+     */    
+    @Override
+    protected String getDeleteLineMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
+        final String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);
+        String lineIndex = this.getLineContainerIndex(accountingLineProperty);
+        String lineContainer = this.getLineContainer(accountingLineProperty) + ".";        
+        
+        return KNSConstants.DELETE_METHOD + infix + "Line." + lineContainer + "line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getAddMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
      *      java.lang.String, java.lang.Integer)
      */
@@ -42,8 +56,9 @@ public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessing
     protected String getAddMethod(AccountingLine accountingLine, String accountingLineProperty) {
         String infix = getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty);
         String lineIndex = this.getLineContainerIndex(accountingLineProperty);
+        String lineContainer = this.getLineContainer(accountingLineProperty) + ".";        
 
-        return KFSConstants.INSERT_METHOD + infix + "Line.line" + lineIndex + ".anchoraccounting" + infix + "Anchor";
+        return KFSConstants.INSERT_METHOD + infix + "Line." + lineContainer + "line" + lineIndex + ".anchoraccounting" + infix + "Anchor";
     }
 
     /**

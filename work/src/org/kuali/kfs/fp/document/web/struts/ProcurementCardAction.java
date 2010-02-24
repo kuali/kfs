@@ -26,15 +26,18 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -131,6 +134,33 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
     }
 
     /**
+     * Override to get the correct container of the transaction and then delete the correct accounting line
+     * 
+     * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#deleteTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response
+     */
+    @Override
+    public ActionForward deleteTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int targetContainerIndex = this.getSelectedContainer(request);
+        int targetIndex = this.getSelectedLine(request);
+        
+        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME + "[" + targetIndex + "]";
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), ((AccountingDocument) financialDocumentForm.getDocument()).getTargetAccountingLine(targetIndex), false));
+
+        // if the rule evaluation passed, let's delete it
+        if (rulePassed) {
+            deleteAccountingLineFromTransactionContainer(financialDocumentForm, targetContainerIndex, targetIndex);
+        }
+        else {
+            String[] errorParams = new String[] { "target", Integer.toString(targetIndex + 1) };
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * Override to remove the accounting line from the correct transaction
      * 
      * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#deleteAccountingLine(boolean,
@@ -166,5 +196,16 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
         }
 
         return selectedContainer;
+    }
+    
+    /**
+     * Removes the target accounting line at the given index from the transaction container transaction entries.
+     * 
+     * @param financialDocumentForm, targetContainerIndex, targetIndex
+     */
+    protected void deleteAccountingLineFromTransactionContainer(KualiAccountingDocumentFormBase financialDocumentForm, int targetContainerIndex, int targetIndex) {
+        ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) financialDocumentForm.getDocument(); 
+        ProcurementCardTransactionDetail procurementCardTransactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(targetContainerIndex);
+        procurementCardTransactionDetail.getTargetAccountingLines().remove(targetIndex);
     }
 }

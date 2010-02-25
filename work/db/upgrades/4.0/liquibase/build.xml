@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="KFS 4.0" basedir=".">
+<project name="KFS 4.0 Liquibase" basedir=".">
 
     <target name="init-Oracle" if="oracle">
     </target>

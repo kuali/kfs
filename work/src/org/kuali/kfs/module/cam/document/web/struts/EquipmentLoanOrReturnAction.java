@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.web.struts;
 
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
+import java.sql.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
 
@@ -128,6 +130,12 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                 equipmentLoanOrReturnDocument.setAsset(newAsset);
             }
         }
+        //update loan date with today's date if loan date was in the past
+        Date loanDate = DateUtils.clearTimeFields(equipmentLoanOrReturnDocument.getLoanDate());
+        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
+            equipmentLoanOrReturnDocument.setLoanDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        }
+
         return newAsset;
     }
 

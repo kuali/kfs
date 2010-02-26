@@ -2,15 +2,11 @@
 
 <project name="KFS 4.0 Liquibase" basedir=".">
 
-    <target name="init-Oracle" if="oracle">
-    </target>
-
     <target name="init_Mysql" if="databaseIsMYSQL">
 	<echo message="MYSQL database"/>
 	<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 	<property name="database.url" value="${mysql.datasource.url}"/>
 	<path id="databaseDriver.class.path" path="/java/drivers/mysql-connector-java-5.0.5-bin.jar" />
-	
     </target>
 
     <target name="init_Oracle" unless="databaseIsMYSQL">
@@ -34,7 +30,7 @@
 		<equals arg1="${datasource.ojb.platform}" arg2="MYSQL" casesensitive="false" trim="true"/>
 	</condition>
         <property name="prompt.user.if.not.local.database" value="true"/>
-
+		<fail unless="datasource.ojb.platform">datasource.ojb.platform not found</fail>
         <fail unless="db.changelog.file">db.changelog.file not set</fail>
         <fail unless="datasource.username">datasource.username not set</fail>
         <fail unless="datasource.password">datasource.password not set</fail>

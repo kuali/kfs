@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -242,11 +243,17 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = true;
         List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
-
+        
+        Integer totalGLRecordsCreated = 0;
+        
+        if (glpes == null || glpes.isEmpty()) {
+            totalGLRecordsCreated = cashControlDocument.getGeneralLedgerEntriesPostedCount();
+        }
+        
         // if payment medium is not Cash the general ledger pending entries must not be empty; if payment medium is Cash then a Cash
         // Receipt Document must be created prior to creating the Cash Control document and it's number should be set in Reference
         // Document number
-        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && (glpes == null || glpes.isEmpty())) {
+        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && ((glpes == null || glpes.isEmpty()) && totalGLRecordsCreated.intValue() == 0)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
             isValid = false;
         }

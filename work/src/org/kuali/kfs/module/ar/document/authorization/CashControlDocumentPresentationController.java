@@ -78,13 +78,8 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                 }
-                Map<String, Object> pkMap = new HashMap<String, Object>();
-                pkMap.put("documentNumber", cashControlDocument.getDocumentNumber());
-                pkMap.put("universityFiscalYear", cashControlDocument.getPostingYear().toString());
-                pkMap.put("universityFiscalPeriodCode", cashControlDocument.getPostingPeriodCode());
-                pkMap.put("chartOfAccountsCode", cashControlDocument.getChartOfAccountsCode());
+                Integer totalGLRecordsCreated = cashControlDocument.getGeneralLedgerEntriesPostedCount();
                 
-                Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);
                 if (totalGLRecordsCreated.intValue() > 0) {
                     editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                     editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);                    

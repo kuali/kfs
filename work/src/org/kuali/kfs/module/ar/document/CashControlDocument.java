@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -695,5 +696,22 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         Map<String, String> pkMap = new HashMap<String, String>();
         pkMap.put("documentNumber", getDocumentNumber());
         boService.deleteMatching(CashControlDetail.class, pkMap);
+    }
+    
+    /**
+     * This is a method to check the count of gl entries according to the input fields and values
+     * 
+     * @return totalGLRecordsCreated returns the count of the gl entries
+     */    
+    public Integer getGeneralLedgerEntriesPostedCount() {
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put("documentNumber", this.getDocumentNumber());
+        pkMap.put("universityFiscalYear", this.getPostingYear().toString());
+        pkMap.put("universityFiscalPeriodCode", this.getPostingPeriodCode());
+        pkMap.put("chartOfAccountsCode", this.getChartOfAccountsCode());
+        
+        Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);
+        
+        return totalGLRecordsCreated;
     }
 }

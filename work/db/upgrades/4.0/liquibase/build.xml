@@ -4,16 +4,12 @@
 
     <target name="init_Mysql" if="databaseIsMYSQL">
 	<echo message="MYSQL database"/>
-	<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 	<property name="database.url" value="${mysql.datasource.url}"/>
-	<path id="databaseDriver.class.path" path="/java/drivers/mysql-connector-java-5.0.5-bin.jar" />
     </target>
 
     <target name="init_Oracle" unless="databaseIsMYSQL">
 	<echo message="Oracle database"/>
-	<path id="oracle.class.path" path="/java/drivers/ojdbc14.jar" />
 	<property name="database.url" value="${oracle.datasource.url}"/>
-	<property name="database.driver" value="oracle.jdbc.OracleDriver"/>
     </target>
 
     <target name="prepare">
@@ -25,7 +21,10 @@
  	 </tstamp>
 
 	<property file="${user.home}/kfs-build.properties" />
-	
+	<property file="${user.home}/impex-build.properties" />
+	<path id="databaseDriver.class.path">
+		<fileset dir="${drivers.directory}" includes="${drivers.file.pattern}" />
+	</path>
 	<condition  property="databaseIsMYSQL">
 		<equals arg1="${datasource.ojb.platform}" arg2="MYSQL" casesensitive="false" trim="true"/>
 	</condition>
@@ -43,7 +42,7 @@
 	<taskdef name="updateDatabase" classname="liquibase.ant.DatabaseUpdateTask" classPathref="liquibase.class.path" />
         <updateDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -58,7 +57,7 @@
 	<taskdef name="updateDatabase" classname="liquibase.ant.DatabaseUpdateTask" classPathref="liquibase.class.path" />
         <updateDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -73,7 +72,7 @@
 	<taskdef name="rollbackDatabase" classname="liquibase.ant.DatabaseRollbackTask" classPathref="liquibase.class.path" />
         <rollbackDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -88,7 +87,7 @@
 	<taskdef name="rollbackFutureDatabase" classname="liquibase.ant.DatabaseRollbackFutureTask" classPathref="liquibase.class.path" />
         <rollbackFutureDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -102,7 +101,7 @@
     <target name="generateChangeLog" depends="prepare">
 	<taskdef name="generateChangeLog" classname="liquibase.ant.GenerateChangeLogTask" classPathref="liquibase.class.path" />
         <generateChangeLog
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -118,7 +117,7 @@
 	<taskdef name="diffDatabase" classname="liquibase.ant.DiffDatabaseTask" classPathref="liquibase.class.path" />
         <diffDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -139,7 +138,7 @@
 	<taskdef name="diffDatabaseToChangeLog" classname="liquibase.ant.DiffDatabaseToChangeLogTask" classPathref="liquibase.class.path" />
         <diffDatabaseToChangeLog
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -159,7 +158,7 @@
     <target name="diffChangeLog-hibernate" depends="prepare">
 	<taskdef name="diffDatabaseToChangeLog" classname="liquibase.ant.DiffDatabaseToChangeLogTask" classPathref="liquibase.class.path" />
         <diffDatabaseToChangeLog
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -174,7 +173,7 @@
 	<taskdef name="dbDoc" classname="liquibase.ant.DBDocTask" classPathref="liquibase.class.path" />
         <dbDoc
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -188,7 +187,7 @@
 	<taskdef name="tagDatabase" classname="liquibase.ant.TagDatabaseTask" classPathref="liquibase.class.path" />
         <tagDatabase
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -204,7 +203,7 @@
 	<taskdef name="changeLogSync" classname="liquibase.ant.ChangeLogSyncTask" classPathref="liquibase.class.path" />
         <changeLogSync
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"
@@ -220,7 +219,7 @@
 	<taskdef name="dropAllDatabaseObjects" classname="liquibase.ant.DropAllTask" classPathref="liquibase.class.path" />
         <dropAllDatabaseObjects
                 changeLogFile="${db.changelog.file}"
-                driver="${database.driver}"
+                driver="${import.torque.database.driver}"
                 url="${database.url}"
                 username="${datasource.username}"
                 password="${datasource.password}"

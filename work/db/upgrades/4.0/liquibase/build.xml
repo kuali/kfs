@@ -29,6 +29,7 @@
 		<equals arg1="${datasource.ojb.platform}" arg2="MYSQL" casesensitive="false" trim="true"/>
 	</condition>
         <property name="prompt.user.if.not.local.database" value="true"/>
+        <fail unless="drivers.directory">drivers directory not found</fail>
 		<fail unless="datasource.ojb.platform">datasource.ojb.platform not found</fail>
         <fail unless="db.changelog.file">db.changelog.file not set</fail>
         <fail unless="datasource.username">datasource.username not set</fail>

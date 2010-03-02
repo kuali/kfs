@@ -353,6 +353,10 @@
     <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" />
 
 	<bean id="Requisition-accountClosedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountClosedValidation" abstract="true"/>
+    
+    <bean id="Requisition-assignToTradeInValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAssignToTradeInValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
 	
 <!-- Purchase Order Definitions -->
 

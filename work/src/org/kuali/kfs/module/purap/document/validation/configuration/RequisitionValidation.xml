@@ -25,13 +25,16 @@
   
   	<bean id="Requisition-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list>
+  			<list>              				
+                <bean parent="Requisition-assignToTradeInValidation" scope="prototype">
+                    <property name="quitOnFail" value="true" />
+                </bean> 
+                
+				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
                 
                 <bean parent="Purchasing-chartOrgValidation" scope="prototype">
                     <property name="quitOnFail" value="false" />
                 </bean>
-              				
-				<bean parent="Requisition-newProcessItemValidation-parentBean" scope="prototype" />
 				
 				<bean parent="Purchasing-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />

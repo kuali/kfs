@@ -336,13 +336,19 @@
 		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />				
 	</bean>
 
-	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
 	
 	<bean id="Purchasing-processReceivingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingReceivingValidation" abstract="true"/>
 
-	<bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
+    <bean id="Purchasing-chartOrgValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingChartOrgValidation" abstract="true">
+        <property name="organizationService" ref="organizationService"/>
+        <property name="chartService" ref="chartService" />
+    </bean>
+	
+    <bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
 	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
+
+	<bean id="Requisition-processAdditionalValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
 
     <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" />
 

@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -38,6 +39,7 @@ import org.kuali.rice.kns.util.spring.Cached;
  */
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
 
@@ -100,8 +102,9 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
             acctPeriod = getByDate(dateTimeService.convertToSqlDate(dateString));
         }
         catch(Exception pe){
-            return null;
-        }
+            LOG.error("AccountingPeriod getByStringDate unable to convert string "+dateString+" into date.",pe);
+            throw new RuntimeException("AccountingPeriod getByStringDate unable to convert string "+dateString+" into date.",pe);
+            }
         return acctPeriod;
     }
     

@@ -16,8 +16,6 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +23,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -89,25 +86,25 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         keys.put("universityFiscalYear", fiscalYear);
         AccountingPeriod acctPeriod = (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, keys);
         return acctPeriod;
-    }    
-    
+    }
+
     /**
      * This method allows for AccountingPeriod retrieval via String date.
      * 
      * @param String
      */
-    public AccountingPeriod getByStringDate(String dateString){
+    public AccountingPeriod getByStringDate(String dateString) {
         AccountingPeriod acctPeriod;
-        try{
+        try {
             acctPeriod = getByDate(dateTimeService.convertToSqlDate(dateString));
         }
-        catch(Exception pe){
-            LOG.error("AccountingPeriod getByStringDate unable to convert string "+dateString+" into date.",pe);
-            throw new RuntimeException("AccountingPeriod getByStringDate unable to convert string "+dateString+" into date.",pe);
-            }
+        catch (Exception pe) {
+            LOG.error("AccountingPeriod getByStringDate unable to convert string " + dateString + " into date.", pe);
+            throw new RuntimeException("AccountingPeriod getByStringDate unable to convert string " + dateString + " into date.", pe);
+        }
         return acctPeriod;
     }
-    
+
     /**
      * This method is a helper method to get the current period.
      * 
@@ -121,12 +118,12 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         primaryKeys.clear();
         primaryKeys.put("universityFiscalYear", universityDate.getUniversityFiscalYear());
         primaryKeys.put("universityFiscalPeriodCode", universityDate.getUniversityFiscalAccountingPeriod());
-        return (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, primaryKeys); 
+        return (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, primaryKeys);
     }
 
     /**
-     * 
      * This checks to see if the period code is empty or invalid ("13", "AB", "BB", "CB")
+     * 
      * @param period
      * @return
      */
@@ -168,9 +165,10 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
+     * 
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -179,11 +177,12 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
-    
+
+
 }

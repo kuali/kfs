@@ -481,15 +481,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
+        KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
+        String documentType = workFlowDocument.getDocumentType();
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
-            if (!getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                super.prepareForSave(event);
+            if (workFlowDocument.stateIsCanceled() && (! workFlowDocument.stateIsFinal())) {
+                setGeneralLedgerPendingEntries(new ArrayList());
             }
             else {
-                // if doc is FINAL, saving should not be creating GL entries
-                setGeneralLedgerPendingEntries(new ArrayList());
+                // if doc is FINAL, saving should be creating GL entries
+                super.prepareForSave(event);
             }
         }
     }
@@ -697,7 +698,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 }
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                    SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
+                     SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                 }
             }
@@ -765,6 +766,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                             // if an approve or complete request will be created then we need to set the status as awaiting for
                             // the new node
                             SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
+                            
                             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         }
                     }

@@ -481,17 +481,17 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
-        String documentType = workFlowDocument.getDocumentType();
+        String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
-            if (workFlowDocument.stateIsCanceled() && (! workFlowDocument.stateIsFinal())) {
-                setGeneralLedgerPendingEntries(new ArrayList());
-            }
-            else {
-                // if doc is FINAL, saving should be creating GL entries
+            if (!getDocumentHeader().getWorkflowDocument().stateIsFinal() || !getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                 super.prepareForSave(event);
             }
+            else {
+                // if doc is FINAL or CANCELED, saving should not be creating GL entries
+                setGeneralLedgerPendingEntries(new ArrayList());
+            }
+
         }
     }
 

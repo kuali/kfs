@@ -61,8 +61,7 @@ public class PurchasingChartOrgValidation extends GenericValidation
         
         if (organization == null) {
             GlobalVariables.getMessageMap().putError(
-                    //"document.documentHeader.documentDescription",
-                    "travis.longoria",
+                    "document.documentHeader.*",
                     PurapKeyConstants.ERROR_INVALID_COA_ORG_CODE);
             
             valid = false;

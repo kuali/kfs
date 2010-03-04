@@ -1782,7 +1782,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the fringeBenefitsChartOfAccount.
      */
-    public Chart getFringeBenefitsChartOfAccounts() {
+    public Chart getFringeBenefitsChartOfAccount() {
         return fringeBenefitsChartOfAccount;
     }
 
@@ -1791,7 +1791,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param fringeBenefitsChartOfAccount The fringeBenefitsChartOfAccount to set.
      */
-    public void setFringeBenefitsChartOfAccounts(Chart fringeBenefitsChartOfAccounts) {
+    public void setFringeBenefitsChartOfAccount(Chart fringeBenefitsChartOfAccounts) {
         this.fringeBenefitsChartOfAccount = fringeBenefitsChartOfAccounts;
     }    
     

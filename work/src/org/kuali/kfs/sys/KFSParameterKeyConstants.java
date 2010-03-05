@@ -23,6 +23,13 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
     public static final String DEFAULT_BANK_BY_DOCUMENT_TYPE = "DEFAULT_BANK_BY_DOCUMENT_TYPE";
     public static final String BANK_CODE_DOCUMENT_TYPES = "BANK_CODE_DOCUMENT_TYPES";
 
+    public static class YearEndAutoDisapprovalConstants {
+        public static final String YEAR_END_AUTO_DISAPPROVE_ANNOTATION_FOR_E_DOCS = "YEAR_END_AUTO_DISAPPROVE_ANNOTATION_FOR_E_DOCS";
+        public static final String YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE = "YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE";
+        public static final String YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE = "YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_RUN_DATE";
+        public static final String YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES = "YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES";
+    }
+    
     public static class PurapPdpParameterConstants {
         public static final String PURAP_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_SUB_UNIT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";

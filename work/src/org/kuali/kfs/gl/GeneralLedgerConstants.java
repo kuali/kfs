@@ -500,7 +500,7 @@ public class GeneralLedgerConstants {
         return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
     
-    public static String getZeroTransactionLedgerEntryAmout(){
+    public static String getZeroTransactionLedgerEntryAmount(){
         OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
         int length = oefu.getFieldLengthMap().get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         

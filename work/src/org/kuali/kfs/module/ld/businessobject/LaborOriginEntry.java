@@ -727,7 +727,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
 
         if (transactionLedgerEntryAmount == null) {
-            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout());
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount());
         }
         else {
             String a = transactionLedgerEntryAmount.abs().toString();
@@ -736,7 +736,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             } else {
                 sb.append("+");
             } 
-            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout().substring(1, lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount().substring(1, lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
             sb.append(a);
         }
 

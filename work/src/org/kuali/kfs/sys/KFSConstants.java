@@ -768,8 +768,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         
         public static final String DEFAULT_FILE_PURGE_AGE = "DEFAULT_NUMBER_OF_DAYS_OLD";
         public static final String FILE_PURGE_AGE_SUFFIX = "_NUMBER_OF_DAYS_OLD";
-        
-
+                
         /**
          * Used by PurgePendingAttachmentsJob to compute the maximum amount of time a pending attachment is allowed to persist on
          * the file system before being deleted.

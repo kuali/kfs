@@ -338,7 +338,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {
-            sb.append(GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber());
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount());
         }
         else {
             String a = transactionLedgerEntryAmount.abs().toString();
@@ -347,7 +347,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             } else {
                 sb.append("+");
             }
-            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout().substring(1, fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount().substring(1, fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
             sb.append(a);
         }
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), transactionDebitCreditCode));

@@ -38,8 +38,6 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
     private static final String revenueAttributeName = "REVENUE";
     private static final String objectCodeTypeField = KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
 
-    private ArrayList<String> revObjs = new ArrayList<String>();
-
     /**
      * @see org.apache.ojb.broker.metadata.AttributeContainer#addAttribute(java.lang.String, java.lang.String)
      */
@@ -76,8 +74,11 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
         else {
             paramValues = BudgetParameterFinder.getExpenditureObjectTypes();
         }
+        
+        ArrayList<String> revObjs = new ArrayList<String>();
         revObjs.addAll(paramValues);
         arg3.getCriteria().addIn(objectCodeTypeField, revObjs);
+        
         return arg3;
     }
 

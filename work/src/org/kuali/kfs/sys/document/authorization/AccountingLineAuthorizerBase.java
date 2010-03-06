@@ -172,7 +172,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
         // examine whether the given field can be editable
         boolean hasEditPermissionOnField = editableLine || this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty+"."+fieldName), currentUser);
-
+        if (hasEditPermissionOnField == false) {
+            // kim check shows field should not be editable based on contents of field - check if line error message occurred on this line
+            // if error message shows up, then the value must have changed recently so - we make it editable to allow user to correct it
+            KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.stateIsEnroute() && isErrorMapContainingErrorsOnLine(accountingLineCollectionProperty)) return true;
+         }
         return hasEditPermissionOnField;
     }
  

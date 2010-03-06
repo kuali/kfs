@@ -58,6 +58,7 @@
 				<value>purgeJob</value>
 				<value>fiscalYearMakerJob</value>
 				<value>purgeReportsAndStagingJob</value>
+				<value>autoDisapproveJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -280,6 +281,34 @@
 		<property name="filePurgeService" ref="filePurgeService" />
 	</bean>
 	
+	<bean id="autoDisapproveJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="autoDisapproveEDocsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="autoDisapproveEDocsStep" class="org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep" parent="step">
+		<property name="autoDisapproveEDocsService">
+			<ref bean="autoDisapproveService" />
+		</property>
+	</bean>
+	
+	<bean id="autoDisapproveService" class="org.kuali.kfs.sys.batch.service.impl.AutoDisapproveEDocsServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+    	<property name="parameterService">
+    	 <ref bean="parameterService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		 <property name="noteService">
+			<ref bean="noteService" />
+		</property>	
+	</bean>
 	
 	<!-- end core batch jobs -->
 	

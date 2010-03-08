@@ -53,16 +53,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveEDocsServiceImpl.class);
 
-    protected DocumentSearchDAO documentSearchDAO;
-    protected DocumentSearchGenerator docSearchGenerator;
-    protected DocSearchCriteriaDTO docSearchCriteriaDTO;
-    protected DocumentService documentService;
+    private DocumentSearchDAO documentSearchDAO;
+    private DocumentSearchGenerator docSearchGenerator;
+    private DocSearchCriteriaDTO docSearchCriteriaDTO;
+    private DocumentService documentService;
 
-    protected DateTimeService dateTimeService;
-    protected ParameterService parameterService;
+    private DateTimeService dateTimeService;
+    private ParameterService parameterService;
     
-    protected NoteService noteService;
-    protected PersonService<Person> personService;
+    private NoteService noteService;
+    private PersonService<Person> personService;
     
     /**
      * Constructs a AutoDisapproveEDocsServiceImpl instance

@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.batch.service.AutoDisapproveEDocsService;
  * Runs the batch job that gathers all EDocs that are in ENROUTE status and cancels them.
  */
 public class AutoDisapproveEDocsStep extends AbstractStep {
-    protected AutoDisapproveEDocsService autoDisapproveEDocsService;
+    private AutoDisapproveEDocsService autoDisapproveEDocsService;
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveEDocsStep.class);
     
     /**
@@ -56,7 +56,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       
       if (!yearEndAutoDisapproveRunDate.equals(today)) {
-          LOG.warn("Automatic disapproval bypassed - date test failed. Sysem Parameter Date: " + yearEndAutoDisapproveRunDate + "does not equal to Current Date: " + today);
+          LOG.warn("Automatic disapproval bypassed - date test failed. Sysem Parameter Date: " + yearEndAutoDisapproveRunDate + " does not equal to Current Date: " + today);
           autoDisapproveCanRun = false;
       }
       

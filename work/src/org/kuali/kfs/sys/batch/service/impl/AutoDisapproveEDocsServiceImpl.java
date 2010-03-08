@@ -98,19 +98,26 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
              if (document != null) {
                  if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
                      try {
-                     autoDisapprovalYearEndEDoc(document, annotationForAutoDisapprovalDocument);
-                     LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+                         autoDisapprovalYearEndEDoc(document, annotationForAutoDisapprovalDocument);
+                         LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
                      }
                      catch (Exception e) {
                          LOG.error("exception encountered trying to auto disapprove the document " + e.getMessage());
                      }
                  }
+                 else {
+                     LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
+                 }
+             }
+             else {
+                 LOG.error("Document is NULL.  It should never have been null");
              }
         }
     }
     
     /**
-     * This method finds the date in the system parameters that will be used to compare the create date
+     * This method finds the date in the system parameters that will be used to compare the create date.
+     * It then adds 23 hours, 59 minutes and 59 seconds to the compare date.
      * @return  documentCompareDate returns YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE from the system parameter
      */
     protected Date getDocumentCompareDateParameter() {
@@ -154,29 +161,43 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     /**
      * This method first checks the document's create date with system parameter date and then
      * checks the document type name to the system parameter values and returns true if the type name exists
-     * @param eDocToCancel
-     * @return true if document type name exists in the parameter list for exceptions
+     * @param document document to check for its document type,  documentCompareDate the system parameter specified date
+     * to compare the current date to this date.
+     * @return true if  document's create date is <= documentCompareDate and if document type is not in the
+     * system parameter document types that are set to disallow.
      */
     protected boolean exceptionsToAutoDisapproveProcess(Document document, Date documentCompareDate) {
         boolean exception = true;
         Date createDate = null;
+        String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
         Timestamp documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(documentCompareDate);
+        String strCompareDate = calendar.getTime().toString();
+        
         try {
             createDate = getDateTimeService().convertToSqlDate(documentCreateDate);
         }
         catch (ParseException pe){
-            LOG.error("Documents create date can not be determined.");
+            LOG.error("Document create date can not be determined.");
             return exception;
         }
+        
+        calendar.setTime(createDate);
+        String strCreateDate = calendar.getTime().toString();
         
         if (createDate.before(documentCompareDate) || createDate.equals(documentCompareDate)) {
             String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             
             ParameterEvaluator evaluatorDocumentType = getParameterService().getParameterEvaluator(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES, documentTypeName);
             exception = !evaluatorDocumentType.evaluationSucceeds();
+            if (exception) {
+                LOG.info("Document Id: " + documentNumber + " - Exception to Auto Disapprove:  Document's type: " + documentTypeName + " is in the System Parameter For Document Types Exception List.");
+            }
         }
         else {
+            LOG.info("Document Id: " + documentNumber + " - Exception to Auto Disapprove:  Document's create date: " + strCreateDate + " is NOT less than or equal to System Parameter Compare Date: " + strCompareDate);            
             exception = true;
         }
                 

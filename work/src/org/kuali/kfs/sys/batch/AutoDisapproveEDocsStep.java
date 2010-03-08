@@ -51,12 +51,12 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
     protected boolean canAutoDisapproveJobRun() {
       boolean autoDisapproveCanRun = true;
       
-      // IF trunc(SYSDATE - 14/24) = v_yec_cncl_doc_run_dt THEN
+      // IF trunc(SYSDATE - 14/24) = v_yec_cncl_doc_run_dt THEN...FIS CODE equivalent here...
       String yearEndAutoDisapproveRunDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE);
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       
       if (!yearEndAutoDisapproveRunDate.equals(today)) {
-          LOG.warn("Automatic disapproval bypassed - date test failed. Sysem Parameter Date: " + yearEndAutoDisapproveRunDate + " does not equal to Current Date: " + today);
+          LOG.warn("Automatic disapproval bypassed - date test failed. System Parameter Date: " + yearEndAutoDisapproveRunDate + " does not equal to Current Date: " + today);
           autoDisapproveCanRun = false;
       }
       

@@ -20,7 +20,10 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Iterator;
+import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep;
@@ -45,6 +48,9 @@ import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import java.util.ArrayList;
 
 /**
  * This class implements the CancelEDocs batch job.
@@ -79,7 +85,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         LOG.debug("autoDisapproveEDocsInEnrouteStatus() started");
         
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION_FOR_E_DOCS);                
+        String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
 
         Date documentCompareDate = getDocumentCompareDateParameter();
         
@@ -96,18 +102,20 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
 
              Document document = findEDocForAutoDisapproval(documentHeaderId);
              if (document != null) {
-                 if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
-                     try {
-                         autoDisapprovalYearEndEDoc(document, annotationForAutoDisapprovalDocument);
-                         LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+                 if (checkIfDocumentEligibleForAutoDispproval(document)) {
+                     if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
+                         try {
+                             autoDisapprovalYearEndEDoc(document, annotationForAutoDisapprovalDocument);
+                             LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+                         }
+                         catch (Exception e) {
+                             LOG.error("exception encountered trying to auto disapprove the document " + e.getMessage());
+                         }
                      }
-                     catch (Exception e) {
-                         LOG.error("exception encountered trying to auto disapprove the document " + e.getMessage());
+                     else {
+                         LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
                      }
-                 }
-                 else {
-                     LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
-                 }
+                 } 
              }
              else {
                  LOG.error("Document is NULL.  It should never have been null");
@@ -116,14 +124,34 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     }
     
     /**
+     * This method will check the document's document type against the parent document type as specified in the system parameter
+     * @param document
+     * @return true if  document type of the document is a child of the parent document.
+     */
+    protected boolean checkIfDocumentEligibleForAutoDispproval(Document document) {
+        boolean documentEligible = false;
+     
+        String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
+     
+        DocumentType parentDocumentType = (DocumentType) SpringContext.getBean(DocumentTypeService.class).findByName(yearEndAutoDisapproveParentDocumentType);
+     
+        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        DocumentType childDocumentType = (DocumentType) SpringContext.getBean(DocumentTypeService.class).findByName(documentTypeName);
+     
+        documentEligible = parentDocumentType.isParentOf(childDocumentType);
+     
+        return documentEligible;
+    }
+    
+    /**
      * This method finds the date in the system parameters that will be used to compare the create date.
      * It then adds 23 hours, 59 minutes and 59 seconds to the compare date.
-     * @return  documentCompareDate returns YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE from the system parameter
+     * @return  documentCompareDate returns YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE from the system parameter
      */
     protected Date getDocumentCompareDateParameter() {
         Date documentCompareDate = null;
         
-        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE);
+        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
         
         try {
             Date compareDate = getDateTimeService().convertToDate(yearEndAutoDisapproveDocumentDate);
@@ -135,7 +163,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
             documentCompareDate = calendar.getTime();
         }
         catch (ParseException pe) {
-            LOG.error("System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_LESS_THAN_EQUAL_DATE can not be determined.");
+            LOG.error("System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
         }
         
         return documentCompareDate;

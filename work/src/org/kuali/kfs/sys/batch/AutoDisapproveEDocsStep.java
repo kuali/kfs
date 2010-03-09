@@ -56,7 +56,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       
       if (!yearEndAutoDisapproveRunDate.equals(today)) {
-          LOG.warn("Automatic disapproval bypassed - date test failed. System Parameter Date: " + yearEndAutoDisapproveRunDate + " does not equal to Current Date: " + today);
+          LOG.warn("Automatic disapproval bypassed - date test failed. The date on which the auto disapproval step should run: " + yearEndAutoDisapproveRunDate + " does not equal to today's date: " + today);
           autoDisapproveCanRun = false;
       }
       

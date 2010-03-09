@@ -20,10 +20,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Iterator;
-import java.util.Collection;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep;
@@ -34,6 +31,8 @@ import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchGenerator;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
 import org.kuali.rice.kew.docsearch.dao.DocumentSearchDAO;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -48,9 +47,6 @@ import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import java.util.ArrayList;
 
 /**
  * This class implements the CancelEDocs batch job.
@@ -63,7 +59,8 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     private DocumentSearchGenerator docSearchGenerator;
     private DocSearchCriteriaDTO docSearchCriteriaDTO;
     private DocumentService documentService;
-
+    private DocumentTypeService documentTypeService;
+    
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     
@@ -91,7 +88,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         
         DocSearchCriteriaDTO docSearchCriteriaDTO = new DocSearchCriteriaDTO();
         docSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-    //    docSearchCriteriaDTO.setThreshold(5000);
+        docSearchCriteriaDTO.setSaveSearchForUser(false);
         
         DocumentSearchGenerator docSearchGenerator = new StandardDocumentSearchGenerator();
         
@@ -133,10 +130,10 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
      
         String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
      
-        DocumentType parentDocumentType = (DocumentType) SpringContext.getBean(DocumentTypeService.class).findByName(yearEndAutoDisapproveParentDocumentType);
-     
+        DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().findByName(yearEndAutoDisapproveParentDocumentType);
+        
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        DocumentType childDocumentType = (DocumentType) SpringContext.getBean(DocumentTypeService.class).findByName(documentTypeName);
+        DocumentType childDocumentType = (DocumentType) getDocumentTypeService().findByName(documentTypeName);
      
         documentEligible = parentDocumentType.isParentOf(childDocumentType);
      
@@ -180,7 +177,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
             document = documentService.getByDocumentHeaderId(documentHeaderId);
         }
         catch (WorkflowException wfe) {
-            LOG.error("exception encountered on finding the document " + wfe.getMessage());
+            LOG.error("exception encountered on finding the document: " + documentHeaderId + " - " + wfe.getMessage());
         }
         
         return document;
@@ -245,7 +242,9 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
 
         Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
+        
         noteService.save(approveNote);
+        
         document.addNote(approveNote);
         
         documentService.superUserDisapproveDocument(document, "Disapproval of Outstanding Documents - Year End Cancelation Process");
@@ -386,5 +385,16 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
+    }
+    
+    /**
+     * Gets the documentTypeService attribute.
+     * 
+     * @return Returns the documentTypeService.
+     */
+    public DocumentTypeService getDocumentTypeService() {
+        if(documentTypeService==null)
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        return documentTypeService;
     }
 }

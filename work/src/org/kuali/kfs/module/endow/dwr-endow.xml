@@ -1,0 +1,192 @@
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<dwr>
+    <init>
+        <creator id="spring" class= "org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator" />
+    </init>
+    <allow>
+        <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode">
+            <param name="include" value="code,name" />
+        </convert>
+    	<create creator="spring" javascript="EndowmentTransactionCodeService">
+	    	<param name="beanName" value="endowmentTransactionCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.KEMID">
+            <param name="include" value="kemid,shortTitle" />
+        </convert>
+    	<create creator="spring" javascript="KEMIDService">
+	    	<param name="beanName" value="KEMIDService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.PooledFundControl">
+            <param name="include" value="pooledSecurityID,pooledFundDescription" />
+        </convert>
+    	<create creator="spring" javascript="PooledFundControlService">
+	    	<param name="beanName" value="PooledFundControlService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.PooledFundValue">
+            <param name="include" value="pooledSecurityID,pooledFundDescription" />
+        </convert>
+    	<create creator="spring" javascript="PooledFundValueService">
+	    	<param name="beanName" value="PooledFundValueService" />
+	        <include method="getByPrimaryKey" />
+	        <include method="calculateValueEffectiveDate" />
+	        <include method="calculateValueEffectiveDateForAjax" />	        
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.RegistrationCode">
+            <param name="include" value="code,name" />
+        </convert>
+    	<create creator="spring" javascript="RegistrationCodeService">
+	    	<param name="beanName" value="RegistrationCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.FrequencyCode">
+            <param name="include" value="code,name" />
+        </convert>
+    	<create creator="spring" javascript="FrequencyCodeService">
+	    	<param name="beanName" value="frequencyCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.SubclassCode">
+            <param name="include" value="name" />
+        </convert>
+    	<create creator="spring" javascript="SubClassCodeService">
+	    	<param name="beanName" value="subClassCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.FeeMethod">
+            <param name="include" value="name" />
+        </convert>
+    	<create creator="spring" javascript="FeeMethodService">
+	    	<param name="beanName" value="feeMethodService" />
+	        <include method="getByPrimaryKey" />
+	        <include method="getFeeMethodNextProcessDateForAjax" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.CashSweepModel">
+            <param name="include" value="cashSweepModelName" />
+        </convert>
+    	<create creator="spring" javascript="CashSweepModelService">
+	    	<param name="beanName" value="cashSweepModelService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel">
+            <param name="include" value="aciModelID,aciModelName" />
+        </convert>
+    	<create creator="spring" javascript="AutomatedCashInvestmentModelService">
+	    	<param name="beanName" value="automatedCashInvestmentModelService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.ClassCode">
+            <param name="include" value="name" />
+        </convert>
+    	<create creator="spring" javascript="ClassCodeService">
+	    	<param name="beanName" value="classCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.Security">
+            <param name="include" value="description" />
+        </convert>
+    	<create creator="spring" javascript="SecurityService">
+	    	<param name="beanName" value="securityService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.FeeTypeCode">
+            <param name="include" value="description" />
+        </convert>
+    	<create creator="spring" javascript="FeeTypeService">
+	    	<param name="beanName" value="feeTypeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.FeeRateDefinitionCode">
+            <param name="include" value="description" />
+        </convert>
+    	<create creator="spring" javascript="FeeRateDefinitionCodeService">
+	    	<param name="beanName" value="feeRateDefinitionCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode">
+            <param name="include" value="description" />
+        </convert>
+    	<create creator="spring" javascript="TransactionTypeService">
+	    	<param name="beanName" value="transactionTypeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TypeCode">
+            <param name="include" value="cashSweepModelId,incomeACIModelId,principalACIModelId" />
+        </convert>
+    	<create creator="spring" javascript="TypeCodeService">
+	    	<param name="beanName" value="typeCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.PurposeCode">
+            <param name="include" value="name" />
+        </convert>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.AgreementType">
+            <param name="include" value="name" />
+        </convert>
+        <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.AgreementStatus">
+            <param name="include" value="name" />
+        </convert>
+	    <create creator="spring" javascript="PurposeCodeService">
+	    	<param name="beanName" value="purposeCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <create creator="spring" javascript="AgreementTypeService">
+	    	<param name="beanName" value="agreementTypeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    <create creator="spring" javascript="AgreementStatusService">
+	    	<param name="beanName" value="agreementStatusService" />
+	        <include method="getByPrimaryKey" />
+	    </create>		    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TransactionRestrictionCode">
+            <param name="include" value="name" />
+        </convert>
+	    <create creator="spring" javascript="TransactionRestrictionCodeService">
+	    	<param name="beanName" value="transactionRestrictionCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.ResponsibleAdministrationCode">
+            <param name="include" value="name" />
+        </convert>
+	    <create creator="spring" javascript="ResponsibleAdministrationCodeService">
+	    	<param name="beanName" value="responsibleAdministrationCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.CAECode">
+            <param name="include" value="description" />
+        </convert>
+	    <create creator="spring" javascript="CAECodeService">
+	    	<param name="beanName" value="caeCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+    	<create creator="spring" javascript="KEMService">
+	    	<param name="beanName" value="kemService" />
+	        <include method="getCurrentSystemProcessDate" />
+	        <include method="getCurrentSystemProcessDateFormated" />
+	    </create>	    
+    </allow>
+</dwr>

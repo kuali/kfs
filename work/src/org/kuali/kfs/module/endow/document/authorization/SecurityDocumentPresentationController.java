@@ -1,0 +1,111 @@
+/*
+ * Copyright 2009 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.endow.document.authorization;
+
+import java.util.Set;
+
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.KNSConstants;
+
+public class SecurityDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.kns.bo.BusinessObject)
+     */
+    @Override
+    public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
+
+        Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
+        MaintenanceDocument document = (MaintenanceDocument) businessObject;
+        Security security = (Security) document.getNewMaintainableObject().getBusinessObject();
+
+        // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted
+        // fields
+        if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+
+            // the security ID hidded on creation and a dummy field is used for user input (userEnteredSecurityIDprefix)
+            String routeStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            if (KEWConstants.ROUTE_HEADER_INITIATED_CD.equalsIgnoreCase(routeStatus) || KEWConstants.ROUTE_HEADER_SAVED_CD.equalsIgnoreCase(routeStatus)) {
+                fields.add(EndowPropertyConstants.SECURITY_ID);
+            }
+            else {
+                fields.add(EndowPropertyConstants.SECURITY_USER_ENTERED_ID_PREFIX);
+            }
+
+            fields.add(EndowPropertyConstants.SECURITY_UNIT_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_UNITS_HELD);
+            fields.add(EndowPropertyConstants.SECURITY_VALUATION_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_UNIT_VALUE_SOURCE);
+            fields.add(EndowPropertyConstants.SECURITY_PREVIOUS_UNIT_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_PREVIOUS_UNIT_VALUE_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_CARRY_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_MARKET_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_LAST_TRANSACTION_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_INCOME_CHANGE_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_DIVIDEND_RECORD_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_EX_DIVIDEND_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_DIVIDEND_PAY_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_DIVIDEND_AMOUNT);
+            fields.add(EndowPropertyConstants.REPORTING_GROUP_DESC);
+            fields.add(EndowPropertyConstants.ACCRUAL_METHOD_DESC);
+            fields.add(EndowPropertyConstants.SECURITY_NEXT_FISCAL_YEAR_DISTRIBUTION_AMOUNT);
+        }
+        // if action is not new or copy the userEnteredSecurityIDprefix shall not be displayed
+        else {
+            fields.add(EndowPropertyConstants.SECURITY_USER_ENTERED_ID_PREFIX);
+        }
+
+        return fields;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
+
+        Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
+        Security security = (Security) document.getNewMaintainableObject().getBusinessObject();
+        ClassCode classCode = security.getClassCode();
+
+        // If the class code type = "P" -- pooled investment:
+        // - the unit value and value date in the security can't be modified through editing that maintenance doc
+        // - END_SEC_T: SEC_RT should NOT be modified through edit that maintenance doc
+        if (classCode != null && EndowConstants.ClassCodeTypes.POOLED_INVESTMENT.equalsIgnoreCase(classCode.getClassCodeType()) && KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+            fields.add(EndowPropertyConstants.SECURITY_UNIT_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_MARKET_VALUE);
+            fields.add(EndowPropertyConstants.SECURITY_VALUATION_DATE);
+            fields.add(EndowPropertyConstants.SECURITY_INCOME_RATE);
+        }
+
+        // The default unit value for a new security is 1 EXCEPT for Liabilities (CLS_CD_T: CLS_CD_TYP = L) which will be negative 1
+        // (-1). The unit value for these securities must remain -1. The unit value for these securities cannot be edited.
+        if (classCode != null && EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCode.getClassCodeType())) {
+            fields.add(EndowPropertyConstants.SECURITY_UNIT_VALUE);
+        }
+
+        return fields;
+    }
+
+}

@@ -20,6 +20,7 @@
       <maintenanceChannel:chartOfAccounts />
       <maintenanceChannel:financialProcessing />
       <maintenanceChannel:preDisbursementProcessor />
+      <maintenanceChannel:endowment />
 </td>
 <td class="content" valign="top">
       <maintenanceChannel:accountsReceivable />

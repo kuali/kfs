@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:dd="http://rice.kuali.org/dd" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans         
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         
+			http://rice.kuali.org/dd         
+			http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="FeeTransaction" parent="FeeTransaction-parentBean" />
+
+  	<bean id="FeeTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
+    	<property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeTransaction" />
+    	<property name="inquiryDefinition">
+      		<ref bean="FeeTransaction-inquiryDefinition" />
+    	</property>
+    	<property name="lookupDefinition">
+      		<ref bean="FeeTransaction-lookupDefinition" />
+    	</property>
+    	<property name="titleAttribute" value="feeMethodCode" />
+    	<property name="objectLabel" value="Fee Transaction" />
+    	<property name="attributes">
+      		<list>
+        		<ref bean="FeeTransaction-feeMethodCode" />
+        		<ref bean="FeeTransaction-transactionTypeCode" />
+		        <ref bean="FeeTransaction-include" />
+		        <ref bean="FeeTransaction-transactionType.description" />
+		        <ref bean="FeeTransaction-transactionType.codeAndDescription" />
+        		<ref bean="FeeTransaction-newCollectionRecord" />		        
+      		</list>
+    	</property>
+	</bean>
+
+<!-- Attribute Definitions -->
+
+	<bean id="FeeTransaction-feeMethodCode" parent="FeeTransaction-feeMethodCode-parentBean" />
+
+  	<bean id="FeeTransaction-feeMethodCode-parentBean" abstract="true" parent="FeeMethodCodeBase-feeMethodCode">
+	</bean>
+	<bean id="FeeTransaction-transactionTypeCode" parent="FeeTransaction-transactionTypeCode-parentBean" />
+
+ 	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="transactionTypeCode" />
+    	<property name="label" value="Transaction Type" />
+        <property name="forceUppercase" value="true" />
+        <property name="required" value="true" />
+    	<property name="shortLabel" value="Fee Transaction Code" />
+    	<property name="maxLength" value="1" />
+    	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern" 
+      			  p:allowWhitespace="true" />
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" 
+      			  p:size="2" />
+    	</property>
+  	</bean>
+	<bean id="FeeTransaction-include" parent="FeeTransaction-include-parentBean" />
+
+	<bean id="FeeTransaction-include-parentBean" abstract="true" parent="FeeMethodCodeBase-include">
+  	</bean>
+  	<bean id="FeeTransaction-transactionType.codeAndDescription" parent="FeeTransaction-transactionType.codeAndDescription-parentBean" />
+  
+  	<bean id="FeeTransaction-transactionType.codeAndDescription-parentBean" abstract="true" parent="TransactionTypeCode-codeAndDescription">
+  		<property name="name" value="transactionType.codeAndDescription" />
+    	<property name="label" value="Transaction Type" />
+  	</bean>
+	<bean id="FeeTransaction-transactionType.description" parent="FeeTransaction-transactionType.description-parentBean" />
+		        
+  	<bean id="FeeTransaction-transactionType.description-parentBean" abstract="true" parent="TransactionTypeCode-description">
+  		<property name="name" value="transactionType.description" />
+    	<property name="label" value="Transaction Type Description" />
+  	</bean>
+	<bean id="FeeTransaction-newCollectionRecord" parent="FeeTransaction-newCollectionRecord-parentBean"/>
+
+  	<bean id="FeeTransaction-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  	</bean>
+
+<!-- Business Object Inquiry Definition -->
+
+	<bean id="FeeTransaction-inquiryDefinition" parent="FeeTransaction-inquiryDefinition-parentBean" />
+
+	<bean id="FeeTransaction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    	<property name="title" value="Fee Transaction Type Inquiry" />
+    	<property name="inquirySections">
+      		<list>
+        		<bean parent="InquirySectionDefinition">
+          			<property name="title" value="" />
+          			<property name="numberOfColumns" value="1" />
+          			<property name="inquiryFields">
+            			<list>
+              				<bean parent="FieldDefinition" 
+              				      p:attributeName="feeMethodCode" />
+              				<bean parent="FieldDefinition" 
+              				      p:attributeName="transactionTypeCode" />
+              				<bean parent="FieldDefinition" 
+              				      p:attributeName="include" />
+            			</list>
+          			</property>
+        		</bean>
+      		</list>
+		</property>
+	</bean>
+
+<!-- Business Object Lookup Definition -->
+
+	<bean id="FeeTransaction-lookupDefinition" parent="FeeTransaction-lookupDefinition-parentBean" />
+
+  	<bean id="FeeTransaction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    	<property name="title" value="Fee Transaction Type Lookup" />    
+    	<property name="defaultSort">
+	      	<bean parent="SortDefinition" />
+    	</property>
+    	<property name="lookupFields">
+      		<list>
+            	<bean parent="FieldDefinition" 
+              		  p:attributeName="feeMethodCode" />
+              	<bean parent="FieldDefinition" 
+              		  p:attributeName="transactionTypeCode" />
+              	<bean parent="FieldDefinition" 
+              		  p:attributeName="include" />
+      		</list>
+    	</property>    	
+    	<property name="resultFields">
+        	<list>
+            	<bean parent="FieldDefinition" 
+              		  p:attributeName="feeMethodCode" />
+              	<bean parent="FieldDefinition" 
+              		  p:attributeName="transactionTypeCode" />
+              	<bean parent="FieldDefinition" 
+              		  p:attributeName="include" />
+      		</list>
+    	</property>
+	</bean>
+	
+</beans>

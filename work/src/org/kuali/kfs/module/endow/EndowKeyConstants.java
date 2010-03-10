@@ -1,0 +1,163 @@
+/*
+ * Copyright 2009 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.endow;
+
+public class EndowKeyConstants {
+
+    public static class SecurityReportingGroupConstants {
+        public static final String ERROR_SECURITY_REPORTING_GROUP_ORDER_DUPLICATE_VALUE = "error.document.securityReportingGroupOrder.duplicateValue";
+    }
+
+    public static class ClassCodeConstants {
+        public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_ASSET_OR_LIABILITY = "error.document.classCode.endowmentTransactionType.assesOrLiability";
+        public static final String ERROR_INCOME_ENDOWMENT_TRANSACTION_POST_TYPE_INCOME = "error.document.classCode.incomeEndowmentTransactionType.income";
+        public static final String ERROR_CLASS_CODE_TYPE_CASH_EQ_REP_GRPCASH_EQ = "error.document.classCode.classCodeTypeCashEqMustHaveRepGrpCashEq";
+        public static final String ERROR_CLASS_CODE_TYPE_POOLED_INVESTMENT_MUST_HAVE_VLTN_MTHD_UNITS = "error.document.classCode.classCodeTypePooledInvestmentsMustHaveVltnMthdUnits";
+        public static final String ERROR_CLASS_CODE_TYPE_LIABILITY_MUST_HAVE_SEC_ETRAN_TYPE_LIABILITY = "error.document.classCode.classCodeTypeLiabilityMustHaveSecurityEtranTypeLiability";
+        public static final String ERROR_CLASS_CODE_TYPE_CASHEQ_OR_LIABILITY_MUST_HAVE_TAX_LOT_IND_NO = "error.document.classCode.classCodeTypeCashEqOrLiabilityMustHaveTaxLotIndicatorNo";
+    }
+
+    public static class SecurityConstants {
+        public static final String ERROR_SECURITY_UNIT_VALUE_LESS_THAN_OR_EQ_ZERO_FOR_LIABILITIES = "error.document.security.unitValueForLiabilities";
+        public static final String ERROR_SECURITY_UNIT_VALUE_LESS_THAN_OR_EQ_ZERO_FOR_NON_LIABILITIES = "error.document.security.unitValueForNonLiabilities";
+        public static final String MESSAGE_SECURITY_IS_NINTH_DIGIT_CORRECT = "error.document.security.isNinthDigitCorrect";
+        public static final String GENERATE_SECURITY_ID_QUESTION_ID = "GenerateSecurityQuestionID";
+        public static final String ERROR_ENTERED_SECURITY_ID_SHOULD_BE_8_CHARS = "error.document.security.id";
+        public static final String EROR_NEW_SECURITY_CLASS_CODE_TYPE_MUST_EQUAL_OLD_SEC_CLASS_CODE_TYPE = "error.document.security.classCode.newClassCodeTypeMustEqOldType";
+    }
+
+    public static class EndowmentTransactionConstants {
+        public static final String ERROR_GL_LINK_WITH_SAME_CHART_ALREADY_EXISTS = "error.document.endowmentTransaction.glLink.alreadyExists";
+        public static final String ERROR_ENDOWMENT_TRANSACTION_MUST_HAVE_AT_LEAST_ONE_GLLINK = "error.document.endowmentTransaction.atLeastOneGLLink";
+        public static final String ERROR_GL_LINK_CHART_CD_MUST_EQUAL_OBJECT_CHART_CD = "error.document.endowmentTransaction.glLink.chart.mustEqualObjectCodeChart";
+        public static final String ERROR_GL_LINK_OBJ_CD_ACC_CATEGORY_MUST_EQUAL_ETRAN_TYPE = "error.document.endowmentTransaction.glLink.objectCode.accCategory.mustEqualEtranType";
+    }
+
+    public static class PooledFundControlConstants {
+        public static final String ERROR_CLASS_CODE_TYPE_IS_NOT_P = "error.document.pooledFundControl.classCodeType.notPooledInvestment";
+        public static final String ERROR_POOL_SECURITY_ID_NOT_EXIST = "error.document.pooledFundControl.pooledSecurityID.notExist";
+    }
+
+    public static class PooledFundValueConstants {
+        public static final String ERROR_VALUATION_DATE_IS_NOT_THE_END_OF_MONTH = "error.document.pooledFundValue.valuationDate.notTheEndOfMonth";
+        public static final String ERROR_VALUATION_DATE_IS_NOT_LATEST_ONE = "error.document.pooledFundValue.valuationDate.notTheLatestOne";
+        public static final String ERROR_UNIT_VALUE_IS_NOT_POSITIVE = "error.document.pooledFundValue.unitValue.notPositive";
+        public static final String ERROR_INCOME_DISTRIBUTION_PER_UNIT_IS_NOT_POSITIVE = "error.document.pooledFundValue.incomeDistributionPerUnit.notPositive";
+        public static final String ERROR_DISTRIBUTE_INCOME_ON_DATE_IS_REQUIRED_FIELD = "error.document.pooledFundValue.distributeIncomeOnDate.isRequiredField";
+        public static final String ERROR_DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE_IS_REQUIRED_FIELD = "error.document.pooledFundValue.distributeLongTermGainLossOnDate.isRequiredField";
+        public static final String ERROR_DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE_IS_REQUIRED_FIELD = "error.document.pooledFundValue.distributeShortTermGainLossOnDate.isRequiredField";
+    }
+
+    public static class ACIModelConstants {
+        public static final String ERROR_TOTAL_OF_ALL_PERCENTAGES_NOT_EQUAL_ONE = "error.document.aciModel.totalPercentages.notEqualOne";
+    }
+
+    public static class PurposeConstants {
+        public static final String ERROR_INCOME_CAE_CODE_TYPE_CANNOT_BE_PRINCIPAL = "error.document.purposeCode.incomeCAECode.typeCannotBePrincipal";
+        public static final String ERROR_PRINCIPAL_CAE_CODE_TYPE_CANNOT_BE_INCOME = "error.document.purposeCode.incomeCAECode.typeCannotBeIncome";
+    }
+
+    public static class TypeRestrictionCodeConstants {
+        public static final String ERROR_PERMANENT_INDICATOR_CANNOT_BE_NO_WHEN_TYPE_RESTRICTION_CODE_IS_P = "error.document.code.indicatorCannotBeNoWhenTypeRestrictedCodeIsP";
+        public static final String ERROR_PERMANENT_INDICATOR_CANNOT_BE_YES_WHEN_TYPE_RESTRICTION_CODE_IS_U = "error.document.code.indicatorCannotBeYesWhenTypeRestrictedCodeIsU";
+        public static final String ERROR_PERMANENT_INDICATOR_CANNOT_BE_YES_WHEN_TYPE_RESTRICTION_CODE_IS_NA = "error.document.code.indicatorCannotBeYesWhenTypeRestrictedCodeIsNA";
+        public static final String ERROR_PERMANENT_INDICATOR_CANNOT_BE_YES_WHEN_TYPE_RESTRICTION_CODE_IS_T = "error.document.code.indicatorCannotBeYesWhenTypeRestrictedCodeIsT";
+        public static final String ERROR_PERMANENT_INDICATOR_CANNOT_BE_USED_FOR_TYPE_RESTRICTION_CODE = "error.document.code.indicatorCannotBePForTypeIncRestrcode";
+    }
+
+    public static class TypeFeeMethodCodeConstants {
+        public static final String ERROR_FEE_METHOD_CODE_CANNOT_BE_BLANK = "error.document.typeFeeMethod.feeMethodCode.cannotBeBlank";
+        public static final String ERROR_DUPLICATE_FEE_METHOD_CODE_ENTERED = "error.document.typeFeeMethod.feeMethodCode.duplicate";
+        public static final String ERROR_INVALID_FEE_METHOD_CODE_ENTERED = "error.document.typeFeeMethod.feeMethodCode.inValid";
+    }
+
+    public static class TypeCodeConstants {
+        public static final String ERROR_INVALID_PRINCIPAL_ACI_MODEL_ID = "error.document.typeCode.principalACIModelId.indicatorShouldBePrincipal";
+    }
+
+    public static class FeeMethodConstants {
+        public static final String ERROR_INVALID_FEE_CLASS_CODE_ENTERED = "error.document.feeClassCode.feeClassCode.inValid";
+        public static final String ERROR_BLANK_FEE_CLASS_CODE_ENTERED = "error.document.feeClassCode.feeClassCode.cannotBeBlank";
+        public static final String ERROR_DUPLICATE_FEE_CLASS_CODE_ENTERED = "error.document.feeClassCode.feeClassCode.duplicateEntered";
+        public static final String ERROR_BLANK_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.cannotBeBlank";
+        public static final String ERROR_INVALID_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.inValid";
+        public static final String ERROR_DUPLICATE_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.duplicateEntered";
+        public static final String ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.cannotBeBlank";
+        public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.inValid";
+        public static final String ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.duplicateEntered";
+        public static final String ERROR_BLANK_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.cannotBeBlank";
+        public static final String ERROR_BLANK_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.cannotBeBlank";
+        public static final String ERROR_DUPLICATE_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.duplicateEntered";
+        public static final String ERROR_INVALID_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.inValid";
+        public static final String ERROR_DUPLICATE_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.duplicateEntered";
+        public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_TRANSACTIONS_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForTransactions";
+        public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.noRecord";
+        public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
+        public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
+        public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_BALANCE_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForBalance";
+        public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE = "error.document.feeMethod.feeByClassCode.noRecord";
+        public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE = "error.document.feeMethod.feeBySecurityCode.noRecord";
+        public static final String ERROR_INVALID_FEE_BASE_CODE_FOR_PAYMENTS_ENTERED = "error.document.feeMethod.feeBaseCode.invalidValueForPayments";
+        public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_PAYMENT_TYPE = "error.document.feeMethod.feePaymentTypes.noRecord";
+        public static final String ERROR_INVALID_FEE_BALANCE_TYPE_CODE_WHEN_COUNT_ENTERED = "error.document.feeMethod.feeBalanceTypeCode.inValidFeeBalanceTypeWhenCount";
+        public static final String ERROR_INVALID_FEE_BALANCE_TYPE_CODE_WHEN_VALUE_ENTERED = "error.document.feeMethod.feeBalanceTypeCode.inValidFeeBalanceTypeWhenValue";
+        public static final String ERROR_CORPUS_PCT_TO_TOLERANCE_NEGATIVE = "error.document.feeMethod.corpusPctTolerance.isNegative";
+        public static final String ERROR_CORPUS_PCT_TO_TOLERANCE_MUST_BE_GREATER_THAN_ONE = "error.document.feeMethod.corpusPctTolerance.shouldBeGreaterThanOne";
+        public static final String ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_LESS_THAN_SECOND_FEE_BREAK_POINT = "error.document.feeMethod.firstFeeBreakpoint.shouldBeLessThan";
+        public static final String ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_LESS_THAN_MAX_FEE_BREAK_POINT = "error.document.feeMethod.firstFeeBreakpoint.shouldBeLessThanMaxlimit";
+        public static final String ERROR_THIRD_FEE_RATE_MUST_BE_GREATER_THAN_ZERO = "error.document.feeMethod.thirdFeeRate.shouldBeGreaterThanZero";
+        public static final String ERROR_FIRST_FEE_RATE_CAN_NOT_BE_NEGATIVE = "error.document.feeMethod.firstFeeRate.canNotBeNegative";
+        public static final String ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO = "error.document.feeMethod.firstFeeBreakpoint.shouldBeZeroOrGreater";
+        public static final String ERROR_SECOND_FEE_RATE_MUST_BE_GREATER_THAN_OR_ZERO = "error.document.feeMethod.secondFeeRate.shouldBeGreaterThanZero";
+        public static final String ERROR_SECOND_FEE_RATE_CAN_NOT_BE_NEGATIVE = "error.document.feeMethod.secondFeeRate.canNotBeNegative";
+        public static final String ERROR_THIRD_FEE_RATE_CAN_NOT_BE_NEGATIVE = "error.document.feeMethod.thirdFeeRate.canNotBeNegative";
+        public static final String ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO = "error.document.feeMethod.secondFeeBreakpoint.shouldBeZeroOrGreater";
+        public static final String ERROR_FEE_MTHD_FREQ_CD_CANNOT_BE_CHANGED_IF_FEE_USED_ON_ANY_KEMID = "error.document.feeMethod.frequencyCode.canNotChangeIfFeeUsedOnAnyKemid";
+    }
+
+    public static class KEMIDConstants {
+        public static final String ERROR_INVALID_CLOSED_CODE = "error.document.kemid.reasonClosed.invalid";
+        public static final String ERROR_HAS_OPEN_RECORDS_IN_CURRENT_CASH = "error.document.kemid.closedIndicator.cannotCloseKemid.hasOpenRecordsInCurrentCash";
+        public static final String ERROR_HAS_OPEN_RECORDS_IN_HOLDING_TAX_LOT = "error.document.kemid.closedIndicator.cannotCloseKemid.hasOpenRecordsInHoldingTaxLot";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_AGREEMENT = "error.document.kemid.agreements.mustHaveAtLeastOneActiveAgreement";
+        public static final String ERROR_KEMID_ONLY_ONE_AGREEMENT_CAN_BR_MARKED_FOR_TRANSACTION_RESTR_USE = "error.document.kemid.agreements.onlyOneAgreementMarkedForTransactionRestrictionUse";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_SOURCE_OF_FUNDS = "error.document.kemid.sourceOfFunds.mustHaveAtLeastOneActiveSourceOfFunds";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_BENEFITTING_ORG = "error.document.kemid.benefittingOrganizations.mustHaveAtLeastOneActiveBenefittingOrg";
+        public static final String ERROR_KEMID_ACTIVE_BENE_ORGS_PCT_SUM_MUST_BE_ONE = "error.document.kemid.benefittingOrganizations.activeBeneOrgsPctSumMustBeOne";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_INCOME_GL_ACC = "error.document.kemid.glAccounts.mustHaveAtLeastOneIncomeGLAcc";
+        public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_INCOME_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOneIncomeGLAcc";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_NOT_NA = "error.document.kemid.glAccounts.mustHaveAtLeastOnePrincipalGLAccIfTypeRestrCdNotNA";
+        public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_PRINCIPAL_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOnePrincipalGLAccIfTypeRestrCdNotNA";
+        public static final String ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_IS_NA = "error.document.kemid.glAccounts.canNotHaveAPrincipalGLAccIfTypeRestrCdIsNA";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PAYOUT_INSTRUCTION = "error.document.kemid.payoutInstructions.mustHaveAtLeastOnePayoutInstruction";
+        public static final String ERROR_KEMID_DONOR_STMNT_COMBINE_WITH_DONR_MUST_BE_DIFF_FROM_DONOR = "error.document.kemid.donorStatements.donorStatementCombineWithDonorMustBeDiffFromDonr";
+        public static final String ERROR_KEMID_DONOR_STMNT_TERM_RSN_CANT_BE_EMPTY_IS_TERM_DATE_ENTERED = "error.document.kemid.donorStatements.terminationReasonCantBeEmptyIfTermDateEntered";
+        public static final String ERROR_KEMID_FEE_PCT_CHRG_FEE_SUM_MUST_NOT_BE_GREATER_THAN_ONE = "error.document.kemid.fees.percentageChargedToFeeSumMustNotExceedOne";
+        public static final String ERROR_KEMID_FEE_PCT_CHRG_TO_PRIN_CANNOT_EXCEED_ZERO_IF_TYPE_RESTR_CD_NA = "error.document.kemid.fees.percentageOfFeeChargedToPrincCannotExceedZeroIfTypeRestrCdNA";
+        public static final String ERROR_KEMID_FEE_START_DATE_NOT_VALID = "error.document.kemid.fees.feeStartDateNotValid";
+        public static final String ERROR_ENTERED_KEMID_INVALID = "error.document.kemid.invalid";
+    }
+    
+    public static class TicklerConstants
+    {
+        public static final String ERROR_TICKLER_FREQUENCYORNEXTDUEDATEREQUIREMENT = "error.document.tickler.frequencyOrNextDueDateRequirement";
+        public static final String ERROR_TICKLER_FREQUENCY_NEXTDUEDATE_MISMATCH = "error.document.tickler.frequencyNextDueDateMismatch";
+        public static final String ERROR_TICKLER_PRINCIPAL_GROUP_REQUIRED = "error.document.tickler.principalGroupRequired";
+        public static final String ERROR_TICKLER_TERMINATION_DATE_GREATER_SYSTEMDATE = "error.document.tickler.terminationDateGreaterSystemDate";
+        
+        
+    }
+}

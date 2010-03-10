@@ -40,6 +40,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
+        public static final String ENDOWMENT = "KFS-ENDOW";
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
     }
     
@@ -319,6 +320,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String KUALI_USER_LOOKUPABLE_IMPL = "personLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
+    public static final String KUALI_FREQUENCY_LOOKUPABLE_IMPL = "frequencyCodeLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
     public static final String DOC_HANDLER_METHOD = "docHandler";
     public static final String PARAMETER_DOC_ID = "docId";

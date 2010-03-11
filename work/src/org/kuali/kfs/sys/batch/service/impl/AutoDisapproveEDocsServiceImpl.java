@@ -81,7 +81,9 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     public void autoDisapproveEDocsInEnrouteStatus() {
         LOG.debug("autoDisapproveEDocsInEnrouteStatus() started");
         
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        
+        String principalId = systemUser.getPrincipalId();
         String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
 
         Date documentCompareDate = getDocumentCompareDateParameter();

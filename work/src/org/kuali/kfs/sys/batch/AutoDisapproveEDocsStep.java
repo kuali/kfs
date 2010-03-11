@@ -47,7 +47,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
      * This method checks if the System parameters have been set up for this batch job.
      * @result return true if the system parameters exist, else false
      */
-    protected boolean systemParametersBeenSetUpForAutoDisapproveEDocsJob() {
+    public boolean systemParametersBeenSetUpForAutoDisapproveEDocsJob() {
         boolean systemParametersExists = true;
         
         // check to make sure the system parameter for run date check has already been setup...

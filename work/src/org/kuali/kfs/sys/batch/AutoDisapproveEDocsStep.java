@@ -37,11 +37,8 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
         
         if (canAutoDisapproveJobRun()) {
             autoDisapproveEDocsService.autoDisapproveEDocsInEnrouteStatus();
-            return true;            
         }
-        else {
-            return false;
-        }
+        return true;            
     }
 
     /**

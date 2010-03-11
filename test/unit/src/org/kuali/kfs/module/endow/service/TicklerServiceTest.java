@@ -99,13 +99,11 @@ public class TicklerServiceTest extends KualiTestBase
         tickler.setNextDueDate(new Date(2009,1,1));
         tickler.setDetail("tickler_details1");
         tickler.setEntryDate(new Date(2010,1,1));
+        tickler.setFrequencyCode("AA02");
         
         //Obtain Tickler number from Sequence:
         String number  = sequenceAccessorService.getNextAvailableSequenceNumber(EndowConstants.Sequences.END_TICKLER_SEQ).toString();
         tickler.setNumber(number);
-        
-//        //tickler.setNumber(sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName));
-        tickler.setFrequencyCode("AA02");
         
         //saving Tickler
         businessObjectService.save(tickler);
@@ -113,8 +111,6 @@ public class TicklerServiceTest extends KualiTestBase
         //Retrieveing and asserting Tickler
         assertEquals("A", businessObjectService.findBySinglePrimaryKey(Tickler.class, tickler.getNumber()).getTypeCode());
 
-        
-        
         //Creating TicklerType
         TicklerTypeCode tt = new TicklerTypeCode();
         tt.setCode("T2");
@@ -126,8 +122,6 @@ public class TicklerServiceTest extends KualiTestBase
 
         //Retrieveing and asserting Tickler Type
         assertEquals("Testing code 1", businessObjectService.findBySinglePrimaryKey(TicklerTypeCode.class, "T2").getName());
-
-
 
       //Creating TicklerKEMID
       TicklerKEMID tk = new TicklerKEMID();
@@ -145,8 +139,6 @@ public class TicklerServiceTest extends KualiTestBase
 
       assertEquals(false,((TicklerKEMID) businessObjectService.findByPrimaryKey(TicklerKEMID.class,m)).isActive()) ;
 
-
-        
         //Creating Tickler Security ID
         TicklerSecurity ts = new TicklerSecurity();
         ts.setNumber(number);
@@ -202,17 +194,20 @@ public class TicklerServiceTest extends KualiTestBase
         assertEquals(false,((TicklerRecipientGroup) businessObjectService.findByPrimaryKey(TicklerRecipientGroup.class,m3)).isActive()) ;    
 
         
+        
         //Testing collections
         
         //Retrieveing and asserting Tickler
-        Tickler t = businessObjectService.findBySinglePrimaryKey(Tickler.class, "2");
+        Tickler t = businessObjectService.findBySinglePrimaryKey(Tickler.class, number);
         
+        t.refresh();
+        
+        assertNotNull(t);
         assertEquals("AA02", t.getFrequency().getCode());
-        //assertEquals("Asset Review", t.getType().getName());
         assertEquals(1, t.getKemIds().size());
         assertEquals(1, t.getSecurities().size());
         assertEquals(1, t.getRecipientPrincipals().size());
-        assertEquals(0, t.getRecipientGroups().size());
+        assertEquals(1, t.getRecipientGroups().size());
         //assertEquals("A", businessObjectService.findBySinglePrimaryKey(Tickler.class, "1").getCode());
         
     }

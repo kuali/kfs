@@ -34,7 +34,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        if (systemParametersBeenSetUpForAutoDisapproveEDocsJob()) {
+        if (systemParametersForAutoDisapproveEDocsJobExist()) {
             if (canAutoDisapproveJobRun()) {
                 autoDisapproveEDocsService.autoDisapproveEDocsInEnrouteStatus();
             }
@@ -47,7 +47,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
      * This method checks if the System parameters have been set up for this batch job.
      * @result return true if the system parameters exist, else false
      */
-    public boolean systemParametersBeenSetUpForAutoDisapproveEDocsJob() {
+    public boolean systemParametersForAutoDisapproveEDocsJobExist() {
         boolean systemParametersExists = true;
         
         // check to make sure the system parameter for run date check has already been setup...
@@ -90,10 +90,8 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
     protected boolean canAutoDisapproveJobRun() {
       boolean autoDisapproveCanRun = true;
       
-      
       // IF trunc(SYSDATE - 14/24) = v_yec_cncl_doc_run_dt THEN...FIS CODE equivalent here...
       String yearEndAutoDisapproveRunDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE);
-    
       
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       

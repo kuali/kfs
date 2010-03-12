@@ -19,12 +19,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -51,6 +52,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String universityName;
 	private String organizationCheckPayableToName;
     private String organizationPostalZipCode;
+    private String organizationPostalCountryCode;
 
     private Organization organization;
 	private Chart chartOfAccounts;
@@ -60,6 +62,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     private PrintInvoiceOptions printInvoiceOptions;
     private PostalCode orgPostalZipCode;
     private PostalCode orgRemitToZipCode;
+    private PostalCode orgPostalCountryCode;
     
 
     /**
@@ -582,6 +585,14 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public String getOrganizationPostalZipCode() {
         return organizationPostalZipCode;
+    }    
+
+    public String getOrganizationPostalCountryCode() {
+        return organizationPostalCountryCode;
+    }
+
+    public void setOrganizationPostalCountryCode(String organizationPostalCountryCode) {
+        this.organizationPostalCountryCode = organizationPostalCountryCode;
     }
 
     public void setOrganizationPostalZipCode(String organizationPostalZipCode) {
@@ -609,5 +620,13 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
+
+    public PostalCode getOrgPostalCountryCode() {
+        return orgPostalCountryCode;
+    }
+
+    public void setOrgPostalCountryCode(PostalCode orgPostalCountryCode) {
+        this.orgPostalCountryCode = orgPostalCountryCode;
+    }    
 
 }

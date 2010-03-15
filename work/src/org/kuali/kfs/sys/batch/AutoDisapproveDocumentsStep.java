@@ -18,25 +18,25 @@ package org.kuali.kfs.sys.batch;
 import java.util.Date;
 
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.batch.service.AutoDisapproveEDocsService;
+import org.kuali.kfs.sys.batch.service.AutoDisapproveDocumentsService;
 
 /**
- * Runs the batch job that gathers all EDocs that are in ENROUTE status and cancels them.
+ * Runs the batch job that gathers all documents that are in ENROUTE status and cancels them.
  */
-public class AutoDisapproveEDocsStep extends AbstractStep {
-    private AutoDisapproveEDocsService autoDisapproveEDocsService;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveEDocsStep.class);
+public class AutoDisapproveDocumentsStep extends AbstractStep {
+    private AutoDisapproveDocumentsService autoDisapproveDocumentsService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveDocumentsStep.class);
     
     /**
-     * This step will auto disapprove the EDocs that are in ENROUTE status.
+     * This step will auto disapprove the documents that are in ENROUTE status.
      * 
      * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        if (systemParametersForAutoDisapproveEDocsJobExist()) {
+        if (systemParametersForAutoDisapproveDocumentsJobExist()) {
             if (canAutoDisapproveJobRun()) {
-                autoDisapproveEDocsService.autoDisapproveEDocsInEnrouteStatus();
+                autoDisapproveDocumentsService.autoDisapproveDocumentsInEnrouteStatus();
             }
         }
         
@@ -47,35 +47,35 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
      * This method checks if the System parameters have been set up for this batch job.
      * @result return true if the system parameters exist, else false
      */
-    public boolean systemParametersForAutoDisapproveEDocsJobExist() {
+    public boolean systemParametersForAutoDisapproveDocumentsJobExist() {
         boolean systemParametersExists = true;
         
         // check to make sure the system parameter for run date check has already been setup...
-        if (!getParameterService().parameterExists(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE)) {
-          LOG.warn("YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE System parameter does not exist in the parameters list.  The job can not continue without this parameter");
+        if (!getParameterService().parameterExists(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_STEP_RUN_DATE)) {
+          LOG.warn("YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_RUN_DATE System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
         
         // check to make sure the system parameter for Parent Document Type = FP has been setup...
-        if (!getParameterService().parameterExists(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE)) {
+        if (!getParameterService().parameterExists(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE)) {
           LOG.warn("YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
         
         // check to make sure the system parameter for Parent Document Type = FP has been setup...
-        if (!getParameterService().parameterExists(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE)) {
+        if (!getParameterService().parameterExists(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE)) {
           LOG.warn("YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
         
         // check to make sure the system parameter for Parent Document Type = FP has been setup...
-        if (!getParameterService().parameterExists(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES)) {
+        if (!getParameterService().parameterExists(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES)) {
           LOG.warn("YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
         
         // check to make sure the system parameter for Parent Document Type = FP has been setup...
-        if (!getParameterService().parameterExists(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION)) {
+        if (!getParameterService().parameterExists(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION)) {
           LOG.warn("YEAR_END_AUTO_DISAPPROVE_ANNOTATION System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }        
@@ -91,7 +91,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
       boolean autoDisapproveCanRun = true;
       
       // IF trunc(SYSDATE - 14/24) = v_yec_cncl_doc_run_dt THEN...FIS CODE equivalent here...
-      String yearEndAutoDisapproveRunDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE);
+      String yearEndAutoDisapproveRunDate = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_STEP_RUN_DATE);
       
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       
@@ -109,7 +109,7 @@ public class AutoDisapproveEDocsStep extends AbstractStep {
      * @param autoDisapproveEDocsService The autoDisapproveEDocsService to set.
      * @see org.kuali.kfs.sys.service.AutoDisapproveEDocsService
      */
-    public void setAutoDisapproveEDocsService(AutoDisapproveEDocsService autoDisapproveEDocsService) {
-        this.autoDisapproveEDocsService = autoDisapproveEDocsService;
+    public void setAutoDisapproveDocumentsService(AutoDisapproveDocumentsService autoDisapproveDocumentsService) {
+        this.autoDisapproveDocumentsService = autoDisapproveDocumentsService;
     }
 }

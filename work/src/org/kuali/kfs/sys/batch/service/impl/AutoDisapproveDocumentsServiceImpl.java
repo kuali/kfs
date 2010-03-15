@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep;
-import org.kuali.kfs.sys.batch.service.AutoDisapproveEDocsService;
+import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
+import org.kuali.kfs.sys.batch.service.AutoDisapproveDocumentsService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
@@ -49,15 +49,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements the CancelEDocs batch job.
+ * This class implements the AutoDisapproveDocumentsService batch job.
  */
 @Transactional
-public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveEDocsServiceImpl.class);
+public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumentsService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveDocumentsServiceImpl.class);
 
-    private DocumentSearchDAO documentSearchDAO;
-    private DocumentSearchGenerator docSearchGenerator;
-    private DocSearchCriteriaDTO docSearchCriteriaDTO;
     private DocumentService documentService;
     private DocumentTypeService documentTypeService;
     
@@ -68,23 +65,23 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     private PersonService<Person> personService;
     
     /**
-     * Constructs a AutoDisapproveEDocsServiceImpl instance
+     * Constructs a AutoDisapproveDocumentsServiceImpl instance
      */
-    public AutoDisapproveEDocsServiceImpl() {
+    public AutoDisapproveDocumentsServiceImpl() {
         
     }
 
     /**
-     * Gathers all EDocs that are in ENROUTE status and auto disapproves them.
-     * @see org.kuali.kfs.sys.batch.service.autoDisapproveEDocsInEnrouteStatus#autoDisapproveEDocsInEnrouteStatus()
+     * Gathers all documents that are in ENROUTE status and auto disapproves them.
+     * @see org.kuali.kfs.sys.batch.service.autoDisapproveDocumentsInEnrouteStatus#autoDisapproveDocumentsInEnrouteStatus()
      */
-    public void autoDisapproveEDocsInEnrouteStatus() {
-        LOG.debug("autoDisapproveEDocsInEnrouteStatus() started");
+    public void autoDisapproveDocumentsInEnrouteStatus() {
+        LOG.debug("autoDisapproveDocumentsInEnrouteStatus() started");
         
         Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         
         String principalId = systemUser.getPrincipalId();
-        String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
+        String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
 
         Date documentCompareDate = getDocumentCompareDateParameter();
         
@@ -94,17 +91,17 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         
         DocumentSearchGenerator docSearchGenerator = new StandardDocumentSearchGenerator();
         
-        List<DocSearchDTO> autoDisapproveEDocsList = SpringContext.getBean(DocumentSearchDAO.class).getList(docSearchGenerator, docSearchCriteriaDTO, principalId);
+        List<DocSearchDTO> autoDisapproveDocumentsList = SpringContext.getBean(DocumentSearchDAO.class).getList(docSearchGenerator, docSearchCriteriaDTO, principalId);
 
-        for (DocSearchDTO autoDisapproveEDoc : autoDisapproveEDocsList) {
-             String documentHeaderId = autoDisapproveEDoc.getRouteHeaderId().toString();            
+        for (DocSearchDTO autoDisapproveDocument : autoDisapproveDocumentsList) {
+             String documentHeaderId = autoDisapproveDocument.getRouteHeaderId().toString();            
 
-             Document document = findEDocForAutoDisapproval(documentHeaderId);
+             Document document = findDocumentForAutoDisapproval(documentHeaderId);
              if (document != null) {
                  if (checkIfDocumentEligibleForAutoDispproval(document)) {
                      if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
                          try {
-                             autoDisapprovalYearEndEDoc(document, annotationForAutoDisapprovalDocument);
+                             autoDisapprovalYearEndDocument(document, annotationForAutoDisapprovalDocument);
                              LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
                          }
                          catch (Exception e) {
@@ -130,7 +127,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     protected boolean checkIfDocumentEligibleForAutoDispproval(Document document) {
         boolean documentEligible = false;
      
-        String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
+        String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
      
         DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().findByName(yearEndAutoDisapproveParentDocumentType);
         
@@ -150,7 +147,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
     protected Date getDocumentCompareDateParameter() {
         Date documentCompareDate = null;
         
-        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
+        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
         
         try {
             Date compareDate = getDateTimeService().convertToDate(yearEndAutoDisapproveDocumentDate);
@@ -173,7 +170,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
      * @param documentHeaderId
      * @return document The document in the workflow that matches the document header id.
      */
-    protected Document findEDocForAutoDisapproval(String documentHeaderId) {
+    protected Document findDocumentForAutoDisapproval(String documentHeaderId) {
         Document document = null;
         try {
             document = documentService.getByDocumentHeaderId(documentHeaderId);
@@ -194,7 +191,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
      * system parameter document types that are set to disallow.
      */
     protected boolean exceptionsToAutoDisapproveProcess(Document document, Date documentCompareDate) {
-        boolean exception = true;
+        boolean exceptionToDisapprove = true;
         Date createDate = null;
         String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
@@ -208,7 +205,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         }
         catch (ParseException pe){
             LOG.error("Document create date can not be determined.");
-            return exception;
+            return exceptionToDisapprove;
         }
         
         calendar.setTime(createDate);
@@ -217,28 +214,28 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         if (createDate.before(documentCompareDate) || createDate.equals(documentCompareDate)) {
             String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             
-            ParameterEvaluator evaluatorDocumentType = getParameterService().getParameterEvaluator(AutoDisapproveEDocsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES, documentTypeName);
-            exception = !evaluatorDocumentType.evaluationSucceeds();
-            if (exception) {
+            ParameterEvaluator evaluatorDocumentType = getParameterService().getParameterEvaluator(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES, documentTypeName);
+            exceptionToDisapprove = !evaluatorDocumentType.evaluationSucceeds();
+            if (exceptionToDisapprove) {
                 LOG.info("Document Id: " + documentNumber + " - Exception to Auto Disapprove:  Document's type: " + documentTypeName + " is in the System Parameter For Document Types Exception List.");
             }
         }
         else {
             LOG.info("Document Id: " + documentNumber + " - Exception to Auto Disapprove:  Document's create date: " + strCreateDate + " is NOT less than or equal to System Parameter Compare Date: " + strCompareDate);            
-            exception = true;
+            exceptionToDisapprove = true;
         }
                 
-        return exception;
+        return exceptionToDisapprove;
     }
     
-    /** autoDisapprovalYearEndEDoc uses DocumentServiceImpl to  mark as disapproved by calling
+    /** autoDisapprovalYearEndDocument uses DocumentServiceImpl to  mark as disapproved by calling
      *  DocumentServiceImpl's disapproveDocument method.
      * 
      *@param document The document that needs to be auto disapproved in this process
      *@param annotationForAutoDisapprovalDocument The annotationForAutoDisapprovalDocument that is set as annotations when canceling the edoc.
      *     
      */
-    protected void autoDisapprovalYearEndEDoc(Document document, String annotationForAutoDisapprovalDocument)  throws Exception {
+    protected void autoDisapprovalYearEndDocument(Document document, String annotationForAutoDisapprovalDocument)  throws Exception {
         Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader());
         approveNote.setNoteText(annotationForAutoDisapprovalDocument);
 
@@ -251,61 +248,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
         
         documentService.superUserDisapproveDocument(document, "Disapproval of Outstanding Documents - Year End Cancelation Process");
     }
-    
-    /**
-     * Gets the docSearchGenerator attribute.
-     * 
-     * @return Returns the docSearchGenerator.
-     */
-    public DocumentSearchGenerator getDocSearchGenerator() {
-        return docSearchGenerator;
-    }
-    
-    /**
-     * Sets the docSearchGenerator attribute value.
-     * 
-     * @param docSearchGenerator The docSearchGenerator to set.
-     */    
-    public void setDocSearchGenerator(DocumentSearchGenerator docSearchGenerator) {
-        this.docSearchGenerator = docSearchGenerator;
-    }
-
-    /**
-     * Gets the documentSearchDAO attribute.
-     * 
-     * @return Returns the documentSearchDAO.
-     */
-    public DocumentSearchDAO getDocumentSearchDAO() {
-        return documentSearchDAO;
-    }
-    
-    /**
-     * Sets the documentSearchDAO attribute value.
-     * 
-     * @param documentSearchDAO The documentSearchDAO to set.
-     */    
-    public void setDocumentSearchDAO(DocumentSearchDAO documentSearchDAO) {
-        this.documentSearchDAO = documentSearchDAO;
-    }
-    
-    /**
-     * Gets the docSearchCriteriaDTO attribute.
-     * 
-     * @return Returns the docSearchCriteriaDTO.
-     */
-    public DocSearchCriteriaDTO getDocSearchCriteriaDTO() {
-        return docSearchCriteriaDTO;
-    }
-    
-    /**
-     * Sets the docSearchCriteriaDTO attribute value.
-     * 
-     * @param docSearchCriteriaDTO The documentSearchDAO to set.
-     */    
-    public void setDocSearchCriteriaDTO(DocSearchCriteriaDTO docSearchCriteriaDTO) {
-        this.docSearchCriteriaDTO = docSearchCriteriaDTO;
-    }    
-    
+        
     /**
      * Sets the documentService attribute value.
      * 
@@ -394,7 +337,7 @@ public class AutoDisapproveEDocsServiceImpl implements AutoDisapproveEDocsServic
      * 
      * @return Returns the documentTypeService.
      */
-    public DocumentTypeService getDocumentTypeService() {
+    protected DocumentTypeService getDocumentTypeService() {
         if(documentTypeService==null)
             documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         return documentTypeService;

@@ -284,18 +284,18 @@
 	<bean id="autoDisapproveJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="autoDisapproveEDocsStep" />
+				<ref bean="autoDisapproveDocumentsStep" />
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="autoDisapproveEDocsStep" class="org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep" parent="step">
-		<property name="autoDisapproveEDocsService">
+	<bean id="autoDisapproveDocumentsStep" class="org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep" parent="step">
+		<property name="autoDisapproveDocumentsService">
 			<ref bean="autoDisapproveService" />
 		</property>
 	</bean>
 	
-	<bean id="autoDisapproveService" class="org.kuali.kfs.sys.batch.service.impl.AutoDisapproveEDocsServiceImpl">
+	<bean id="autoDisapproveService" class="org.kuali.kfs.sys.batch.service.impl.AutoDisapproveDocumentsServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>

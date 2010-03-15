@@ -23,21 +23,21 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.aop.support.AopUtils;
-import org.kuali.kfs.sys.batch.AutoDisapproveEDocsStep;
+import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 
 /**
- * Tests the AutoDisapproveEDocsStep.
+ * Tests the AutoDisapproveDocumentsStep.
  */
 @ConfigureContext
-public class AutoDisapproveEDocsStepTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveEDocsStepTest.class);
+public class AutoDisapproveDocumentsStepTest extends KualiTestBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveDocumentsStepTest.class);
     
     private DateTimeService dateTimeService;
 
     /**
-     * Constructs a AutoDisapproveEDocsStepTest instance
+     * Constructs a AutoDisapproveDocumentsStepTest instance
      */
-    public AutoDisapproveEDocsStepTest() {
+    public AutoDisapproveDocumentsStepTest() {
         super();
     }
 
@@ -57,10 +57,10 @@ public class AutoDisapproveEDocsStepTest extends KualiTestBase {
     public final void testSystemParametersExist() {
         LOG.debug("testSystemParametersExist() started");  
         
-        Step step = BatchSpringContext.getStep("autoDisapproveEDocsStep");
-        AutoDisapproveEDocsStep autoDisapproveEDocsStep = (AutoDisapproveEDocsStep) ProxyUtils.getTargetIfProxied(step);
+        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
+        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
 
-        if (autoDisapproveEDocsStep.systemParametersForAutoDisapproveEDocsJobExist()) {
+        if (autoDisapproveDocumentsStep.systemParametersForAutoDisapproveDocumentsJobExist()) {
             LOG.info("The System Parameters for this Job have been setup.");
         }
         else {
@@ -76,16 +76,16 @@ public class AutoDisapproveEDocsStepTest extends KualiTestBase {
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         
-        Step step = BatchSpringContext.getStep("autoDisapproveEDocsStep");
-        AutoDisapproveEDocsStep autoDisapproveEDocsStep = (AutoDisapproveEDocsStep) ProxyUtils.getTargetIfProxied(step);
+        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
+        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
         
         //check to make sure the system parameters exist before the test is run again setting the run date to today's date
-        if (autoDisapproveEDocsStep.systemParametersForAutoDisapproveEDocsJobExist()) {
+        if (autoDisapproveDocumentsStep.systemParametersForAutoDisapproveDocumentsJobExist()) {
             // change the run date in the system parameter to today and test the canAutoDisapproveJobRun()....
             String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());        
             
-            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveEDocsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE, today);
-            boolean jobCanRun =  autoDisapproveEDocsStep.canAutoDisapproveJobRun();
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_STEP_RUN_DATE, today);
+            boolean jobCanRun =  autoDisapproveDocumentsStep.canAutoDisapproveJobRun();
             assertTrue("autoDisapprove step did not exit with pass", jobCanRun);
         }
     }
@@ -94,26 +94,26 @@ public class AutoDisapproveEDocsStepTest extends KualiTestBase {
      * Tests the job without changing the system parameter run date.  Then it changes the run date to today and run the job
      * which should execute the job successfully.
      */
-    public void testAutoDisapproveEDocs() throws Exception {
-        LOG.debug("testAutoDisapproveEDocs() started");
+    public void testAutoDisapproveDocuments() throws Exception {
+        LOG.debug("testAutoDisapproveDocuments() started");
         
-        Step step = BatchSpringContext.getStep("autoDisapproveEDocsStep");
-        AutoDisapproveEDocsStep autoDisapproveEDocsStep = (AutoDisapproveEDocsStep) ProxyUtils.getTargetIfProxied(step);
+        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
+        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
            
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         
-        boolean goodExit =  autoDisapproveEDocsStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
+        boolean goodExit =  autoDisapproveDocumentsStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
         assertTrue("autoDisapprove step did not exit with pass", goodExit);
         
-        LOG.info("testAutoDisapproveEDocs() is executed again after it sets the run date to today's date");
+        LOG.info("testAutoDisapproveDocuments() is executed again after it sets the run date to today's date");
         
         //check to make sure the system parameters exist before the test is run again setting the run date to today's date
-        if (autoDisapproveEDocsStep.systemParametersForAutoDisapproveEDocsJobExist()) {
+        if (autoDisapproveDocumentsStep.systemParametersForAutoDisapproveDocumentsJobExist()) {
             // change the run date in the system parameter and test the step again....
             String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());        
             
-            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveEDocsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_EDOCS_STEP_RUN_DATE, today);
-            goodExit =  autoDisapproveEDocsStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_STEP_RUN_DATE, today);
+            goodExit =  autoDisapproveDocumentsStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
             assertTrue("autoDisapprove step did not exit with pass", goodExit);
         }
     }

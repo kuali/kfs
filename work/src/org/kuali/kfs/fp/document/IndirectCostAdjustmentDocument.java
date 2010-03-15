@@ -86,7 +86,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
         String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
         targetAccountingLine.setFinancialObjectCode(objectCode);
         targetAccountingLine.setAccountNumber(line.getAccount().getIndirectCostRecoveryAcctNbr());
-        targetAccountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
+        targetAccountingLine.setChartOfAccountsCode(line.getAccount().getIndirectCostRcvyFinCoaCode());
         targetAccountingLine.setDocumentNumber(line.getDocumentNumber());
         targetAccountingLine.setPostingYear(line.getPostingYear());
         targetAccountingLine.setAmount(line.getAmount());

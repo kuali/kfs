@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-1'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='KEMID' />
+      <column name=' PARM_NM' value='KEMID_VALUE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='Manual' />
+      <column name=' PARM_DESC_TXT' value='The creation of a new KEMID value will be dependent upon the institutional parameter chosen for the KEMID value: �	IF the parameter is Automatic' />
+      <column name=' CONS_CD' value=' each KEMID initiated will be sequentially numbered by the system based on a database sequence and beginning with the value the sequence has been configured to start with. �	IF the parameter is Manual' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-2'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='PooledFundValue' />
+      <column name=' PARM_NM' value='CURRENT_SYSTEM_PROCESS_DATE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value=' SYSDATE' />
+      <column name=' PARM_DESC_TXT' value='The Current System Process Date.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-3'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name=' PARM_NM' value='LIABILITIES_ENTRAN_TYPE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='LI' />
+      <column name=' PARM_DESC_TXT' value='The value of this parameter is used to map the Liabilities EndowmentTransactionType to the Liabilities code defined in BasicAccountingCategory.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-4'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name=' PARM_NM' value='INCOME_ENTRAN_TYPE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='IN' />
+      <column name=' PARM_DESC_TXT' value='The value of this parameter is used to map the Income EndowmentTransactionType to the Income code defined in BasicAccountingCategory.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-5'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name=' PARM_NM' value='EXPENSES_ENTRAN_TYPE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='EX' />
+      <column name=' PARM_DESC_TXT' value='The value of this parameter is used to map the Expense EndowmentTransactionType to the Expenses code defined in BasicAccountingCategory.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-6'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name=' PARM_NM' value='ASSETS_ENTRAN_TYPE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='AS' />
+      <column name=' PARM_DESC_TXT' value='The value of this parameter is used to map the Asset EndowmentTransactionType to the Assets code defined in BasicAccountingCategory.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-2-7'>
+  <comment> create Endowment related parameters in RICE tables Step 2</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='PooledFundValue' />
+      <column name=' PARM_NM' value='DISTRIBUTION_TIMES_PER_YEAR' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='2' />
+      <column name=' PARM_DESC_TXT' value='The number of times per year that the institution will distribute income to the account holders.' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+  </changeSet>
+
+  <changeSet author='Bonnie' failOnError="false" id='5475-2-8'>
+   <comment>upload all endowment document types -- unzip the attached file "endow-doc-types.zip", and run XML Ingester Step 3</comment>
+  </changeSet>
+</databaseChangeLog>

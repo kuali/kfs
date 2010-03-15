@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-3-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='1' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Grant Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='A' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Account Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='B' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Fund Description' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='C' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Account Form' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='D' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Account Administration Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='E' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Fund Administration Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Gift Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='H' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Last Will and Testament' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-10' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='I' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Instructions for the Administration of' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-11' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='J' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Letter of Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-12' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='K' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Pledge Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-13' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='L' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Letter' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-14' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Memo of Understanding' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-15' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='N' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Construction Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-16' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='O' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Donor Intent Memo' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-17' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='P' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Proposal' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-18' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='Q' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Procedures' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-19' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='R' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Resolution' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-20' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='S' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Solicitation' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-21' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='T' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Trust Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-22' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='U' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Court Order' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-23' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='V' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Donor Advised Fund Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-24' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='W' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Warranty Deed' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-25' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='X' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='None' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-26' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='Y' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Agency Agreement' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-3-27' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' value='Z' />
+      <column name=' AGRMNT_TYP_CD_DESC' value='Not Applicable' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

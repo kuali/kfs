@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-40-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='TP' />
+      <column name=' CMNT' value='100 to I37A017013' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RF' />
+      <column name=' CMNT' value='Any funds not awarded will be invested back into the principal until such time when the fund generates enough income to support 2-12 month fellowships' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1192006, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RE' />
+      <column name=' CMNT' value='Reinvest to 10' />
+      <column name=' INSTRC_EST_DT' value='000' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' OBJ_ID' value='TO_DATE, mmddyyyy' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RE' />
+      <column name=' CMNT' value='RE-Interest income be reinvested through Dec 31' />
+      <column name=' INSTRC_EST_DT' value='2010 in order to grow the principal per Gift Agreement   2   Remove dollar restriction 5312012' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE12102008, mmddyyyy' />
+      <column name=' OBJ_ID' value='TO_DATE, mmddyyyy' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='TP' />
+      <column name=' CMNT' value='Rotate each year Odd Years 100 to 37L006568  Even Years 100 to 37AS19174  2  When fund reaches 1Million close  create new endowments in L006  AS19' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RE' />
+      <column name=' CMNT' value='Reinvest to 25' />
+      <column name=' INSTRC_EST_DT' value='000' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' OBJ_ID' value='TO_DATE, mmddyyyy' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' INSTRC_SEQ' value='2' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RE' />
+      <column name=' CMNT' value='Reinvest to 25' />
+      <column name=' INSTRC_EST_DT' value='000' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' OBJ_ID' value='TO_DATE, mmddyyyy' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RF' />
+      <column name=' CMNT' value='only if no recipient' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RF' />
+      <column name=' CMNT' value='only if no recipient' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-40-10' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' INSTRC_SEQ' value='1' />
+      <column name=' AGRMNT_SPCL_INSTRC_CD' value='RF' />
+      <column name=' CMNT' value='only if no recipient' />
+      <column name=' INSTRC_EST_DT' value='TO_DATE1112005, mmddyyyy' />
+      <column name=' INSTRC_TERM_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

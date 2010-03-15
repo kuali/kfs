@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5476b-1' failOnError='false' dbms="oracle" >
+    <comment>create endow sequences.sql</comment>
+    <createSequence sequenceName='END_KEMID_SEQ' minValue='1' startValue='1' incrementBy='1' ordered='true' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476b-2' failOnError='false'>
+    <comment>create endow sequences.sql</comment>
+    <createSequence sequenceName='END_TKLR_SEQ' minValue='1' startValue='1' incrementBy='1' ordered='true' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476b-3' failOnError='false'>
+    <comment>create endow sequences.sql</comment>
+    <createSequence sequenceName='END_ACI_SEQ' minValue='1' startValue='1' incrementBy='1' ordered='true' />
+  </changeSet>
+
+  <changeSet author="Bonnie" id='5476b-1a' failOnError='false' dbms="mysql">
+	<comment>create endow sequences</comment>
+ 	<createTable tableName="END_KEMID_SEQ">
+		<column name="id" type="bigint(19)" autoIncrement="true">
+			<constraints primaryKey="true" primaryKeyName="id" nullable="false" />
+		</column>
+	</createTable>
+	<createTable tableName="END_TKLR_SEQ">
+		<column name="id" type="bigint(19)" autoIncrement="true">
+			<constraints primaryKey="true" primaryKeyName="id" nullable="false" />
+		</column>
+	</createTable>
+	<addAutoIncrement tableName="END_KEMID_SEQ" columnName="id" columnDataType="bigint(19)" />
+	<addAutoIncrement tableName="END_TKLR_SEQ" columnName="id" columnDataType="bigint(19)" />
+  </changeSet>
+</databaseChangeLog>

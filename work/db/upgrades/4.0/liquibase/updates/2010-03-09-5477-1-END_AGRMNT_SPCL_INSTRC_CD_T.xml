@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-1-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest earnings to specific fund balances' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-1-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='RP' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest  of earnings' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-1-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='TP' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Transfer  of earnings to separate account' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-1-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='TS' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Transfer specific amount to separate account' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-1-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='OT' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Other' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-1-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
+      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest unused FY earnings per GA' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

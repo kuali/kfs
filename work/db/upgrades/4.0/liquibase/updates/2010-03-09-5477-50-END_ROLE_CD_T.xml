@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-50-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='1' />
+      <column name=' ROLE_DESC' value='Primary Manager' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-50-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='2' />
+      <column name=' ROLE_DESC' value='Secondary Manager' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-50-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='3' />
+      <column name=' ROLE_DESC' value='Primary Supervisor' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-50-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='4' />
+      <column name=' ROLE_DESC' value='Secondary Supervisor' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-50-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='5' />
+      <column name=' ROLE_DESC' value='Financial Management' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-50-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' value='6' />
+      <column name=' ROLE_DESC' value='Development' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

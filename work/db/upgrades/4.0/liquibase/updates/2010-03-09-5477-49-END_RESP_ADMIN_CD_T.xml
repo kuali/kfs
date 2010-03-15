@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-49-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='ACCT' />
+      <column name=' RESP_ADMIN_DESC' value='Accounting' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='AGNC' />
+      <column name=' RESP_ADMIN_DESC' value='Agency' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='GENA' />
+      <column name=' RESP_ADMIN_DESC' value='General Administration' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='INTL' />
+      <column name=' RESP_ADMIN_DESC' value='Internal' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='INVS' />
+      <column name=' RESP_ADMIN_DESC' value='Investments' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='PLFD' />
+      <column name=' RESP_ADMIN_DESC' value='Pooled Funds' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-49-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='TRST' />
+      <column name=' RESP_ADMIN_DESC' value='Trust Accounting' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

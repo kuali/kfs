@@ -1,0 +1,1308 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-32-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032A017014' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12281999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used for annual athletic student scholarships  The number' />
+      <column name=' CMNT' value='amount and recipients of the scholarships will be determined by the Athletic Department and as permitted by the NCAA  Should the annual contributions received exceed the am' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032AS06149' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3171999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general support for faculty and graduate students in inorganic chemistry  Expenditures may include but are not limited to' />
+      <column name=' CMNT' value='education' />
+      <column name=' ROW_ACTV_IND' value='research' />
+      <column name=' OBJ_ID' value='travel' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032AS06198' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE492001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used to provide general support to further the research activities in organic synthesis of the Johnston Research Group within the Department of Chemistry at IUB' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032AS08053' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12241999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general support of the Comparative Literature Program at the discretion of the Chair' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032AS11040' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE5151997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the account be used for faculty and staff recruiting' />
+      <column name=' CMNT' value='faculty development' />
+      <column name=' ROW_ACTV_IND' value='faculty travel' />
+      <column name=' OBJ_ID' value='program promotion' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032B011354' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE8302006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that these gifts be used to support the Kelley School of Business activities related to teaching business turnaround concepts  Expenses include' />
+      <column name=' OBJ_ID' value='but are not limited to' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE11302007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support undergraduate scholarships for students enrolled Dental Hygiene Program at the School  Preference should be given to students living in Randolph County Indiana o' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032L006015' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE9161997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the gifts be used for scholarships  This fund will receive named scholarships that are too small to warrant a separate account as well as general scholarship monies  The school scholarship committee will determined th' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032L006098' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE232000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used for annual student fellowships for students at the Indiana University School of Law' />
+      <column name=' CMNT' value='who demonstrate an interest in the area of public interest law  The number' />
+      <column name=' ROW_ACTV_IND' value='amount' />
+      <column name=' OBJ_ID' value='and recipients of the fellowships will be determined by' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-10' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032P002085' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE242008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that these gifts be used for the general support of the Multicultural Center at IUPUI' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-11' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032P002101' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE922008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that these gifts be used for general support of the office of Housing and Residence Life at IUPUI' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-12' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032P011045' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='B' />
+      <column name=' AGRMNT_STAT_CD' value='PEND' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4161976, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Account Intent Not Finalized' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-13' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='032P011094' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1291999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general operating purposes of the public speaking program of the Communication Studies Department  Uses shall include' />
+      <column name=' CMNT' value='but not be limited to' />
+      <column name=' ROW_ACTV_IND' value='activities related to public speaking competitions and enrichment and recogni' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-14' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4171992, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Funds will be used for support and maintenance of scholarships for athletes in their respective sports The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the scholarships will be determined by the Director of Athletics  The scholarships will be in the amount' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-15' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6112007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Multiple Gift Agreements on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-16' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1192006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from this gift be used to support a doctoral fellowship in the Department of English  The recipient will have a record of academic distinction and excellence The Fellowship wi' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-17' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE2192001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support graduate students in Sociology for purposes including' />
+      <column name=' CMNT' value='but not limited to' />
+      <column name=' ROW_ACTV_IND' value='graduate fellowships' />
+      <column name=' OBJ_ID' value='research support' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-18' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE5221997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the fund be utilized for miscellaneous departmental expenses as determined by the department board' />
+      <column name=' CMNT' value='IU Accounts 25-33204  26-33201' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-19' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='I' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3261971, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby established shall be used for the support and maintenance of an award to be known as the Eugene C Chenoweth Intercollegiate Debate-Discussion Award' />
+      <column name=' CMNT' value='hereinafter referred to as the Fund The recipient of the award shall be selected by a c' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-20' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE441996, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund will be used to permanently endow' />
+      <column name=' CMNT' value='support and maintain a chair to be known as The Ottoman and Modern Turkish Studies Endowed Chair Chair  The Chair' />
+      <column name=' ROW_ACTV_IND' value='which will be established in the College of Arts and Sciences of Indiana University within' />
+      <column name=' OBJ_ID' value='FEMP 28-23230' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-21' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1172007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from this gift be used to support undergraduate scholarships  The recipients shall be incoming freshmen students' />
+      <column name=' OBJ_ID' value='who are United States citizens' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-22' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='I' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6291974, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Five Hundred Dollars 50000 of said gift shall be used for the establishment of a scholarship to be known as the Phipps and Funkey Scholarship to be administered under the following terms' />
+      <column name=' CMNT' value='to wit The scholarship shall be awarded by a committee compos' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-23' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE10242002, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift is used for a chair on the Indianapolis campus of the School Expenditures may include' />
+      <column name=' CMNT' value='but not are not limited to' />
+      <column name=' ROW_ACTV_IND' value='a salary or salary supplement for the designated holder of the chair' />
+      <column name=' OBJ_ID' value='support for' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-24' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6152007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from these gifts be used to support a graduate student with tuition' />
+      <column name=' OBJ_ID' value='fees andor salary support' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-25' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12302008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that income from this gift be used to support undergraduate students participating in an international student teaching experience The number' />
+      <column name=' OBJ_ID' value='amount' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-26' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132003, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support a competition for the best lecture given by a graduate student or advanced undergraduate student on a work or group of works in the Art Museum  Expenditures for the competition m' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-27' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE242000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that use of income generated from this gift will be used for support of the Professorships  It is the further intent of the Donor that the income shall be awarded to a person designated the Harry Pratter Professor of Law for' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-28' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037G003BD9' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3222004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that income from these gifts be used to support scholarships for full-time undergraduate students' />
+      <column name=' OBJ_ID' value='enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amount of 1' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-29' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3222004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that income from these gifts be used to support scholarships for full-time undergraduate students' />
+      <column name=' OBJ_ID' value='enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amo' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-30' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1182007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from this gift be used to support an annual undergraduate scholarship  The Scholarship will be given out to an incoming freshman majoring in the Department of Recreation' />
+      <column name=' OBJ_ID' value='Park and' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-31' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6191997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that each recipient be a graduate or undergraduate student enrolled in the School of Music who is enrolled in the study of composition  The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the scholarships will be determined by the app' />
+      <column name=' OBJ_ID' value='IU Account   26-42652  25-42661' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-32' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE8201992, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund will be used for the establishment' />
+      <column name=' CMNT' value='support and maintenance of scholarships to be known as Eli Lilly Law Alumni Scholarships to be awarded to students enrolled at the Indiana University School of Law - Indianapolis School of Law The Scholar' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-33' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE952000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Income from these gifts will support a professorship  Expenditures may include' />
+      <column name=' CMNT' value='but not be limited to' />
+      <column name=' ROW_ACTV_IND' value='a salary or salary supplement for the designated holder of the professorship' />
+      <column name=' OBJ_ID' value='support for research' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-34' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE8172006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Solicitation' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from this gift be used to support scholarships  The Scholarship will be awarded to students who demonstrate financial need as determined by the Scholarship Committee of the Law Sc' />
+      <column name=' OBJ_ID' value='IU Account  26-473-88' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-35' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1292004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Solicitation' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that income from this gift be used to support a professorship  The Professorship will be held by the Chief of Dermatology Services at Wishard Health Services and will be a full-time faculty membe' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-36' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6211982, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment' />
+      <column name=' CMNT' value='support and maintenance of a scholarship to be known as The Arnold W Kunkler Scholarship The scholarship shall be awarded according to the policies and practices of the Indiana University' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-37' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE7131998, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support a lectureship in infectious diseases at the IU School of Medicine' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-38' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1112006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that the income from this gift be used to support a lectureship in the Department of Psychiatry Department at Indiana University School of Medicine  The Donor intends for the lectureship to be' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-39' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4282003, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The recipients must be enrolled in the IU School of Optometrys OpticianTechnician program' />
+      <column name=' CMNT' value='be in good academic standing' />
+      <column name=' ROW_ACTV_IND' value='and demonstrate financia' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-40' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE5122008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The criteria is as follows full or part-time students pursuing a degree within the Purdue School of Engineering and Technology' />
+      <column name=' CMNT' value='IUPUI' />
+      <column name=' ROW_ACTV_IND' value='maintaining o' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-41' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4162002, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the use of income from these gifts be used for the general support of the School at the deans discretion  These funds may be used to take advantage of unforeseen opportunities to contribute the growth and improvement' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-42' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE662001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that these gifts be used to create awards for students  The recipients shall be outstanding students in hisher first year as a major in the Department  The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the award will be determined b' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-43' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE551997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Duneland Rock Club Scholarship for the Geosciences  Scholarship The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the Scholarships will be recommended by t' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-44' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1112000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift support scholarships  In selecting a recipients' />
+      <column name=' CMNT' value='preference shall be given to a student who has financial need and a record of academic excellence as demonstrated by a GPA of 32 on a 40 scale' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-45' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12252003, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that income from this gift will be used to support graduate fellowships for SPEA students seeking an MPA  Recipients will have a minimum 30 GPA' />
+      <column name=' OBJ_ID' value='demonstrated financial need' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-46' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE2172005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support two or more undergraduate scholarships for students from Elkhart County' />
+      <column name=' CMNT' value='Indiana  The recipients shall have demonstrated financial need  If recipients are freshmen' />
+      <column name=' ROW_ACTV_IND' value='the student' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-47' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3121999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the use of income generated from this gift is to be focused on staff and resources to enhance access by provision of services  Funds may also be used for' />
+      <column name=' CMNT' value='but not limited to' />
+      <column name=' ROW_ACTV_IND' value='acquisition of or access to material' />
+      <column name=' OBJ_ID' value='catalo' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-48' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12171999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support fellowships in scientific information  It is the Donors preference that the fellowships will be in the Schools specialization program in chemical information  The recipients' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-49' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE8251997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the income from this gift will be used to aid in the research' />
+      <column name=' CMNT' value='teaching' />
+      <column name=' ROW_ACTV_IND' value='public education' />
+      <column name=' OBJ_ID' value='and care of collections undertaken by the Mathers Museum' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-50' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE7302001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to pay for sorting' />
+      <column name=' CMNT' value='cataloging and distribution of books and materials donated and in acquiring from time to time other books and materials relating to Voltaire to supplement the Voltaire Co' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-51' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038A017011' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3312003, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The excess Donor gifts will be held and invested on the principal side of this account as reserve funds and invested in the pooled long term fund  Additions to these funds may occur with approval by the Varsity Club Board and will come from excess oper' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-52' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038AS00057' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE862002, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the donors that this fund shall be used for functions and events at the College' />
+      <column name=' CMNT' value='faculty and staff recruitment and retention' />
+      <column name=' ROW_ACTV_IND' value='special scholarshipfellowship support for students' />
+      <column name=' OBJ_ID' value='and assorted events and expenses related to fundraising' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-53' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038AS06237' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE2232004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support undergraduate and graduate scholarships in the Department  The number' />
+      <column name=' OBJ_ID' value='amount' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-54' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038AS17028' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE362000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Gifts to this account will be used for the general support of the Department of Geological Sciences' />
+      <column name=' CMNT' value='in the College of Arts and Sciences' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-55' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038AS53023' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE672000, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support and operating expenses of the Playhouse at the discretion of the President of the Brown County Playhouse' />
+      <column name=' CMNT' value='Inc' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-56' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038B011179' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE851996, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund will be used for support and maintenance of an endowment to be known as The Monroe Shine  Co' />
+      <column name=' CMNT' value='Inc Endowment Fund Endowment  It is the intent of the Donors that the fund is used for the education of students for localregional public accou' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-57' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038CC00118' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE11232004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the donor' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support native Korean undergraduate and graduate students and visiting scholars on the Bloomington campus of Indiana University' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-58' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038D008041' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1121999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support scholarships and loans for undergraduate students enrolled in the Indiana University School of Dentistry  The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the Scholarship will be determined by the' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-59' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038E009022' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1271998, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the School of Education  Expenditures may include' />
+      <column name=' CMNT' value='but are not limited to' />
+      <column name=' ROW_ACTV_IND' value='representation' />
+      <column name=' OBJ_ID' value='faculty and staff travel' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-60' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038F002075' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE10281996, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund will be used to support' />
+      <column name=' CMNT' value='maintain and enhance the mission' />
+      <column name=' ROW_ACTV_IND' value='collections' />
+      <column name=' OBJ_ID' value='academic and outreach programs' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-61' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038G003452' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6252001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for the general benefit of Indiana University  All income should be reinvested in the Pooled Long Term Fund' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-62' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038IU09022' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12112001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Wells Scholars Program' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-63' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038K008027' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE362001, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Law School at IUPUI' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-64' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038L006228' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE12291998, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support a scholarship  Preference is to be given to students of African American or Latin American descent enrolled in the School  The number' />
+      <column name=' CMNT' value='amount' />
+      <column name=' ROW_ACTV_IND' value='and recipients of the Scholarship will be' />
+      <column name=' OBJ_ID' value='IU Account  26-473-90' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-65' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038MCCC134' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4282004, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support recruitment of physicians and scientists with ovarian cancer expertise' />
+      <column name=' OBJ_ID' value='and support pilot projects in ovarian cancer research at the Indiana University Cancer Cent' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-66' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038MDSL325' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE2192007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that these gifts be used to support scholarships for medical students who are attending Indiana University School of Medicine - South Bend on the campus of the University of Notre Dame  The num' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-67' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3132008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support an annual award given to a senior medical student at the Indiana University School of Medicine  The recipient of this Award need not be pursuing a career in psych' />
+      <column name=' OBJ_ID' value='' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-68' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE6262008, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for an award to freshman medical students' />
+      <column name=' CMNT' value='who in the opinion of the physiology faculty are most worthy of receiving an outstanding text print' />
+      <column name=' ROW_ACTV_IND' value='disk' />
+      <column name=' OBJ_ID' value='or electronic format in physiology or a closely' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-69' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038N008222' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE4281999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Dorothy Garrigus Adams Emergency Loans Fund will be available to both undergraduate and graduate nursing students who demonstrate the need for emergency assistance  Students may apply for a loan through the Office of Educational Services  The associ' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-70' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038P003213' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE9101997, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the project' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-71' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038P011463' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE7312006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support the general operating purposes of the Public Speaking Program in the Department of Communication Studies  Expenditures may include' />
+      <column name=' OBJ_ID' value='but are not limited to' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-72' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1261989, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment' />
+      <column name=' CMNT' value='support and maintenance of a scholarship to be known as The Gene C Halterman ScholarshipThe scholarships shall be awarded by a committee to be known as the Halterman Scholarship Selecti' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-73' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='F' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE8271996, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Chancellors Associates Scholarship Scholarship This Fund is specifically meant to provide scholarships to all incoming full-time freshmen students w' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-74' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE5222003, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that this gift be used to support scholarships to students at IUSB  Preference will be give to qualified minority students' />
+      <column name=' CMNT' value='who without this aid might not be able to obtain a higher education  The number' />
+      <column name=' ROW_ACTV_IND' value='amount' />
+      <column name=' OBJ_ID' value='and recipi' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-75' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038RT04091' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE471998, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='This account shall be used to benefit the Indiana University Kokomo campus  Expenditures may include' />
+      <column name=' CMNT' value='but not be limited to recruitment expenses' />
+      <column name=' ROW_ACTV_IND' value='employee goodwill' />
+      <column name=' OBJ_ID' value='activities and events' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-76' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038RV04351' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='G' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE892006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors' />
+      <column name=' CMNT' value='and the Foundation agrees' />
+      <column name=' ROW_ACTV_IND' value='that this gift be used to support the education of students at IU Southeast for localregional public accounting firms similar to Monroe Shine  Co' />
+      <column name=' OBJ_ID' value='Inc A committee will have discretion concern' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-77' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='038SC01010' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='I' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE491986, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment' />
+      <column name=' CMNT' value='support and maintenance of student loans s to be known as The Black Faculty and Staff Council BFSC Short-term Student Loans Fund The loans shall be approved and recommended by the' />
+      <column name=' ROW_ACTV_IND' value='' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-78' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='046G007720' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='T' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE3301999, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='Gift Agreement' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-79' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='046G007CD0' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='T' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE5312006, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='MemorandumFund Administration Agreement' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-80' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PLTF013' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-81' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PLTF021' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-82' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PLTF997' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1122007, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-83' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='909BTIP011' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-84' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='909ETIP018' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-85' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PSTF018' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-86' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PSTF034' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-32-87' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' value='099PMKT010' />
+      <column name=' AGRMNT_ID' value='1' />
+      <column name=' AGRMNT_TYP_CD' value='M' />
+      <column name=' AGRMNT_STAT_CD' value='COMP' />
+      <column name=' AGRMNT_STAT_DT' value='TO_DATE1132005, mmddyyyy' />
+      <column name=' AGRMNT_OTHR_DOC' value='' />
+      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name=' CMNT' value='' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

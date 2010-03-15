@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+
+<changeSet id="5475-1" author="Bonnie" failOnError="false" context="rice" >
+<comment>Create Endowment related Parameters in Rice Tables Step 1</comment>
+
+<insert tableName="KRNS_NMSPC_T">
+   	 <column name="NMSPC_CD" value="KFS-ENDOW"/>
+ 	<column name="NM" value="Endowment"/>
+	 <column name="ACTV_IND" value="Y"/>
+ 	<column name="OBJ_ID" value="sys_guid()"/>
+</insert>
+</changeSet>
+</databaseChangeLog>

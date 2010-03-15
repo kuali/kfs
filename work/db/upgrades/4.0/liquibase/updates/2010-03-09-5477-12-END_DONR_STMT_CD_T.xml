@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-12-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='T' />
+      <column name=' DONR_STMT_DESC' value='Terminated' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='Q' />
+      <column name=' DONR_STMT_DESC' value='Qualifies' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='N' />
+      <column name=' DONR_STMT_DESC' value='None' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='M' />
+      <column name=' DONR_STMT_DESC' value='Mid-Level' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='MID' />
+      <column name=' DONR_STMT_DESC' value='Mid-Level - DR' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='S' />
+      <column name=' DONR_STMT_DESC' value='Standard' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='ST' />
+      <column name=' DONR_STMT_DESC' value='Standard' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='STD' />
+      <column name=' DONR_STMT_DESC' value='Standard - DR' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-12-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' value='TER' />
+      <column name=' DONR_STMT_DESC' value='Terminated - DR' />
+      <column name=' ROW_ACTV_IND' value='y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

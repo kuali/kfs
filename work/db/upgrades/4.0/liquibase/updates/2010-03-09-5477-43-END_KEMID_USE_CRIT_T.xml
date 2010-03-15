@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-43-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Recipients should have a minimum 342 GPA' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='C' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='CP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Preference should be given to students living in Randolph County Indiana or Drake County Ohio' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Enrolled Dental Hygiene Program at the School' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='032L006098' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrate an interest in the area of public interest law' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='G' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Womens' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Tennis' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Supports multiple named scholarships - See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-10' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Record of academic distinction and excellence' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-11' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-12' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-13' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-14' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Grade average shall be 2 points on a 4 point scale C' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-15' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='One award - in the amount of the annual income of the fund' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-16' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Undergraduate' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-17' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-18' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='Q' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='United States citizens' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-19' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Incoming freshmen' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-20' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-21' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='ZP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-22' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='500 award' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-23' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Junior' />
+      <column name=' ROW_ACTV_IND' value='Senior or graduate student' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-24' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Majoring in field of Real Estate' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-25' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Full-time' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-26' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='6' />
+      <column name=' ROW_ACTV_IND' value='000 to be distributed equally during the next 3 academic years 2009-2010' />
+      <column name=' OBJ_ID' value='2010-2011' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-27' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Students participating in an international student teaching experience' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-28' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Minimum 25 GPA' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-29' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Each Scholarship 1' />
+      <column name=' ROW_ACTV_IND' value='000' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-30' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='L' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrated leadership abilities' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-31' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Minimum of one-year involvement within Recreational Sports' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-32' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' USE_CRIT_SEQ' value='5' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-33' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-34' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='One annual scholarship' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-35' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Incoming freshman' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-36' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Majoring in the Department of Recreation' />
+      <column name=' ROW_ACTV_IND' value='Park and Tourism Studies' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-37' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='5' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-38' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' USE_CRIT_SEQ' value='6' />
+      <column name=' USE_CRIT_CD' value='ZP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-39' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Enrolled in the study of composition' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-40' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Evidence of strong academic performance' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-41' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='3 scholarships to be at least 1' />
+      <column name=' ROW_ACTV_IND' value='000 1 for recruitment of prospective students' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-42' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='L' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrated leadership qualities' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-43' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrate financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-44' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Good academic standing' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-45' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrated financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-46' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Enrolled in OpticianTechnician Program' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-47' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Maintaining one of the highest cumulative grade point average' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-48' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-49' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Pursuing a degree within the Purdue School of Engineering and Technology' />
+      <column name=' ROW_ACTV_IND' value='IUPUI' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-50' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Outstanding students in hisher first year as a major in the Dept of Economics' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-51' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Consideration shall be given to students based on scholastic accomplishment' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-52' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Total amount awarded in any one year shall not exceed the amt of income generated by the fund' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-53' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Consideration shall be given to students based on financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-54' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-55' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='AP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Record of academic excellence demonstrated by a GPA of 32 on a 40 scale' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-56' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='NP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-57' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Renewable - provided recipient continues to meet criteria' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-58' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Minimum 30 GPA' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-59' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='I' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Current resident of the State of Indiana' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-60' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrated financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-61' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Seeking an MPA interest in pursuing a career in public service or not-for-profit sector' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-62' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='For Upperclassmen the students must maintain a min GPA of 30 on a 40 scale' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-63' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='C' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Elkhart County' />
+      <column name=' ROW_ACTV_IND' value='Indiana' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-64' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Two or more scholarships' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-65' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrated financial need' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-66' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' USE_CRIT_SEQ' value='5' />
+      <column name=' USE_CRIT_CD' value='ZP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-67' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Scientific Information' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-68' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='UP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Specialization program in chemical information' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-69' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='No student shall receive for more than 4 years' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-70' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038L006228' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='RP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='African American or Latin American descent' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-71' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MDSL325' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='U' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Attending IU School of Medicine - South Bend on the campus of the University of Notre Dame' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-72' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='One Award' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-73' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Graduating resident' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-74' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Embodies the principles taught by distinguished faculty and residents of the Department' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-75' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Text Award only' />
+      <column name=' ROW_ACTV_IND' value='minimum cost of 25' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-76' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Freshman' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-77' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038N008222' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='N' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Demonstrate the need for emergency assistance' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-78' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='A' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Maintain a cumulative GPA of 30 or better' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-79' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Amt of scholarships shall consist of 500 distinguished awards and max of 10 150 Honorable awards' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-80' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='O' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Participated in student government at IUB Campus for a min of 3 semesters' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-81' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' USE_CRIT_SEQ' value='4' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Attained a class standing of Junior or Above' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-82' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' USE_CRIT_SEQ' value='5' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Current Resident Residence Hall' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-83' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='D' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Full tuition' />
+      <column name=' ROW_ACTV_IND' value='books and fees' />
+      <column name=' OBJ_ID' value='Y' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-84' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='S' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Incoming Freshmen' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-85' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' USE_CRIT_SEQ' value='3' />
+      <column name=' USE_CRIT_CD' value='Z' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='See GA  Pertinent information exceeds space limit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-86' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name=' USE_CRIT_SEQ' value='1' />
+      <column name=' USE_CRIT_CD' value='NP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Without this aid might not be able to obtain a higher education' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-43-87' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name=' USE_CRIT_SEQ' value='2' />
+      <column name=' USE_CRIT_CD' value='RP' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Minority students' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

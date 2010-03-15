@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-1'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='ACI Model MaintenanceDocument' />
+      <where>DOC_TYP_NM = 'ACIModelMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-2'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Cash Sweep Model Maintenance Document' />
+      <where>DOC_TYP_NM = 'CashSweepModelMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-3'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Class Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'ClassCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-4'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Endowment Transaction Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'EndowmentTransactionCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-5'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Subclass Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'SubclassCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-6'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Pooled Fund Control Maintenance Document' />
+      <where>DOC_TYP_NM = 'PooledFundControlMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-7'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Registration Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'RegistrationCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-8'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Security Reporting Group Maintenance Document' />
+      <where>DOC_TYP_NM = 'SecurityReportingGroupMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-9'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='KEMID Maintenance Document' />
+      <where>DOC_TYP_NM = 'KEMIDMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-10'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Security Maintenance Document' />
+      <where>DOC_TYP_NM = 'SecurityMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-11'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Pooled Fund Value Maintenance Document' />
+      <where>DOC_TYP_NM = 'PooledFundValueMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-12'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Endowment Complex Maintenance Document' />
+      <where>DOC_TYP_NM = 'EndowmentComplexMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-13'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Endowment Simple Maintenance Document' />
+      <where>DOC_TYP_NM = 'EndowmentSimpleMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-14'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Agreement Type Maintenance Document' />
+      <where>DOC_TYP_NM = 'AgreementTypeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-15'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Agreement Special Instruction Maintenance Document' />
+      <where>DOC_TYP_NM = 'AgreementSpecialInstructionMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-16'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Tickler Type Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'TicklerTypeCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-17'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Transaction Restriction Code MaintenanceDocument' />
+      <where>DOC_TYP_NM = 'TransactionRestrictionCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-18'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Type Restriction Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'TypeRestrictionCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-19'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Donor Maintenance Document' />
+      <where>DOC_TYP_NM = 'DonorMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-20'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Fund Source Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'FundSourceCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-21'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Combine Group Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'CombineGroupCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-22'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Purpose Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'PurposeCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-23'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='CAE Code Maintenance Document ' />
+      <where>DOC_TYP_NM = 'CAECodeMaintenanceDocument '</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-24'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Agreement Status Maintenance Document' />
+      <where>DOC_TYP_NM = 'AgreementStatusMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-25'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Donor Statement Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'DonorStatementCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-26'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Role Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'RoleCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-27'>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Type Code Maintenance Document ' />
+      <where>DOC_TYP_NM = 'TypeCodeMaintenanceDocument '</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-28'>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Responsible Administration Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'ResponsibleAdministrationCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-29'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Use Criteria Code MaintenanceDocument' />
+      <where>DOC_TYP_NM = 'UseCriteriaCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-30'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Close Code Maintenance Document' />
+      <where>DOC_TYP_NM = 'CloseCodeMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-31'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Fee Method Maintenance Document' />
+      <where>DOC_TYP_NM = 'FeeMethodMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' failOnError="false"  id='5475-3-32'>
+  <comment> create Endowment related parameters in RICE tables Step 4</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Holding Tax Lot Maintenance Document' />
+      <where>DOC_TYP_NM = 'HoldingTaxLotMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

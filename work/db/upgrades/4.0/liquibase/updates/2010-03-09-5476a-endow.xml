@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='1' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_USE_CRIT_T' constraintName='END_USE_CRIT_PK' columnNames='USE_CRIT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_POOL_FND_VAL_T' constraintName='END_POOL_FND_VAL_PK' columnNames='POOL_SEC_ID, VAL_EFF_DT' />
+  </changeSet>
+  <changeSet author='Bonnie' id='3' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_USE_CRIT_T' constraintName='END_KEMID_USE_CRIT_PK' columnNames='KEMID, USE_CRIT_SEQ, USE_CRIT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='4' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CLS_CD_T' constraintName='END_CLS_CD_PK' columnNames='SEC_CLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_TYP_CD_T' constraintName='END_FEE_TYP_CD_PK' columnNames='FEE_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='6' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_RT_DEF_CD_T' constraintName='END_FEE_RT_DEF_CD_PK' columnNames='FEE_RT_DEF_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='7' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_AUTO_CSH_INVEST_MDL_T' constraintName='END_AUTO_CSH_INVEST_MDL_PK' columnNames='ACI_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='8' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_SEC_VLTN_MTHD_T' constraintName='END_SEC_VLTN_MTHD_PK' columnNames='VLTN_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='9' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_DONR_T' constraintName='END_DONR_PK' columnNames='DONR_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='10' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_SPCL_INSTRC_T' constraintName='END_KEMID_SPCL_INSTRC_PK' columnNames='KEMID, INSTRC_SEQ, AGRMNT_SPCL_INSTRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='11' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_ETRAN_CD_T' constraintName='END_FEE_ETRAN_CD_PK' columnNames='FEE_MTHD, ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='12' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_KEMID_T' constraintName='END_TKLR_KEMID_PK' columnNames='TKLR_NBR, TKLR_KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='13' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_FEE_T' constraintName='END_KEMID_FEE_PK' columnNames='KEMID, FEE_MTHD, FEE_MTHD_SEQ' />
+  </changeSet>
+  <changeSet author='Bonnie' id='14' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TYP_RESTR_CD_T' constraintName='END_TYP_RESTR_CD_PK' columnNames='TYP_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='15' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_FND_SRC_T' constraintName='END_KEMID_FND_SRC_PK' columnNames='KEMID, KEMID_FND_SRC_SEQ, FND_SRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='16' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_DONR_STMT_CD_T' constraintName='END_DONR_STMT_CD_PK' columnNames='DONR_STMT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='17' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CRNT_TAX_LOT_BAL_T' constraintName='END_CRNT_TAX_LOT_BAL_PK' columnNames='KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND' />
+  </changeSet>
+  <changeSet author='Bonnie' id='18' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_SEC_T' constraintName='END_SEC_PK' columnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='19' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_BENE_ORG_T' constraintName='END_KEMID_BENE_ORG_PK' columnNames='KEMID, BENE_ORG_SEQ, BENE_ORG_CD, BENE_CHRT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='20' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_AVAIL_CSH_T' constraintName='END_AVAIL_CSH_PK' columnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='21' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ETRAN_TYP_CD_T' constraintName='END_ETRAN_TYP_CD_PK' columnNames='ETRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='22' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_DONR_LBL_SEL_T' constraintName='END_DONR_LBL_SEL_PK' columnNames='DONR_LBL_SEL' />
+  </changeSet>
+  <changeSet author='Bonnie' id='23' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CAE_CD_T' constraintName='END_CAE_CD_PK' columnNames='CAE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='24' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_SEC_T' constraintName='END_TKLR_SEC_PK' columnNames='TKLR_NBR, TKLR_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='25' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FND_SRC_CD_T' constraintName='END_FND_SRC_CD_PK' columnNames='FND_SRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='26' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_HIST_CSH_T' constraintName='END_HIST_CSH_PK' columnNames='KEMID, ME_DT_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='27' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_MTHD_T' constraintName='END_FEE_MTHD_PK' columnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='28' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ME_DT_T' constraintName='END_ME_DT_PK' columnNames='ME_DT_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='29' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_CLS_CD_T' constraintName='END_FEE_CLS_CD_PK' columnNames='FEE_MTHD, SEC_CLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='30' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_AGRMNT_SPCL_INSTRC_CD_T' constraintName='END_AGRMNT_SPCL_INSTRC_CD_PK' columnNames='AGRMNT_SPCL_INSTRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='31' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_PAY_INC_T' constraintName='END_KEMID_PAY_INC_PK' columnNames='KEMID, PAY_INC_SEQ, PAY_INC_TO_KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='32' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_IP_IND_T' constraintName='END_IP_IND_PK' columnNames='IP_IND_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='33' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_AGRMNT_STAT_CD_T' constraintName='END_AGRMNT_STAT_CD_PK' columnNames='AGRMNT_STAT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='34' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CLOSE_CD_T' constraintName='END_CLOSE_CD_PK' columnNames='CLOSE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='35' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_TYP_CD_T' constraintName='END_TKLR_TYP_CD_PK' columnNames='TKLR_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='36' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TRAN_RESTR_CD_T' constraintName='END_TRAN_RESTR_CD_PK' columnNames='TRAN_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='37' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FREQ_CD_T' constraintName='END_FREQ_CD_PK' columnNames='FREQ_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='38' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_AGRMNT_TYP_CD_T' constraintName='END_AGRMNT_TYP_CD_PK' columnNames='AGRMNT_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='39' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TRAN_TYP_CD_T' constraintName='END_TRAN_TYP_CD_PK' columnNames='TRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='40' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_BAL_TYP_CD_T' constraintName='END_FEE_BAL_TYP_CD_PK' columnNames='FEE_BAL_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='41' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_CMB_GRP_T' constraintName='END_KEMID_CMB_GRP_PK' columnNames='KEMID, CMB_SEQ, CMB_GRP_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='42' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_SEC_T' constraintName='END_FEE_SEC_PK' columnNames='FEE_MTHD, SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='43' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_POOL_FND_CTRL_T' constraintName='END_POOL_FND_CTRL_PK' columnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='44' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ENDOW_CORPUS_T' constraintName='END_ENDOW_CORPUS_PK' columnNames='KEMID, CORPUS_VAL_HIST_DT' />
+  </changeSet>
+  <changeSet author='Bonnie' id='45' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ACRL_MTHD_T' constraintName='END_ACRL_MTHD_PK' columnNames='SEC_ACRL_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='46' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_T' constraintName='END_TKLR_PK' columnNames='TKLR_NBR' />
+  </changeSet>
+  <changeSet author='Bonnie' id='47' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_REGIS_CD_T' constraintName='END_REGIS_CD_PK' columnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='48' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_T' constraintName='END_KEMID_PK' columnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='49' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ETRAN_CD_T' constraintName='END_ETRAN_CD_PK' columnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='50' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CRNT_CSH_T' constraintName='END_CRNT_CSH_PK' columnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='51' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_BASE_CD_T' constraintName='END_FEE_BASE_CD_PK' columnNames='FEE_BASE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='52' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_AGRMNT_T' constraintName='END_KEMID_AGRMNT_PK' columnNames='KEMID, AGRMNT_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='53' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_PRPS_CD_T' constraintName='END_PRPS_CD_PK' columnNames='PRPS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='54' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CLS_CD_TYP_T' constraintName='END_CLS_CD_TYP_PK' columnNames='CLS_CD_TYP' />
+  </changeSet>
+  <changeSet author='Bonnie' id='55' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TYP_FEE_MTHD_T' constraintName='END_TYP_FEE_MTHD_PK' columnNames='TYP_CD, FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='56' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_PMT_TYP_CD_T' constraintName='END_PMT_TYP_CD_PK' columnNames='PMT_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='57' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_GL_LNK_T' constraintName='END_KEMID_GL_LNK_PK' columnNames='KEMID, IP_IND_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='58' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_RESP_ADMIN_CD_T' constraintName='END_RESP_ADMIN_CD_PK' columnNames='RESP_ADMIN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='59' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_DONR_T' constraintName='END_KEMID_DONR_PK' columnNames='KEMID, DONR_SEQ, DONR_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='60' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_SUBCLS_CD_T' constraintName='END_SUBCLS_CD_PK' columnNames='SEC_SUBCLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='61' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CSH_SWEEP_MDL_T' constraintName='END_CSH_SWEEP_MDL_PK' columnNames='CSH_SWEEP_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='62' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CMB_GRP_T' constraintName='END_CMB_GRP_PK' columnNames='CMB_GRP_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='63' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_PMT_TYP_T' constraintName='END_FEE_PMT_TYP_PK' columnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='64' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_CURR_ENDOW_CORPUS_T' constraintName='END_CURR_ENDOW_CORPUS_PK' columnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='65' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_SEC_RPT_GRP_T' constraintName='END_SEC_RPT_GRP_PK' columnNames='SEC_RPT_GRP' />
+  </changeSet>
+  <changeSet author='Bonnie' id='66' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ROLE_CD_T' constraintName='END_ROLE_CD_PK' columnNames='ROLE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='67' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_ETRAN_GL_LNK_T' constraintName='END_ETRAN_GL_LNK_PK' columnNames='ETRAN_CD, CHART_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='68' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_CORPUS_VAL_T' constraintName='END_KEMID_CORPUS_VAL_PK' columnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='69' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_RECP_GRP_T' constraintName='END_TKLR_RECP_GRP_PK' columnNames='TKLR_NBR, TKLR_RECP_GRP_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='70' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TKLR_RECP_PRNCPL_T' constraintName='END_TKLR_RECP_PRNCPL_PK' columnNames='TKLR_NBR, TKLR_RECP_PRNCPL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='71' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_KEMID_DONR_CMB_T' constraintName='END_KEMID_DONR_CMB_PK' columnNames='KEMID, CMB_SEQ' />
+  </changeSet>
+  <changeSet author='Bonnie' id='72' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_HLDG_TAX_LOT_T' constraintName='END_HLDG_TAX_LOT_PK' columnNames='KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND' />
+  </changeSet>
+  <changeSet author='Bonnie' id='73' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_HLDG_HIST_T' constraintName='END_HLDG_HIST_PK' columnNames='KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND' />
+  </changeSet>
+  <changeSet author='Bonnie' id='74' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_TYP_T' constraintName='END_TYP_PK' columnNames='TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='75' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addPrimaryKey tableName='END_FEE_TRAN_TYP_T' constraintName='END_FEE_TRAN_TYP_PK' columnNames='FEE_MTHD, TRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-76' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_TAX_LOT_TR3' baseTableName='END_HLDG_TAX_LOT_T' baseColumnNames='SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-77' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_FEE_MTHD_TR2' baseTableName='END_TYP_FEE_MTHD_T' baseColumnNames='TYP_CD' referencedTableName='END_TYP_T' referencedColumnNames='TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-78' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CSH_SWEEP_MDL_TR4' baseTableName='END_CSH_SWEEP_MDL_T' baseColumnNames='PRIN_SWEEP_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-79' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_FEE_TR2' baseTableName='END_KEMID_FEE_T' baseColumnNames='CHRG_FEE_TO_KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-80' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_PAY_INC_TR1' baseTableName='END_KEMID_PAY_INC_T' baseColumnNames='PAY_INC_TO_KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-81' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CURR_ENDOW_CORPUS_TR1' baseTableName='END_CURR_ENDOW_CORPUS_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-82' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR1' baseTableName='END_KEMID_T' baseColumnNames='INC_ACI_MDL_ID' referencedTableName='END_AUTO_CSH_INVEST_MDL_T' referencedColumnNames='ACI_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-83' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_TRAN_TYP_TR1' baseTableName='END_FEE_TRAN_TYP_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-84' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AGRMNT_STAT_CD_TR1' baseTableName='END_AGRMNT_STAT_CD_T' baseColumnNames='AGRMNT_DFLT_TRAN_RESTR' referencedTableName='END_TRAN_RESTR_CD_T' referencedColumnNames='TRAN_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-85' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_KEMID_TR2' baseTableName='END_TKLR_KEMID_T' baseColumnNames='TKLR_NBR' referencedTableName='END_TKLR_T' referencedColumnNames='TKLR_NBR' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-86' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CSH_SWEEP_MDL_TR1' baseTableName='END_CSH_SWEEP_MDL_T' baseColumnNames='INC_SWEEP_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-87' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CRNT_CSH_TR1' baseTableName='END_CRNT_CSH_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-88' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_PMT_TYP_TR2' baseTableName='END_FEE_PMT_TYP_T' baseColumnNames='PMT_TYP_CD' referencedTableName='END_PMT_TYP_CD_T' referencedColumnNames='PMT_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-89' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='ME_DATE_ID' baseTableName='END_HIST_CSH_T' baseColumnNames='ME_DT_ID' referencedTableName='END_ME_DT_T' referencedColumnNames='ME_DT_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-90' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR8' baseTableName='END_KEMID_T' baseColumnNames='RESP_ADMIN_CD' referencedTableName='END_RESP_ADMIN_CD_T' referencedColumnNames='RESP_ADMIN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-91' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_CORPUS_VAL_TR1' baseTableName='END_KEMID_CORPUS_VAL_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-92' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AVAIL_CSH_TR1' baseTableName='END_AVAIL_CSH_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-93' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR6' baseTableName='END_CLS_CD_T' baseColumnNames='VLTN_MTHD' referencedTableName='END_SEC_VLTN_MTHD_T' referencedColumnNames='VLTN_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-94' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR4' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_RT_DEF_CD' referencedTableName='END_FEE_RT_DEF_CD_T' referencedColumnNames='FEE_RT_DEF_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-95' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR6' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL1_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-96' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_TR2' baseTableName='END_TYP_T' baseColumnNames='TYP_PRIN_ACI_MDL_ID' referencedTableName='END_AUTO_CSH_INVEST_MDL_T' referencedColumnNames='ACI_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-97' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR6' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='POOL_SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-98' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_TR2' baseTableName='END_TKLR_T' baseColumnNames='TKLR_TYP_CD' referencedTableName='END_TKLR_TYP_CD_T' referencedColumnNames='TKLR_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-99' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_FEE_TR1' baseTableName='END_KEMID_FEE_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-100' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_TRAN_TYP_TR2' baseTableName='END_FEE_TRAN_TYP_T' baseColumnNames='TRAN_TYP_CD' referencedTableName='END_TRAN_TYP_CD_T' referencedColumnNames='TRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-101' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_AGRMNT_TR2' baseTableName='END_KEMID_AGRMNT_T' baseColumnNames='AGRMNT_TYP_CD' referencedTableName='END_AGRMNT_TYP_CD_T' referencedColumnNames='AGRMNT_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-102' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR6' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_FREQ_CD' referencedTableName='END_FREQ_CD_T' referencedColumnNames='FREQ_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-103' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR3' baseTableName='END_CLS_CD_T' baseColumnNames='SEC_ETRAN_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-104' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_TR1' baseTableName='END_KEMID_DONR_T' baseColumnNames='DONR_LBL_SEL' referencedTableName='END_DONR_LBL_SEL_T' referencedColumnNames='DONR_LBL_SEL' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-105' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_PAY_INC_TR2' baseTableName='END_KEMID_PAY_INC_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-106' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR4' baseTableName='END_CLS_CD_T' baseColumnNames='SEC_INC_ETRAN_POST_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-107' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_TR3' baseTableName='END_TYP_T' baseColumnNames='TYP_CSH_SWEEP_MDL_ID' referencedTableName='END_CSH_SWEEP_MDL_T' referencedColumnNames='CSH_SWEEP_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-108' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR5' baseTableName='END_CLS_CD_T' baseColumnNames='SEC_RPT_GRP' referencedTableName='END_SEC_RPT_GRP_T' referencedColumnNames='SEC_RPT_GRP' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-109' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_TAX_LOT_TR2' baseTableName='END_HLDG_TAX_LOT_T' baseColumnNames='REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-110' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_FND_SRC_TR2' baseTableName='END_KEMID_FND_SRC_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-111' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_VAL_TR1' baseTableName='END_POOL_FND_VAL_T' baseColumnNames='POOL_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-112' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CRNT_TAX_LOT_BAL_TR1' baseTableName='END_CRNT_TAX_LOT_BAL_T' baseColumnNames='HLDG_IP_IND' referencedTableName='END_IP_IND_T' referencedColumnNames='IP_IND_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-113' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_TAX_LOT_TR1' baseTableName='END_HLDG_TAX_LOT_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-114' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_GL_LNK_TR1' baseTableName='END_KEMID_GL_LNK_T' baseColumnNames='IP_IND_CD' referencedTableName='END_IP_IND_T' referencedColumnNames='IP_IND_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-115' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR2' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='AST_SALE_OFST_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-116' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CSH_SWEEP_MDL_TR3' baseTableName='END_CSH_SWEEP_MDL_T' baseColumnNames='INC_SWEEP_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-117' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR8' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL3_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-118' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_TR1' baseTableName='END_TYP_T' baseColumnNames='TYP_INC_ACI_MDL_ID' referencedTableName='END_AUTO_CSH_INVEST_MDL_T' referencedColumnNames='ACI_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-119' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_HIST_TR3' baseTableName='END_HLDG_HIST_T' baseColumnNames='REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-120' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_USE_CRIT_TR1' baseTableName='END_KEMID_USE_CRIT_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-121' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR9' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL4_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-122' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_CMB_TR1' baseTableName='END_KEMID_DONR_CMB_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-123' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR3' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='SALE_GAIN_LOSS_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-124' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR2' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL1_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-125' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_TR4' baseTableName='END_TYP_T' baseColumnNames='TYP_INC_RESTR_CD' referencedTableName='END_TYP_RESTR_CD_T' referencedColumnNames='TYP_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-126' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_ETRAN_CD_TR1' baseTableName='END_FEE_ETRAN_CD_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-127' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_SEC_TR1' baseTableName='END_TKLR_SEC_T' baseColumnNames='TKLR_SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-128' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_RECP_GRP_TR1' baseTableName='END_TKLR_RECP_GRP_T' baseColumnNames='TKLR_NBR' referencedTableName='END_TKLR_T' referencedColumnNames='TKLR_NBR' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-129' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR4' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL4_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-130' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR5' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_TYP_CD' referencedTableName='END_FEE_TYP_CD_T' referencedColumnNames='FEE_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-131' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_BENE_ORG_TR1' baseTableName='END_KEMID_BENE_ORG_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-132' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_SEC_TR1' baseTableName='END_SEC_T' baseColumnNames='SEC_CLS_CD' referencedTableName='END_CLS_CD_T' referencedColumnNames='SEC_CLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-133' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_RECP_PRNCPL_TR1' baseTableName='END_TKLR_RECP_PRNCPL_T' baseColumnNames='TKLR_NBR' referencedTableName='END_TKLR_T' referencedColumnNames='TKLR_NBR' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-134' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_ENDOW_CORPUS_TR1' baseTableName='END_ENDOW_CORPUS_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-135' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_USE_CRIT_TR2' baseTableName='END_KEMID_USE_CRIT_T' baseColumnNames='USE_CRIT_CD' referencedTableName='END_USE_CRIT_T' referencedColumnNames='USE_CRIT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-136' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR1' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='AST_PURCH_OFST_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-137' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CSH_SWEEP_MDL_TR2' baseTableName='END_CSH_SWEEP_MDL_T' baseColumnNames='PRIN_SWEEP_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-138' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_KEMID_TR1' baseTableName='END_TKLR_KEMID_T' baseColumnNames='TKLR_KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-139' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CRNT_TAX_LOT_BAL_TR3' baseTableName='END_CRNT_TAX_LOT_BAL_T' baseColumnNames='REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-140' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_SEC_TR2' baseTableName='END_FEE_SEC_T' baseColumnNames='SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-141' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_FND_SRC_TR1' baseTableName='END_KEMID_FND_SRC_T' baseColumnNames='FND_SRC_CD' referencedTableName='END_FND_SRC_CD_T' referencedColumnNames='FND_SRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-142' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_TR5' baseTableName='END_TYP_T' baseColumnNames='TYP_PRIN_RESTR_CD' referencedTableName='END_TYP_RESTR_CD_T' referencedColumnNames='TYP_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-143' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR6' baseTableName='END_KEMID_T' baseColumnNames='CSH_SWEEP_MDL_ID' referencedTableName='END_CSH_SWEEP_MDL_T' referencedColumnNames='CSH_SWEEP_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-144' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR5' baseTableName='END_KEMID_T' baseColumnNames='CLOSE_CD' referencedTableName='END_CLOSE_CD_T' referencedColumnNames='CLOSE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-145' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_TR3' baseTableName='END_KEMID_DONR_T' baseColumnNames='DONR_ID' referencedTableName='END_DONR_T' referencedColumnNames='DONR_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-146' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_HIST_TR1' baseTableName='END_HLDG_HIST_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-147' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR2' baseTableName='END_KEMID_T' baseColumnNames='PRIN_ACI_MDL_ID' referencedTableName='END_AUTO_CSH_INVEST_MDL_T' referencedColumnNames='ACI_MDL_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-148' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_ETRAN_GL_LNK_TR1' baseTableName='END_ETRAN_GL_LNK_T' baseColumnNames='CHART_CD' referencedTableName='CA_CHART_T' referencedColumnNames='FIN_COA_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-149' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR7' baseTableName='END_KEMID_T' baseColumnNames='PRPS_CD' referencedTableName='END_PRPS_CD_T' referencedColumnNames='PRPS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-150' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CRNT_TAX_LOT_BAL_TR4' baseTableName='END_CRNT_TAX_LOT_BAL_T' baseColumnNames='SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-151' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR7' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL2_REGIS_CD' referencedTableName='END_REGIS_CD_T' referencedColumnNames='REGIS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-152' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR9' baseTableName='END_KEMID_T' baseColumnNames='TRAN_RESTR_CD' referencedTableName='END_TRAN_RESTR_CD_T' referencedColumnNames='TRAN_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-153' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_CMB_GRP_TR1' baseTableName='END_KEMID_CMB_GRP_T' baseColumnNames='CMB_GRP_ID' referencedTableName='END_CMB_GRP_T' referencedColumnNames='CMB_GRP_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-154' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_HIST_TR2' baseTableName='END_HLDG_HIST_T' baseColumnNames='ME_DT_ID' referencedTableName='END_ME_DT_T' referencedColumnNames='ME_DT_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-155' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_CLS_CD_TR2' baseTableName='END_FEE_CLS_CD_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-156' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_SPCL_INSTRC_TR2' baseTableName='END_KEMID_SPCL_INSTRC_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-157' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR4' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='CSH_DPST_OFST_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-158' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_ETRAN_CD_TR1' baseTableName='END_ETRAN_CD_T' baseColumnNames='ETRAN_TYP_CD' referencedTableName='END_ETRAN_TYP_CD_T' referencedColumnNames='ETRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-159' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_SEC_TR2' baseTableName='END_SEC_T' baseColumnNames='SEC_SUBCLS_CD' referencedTableName='END_SUBCLS_CD_T' referencedColumnNames='SEC_SUBCLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-160' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR1' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_EXP_ETRAN_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-161' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='HIST_CSH_KEMID_REF1' baseTableName='END_HIST_CSH_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-162' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_TR4' baseTableName='END_KEMID_DONR_T' baseColumnNames='CMB_DONR_ID' referencedTableName='END_DONR_T' referencedColumnNames='DONR_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-163' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_POOL_FND_CTRL_TR5' baseTableName='END_POOL_FND_CTRL_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-164' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_CMB_GRP_TR2' baseTableName='END_KEMID_CMB_GRP_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-165' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_SEC_TR2' baseTableName='END_TKLR_SEC_T' baseColumnNames='TKLR_NBR' referencedTableName='END_TKLR_T' referencedColumnNames='TKLR_NBR' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-166' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR5' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL2_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-167' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR3' baseTableName='END_KEMID_T' baseColumnNames='INC_CAE_CD' referencedTableName='END_CAE_CD_T' referencedColumnNames='CAE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-168' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR1' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_HLDG_IP_IND' referencedTableName='END_IP_IND_T' referencedColumnNames='IP_IND_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-169' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR2' baseTableName='END_CLS_CD_T' baseColumnNames='CLS_CD_TYP' referencedTableName='END_CLS_CD_TYP_T' referencedColumnNames='CLS_CD_TYP' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-170' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR10' baseTableName='END_KEMID_T' baseColumnNames='TYP_CD' referencedTableName='END_TYP_T' referencedColumnNames='TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-171' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR2' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_BAL_TYP_CD' referencedTableName='END_FEE_BAL_TYP_CD_T' referencedColumnNames='FEE_BAL_TYP_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-172' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_ETRAN_GL_LNK_TR2' baseTableName='END_ETRAN_GL_LNK_T' baseColumnNames='ETRAN_CD' referencedTableName='END_ETRAN_CD_T' referencedColumnNames='ETRAN_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-173' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_TR2' baseTableName='END_KEMID_DONR_T' baseColumnNames='DONR_STMT_CD' referencedTableName='END_DONR_STMT_CD_T' referencedColumnNames='DONR_STMT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-174' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_SPCL_INSTRC_TR1' baseTableName='END_KEMID_SPCL_INSTRC_T' baseColumnNames='AGRMNT_SPCL_INSTRC_CD' referencedTableName='END_AGRMNT_SPCL_INSTRC_CD_T' referencedColumnNames='AGRMNT_SPCL_INSTRC_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-175' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TKLR_TR1' baseTableName='END_TKLR_T' baseColumnNames='TKLR_FREQ' referencedTableName='END_FREQ_CD_T' referencedColumnNames='FREQ_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-176' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_AGRMNT_TR3' baseTableName='END_KEMID_AGRMNT_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-177' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR4' baseTableName='END_KEMID_T' baseColumnNames='PRIN_CAE_CD' referencedTableName='END_CAE_CD_T' referencedColumnNames='CAE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-178' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_AUTO_CSH_INVEST_MDL_TR3' baseTableName='END_AUTO_CSH_INVEST_MDL_T' baseColumnNames='ACI_POOL3_SEC_ID' referencedTableName='END_POOL_FND_CTRL_T' referencedColumnNames='POOL_SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-179' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_GL_LNK_TR2' baseTableName='END_KEMID_GL_LNK_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-180' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CLS_CD_TR1' baseTableName='END_CLS_CD_T' baseColumnNames='SEC_ACRL_MTHD' referencedTableName='END_ACRL_MTHD_T' referencedColumnNames='SEC_ACRL_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-181' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_CLS_CD_TR1' baseTableName='END_FEE_CLS_CD_T' baseColumnNames='SEC_CLS_CD' referencedTableName='END_CLS_CD_T' referencedColumnNames='SEC_CLS_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-182' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_CRNT_TAX_LOT_BAL_TR2' baseTableName='END_CRNT_TAX_LOT_BAL_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-183' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_TYP_FEE_MTHD_TR1' baseTableName='END_TYP_FEE_MTHD_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-184' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_AGRMNT_TR1' baseTableName='END_KEMID_AGRMNT_T' baseColumnNames='AGRMNT_STAT_CD' referencedTableName='END_AGRMNT_STAT_CD_T' referencedColumnNames='AGRMNT_STAT_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-185' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_DONR_TR5' baseTableName='END_KEMID_DONR_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-186' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_FEE_TR3' baseTableName='END_KEMID_FEE_T' baseColumnNames='KEMID' referencedTableName='END_KEMID_T' referencedColumnNames='KEMID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-187' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_HLDG_HIST_TR4' baseTableName='END_HLDG_HIST_T' baseColumnNames='SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-188' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_SEC_TR1' baseTableName='END_FEE_SEC_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-189' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_MTHD_TR3' baseTableName='END_FEE_MTHD_T' baseColumnNames='FEE_BASE_CD' referencedTableName='END_FEE_BASE_CD_T' referencedColumnNames='FEE_BASE_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5476a-190' failOnError='false'>
+    <comment>create endow tables.sq</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_PMT_TYP_TR1' baseTableName='END_FEE_PMT_TYP_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+</databaseChangeLog>

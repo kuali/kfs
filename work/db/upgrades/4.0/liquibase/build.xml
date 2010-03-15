@@ -210,8 +210,6 @@
                 password="${datasource.password}"
                 promptOnNonLocalDatabase="${prompt.user.if.not.local.database}"
                 classpathref="databaseDriver.class.path"
-
-                outputFile="/tmp/out.sql"
                 >
         </changeLogSync>
     </target>

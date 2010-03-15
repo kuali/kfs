@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-51-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='BND' />
+      <column name=' SEC_RPT_GRP_DESC' value='Bonds' />
+      <column name=' SEC_RPT_GRP_ORD' value='2' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-51-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='STK' />
+      <column name=' SEC_RPT_GRP_DESC' value='Stocks' />
+      <column name=' SEC_RPT_GRP_ORD' value='3' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-51-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name=' SEC_RPT_GRP_DESC' value='Pooled Funds' />
+      <column name=' SEC_RPT_GRP_ORD' value='4' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-51-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='ALT' />
+      <column name=' SEC_RPT_GRP_DESC' value='Alternative Investments' />
+      <column name=' SEC_RPT_GRP_ORD' value='5' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-51-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='LIAB' />
+      <column name=' SEC_RPT_GRP_DESC' value='Liabilities' />
+      <column name=' SEC_RPT_GRP_ORD' value='7' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-51-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name=' SEC_RPT_GRP_DESC' value='Other Assets' />
+      <column name=' SEC_RPT_GRP_ORD' value='6' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

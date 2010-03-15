@@ -1,0 +1,1743 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477-38-1' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032A017014' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-2' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032A017014' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-3' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS06149' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-4' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS06149' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-5' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS06198' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-6' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS06198' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-7' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS08053' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-8' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS08053' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-9' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS11040' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-10' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032AS11040' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-11' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032B011354' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-12' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032B011354' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-13' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-14' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-15' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032L006015' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-16' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032L006015' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-17' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032L006098' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-18' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032L006098' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-19' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P002085' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-20' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P002085' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-21' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P002101' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-22' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P002101' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-23' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P011045' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-24' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P011045' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-25' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P011094' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-26' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='032P011094' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-27' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-28' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-29' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-30' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-31' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-32' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-33' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-34' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-35' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-36' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-37' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-38' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-39' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-40' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-41' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-42' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-43' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-44' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-45' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-46' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-47' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-48' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-49' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-50' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-51' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-52' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-53' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-54' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-55' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G003BD9' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-56' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G003BD9' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-57' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-58' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-59' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-60' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-61' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-62' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-63' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-64' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-65' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-66' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-67' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-68' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-69' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-70' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-71' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-72' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-73' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-74' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-75' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-76' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-77' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-78' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-79' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-80' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-81' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-82' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-83' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-84' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-85' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-86' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-87' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-88' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-89' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-90' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-91' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-92' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-93' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-94' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-95' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-96' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-97' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-98' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-99' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-100' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-101' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038A017011' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-102' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038A017011' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-103' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS00057' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-104' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS00057' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-105' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS06237' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-106' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS06237' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-107' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS17028' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-108' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS17028' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-109' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS53023' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-110' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038AS53023' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-111' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038B011179' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-112' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038B011179' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-113' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038CC00118' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-114' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038CC00118' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-115' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038D008041' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-116' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038D008041' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-117' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038E009022' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-118' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038E009022' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-119' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038F002075' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-120' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038F002075' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-121' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038G003452' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-122' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038G003452' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-123' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038IU09022' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-124' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038IU09022' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-125' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038K008027' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-126' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038K008027' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-127' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038L006228' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-128' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038L006228' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BL' />
+      <column name=' ACCT_NBR' value='1024700' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-129' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MCCC134' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-130' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MCCC134' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-131' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MDSL325' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-132' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MDSL325' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-133' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-134' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-135' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-136' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-137' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038N008222' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-138' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038N008222' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-139' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038P003213' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-140' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038P003213' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-141' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038P011463' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-142' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038P011463' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-143' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='BA' />
+      <column name=' ACCT_NBR' value='6040000' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-144' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='BA' />
+      <column name=' ACCT_NBR' value='6040000' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-145' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-146' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-147' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-148' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-149' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RT04091' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-150' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RT04091' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-151' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RV04351' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-152' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038RV04351' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-153' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038SC01010' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-154' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='038SC01010' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='IN' />
+      <column name=' ACCT_NBR' value='1292016' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-155' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='046G007720' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-156' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='046G007720' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-157' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='046G007CD0' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-158' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='046G007CD0' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-159' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF013' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-160' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF013' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-161' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF021' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-162' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF021' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-163' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF997' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-164' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PLTF997' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-165' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='909BTIP011' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-166' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='909BTIP011' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-167' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='909ETIP018' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-168' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='909ETIP018' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-169' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PSTF018' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-170' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PSTF018' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-171' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PSTF034' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-172' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PSTF034' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-173' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PMKT010' />
+      <column name=' IP_IND_CD' value='I' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477-38-174' failOnError='false' context='kuldba'>
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' value='099PMKT010' />
+      <column name=' IP_IND_CD' value='P' />
+      <column name=' CHRT_CD' value='UA' />
+      <column name=' ACCT_NBR' value='6815067' />
+      <column name=' OBJ_ID' value='sys_guid' />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

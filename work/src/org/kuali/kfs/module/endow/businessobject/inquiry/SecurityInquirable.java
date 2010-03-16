@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.businessobject.inquiry;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,7 +26,6 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,8 +44,6 @@ public class SecurityInquirable extends KfsInquirableImpl {
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         Security security = (Security) businessObject;
-        KEMService service = SpringContext.getBean(KEMService.class);
-        java.util.Date date = service.getCurrentDate();
 
         // if the attribute is currentHolders or holdersInHistory then we build the lookup links for Current Holders and Holders in
         // History

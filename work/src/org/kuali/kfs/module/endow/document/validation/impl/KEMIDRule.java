@@ -48,6 +48,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
@@ -941,9 +942,34 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                 checkPayoutInstruction(payoutInstruction, index);
                 index++;
             }
+            validatePayoutInstructionsPercentTotal();
         }
 
         return valid;
+    }
+
+    /**
+     * Validates that the total of all non-terminated records is 1 (100%).
+     * 
+     * @return true if valid, false otherwise
+     */
+    private boolean validatePayoutInstructionsPercentTotal() {
+        boolean isValid = true;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date currentDate = dateTimeService.getCurrentSqlDate();
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (KemidPayoutInstruction payoutInstruction : newKemid.getKemidPayoutInstructions()) {
+            if (payoutInstruction.getEndDate() != null && payoutInstruction.getEndDate().after(currentDate)) {
+                total = total.add(payoutInstruction.getPercentOfIncomeToPayToKemid());
+            }
+        }
+        KualiDecimal one = new KualiDecimal(1);
+        if (one.compareTo(total) != 0) {
+            putFieldError(EndowPropertyConstants.KEMID_PAY_INSTRUCTIONS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_TOTAL_OFF_ALL_PAYOUT_RECORDS_MUST_BE_ONE);
+            isValid = false;
+        }
+        return isValid;
     }
 
     /**

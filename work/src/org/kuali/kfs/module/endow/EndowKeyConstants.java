@@ -143,6 +143,7 @@ public class EndowKeyConstants {
         public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_PRINCIPAL_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOnePrincipalGLAccIfTypeRestrCdNotNA";
         public static final String ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_IS_NA = "error.document.kemid.glAccounts.canNotHaveAPrincipalGLAccIfTypeRestrCdIsNA";
         public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PAYOUT_INSTRUCTION = "error.document.kemid.payoutInstructions.mustHaveAtLeastOnePayoutInstruction";
+        public static final String ERROR_KEMID_TOTAL_OFF_ALL_PAYOUT_RECORDS_MUST_BE_ONE = "error.document.kemid.payoutInstructions.theTotalOfAllNonterminatedInstructionsMustBeOne";
         public static final String ERROR_KEMID_DONOR_STMNT_COMBINE_WITH_DONR_MUST_BE_DIFF_FROM_DONOR = "error.document.kemid.donorStatements.donorStatementCombineWithDonorMustBeDiffFromDonr";
         public static final String ERROR_KEMID_DONOR_STMNT_TERM_RSN_CANT_BE_EMPTY_IS_TERM_DATE_ENTERED = "error.document.kemid.donorStatements.terminationReasonCantBeEmptyIfTermDateEntered";
         public static final String ERROR_KEMID_FEE_PCT_CHRG_FEE_SUM_MUST_NOT_BE_GREATER_THAN_ONE = "error.document.kemid.fees.percentageChargedToFeeSumMustNotExceedOne";
@@ -150,14 +151,13 @@ public class EndowKeyConstants {
         public static final String ERROR_KEMID_FEE_START_DATE_NOT_VALID = "error.document.kemid.fees.feeStartDateNotValid";
         public static final String ERROR_ENTERED_KEMID_INVALID = "error.document.kemid.invalid";
     }
-    
-    public static class TicklerConstants
-    {
+
+    public static class TicklerConstants {
         public static final String ERROR_TICKLER_FREQUENCYORNEXTDUEDATEREQUIREMENT = "error.document.tickler.frequencyOrNextDueDateRequirement";
         public static final String ERROR_TICKLER_FREQUENCY_NEXTDUEDATE_MISMATCH = "error.document.tickler.frequencyNextDueDateMismatch";
         public static final String ERROR_TICKLER_PRINCIPAL_GROUP_REQUIRED = "error.document.tickler.principalGroupRequired";
         public static final String ERROR_TICKLER_TERMINATION_DATE_GREATER_SYSTEMDATE = "error.document.tickler.terminationDateGreaterSystemDate";
-        
-        
+
+
     }
 }

@@ -381,6 +381,21 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        // check that start date is prior to end date
+        Date startDate = payoutInstruction.getStartDate();
+        Date endDate = payoutInstruction.getEndDate();
+        
+        if (startDate != null && endDate != null) {
+            if (startDate.after(endDate)) {
+                if (index == -1) {
+                    putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + EndowPropertyConstants.KEMID_PAY_INSTRUCTIONS_TAB + "." + EndowPropertyConstants.KEMID_PAY_INC_START_DATE, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_PAYOUT_INSTRUCTION_START_DATE_SHOULD_BE_PRIOR_TO_END_DATE);
+                }
+                else {
+                    putFieldError(EndowPropertyConstants.KEMID_PAY_INSTRUCTIONS_TAB + "[" + index + "]" + "." + EndowPropertyConstants.KEMID_PAY_INC_START_DATE, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_PAYOUT_INSTRUCTION_START_DATE_SHOULD_BE_PRIOR_TO_END_DATE);
+                }
+            }
+        }
+
         success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;

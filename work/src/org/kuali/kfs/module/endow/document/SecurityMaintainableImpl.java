@@ -24,6 +24,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -96,18 +97,9 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
                     newSecurity.setIncomeRate(newIncomeRate);
                 }
                 // set the last income change date to the current process date
-                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
-                // TODO Parameter Component will have to change
-                String currentProcessDateString = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
-                try {
-                    Date currentProcessDate = dateTimeService.convertToSqlDate(currentProcessDateString);
-                    newSecurity.setIncomeChangeDate(currentProcessDate);
-                }
-                catch (ParseException e) {
-                    // do nothing TODO see what action should be taken in this case
-                }
+                KEMService kemService = SpringContext.getBean(KEMService.class);
+                Date currentDate = kemService.getCurrentDate();
+                newSecurity.setIncomeChangeDate(currentDate);
 
             }
         }

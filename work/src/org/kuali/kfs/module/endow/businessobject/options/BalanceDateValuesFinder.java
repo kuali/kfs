@@ -15,13 +15,16 @@
  */
 package org.kuali.kfs.module.endow.businessobject.options;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -30,13 +33,14 @@ public class BalanceDateValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         List labels = new ArrayList();
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        KEMService kemService = SpringContext.getBean(KEMService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         // set the balance date to be the current process date
-        // TODO Parameter Component will have to change
-        String currentProcessDateString = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
+        Date currentDate = kemService.getCurrentDate();
+        String currentDateString = dateTimeService.toDateString(currentDate);
 
-        labels.add(new KeyLabelPair("", currentProcessDateString));
+        labels.add(new KeyLabelPair("", currentDateString));
 
         return labels;
     }

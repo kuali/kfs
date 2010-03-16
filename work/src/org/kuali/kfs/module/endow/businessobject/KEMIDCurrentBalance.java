@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -194,29 +195,13 @@ public class KEMIDCurrentBalance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the Balance Date which is the Current System Process date
+     * Gets the Balance Date which is the Current/System Process date
      * 
      * @return the Balance Date
      */
     public Date getBalanceDate() {
 
-        // set the balance date to be the current process date
-        Date balanceDate = null;
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
-        // TODO Parameter Component will have to change
-        String currentProcessDateString = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
-
-        try {
-            Date currentProcessDate = dateTimeService.convertToSqlDate(currentProcessDateString);
-            balanceDate = currentProcessDate;
-        }
-        catch (ParseException e) {
-            // do nothing TODO see what action should be taken in this case
-        }
-
-        return balanceDate;
+        return SpringContext.getBean(KEMService.class).getCurrentDate();
     }
 
 }

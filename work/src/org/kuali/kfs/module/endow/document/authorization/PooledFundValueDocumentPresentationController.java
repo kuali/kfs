@@ -26,10 +26,10 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -62,35 +62,28 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
              * flag is Yes, the distribution amount and date cannot be changed.
              * 
              */
-            ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            KEMService kemService = SpringContext.getBean(KEMService.class);
+            Date currentDate = kemService.getCurrentDate();
+            Date distributIncomeOnDate = oldPooledFundValue.getDistributeIncomeOnDate();
 
-            // TODO Parameter Component will have to change
-            String currentProcessDateString = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
-            try {
-                Date currentProcessDate = dateTimeService.convertToSqlDate(currentProcessDateString);                
-                Date distributIncomeOnDate = oldPooledFundValue.getDistributeIncomeOnDate();
-                if (oldPooledFundValue.isIncomeDistributionComplete() && distributIncomeOnDate.before(currentProcessDate)) {
-                    fields.add(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE);
-                    fields.add(EndowPropertyConstants.INCOME_DISTRIBUTION_PER_UNIT);
-                }
-                /*
-                 * Rule: If xx_ PROC_CMPLT is "Y", the corresponding amount and xx__PROC_ON_DT fields should be read only in edit
-                 * mode. Rule: In the pooled fund control, if the Distribute Gains And Losses = "N", LT_GAIN_LOSS / LT_PROC_ON_DT
-                 * and ST_GAIN_LOSS / ST_PROC_ON_DT fields in the PooledFundValue should be read only in the edit mode.
-                 */
-                if (!distributeGainsAndLossesIndicator || oldPooledFundValue.isLongTermGainLossDistributionComplete()) {
-                    fields.add(EndowPropertyConstants.LONG_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT);
-                    fields.add(EndowPropertyConstants.DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE);
-                }
-                if (!distributeGainsAndLossesIndicator || oldPooledFundValue.isShortTermGainLossDistributionComplete()) {
-                    fields.add(EndowPropertyConstants.SHORT_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT);
-                    fields.add(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE);
-                }
+            if (oldPooledFundValue.isIncomeDistributionComplete() && distributIncomeOnDate.before(currentDate)) {
+                fields.add(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE);
+                fields.add(EndowPropertyConstants.INCOME_DISTRIBUTION_PER_UNIT);
             }
-            catch (ParseException excep) {
-                throw new RuntimeException(excep.getMessage());
+            /*
+             * Rule: If xx_ PROC_CMPLT is "Y", the corresponding amount and xx__PROC_ON_DT fields should be read only in edit mode.
+             * Rule: In the pooled fund control, if the Distribute Gains And Losses = "N", LT_GAIN_LOSS / LT_PROC_ON_DT and
+             * ST_GAIN_LOSS / ST_PROC_ON_DT fields in the PooledFundValue should be read only in the edit mode.
+             */
+            if (!distributeGainsAndLossesIndicator || oldPooledFundValue.isLongTermGainLossDistributionComplete()) {
+                fields.add(EndowPropertyConstants.LONG_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT);
+                fields.add(EndowPropertyConstants.DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE);
             }
+            if (!distributeGainsAndLossesIndicator || oldPooledFundValue.isShortTermGainLossDistributionComplete()) {
+                fields.add(EndowPropertyConstants.SHORT_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT);
+                fields.add(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE);
+            }
+
         }
 
         /*

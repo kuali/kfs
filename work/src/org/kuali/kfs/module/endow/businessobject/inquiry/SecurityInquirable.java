@@ -46,6 +46,8 @@ public class SecurityInquirable extends KfsInquirableImpl {
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         Security security = (Security) businessObject;
+        KEMService service = SpringContext.getBean(KEMService.class);
+        java.util.Date date = service.getCurrentDate();
 
         // if the attribute is currentHolders or holdersInHistory then we build the lookup links for Current Holders and Holders in
         // History

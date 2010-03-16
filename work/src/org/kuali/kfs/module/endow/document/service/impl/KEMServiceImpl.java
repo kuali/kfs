@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KEMServiceImpl implements KEMService {
+
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
 
@@ -156,17 +158,34 @@ public class KEMServiceImpl implements KEMService {
     /**
      * @see org.kuali.kfs.module.endow.document.service.KEMService#getCurrentDate()
      */
-    public Date getCurrentDate() {
-        Date currentDate = null;
+    public java.sql.Date getCurrentDate() {
+        java.sql.Date currentDate = null;
         String useProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.USE_PROCESS_DATE);
 
         if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(useProcessDate)) {
-            currentDate = getCurrentSystemProcessDateObject();
+            currentDate = getCurrentProcessDate();
         }
         else {
-            currentDate = dateTimeService.getCurrentDate();
+            currentDate = dateTimeService.getCurrentSqlDate();
         }
         return currentDate;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getCurrentProcessDate()
+     */
+    public java.sql.Date getCurrentProcessDate() {
+        java.sql.Date date = null;
+
+        String currentProcessDate = getCurrentSystemProcessDate();
+        try {
+            date = dateTimeService.convertToSqlDate(currentProcessDate);
+        }
+        catch (ParseException ex) {
+            throw new RuntimeException("Invalid value for " + EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE + " system parameter: " + currentProcessDate + ".\n" + ex.getMessage());
+        }
+
+        return date;
     }
 
     /**

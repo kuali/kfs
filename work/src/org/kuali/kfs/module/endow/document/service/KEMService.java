@@ -61,6 +61,14 @@ public interface KEMService {
      * 
      * @return the current date
      */
-    public Date getCurrentDate();
+    public java.sql.Date getCurrentDate();
+
+
+    /**
+     * Gets the current process date from the CURRENT_PROCESS_DATE parameter
+     * 
+     * @return current process date
+     */
+    public java.sql.Date getCurrentProcessDate();
 
 }

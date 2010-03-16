@@ -495,6 +495,7 @@ public class BCConstants extends JSTLConstants {
 
     /* Budget Construction document type */
     public final static String BUDGET_CONSTRUCTION_DOCUMENT_TYPE = "BC";
+    public final static String BUDGET_CONSTRUCTION_BEGINNING_BALANCE_DOCUMENT_TYPE = "BCBB";
     public final static String BUDGET_CONSTRUCTION_DOCUMENT_NAME = "BC";
     public final static String BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION = "Budget Construction";
     public final static String BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS = "$";

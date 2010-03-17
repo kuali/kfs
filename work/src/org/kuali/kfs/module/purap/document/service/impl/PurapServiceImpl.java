@@ -1307,19 +1307,23 @@ public class PurapServiceImpl implements PurapService {
             List clonedTradeInItems = new ArrayList();
             List objectSubTypesRequiringQty = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY);
             List purchasingObjectSubTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues("KFS-CAB", "Document", PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES);
-            
+
+             String tradeInCapitalObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET");
+             String tradeInCapitalLeaseObjCd = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE");
+                        
             for(PurApItem item : purDoc.getTradeInItems()){
-                PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(item);
-                List<PurApAccountingLine> sourceAccountingLines = cloneItem.getSourceAccountingLines();
-                for(PurApAccountingLine accountingLine : sourceAccountingLines){
-                    if(objectSubTypesRequiringQty.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
-                        accountingLine.setFinancialObjectCode(PurapConstants.TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET_OBJECT_SUB_TYPE);
-                    }else if(purchasingObjectSubTypes.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
-                        accountingLine.setFinancialObjectCode(PurapConstants.TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE_OBJECT_SUB_TYPE);
-                    }
-                }
-                clonedTradeInItems.add(cloneItem);
-            }
+               PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(item);
+               List<PurApAccountingLine> sourceAccountingLines = cloneItem.getSourceAccountingLines();
+               for(PurApAccountingLine accountingLine : sourceAccountingLines){
+                  if(objectSubTypesRequiringQty.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
+                         accountingLine.setFinancialObjectCode(tradeInCapitalObjectCode);
+                  }else if(purchasingObjectSubTypes.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
+                        accountingLine.setFinancialObjectCode(tradeInCapitalLeaseObjCd);
+                  }
+               }
+               clonedTradeInItems.add(cloneItem);
+            }  
+            
             
             summaryAccounts = purapAccountingService.generateSummary(clonedTradeInItems);
             if (summaryAccounts.size() == 0) {

@@ -17,7 +17,7 @@
 
 <changeSet id="5425" author="Jerry" failOnError="false">
 <comment>Ingest BudgetConsructionBeginningBalanceDocument.xml workflow doc type into kuldba</comment>
-<changeSet>
+</changeSet>
 
 <changeSet id="5426" author="Jerry" failOnError="false">
 <insert tableName="KRNS_PARM_T">

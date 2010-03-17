@@ -26,14 +26,14 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 import org.kuali.kfs.sys.batch.service.AutoDisapproveDocumentsService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
-import org.kuali.rice.kew.docsearch.DocumentSearchGenerator;
-import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
-import org.kuali.rice.kew.docsearch.dao.DocumentSearchDAO;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
+import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
+import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -45,7 +45,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -54,7 +53,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumentsService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveDocumentsServiceImpl.class);
-
+    public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
+    
     private DocumentService documentService;
     private DocumentTypeService documentTypeService;
     
@@ -85,38 +85,49 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
 
         Date documentCompareDate = getDocumentCompareDateParameter();
         
-        DocSearchCriteriaDTO docSearchCriteriaDTO = new DocSearchCriteriaDTO();
-        docSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-        docSearchCriteriaDTO.setSaveSearchForUser(false);
+        WorkflowInfo workflowInfo = new WorkflowInfo();
         
-        DocumentSearchGenerator docSearchGenerator = new StandardDocumentSearchGenerator();
+        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
+        documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
+        documentSearchCriteriaDTO.setSaveSearchForUser(false);
         
-        List<DocSearchDTO> autoDisapproveDocumentsList = SpringContext.getBean(DocumentSearchDAO.class).getList(docSearchGenerator, docSearchCriteriaDTO, principalId);
+        try {
+            DocumentSearchResultDTO documentSearchResultDTO = workflowInfo.performDocumentSearch(principalId, documentSearchCriteriaDTO);
+            List<DocumentSearchResultRowDTO> autoDisapproveDocumentsList = documentSearchResultDTO.getSearchResults();
 
-        for (DocSearchDTO autoDisapproveDocument : autoDisapproveDocumentsList) {
-             String documentHeaderId = autoDisapproveDocument.getRouteHeaderId().toString();            
-
-             Document document = findDocumentForAutoDisapproval(documentHeaderId);
-             if (document != null) {
-                 if (checkIfDocumentEligibleForAutoDispproval(document)) {
-                     if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
-                         try {
-                             autoDisapprovalYearEndDocument(document, annotationForAutoDisapprovalDocument);
-                             LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+            String documentHeaderId = null;
+            
+            for (DocumentSearchResultRowDTO autoDisapproveDocument : autoDisapproveDocumentsList) {
+                for (KeyValueDTO keyValueDTO : autoDisapproveDocument.getFieldValues()) {
+                    if (keyValueDTO.getKey().equals(WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY)) {
+                        documentHeaderId = keyValueDTO.getUserDisplayValue();
+                    }
+                }
+                
+                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
+                 if (document != null) {
+                     if (checkIfDocumentEligibleForAutoDispproval(document)) {
+                         if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
+                             try {
+                                 autoDisapprovalYearEndDocument(document, annotationForAutoDisapprovalDocument);
+                                 LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+                             }
+                             catch (Exception e) {
+                                 LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
+                             }
                          }
-                         catch (Exception e) {
-                             LOG.error("exception encountered trying to auto disapprove the document " + e.getMessage());
+                         else {
+                             LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
                          }
-                     }
-                     else {
-                         LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
-                     }
-                 } 
-             }
-             else {
-                 LOG.error("Document is NULL.  It should never have been null");
-             }
-        }
+                     } 
+                 }
+                 else {
+                     LOG.error("Document is NULL.  It should never have been null");
+                 }
+            } 
+        } catch (WorkflowException wfe) {
+            LOG.warn("Error with workflow search for documents for auto disapproval");
+            }
     }
     
     /**

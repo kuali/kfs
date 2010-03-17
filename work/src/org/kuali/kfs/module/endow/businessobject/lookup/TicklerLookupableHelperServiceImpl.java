@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
@@ -33,25 +34,19 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 /**
  * Allows custom handling of Proposals within the lookup framework.
  */
-public class TicklerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private static final String LOOKUP_USER_ID_FIELD = "recipientPrincipals.contact.principalName" ; //"lookupPerson.principalName";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "recipientPrincipals.principalId";
-
-    private static final String LOOKUP_GROUP_ID_FIELD = "groupId" ; //"lookupPerson.principalName";
-    private static final String LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName" ; //"lookupPerson.principalName";
-    private static final String LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
-    
+public class TicklerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl 
+{
     private PersonService<Person> personService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
      */
     @Override
-    protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        // perform the lookup on the project director object first
-        if (!StringUtils.isBlank(fieldValues.get(LOOKUP_USER_ID_FIELD))) {
-            Person person = getPersonService().getPersonByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
+    protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) 
+    {
+        // Perform the lookup on the project director object first
+        if (!StringUtils.isBlank(fieldValues.get(EndowPropertyConstants.TICKLER_LOOKUP_USER_ID_FIELD))) {
+            Person person = getPersonService().getPersonByPrincipalName(fieldValues.get(EndowPropertyConstants.TICKLER_LOOKUP_USER_ID_FIELD));
 
             // if no project directors match, we can return an empty list right now
             if (person == null) {
@@ -59,17 +54,17 @@ public class TicklerLookupableHelperServiceImpl extends KualiLookupableHelperSer
             }
             
             // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, person.getPrincipalId());
-            fieldValues.remove(LOOKUP_USER_ID_FIELD);
+            fieldValues.put(EndowPropertyConstants.TICKLER_LOOKUP_UNIVERSAL_USER_ID_FIELD, person.getPrincipalId());
+            fieldValues.remove(EndowPropertyConstants.TICKLER_LOOKUP_USER_ID_FIELD);
         }
 
-        // perform the lookup on the project director object first
-        if (!StringUtils.isBlank(fieldValues.get(LOOKUP_GROUP_ID_FIELD))) 
+        // Perform the lookup on the Group 
+        if (!StringUtils.isBlank(fieldValues.get(EndowPropertyConstants.TICKLER_RECIPIENT_GROUPID))) 
         {
-            // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_GROUP_USER_ID_FIELD, fieldValues.get(LOOKUP_GROUP_ID_FIELD));
-            fieldValues.remove(LOOKUP_GROUP_NAME_FIELD);
-            fieldValues.remove(LOOKUP_GROUP_ID_FIELD);
+            // Place the Group ID into the fieldValues map and remove the dummy attribute
+            fieldValues.put(EndowPropertyConstants.TICKLER_LOOKUP_GROUP_NAME_FIELD, fieldValues.get(EndowPropertyConstants.TICKLER_RECIPIENT_GROUPID));
+            fieldValues.remove(EndowPropertyConstants.TICKLER_LOOKUP_GROUP_NAME_FIELD);
+            fieldValues.remove(EndowPropertyConstants.TICKLER_RECIPIENT_GROUPID);
             
         }
         

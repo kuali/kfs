@@ -475,15 +475,14 @@ public class EndowPropertyConstants {
     public static final String TICKLER_OBJECT_ID = "objectId";
     public static final String TICKLER_VERSION_NUMBER = "versionNumber";
     public static final String TICKLER_SECURITIES = "securities";
-
     public static final String TICKLER_TYPE_CODE = "code";
-
     public static final String TICKLER_KEMID = "kemId";
-
     public static final String TICKLER_SECURITYID = "securityId";
-
     public static final String TICKLER_RECIPIENT_PRINCIPALID = "principalId";
-
+    public static final String TICKLER_LOOKUP_USER_ID_FIELD = "recipientPrincipals.contact.principalName" ; 
+    public static final String TICKLER_LOOKUP_UNIVERSAL_USER_ID_FIELD = "recipientPrincipals.principalId";
     public static final String TICKLER_RECIPIENT_GROUPID = "groupId";
+    public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName" ; 
+    public static final String TICKLER_LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
 
 }

@@ -126,16 +126,9 @@ public class KEMServiceImpl implements KEMService {
     /**
      * @see org.kuali.kfs.module.endow.document.service.KEMService#getCurrentSystemProcessDate()
      */
-    public String getCurrentSystemProcessDateFormated() throws Exception {
-
-        String unformattedDate = getCurrentSystemProcessDate();
-
-        SimpleDateFormat sdfSource = new SimpleDateFormat("dd-MMM-yy");
-        Date date = sdfSource.parse(unformattedDate);
-
-        SimpleDateFormat sdfDestination = new SimpleDateFormat("MM/dd/yyyy");
-
-        return sdfDestination.format(date);
+    public String getCurrentSystemProcessDateFormated() throws Exception 
+    {
+        return getDateTimeService().toDateString(getCurrentDate());
     }
 
     public Date getCurrentSystemProcessDateObject() {

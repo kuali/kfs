@@ -55,7 +55,10 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
 /**
- * This class...
+ * This class implements the hok on points associated with the Tickler.
+ * 
+ * @author Tapan S Mokha
+ * @version 1.0
  */
 public class TicklerMaintainableImpl extends KualiMaintainableImpl 
 {
@@ -68,6 +71,9 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
     private transient SequenceAccessorService sequenceAccessorService;
     
     /**
+     * Called when page is refreshed and does 
+     * 1. Updates frequency date when frequency code is selected.
+     * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -82,6 +88,12 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
         updateNextDueDate(refreshCaller, fieldValues);
     }
 
+    /**
+     * Updates Next Due date if frequency Code selected.
+     *     
+     * @param refreshCaller
+     * @param fieldValues
+     */
     private void updateNextDueDate(String refreshCaller, Map fieldValues) 
     {
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_FREQUENCY_LOOKUPABLE_IMPL) && fieldValues != null) 
@@ -96,6 +108,9 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
     }
 
     /**
+     * Called after a copy operation is performed and performs.
+     * 1. Clears all associated collections (kemids, security, principals & groups)
+     * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -110,6 +125,9 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
         
     }
     
+    /**
+     * Clears all associated collections (kemids, security, principals & groups)
+     */
     private void clearAllCollections()
     {
         getOldTickler().getKemIds().clear();
@@ -124,6 +142,10 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
     }
 
     /**
+     * Called before a Tickler is saved and performs.
+     * 1. Assign Tickler Number to Tickler in case of new or copy workflows.
+     * 2. If tickler marked as inactive, mark all associated collections: kemids, securities, principals and groups records as inactive. 
+     * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
      */
     @Override
@@ -141,15 +163,29 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
         
     }
 
+    /**
+     * Assign Tickler Number to Tickler in case of new or copy workflows.
+     *      
+     * @param tickler
+     */
     private void assignTicklerNumber(Tickler tickler) 
     {
         if( KNSConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) )
         {
-            String ticklerNumber = getSequenceAccessorService().getNextAvailableSequenceNumber(EndowConstants.Sequences.END_TICKLER_SEQ).toString();
-            tickler.setNumber(ticklerNumber);
+            //Only assign a Tickler number if not assigned already,may be assigned during a previous save operation.
+            if(tickler.getNumber() == null)
+            {
+                String ticklerNumber = getSequenceAccessorService().getNextAvailableSequenceNumber(EndowConstants.Sequences.END_TICKLER_SEQ).toString();
+                tickler.setNumber(ticklerNumber);
+            }
         }
     }
 
+    /**
+     * If tickler marked as inactive, mark all associated collections: kemids, securities, principals and groups records as inactive.
+     * 
+     * @param tickler
+     */
     private void inactivateTicklerAssociations(Tickler tickler)
     {
         if(!tickler.isActive())
@@ -195,6 +231,11 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
         }
     }
 
+    /**
+     * Obtain SequenceAccessorService
+     * 
+     * @return
+     */
     public SequenceAccessorService getSequenceAccessorService() 
     {
         if(sequenceAccessorService == null)

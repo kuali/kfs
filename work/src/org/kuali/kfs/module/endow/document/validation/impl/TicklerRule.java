@@ -48,11 +48,14 @@ import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This TicklerRule class implements the Business rules associated with the KEMID.
+ * This TicklerRule class implements the Business rules associated with the Tickler.
+ * 
+ * @author Tapan S Mokha
+ * @version 1.0
  */
 public class TicklerRule extends MaintenanceDocumentRuleBase {
 
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(TicklerRule.class);
+    private static Logger log = org.apache.log4j.Logger.getLogger(TicklerRule.class);
     
     private Tickler newTickler;
     private Tickler oldTickler;
@@ -72,36 +75,67 @@ public class TicklerRule extends MaintenanceDocumentRuleBase {
         
     }
 
+    /**
+     * This method validates the Tickler before being submitted
+     *  1. Check Frequency Or Next Due Date presence and validity.
+     *  2. Check if at-least one Principal Or Group is present and active.
+     *  3. Mark the Termination Date on DeActivation of tickler.
+     *  4. Check Termination Date if the Tickler is marked as inactive and if > Todays' Date.
+     *  
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document)
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document)
     {
         super.processCustomSaveDocumentBusinessRules(document);
         
-        boolean success = true;
-        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
-        
-        //Initialize Tickler Attributes
-        initializeAttributes(document);
-        
-        //Rule 4 & 5: Ensure either Frequency or Next Tickler Date are entered.
-        checkFrequencyOrNextDueDateRequirement();
-        
-        //Rule 16 only applies is Tickler is active.
-        if(getNewTickler().isActive())
+        if(GlobalVariables.getMessageMap().getErrorCount() == 0)
         {
-            //Rule 16 Ensure atleast one active Principal or Group is attached to the Tickler.
-            checkPrincipalOrGroup();
+            //Initialize Tickler Attributes
+            initializeAttributes(document);
+            
+            //Rule 4 & 5: Ensure either Frequency or Next Tickler Date are entered.
+            checkFrequencyOrNextDueDateRequirement();
+            
+            //Rule 16 only applies is Tickler is active.
+            if(getNewTickler().isActive())
+            {
+                //Rule 16 Ensure atleast one active Principal or Group is attached to the Tickler.
+                checkPrincipalOrGroup();
+            }
+            
+            //Rule 9: Put Termination date as system date if tickler is deactivated.
+            markTerminationDateonDeActivation();
+
+            //Rule 23: Check Term date is greater than today if tickler is reactivated.
+            checkTerminationDateonActivation();
+            
+            return GlobalVariables.getMessageMap().getErrorCount() == 0;
         }
-        
-        //Rule23: Check Term date is greater than today if tickler is reactivated.
-        checkTerminationDate();
-        
-        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
-        return success;
-        
+        else
+        {
+            return false;
+        }
     }
     
-    private void checkTerminationDate() 
+    /**
+     * Marks the Termination Date on DeActivation of tickler.     
+    */
+    private void markTerminationDateonDeActivation() 
+    {
+        //The tickler was deactivated
+        if( getOldTickler().isActive() && !getNewTickler().isActive())
+        {
+            //Obtain System Date
+            KEMService kemService = (KEMService) SpringContext.getBean(KEMService.class);
+            getNewTickler().setTerminationDate(kemService.getCurrentDate());
+        }
+    }
+    
+    /**
+     * Checks Termination Date if the Tickler is marked as inactive and if > Todays' Date.
+     */
+    private void checkTerminationDateonActivation() 
     {
         //Only if Tickler is being reactivated & termintaion field is not null
         if( getNewTickler().isActive() && !getOldTickler().isActive() && getNewTickler().getTerminationDate() != null )
@@ -117,6 +151,9 @@ public class TicklerRule extends MaintenanceDocumentRuleBase {
         }
    }
     
+    /**
+     * Checks Tickler's Frequency Or Next Due Date presence and validity.
+     */
     private void checkFrequencyOrNextDueDateRequirement()
     {
         //Check whether frequency and next due date are both missing.
@@ -137,6 +174,9 @@ public class TicklerRule extends MaintenanceDocumentRuleBase {
         }
     }
 
+    /**
+     * Checks if at-least one Principal Or Group is present and active.
+     */
     private void checkPrincipalOrGroup()
     {
         //Check if atleast one principal is active.

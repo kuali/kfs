@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-18-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-18-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='CRTMF1' />
       <column name=' FEE_MTHD_DESC' value='Charitable Remainder Trust Management Fee 1' />
       <column name=' FEE_FREQ_CD' value='QMME' />
-      <column name=' FEE_NXT_PROC_DT' value='TO_DATE6302010, mmddyyyy' />
-      <column name=' FEE_LST_PROC_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' FEE_NXT_PROC_DT' valueDate='2010-06-30' />
+      <column name=' FEE_LST_PROC_DT' valueDate='2009-06-30' />
       <column name=' FEE_RT_DEF_CD' value='V' />
       <column name=' FEE_RT_1' value='001' />
       <column name=' FEE_BRK_1' value='100000000' />
@@ -26,17 +26,23 @@
       <column name=' FEE_BY_TRAN_TYP' value='N' />
       <column name=' FEE_BY_ETRAN_CD' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-18-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='CRTMF2' />
       <column name=' FEE_MTHD_DESC' value='Charitable Remainder Trust Management Fee 2' />
       <column name=' FEE_FREQ_CD' value='QMME' />
-      <column name=' FEE_NXT_PROC_DT' value='TO_DATE6302010, mmddyyyy' />
-      <column name=' FEE_LST_PROC_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' FEE_NXT_PROC_DT' valueDate='2010-06-30' />
+      <column name=' FEE_LST_PROC_DT' valueDate='2009-06-30' />
       <column name=' FEE_RT_DEF_CD' value='V' />
       <column name=' FEE_RT_1' value='0005' />
       <column name=' FEE_BRK_1' value='9999999999999999999' />
@@ -55,17 +61,23 @@
       <column name=' FEE_BY_TRAN_TYP' value='N' />
       <column name=' FEE_BY_ETRAN_CD' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-18-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='SHMF1' />
       <column name=' FEE_MTHD_DESC' value='Separately Held Management Fee 1' />
       <column name=' FEE_FREQ_CD' value='QMME' />
-      <column name=' FEE_NXT_PROC_DT' value='TO_DATE6302010, mmddyyyy' />
-      <column name=' FEE_LST_PROC_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' FEE_NXT_PROC_DT' valueDate='2010-06-30' />
+      <column name=' FEE_LST_PROC_DT' valueDate='2009-06-30' />
       <column name=' FEE_RT_DEF_CD' value='V' />
       <column name=' FEE_RT_1' value='001' />
       <column name=' FEE_BRK_1' value='100000000' />
@@ -84,17 +96,23 @@
       <column name=' FEE_BY_TRAN_TYP' value='N' />
       <column name=' FEE_BY_ETRAN_CD' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-18-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='SHMF2' />
       <column name=' FEE_MTHD_DESC' value='Separately Held Management Fee 2' />
       <column name=' FEE_FREQ_CD' value='QMME' />
-      <column name=' FEE_NXT_PROC_DT' value='TO_DATE6302010, mmddyyyy' />
-      <column name=' FEE_LST_PROC_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' FEE_NXT_PROC_DT' valueDate='2010-06-30' />
+      <column name=' FEE_LST_PROC_DT' valueDate='2009-06-30' />
       <column name=' FEE_RT_DEF_CD' value='V' />
       <column name=' FEE_RT_1' value='0005' />
       <column name=' FEE_BRK_1' value='9999999999999999999' />
@@ -113,7 +131,13 @@
       <column name=' FEE_BY_TRAN_TYP' value='N' />
       <column name=' FEE_BY_ETRAN_CD' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

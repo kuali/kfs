@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-41-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032A017014' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 2' />
       <column name=' LONG_TTL' value='Current Spending Fund 2' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12201999, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1999-12-20' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='D' />
@@ -15,25 +15,27 @@
       <column name=' RESP_ADMIN_CD' value='INVS' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032AS06149' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 4' />
       <column name=' LONG_TTL' value='Current Spending Fund 4' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE7141998, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1998-07-14' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -41,25 +43,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
-      <column name=' DORMANT_IND' value='Y' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='Y' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032AS06198' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 5' />
       <column name=' LONG_TTL' value='Current Spending Fund 5' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE272001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-02-07' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='RR' />
       <column name=' INC_CAE_CD' value='E' />
@@ -67,25 +71,29 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NTRAN' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
-      <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='Y' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='E' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE05222008, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
+      <column name=' DORMANT_IND' value='Y' />
+      <column name=' CLOSED_IND' value='null' />
+      <column name=' CLOSED_TO_KEMID' value='E' />
+      <column name=' CLOSE_CD' value='null TO_DATE05222008' />
+      <column name=' FND_DISP' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032AS08053' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 6' />
       <column name=' LONG_TTL' value='Current Spending Fund 6' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE4231991, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1991-04-23' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='O' />
       <column name=' INC_CAE_CD' value='B' />
@@ -93,25 +101,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032AS11040' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 9' />
       <column name=' LONG_TTL' value='Current Spending Fund 9' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5151997, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1997-05-15' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OD' />
       <column name=' INC_CAE_CD' value='B' />
@@ -119,25 +129,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032B011354' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 10' />
       <column name=' LONG_TTL' value='Current Spending Fund 10' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE571992, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1992-05-07' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -145,25 +157,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-7' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-7' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032D008242' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 16' />
       <column name=' LONG_TTL' value='Current Spending Fund 16' />
-      <column name=' OPND_DT' value='TO_DATE12222006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12222006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-12-22' />
+      <column name=' ESTBL_DT' valueDate='2006-12-22' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='SU' />
       <column name=' INC_CAE_CD' value='D' />
@@ -171,25 +185,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-8' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-8' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032L006015' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 17' />
       <column name=' LONG_TTL' value='Current Spending Fund 17' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE111962, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1962-01-01' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='SG' />
       <column name=' INC_CAE_CD' value='D' />
@@ -197,25 +213,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-9' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-9' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032L006098' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 18' />
       <column name=' LONG_TTL' value='Current Spending Fund 18' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5131988, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1988-05-13' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='F' />
       <column name=' INC_CAE_CD' value='D' />
@@ -223,25 +241,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-10' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-10' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032P002085' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 25' />
       <column name=' LONG_TTL' value='Current Spending Fund 25' />
-      <column name=' OPND_DT' value='TO_DATE11302007, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11302007, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2007-11-30' />
+      <column name=' ESTBL_DT' valueDate='2007-11-30' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -249,25 +269,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-11' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-11' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032P002101' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 27' />
       <column name=' LONG_TTL' value='Current Spending Fund 27' />
-      <column name=' OPND_DT' value='TO_DATE6192008, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE6192008, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2008-06-19' />
+      <column name=' ESTBL_DT' valueDate='2008-06-19' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -275,25 +297,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-12' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-12' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032P011045' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 28' />
       <column name=' LONG_TTL' value='Current Spending Fund 28' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE4161976, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1976-04-16' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='D' />
@@ -301,25 +325,27 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NDISB' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATE' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-13' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-13' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='032P011094' />
       <column name=' SHRT_TTL' value='Current Spending Fnd 30' />
       <column name=' LONG_TTL' value='Current Spending Fund 30' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1161984, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1984-01-16' />
       <column name=' TYP_CD' value='032' />
       <column name=' PRPS_CD' value='OR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -327,25 +353,30 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NTRAN' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
-      <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='Y' />
-      <column name=' CLOSED_TO_KEMID' value='038P011463' />
-      <column name=' CLOSE_CD' value='F' />
-      <column name=' FND_DISP' value='New KEMID to allow automated principal investments' />
-      <column name=' CLOSE_DT' value='TO_DATE08102006, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
+      <column name=' DORMANT_IND' value='Y' />
+      <column name=' CLOSED_IND' value='038P011463' />
+      <column name=' CLOSED_TO_KEMID' value='F' />
+      <column name=' CLOSE_CD' value='New KEMID to allow automated principal investments' />
+      <column name=' FND_DISP' valueDate='2006-08-10' />
+      <column name=' CLOSE_DT' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-14' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-14' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037A014184' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 1' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 1' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5291990, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1990-05-29' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -357,21 +388,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-15' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-15' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037A017013' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 4' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 4' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE111953, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1953-01-01' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -383,21 +417,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-16' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-16' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS12302' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 5' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 5' />
-      <column name=' OPND_DT' value='TO_DATE1192006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1192006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-11-09' />
+      <column name=' ESTBL_DT' valueDate='2006-11-09' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='FR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -409,21 +446,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-17' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-17' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS34082' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 7' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 7' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE382001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-03-08' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -435,21 +475,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-18' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-18' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS35022' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 9' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 9' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE2221991, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1991-02-22' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='B' />
@@ -461,21 +504,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-19' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-19' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS36012' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 13' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 13' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE3261971, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1971-03-26' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='ASR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -487,21 +533,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-20' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-20' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS38026' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 25' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 25' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE451996, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1996-04-05' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='Q3' />
       <column name=' INC_CAE_CD' value='C' />
@@ -513,21 +562,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATE' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-21' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-21' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037AS54239' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 32' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 32' />
-      <column name=' OPND_DT' value='TO_DATE9282007, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE9282007, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2007-09-28' />
+      <column name=' ESTBL_DT' valueDate='2007-09-28' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -539,21 +591,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-22' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-22' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037B011AG1' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 38' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 38' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE6291974, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1974-06-29' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -565,21 +620,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-23' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-23' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037B012161' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 42' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 42' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE9232002, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2002-09-23' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='Q3' />
       <column name=' INC_CAE_CD' value='9' />
@@ -591,21 +649,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-24' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-24' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037E009701' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 45' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 45' />
-      <column name=' OPND_DT' value='TO_DATE582007, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE582007, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2007-05-08' />
+      <column name=' ESTBL_DT' valueDate='2007-05-08' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -617,21 +678,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-25' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-25' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037E009727' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 47' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 47' />
-      <column name=' OPND_DT' value='TO_DATE12102008, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12102008, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2008-12-10' />
+      <column name=' ESTBL_DT' valueDate='2008-12-10' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -643,21 +707,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-26' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-26' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037F002010' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 48' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 48' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11211980, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1980-11-21' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -669,21 +736,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-27' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-27' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037G003785' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 49' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 49' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE10261995, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1995-10-26' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='P' />
       <column name=' INC_CAE_CD' value='C' />
@@ -695,21 +765,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-28' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-28' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037G003BD9' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 50' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 50' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE4142003, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2003-04-14' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -723,19 +796,24 @@
       <column name=' CLOSED_IND' value='Y' />
       <column name=' CLOSED_TO_KEMID' value='037G030812' />
       <column name=' CLOSE_CD' value='U' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE9232009, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' FND_DISP' value='null TO_DATE9232009' />
+      <column name=' CLOSE_DT' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-29' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-29' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037G030812' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 52' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 52' />
-      <column name=' OPND_DT' value='TO_DATE1212008, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE4142003, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2008-12-01' />
+      <column name=' ESTBL_DT' valueDate='2003-04-14' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -747,21 +825,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-30' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-30' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037H004261' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 54' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 54' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11191997, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1997-11-19' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -773,21 +854,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-31' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-31' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037I002512' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 58' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 58' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5161995, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1995-05-16' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='D' />
@@ -799,21 +883,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-32' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-32' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037K008284' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 59' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 59' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE6301987, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1987-06-30' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -825,21 +912,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-33' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-33' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037L006493' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 62' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 62' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5131988, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1988-05-13' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='P' />
       <column name=' INC_CAE_CD' value='C' />
@@ -851,21 +941,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-34' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-34' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037L006709' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 63' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 63' />
-      <column name=' OPND_DT' value='TO_DATE842006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE842006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-08-04' />
+      <column name=' ESTBL_DT' valueDate='2006-08-04' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SG' />
       <column name=' INC_CAE_CD' value='D' />
@@ -877,21 +970,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-35' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-35' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037MDER022' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 66' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 66' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE6242003, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2003-06-24' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='P' />
       <column name=' INC_CAE_CD' value='9' />
@@ -903,21 +999,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-36' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-36' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037MDSL103' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 67' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 67' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE841982, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1982-08-04' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SG' />
       <column name=' INC_CAE_CD' value='D' />
@@ -929,21 +1028,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-37' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-37' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037MMED197' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 72' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 72' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE841998, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1998-08-04' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='L' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -955,21 +1057,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-38' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-38' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037MPHC132' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 78' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 78' />
-      <column name=' OPND_DT' value='TO_DATE4272006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE4272006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-04-27' />
+      <column name=' ESTBL_DT' valueDate='2006-04-27' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='L' />
       <column name=' INC_CAE_CD' value='9' />
@@ -981,21 +1086,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-39' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-39' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037O009148' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 79' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 79' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE10242001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-10-24' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SU' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1007,21 +1115,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-40' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-40' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037P003108' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 80' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 80' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE122001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-01-02' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1033,21 +1144,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-41' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-41' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037P004148' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 83' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 83' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12212000, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2000-12-21' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1059,21 +1173,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-42' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-42' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037P011291' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 85' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 85' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE642001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-06-04' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='AS' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1085,21 +1202,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-43' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-43' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037RQ04222' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 88' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 88' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1211993, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1993-12-01' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1111,21 +1231,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-44' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-44' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037RT04333' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 90' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 90' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE172000, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2000-01-07' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1137,21 +1260,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-45' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-45' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037S012056' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 92' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 92' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE412003, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2003-04-01' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='F' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1163,21 +1289,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-46' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-46' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037SC00501' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 94' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 94' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE10112002, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2002-10-11' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1189,21 +1318,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='Y' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-47' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-47' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037V009140' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 96' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 96' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1191999, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1999-01-19' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='F' />
@@ -1215,21 +1347,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-48' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-48' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037V010080' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 97' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 97' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12221999, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1999-12-22' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='F' />
       <column name=' INC_CAE_CD' value='9' />
@@ -1241,21 +1376,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-49' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-49' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037WHMM024' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 99' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 99' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE12311987, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1987-12-31' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1267,21 +1405,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-50' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-50' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='037X002044' />
       <column name=' SHRT_TTL' value='Perm Endow Fnd 100' />
       <column name=' LONG_TTL' value='Permanently Endowed Fund 100' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5161990, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1990-05-16' />
       <column name=' TYP_CD' value='037' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='F' />
@@ -1293,21 +1434,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-51' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-51' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038A017011' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 1' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 1' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE111953, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1953-01-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1315,25 +1459,27 @@
       <column name=' RESP_ADMIN_CD' value='INVS' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
       <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_IND' value='null null nullTO_DATEnull' />
+      <column name=' CLOSED_TO_KEMID' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-52' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-52' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038AS00057' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 2' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 2' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5311988, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1988-05-31' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='B' />
@@ -1345,21 +1491,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-53' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-53' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038AS06237' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 3' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 3' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE2102004, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2004-02-10' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1371,21 +1520,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-54' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-54' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038AS17028' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 4' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 4' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11241961, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1961-11-24' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='B' />
@@ -1397,21 +1549,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-55' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-55' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038AS53023' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 5' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 5' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE611977, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1977-06-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MD' />
       <column name=' INC_CAE_CD' value='Y' />
@@ -1423,21 +1578,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-56' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-56' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038B011179' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 8' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 8' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE9181981, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1981-09-18' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1449,21 +1607,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='Y' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-57' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-57' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038CC00118' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 9' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 9' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1112004, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2004-11-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1475,21 +1636,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-58' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-58' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038D008041' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 10' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 10' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE111963, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1963-01-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SU' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1501,21 +1665,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-59' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-59' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038E009022' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 15' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 15' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11111971, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1971-11-11' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='B' />
@@ -1527,21 +1694,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-60' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-60' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038F002075' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 16' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 16' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE5211996, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1996-05-21' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1553,21 +1723,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-61' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-61' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038G003452' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 17' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 17' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE672001, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2001-06-07' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1579,21 +1752,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-62' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-62' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038IU09022' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 21' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 21' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE11281988, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1988-11-28' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1605,21 +1781,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-63' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-63' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038K008027' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 22' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 22' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE411972, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1972-04-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='B' />
@@ -1631,21 +1810,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-64' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-64' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038L006228' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 27' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 27' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE991998, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1998-09-09' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SG' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1657,21 +1839,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-65' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-65' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038MCCC134' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 30' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 30' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE6232004, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='2004-06-23' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1683,21 +1868,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-66' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-66' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038MDSL325' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 36' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 36' />
-      <column name=' OPND_DT' value='TO_DATE1242007, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1242007, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2007-01-24' />
+      <column name=' ESTBL_DT' valueDate='2007-01-24' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SG' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1709,21 +1897,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-67' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-67' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038MPHC072' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 37' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 37' />
-      <column name=' OPND_DT' value='TO_DATE1242008, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1242008, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2008-01-24' />
+      <column name=' ESTBL_DT' valueDate='2008-01-24' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='ASR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1735,21 +1926,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-68' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-68' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038MSCI011' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 38' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 38' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE911956, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1956-09-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='ASR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1761,21 +1955,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-69' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-69' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038N008222' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 39' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 39' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1151999, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1999-01-15' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='N' />
       <column name=' INC_CAE_CD' value='R' />
@@ -1787,21 +1984,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-70' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-70' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038P003213' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 40' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 40' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE9161994, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1994-09-16' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MD' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1809,25 +2009,29 @@
       <column name=' RESP_ADMIN_CD' value='GENA' />
       <column name=' TRAN_RESTR_CD' value='NTRAN' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
-      <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='Y' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='E' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATE09072006, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
+      <column name=' DORMANT_IND' value='Y' />
+      <column name=' CLOSED_IND' value='null' />
+      <column name=' CLOSED_TO_KEMID' value='E' />
+      <column name=' CLOSE_CD' value='null TO_DATE09072006' />
+      <column name=' FND_DISP' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-71' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-71' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038P011463' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 41' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 41' />
-      <column name=' OPND_DT' value='TO_DATE7312006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1161984, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-07-31' />
+      <column name=' ESTBL_DT' valueDate='1984-01-16' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1839,21 +2043,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-72' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-72' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038RPS1012' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 42' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 42' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE611988, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1988-06-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SBR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1865,21 +2072,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-73' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-73' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038RQ04162' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 44' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 44' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE511985, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1985-05-01' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SUR' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1891,21 +2101,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-74' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-74' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038RR04087' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 45' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 45' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE2231989, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1989-02-23' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='SB' />
       <column name=' INC_CAE_CD' value='D' />
@@ -1917,21 +2130,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-75' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-75' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038RT04091' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 46' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 46' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE8281986, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1986-08-28' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='M' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1943,21 +2159,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-76' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-76' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038RV04351' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 48' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 48' />
-      <column name=' OPND_DT' value='TO_DATE892006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE892006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-08-09' />
+      <column name=' ESTBL_DT' valueDate='2006-08-09' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='Z' />
@@ -1969,21 +2188,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-77' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-77' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='038SC01010' />
       <column name=' SHRT_TTL' value='Temp Restr Gifts 49' />
       <column name=' LONG_TTL' value='Temporarily Restricted Gifts 49' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE1281986, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1986-01-28' />
       <column name=' TYP_CD' value='038' />
       <column name=' PRPS_CD' value='N' />
       <column name=' INC_CAE_CD' value='R' />
@@ -1995,21 +2217,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='Y' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-78' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-78' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='046G007720' />
       <column name=' SHRT_TTL' value='Gift Annuity Trust 1' />
       <column name=' LONG_TTL' value='Gift Annuity Trust 1' />
-      <column name=' OPND_DT' value='TO_DATE1112005, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE3191999, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2005-11-01' />
+      <column name=' ESTBL_DT' valueDate='1999-03-19' />
       <column name=' TYP_CD' value='046' />
       <column name=' PRPS_CD' value='P' />
       <column name=' INC_CAE_CD' value='9' />
@@ -2021,21 +2246,24 @@
       <column name=' PRIN_ACI_MDL_ID' value='1' />
       <column name=' DORMANT_IND' value='N' />
       <column name=' CLOSED_IND' value='N' />
-      <column name=' CLOSED_TO_KEMID' value='null' />
-      <column name=' CLOSE_CD' value='null' />
-      <column name=' FND_DISP' value='null' />
-      <column name=' CLOSE_DT' value='TO_DATEnull, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' CLOSED_TO_KEMID' value='null null nullTO_DATEnull' />
+      <column name=' CLOSE_CD' value='mmddyyyysys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-41-79' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-41-79' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_T'>
       <column name='KEMID' value='046G007CD0' />
       <column name=' SHRT_TTL' value='Gift Annuity Trust 3' />
       <column name=' LONG_TTL' value='Gift Annuity Trust 3' />
-      <column name=' OPND_DT' value='TO_DATE2232006, mmddyyyy' />
-      <column name=' ESTBL_DT' value='TO_DATE2232006, mmddyyyy' />
+      <column name=' OPND_DT' valueDate='2006-02-23' />
+      <column name=' ESTBL_DT' valueDate='2006-02-23' />
       <column name=' TYP_CD' value='046' />
       <column name=' PRPS_CD' value='MR' />
       <column name=' INC_CAE_CD' value='9' />
@@ -2043,15 +2271,20 @@
       <column name=' RESP_ADMIN_CD' value='TRST' />
       <column name=' TRAN_RESTR_CD' value='NTRAN' />
       <column name=' CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' INC_ACI_MDL_ID' value='null' />
-      <column name=' PRIN_ACI_MDL_ID' value='null' />
-      <column name=' DORMANT_IND' value='N' />
-      <column name=' CLOSED_IND' value='Y' />
-      <column name=' CLOSED_TO_KEMID' value='038B011179' />
-      <column name=' CLOSE_CD' value='T' />
-      <column name=' FND_DISP' value='Matured trust created new KEMID' />
-      <column name=' CLOSE_DT' value='TO_DATE07252007, mmddyyyy' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' INC_ACI_MDL_ID' value='null null' />
+      <column name=' PRIN_ACI_MDL_ID' value='N' />
+      <column name=' DORMANT_IND' value='Y' />
+      <column name=' CLOSED_IND' value='038B011179' />
+      <column name=' CLOSED_TO_KEMID' value='T' />
+      <column name=' CLOSE_CD' value='Matured trust created new KEMID' />
+      <column name=' FND_DISP' valueDate='2007-07-25' />
+      <column name=' CLOSE_DT' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

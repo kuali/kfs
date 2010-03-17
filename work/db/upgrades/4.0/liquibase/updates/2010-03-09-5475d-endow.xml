@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5475d-1'>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Tickler Maintenance Document' />
+      <where>DOC_TYP_NM = 'TicklerMaintenanceDocument'</where>
+    </update>
+  </changeSet>
+    <changeSet author='Bonnie' id='5475-1-1' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_DTL_TYP_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='All' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' VER_NBR' value='1' />
+      <column name=' NM' value='All' />
+      <column name=' ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475-1-2' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_DTL_TYP_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='Batch' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' VER_NBR' value='1' />
+      <column name=' NM' value='Batch' />
+      <column name=' ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475-1-3' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_DTL_TYP_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='Document' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' VER_NBR' value='1' />
+      <column name=' NM' value='Document' />
+      <column name=' ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475-1-4' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_DTL_TYP_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='Lookup' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' VER_NBR' value='1' />
+      <column name=' NM' value='Lookup' />
+      <column name=' ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475-1-5' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='All' />
+      <column name=' PARM_NM' value='USE_PROCESS_DATE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='yes' />
+      <column name=' PARM_DESC_TXT' value='If USE_PROCESS_DATE  yes get the value from CURRENT_PROCESS_DATE If USE_PROCESS_DATE  no get the current date from the local system using standard Java API' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475-1-6' failOnError='false' >
+    <comment>insert Endowment sample data to KULDBA</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name=' PARM_DTL_TYP_CD' value='All' />
+      <column name=' PARM_NM' value='CURRENT_PROCESS_DATE' />
+      <column name=' PARM_TYP_CD' value='CONFG' />
+      <column name=' TXT' value='SYSDATE' />
+      <column name=' PARM_DESC_TXT' value='The Current Process Date' />
+      <column name=' CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

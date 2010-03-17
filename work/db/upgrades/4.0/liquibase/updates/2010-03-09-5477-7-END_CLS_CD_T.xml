@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-7-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='061' />
       <column name=' SEC_CLS_CD_DESC' value='GNMA Bonds' />
@@ -13,11 +13,17 @@
       <column name=' CLS_CD_TYP' value='B' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='100' />
       <column name=' SEC_CLS_CD_DESC' value='Municipal Bonds' />
@@ -29,11 +35,17 @@
       <column name=' CLS_CD_TYP' value='B' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='011' />
       <column name=' SEC_CLS_CD_DESC' value='Commercial Paper' />
@@ -45,11 +57,17 @@
       <column name=' CLS_CD_TYP' value='O' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='200' />
       <column name=' SEC_CLS_CD_DESC' value='Corporate Bonds' />
@@ -61,11 +79,17 @@
       <column name=' CLS_CD_TYP' value='B' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='025' />
       <column name=' SEC_CLS_CD_DESC' value='Federal Government Bonds' />
@@ -77,11 +101,17 @@
       <column name=' CLS_CD_TYP' value='B' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='300' />
       <column name=' SEC_CLS_CD_DESC' value='Bond Trust Investment Pool' />
@@ -93,11 +123,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-7' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-7' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='301' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Fixed Income Fund' />
@@ -109,11 +145,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-8' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-8' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='307' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Income' />
@@ -125,11 +167,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-9' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-9' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='308' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Principal' />
@@ -141,11 +189,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-10' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-10' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='309' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Consolidated' />
@@ -157,11 +211,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-11' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-11' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='310' />
       <column name=' SEC_CLS_CD_DESC' value='Equity Trust Investment Pool' />
@@ -173,11 +233,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-12' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-12' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='311' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Equity Fund' />
@@ -189,11 +255,17 @@
       <column name=' CLS_CD_TYP' value='P' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-13' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-13' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='326' />
       <column name=' SEC_CLS_CD_DESC' value='Pooled Short Term Fund' />
@@ -205,11 +277,17 @@
       <column name=' CLS_CD_TYP' value='C' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-14' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-14' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='400' />
       <column name=' SEC_CLS_CD_DESC' value='Stocks - Domestic' />
@@ -221,11 +299,17 @@
       <column name=' CLS_CD_TYP' value='S' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-15' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-15' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='401' />
       <column name=' SEC_CLS_CD_DESC' value='Stocks - Foreign' />
@@ -237,11 +321,17 @@
       <column name=' CLS_CD_TYP' value='S' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-16' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-16' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='495' />
       <column name=' SEC_CLS_CD_DESC' value='Stock Mutual Fund or Exchange Traded Fund' />
@@ -253,11 +343,17 @@
       <column name=' CLS_CD_TYP' value='S' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-17' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-17' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='498' />
       <column name=' SEC_CLS_CD_DESC' value='Bond Mutual Fund or Exchange Traded Fund' />
@@ -269,11 +365,17 @@
       <column name=' CLS_CD_TYP' value='S' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-18' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-18' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='580' />
       <column name=' SEC_CLS_CD_DESC' value='Alternative Investments' />
@@ -285,11 +387,17 @@
       <column name=' CLS_CD_TYP' value='A' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-19' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-19' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='600' />
       <column name=' SEC_CLS_CD_DESC' value='Real Estate' />
@@ -301,11 +409,17 @@
       <column name=' CLS_CD_TYP' value='O' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-20' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-20' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='700' />
       <column name=' SEC_CLS_CD_DESC' value='Petty Cash' />
@@ -317,11 +431,17 @@
       <column name=' CLS_CD_TYP' value='C' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-21' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-21' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='701' />
       <column name=' SEC_CLS_CD_DESC' value='Other Trust Bank Accounts' />
@@ -333,11 +453,17 @@
       <column name=' CLS_CD_TYP' value='C' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-22' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-22' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='725' />
       <column name=' SEC_CLS_CD_DESC' value='Certificates of Deposit' />
@@ -349,11 +475,17 @@
       <column name=' CLS_CD_TYP' value='O' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-23' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-23' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='750' />
       <column name=' SEC_CLS_CD_DESC' value='Separately Held Money Market' />
@@ -365,11 +497,17 @@
       <column name=' CLS_CD_TYP' value='C' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-24' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-24' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='801' />
       <column name=' SEC_CLS_CD_DESC' value='Mortgage Contract' />
@@ -381,11 +519,17 @@
       <column name=' CLS_CD_TYP' value='O' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-25' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-25' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='959' />
       <column name=' SEC_CLS_CD_DESC' value='Legal Fees Payable' />
@@ -397,11 +541,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-26' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-26' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='702' />
       <column name=' SEC_CLS_CD_DESC' value='Cash  Equivalents Held by Manager' />
@@ -413,11 +563,17 @@
       <column name=' CLS_CD_TYP' value='O' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-27' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-27' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='910' />
       <column name=' SEC_CLS_CD_DESC' value='Cash Value of Life Insurance' />
@@ -429,11 +585,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-28' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-28' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='921' />
       <column name=' SEC_CLS_CD_DESC' value='Other Receivable' />
@@ -445,11 +607,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-29' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-29' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='922' />
       <column name=' SEC_CLS_CD_DESC' value='Accrued Income' />
@@ -461,11 +629,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-30' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-30' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='925' />
       <column name=' SEC_CLS_CD_DESC' value='Note Receivable - Interfund' />
@@ -477,11 +651,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-31' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-31' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='926' />
       <column name=' SEC_CLS_CD_DESC' value='Interest Receivable - Interfund' />
@@ -493,11 +673,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-32' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-32' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='931' />
       <column name=' SEC_CLS_CD_DESC' value='Student Loans' />
@@ -509,11 +695,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-33' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-33' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='932' />
       <column name=' SEC_CLS_CD_DESC' value='Other Investment Assets' />
@@ -525,11 +717,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-34' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-34' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='936' />
       <column name=' SEC_CLS_CD_DESC' value='Faculty  Staff Advances' />
@@ -541,11 +739,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-35' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-35' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='964' />
       <column name=' SEC_CLS_CD_DESC' value='Note Payable - Compton CRUT' />
@@ -557,11 +761,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-36' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-36' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='965' />
       <column name=' SEC_CLS_CD_DESC' value='RE Rental Damage Deposit Payable' />
@@ -573,11 +783,17 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-37' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-7-37' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='963' />
       <column name=' SEC_CLS_CD_DESC' value='Negative Cash  Equiv held by Managers' />
@@ -589,7 +805,13 @@
       <column name=' CLS_CD_TYP' value='L' />
       <column name=' VLTN_MTHD' value='U' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-45-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99MMKT013' />
       <column name=' POOL_FND_DESC' value='Money Market Investments' />
@@ -14,11 +14,17 @@
       <column name=' CSH_DPST_OFST_CD' value='42010' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-45-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
       <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Income' />
@@ -31,11 +37,17 @@
       <column name=' CSH_DPST_OFST_CD' value='75720' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-45-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
       <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Principal' />
@@ -48,11 +60,17 @@
       <column name=' CSH_DPST_OFST_CD' value='75720' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-45-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
       <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Consolidated' />
@@ -65,11 +83,17 @@
       <column name=' CSH_DPST_OFST_CD' value='75720' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-45-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PSTF018' />
       <column name=' POOL_FND_DESC' value='Pooled Short Term Fund Income' />
@@ -82,11 +106,17 @@
       <column name=' CSH_DPST_OFST_CD' value='42010' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-45-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-45-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PSTF034' />
       <column name=' POOL_FND_DESC' value='Pooled Short Term Fund Principal' />
@@ -99,7 +129,13 @@
       <column name=' CSH_DPST_OFST_CD' value='42010' />
       <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

@@ -1,345 +1,573 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-59-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='A' />
-      <column name=' USE_CRIT_DESC' value='Academic ie GPA' />
-      <column name=' ROW_ACTV_IND' value='Merit' />
-      <column name=' OBJ_ID' value='Y' />
+      <column name=' USE_CRIT_DESC' value='Academic ie GPA Merit' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='AP' />
-      <column name=' USE_CRIT_DESC' value='Academic ie GPA' />
-      <column name=' ROW_ACTV_IND' value='Merit--Preference' />
-      <column name=' OBJ_ID' value='Y' />
+      <column name=' USE_CRIT_DESC' value='Academic ie GPA Merit--Preference' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='C' />
-      <column name=' USE_CRIT_DESC' value='County' />
-      <column name=' ROW_ACTV_IND' value='Area' />
-      <column name=' OBJ_ID' value='State' />
+      <column name=' USE_CRIT_DESC' value='County Area State City Country' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='CP' />
-      <column name=' USE_CRIT_DESC' value='County' />
-      <column name=' ROW_ACTV_IND' value='Area' />
-      <column name=' OBJ_ID' value='State' />
+      <column name=' USE_CRIT_DESC' value='County Area State City Country--Preference' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='D' />
       <column name=' USE_CRIT_DESC' value='Limits on dollar amountnumber of' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='DP' />
       <column name=' USE_CRIT_DESC' value='Limits on dollar amountnumber of--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-7' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-7' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='F' />
       <column name=' USE_CRIT_DESC' value='FaithReligion' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-8' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-8' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='FP' />
       <column name=' USE_CRIT_DESC' value='FaithReligion--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-9' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-9' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='G' />
       <column name=' USE_CRIT_DESC' value='Gender' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-10' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-10' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='GP' />
       <column name=' USE_CRIT_DESC' value='Gender--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-11' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-11' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='H' />
       <column name=' USE_CRIT_DESC' value='High School' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-12' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-12' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='HP' />
       <column name=' USE_CRIT_DESC' value='High School--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-13' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-13' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='I' />
       <column name=' USE_CRIT_DESC' value='Indiana Resident' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-14' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-14' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='IP' />
       <column name=' USE_CRIT_DESC' value='Indiana Resident--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-15' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-15' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='L' />
       <column name=' USE_CRIT_DESC' value='Leadership' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-16' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-16' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='LP' />
       <column name=' USE_CRIT_DESC' value='Leadership--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-17' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-17' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='M' />
       <column name=' USE_CRIT_DESC' value='Marital Status' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-18' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-18' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='MP' />
       <column name=' USE_CRIT_DESC' value='Marital Status--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-19' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-19' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='N' />
       <column name=' USE_CRIT_DESC' value='Need' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-20' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-20' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='NP' />
       <column name=' USE_CRIT_DESC' value='Need--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-21' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-21' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='O' />
-      <column name=' USE_CRIT_DESC' value='Organization ie sorority' />
-      <column name=' ROW_ACTV_IND' value='fraternity' />
-      <column name=' OBJ_ID' value='Y' />
+      <column name=' USE_CRIT_DESC' value='Organization ie sorority fraternity' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-22' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-22' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='OP' />
-      <column name=' USE_CRIT_DESC' value='Organization ie sorority' />
-      <column name=' ROW_ACTV_IND' value='fraternity--Preference' />
-      <column name=' OBJ_ID' value='Y' />
+      <column name=' USE_CRIT_DESC' value='Organization ie sorority fraternity--Preference' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-23' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-23' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='Q' />
       <column name=' USE_CRIT_DESC' value='US Citizen' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-24' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-24' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='QP' />
       <column name=' USE_CRIT_DESC' value='US Citizen--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-25' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-25' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='R' />
       <column name=' USE_CRIT_DESC' value='Race' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-26' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-26' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='RP' />
       <column name=' USE_CRIT_DESC' value='Race--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-27' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-27' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='S' />
-      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore' />
-      <column name=' ROW_ACTV_IND' value='junior' />
-      <column name=' OBJ_ID' value='etc' />
+      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore junior etc' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-28' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-28' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='SP' />
-      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore' />
-      <column name=' ROW_ACTV_IND' value='junior' />
-      <column name=' OBJ_ID' value='etc--Preference' />
+      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore junior etc--Preference' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-29' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-29' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='T' />
       <column name=' USE_CRIT_DESC' value='International Student' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-30' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-30' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='TP' />
       <column name=' USE_CRIT_DESC' value='International Student--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-31' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-31' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='U' />
-      <column name=' USE_CRIT_DESC' value='Unit major' />
-      <column name=' ROW_ACTV_IND' value='minor' />
-      <column name=' OBJ_ID' value='discipline specific or program' />
+      <column name=' USE_CRIT_DESC' value='Unit major minor discipline specific or program sport' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-32' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-32' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='UP' />
-      <column name=' USE_CRIT_DESC' value='Unit major' />
-      <column name=' ROW_ACTV_IND' value='minor' />
-      <column name=' OBJ_ID' value='discipline specific or program' />
+      <column name=' USE_CRIT_DESC' value='Unit major minor discipline specific or program sport--Preference' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-33' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-33' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='X' />
       <column name=' USE_CRIT_DESC' value='Full-timePart-time' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-34' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-34' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='XP' />
       <column name=' USE_CRIT_DESC' value='Full-timePart-time--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-35' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-35' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='Y' />
       <column name=' USE_CRIT_DESC' value='RenewableNon-renewable' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-36' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-36' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='YP' />
       <column name=' USE_CRIT_DESC' value='RenewableNon-renewable--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-37' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-37' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='Z' />
       <column name=' USE_CRIT_DESC' value='Other' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-59-38' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-59-38' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='ZP' />
       <column name=' USE_CRIT_DESC' value='Other--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

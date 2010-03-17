@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-13-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='646422' />
       <column name=' FIRST_NM' value='Donor' />
@@ -20,18 +20,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='66798' />
       <column name=' FIRST_NM' value='Donora' />
@@ -50,18 +56,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='219073' />
       <column name=' FIRST_NM' value='Donor' />
@@ -80,18 +92,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='565335' />
       <column name=' FIRST_NM' value='Donor' />
@@ -110,18 +128,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='215823' />
       <column name=' FIRST_NM' value='Donor' />
@@ -140,18 +164,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C32273a' />
       <column name=' FIRST_NM' value='' />
@@ -170,18 +200,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-7' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-7' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='109948' />
       <column name=' FIRST_NM' value='Donor' />
@@ -200,18 +236,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-8' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-8' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='118381' />
       <column name=' FIRST_NM' value='Donora' />
@@ -230,18 +272,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-9' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-9' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C1663a' />
       <column name=' FIRST_NM' value='' />
@@ -260,18 +308,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-10' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-10' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='405935' />
       <column name=' FIRST_NM' value='Donor' />
@@ -290,18 +344,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-11' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-11' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='380980' />
       <column name=' FIRST_NM' value='Donor' />
@@ -320,18 +380,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-12' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-12' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='279927' />
       <column name=' FIRST_NM' value='Donor' />
@@ -350,18 +416,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-13' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-13' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='50595' />
       <column name=' FIRST_NM' value='Donor' />
@@ -380,18 +452,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-14' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-14' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='887434' />
       <column name=' FIRST_NM' value='Donor' />
@@ -410,18 +488,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-15' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-15' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C37451a' />
       <column name=' FIRST_NM' value='' />
@@ -440,18 +524,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-16' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-16' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='63304' />
       <column name=' FIRST_NM' value='Donor' />
@@ -470,18 +560,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-17' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-17' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C3617a' />
       <column name=' FIRST_NM' value='' />
@@ -500,18 +596,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-18' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-18' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='207159' />
       <column name=' FIRST_NM' value='Donor' />
@@ -530,18 +632,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-19' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-19' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='301745' />
       <column name=' FIRST_NM' value='Donor' />
@@ -560,18 +668,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-20' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-20' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='302969' />
       <column name=' FIRST_NM' value='Donor' />
@@ -590,18 +704,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-21' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-21' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='107545' />
       <column name=' FIRST_NM' value='Donor' />
@@ -620,18 +740,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-22' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-22' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='337605' />
       <column name=' FIRST_NM' value='Donora' />
@@ -650,18 +776,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-23' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-23' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='451957' />
       <column name=' FIRST_NM' value='Donor' />
@@ -680,18 +812,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-24' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-24' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='169507' />
       <column name=' FIRST_NM' value='Donor' />
@@ -710,18 +848,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-25' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-25' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='428275' />
       <column name=' FIRST_NM' value='Donora' />
@@ -740,18 +884,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-26' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-26' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='285639' />
       <column name=' FIRST_NM' value='Donor' />
@@ -770,18 +920,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-27' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-27' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='451251' />
       <column name=' FIRST_NM' value='Donor' />
@@ -800,18 +956,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-28' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-28' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='338203' />
       <column name=' FIRST_NM' value='Donor' />
@@ -830,18 +992,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-29' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-29' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='204836' />
       <column name=' FIRST_NM' value='Donor' />
@@ -860,18 +1028,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-30' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-30' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C2267a' />
       <column name=' FIRST_NM' value='' />
@@ -890,18 +1064,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-31' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-31' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C28826a' />
       <column name=' FIRST_NM' value='' />
@@ -920,18 +1100,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-32' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-32' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='17537' />
       <column name=' FIRST_NM' value='Donor' />
@@ -950,18 +1136,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-33' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-33' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='254306' />
       <column name=' FIRST_NM' value='Donora' />
@@ -980,18 +1172,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-34' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-34' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='89712' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1010,18 +1208,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-35' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-35' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='14541' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1040,18 +1244,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-36' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-36' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='327773' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1070,18 +1280,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-37' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-37' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='54593' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1100,18 +1316,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-38' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-38' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='576391' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1130,18 +1352,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-39' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-39' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='12082' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1160,18 +1388,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-40' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-40' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='295944' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1190,18 +1424,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-41' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-41' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='741828' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1220,18 +1460,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-42' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-42' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='367814' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1250,18 +1496,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-43' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-43' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='393833' />
       <column name=' FIRST_NM' value='Donor' />
@@ -1280,18 +1532,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-44' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-44' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C2907a' />
       <column name=' FIRST_NM' value='' />
@@ -1310,18 +1568,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-45' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-45' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='C124241a' />
       <column name=' FIRST_NM' value='' />
@@ -1340,18 +1604,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-46' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-46' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='295956' />
       <column name=' FIRST_NM' value='' />
@@ -1370,18 +1640,24 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-13-47' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-13-47' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_DONR_T'>
       <column name='DONR_ID' value='89713' />
       <column name=' FIRST_NM' value='' />
@@ -1400,14 +1676,20 @@
       <column name=' JNT_SLTN' value='' />
       <column name=' JNT_MAIL_LBL' value='' />
       <column name=' DEVEL_OFFCR' value='' />
-      <column name=' DEC_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' DEC_DT' valueDate='' />
       <column name=' CORP_NM1' value='' />
       <column name=' CORP_TTL1' value='' />
       <column name=' CORP_NM2' value='' />
       <column name=' CORP_TTL2' value='' />
       <column name=' CMNT' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

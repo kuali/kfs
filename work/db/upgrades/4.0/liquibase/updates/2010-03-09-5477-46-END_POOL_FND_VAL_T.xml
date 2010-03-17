@@ -1,1675 +1,2203 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-46-1' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-1' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PFIF018' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name=' VAL_DT' valueDate='2007-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='131488' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8232007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-2' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-2' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name=' VAL_DT' valueDate='2007-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134225' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-3' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-3' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name=' VAL_DT' valueDate='2007-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='131488' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8232007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-4' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-4' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name=' VAL_DT' valueDate='2007-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130937' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9252007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-5' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-5' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name=' VAL_DT' valueDate='2007-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134417' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10252007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-6' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-6' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name=' VAL_DT' valueDate='2007-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='137556' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11202007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-7' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-7' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name=' VAL_DT' valueDate='2007-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='131572' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12212007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-8' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-8' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name=' VAL_DT' valueDate='2007-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130396' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1252008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-9' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-9' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name=' VAL_DT' valueDate='2008-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='124181' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-10' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-10' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2292008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name=' VAL_DT' valueDate='2008-02-29' />
       <column name=' POOL_FND_UNIT_VAL' value='122989' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-11' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-11' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name=' VAL_DT' valueDate='2008-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='121181' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-12' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-12' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name=' VAL_DT' valueDate='2008-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='125154' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5272008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-27' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-13' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-13' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name=' VAL_DT' valueDate='2008-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='126718' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-14' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-14' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name=' VAL_DT' valueDate='2008-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='118889' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-15' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-15' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name=' VAL_DT' valueDate='2008-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='116372' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-16' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-16' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name=' VAL_DT' valueDate='2008-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='115324' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-17' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-17' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name=' VAL_DT' valueDate='2008-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='104165' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-18' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-18' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name=' VAL_DT' valueDate='2008-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088686' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-19' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-19' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name=' VAL_DT' valueDate='2008-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='082799' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-20' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-20' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name=' VAL_DT' valueDate='2008-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='084111' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-21' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-21' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name=' VAL_DT' valueDate='2009-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='080268' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-22' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-22' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2282009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name=' VAL_DT' valueDate='2009-02-28' />
       <column name=' POOL_FND_UNIT_VAL' value='075586' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-23' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-23' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name=' VAL_DT' valueDate='2009-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='076717' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-24' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-24' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name=' VAL_DT' valueDate='2009-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='080963' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5222009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-25' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-25' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name=' VAL_DT' valueDate='2009-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='0845' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-26' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-26' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name=' VAL_DT' valueDate='2009-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='084681' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-27' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-27' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name=' VAL_DT' valueDate='2009-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088642' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-28' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-28' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name=' VAL_DT' valueDate='2009-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='089965' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-29' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-29' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name=' VAL_DT' valueDate='2009-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='092501' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-30' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-30' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name=' VAL_DT' valueDate='2009-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='090484' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-31' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-31' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name=' VAL_DT' valueDate='2007-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134225' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-32' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-32' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name=' VAL_DT' valueDate='2007-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='131488' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8232007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-33' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-33' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name=' VAL_DT' valueDate='2007-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130937' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-34' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-34' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name=' VAL_DT' valueDate='2007-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134417' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10252007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-35' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-35' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name=' VAL_DT' valueDate='2007-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='137556' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11202007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-36' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-36' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name=' VAL_DT' valueDate='2007-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='131572' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12212007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-37' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-37' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name=' VAL_DT' valueDate='2007-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130396' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1252008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-38' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-38' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name=' VAL_DT' valueDate='2008-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='124181' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-39' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-39' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2292008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name=' VAL_DT' valueDate='2008-02-29' />
       <column name=' POOL_FND_UNIT_VAL' value='122989' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-40' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-40' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name=' VAL_DT' valueDate='2008-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='121181' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-41' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-41' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name=' VAL_DT' valueDate='2008-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='125154' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-42' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-42' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name=' VAL_DT' valueDate='2008-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='126718' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-43' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-43' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name=' VAL_DT' valueDate='2008-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='118889' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-44' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-44' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name=' VAL_DT' valueDate='2008-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='116372' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-45' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-45' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name=' VAL_DT' valueDate='2008-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='115324' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-46' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-46' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name=' VAL_DT' valueDate='2008-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='104165' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-47' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-47' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name=' VAL_DT' valueDate='2008-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088686' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-48' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-48' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name=' VAL_DT' valueDate='2008-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='082799' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-49' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-49' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name=' VAL_DT' valueDate='2008-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='084111' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-50' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-50' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name=' VAL_DT' valueDate='2009-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='080268' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-51' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-51' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2282009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name=' VAL_DT' valueDate='2009-02-28' />
       <column name=' POOL_FND_UNIT_VAL' value='075586' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-52' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-52' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name=' VAL_DT' valueDate='2009-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='076717' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-53' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-53' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name=' VAL_DT' valueDate='2009-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='080963' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5222009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-54' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-54' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name=' VAL_DT' valueDate='2009-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='0845' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-55' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-55' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name=' VAL_DT' valueDate='2009-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='084681' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-56' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-56' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name=' VAL_DT' valueDate='2009-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088642' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-57' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-57' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name=' VAL_DT' valueDate='2009-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='089965' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-58' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-58' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name=' VAL_DT' valueDate='2009-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='092501' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-59' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-59' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name=' VAL_DT' valueDate='2009-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='090484' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-60' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-60' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name=' VAL_DT' valueDate='2007-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134225' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-61' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-61' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name=' VAL_DT' valueDate='2007-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='131488' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8302007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-30' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-62' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-62' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name=' VAL_DT' valueDate='2007-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130937' />
       <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-63' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-63' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name=' VAL_DT' valueDate='2007-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='134417' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10252007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-64' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-64' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name=' VAL_DT' valueDate='2007-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='137556' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11202007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-65' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-65' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212007, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name=' VAL_DT' valueDate='2007-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='131572' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12212007, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-66' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-66' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312007, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name=' VAL_DT' valueDate='2007-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='130396' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1252008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-67' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-67' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name=' VAL_DT' valueDate='2008-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='124181' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-68' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-68' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2292008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name=' VAL_DT' valueDate='2008-02-29' />
       <column name=' POOL_FND_UNIT_VAL' value='122989' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-69' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-69' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name=' VAL_DT' valueDate='2008-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='121181' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-70' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-70' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name=' VAL_DT' valueDate='2008-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='125154' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-71' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-71' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name=' VAL_DT' valueDate='2008-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='126718' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-72' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-72' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name=' VAL_DT' valueDate='2008-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='118889' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-73' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-73' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name=' VAL_DT' valueDate='2008-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='116372' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8222008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-74' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-74' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name=' VAL_DT' valueDate='2008-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='115324' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-75' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-75' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name=' VAL_DT' valueDate='2008-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='104165' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-76' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-76' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name=' VAL_DT' valueDate='2008-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088686' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-77' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-77' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1212008, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE11302008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name=' VAL_DT' valueDate='2008-11-30' />
       <column name=' POOL_FND_UNIT_VAL' value='082799' />
       <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE12232008, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-78' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-78' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE12312008, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name=' VAL_DT' valueDate='2008-12-31' />
       <column name=' POOL_FND_UNIT_VAL' value='084111' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE1232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-79' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-79' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE212009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE1312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name=' VAL_DT' valueDate='2009-01-31' />
       <column name=' POOL_FND_UNIT_VAL' value='080268' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE2242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-80' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-80' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE312009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE2282009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name=' VAL_DT' valueDate='2009-02-28' />
       <column name=' POOL_FND_UNIT_VAL' value='075586' />
       <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE3242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-81' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-81' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE412009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE3312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name=' VAL_DT' valueDate='2009-03-31' />
       <column name=' POOL_FND_UNIT_VAL' value='076717' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE4242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-82' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-82' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE512009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE4302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name=' VAL_DT' valueDate='2009-04-30' />
       <column name=' POOL_FND_UNIT_VAL' value='080963' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE5222009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-83' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-83' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE612009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE5312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name=' VAL_DT' valueDate='2009-05-31' />
       <column name=' POOL_FND_UNIT_VAL' value='0845' />
       <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE6242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-84' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-84' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE712009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE6302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name=' VAL_DT' valueDate='2009-06-30' />
       <column name=' POOL_FND_UNIT_VAL' value='084681' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE7242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-85' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-85' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE812009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE7312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name=' VAL_DT' valueDate='2009-07-31' />
       <column name=' POOL_FND_UNIT_VAL' value='088642' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE8242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-86' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-86' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE912009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE8312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name=' VAL_DT' valueDate='2009-08-31' />
       <column name=' POOL_FND_UNIT_VAL' value='089965' />
       <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE9242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-87' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-87' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1012009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE9302009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name=' VAL_DT' valueDate='2009-09-30' />
       <column name=' POOL_FND_UNIT_VAL' value='092501' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE10232009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-88' failOnError='false' context='kuldba'>
-    <comment>insert Endowment sample data to KULDBA</comment>
+  <changeSet author='Bonnie' id='5477-46-88' failOnError='false'>
+    <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' value='TO_DATE1112009, mmddyyyy' />
-      <column name=' VAL_DT' value='TO_DATE10312009, mmddyyyy' />
+      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name=' VAL_DT' valueDate='2009-10-31' />
       <column name=' POOL_FND_UNIT_VAL' value='090484' />
       <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' value='TO_DATE11242009, mmddyyyy' />
+      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name=' DSTRB_PROC_CMPLT' value='Y' />
       <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' LT_PROC_ON_DT' valueDate='' />
       <column name=' LT_PROC_CMPLT' value='N' />
       <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' value='TO_DATE, mmddyyyy' />
+      <column name=' ST_PROC_ON_DT' valueDate='' />
       <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' value='sys_guid' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>
   </changeSet>
 </databaseChangeLog>

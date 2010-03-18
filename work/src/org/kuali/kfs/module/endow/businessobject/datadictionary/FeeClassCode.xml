@@ -64,13 +64,13 @@
   
   	<bean id="FeeClassCode-classCode.codeAndDescription-parentBean" abstract="true" parent="ClassCode-codeAndDescription">
   		<property name="name" value="classCode.codeAndDescription" />
-    	<property name="label" value="Calss Code" />
+    	<property name="label" value="Class Code" />
   	</bean>
 	<bean id="FeeClassCode-classCode.name" parent="FeeClassCode-classCode.name-parentBean" />
 		        
   	<bean id="FeeClassCode-classCode.name-parentBean" abstract="true" parent="ClassCode-name">
   		<property name="name" value="classCode.name" />
-    	<property name="label" value="Calss Code Description" />
+    	<property name="label" value="Class Code Description" />
   	</bean>
 	<bean id="FeeClassCode-newCollectionRecord" parent="FeeClassCode-newCollectionRecord-parentBean"/>
 

@@ -68,6 +68,11 @@
         <bean parent="CollectionDefinition" p:name="ticklers" p:label="Ticklers" p:shortLabel="Ticklers"/>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+	  <list>
+	    <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="classCode"/>
+	  </list>
+	</property>    
   </bean>
 
 <!-- Attribute Definitions -->

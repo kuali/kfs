@@ -184,7 +184,7 @@
 
   <bean id="FeeMethod-firstFeeRate-parentBean" abstract="true" parent="FeeRate">
     <property name="name" value="firstFeeRate" />
-    <property name="label" value="Fee First Rate" />
+    <property name="label" value="First Fee Rate" />
   </bean>
   <bean id="FeeMethod-firstFeeBreakpoint" parent="FeeMethod-firstFeeBreakpoint-parentBean" />
 
@@ -196,7 +196,7 @@
 
   <bean id="FeeMethod-secondFeeRate-parentBean" abstract="true" parent="FeeRate">
     <property name="name" value="secondFeeRate" />
-    <property name="label" value="Second First Rate" />
+    <property name="label" value="Second Fee Rate" />
   </bean>
   <bean id="FeeMethod-secondFeeBreakpoint" parent="FeeMethod-secondFeeBreakpoint-parentBean" />
 
@@ -208,7 +208,7 @@
 
   <bean id="FeeMethod-thirdFeeRate-parentBean" abstract="true" parent="FeeRate">
     <property name="name" value="thirdFeeRate" />
-    <property name="label" value="Third First Rate" />
+    <property name="label" value="Third Fee Rate" />
   </bean>
   <bean id="FeeMethod-minimumFeeToCharge" parent="FeeMethod-minimumFeeToCharge-parentBean" />
 

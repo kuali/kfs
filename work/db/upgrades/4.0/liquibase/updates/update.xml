@@ -68,4 +68,5 @@
 <include file="updates/2010-03-09-5477-46-END_POOL_FND_VAL_T.xml"/>
 <include file="updates/2010-03-09-5477-55-END_TYP_FEE_MTHD_T.xml"/>
 <include file="updates/2010-03-09-5477-36-END_KEMID_FEE_T.xml"/>
+<include file="updates/2010-03-18-5487-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

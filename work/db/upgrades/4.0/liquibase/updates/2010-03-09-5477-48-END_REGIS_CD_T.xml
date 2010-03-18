@@ -79,7 +79,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_REGIS_CD_T'>
       <column name='REGIS_CD' value='0CI' />
-      <column name=' REGIS_CD_DESC' value='Pooled Funds Equity Fixed Long Term' />
+      <column name=' REGIS_CD_DESC' value='Pooled Funds Equity, Fixed, Long Term' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -94,7 +94,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_REGIS_CD_T'>
       <column name='REGIS_CD' value='0CP' />
-      <column name=' REGIS_CD_DESC' value='Pooled Funds Equity Fixed Long Term' />
+      <column name=' REGIS_CD_DESC' value='Pooled Funds Equity, Fixed, Long Term' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -619,7 +619,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_REGIS_CD_T'>
       <column name='REGIS_CD' value='0ZI' />
-      <column name=' REGIS_CD_DESC' value='Mutual Funds BGI Common Fund Alt Mgrs etc' />
+      <column name=' REGIS_CD_DESC' value='Mutual Funds BGI, Common Fund, Alt Mgrs, etc' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -634,7 +634,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_REGIS_CD_T'>
       <column name='REGIS_CD' value='0ZP' />
-      <column name=' REGIS_CD_DESC' value='Mutual Funds BGI Common Fund Alt Mgrs etc' />
+      <column name=' REGIS_CD_DESC' value='Mutual Funds BGI, Common Fund, Alt Mgrs, etc' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>

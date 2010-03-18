@@ -14,11 +14,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -41,11 +46,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -68,11 +78,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -95,11 +110,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -122,11 +142,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -149,11 +174,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -176,11 +206,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -203,11 +238,16 @@
       <column name=' PRIN_CAE_CD' value='9' />
       <column name=' RESP_ADMIN_CD' value='PLFD' />
       <column name=' TRAN_RESTR_CD' value='NONE' />
-      <column name=' CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' INC_ACI_MDL_ID' value='N' />
-      <column name=' PRIN_ACI_MDL_ID' value='N' />
-      <column name=' DORMANT_IND' value='null null nullTO_DATE' />
-      <column name=' CLOSED_IND' value='mmddyyyysys_guid' />
+      <column name=' CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' DORMANT_IND' value='N' />
+      <column name=' CLOSED_IND' value='N' />
+      <column name=' CLOSED_TO_KEMID' valueNumeric='null' />
+      <column name=' CLOSE_CD' valueNumeric='null' />
+      <column name=' FND_DISP' valueNumeric='null' />
+      <column name=' CLOSE_DT' valueDate='' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

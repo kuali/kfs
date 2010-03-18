@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+
+<changeSet id="5407" author="Travis" failOnError="false" dbms="mysql" >
+<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
+    <column name="preq_id" type="DECIMAL(9,0)"/>
+</addColumn>
+</changeSet>
+
+<changeSet id="5407a" author="Travis" failOnError="false" dbms="oracle">
+<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
+    <column name="preq_id" type="NUMBER(9,0)"/>
+</addColumn>
+</changeSet>
+
+<changeSet id="5425" author="Jerry" failOnError="false">
+<comment>Ingest BudgetConsructionBeginningBalanceDocument.xml workflow doc type into kuldba</comment>
+<changeSet>
+
+<changeSet id="5426" author="Jerry" failOnError="false">
+<insert tableName="KRNS_PARM_T">
+<column name="NMSPC_CD" value="KFS-PURAP"/>
+<column name="PARM_DTL_TYP_CD" value="Document"/>
+<column name="PARM_NM" value="TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET"/>
+<column name="OBJ_ID" value="sys_guid"/>
+<column name="VER_NBR" valueNumeric="1"/>
+<column name="PARM_TYP_CD" value="CONFG"/>
+<column name="TXT" value="7070"/>
+<column name="PARM_DESC_TXT" value="the object code to be used for the trade in item accounts if the object code subtype of the account is one of the given set of Capital Asset subtypes"/>
+<column name="CONS_CD" value="A"/>
+<column name="APPL_NMSPC_CD" value="KUALI"/>
+</insert>
+<insert tableName="KRNS_PARM_T">
+<column name="NMSPC_CD" value="KFS-PURAP"/>
+<column name="PARM_DTL_TYP_CD" value="Document"/>
+<column name="PARM_NM" value="TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET"/>
+<column name="OBJ_ID" value="sys_guid"/>
+<column name="VER_NBR" valueNumeric="1"/>
+<column name="PARM_TYP_CD" value="CONFG"/>
+<column name="TXT" value="7099"/>
+<column name="PARM_DESC_TXT" value="the object code to be used for the trade in item accounts if the object code subtype of the account is Capital Lease"/>
+<column name="CONS_CD" value="A"/>
+<column name="APPL_NMSPC_CD" value="KUALI"/>
+</insert>
+  <modifySql dbms='mysql'>
+      <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='sys_guid' with='sys_guid()' />
+    </modifySql>   
+</changeSet>
+
+<changeSet id="5439" author="David" failOnError="false" context="kuldba">
+<update tableName="AR_ORG_OPTION_T">
+<column name="PRCS_ORG_CD" value="VPIT"/>
+<column name="ORG_MSG_TXT" value="Use to test AZ tax"/>
+<column name="ORG_POSTAL_ZIP_CD" value="86004"/>
+<where> ROWID='AARjmMAATAAACwKAAA' </where>
+</update>
+	<sql><![CDATA[
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET PRCS_ORG_CD = 'VPIT', ORG_MSG_TXT = 'Use to test AZ tax', ORG_POSTAL_ZIP_CD = '86004' WHERE ROWID = 'AARjmMAATAAACwKAAA'
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET PRCS_ORG_CD = 'VPIT', ORG_POSTAL_ZIP_CD = '46266' WHERE ROWID = 'AARjmMAATAAACwKAAB'
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET AR_PRN_INV_IND = 'N' WHERE ROWID = 'AARjmMAATAAACwKAAC'
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET AR_PRN_INV_IND = 'N' WHERE ROWID = 'AARjmMAATAAACwKAAD'
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET PRCS_ORG_CD = 'VPIT', ORG_REMIT_CITY_NM = 'Bloomington', ORG_PHONE_NBR = '812-855-0000', ORG_POSTAL_ZIP_CD = '47405' WHERE ROWID = 'AARjmMAATAAACwKAAE'
+UPDATE "KULDBA"."AR_ORG_OPTION_T" SET ORG_MSG_TXT = 'Use to test CA tax', ORG_REMIT_ADDR_NM = 'First Bank of Pasco', ORG_REMIT_LN1_ADDR = 'PO Box 44567', ORG_REMIT_CITY_NM = 'Pasco', ORG_REMIT_ST_CD = 'WA', ORG_REMIT_ZIP_CD = '99301', ORG_PHONE_NBR = '949-294-6417', ORG_POSTAL_ZIP_CD = '95616' WHERE ROWID = 'AARjmMAATAAACwKAAF'
+	]]></sql>    
+</changeSet>
+
+<changeSet id="5488" author="David" failOnError="false" dbms="oracle">
+<addColumn tableName="AR_ORG_OPTION_T">
+	<column name="org_postal_cntry_cd" type="varchar2(2)"/>
+</addColumn>
+
+<update tableName="AR_ORG_OPTION_T">
+    <column name="org_postal_cntry_cd" value="US"/>
+</update>
+
+</changeSet>
+
+<changeSet id="5488a" author="David" failOnError="false" dbms="mysql">
+<addColumn tableName="AR_ORG_OPTION_T">
+	<column name="org_postal_cntry_cd" type="varchar(2)"/>
+</addColumn>
+
+<update tableName="AR_ORG_OPTION_T">
+    <column name="org_postal_cntry_cd" value="US"/>
+</update>
+</changeSet>
+
+</databaseChangeLog>

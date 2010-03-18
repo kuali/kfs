@@ -4,7 +4,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='A' />
-      <column name=' USE_CRIT_DESC' value='Academic ie GPA Merit' />
+      <column name=' USE_CRIT_DESC' value='Academic ie GPA, Merit' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -19,7 +19,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='AP' />
-      <column name=' USE_CRIT_DESC' value='Academic ie GPA Merit--Preference' />
+      <column name=' USE_CRIT_DESC' value='Academic ie GPA, Merit--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -34,7 +34,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='C' />
-      <column name=' USE_CRIT_DESC' value='County Area State City Country' />
+      <column name=' USE_CRIT_DESC' value='County, Area, State, City, Country' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -49,7 +49,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='CP' />
-      <column name=' USE_CRIT_DESC' value='County Area State City Country--Preference' />
+      <column name=' USE_CRIT_DESC' value='County, Area, State, City, Country--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -304,7 +304,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='O' />
-      <column name=' USE_CRIT_DESC' value='Organization ie sorority fraternity' />
+      <column name=' USE_CRIT_DESC' value='Organization ie sorority, fraternity' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -319,7 +319,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='OP' />
-      <column name=' USE_CRIT_DESC' value='Organization ie sorority fraternity--Preference' />
+      <column name=' USE_CRIT_DESC' value='Organization ie sorority, fraternity--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -394,7 +394,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='S' />
-      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore junior etc' />
+      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore, junior, etc' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -409,7 +409,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='SP' />
-      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore junior etc--Preference' />
+      <column name=' USE_CRIT_DESC' value='Class Standing ie sophomore, junior, etc--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -454,7 +454,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='U' />
-      <column name=' USE_CRIT_DESC' value='Unit major minor discipline specific or program sport' />
+      <column name=' USE_CRIT_DESC' value='Unit major, minor, discipline specific or program, sport' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -469,7 +469,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_USE_CRIT_T'>
       <column name='USE_CRIT_CD' value='UP' />
-      <column name=' USE_CRIT_DESC' value='Unit major minor discipline specific or program sport--Preference' />
+      <column name=' USE_CRIT_DESC' value='Unit major, minor, discipline specific or program, sport--Preference' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>

@@ -7,7 +7,7 @@
       <column name=' SEC_DESC' value='Acme Packet Incorporated' />
       <column name=' SEC_TKR_SYMB' value='APKT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='158' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -46,7 +46,7 @@
       <column name=' SEC_DESC' value='U S Treas Notes Dtd 0815976125 Due 08152007' />
       <column name=' SEC_TKR_SYMB' value='USN 07' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -65,7 +65,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -85,7 +85,7 @@
       <column name=' SEC_DESC' value='Amber Res Cocom Par 00625' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='025' />
       <column name=' SEC_UNITS_HELD' value='1550' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -104,7 +104,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -124,7 +124,7 @@
       <column name=' SEC_DESC' value='Aruba Networks' />
       <column name=' SEC_TKR_SYMB' value='ARUN' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='884' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -163,7 +163,7 @@
       <column name=' SEC_DESC' value='Avon Prods Inc Com' />
       <column name=' SEC_TKR_SYMB' value='AVP' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3199' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -182,7 +182,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-02-12' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-03-02' />
       <column name=' SEC_DVDND_AMT' value='021' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -202,7 +202,7 @@
       <column name=' SEC_DESC' value='Bausch  Lomb Inc' />
       <column name=' SEC_TKR_SYMB' value='BOL' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='6822' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -221,7 +221,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-05-30' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-07-02' />
       <column name=' SEC_DVDND_AMT' value='013' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -241,7 +241,7 @@
       <column name=' SEC_DESC' value='Bloomington Advancement Corporation' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='500' />
       <column name=' SEC_UNITS_HELD' value='20' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -260,7 +260,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -280,7 +280,7 @@
       <column name=' SEC_DESC' value='Chesapeake Energy Corpcom' />
       <column name=' SEC_TKR_SYMB' value='CHK' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2865' />
       <column name=' SEC_UNITS_HELD' value='20000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -299,7 +299,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-30' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-15' />
       <column name=' SEC_DVDND_AMT' value='0075' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -319,7 +319,7 @@
       <column name=' SEC_DESC' value='Citrix' />
       <column name=' SEC_TKR_SYMB' value='CTXS' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2416' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -358,7 +358,7 @@
       <column name=' SEC_DESC' value='Deutsche Telekom Ag' />
       <column name=' SEC_TKR_SYMB' value='DT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1468' />
       <column name=' SEC_UNITS_HELD' value='50000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -377,7 +377,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2005-04-22' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2005-05-03' />
       <column name=' SEC_DVDND_AMT' value='080494' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -397,7 +397,7 @@
       <column name=' SEC_DESC' value='Walt Disney Company' />
       <column name=' SEC_TKR_SYMB' value='DIS' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3182' />
       <column name=' SEC_UNITS_HELD' value='25000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -416,7 +416,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-10' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-19' />
       <column name=' SEC_DVDND_AMT' value='035' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -436,7 +436,7 @@
       <column name=' SEC_DESC' value='Ebay Inc' />
       <column name=' SEC_TKR_SYMB' value='EBAY' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2713' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -455,7 +455,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -475,7 +475,7 @@
       <column name=' SEC_DESC' value='Genentech Inc' />
       <column name=' SEC_TKR_SYMB' value='DNA Z' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -494,7 +494,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -514,7 +514,7 @@
       <column name=' SEC_DESC' value='General Electric Company' />
       <column name=' SEC_TKR_SYMB' value='GE' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1545' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -533,7 +533,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-23' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-25' />
       <column name=' SEC_DVDND_AMT' value='01' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -553,7 +553,7 @@
       <column name=' SEC_DESC' value='Getty Images Inc' />
       <column name=' SEC_TKR_SYMB' value='GYI Z' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -592,7 +592,7 @@
       <column name=' SEC_DESC' value='Gilead Sciences' />
       <column name=' SEC_TKR_SYMB' value='GILD' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4476' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -631,7 +631,7 @@
       <column name=' SEC_DESC' value='Health Care Ppty Invs Inccom' />
       <column name=' SEC_TKR_SYMB' value='HCP' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='312' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -650,7 +650,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-08-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-08-21' />
       <column name=' SEC_DVDND_AMT' value='0445' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -670,7 +670,7 @@
       <column name=' SEC_DESC' value='Hilton Hotels Corporation' />
       <column name=' SEC_TKR_SYMB' value='ZZZZ' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -689,7 +689,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-09-05' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-09-21' />
       <column name=' SEC_DVDND_AMT' value='004' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -709,7 +709,7 @@
       <column name=' SEC_DESC' value='Hologic Inc' />
       <column name=' SEC_TKR_SYMB' value='HOLX' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1501' />
       <column name=' SEC_UNITS_HELD' value='30000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -748,7 +748,7 @@
       <column name=' SEC_DESC' value='Home Depot Inc' />
       <column name=' SEC_TKR_SYMB' value='HD' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2878' />
       <column name=' SEC_UNITS_HELD' value='20000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -767,7 +767,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-01' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-17' />
       <column name=' SEC_DVDND_AMT' value='0225' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -787,7 +787,7 @@
       <column name=' SEC_DESC' value='IMS Health Inc' />
       <column name=' SEC_TKR_SYMB' value='RX' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2132' />
       <column name=' SEC_UNITS_HELD' value='30000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -826,7 +826,7 @@
       <column name=' SEC_DESC' value='International Game Technolog' />
       <column name=' SEC_TKR_SYMB' value='IGT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1886' />
       <column name=' SEC_UNITS_HELD' value='30000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -845,7 +845,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-24' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-15' />
       <column name=' SEC_DVDND_AMT' value='006' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -865,7 +865,7 @@
       <column name=' SEC_DESC' value='Ishares Trus Tips Bd Fd' />
       <column name=' SEC_TKR_SYMB' value='TIP' />
       <column name=' SEC_CLS_CD' value='498' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10424' />
       <column name=' SEC_UNITS_HELD' value='29000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -884,7 +884,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -904,7 +904,7 @@
       <column name=' SEC_DESC' value='Ishares Tr7-10 Yr Trs Bd' />
       <column name=' SEC_TKR_SYMB' value='IEF' />
       <column name=' SEC_CLS_CD' value='498' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='8885' />
       <column name=' SEC_UNITS_HELD' value='10000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -923,7 +923,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-11-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-11-06' />
       <column name=' SEC_DVDND_AMT' value='050899' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -943,7 +943,7 @@
       <column name=' SEC_DESC' value='Ishares Tr1-3 Yr Trs Bd' />
       <column name=' SEC_TKR_SYMB' value='SHY' />
       <column name=' SEC_CLS_CD' value='498' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='8318' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -962,7 +962,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-01' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-07' />
       <column name=' SEC_DVDND_AMT' value='049532' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -982,7 +982,7 @@
       <column name=' SEC_DESC' value='Ishares MSCI EAFE' />
       <column name=' SEC_TKR_SYMB' value='EFA' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4296' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1021,7 +1021,7 @@
       <column name=' SEC_DESC' value='IShares Russell 2000 Growth Index Fund' />
       <column name=' SEC_TKR_SYMB' value='IWO' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='5278' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1060,7 +1060,7 @@
       <column name=' SEC_DESC' value='Ishares Trrussell 2000' />
       <column name=' SEC_TKR_SYMB' value='IWM' />
       <column name=' SEC_CLS_CD' value='498' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='7975' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1079,7 +1079,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-06-28' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-07-05' />
       <column name=' SEC_DVDND_AMT' value='0159' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1099,7 +1099,7 @@
       <column name=' SEC_DESC' value='Lilly Eli  Company' />
       <column name=' SEC_TKR_SYMB' value='LLY' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3545' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1118,7 +1118,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2010-02-10' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-03-10' />
       <column name=' SEC_DVDND_AMT' value='049' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1138,7 +1138,7 @@
       <column name=' SEC_DESC' value='Lincoln National Corporation' />
       <column name=' SEC_TKR_SYMB' value='LNC' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='703' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1157,7 +1157,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2008-10-08' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2008-11-01' />
       <column name=' SEC_DVDND_AMT' value='0415' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1177,7 +1177,7 @@
       <column name=' SEC_DESC' value='Microsoft Corporation' />
       <column name=' SEC_TKR_SYMB' value='MSFT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3077' />
       <column name=' SEC_UNITS_HELD' value='40000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1196,7 +1196,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-11-17' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-10' />
       <column name=' SEC_DVDND_AMT' value='013' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1216,7 +1216,7 @@
       <column name=' SEC_DESC' value='Monroe Bancorp Inc' />
       <column name=' SEC_TKR_SYMB' value='MROE' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='582' />
       <column name=' SEC_UNITS_HELD' value='284072' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1235,7 +1235,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-15' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-31' />
       <column name=' SEC_DVDND_AMT' value='001' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1255,7 +1255,7 @@
       <column name=' SEC_DESC' value='Motorola Inccom' />
       <column name=' SEC_TKR_SYMB' value='MOT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='355' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1274,7 +1274,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2008-12-11' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-01-15' />
       <column name=' SEC_DVDND_AMT' value='005' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1294,7 +1294,7 @@
       <column name=' SEC_DESC' value='Pepsico Inc' />
       <column name=' SEC_TKR_SYMB' value='PEP' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='6136' />
       <column name=' SEC_UNITS_HELD' value='14000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1313,7 +1313,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-04' />
       <column name=' SEC_DVDND_AMT' value='045' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1333,7 +1333,7 @@
       <column name=' SEC_DESC' value='Procter  Gamble Company' />
       <column name=' SEC_TKR_SYMB' value='PG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='6085' />
       <column name=' SEC_UNITS_HELD' value='12000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1352,7 +1352,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-10-21' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-11-16' />
       <column name=' SEC_DVDND_AMT' value='044' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1372,7 +1372,7 @@
       <column name=' SEC_DESC' value='Raytheon Company Warrants 16-JUN-11' />
       <column name=' SEC_TKR_SYMB' value='RTN X' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1702' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1411,7 +1411,7 @@
       <column name=' SEC_DESC' value='Raytheon Company' />
       <column name=' SEC_TKR_SYMB' value='RTN' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='5073' />
       <column name=' SEC_UNITS_HELD' value='10000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1430,7 +1430,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-10-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-11-05' />
       <column name=' SEC_DVDND_AMT' value='031' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1450,7 +1450,7 @@
       <column name=' SEC_DESC' value='Sara Lee Corporation' />
       <column name=' SEC_TKR_SYMB' value='SLE' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1442' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1469,7 +1469,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-02-27' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-04-06' />
       <column name=' SEC_DVDND_AMT' value='01' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1489,7 +1489,7 @@
       <column name=' SEC_DESC' value='Seagate Technology' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1508,7 +1508,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1528,7 +1528,7 @@
       <column name=' SEC_DESC' value='Sears Holdings Corporation' />
       <column name=' SEC_TKR_SYMB' value='SHLD' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4921' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1567,7 +1567,7 @@
       <column name=' SEC_DESC' value='Southern Cocom' />
       <column name=' SEC_TKR_SYMB' value='SO' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3473' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1586,7 +1586,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-01-29' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-03-06' />
       <column name=' SEC_DVDND_AMT' value='042' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1606,7 +1606,7 @@
       <column name=' SEC_DESC' value='United Parcel Service Inc' />
       <column name=' SEC_TKR_SYMB' value='UPS' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='5785' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1625,7 +1625,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-08-20' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-09-09' />
       <column name=' SEC_DVDND_AMT' value='045' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1645,7 +1645,7 @@
       <column name=' SEC_DESC' value='Walgreen Company' />
       <column name=' SEC_TKR_SYMB' value='WAG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3672' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1664,7 +1664,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-11-12' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-12' />
       <column name=' SEC_DVDND_AMT' value='01375' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1684,7 +1684,7 @@
       <column name=' SEC_DESC' value='Wrigley Wm Jr Co' />
       <column name=' SEC_TKR_SYMB' value='WWY' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='7952' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1703,7 +1703,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='1901-01-01' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2005-02-01' />
       <column name=' SEC_DVDND_AMT' value='0235' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1723,7 +1723,7 @@
       <column name=' SEC_DESC' value='Yahoo Incorporated' />
       <column name=' SEC_TKR_SYMB' value='YHOO' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2817' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1742,7 +1742,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1762,7 +1762,7 @@
       <column name=' SEC_DESC' value='Certificates Accrual Tr Secs0000 Due 02152009' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1781,7 +1781,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1801,7 +1801,7 @@
       <column name=' SEC_DESC' value='NCR Corporation' />
       <column name=' SEC_TKR_SYMB' value='NCR' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1156' />
       <column name=' SEC_UNITS_HELD' value='10000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1820,7 +1820,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1840,7 +1840,7 @@
       <column name=' SEC_DESC' value='Ameritech Cap Fddtd 0121986150 Due 01152008' />
       <column name=' SEC_TKR_SYMB' value='ACFY08' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1859,7 +1859,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1879,7 +1879,7 @@
       <column name=' SEC_DESC' value='Apollo Investment Corporation' />
       <column name=' SEC_TKR_SYMB' value='AINV' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='835' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1918,7 +1918,7 @@
       <column name=' SEC_DESC' value='Artistic Media Partners Inc' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='70600' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1937,7 +1937,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1957,7 +1957,7 @@
       <column name=' SEC_DESC' value='Cnvbiogen Idec Inc' />
       <column name=' SEC_TKR_SYMB' value='BIIB' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4681' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -1976,7 +1976,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -1996,7 +1996,7 @@
       <column name=' SEC_DESC' value='Blackstone Group LP' />
       <column name=' SEC_TKR_SYMB' value='BX' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1404' />
       <column name=' SEC_UNITS_HELD' value='40000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2035,7 +2035,7 @@
       <column name=' SEC_DESC' value='Certificates Accrual Tr Secs0000 Due 08152008' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2054,7 +2054,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2074,7 +2074,7 @@
       <column name=' SEC_DESC' value='Certificates Accrual Tr Secs0000 Due 02152009' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2093,7 +2093,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2113,7 +2113,7 @@
       <column name=' SEC_DESC' value='Cisco Systems Incorporated' />
       <column name=' SEC_TKR_SYMB' value='CSCO' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2442' />
       <column name=' SEC_UNITS_HELD' value='25000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2132,7 +2132,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2152,7 +2152,7 @@
       <column name=' SEC_DESC' value='Constellation Brands' />
       <column name=' SEC_TKR_SYMB' value='STZ' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1613' />
       <column name=' SEC_UNITS_HELD' value='35000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2171,7 +2171,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2191,7 +2191,7 @@
       <column name=' SEC_DESC' value='Duke Cap Corp7500 Due 10012009' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2210,7 +2210,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2230,7 +2230,7 @@
       <column name=' SEC_DESC' value='Ensco Intl Inccom' />
       <column name=' SEC_TKR_SYMB' value='ZZZZ' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4193' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2249,7 +2249,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-12-03' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-18' />
       <column name=' SEC_DVDND_AMT' value='0025' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2269,7 +2269,7 @@
       <column name=' SEC_DESC' value='ENI Spa' />
       <column name=' SEC_TKR_SYMB' value='E' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='6438' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2308,7 +2308,7 @@
       <column name=' SEC_DESC' value='Exxon Mobil Corporation' />
       <column name=' SEC_TKR_SYMB' value='XOM' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='7002' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2327,7 +2327,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-02-07' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-03-09' />
       <column name=' SEC_DVDND_AMT' value='032' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2347,7 +2347,7 @@
       <column name=' SEC_DESC' value='Fedl Farm Cr Bksdtd 0112985830 Due 01142008' />
       <column name=' SEC_TKR_SYMB' value='FFCB08' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2366,7 +2366,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2386,7 +2386,7 @@
       <column name=' SEC_DESC' value='Federal Home Loan Bank 5125 due 8152019' />
       <column name=' SEC_TKR_SYMB' value='FHLB19' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='106125' />
       <column name=' SEC_UNITS_HELD' value='525000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2425,7 +2425,7 @@
       <column name=' SEC_DESC' value='Federal Home Loan Bank 550 due 982011' />
       <column name=' SEC_TKR_SYMB' value='FHLB11' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2464,7 +2464,7 @@
       <column name=' SEC_DESC' value='Federal Home Loan Bank 525 Due 592011' />
       <column name=' SEC_TKR_SYMB' value='FHLB11' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2503,7 +2503,7 @@
       <column name=' SEC_DESC' value='Federal Home Loan Bank 600 due 6212017' />
       <column name=' SEC_TKR_SYMB' value='FHLB17' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='102563' />
       <column name=' SEC_UNITS_HELD' value='350000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2542,7 +2542,7 @@
       <column name=' SEC_DESC' value='Federal Home Loan Bank 578 Due 872014' />
       <column name=' SEC_TKR_SYMB' value='FHLB14' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2581,7 +2581,7 @@
       <column name=' SEC_DESC' value='Federal Natl Mtg Assn 600 due 8282013' />
       <column name=' SEC_TKR_SYMB' value='FNMA13' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2620,7 +2620,7 @@
       <column name=' SEC_DESC' value='First Indiana Corporation' />
       <column name=' SEC_TKR_SYMB' value='ZZZZ' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2639,7 +2639,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2006-03-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2006-03-15' />
       <column name=' SEC_DVDND_AMT' value='02' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2659,7 +2659,7 @@
       <column name=' SEC_DESC' value='General Electric Capital Corp 400 due 21512' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='102835' />
       <column name=' SEC_UNITS_HELD' value='440000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2698,7 +2698,7 @@
       <column name=' SEC_DESC' value='Glaxo Smithkline Plc' />
       <column name=' SEC_TKR_SYMB' value='GSK' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4697' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2717,7 +2717,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2737,7 +2737,7 @@
       <column name=' SEC_DESC' value='Goldman Sachs' />
       <column name=' SEC_TKR_SYMB' value='GS' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='17426' />
       <column name=' SEC_UNITS_HELD' value='5000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2776,7 +2776,7 @@
       <column name=' SEC_DESC' value='Google Incorporated' />
       <column name=' SEC_TKR_SYMB' value='GOOG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='60826' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2815,7 +2815,7 @@
       <column name=' SEC_DESC' value='HCP Incorporated' />
       <column name=' SEC_TKR_SYMB' value='HCP' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2981' />
       <column name=' SEC_UNITS_HELD' value='20000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2854,7 +2854,7 @@
       <column name=' SEC_DESC' value='Household Fin Dtd 070601mtn 06125 08' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2873,7 +2873,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2893,7 +2893,7 @@
       <column name=' SEC_DESC' value='Intuitive Surgical New' />
       <column name=' SEC_TKR_SYMB' value='ISRG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='31184' />
       <column name=' SEC_UNITS_HELD' value='4000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2932,7 +2932,7 @@
       <column name=' SEC_DESC' value='J P Morgan Chase  Company' />
       <column name=' SEC_TKR_SYMB' value='JPM' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='4392' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2951,7 +2951,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-01-02' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-01-31' />
       <column name=' SEC_DVDND_AMT' value='038' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -2971,7 +2971,7 @@
       <column name=' SEC_DESC' value='Monsanto Co New' />
       <column name=' SEC_TKR_SYMB' value='MON' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='8627' />
       <column name=' SEC_UNITS_HELD' value='12000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -2990,7 +2990,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2010-01-06' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2010-01-29' />
       <column name=' SEC_DVDND_AMT' value='0265' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3010,7 +3010,7 @@
       <column name=' SEC_DESC' value='Nautilus Inc' />
       <column name=' SEC_TKR_SYMB' value='NLS' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='512' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3049,7 +3049,7 @@
       <column name=' SEC_DESC' value='New York Tel Co Dtd 01211998 6125 Due 01152010' />
       <column name=' SEC_TKR_SYMB' value='VZ  10' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='998' />
       <column name=' SEC_UNITS_HELD' value='400000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3068,7 +3068,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3088,7 +3088,7 @@
       <column name=' SEC_DESC' value='Nisource Inccom' />
       <column name=' SEC_TKR_SYMB' value='NI' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1611' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3107,7 +3107,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2007-10-29' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2007-11-20' />
       <column name=' SEC_DVDND_AMT' value='023' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3127,7 +3127,7 @@
       <column name=' SEC_DESC' value='Pfizer Inc 450 due 21514' />
       <column name=' SEC_TKR_SYMB' value='PFE 14' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1055' />
       <column name=' SEC_UNITS_HELD' value='380000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3166,7 +3166,7 @@
       <column name=' SEC_DESC' value='Pharmacia Corp Dtd 1218898875 Due 12152009' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='100000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3185,7 +3185,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3205,7 +3205,7 @@
       <column name=' SEC_DESC' value='Powershares Zacks Micro Cap Portfolio' />
       <column name=' SEC_TKR_SYMB' value='PZI' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='998' />
       <column name=' SEC_UNITS_HELD' value='35000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3244,7 +3244,7 @@
       <column name=' SEC_DESC' value='Rubicon Technology Inc' />
       <column name=' SEC_TKR_SYMB' value='RBCN' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1932' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3283,7 +3283,7 @@
       <column name=' SEC_DESC' value='Sara Lee Corporation Medium Termnotes 600 Due 1152008' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3302,7 +3302,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3322,7 +3322,7 @@
       <column name=' SEC_DESC' value='Southtrust Bk Aldtd 1212976565 Due 12152027' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='103485' />
       <column name=' SEC_UNITS_HELD' value='400000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3341,7 +3341,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3361,7 +3361,7 @@
       <column name=' SEC_DESC' value='Teradata Corporation' />
       <column name=' SEC_TKR_SYMB' value='TDC' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='3119' />
       <column name=' SEC_UNITS_HELD' value='20000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3400,7 +3400,7 @@
       <column name=' SEC_DESC' value='Warner Lambert Co6000 Due 01152008' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='100' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3419,7 +3419,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3439,7 +3439,7 @@
       <column name=' SEC_DESC' value='Waste Management Inc' />
       <column name=' SEC_TKR_SYMB' value='WM' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='34' />
       <column name=' SEC_UNITS_HELD' value='20000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3458,7 +3458,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2009-11-30' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2009-12-18' />
       <column name=' SEC_DVDND_AMT' value='029' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3478,7 +3478,7 @@
       <column name=' SEC_DESC' value='Wellpoint Inc' />
       <column name=' SEC_TKR_SYMB' value='WLP' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='6138' />
       <column name=' SEC_UNITS_HELD' value='15000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3497,7 +3497,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3517,7 +3517,7 @@
       <column name=' SEC_DESC' value='Acacia Partners' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09389' />
       <column name=' SEC_UNITS_HELD' value='10000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3556,7 +3556,7 @@
       <column name=' SEC_DESC' value='ACI Capital Investors II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='01589' />
       <column name=' SEC_UNITS_HELD' value='152492149' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3595,7 +3595,7 @@
       <column name=' SEC_DESC' value='Faculty  Staff Advances' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='936' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3614,7 +3614,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3634,7 +3634,7 @@
       <column name=' SEC_DESC' value='Bgi Alpha Tilts Fund B' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07166' />
       <column name=' SEC_UNITS_HELD' value='7987124244' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3653,7 +3653,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3673,7 +3673,7 @@
       <column name=' SEC_DESC' value='Alpine International Real Estate Equity Fund' />
       <column name=' SEC_TKR_SYMB' value='EGLRX' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06499' />
       <column name=' SEC_UNITS_HELD' value='5000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3712,7 +3712,7 @@
       <column name=' SEC_DESC' value='Angelo Gordon  Co' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10651' />
       <column name=' SEC_UNITS_HELD' value='21250000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3751,7 +3751,7 @@
       <column name=' SEC_DESC' value='Arch Venture Partners Fund VI LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='11065' />
       <column name=' SEC_UNITS_HELD' value='4093702' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3790,7 +3790,7 @@
       <column name=' SEC_DESC' value='Artisan Funds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='11684' />
       <column name=' SEC_UNITS_HELD' value='3212913248' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3809,7 +3809,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3829,7 +3829,7 @@
       <column name=' SEC_DESC' value='Advanced Technology Ventures VII' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0901' />
       <column name=' SEC_UNITS_HELD' value='363442861' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3868,7 +3868,7 @@
       <column name=' SEC_DESC' value='Benson Elliot Real Estate Partners II' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='05877' />
       <column name=' SEC_UNITS_HELD' value='391609285' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3907,7 +3907,7 @@
       <column name=' SEC_DESC' value='Bernstein Investment Research' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='18792' />
       <column name=' SEC_UNITS_HELD' value='41000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3926,7 +3926,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3946,7 +3946,7 @@
       <column name=' SEC_DESC' value='Bgi - Institutional Funds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='00522' />
       <column name=' SEC_UNITS_HELD' value='3423344471' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -3965,7 +3965,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -3985,7 +3985,7 @@
       <column name=' SEC_DESC' value='Bgi Re Index Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06051' />
       <column name=' SEC_UNITS_HELD' value='4999900' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4004,7 +4004,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4024,7 +4024,7 @@
       <column name=' SEC_DESC' value='Blackstone Capital Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06527' />
       <column name=' SEC_UNITS_HELD' value='15220918' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4063,7 +4063,7 @@
       <column name=' SEC_DESC' value='Blackstone Real Estate Partners VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='04604' />
       <column name=' SEC_UNITS_HELD' value='4535110' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4102,7 +4102,7 @@
       <column name=' SEC_DESC' value='Blackstone Strategic Alliance Offshore Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09992' />
       <column name=' SEC_UNITS_HELD' value='6031282' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4141,7 +4141,7 @@
       <column name=' SEC_DESC' value='Blackstone Real Estate Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0688' />
       <column name=' SEC_UNITS_HELD' value='3857358' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4180,7 +4180,7 @@
       <column name=' SEC_DESC' value='Blackstone Real Estate Partners Europe III' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='101114' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4219,7 +4219,7 @@
       <column name=' SEC_DESC' value='Burrill Indiana Life Sciences' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09355' />
       <column name=' SEC_UNITS_HELD' value='126992126' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4258,7 +4258,7 @@
       <column name=' SEC_DESC' value='Commonfund Private Equity Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1059' />
       <column name=' SEC_UNITS_HELD' value='169529681' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4297,7 +4297,7 @@
       <column name=' SEC_DESC' value='Champlain Investment Partners -  Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='16264' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4336,7 +4336,7 @@
       <column name=' SEC_DESC' value='Champlain Investment Partners' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='312107546' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4375,7 +4375,7 @@
       <column name=' SEC_DESC' value='Champlain Investment Partners - Cash and Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='273268508' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4414,7 +4414,7 @@
       <column name=' SEC_DESC' value='CID Equity Partners VIII LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08499' />
       <column name=' SEC_UNITS_HELD' value='807461' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4453,7 +4453,7 @@
       <column name=' SEC_DESC' value='Clifton Group' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='02932' />
       <column name=' SEC_UNITS_HELD' value='14017797' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4472,7 +4472,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4492,7 +4492,7 @@
       <column name=' SEC_DESC' value='Clovis Capital Partners' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12653' />
       <column name=' SEC_UNITS_HELD' value='12000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4531,7 +4531,7 @@
       <column name=' SEC_DESC' value='CMEA Ventures VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10377' />
       <column name=' SEC_UNITS_HELD' value='264295125' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4570,7 +4570,7 @@
       <column name=' SEC_DESC' value='Commonfund Capital Venture Partners VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09864' />
       <column name=' SEC_UNITS_HELD' value='252040517' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4609,7 +4609,7 @@
       <column name=' SEC_DESC' value='Coller Internationall Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09445' />
       <column name=' SEC_UNITS_HELD' value='5000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4648,7 +4648,7 @@
       <column name=' SEC_DESC' value='Coller International Partners IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='44667' />
       <column name=' SEC_UNITS_HELD' value='25809318' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4687,7 +4687,7 @@
       <column name=' SEC_DESC' value='Commonfund Endowment Venture Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07465' />
       <column name=' SEC_UNITS_HELD' value='315206211' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4726,7 +4726,7 @@
       <column name=' SEC_DESC' value='Common Fund - Institutional Funds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06543' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4745,7 +4745,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4765,7 +4765,7 @@
       <column name=' SEC_DESC' value='Black River Commodity Multi-Strategy Fund LTD' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09901' />
       <column name=' SEC_UNITS_HELD' value='1786398569' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4804,7 +4804,7 @@
       <column name=' SEC_DESC' value='Crm - Stocks' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07717' />
       <column name=' SEC_UNITS_HELD' value='4249434559' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4823,7 +4823,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4843,7 +4843,7 @@
       <column name=' SEC_DESC' value='Crm - Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='287950323' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4862,7 +4862,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4882,7 +4882,7 @@
       <column name=' SEC_DESC' value='Crm - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='14860' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4901,7 +4901,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4921,7 +4921,7 @@
       <column name=' SEC_DESC' value='Credit Suisse - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4940,7 +4940,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -4960,7 +4960,7 @@
       <column name=' SEC_DESC' value='Common Sense Investors LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12495' />
       <column name=' SEC_UNITS_HELD' value='20000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -4999,7 +4999,7 @@
       <column name=' SEC_DESC' value='Cash Surrender Value-life Insurance' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='910' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='486542' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5018,7 +5018,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -5038,7 +5038,7 @@
       <column name=' SEC_DESC' value='CVI GVF Holdings 8 Ltd' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09654' />
       <column name=' SEC_UNITS_HELD' value='2662139863' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5077,7 +5077,7 @@
       <column name=' SEC_DESC' value='DFA Emerging Markets Value Strategy Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08586' />
       <column name=' SEC_UNITS_HELD' value='10000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5116,7 +5116,7 @@
       <column name=' SEC_DESC' value='Dimensional Fund Advisors' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12061' />
       <column name=' SEC_UNITS_HELD' value='58000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5135,7 +5135,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -5155,7 +5155,7 @@
       <column name=' SEC_DESC' value='DCM IV LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12262' />
       <column name=' SEC_UNITS_HELD' value='4250000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5194,7 +5194,7 @@
       <column name=' SEC_DESC' value='DCM V LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0877' />
       <column name=' SEC_UNITS_HELD' value='4375000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5233,7 +5233,7 @@
       <column name=' SEC_DESC' value='EnCap Energy Capital Fund VII' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07739' />
       <column name=' SEC_UNITS_HELD' value='363343603' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5272,7 +5272,7 @@
       <column name=' SEC_DESC' value='Farallon Capital Instutionalpartners LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12597' />
       <column name=' SEC_UNITS_HELD' value='22000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5311,7 +5311,7 @@
       <column name=' SEC_DESC' value='FIA Timber Partners Special Situation Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10053' />
       <column name=' SEC_UNITS_HELD' value='1943080755' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5350,7 +5350,7 @@
       <column name=' SEC_DESC' value='FIA Timber Partners' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10798' />
       <column name=' SEC_UNITS_HELD' value='37943921' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5369,7 +5369,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -5389,7 +5389,7 @@
       <column name=' SEC_DESC' value='Greenfield Acquisition Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06367' />
       <column name=' SEC_UNITS_HELD' value='210499976' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5428,7 +5428,7 @@
       <column name=' SEC_DESC' value='Gazelle Techventures' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='21095195' />
       <column name=' SEC_UNITS_HELD' value='77' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5467,7 +5467,7 @@
       <column name=' SEC_DESC' value='GMO Long Horizons Forestry Fund A' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10372' />
       <column name=' SEC_UNITS_HELD' value='10230000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5506,7 +5506,7 @@
       <column name=' SEC_DESC' value='GSO Special Situations' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12401' />
       <column name=' SEC_UNITS_HELD' value='20000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5545,7 +5545,7 @@
       <column name=' SEC_DESC' value='Harbourvest VI - Partnership Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07491' />
       <column name=' SEC_UNITS_HELD' value='540922325' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5584,7 +5584,7 @@
       <column name=' SEC_DESC' value='Harbourvest VI - Direct Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='04087' />
       <column name=' SEC_UNITS_HELD' value='1912915' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5623,7 +5623,7 @@
       <column name=' SEC_DESC' value='HBK Offshore Fund Ltd' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10358' />
       <column name=' SEC_UNITS_HELD' value='20000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5662,7 +5662,7 @@
       <column name=' SEC_DESC' value='HIG Bayside Debt  LBO Fund II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07422' />
       <column name=' SEC_UNITS_HELD' value='4525000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5701,7 +5701,7 @@
       <column name=' SEC_DESC' value='HIG Brightpoint  Capital  Partners' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06747' />
       <column name=' SEC_UNITS_HELD' value='10000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5740,7 +5740,7 @@
       <column name=' SEC_DESC' value='HRJ Global Buy-Out III Asia' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0877' />
       <column name=' SEC_UNITS_HELD' value='5010459' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5779,7 +5779,7 @@
       <column name=' SEC_DESC' value='HRJ Capital VC VI International' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08963' />
       <column name=' SEC_UNITS_HELD' value='2391095' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5818,7 +5818,7 @@
       <column name=' SEC_DESC' value='HRJ Capital VC VI US LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08654' />
       <column name=' SEC_UNITS_HELD' value='1986121' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5857,7 +5857,7 @@
       <column name=' SEC_DESC' value='Harrison Street Real Estate Partners II' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='11288' />
       <column name=' SEC_UNITS_HELD' value='2982634' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5896,7 +5896,7 @@
       <column name=' SEC_DESC' value='Harrison Street Real Estate Partners I' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='11574' />
       <column name=' SEC_UNITS_HELD' value='4381856' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5935,7 +5935,7 @@
       <column name=' SEC_DESC' value='INext Fund LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='4920431' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -5974,7 +5974,7 @@
       <column name=' SEC_DESC' value='Indiana Future Fund I' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07357' />
       <column name=' SEC_UNITS_HELD' value='393848572' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6013,7 +6013,7 @@
       <column name=' SEC_DESC' value='Interwest Partners IX' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07646' />
       <column name=' SEC_UNITS_HELD' value='342184118' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6032,7 +6032,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6052,7 +6052,7 @@
       <column name=' SEC_DESC' value='InterWest Partners X' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08763' />
       <column name=' SEC_UNITS_HELD' value='1050000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6091,7 +6091,7 @@
       <column name=' SEC_DESC' value='Interest Receivable - Interfund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='926' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='524459' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6130,7 +6130,7 @@
       <column name=' SEC_DESC' value='Secured Capital Japan Real Estate Partners IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06789' />
       <column name=' SEC_UNITS_HELD' value='7290984' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6169,7 +6169,7 @@
       <column name=' SEC_DESC' value='Secured Capital Japan Real Estate Partners Asia' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09642' />
       <column name=' SEC_UNITS_HELD' value='312176299' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6208,7 +6208,7 @@
       <column name=' SEC_DESC' value='Knighthead Offshore Fund Ltd' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='10000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6247,7 +6247,7 @@
       <column name=' SEC_DESC' value='KPS Special Situations Fund III' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1091' />
       <column name=' SEC_UNITS_HELD' value='239921506' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6286,7 +6286,7 @@
       <column name=' SEC_DESC' value='KRG Capital Fund III' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08168' />
       <column name=' SEC_UNITS_HELD' value='2322331' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6305,7 +6305,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6325,7 +6325,7 @@
       <column name=' SEC_DESC' value='KRG Capital Fund IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06406' />
       <column name=' SEC_UNITS_HELD' value='1282040' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6364,7 +6364,7 @@
       <column name=' SEC_DESC' value='KSL Capital Partners II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06813' />
       <column name=' SEC_UNITS_HELD' value='18128009' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6403,7 +6403,7 @@
       <column name=' SEC_DESC' value='Lighthouse Diversified Fund Limited' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='15469' />
       <column name=' SEC_UNITS_HELD' value='985245039' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6442,7 +6442,7 @@
       <column name=' SEC_DESC' value='Lionstone Urban Investments Two' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0401' />
       <column name=' SEC_UNITS_HELD' value='1849325' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6481,7 +6481,7 @@
       <column name=' SEC_DESC' value='LODH Euro Choice III Scotland' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08515' />
       <column name=' SEC_UNITS_HELD' value='409896488' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6520,7 +6520,7 @@
       <column name=' SEC_DESC' value='LODH Euro Choice IV Scotland' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07576' />
       <column name=' SEC_UNITS_HELD' value='50293996' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6559,7 +6559,7 @@
       <column name=' SEC_DESC' value='Loomis - Corp Bonds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06911' />
       <column name=' SEC_UNITS_HELD' value='3592731253' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6578,7 +6578,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6598,7 +6598,7 @@
       <column name=' SEC_DESC' value='Loomis - Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='128299253' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6617,7 +6617,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6637,7 +6637,7 @@
       <column name=' SEC_DESC' value='Loomis - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='85310679' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6656,7 +6656,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6676,7 +6676,7 @@
       <column name=' SEC_DESC' value='Loomis - Government Bonds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08267' />
       <column name=' SEC_UNITS_HELD' value='557925108' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6695,7 +6695,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6715,7 +6715,7 @@
       <column name=' SEC_DESC' value='Loomis - Stocks common  Preferred' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='01033' />
       <column name=' SEC_UNITS_HELD' value='21553732' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6734,7 +6734,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6754,7 +6754,7 @@
       <column name=' SEC_DESC' value='Loomis - Neg Cash and Equiv' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='963' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6773,7 +6773,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -6793,7 +6793,7 @@
       <column name=' SEC_DESC' value='Meritage II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07517' />
       <column name=' SEC_UNITS_HELD' value='382390134' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6832,7 +6832,7 @@
       <column name=' SEC_DESC' value='Mesa West Real Estate Income Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07451' />
       <column name=' SEC_UNITS_HELD' value='286692656' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6871,7 +6871,7 @@
       <column name=' SEC_DESC' value='Miller Global Europe I' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='2245' />
       <column name=' SEC_UNITS_HELD' value='50157848' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6910,7 +6910,7 @@
       <column name=' SEC_DESC' value='Miller Global Fund VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06368' />
       <column name=' SEC_UNITS_HELD' value='141266757' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6949,7 +6949,7 @@
       <column name=' SEC_DESC' value='Miller Global Fund IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='17126' />
       <column name=' SEC_UNITS_HELD' value='74858641' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -6988,7 +6988,7 @@
       <column name=' SEC_DESC' value='Market Street Capital Partners REIT LLC' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07791' />
       <column name=' SEC_UNITS_HELD' value='320226805' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7027,7 +7027,7 @@
       <column name=' SEC_DESC' value='Money Market Investment' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='750' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='684098' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7046,7 +7046,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7066,7 +7066,7 @@
       <column name=' SEC_DESC' value='North American Real Estate Partners II' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='05738' />
       <column name=' SEC_UNITS_HELD' value='882046708' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7105,7 +7105,7 @@
       <column name=' SEC_DESC' value='Natural Gas Partners IX' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0614' />
       <column name=' SEC_UNITS_HELD' value='296361411' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7144,7 +7144,7 @@
       <column name=' SEC_DESC' value='Novak Biddle Venture Partners IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='05537' />
       <column name=' SEC_UNITS_HELD' value='1760000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7183,7 +7183,7 @@
       <column name=' SEC_DESC' value='Novak Biddle Venture Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06663' />
       <column name=' SEC_UNITS_HELD' value='94196035' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7222,7 +7222,7 @@
       <column name=' SEC_DESC' value='North Sound Legacy International Ltd' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='160607' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7261,7 +7261,7 @@
       <column name=' SEC_DESC' value='Note Receivable - Interfund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='925' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='14000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7300,7 +7300,7 @@
       <column name=' SEC_DESC' value='OVP Venture Partners VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='04676' />
       <column name=' SEC_UNITS_HELD' value='2502115' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7339,7 +7339,7 @@
       <column name=' SEC_DESC' value='Other Investment Assets' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='932' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='13500' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7358,7 +7358,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7378,7 +7378,7 @@
       <column name=' SEC_DESC' value='OVP Venture Partners  VII' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07045' />
       <column name=' SEC_UNITS_HELD' value='2800000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7417,7 +7417,7 @@
       <column name=' SEC_DESC' value='Peninsula Ventures II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07676' />
       <column name=' SEC_UNITS_HELD' value='218723833' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7456,7 +7456,7 @@
       <column name=' SEC_DESC' value='Petty Cash' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='700' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='2664' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7475,7 +7475,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7495,7 +7495,7 @@
       <column name=' SEC_DESC' value='Pimco - Corp Bonds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='200' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07201' />
       <column name=' SEC_UNITS_HELD' value='3802614808' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7514,7 +7514,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7534,7 +7534,7 @@
       <column name=' SEC_DESC' value='Pimco - Institutional Funds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07075' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7553,7 +7553,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7573,7 +7573,7 @@
       <column name=' SEC_DESC' value='Pimco - Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='916834869' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7592,7 +7592,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7612,7 +7612,7 @@
       <column name=' SEC_DESC' value='Pimco - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='52986037' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7631,7 +7631,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7651,7 +7651,7 @@
       <column name=' SEC_DESC' value='Pimco - Government Bonds' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='025' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10485' />
       <column name=' SEC_UNITS_HELD' value='2251894035' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7670,7 +7670,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7690,7 +7690,7 @@
       <column name=' SEC_DESC' value='Pimco - Commercial Paper' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='011' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7709,7 +7709,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7729,7 +7729,7 @@
       <column name=' SEC_DESC' value='Pimco Negative Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='963' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08429' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7748,7 +7748,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7768,7 +7768,7 @@
       <column name=' SEC_DESC' value='Pooled Long Term Fund - Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='307' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='090484' />
       <column name=' SEC_UNITS_HELD' value='2342405' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7787,7 +7787,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7807,7 +7807,7 @@
       <column name=' SEC_DESC' value='Pooled Long Term Fund - Principal' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='308' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='090484' />
       <column name=' SEC_UNITS_HELD' value='52428474' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7826,7 +7826,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -7846,7 +7846,7 @@
       <column name=' SEC_DESC' value='Pooled Long Term Fund - Consolidated' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='309' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='090484' />
       <column name=' SEC_UNITS_HELD' value='1331068992' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7885,7 +7885,7 @@
       <column name=' SEC_DESC' value='Prism Venture Partners IV LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='04369' />
       <column name=' SEC_UNITS_HELD' value='348168188' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7924,7 +7924,7 @@
       <column name=' SEC_DESC' value='Protege Partners Fund LTD' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='13562' />
       <column name=' SEC_UNITS_HELD' value='10000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7963,7 +7963,7 @@
       <column name=' SEC_DESC' value='Pooled Short Term Fund - Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='326' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='7189190' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -7982,7 +7982,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8002,7 +8002,7 @@
       <column name=' SEC_DESC' value='Pooled Short Term Fund - Principal' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='326' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8021,7 +8021,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8041,7 +8041,7 @@
       <column name=' SEC_DESC' value='Quintana Energy Partners-TE' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08281' />
       <column name=' SEC_UNITS_HELD' value='825394955' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8080,7 +8080,7 @@
       <column name=' SEC_DESC' value='Quintana Energy Partners II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10683' />
       <column name=' SEC_UNITS_HELD' value='3589956' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8119,7 +8119,7 @@
       <column name=' SEC_DESC' value='Quantum Resources A1 LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='04769' />
       <column name=' SEC_UNITS_HELD' value='473804744' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8158,7 +8158,7 @@
       <column name=' SEC_DESC' value='BlackRock Alpha Transport fka Quellos' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='02634' />
       <column name=' SEC_UNITS_HELD' value='4023332992' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8197,7 +8197,7 @@
       <column name=' SEC_DESC' value='RCP Fund IV LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08444' />
       <column name=' SEC_UNITS_HELD' value='86550525' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8236,7 +8236,7 @@
       <column name=' SEC_DESC' value='RCP Fund II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09166' />
       <column name=' SEC_UNITS_HELD' value='786290034' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8275,7 +8275,7 @@
       <column name=' SEC_DESC' value='RCP Fund III LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07801' />
       <column name=' SEC_UNITS_HELD' value='1003739299' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8294,7 +8294,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8314,7 +8314,7 @@
       <column name=' SEC_DESC' value='RCP Fund V LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07687' />
       <column name=' SEC_UNITS_HELD' value='2500000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8353,7 +8353,7 @@
       <column name=' SEC_DESC' value='RCP Fund VI LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06307' />
       <column name=' SEC_UNITS_HELD' value='250000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8392,7 +8392,7 @@
       <column name=' SEC_DESC' value='Sansar Capital' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='05965' />
       <column name=' SEC_UNITS_HELD' value='13000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8431,7 +8431,7 @@
       <column name=' SEC_DESC' value='Sevin Rosen VIII LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='02437' />
       <column name=' SEC_UNITS_HELD' value='55696552' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8470,7 +8470,7 @@
       <column name=' SEC_DESC' value='Sevin Rosen IX LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06982' />
       <column name=' SEC_UNITS_HELD' value='250157346' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8509,7 +8509,7 @@
       <column name=' SEC_DESC' value='Snyder - Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='239527122' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8528,7 +8528,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8548,7 +8548,7 @@
       <column name=' SEC_DESC' value='Snyder - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='26389' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8567,7 +8567,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8587,7 +8587,7 @@
       <column name=' SEC_DESC' value='Snyder - Stocks' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07341' />
       <column name=' SEC_UNITS_HELD' value='609803863' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8606,7 +8606,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8626,7 +8626,7 @@
       <column name=' SEC_DESC' value='Spring Mill Venture Fund LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07213' />
       <column name=' SEC_UNITS_HELD' value='147626663' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8665,7 +8665,7 @@
       <column name=' SEC_DESC' value='Stark Investments' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='10468' />
       <column name=' SEC_UNITS_HELD' value='20250000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8704,7 +8704,7 @@
       <column name=' SEC_DESC' value='Pimco - Stocksplus' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='495' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06865' />
       <column name=' SEC_UNITS_HELD' value='5037591935' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8723,7 +8723,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8743,7 +8743,7 @@
       <column name=' SEC_DESC' value='Storm Ventures II' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09256' />
       <column name=' SEC_UNITS_HELD' value='93730834' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8782,7 +8782,7 @@
       <column name=' SEC_DESC' value='Storm Ventures III' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08131' />
       <column name=' SEC_UNITS_HELD' value='3250000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8801,7 +8801,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8821,7 +8821,7 @@
       <column name=' SEC_DESC' value='Wells Capital Mgt - Cash  Equiv' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8840,7 +8840,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8860,7 +8860,7 @@
       <column name=' SEC_DESC' value='Wells Capital Mgt  - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8879,7 +8879,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8899,7 +8899,7 @@
       <column name=' SEC_DESC' value='Wells Capital Mgt - Stocks' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09676' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8918,7 +8918,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8938,7 +8938,7 @@
       <column name=' SEC_DESC' value='Student Loans' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='931' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='17500' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8957,7 +8957,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -8977,7 +8977,7 @@
       <column name=' SEC_DESC' value='Sun Capital Partners IV' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09009' />
       <column name=' SEC_UNITS_HELD' value='406621745' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -8996,7 +8996,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9016,7 +9016,7 @@
       <column name=' SEC_DESC' value='Sun Capital Partners V' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='05159' />
       <column name=' SEC_UNITS_HELD' value='394586655' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9055,7 +9055,7 @@
       <column name=' SEC_DESC' value='Sun Capital Securities Offshore Fund LTD' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='03157' />
       <column name=' SEC_UNITS_HELD' value='9346000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9094,7 +9094,7 @@
       <column name=' SEC_DESC' value='Templeton  - Stocks' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07993' />
       <column name=' SEC_UNITS_HELD' value='6493353872' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9113,7 +9113,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9133,7 +9133,7 @@
       <column name=' SEC_DESC' value='Templeton - Cash  Equivalents' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09981' />
       <column name=' SEC_UNITS_HELD' value='361563526' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9152,7 +9152,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9172,7 +9172,7 @@
       <column name=' SEC_DESC' value='Templeton - Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='159720' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9191,7 +9191,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9211,7 +9211,7 @@
       <column name=' SEC_DESC' value='TPG-Axon Partners Offshore' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07771' />
       <column name=' SEC_UNITS_HELD' value='30000000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9250,7 +9250,7 @@
       <column name=' SEC_DESC' value='TPG Biotechnology Partners III LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08523' />
       <column name=' SEC_UNITS_HELD' value='588594' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9289,7 +9289,7 @@
       <column name=' SEC_DESC' value='TPG Partners VI LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06149' />
       <column name=' SEC_UNITS_HELD' value='1252390' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9328,7 +9328,7 @@
       <column name=' SEC_DESC' value='Trinity Ventures VIII' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='08299' />
       <column name=' SEC_UNITS_HELD' value='135946246' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9367,7 +9367,7 @@
       <column name=' SEC_DESC' value='Trinity Ventures IX' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='09753' />
       <column name=' SEC_UNITS_HELD' value='20406073' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9406,7 +9406,7 @@
       <column name=' SEC_DESC' value='Trinity Ventures X' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06518' />
       <column name=' SEC_UNITS_HELD' value='200000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9445,7 +9445,7 @@
       <column name=' SEC_DESC' value='True Ventures II LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07934' />
       <column name=' SEC_UNITS_HELD' value='1050000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9484,7 +9484,7 @@
       <column name=' SEC_DESC' value='True Ventures I' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07738' />
       <column name=' SEC_UNITS_HELD' value='261188272' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9523,7 +9523,7 @@
       <column name=' SEC_DESC' value='TPG Partners V LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='06134' />
       <column name=' SEC_UNITS_HELD' value='362620286' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9562,7 +9562,7 @@
       <column name=' SEC_DESC' value='Walton Street Real Estate Fund VI' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='0429' />
       <column name=' SEC_UNITS_HELD' value='1300000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9601,7 +9601,7 @@
       <column name=' SEC_DESC' value='Walton Street Real Estate Fund V LP' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='580' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='02388' />
       <column name=' SEC_UNITS_HELD' value='500000001' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9640,7 +9640,7 @@
       <column name=' SEC_DESC' value='William Blair  Co Accrued Income' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='922' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='5747' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9659,7 +9659,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9679,7 +9679,7 @@
       <column name=' SEC_DESC' value='William Blair  Co - Stocks' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='07881' />
       <column name=' SEC_UNITS_HELD' value='3829961314' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9698,7 +9698,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9718,7 +9718,7 @@
       <column name=' SEC_DESC' value='William Blair  Company LLC' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='702' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='71483706' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9737,7 +9737,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9757,7 +9757,7 @@
       <column name=' SEC_DESC' value='Transocean Ordinary' />
       <column name=' SEC_TKR_SYMB' value='RIG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='479' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9796,7 +9796,7 @@
       <column name=' SEC_DESC' value='Transocean Sedco Forex Inccom' />
       <column name=' SEC_TKR_SYMB' value='RIG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='12939' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9815,7 +9815,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='2002-05-28' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='2002-06-13' />
       <column name=' SEC_DVDND_AMT' value='003' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9835,7 +9835,7 @@
       <column name=' SEC_DESC' value='Weatherford International' />
       <column name=' SEC_TKR_SYMB' value='WFT' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='5838' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9874,7 +9874,7 @@
       <column name=' SEC_DESC' value='Transocean Ltd' />
       <column name=' SEC_TKR_SYMB' value='RIG' />
       <column name=' SEC_CLS_CD' value='400' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='9166' />
       <column name=' SEC_UNITS_HELD' value='10000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9913,7 +9913,7 @@
       <column name=' SEC_DESC' value='Real Estate-brown County Playhousevan Buren Street Nashville In' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='122000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9932,7 +9932,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9952,7 +9952,7 @@
       <column name=' SEC_DESC' value='Re - 506 W Donder Lanesanta Clause IN  47579' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='7600' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -9971,7 +9971,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -9991,7 +9991,7 @@
       <column name=' SEC_DESC' value='Real Estate - 716 Adams St Carmel IN 46032' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='10000' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10030,7 +10030,7 @@
       <column name=' SEC_DESC' value='Real Estate - Pef - Crosstown' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='057694' />
       <column name=' SEC_UNITS_HELD' value='2426585' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10049,7 +10049,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10069,7 +10069,7 @@
       <column name=' SEC_DESC' value='Real Estate - Pef - Carmichael Ctrbradfute Property' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='725000' />
       <column name=' SEC_UNITS_HELD' value='1' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10088,7 +10088,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10108,7 +10108,7 @@
       <column name=' SEC_DESC' value='Real Estate - Pef - Gables' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='450000' />
       <column name=' SEC_UNITS_HELD' value='1' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10127,7 +10127,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10147,7 +10147,7 @@
       <column name=' SEC_DESC' value='Real Estate - Pef - 512 E Kirkwood' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='600' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='5955193' />
       <column name=' SEC_UNITS_HELD' value='772435' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10166,7 +10166,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10186,7 +10186,7 @@
       <column name=' SEC_DESC' value='Bank of New York - Hamilton Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='701' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='1' />
       <column name=' SEC_UNITS_HELD' value='002' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10205,7 +10205,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10225,7 +10225,7 @@
       <column name=' SEC_DESC' value='Bond Trust Investment Pool' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='300' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='99269' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10244,7 +10244,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10264,7 +10264,7 @@
       <column name=' SEC_DESC' value='Equity Trust Investment Pool' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='310' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='114398' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10283,7 +10283,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10303,7 +10303,7 @@
       <column name=' SEC_DESC' value='Pooled Equity Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='311' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='110454' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10322,7 +10322,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />
@@ -10342,7 +10342,7 @@
       <column name=' SEC_DESC' value='Pooled Fixed Income Fund' />
       <column name=' SEC_TKR_SYMB' value='' />
       <column name=' SEC_CLS_CD' value='301' />
-      <column name=' SEC_SUBCLS_CD' value='null' />
+      <column name=' SEC_SUBCLS_CD' valueNumeric='null' />
       <column name=' SEC_UNIT_VAL' value='131488' />
       <column name=' SEC_UNITS_HELD' value='0' />
       <column name=' SEC_ISS_DT' valueDate='' />
@@ -10361,7 +10361,7 @@
       <column name=' SEC_EX_DVDND_DT' valueDate='' />
       <column name=' SEC_DVDND_PAY_DT' valueDate='' />
       <column name=' SEC_DVDND_AMT' value='0' />
-      <column name=' CMTMNT_AMT' value='null' />
+      <column name=' CMTMNT_AMT' valueNumeric='null' />
       <column name=' FRGN_WITH_PCT' value='0' />
       <column name=' NXT_FSCL_YR_DSTRB_AMT' value='0' />
       <column name=' ROW_ACTV_IND' value='Y' />

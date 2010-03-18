@@ -7,9 +7,11 @@
       <column name=' TYP_DESC' value='Trusts Held for Expendable Endowments income- IU custodial' />
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRU' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -25,9 +27,11 @@
       <column name=' TYP_DESC' value='Permanent Trust Principal - IUF custodial' />
       <column name=' TYP_INC_RESTR_CD' value='PRF' />
       <column name=' TYP_PRIN_RESTR_CD' value='PRF' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -43,9 +47,11 @@
       <column name=' TYP_DESC' value='Permanent Trust Principal - IU custodial' />
       <column name=' TYP_INC_RESTR_CD' value='PRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='PRU' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -61,9 +67,11 @@
       <column name=' TYP_DESC' value='Donor Foundation Unrestricted Trusts - IUF custodial' />
       <column name=' TYP_INC_RESTR_CD' value='TRF' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRF' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +87,11 @@
       <column name=' TYP_DESC' value='Real Estate Administration IU' />
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRU' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -97,9 +107,11 @@
       <column name=' TYP_DESC' value='Pooled Funds' />
       <column name=' TYP_INC_RESTR_CD' value='OBS' />
       <column name=' TYP_PRIN_RESTR_CD' value='OBS' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -115,9 +127,11 @@
       <column name=' TYP_DESC' value='TIPS' />
       <column name=' TYP_INC_RESTR_CD' value='OBS' />
       <column name=' TYP_PRIN_RESTR_CD' value='OBS' />
-      <column name=' TYP_CSH_SWEEP_MDL_ID' value='null null null' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='Y' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_CSH_SWEEP_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

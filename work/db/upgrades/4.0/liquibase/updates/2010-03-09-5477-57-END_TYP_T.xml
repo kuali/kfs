@@ -8,7 +8,7 @@
       <column name=' TYP_INC_RESTR_CD' value='OP' />
       <column name=' TYP_PRIN_RESTR_CD' value='OP' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -28,7 +28,7 @@
       <column name=' TYP_INC_RESTR_CD' value='OP' />
       <column name=' TYP_PRIN_RESTR_CD' value='OP' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -48,7 +48,7 @@
       <column name=' TYP_INC_RESTR_CD' value='OP' />
       <column name=' TYP_PRIN_RESTR_CD' value='PRF' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -68,9 +68,10 @@
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRU' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null null' />
-      <column name=' TYP_PRIN_ACI_MDL_ID' value='Y' />
-      <column name=' ROW_ACTV_IND' type='UUID' valueNumeric='sys_guid' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' TYP_PRIN_ACI_MDL_ID' valueNumeric='null' />
+      <column name=' ROW_ACTV_IND' value='Y' />
+      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -87,7 +88,7 @@
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='PRU' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -107,7 +108,7 @@
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRU' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -127,7 +128,7 @@
       <column name=' TYP_INC_RESTR_CD' value='TRU' />
       <column name=' TYP_PRIN_RESTR_CD' value='TRU' />
       <column name=' TYP_CSH_SWEEP_MDL_ID' value='1' />
-      <column name=' TYP_INC_ACI_MDL_ID' value='null' />
+      <column name=' TYP_INC_ACI_MDL_ID' valueNumeric='null' />
       <column name=' TYP_PRIN_ACI_MDL_ID' value='1' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />

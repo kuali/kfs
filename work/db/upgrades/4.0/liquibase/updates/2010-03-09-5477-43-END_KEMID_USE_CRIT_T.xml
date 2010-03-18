@@ -380,7 +380,7 @@
       <column name='KEMID' value='037B011AG1' />
       <column name=' USE_CRIT_SEQ' value='2' />
       <column name=' USE_CRIT_CD' value='S' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Junior Senior or graduate student' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Junior, Senior or graduate student' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -431,7 +431,7 @@
       <column name='KEMID' value='037E009727' />
       <column name=' USE_CRIT_SEQ' value='1' />
       <column name=' USE_CRIT_CD' value='D' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='6000 to be distributed equally during the next 3 academic years 2009-2010 2010-2011 2011-2012' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='6,000 to be distributed equally during the next 3 academic years 2009-2010, 2010-2011, 2011-2012' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -482,7 +482,7 @@
       <column name='KEMID' value='037G030812' />
       <column name=' USE_CRIT_SEQ' value='2' />
       <column name=' USE_CRIT_CD' value='D' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Each Scholarship 1000' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Each Scholarship 1,000' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -601,7 +601,7 @@
       <column name='KEMID' value='037H004261' />
       <column name=' USE_CRIT_SEQ' value='4' />
       <column name=' USE_CRIT_CD' value='U' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Majoring in the Department of RecreationPark and Tourism Studies' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Majoring in the Department of Recreation,Park and Tourism Studies' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -686,7 +686,7 @@
       <column name='KEMID' value='037K008284' />
       <column name=' USE_CRIT_SEQ' value='2' />
       <column name=' USE_CRIT_CD' value='D' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='3 scholarships to be at least 1000 1 for recruitment of prospective students' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='3 scholarships to be at least 1,000 1 for recruitment of prospective students' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -822,7 +822,7 @@
       <column name='KEMID' value='037P003108' />
       <column name=' USE_CRIT_SEQ' value='3' />
       <column name=' USE_CRIT_CD' value='Z' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Pursuing a degree within the Purdue School of Engineering and Technology IUPUI' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Pursuing a degree within the Purdue School of Engineering and Technology, IUPUI' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -1060,7 +1060,7 @@
       <column name='KEMID' value='037SC00501' />
       <column name=' USE_CRIT_SEQ' value='2' />
       <column name=' USE_CRIT_CD' value='C' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Elkhart County Indiana' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Elkhart County, Indiana' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -1264,7 +1264,7 @@
       <column name='KEMID' value='038MSCI011' />
       <column name=' USE_CRIT_SEQ' value='1' />
       <column name=' USE_CRIT_CD' value='D' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Text Award only minimum cost of 25' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Text Award only, minimum cost of 25' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -1400,7 +1400,7 @@
       <column name='KEMID' value='038RQ04162' />
       <column name=' USE_CRIT_SEQ' value='1' />
       <column name=' USE_CRIT_CD' value='D' />
-      <column name=' USE_CRIT_ADTNL_DTA' value='Full tuition books and fees' />
+      <column name=' USE_CRIT_ADTNL_DTA' value='Full tuition, books and fees' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>

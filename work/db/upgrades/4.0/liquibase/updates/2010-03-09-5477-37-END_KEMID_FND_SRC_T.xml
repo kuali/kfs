@@ -254,7 +254,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-19218 35-59218' />
+      <column name=' FND_HIST' value='37-19218, 35-59218' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -273,7 +273,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-17600 38-57600 35-57600' />
+      <column name=' FND_HIST' value='37-17600, 38-57600, 35-57600' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -330,7 +330,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='32-11723 37-11723' />
+      <column name=' FND_HIST' value='32-11723, 37-11723' />
       <column name=' FND_SRC_ADTNL_DTA' value='Theodore Dorf 149582-deceased' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -349,7 +349,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='32-11164 37-11164' />
+      <column name=' FND_HIST' value='32-11164, 37-11164' />
       <column name=' FND_SRC_ADTNL_DTA' value='Eugene C Chenoweth No ID' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -406,8 +406,8 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='35-56653 38-36653 38B011088' />
-      <column name=' FND_SRC_ADTNL_DTA' value='Phipps  Funkey Inc C1663' />
+      <column name=' FND_HIST' value='35-56653, 38-36653, 38B011088' />
+      <column name=' FND_SRC_ADTNL_DTA' value='Phipps  Funkey, Inc C1663' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -482,7 +482,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-14701 32-14701' />
+      <column name=' FND_HIST' value='37-14701, 32-14701' />
       <column name=' FND_SRC_ADTNL_DTA' value='Evan F Lilly Foundation No ID' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -559,7 +559,7 @@
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
       <column name=' FND_HIST' value='' />
-      <column name=' FND_SRC_ADTNL_DTA' value='Lynn M Jamieson Steve A Wolter 715280169507' />
+      <column name=' FND_SRC_ADTNL_DTA' value='Lynn M Jamieson, Steve A Wolter 715280169507' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -596,7 +596,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-32170 35-52170 38K008084' />
+      <column name=' FND_HIST' value='38-32170, 35-52170, 38K008084' />
       <column name=' FND_SRC_ADTNL_DTA' value='Law Alumni Employed By Eli Lilly  Company' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -615,7 +615,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-33590 32-13590 38L006061' />
+      <column name=' FND_HIST' value='38-33590, 32-13590, 38L006061' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -654,7 +654,7 @@
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
       <column name=' FND_HIST' value='' />
-      <column name=' FND_SRC_ADTNL_DTA' value='Friends  Colleagues of Charles Lewis MD' />
+      <column name=' FND_SRC_ADTNL_DTA' value='Friends  Colleagues of Charles Lewis, MD' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -672,7 +672,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-14492 38-34492 35-54492' />
+      <column name=' FND_HIST' value='37-14492, 38-34492, 35-54492' />
       <column name=' FND_SRC_ADTNL_DTA' value='Dr Arnold W Kunkler 14541' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -711,7 +711,7 @@
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
       <column name=' FND_HIST' value='' />
-      <column name=' FND_SRC_ADTNL_DTA' value='Morris H Aprison PhD 63971' />
+      <column name=' FND_SRC_ADTNL_DTA' value='Morris H Aprison, PhD 63971' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -805,7 +805,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-60310 35-60310' />
+      <column name=' FND_HIST' value='37-60310, 35-60310' />
       <column name=' FND_SRC_ADTNL_DTA' value='Duneland Rock Club C28826' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -919,7 +919,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-11712 32-11712' />
+      <column name=' FND_HIST' value='37-11712, 32-11712' />
       <column name=' FND_SRC_ADTNL_DTA' value='Virgil T Devault 108149-deceased' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -938,7 +938,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='37-14649 32-14649' />
+      <column name=' FND_HIST' value='37-14649, 32-14649' />
       <column name=' FND_SRC_ADTNL_DTA' value='Mary Margaret H Barr Koon Estate 68271-deceased' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -957,7 +957,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='EARN' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-37600 32-37600 38A010016' />
+      <column name=' FND_HIST' value='38-37600, 32-37600, 38A010016' />
       <column name=' FND_SRC_ADTNL_DTA' value='Earnings From 37A017013' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -976,7 +976,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-31575 32-11575' />
+      <column name=' FND_HIST' value='38-31575, 32-11575' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1014,7 +1014,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-33090 32-13090' />
+      <column name=' FND_HIST' value='38-33090, 32-13090' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1033,7 +1033,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-30781 32-10781' />
+      <column name=' FND_HIST' value='38-30781, 32-10781' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1052,7 +1052,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='32-15224 38-35224 046G007CD0' />
+      <column name=' FND_HIST' value='32-15224, 38-35224, 046G007CD0' />
       <column name=' FND_SRC_ADTNL_DTA' value='J Robert  Mary Shine 393883104930-deceased' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1090,7 +1090,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-36351 35-56350' />
+      <column name=' FND_HIST' value='38-36351, 35-56350' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1109,7 +1109,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-32200 32-12200' />
+      <column name=' FND_HIST' value='38-32200, 32-12200' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1166,7 +1166,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-39090 32-19090' />
+      <column name=' FND_HIST' value='38-39090, 32-19090' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1185,7 +1185,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-24612 32-24612' />
+      <column name=' FND_HIST' value='38-24612, 32-24612' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1262,7 +1262,7 @@
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
       <column name=' FND_HIST' value='' />
-      <column name=' FND_SRC_ADTNL_DTA' value='Association for the Advancement of Mental Health and Education Inc C3617' />
+      <column name=' FND_SRC_ADTNL_DTA' value='Association for the Advancement of Mental Health and Education, Inc, C3617' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -1280,7 +1280,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-38250 35-58250' />
+      <column name=' FND_HIST' value='38-38250, 35-58250' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1356,7 +1356,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-33535 35-53535 38DS00013' />
+      <column name=' FND_HIST' value='38-33535, 35-53535, 38DS00013' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1375,7 +1375,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-34181 35-54181' />
+      <column name=' FND_HIST' value='38-34181, 35-54181' />
       <column name=' FND_SRC_ADTNL_DTA' value='IUN Chancellors Association Scholarship Gifts' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1394,7 +1394,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-31170 35-51170' />
+      <column name=' FND_HIST' value='38-31170, 35-51170' />
       <column name=' FND_SRC_ADTNL_DTA' value='Clark Equipment Company C2907' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1413,7 +1413,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-37154 32-17154' />
+      <column name=' FND_HIST' value='38-37154, 32-17154' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1432,7 +1432,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='DONOR' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-35223 32-15223 38RV04047 32RV04206 37RV04312' />
+      <column name=' FND_HIST' value='38-35223, 32-15223, 38RV04047, 32RV04206, 37RV04312' />
       <column name=' FND_SRC_ADTNL_DTA' value='J Robert and Mary Pindy Shine 393833104930' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
@@ -1451,7 +1451,7 @@
       <column name=' KEMID_FND_SRC_SEQ' value='1' />
       <column name=' FND_SRC_CD' value='MULT' />
       <column name=' OPND_FRM_KEMID' value='' />
-      <column name=' FND_HIST' value='38-30410 35-50410' />
+      <column name=' FND_HIST' value='38-30410, 35-50410' />
       <column name=' FND_SRC_ADTNL_DTA' value='' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />

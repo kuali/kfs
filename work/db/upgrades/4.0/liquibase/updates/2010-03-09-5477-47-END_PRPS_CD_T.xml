@@ -124,7 +124,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='CID' />
-      <column name=' PRPS_DESC' value='Capital Improvement With Restriction to Department School or Program' />
+      <column name=' PRPS_DESC' value='Capital Improvement With Restriction to Department, School or Program' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -454,7 +454,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MD' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department School or Program' />
+      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department, School or Program' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -574,7 +574,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OD' />
-      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department School or Program' />
+      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department, School or Program' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -589,7 +589,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OD3' />
-      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department School or Program - Presidents Match Participant' />
+      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department, School or Program - Presidents Match Participant' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -784,7 +784,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RD' />
-      <column name=' PRPS_DESC' value='Research With Restriction to Department School or Program' />
+      <column name=' PRPS_DESC' value='Research With Restriction to Department, School or Program' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
@@ -799,7 +799,7 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RD3' />
-      <column name=' PRPS_DESC' value='Research With Restriction to Department School or Program - Presidents Match Participant' />
+      <column name=' PRPS_DESC' value='Research With Restriction to Department, School or Program - Presidents Match Participant' />
       <column name=' ROW_ACTV_IND' value='Y' />
       <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>

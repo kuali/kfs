@@ -21,8 +21,8 @@ import java.util.Properties;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
+import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
- * Sets inquiry on payee name
+ * Customer inquiry for "Payee ACH Account Lookup" results.
  */
 public class PayeeAchAccountInquirable extends KfsInquirableImpl {
 
@@ -42,6 +42,12 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+        
+        HtmlData htmlData = null;
+        
+        //
+        // Creates a customized inquiry link for the 'payeeName' attribute.
+        //
         if (PdpPropertyConstants.PAYEE_NAME.equals(attributeName)) {
             Properties parameters = new Properties();
 
@@ -54,10 +60,35 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
             
-            return getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            htmlData = getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         }
+        
+        //
+        // Creates a customized inquiry link for the 'payeeIdentifierTypeCode' attribute.
+        //
+        else if (PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE.equals(attributeName)) {
+            Properties parameters = new Properties();
 
-        return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
+            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeType.class.getName());
+
+            String payeeIdentifierCode = (String) ObjectUtils.getPropertyValue(businessObject, PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE);
+            parameters.put(PdpPropertyConstants.PAYEE_CODE, payeeIdentifierCode);
+
+            Map<String, String> fieldList = new HashMap<String, String>();
+            fieldList.put(PdpPropertyConstants.PAYEE_CODE, payeeIdentifierCode);
+            
+            htmlData = getHyperLink(PayeeType.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+        }
+        
+        //
+        // Default.
+        //
+        else {
+            htmlData = super.getInquiryUrl(businessObject, attributeName, forceInquiry);            
+        }
+        
+        return htmlData;
     }
 
 }

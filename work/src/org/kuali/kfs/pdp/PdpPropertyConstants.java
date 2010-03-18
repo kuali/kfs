@@ -48,6 +48,7 @@ public class PdpPropertyConstants {
     public static final String ACH_TRANSACTION_TYPE = "achTransactionType";
     public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
     public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";
+    public static final String PAYEE_CODE = "code";
     
     public static final String CHART_DB_COLUMN_NAME = "fin_coa_cd";
     public static final String ACCOUNT_DB_COLUMN_NAME = "account_nbr";

@@ -4,19 +4,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PFIF018' />
-      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
-      <column name=' VAL_DT' valueDate='2007-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='131488' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name='VAL_DT' valueDate='2007-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='131488' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -29,19 +29,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
-      <column name=' VAL_DT' valueDate='2007-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134225' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name='VAL_DT' valueDate='2007-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134225' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -54,19 +54,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
-      <column name=' VAL_DT' valueDate='2007-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='131488' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name='VAL_DT' valueDate='2007-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='131488' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,19 +79,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
-      <column name=' VAL_DT' valueDate='2007-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130937' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name='VAL_DT' valueDate='2007-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130937' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -104,19 +104,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
-      <column name=' VAL_DT' valueDate='2007-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134417' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name='VAL_DT' valueDate='2007-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134417' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -129,19 +129,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
-      <column name=' VAL_DT' valueDate='2007-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='137556' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name='VAL_DT' valueDate='2007-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='137556' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -154,19 +154,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
-      <column name=' VAL_DT' valueDate='2007-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='131572' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name='VAL_DT' valueDate='2007-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='131572' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -179,19 +179,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
-      <column name=' VAL_DT' valueDate='2007-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130396' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name='VAL_DT' valueDate='2007-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130396' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -204,19 +204,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
-      <column name=' VAL_DT' valueDate='2008-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='124181' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name='VAL_DT' valueDate='2008-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='124181' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,19 +229,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
-      <column name=' VAL_DT' valueDate='2008-02-29' />
-      <column name=' POOL_FND_UNIT_VAL' value='122989' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name='VAL_DT' valueDate='2008-02-29' />
+      <column name='POOL_FND_UNIT_VAL' value='122989' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -254,19 +254,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
-      <column name=' VAL_DT' valueDate='2008-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='121181' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name='VAL_DT' valueDate='2008-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='121181' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -279,19 +279,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
-      <column name=' VAL_DT' valueDate='2008-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='125154' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-27' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name='VAL_DT' valueDate='2008-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='125154' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-27' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -304,19 +304,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
-      <column name=' VAL_DT' valueDate='2008-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='126718' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name='VAL_DT' valueDate='2008-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='126718' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -329,19 +329,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
-      <column name=' VAL_DT' valueDate='2008-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='118889' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name='VAL_DT' valueDate='2008-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='118889' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -354,19 +354,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
-      <column name=' VAL_DT' valueDate='2008-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='116372' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name='VAL_DT' valueDate='2008-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='116372' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -379,19 +379,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
-      <column name=' VAL_DT' valueDate='2008-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='115324' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name='VAL_DT' valueDate='2008-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='115324' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -404,19 +404,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
-      <column name=' VAL_DT' valueDate='2008-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='104165' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name='VAL_DT' valueDate='2008-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='104165' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -429,19 +429,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
-      <column name=' VAL_DT' valueDate='2008-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088686' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name='VAL_DT' valueDate='2008-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088686' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -454,19 +454,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
-      <column name=' VAL_DT' valueDate='2008-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='082799' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name='VAL_DT' valueDate='2008-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='082799' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -479,19 +479,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
-      <column name=' VAL_DT' valueDate='2008-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='084111' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name='VAL_DT' valueDate='2008-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='084111' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -504,19 +504,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
-      <column name=' VAL_DT' valueDate='2009-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='080268' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name='VAL_DT' valueDate='2009-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='080268' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -529,19 +529,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
-      <column name=' VAL_DT' valueDate='2009-02-28' />
-      <column name=' POOL_FND_UNIT_VAL' value='075586' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name='VAL_DT' valueDate='2009-02-28' />
+      <column name='POOL_FND_UNIT_VAL' value='075586' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -554,19 +554,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
-      <column name=' VAL_DT' valueDate='2009-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='076717' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name='VAL_DT' valueDate='2009-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='076717' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -579,19 +579,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
-      <column name=' VAL_DT' valueDate='2009-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='080963' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name='VAL_DT' valueDate='2009-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='080963' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -604,19 +604,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
-      <column name=' VAL_DT' valueDate='2009-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='0845' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name='VAL_DT' valueDate='2009-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='0845' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -629,19 +629,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
-      <column name=' VAL_DT' valueDate='2009-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='084681' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name='VAL_DT' valueDate='2009-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='084681' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -654,19 +654,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
-      <column name=' VAL_DT' valueDate='2009-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088642' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name='VAL_DT' valueDate='2009-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088642' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -679,19 +679,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
-      <column name=' VAL_DT' valueDate='2009-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='089965' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name='VAL_DT' valueDate='2009-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='089965' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -704,19 +704,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
-      <column name=' VAL_DT' valueDate='2009-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='092501' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name='VAL_DT' valueDate='2009-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='092501' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -729,19 +729,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
-      <column name=' VAL_DT' valueDate='2009-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='090484' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name='VAL_DT' valueDate='2009-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='090484' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -754,19 +754,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
-      <column name=' VAL_DT' valueDate='2007-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134225' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name='VAL_DT' valueDate='2007-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134225' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -779,19 +779,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
-      <column name=' VAL_DT' valueDate='2007-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='131488' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name='VAL_DT' valueDate='2007-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='131488' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -804,19 +804,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
-      <column name=' VAL_DT' valueDate='2007-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130937' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name='VAL_DT' valueDate='2007-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130937' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -829,19 +829,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
-      <column name=' VAL_DT' valueDate='2007-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134417' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name='VAL_DT' valueDate='2007-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134417' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -854,19 +854,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
-      <column name=' VAL_DT' valueDate='2007-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='137556' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name='VAL_DT' valueDate='2007-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='137556' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -879,19 +879,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
-      <column name=' VAL_DT' valueDate='2007-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='131572' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name='VAL_DT' valueDate='2007-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='131572' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -904,19 +904,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
-      <column name=' VAL_DT' valueDate='2007-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130396' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name='VAL_DT' valueDate='2007-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130396' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -929,19 +929,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
-      <column name=' VAL_DT' valueDate='2008-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='124181' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name='VAL_DT' valueDate='2008-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='124181' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -954,19 +954,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
-      <column name=' VAL_DT' valueDate='2008-02-29' />
-      <column name=' POOL_FND_UNIT_VAL' value='122989' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name='VAL_DT' valueDate='2008-02-29' />
+      <column name='POOL_FND_UNIT_VAL' value='122989' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -979,19 +979,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
-      <column name=' VAL_DT' valueDate='2008-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='121181' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name='VAL_DT' valueDate='2008-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='121181' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1004,19 +1004,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
-      <column name=' VAL_DT' valueDate='2008-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='125154' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name='VAL_DT' valueDate='2008-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='125154' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1029,19 +1029,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
-      <column name=' VAL_DT' valueDate='2008-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='126718' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name='VAL_DT' valueDate='2008-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='126718' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1054,19 +1054,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
-      <column name=' VAL_DT' valueDate='2008-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='118889' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name='VAL_DT' valueDate='2008-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='118889' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1079,19 +1079,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
-      <column name=' VAL_DT' valueDate='2008-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='116372' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name='VAL_DT' valueDate='2008-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='116372' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1104,19 +1104,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
-      <column name=' VAL_DT' valueDate='2008-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='115324' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name='VAL_DT' valueDate='2008-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='115324' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1129,19 +1129,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
-      <column name=' VAL_DT' valueDate='2008-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='104165' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name='VAL_DT' valueDate='2008-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='104165' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1154,19 +1154,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
-      <column name=' VAL_DT' valueDate='2008-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088686' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name='VAL_DT' valueDate='2008-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088686' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1179,19 +1179,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
-      <column name=' VAL_DT' valueDate='2008-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='082799' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name='VAL_DT' valueDate='2008-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='082799' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1204,19 +1204,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
-      <column name=' VAL_DT' valueDate='2008-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='084111' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name='VAL_DT' valueDate='2008-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='084111' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1229,19 +1229,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
-      <column name=' VAL_DT' valueDate='2009-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='080268' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name='VAL_DT' valueDate='2009-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='080268' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1254,19 +1254,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
-      <column name=' VAL_DT' valueDate='2009-02-28' />
-      <column name=' POOL_FND_UNIT_VAL' value='075586' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name='VAL_DT' valueDate='2009-02-28' />
+      <column name='POOL_FND_UNIT_VAL' value='075586' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1279,19 +1279,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
-      <column name=' VAL_DT' valueDate='2009-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='076717' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name='VAL_DT' valueDate='2009-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='076717' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1304,19 +1304,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
-      <column name=' VAL_DT' valueDate='2009-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='080963' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name='VAL_DT' valueDate='2009-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='080963' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1329,19 +1329,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
-      <column name=' VAL_DT' valueDate='2009-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='0845' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name='VAL_DT' valueDate='2009-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='0845' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1354,19 +1354,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
-      <column name=' VAL_DT' valueDate='2009-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='084681' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name='VAL_DT' valueDate='2009-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='084681' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1379,19 +1379,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
-      <column name=' VAL_DT' valueDate='2009-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088642' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name='VAL_DT' valueDate='2009-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088642' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1404,19 +1404,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
-      <column name=' VAL_DT' valueDate='2009-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='089965' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name='VAL_DT' valueDate='2009-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='089965' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1429,19 +1429,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
-      <column name=' VAL_DT' valueDate='2009-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='092501' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name='VAL_DT' valueDate='2009-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='092501' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1454,19 +1454,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
-      <column name=' VAL_DT' valueDate='2009-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='090484' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name='VAL_DT' valueDate='2009-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='090484' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1479,19 +1479,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-07-01' />
-      <column name=' VAL_DT' valueDate='2007-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134225' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-07-01' />
+      <column name='VAL_DT' valueDate='2007-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134225' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1504,19 +1504,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-08-01' />
-      <column name=' VAL_DT' valueDate='2007-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='131488' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-08-30' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-08-01' />
+      <column name='VAL_DT' valueDate='2007-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='131488' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-30' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1529,19 +1529,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-09-01' />
-      <column name=' VAL_DT' valueDate='2007-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130937' />
-      <column name=' DSTRB_AMT' value='00049' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-09-01' />
+      <column name='VAL_DT' valueDate='2007-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130937' />
+      <column name='DSTRB_AMT' value='00049' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1554,19 +1554,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-10-01' />
-      <column name=' VAL_DT' valueDate='2007-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='134417' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-10-01' />
+      <column name='VAL_DT' valueDate='2007-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='134417' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1579,19 +1579,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-11-01' />
-      <column name=' VAL_DT' valueDate='2007-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='137556' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-11-01' />
+      <column name='VAL_DT' valueDate='2007-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='137556' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1604,19 +1604,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2007-12-01' />
-      <column name=' VAL_DT' valueDate='2007-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='131572' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2007-12-01' />
+      <column name='VAL_DT' valueDate='2007-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='131572' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1629,19 +1629,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-01-01' />
-      <column name=' VAL_DT' valueDate='2007-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='130396' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-01-01' />
+      <column name='VAL_DT' valueDate='2007-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='130396' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1654,19 +1654,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-02-01' />
-      <column name=' VAL_DT' valueDate='2008-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='124181' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-02-01' />
+      <column name='VAL_DT' valueDate='2008-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='124181' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1679,19 +1679,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-03-01' />
-      <column name=' VAL_DT' valueDate='2008-02-29' />
-      <column name=' POOL_FND_UNIT_VAL' value='122989' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-03-01' />
+      <column name='VAL_DT' valueDate='2008-02-29' />
+      <column name='POOL_FND_UNIT_VAL' value='122989' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1704,19 +1704,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-04-01' />
-      <column name=' VAL_DT' valueDate='2008-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='121181' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-04-01' />
+      <column name='VAL_DT' valueDate='2008-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='121181' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1729,19 +1729,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-05-01' />
-      <column name=' VAL_DT' valueDate='2008-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='125154' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-05-01' />
+      <column name='VAL_DT' valueDate='2008-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='125154' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1754,19 +1754,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-06-01' />
-      <column name=' VAL_DT' valueDate='2008-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='126718' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-06-01' />
+      <column name='VAL_DT' valueDate='2008-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='126718' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1779,19 +1779,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-07-01' />
-      <column name=' VAL_DT' valueDate='2008-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='118889' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-07-01' />
+      <column name='VAL_DT' valueDate='2008-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='118889' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1804,19 +1804,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-08-01' />
-      <column name=' VAL_DT' valueDate='2008-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='116372' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-08-01' />
+      <column name='VAL_DT' valueDate='2008-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='116372' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1829,19 +1829,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-09-01' />
-      <column name=' VAL_DT' valueDate='2008-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='115324' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-09-01' />
+      <column name='VAL_DT' valueDate='2008-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='115324' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1854,19 +1854,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-10-01' />
-      <column name=' VAL_DT' valueDate='2008-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='104165' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-10-01' />
+      <column name='VAL_DT' valueDate='2008-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='104165' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1879,19 +1879,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-11-01' />
-      <column name=' VAL_DT' valueDate='2008-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088686' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-11-01' />
+      <column name='VAL_DT' valueDate='2008-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088686' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1904,19 +1904,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2008-12-01' />
-      <column name=' VAL_DT' valueDate='2008-11-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='082799' />
-      <column name=' DSTRB_AMT' value='00051' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2008-12-01' />
+      <column name='VAL_DT' valueDate='2008-11-30' />
+      <column name='POOL_FND_UNIT_VAL' value='082799' />
+      <column name='DSTRB_AMT' value='00051' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1929,19 +1929,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-01-01' />
-      <column name=' VAL_DT' valueDate='2008-12-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='084111' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-01-01' />
+      <column name='VAL_DT' valueDate='2008-12-31' />
+      <column name='POOL_FND_UNIT_VAL' value='084111' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1954,19 +1954,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-02-01' />
-      <column name=' VAL_DT' valueDate='2009-01-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='080268' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-02-01' />
+      <column name='VAL_DT' valueDate='2009-01-31' />
+      <column name='POOL_FND_UNIT_VAL' value='080268' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1979,19 +1979,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-03-01' />
-      <column name=' VAL_DT' valueDate='2009-02-28' />
-      <column name=' POOL_FND_UNIT_VAL' value='075586' />
-      <column name=' DSTRB_AMT' value='0005' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-03-01' />
+      <column name='VAL_DT' valueDate='2009-02-28' />
+      <column name='POOL_FND_UNIT_VAL' value='075586' />
+      <column name='DSTRB_AMT' value='0005' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2004,19 +2004,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-04-01' />
-      <column name=' VAL_DT' valueDate='2009-03-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='076717' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-04-01' />
+      <column name='VAL_DT' valueDate='2009-03-31' />
+      <column name='POOL_FND_UNIT_VAL' value='076717' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2029,19 +2029,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-05-01' />
-      <column name=' VAL_DT' valueDate='2009-04-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='080963' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-05-01' />
+      <column name='VAL_DT' valueDate='2009-04-30' />
+      <column name='POOL_FND_UNIT_VAL' value='080963' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2054,19 +2054,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-06-01' />
-      <column name=' VAL_DT' valueDate='2009-05-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='0845' />
-      <column name=' DSTRB_AMT' value='00048' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-06-01' />
+      <column name='VAL_DT' valueDate='2009-05-31' />
+      <column name='POOL_FND_UNIT_VAL' value='0845' />
+      <column name='DSTRB_AMT' value='00048' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2079,19 +2079,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-07-01' />
-      <column name=' VAL_DT' valueDate='2009-06-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='084681' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-07-01' />
+      <column name='VAL_DT' valueDate='2009-06-30' />
+      <column name='POOL_FND_UNIT_VAL' value='084681' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2104,19 +2104,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-08-01' />
-      <column name=' VAL_DT' valueDate='2009-07-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='088642' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-08-01' />
+      <column name='VAL_DT' valueDate='2009-07-31' />
+      <column name='POOL_FND_UNIT_VAL' value='088642' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2129,19 +2129,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-09-01' />
-      <column name=' VAL_DT' valueDate='2009-08-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='089965' />
-      <column name=' DSTRB_AMT' value='00047' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-09-01' />
+      <column name='VAL_DT' valueDate='2009-08-31' />
+      <column name='POOL_FND_UNIT_VAL' value='089965' />
+      <column name='DSTRB_AMT' value='00047' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2154,19 +2154,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-10-01' />
-      <column name=' VAL_DT' valueDate='2009-09-30' />
-      <column name=' POOL_FND_UNIT_VAL' value='092501' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-10-01' />
+      <column name='VAL_DT' valueDate='2009-09-30' />
+      <column name='POOL_FND_UNIT_VAL' value='092501' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2179,19 +2179,19 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' VAL_EFF_DT' valueDate='2009-11-01' />
-      <column name=' VAL_DT' valueDate='2009-10-31' />
-      <column name=' POOL_FND_UNIT_VAL' value='090484' />
-      <column name=' DSTRB_AMT' value='00046' />
-      <column name=' DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
-      <column name=' DSTRB_PROC_CMPLT' value='Y' />
-      <column name=' LT_GAIN_LOSS' value='0' />
-      <column name=' LT_PROC_ON_DT' valueDate='' />
-      <column name=' LT_PROC_CMPLT' value='N' />
-      <column name=' ST_GAIN_LOSS' value='0' />
-      <column name=' ST_PROC_ON_DT' valueDate='' />
-      <column name=' ST_PROC_CMPLT' value='N' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VAL_EFF_DT' valueDate='2009-11-01' />
+      <column name='VAL_DT' valueDate='2009-10-31' />
+      <column name='POOL_FND_UNIT_VAL' value='090484' />
+      <column name='DSTRB_AMT' value='00046' />
+      <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
+      <column name='DSTRB_PROC_CMPLT' value='Y' />
+      <column name='LT_GAIN_LOSS' value='0' />
+      <column name='LT_PROC_ON_DT' valueDate='' />
+      <column name='LT_PROC_CMPLT' value='N' />
+      <column name='ST_GAIN_LOSS' value='0' />
+      <column name='ST_PROC_ON_DT' valueDate='' />
+      <column name='ST_PROC_CMPLT' value='N' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

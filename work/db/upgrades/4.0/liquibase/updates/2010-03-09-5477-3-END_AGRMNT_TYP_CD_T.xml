@@ -4,9 +4,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='1' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Grant Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Grant Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,9 +19,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='A' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Account Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Account Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -34,9 +34,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='B' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Fund Description' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Fund Description' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -49,9 +49,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='C' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Account Form' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Account Form' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -64,9 +64,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='D' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Account Administration Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Account Administration Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +79,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='E' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -94,9 +94,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Fund Administration Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Fund Administration Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -109,9 +109,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Gift Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Gift Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -124,9 +124,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='H' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Last Will and Testament' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Last Will and Testament' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -139,9 +139,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='I' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Instructions for the Administration of' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Instructions for the Administration of' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -154,9 +154,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='J' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Letter of Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Letter of Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -169,9 +169,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='K' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Pledge Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Pledge Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -184,9 +184,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='L' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Letter' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Letter' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -199,9 +199,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Memo of Understanding' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Memo of Understanding' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -214,9 +214,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='N' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Construction Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Construction Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,9 +229,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='O' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Donor Intent Memo' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Donor Intent Memo' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -244,9 +244,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='P' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Proposal' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Proposal' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -259,9 +259,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='Q' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Procedures' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Procedures' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -274,9 +274,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='R' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Resolution' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Resolution' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -289,9 +289,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='S' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Solicitation' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Solicitation' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -304,9 +304,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='T' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Trust Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Trust Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -319,9 +319,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='U' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Court Order' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Court Order' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -334,9 +334,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='V' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Donor Advised Fund Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Donor Advised Fund Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -349,9 +349,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='W' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Warranty Deed' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Warranty Deed' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -364,9 +364,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='X' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='None' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='None' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -379,9 +379,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='Y' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Agency Agreement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Agency Agreement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -394,9 +394,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_TYP_CD_T'>
       <column name='AGRMNT_TYP_CD' value='Z' />
-      <column name=' AGRMNT_TYP_CD_DESC' value='Not Applicable' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_TYP_CD_DESC' value='Not Applicable' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

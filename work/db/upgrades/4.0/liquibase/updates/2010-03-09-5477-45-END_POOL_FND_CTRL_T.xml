@@ -4,17 +4,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99MMKT013' />
-      <column name=' POOL_FND_DESC' value='Money Market Investments' />
-      <column name=' PF_BATCH_ID' value='MMKT' />
-      <column name=' INCRM_VLTN_DAYS' value='0' />
-      <column name=' KEMID' value='099PMKT010' />
-      <column name=' AST_PURCH_OFST_CD' value='01205' />
-      <column name=' AST_SALE_OFST_CD' value='01205' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='42010' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Money Market Investments' />
+      <column name='PF_BATCH_ID' value='MMKT' />
+      <column name='INCRM_VLTN_DAYS' value='0' />
+      <column name='KEMID' value='099PMKT010' />
+      <column name='AST_PURCH_OFST_CD' value='01205' />
+      <column name='AST_SALE_OFST_CD' value='01205' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='42010' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -27,17 +27,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
-      <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Income' />
-      <column name=' PF_BATCH_ID' value='PLTFI' />
-      <column name=' INCRM_VLTN_DAYS' value='1' />
-      <column name=' KEMID' value='099PLTF013' />
-      <column name=' AST_PURCH_OFST_CD' value='11700' />
-      <column name=' AST_SALE_OFST_CD' value='11700' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='75720' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Pooled Long Term Fund Income' />
+      <column name='PF_BATCH_ID' value='PLTFI' />
+      <column name='INCRM_VLTN_DAYS' value='1' />
+      <column name='KEMID' value='099PLTF013' />
+      <column name='AST_PURCH_OFST_CD' value='11700' />
+      <column name='AST_SALE_OFST_CD' value='11700' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='75720' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -50,17 +50,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
-      <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Principal' />
-      <column name=' PF_BATCH_ID' value='PLTFP' />
-      <column name=' INCRM_VLTN_DAYS' value='1' />
-      <column name=' KEMID' value='099PLTF021' />
-      <column name=' AST_PURCH_OFST_CD' value='11700' />
-      <column name=' AST_SALE_OFST_CD' value='11700' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='75720' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Pooled Long Term Fund Principal' />
+      <column name='PF_BATCH_ID' value='PLTFP' />
+      <column name='INCRM_VLTN_DAYS' value='1' />
+      <column name='KEMID' value='099PLTF021' />
+      <column name='AST_PURCH_OFST_CD' value='11700' />
+      <column name='AST_SALE_OFST_CD' value='11700' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='75720' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -73,17 +73,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
-      <column name=' POOL_FND_DESC' value='Pooled Long Term Fund Consolidated' />
-      <column name=' PF_BATCH_ID' value='PLTFC' />
-      <column name=' INCRM_VLTN_DAYS' value='1' />
-      <column name=' KEMID' value='099PLTF997' />
-      <column name=' AST_PURCH_OFST_CD' value='11700' />
-      <column name=' AST_SALE_OFST_CD' value='11700' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='75720' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Pooled Long Term Fund Consolidated' />
+      <column name='PF_BATCH_ID' value='PLTFC' />
+      <column name='INCRM_VLTN_DAYS' value='1' />
+      <column name='KEMID' value='099PLTF997' />
+      <column name='AST_PURCH_OFST_CD' value='11700' />
+      <column name='AST_SALE_OFST_CD' value='11700' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='75720' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -96,17 +96,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PSTF018' />
-      <column name=' POOL_FND_DESC' value='Pooled Short Term Fund Income' />
-      <column name=' PF_BATCH_ID' value='PSTFI' />
-      <column name=' INCRM_VLTN_DAYS' value='0' />
-      <column name=' KEMID' value='099PSTF018' />
-      <column name=' AST_PURCH_OFST_CD' value='01205' />
-      <column name=' AST_SALE_OFST_CD' value='01205' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='42010' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Pooled Short Term Fund Income' />
+      <column name='PF_BATCH_ID' value='PSTFI' />
+      <column name='INCRM_VLTN_DAYS' value='0' />
+      <column name='KEMID' value='099PSTF018' />
+      <column name='AST_PURCH_OFST_CD' value='01205' />
+      <column name='AST_SALE_OFST_CD' value='01205' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='42010' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -119,17 +119,17 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_CTRL_T'>
       <column name='POOL_SEC_ID' value='99PSTF034' />
-      <column name=' POOL_FND_DESC' value='Pooled Short Term Fund Principal' />
-      <column name=' PF_BATCH_ID' value='PSTFP' />
-      <column name=' INCRM_VLTN_DAYS' value='0' />
-      <column name=' KEMID' value='099PSTF034' />
-      <column name=' AST_PURCH_OFST_CD' value='01205' />
-      <column name=' AST_SALE_OFST_CD' value='01205' />
-      <column name=' SALE_GAIN_LOSS_CD' value='78100' />
-      <column name=' CSH_DPST_OFST_CD' value='42010' />
-      <column name=' DSTRB_GAIN_LOSS_IND' value='N' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='POOL_FND_DESC' value='Pooled Short Term Fund Principal' />
+      <column name='PF_BATCH_ID' value='PSTFP' />
+      <column name='INCRM_VLTN_DAYS' value='0' />
+      <column name='KEMID' value='099PSTF034' />
+      <column name='AST_PURCH_OFST_CD' value='01205' />
+      <column name='AST_SALE_OFST_CD' value='01205' />
+      <column name='SALE_GAIN_LOSS_CD' value='78100' />
+      <column name='CSH_DPST_OFST_CD' value='42010' />
+      <column name='DSTRB_GAIN_LOSS_IND' value='N' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

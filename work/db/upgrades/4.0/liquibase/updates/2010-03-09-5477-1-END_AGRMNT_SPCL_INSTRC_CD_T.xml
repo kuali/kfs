@@ -4,9 +4,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest earnings to specific fund balances' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Reinvest earnings to specific fund balances' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,9 +19,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RP' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest  of earnings' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Reinvest  of earnings' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -34,9 +34,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='TP' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Transfer  of earnings to separate account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Transfer  of earnings to separate account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -49,9 +49,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='TS' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Transfer specific amount to separate account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Transfer specific amount to separate account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -64,9 +64,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='OT' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Other' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Other' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +79,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
-      <column name=' AGRMNT_SPCL_INSTRC_DESC' value='Reinvest unused FY earnings per GA' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_SPCL_INSTRC_DESC' value='Reinvest unused FY earnings per GA' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

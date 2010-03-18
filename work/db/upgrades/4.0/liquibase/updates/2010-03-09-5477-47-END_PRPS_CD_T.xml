@@ -4,9 +4,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='A' />
-      <column name=' PRPS_DESC' value='Award' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Award' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,9 +19,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='AF' />
-      <column name=' PRPS_DESC' value='Faculty Award' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Faculty Award' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -34,9 +34,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='AFR' />
-      <column name=' PRPS_DESC' value='Faculty Award With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Faculty Award With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -49,9 +49,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='AR' />
-      <column name=' PRPS_DESC' value='Award With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Award With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -64,9 +64,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='AS' />
-      <column name=' PRPS_DESC' value='Student Award' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Student Award' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +79,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='ASR' />
-      <column name=' PRPS_DESC' value='Student Award With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Student Award With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -94,9 +94,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='C' />
-      <column name=' PRPS_DESC' value='Construction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Construction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -109,9 +109,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='CI' />
-      <column name=' PRPS_DESC' value='Capital Improvement' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Capital Improvement' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -124,9 +124,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='CID' />
-      <column name=' PRPS_DESC' value='Capital Improvement With Restriction to Department, School or Program' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Capital Improvement With Restriction to Department, School or Program' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -139,9 +139,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='CIR' />
-      <column name=' PRPS_DESC' value='Capital Improvement With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Capital Improvement With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -154,9 +154,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='CR' />
-      <column name=' PRPS_DESC' value='Construction With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Construction With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -169,9 +169,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='D' />
-      <column name=' PRPS_DESC' value='Curatorship' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Curatorship' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -184,9 +184,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='D3' />
-      <column name=' PRPS_DESC' value='Curatorship - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Curatorship - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -199,9 +199,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='DR' />
-      <column name=' PRPS_DESC' value='Curatorship - With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Curatorship - With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -214,9 +214,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='DR3' />
-      <column name=' PRPS_DESC' value='Curatorship - With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Curatorship - With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,9 +229,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='E' />
-      <column name=' PRPS_DESC' value='Internships' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Internships' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -244,9 +244,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='ER' />
-      <column name=' PRPS_DESC' value='Internships With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Internships With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -259,9 +259,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='F' />
-      <column name=' PRPS_DESC' value='Graduate Fellowship' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Graduate Fellowship' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -274,9 +274,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='F3' />
-      <column name=' PRPS_DESC' value='Graduate Fellowship - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Graduate Fellowship - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -289,9 +289,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='FF' />
-      <column name=' PRPS_DESC' value='Faculty Fellowship' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Faculty Fellowship' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -304,9 +304,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='FF3' />
-      <column name=' PRPS_DESC' value='Faculty Fellowship - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Faculty Fellowship - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -319,9 +319,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='FFR' />
-      <column name=' PRPS_DESC' value='Faculty Fellowship With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Faculty Fellowship With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -334,9 +334,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='FR' />
-      <column name=' PRPS_DESC' value='Graduate Fellowship With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Graduate Fellowship With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -349,9 +349,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='FR3' />
-      <column name=' PRPS_DESC' value='Graduate Fellowship With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Graduate Fellowship With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -364,9 +364,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='I' />
-      <column name=' PRPS_DESC' value='Internal IUF Accounts' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Internal IUF Accounts' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -379,9 +379,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='IR' />
-      <column name=' PRPS_DESC' value='Internal IUF Accounts With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Internal IUF Accounts With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -394,9 +394,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='L' />
-      <column name=' PRPS_DESC' value='Lectureship' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Lectureship' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -409,9 +409,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='LR' />
-      <column name=' PRPS_DESC' value='Lectureship With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Lectureship With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -424,9 +424,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='M' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -439,9 +439,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='M3' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -454,9 +454,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MD' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department, School or Program' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department, School or Program' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -469,9 +469,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MD3' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account With Restriction to Department' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -484,9 +484,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MPP' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account - Medical School Practice Plan Account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account - Medical School Practice Plan Account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -499,9 +499,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MR' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -514,9 +514,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='MR3' />
-      <column name=' PRPS_DESC' value='General Endowment - Multi Use Account With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='General Endowment - Multi Use Account With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -529,9 +529,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='N' />
-      <column name=' PRPS_DESC' value='Loan' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Loan' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -544,9 +544,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='NR' />
-      <column name=' PRPS_DESC' value='Loan With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Loan With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -559,9 +559,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='O' />
-      <column name=' PRPS_DESC' value='Operating Account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -574,9 +574,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OD' />
-      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department, School or Program' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account With Restriction to Department, School or Program' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -589,9 +589,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OD3' />
-      <column name=' PRPS_DESC' value='Operating Account With Restriction to Department, School or Program - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account With Restriction to Department, School or Program - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -604,9 +604,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OPP' />
-      <column name=' PRPS_DESC' value='Operating Account - Medical School Practice Plan Account' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account - Medical School Practice Plan Account' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -619,9 +619,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OR' />
-      <column name=' PRPS_DESC' value='Operating Account With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -634,9 +634,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='OR3' />
-      <column name=' PRPS_DESC' value='Operating Account With Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Operating Account With Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -649,9 +649,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='P' />
-      <column name=' PRPS_DESC' value='Professorship' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Professorship' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -664,9 +664,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='P3' />
-      <column name=' PRPS_DESC' value='Professorship - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Professorship - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -679,9 +679,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='PR' />
-      <column name=' PRPS_DESC' value='Professorship With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Professorship With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -694,9 +694,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='PR3' />
-      <column name=' PRPS_DESC' value='Professorship With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Professorship With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -709,9 +709,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='Q' />
-      <column name=' PRPS_DESC' value='Chair' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Chair' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -724,9 +724,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='Q3' />
-      <column name=' PRPS_DESC' value='Chair - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Chair - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -739,9 +739,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='QR' />
-      <column name=' PRPS_DESC' value='Chair With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Chair With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -754,9 +754,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='QR3' />
-      <column name=' PRPS_DESC' value='Chair With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Chair With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -769,9 +769,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='R' />
-      <column name=' PRPS_DESC' value='Research' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Research' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -784,9 +784,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RD' />
-      <column name=' PRPS_DESC' value='Research With Restriction to Department, School or Program' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Research With Restriction to Department, School or Program' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -799,9 +799,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RD3' />
-      <column name=' PRPS_DESC' value='Research With Restriction to Department, School or Program - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Research With Restriction to Department, School or Program - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -814,9 +814,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RR' />
-      <column name=' PRPS_DESC' value='Research With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Research With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -829,9 +829,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='RR3' />
-      <column name=' PRPS_DESC' value='Research With Some Restriction - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Research With Some Restriction - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -844,9 +844,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SB' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate or Graduate' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate or Graduate' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -859,9 +859,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SB3' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate or Graduate - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate or Graduate - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -874,9 +874,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SBR' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate or Graduate With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate or Graduate With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -889,9 +889,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SG' />
-      <column name=' PRPS_DESC' value='Scholarship - Graduate' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Graduate' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -904,9 +904,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SG3' />
-      <column name=' PRPS_DESC' value='Scholarship - Graduate - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Graduate - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -919,9 +919,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SGR' />
-      <column name=' PRPS_DESC' value='Scholarship - Graduate With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Graduate With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -934,9 +934,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SH' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate - Honors Division' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate - Honors Division' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -949,9 +949,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SHR' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate - Honors Division With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate - Honors Division With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -964,9 +964,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SU' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -979,9 +979,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SU3' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -994,9 +994,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='SUR' />
-      <column name=' PRPS_DESC' value='Scholarship - Undergraduate With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Scholarship - Undergraduate With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1009,9 +1009,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='TCA' />
-      <column name=' PRPS_DESC' value='Trust - Annuity' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Trust - Annuity' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1024,9 +1024,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='TCU' />
-      <column name=' PRPS_DESC' value='Trust - Unitrust' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Trust - Unitrust' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1039,9 +1039,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='U' />
-      <column name=' PRPS_DESC' value='Undesignated' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Undesignated' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1054,9 +1054,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XA' />
-      <column name=' PRPS_DESC' value='Art Acquisition' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Art Acquisition' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1069,9 +1069,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XA3' />
-      <column name=' PRPS_DESC' value='Art Acquisition - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Art Acquisition - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1084,9 +1084,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XAR' />
-      <column name=' PRPS_DESC' value='Art Acquisition With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Art Acquisition With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1099,9 +1099,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XL' />
-      <column name=' PRPS_DESC' value='Library Acquisition' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Library Acquisition' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1114,9 +1114,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XL3' />
-      <column name=' PRPS_DESC' value='Library Acquisition - Presidents Match Participant' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Library Acquisition - Presidents Match Participant' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1129,9 +1129,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='XLR' />
-      <column name=' PRPS_DESC' value='Library Acquisition With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Library Acquisition With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1144,9 +1144,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='Z' />
-      <column name=' PRPS_DESC' value='Agency' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Agency' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1159,9 +1159,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_PRPS_CD_T'>
       <column name='PRPS_CD' value='ZR' />
-      <column name=' PRPS_DESC' value='Agency With Some Restriction' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='PRPS_DESC' value='Agency With Some Restriction' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

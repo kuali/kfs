@@ -4,9 +4,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='00100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8007' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8007' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,9 +19,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='01005' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -34,9 +34,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='01200' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8004' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8004' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -49,9 +49,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='01205' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8004' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8004' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -64,9 +64,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='01290' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8004' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8004' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +79,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='02020' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8117' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8117' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -94,9 +94,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='02100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8117' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8117' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -109,9 +109,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='03050' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8100' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8100' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -124,9 +124,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='05030' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8200' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8200' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -139,9 +139,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='05035' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8200' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8200' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -154,9 +154,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='05100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8200' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8200' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -169,9 +169,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='06000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -184,9 +184,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8504' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8504' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -199,9 +199,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8501' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8501' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -214,9 +214,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10200' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8501' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8501' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,9 +229,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10300' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8501' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8501' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -244,9 +244,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10400' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -259,9 +259,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10600' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -274,9 +274,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10700' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -289,9 +289,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10900' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -304,9 +304,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='11000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -319,9 +319,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='11100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -334,9 +334,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='11500' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -349,9 +349,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='11700' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -364,9 +364,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='12000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -379,9 +379,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='12100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -394,9 +394,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='12500' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8598' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8598' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -409,9 +409,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='13000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8509' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8509' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -424,9 +424,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='14000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8509' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8509' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -439,9 +439,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='15000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -454,9 +454,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='17000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8550' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8550' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -469,9 +469,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='22025' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9080' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9080' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -484,9 +484,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='22500' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9080' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9080' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -499,9 +499,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='24000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9100' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9100' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -514,9 +514,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -529,9 +529,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42010' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -544,9 +544,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42015' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -559,9 +559,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42020' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -574,9 +574,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -589,9 +589,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42120' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -604,9 +604,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42140' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -619,9 +619,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42160' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -634,9 +634,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42190' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -649,9 +649,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42200' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -664,9 +664,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42210' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -679,9 +679,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42270' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -694,9 +694,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42300' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -709,9 +709,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42320' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -724,9 +724,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='42415' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -739,9 +739,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='45000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -754,9 +754,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='45100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='1800' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='1800' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -769,9 +769,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='74000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -784,9 +784,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='74100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -799,9 +799,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='75010' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -814,9 +814,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='75020' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -829,9 +829,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='76010' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -844,9 +844,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='76020' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -859,9 +859,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='78100' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -874,9 +874,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='77000' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -889,9 +889,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='10601' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='8510' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='8510' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -904,9 +904,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_ETRAN_GL_LNK_T'>
       <column name='ETRAN_CD' value='75720' />
-      <column name=' CHART_CD' value='BL' />
-      <column name=' OBJECT' value='9951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='CHART_CD' value='BL' />
+      <column name='OBJECT' value='9951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

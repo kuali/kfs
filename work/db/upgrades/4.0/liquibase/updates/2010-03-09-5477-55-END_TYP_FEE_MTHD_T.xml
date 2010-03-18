@@ -4,9 +4,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='011' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,9 +19,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='013' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -34,9 +34,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='017' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -49,9 +49,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='027' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -64,9 +64,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='032' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -79,9 +79,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='037' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -94,9 +94,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='038' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -109,9 +109,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='042' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -124,9 +124,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='046' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -139,9 +139,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='047' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -154,9 +154,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='049' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -169,9 +169,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='070' />
-      <column name=' FEE_MTHD' value='SHMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -184,9 +184,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='042' />
-      <column name=' FEE_MTHD' value='CRTMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -199,9 +199,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='046' />
-      <column name=' FEE_MTHD' value='CRTMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -214,9 +214,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='047' />
-      <column name=' FEE_MTHD' value='CRTMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,9 +229,9 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='049' />
-      <column name=' FEE_MTHD' value='CRTMF1' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

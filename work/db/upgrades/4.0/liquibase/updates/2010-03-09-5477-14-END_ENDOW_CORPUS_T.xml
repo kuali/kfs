@@ -6,7 +6,7 @@
       <column name='KEMID' value='037A014184' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='13220' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -21,7 +21,7 @@
       <column name='KEMID' value='037A017013' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='154186189' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -36,7 +36,7 @@
       <column name='KEMID' value='037AS12302' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='250000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -51,7 +51,7 @@
       <column name='KEMID' value='037AS34082' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='13232857' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -66,7 +66,7 @@
       <column name='KEMID' value='037AS35022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='5250' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -81,7 +81,7 @@
       <column name='KEMID' value='037AS36012' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='317119' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -96,7 +96,7 @@
       <column name='KEMID' value='037AS38026' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='900000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -111,7 +111,7 @@
       <column name='KEMID' value='037B011AG1' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='741299' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -126,7 +126,7 @@
       <column name='KEMID' value='037B012161' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='600000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -141,7 +141,7 @@
       <column name='KEMID' value='037E009701' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='16130' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -156,7 +156,7 @@
       <column name='KEMID' value='037F002010' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1593274' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -171,7 +171,7 @@
       <column name='KEMID' value='037G003785' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='48059453' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -186,7 +186,7 @@
       <column name='KEMID' value='037H004261' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1897861' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -201,7 +201,7 @@
       <column name='KEMID' value='037I002512' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='4801933' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -216,7 +216,7 @@
       <column name='KEMID' value='037K008284' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='21108764' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -231,7 +231,7 @@
       <column name='KEMID' value='037L006493' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='13013742' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -246,7 +246,7 @@
       <column name='KEMID' value='037L006709' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='9938435' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -261,7 +261,7 @@
       <column name='KEMID' value='037MDER022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='30566342' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -276,7 +276,7 @@
       <column name='KEMID' value='037MDSL103' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='10345813' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -291,7 +291,7 @@
       <column name='KEMID' value='037MMED197' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='13146693' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -306,7 +306,7 @@
       <column name='KEMID' value='037MPHC132' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='100000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -321,7 +321,7 @@
       <column name='KEMID' value='037O009148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1080805' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -336,7 +336,7 @@
       <column name='KEMID' value='037P003108' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1004002' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -351,7 +351,7 @@
       <column name='KEMID' value='037P004148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='25462006' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -366,7 +366,7 @@
       <column name='KEMID' value='037P011291' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1530942' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -381,7 +381,7 @@
       <column name='KEMID' value='037RQ04222' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='926837' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -396,7 +396,7 @@
       <column name='KEMID' value='037RT04333' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='9578' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -411,7 +411,7 @@
       <column name='KEMID' value='037S012056' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='3939467' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -426,7 +426,7 @@
       <column name='KEMID' value='037SC00501' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='10757643' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -441,7 +441,7 @@
       <column name='KEMID' value='037V009140' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='9270' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -456,7 +456,7 @@
       <column name='KEMID' value='037G003BD9' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='1177408' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -471,7 +471,7 @@
       <column name='KEMID' value='037V010080' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='100320' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -486,7 +486,7 @@
       <column name='KEMID' value='037WHMM024' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='2986125' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -501,7 +501,7 @@
       <column name='KEMID' value='037X002044' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
       <column name='CORPUS_VAL' value='29899637' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -516,7 +516,7 @@
       <column name='KEMID' value='037A014184' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='13420' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -531,7 +531,7 @@
       <column name='KEMID' value='037A017013' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='1521982361' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -546,7 +546,7 @@
       <column name='KEMID' value='037AS12302' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='250700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -561,7 +561,7 @@
       <column name='KEMID' value='037AS34082' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='14038857' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -576,7 +576,7 @@
       <column name='KEMID' value='037AS35022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='5250' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -591,7 +591,7 @@
       <column name='KEMID' value='037AS36012' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='317119' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -606,7 +606,7 @@
       <column name='KEMID' value='037AS38026' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='900000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -621,7 +621,7 @@
       <column name='KEMID' value='037AS54239' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='50000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -636,7 +636,7 @@
       <column name='KEMID' value='037B011AG1' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='778212' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -651,7 +651,7 @@
       <column name='KEMID' value='037B012161' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='600000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -666,7 +666,7 @@
       <column name='KEMID' value='037E009701' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='188396' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -681,7 +681,7 @@
       <column name='KEMID' value='037F002010' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='1593274' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -696,7 +696,7 @@
       <column name='KEMID' value='037G003785' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='48059453' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -711,7 +711,7 @@
       <column name='KEMID' value='037H004261' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='2238799' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -726,7 +726,7 @@
       <column name='KEMID' value='037I002512' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='5202859' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -741,7 +741,7 @@
       <column name='KEMID' value='037K008284' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='21628764' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -756,7 +756,7 @@
       <column name='KEMID' value='037L006493' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='13013742' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -771,7 +771,7 @@
       <column name='KEMID' value='037L006709' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='10874951' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -786,7 +786,7 @@
       <column name='KEMID' value='037MDER022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='33092821' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -801,7 +801,7 @@
       <column name='KEMID' value='037MDSL103' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='10529002' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -816,7 +816,7 @@
       <column name='KEMID' value='037MMED197' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='13138851' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -831,7 +831,7 @@
       <column name='KEMID' value='037MPHC132' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='9903911' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -846,7 +846,7 @@
       <column name='KEMID' value='037O009148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='1163305' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -861,7 +861,7 @@
       <column name='KEMID' value='037P003108' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='201608' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -876,7 +876,7 @@
       <column name='KEMID' value='037P004148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='3301694' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -891,7 +891,7 @@
       <column name='KEMID' value='037P011291' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='1745942' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -906,7 +906,7 @@
       <column name='KEMID' value='037RQ04222' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='926837' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -921,7 +921,7 @@
       <column name='KEMID' value='037RT04333' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='9578' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -936,7 +936,7 @@
       <column name='KEMID' value='037S012056' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='4029467' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -951,7 +951,7 @@
       <column name='KEMID' value='037SC00501' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='10757643' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -966,7 +966,7 @@
       <column name='KEMID' value='037V009140' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='10270' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -981,7 +981,7 @@
       <column name='KEMID' value='037G003BD9' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='1206408' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -996,7 +996,7 @@
       <column name='KEMID' value='037V010080' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='100320' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1011,7 +1011,7 @@
       <column name='KEMID' value='037WHMM024' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='2986125' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1026,7 +1026,7 @@
       <column name='KEMID' value='037X002044' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
       <column name='CORPUS_VAL' value='29899637' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1041,7 +1041,7 @@
       <column name='KEMID' value='037A014184' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='13620' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1056,7 +1056,7 @@
       <column name='KEMID' value='037A017013' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='1495773782' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1071,7 +1071,7 @@
       <column name='KEMID' value='037AS12302' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='301300' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1086,7 +1086,7 @@
       <column name='KEMID' value='037AS34082' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='14038857' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1101,7 +1101,7 @@
       <column name='KEMID' value='037AS35022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='5250' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1116,7 +1116,7 @@
       <column name='KEMID' value='037AS36012' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='317119' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1131,7 +1131,7 @@
       <column name='KEMID' value='037AS38026' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='900000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1146,7 +1146,7 @@
       <column name='KEMID' value='037AS54239' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='50000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1161,7 +1161,7 @@
       <column name='KEMID' value='037B011AG1' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='819908' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1176,7 +1176,7 @@
       <column name='KEMID' value='037B012161' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='600000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1191,7 +1191,7 @@
       <column name='KEMID' value='037E009701' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='200146' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1206,7 +1206,7 @@
       <column name='KEMID' value='037E009727' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='10260645' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1221,7 +1221,7 @@
       <column name='KEMID' value='037F002010' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='1593274' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1236,7 +1236,7 @@
       <column name='KEMID' value='037G003785' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='48059453' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1251,7 +1251,7 @@
       <column name='KEMID' value='037G030812' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='1237508' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1266,7 +1266,7 @@
       <column name='KEMID' value='037H004261' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='2627431' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1281,7 +1281,7 @@
       <column name='KEMID' value='037I002512' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='5656597' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1296,7 +1296,7 @@
       <column name='KEMID' value='037K008284' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='22653764' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1311,7 +1311,7 @@
       <column name='KEMID' value='037L006493' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='13013742' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1326,7 +1326,7 @@
       <column name='KEMID' value='037L006709' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='11704002' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1341,7 +1341,7 @@
       <column name='KEMID' value='037MDER022' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='36182855' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1356,7 +1356,7 @@
       <column name='KEMID' value='037MDSL103' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='10640804' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1371,7 +1371,7 @@
       <column name='KEMID' value='037MMED197' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='13165595' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1386,7 +1386,7 @@
       <column name='KEMID' value='037MPHC132' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='9904226' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1401,7 +1401,7 @@
       <column name='KEMID' value='037O009148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='1193305' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1416,7 +1416,7 @@
       <column name='KEMID' value='037P003108' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='201608' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1431,7 +1431,7 @@
       <column name='KEMID' value='037P004148' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='3964194' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1446,7 +1446,7 @@
       <column name='KEMID' value='037P011291' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='1908442' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1461,7 +1461,7 @@
       <column name='KEMID' value='037RQ04222' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='926837' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1476,7 +1476,7 @@
       <column name='KEMID' value='037RT04333' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='9678' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1491,7 +1491,7 @@
       <column name='KEMID' value='037S012056' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='4096967' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1506,7 +1506,7 @@
       <column name='KEMID' value='037SC00501' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='11444215' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1521,7 +1521,7 @@
       <column name='KEMID' value='037V009140' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='11270' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1536,7 +1536,7 @@
       <column name='KEMID' value='037V010080' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='100320' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1551,7 +1551,7 @@
       <column name='KEMID' value='037WHMM024' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='2986125' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1566,7 +1566,7 @@
       <column name='KEMID' value='037X002044' />
       <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
       <column name='CORPUS_VAL' value='29899637' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

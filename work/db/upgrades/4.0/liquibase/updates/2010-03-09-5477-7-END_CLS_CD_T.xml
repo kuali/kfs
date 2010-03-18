@@ -4,16 +4,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='061' />
-      <column name=' SEC_CLS_CD_DESC' value='GNMA Bonds' />
-      <column name=' SEC_RPT_GRP' value='BND' />
-      <column name=' SEC_ACRL_MTHD' value='3' />
-      <column name=' SEC_ETRAN_CD' value='10100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42120' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='B' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='GNMA Bonds' />
+      <column name='SEC_RPT_GRP' value='BND' />
+      <column name='SEC_ACRL_MTHD' value='3' />
+      <column name='SEC_ETRAN_CD' value='10100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42120' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='B' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -26,16 +26,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='100' />
-      <column name=' SEC_CLS_CD_DESC' value='Municipal Bonds' />
-      <column name=' SEC_RPT_GRP' value='BND' />
-      <column name=' SEC_ACRL_MTHD' value='T' />
-      <column name=' SEC_ETRAN_CD' value='10300' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42160' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='B' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Municipal Bonds' />
+      <column name='SEC_RPT_GRP' value='BND' />
+      <column name='SEC_ACRL_MTHD' value='T' />
+      <column name='SEC_ETRAN_CD' value='10300' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42160' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='B' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -48,16 +48,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='011' />
-      <column name=' SEC_CLS_CD_DESC' value='Commercial Paper' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='10700' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42140' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='O' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Commercial Paper' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='10700' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42140' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='O' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -70,16 +70,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='200' />
-      <column name=' SEC_CLS_CD_DESC' value='Corporate Bonds' />
-      <column name=' SEC_RPT_GRP' value='BND' />
-      <column name=' SEC_ACRL_MTHD' value='T' />
-      <column name=' SEC_ETRAN_CD' value='10200' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42140' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='B' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Corporate Bonds' />
+      <column name='SEC_RPT_GRP' value='BND' />
+      <column name='SEC_ACRL_MTHD' value='T' />
+      <column name='SEC_ETRAN_CD' value='10200' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42140' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='B' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -92,16 +92,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='025' />
-      <column name=' SEC_CLS_CD_DESC' value='Federal Government Bonds' />
-      <column name=' SEC_RPT_GRP' value='BND' />
-      <column name=' SEC_ACRL_MTHD' value='T' />
-      <column name=' SEC_ETRAN_CD' value='10100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42120' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='B' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Federal Government Bonds' />
+      <column name='SEC_RPT_GRP' value='BND' />
+      <column name='SEC_ACRL_MTHD' value='T' />
+      <column name='SEC_ETRAN_CD' value='10100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42120' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='B' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -114,16 +114,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='300' />
-      <column name=' SEC_CLS_CD_DESC' value='Bond Trust Investment Pool' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='12500' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42320' />
-      <column name=' TAX_LOT_IND' value='Y' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Bond Trust Investment Pool' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='12500' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42320' />
+      <column name='TAX_LOT_IND' value='Y' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -136,16 +136,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='301' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Fixed Income Fund' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='12000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42300' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Fixed Income Fund' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='12000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42300' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -158,16 +158,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='307' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Income' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='11700' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42270' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Income' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='11700' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42270' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -180,16 +180,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='308' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Principal' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='11700' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42270' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Principal' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='11700' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42270' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -202,16 +202,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='309' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Consolidated' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='11700' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42270' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Long Term Fund - Consolidated' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='11700' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42270' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -224,16 +224,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='310' />
-      <column name=' SEC_CLS_CD_DESC' value='Equity Trust Investment Pool' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='11500' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42210' />
-      <column name=' TAX_LOT_IND' value='Y' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Equity Trust Investment Pool' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='11500' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42210' />
+      <column name='TAX_LOT_IND' value='Y' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -246,16 +246,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='311' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Equity Fund' />
-      <column name=' SEC_RPT_GRP' value='POOL' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='11000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42200' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='P' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Equity Fund' />
+      <column name='SEC_RPT_GRP' value='POOL' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='11000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42200' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='P' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -268,16 +268,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='326' />
-      <column name=' SEC_CLS_CD_DESC' value='Pooled Short Term Fund' />
-      <column name=' SEC_RPT_GRP' value='CSHEQ' />
-      <column name=' SEC_ACRL_MTHD' value='A' />
-      <column name=' SEC_ETRAN_CD' value='01200' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42010' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='C' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Pooled Short Term Fund' />
+      <column name='SEC_RPT_GRP' value='CSHEQ' />
+      <column name='SEC_ACRL_MTHD' value='A' />
+      <column name='SEC_ETRAN_CD' value='01200' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42010' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='C' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -290,16 +290,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='400' />
-      <column name=' SEC_CLS_CD_DESC' value='Stocks - Domestic' />
-      <column name=' SEC_RPT_GRP' value='STK' />
-      <column name=' SEC_ACRL_MTHD' value='D' />
-      <column name=' SEC_ETRAN_CD' value='10000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='S' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Stocks - Domestic' />
+      <column name='SEC_RPT_GRP' value='STK' />
+      <column name='SEC_ACRL_MTHD' value='D' />
+      <column name='SEC_ETRAN_CD' value='10000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='S' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -312,16 +312,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='401' />
-      <column name=' SEC_CLS_CD_DESC' value='Stocks - Foreign' />
-      <column name=' SEC_RPT_GRP' value='STK' />
-      <column name=' SEC_ACRL_MTHD' value='D' />
-      <column name=' SEC_ETRAN_CD' value='10000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='S' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Stocks - Foreign' />
+      <column name='SEC_RPT_GRP' value='STK' />
+      <column name='SEC_ACRL_MTHD' value='D' />
+      <column name='SEC_ETRAN_CD' value='10000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='S' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -334,16 +334,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='495' />
-      <column name=' SEC_CLS_CD_DESC' value='Stock Mutual Fund or Exchange Traded Fund' />
-      <column name=' SEC_RPT_GRP' value='STK' />
-      <column name=' SEC_ACRL_MTHD' value='D' />
-      <column name=' SEC_ETRAN_CD' value='10400' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='S' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Stock Mutual Fund or Exchange Traded Fund' />
+      <column name='SEC_RPT_GRP' value='STK' />
+      <column name='SEC_ACRL_MTHD' value='D' />
+      <column name='SEC_ETRAN_CD' value='10400' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='S' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -356,16 +356,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='498' />
-      <column name=' SEC_CLS_CD_DESC' value='Bond Mutual Fund or Exchange Traded Fund' />
-      <column name=' SEC_RPT_GRP' value='STK' />
-      <column name=' SEC_ACRL_MTHD' value='T' />
-      <column name=' SEC_ETRAN_CD' value='10100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42140' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='S' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Bond Mutual Fund or Exchange Traded Fund' />
+      <column name='SEC_RPT_GRP' value='STK' />
+      <column name='SEC_ACRL_MTHD' value='T' />
+      <column name='SEC_ETRAN_CD' value='10100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42140' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='S' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -378,16 +378,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='580' />
-      <column name=' SEC_CLS_CD_DESC' value='Alternative Investments' />
-      <column name=' SEC_RPT_GRP' value='ALT' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='17000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='A' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Alternative Investments' />
+      <column name='SEC_RPT_GRP' value='ALT' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='17000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='A' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -400,16 +400,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='600' />
-      <column name=' SEC_CLS_CD_DESC' value='Real Estate' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='13000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='45000' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='O' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Real Estate' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='13000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='45000' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='O' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -422,16 +422,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='700' />
-      <column name=' SEC_CLS_CD_DESC' value='Petty Cash' />
-      <column name=' SEC_RPT_GRP' value='CSHEQ' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='00100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='C' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Petty Cash' />
+      <column name='SEC_RPT_GRP' value='CSHEQ' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='00100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='C' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -444,16 +444,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='701' />
-      <column name=' SEC_CLS_CD_DESC' value='Other Trust Bank Accounts' />
-      <column name=' SEC_RPT_GRP' value='CSHEQ' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='01005' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42000' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='C' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Other Trust Bank Accounts' />
+      <column name='SEC_RPT_GRP' value='CSHEQ' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='01005' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42000' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='C' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -466,16 +466,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='725' />
-      <column name=' SEC_CLS_CD_DESC' value='Certificates of Deposit' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='M' />
-      <column name=' SEC_ETRAN_CD' value='10900' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42015' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='O' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Certificates of Deposit' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='M' />
+      <column name='SEC_ETRAN_CD' value='10900' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42015' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='O' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -488,16 +488,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='750' />
-      <column name=' SEC_CLS_CD_DESC' value='Separately Held Money Market' />
-      <column name=' SEC_RPT_GRP' value='CSHEQ' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='01290' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42010' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='C' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Separately Held Money Market' />
+      <column name='SEC_RPT_GRP' value='CSHEQ' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='01290' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42010' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='C' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -510,16 +510,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='801' />
-      <column name=' SEC_CLS_CD_DESC' value='Mortgage Contract' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='14000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42190' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='O' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Mortgage Contract' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='14000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42190' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='O' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -532,16 +532,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='959' />
-      <column name=' SEC_CLS_CD_DESC' value='Legal Fees Payable' />
-      <column name=' SEC_RPT_GRP' value='LIAB' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='22025' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='74100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Legal Fees Payable' />
+      <column name='SEC_RPT_GRP' value='LIAB' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='22025' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='74100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -554,16 +554,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='702' />
-      <column name=' SEC_CLS_CD_DESC' value='Cash  Equivalents Held by Manager' />
-      <column name=' SEC_RPT_GRP' value='CSHEQ' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='10600' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42000' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='O' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Cash  Equivalents Held by Manager' />
+      <column name='SEC_RPT_GRP' value='CSHEQ' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='10600' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42000' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='O' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -576,16 +576,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='910' />
-      <column name=' SEC_CLS_CD_DESC' value='Cash Value of Life Insurance' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='15000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Cash Value of Life Insurance' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='15000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -598,16 +598,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='921' />
-      <column name=' SEC_CLS_CD_DESC' value='Other Receivable' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='03050' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Other Receivable' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='03050' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -620,16 +620,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='922' />
-      <column name=' SEC_CLS_CD_DESC' value='Accrued Income' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='02020' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Accrued Income' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='02020' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -642,16 +642,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='925' />
-      <column name=' SEC_CLS_CD_DESC' value='Note Receivable - Interfund' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='05100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='45100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Note Receivable - Interfund' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='05100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='45100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -664,16 +664,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='926' />
-      <column name=' SEC_CLS_CD_DESC' value='Interest Receivable - Interfund' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='02100' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='45100' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Interest Receivable - Interfund' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='02100' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='45100' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -686,16 +686,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='931' />
-      <column name=' SEC_CLS_CD_DESC' value='Student Loans' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='05030' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42415' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Student Loans' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='05030' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42415' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -708,16 +708,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='932' />
-      <column name=' SEC_CLS_CD_DESC' value='Other Investment Assets' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='06000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Other Investment Assets' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='06000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -730,16 +730,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='936' />
-      <column name=' SEC_CLS_CD_DESC' value='Faculty  Staff Advances' />
-      <column name=' SEC_RPT_GRP' value='OTH' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='05035' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Faculty  Staff Advances' />
+      <column name='SEC_RPT_GRP' value='OTH' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='05035' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -752,16 +752,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='964' />
-      <column name=' SEC_CLS_CD_DESC' value='Note Payable - Compton CRUT' />
-      <column name=' SEC_RPT_GRP' value='LIAB' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='24000' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='74000' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Note Payable - Compton CRUT' />
+      <column name='SEC_RPT_GRP' value='LIAB' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='24000' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='74000' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -774,16 +774,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='965' />
-      <column name=' SEC_CLS_CD_DESC' value='RE Rental Damage Deposit Payable' />
-      <column name=' SEC_RPT_GRP' value='LIAB' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='22500' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42020' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='RE Rental Damage Deposit Payable' />
+      <column name='SEC_RPT_GRP' value='LIAB' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='22500' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42020' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -796,16 +796,16 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='963' />
-      <column name=' SEC_CLS_CD_DESC' value='Negative Cash  Equiv held by Managers' />
-      <column name=' SEC_RPT_GRP' value='LIAB' />
-      <column name=' SEC_ACRL_MTHD' value='N' />
-      <column name=' SEC_ETRAN_CD' value='10601' />
-      <column name=' SEC_INC_ETRAN_POST_CD' value='42000' />
-      <column name=' TAX_LOT_IND' value='N' />
-      <column name=' CLS_CD_TYP' value='L' />
-      <column name=' VLTN_MTHD' value='U' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='SEC_CLS_CD_DESC' value='Negative Cash  Equiv held by Managers' />
+      <column name='SEC_RPT_GRP' value='LIAB' />
+      <column name='SEC_ACRL_MTHD' value='N' />
+      <column name='SEC_ETRAN_CD' value='10601' />
+      <column name='SEC_INC_ETRAN_POST_CD' value='42000' />
+      <column name='TAX_LOT_IND' value='N' />
+      <column name='CLS_CD_TYP' value='L' />
+      <column name='VLTN_MTHD' value='U' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

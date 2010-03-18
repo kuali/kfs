@@ -4,10 +4,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032A017014' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -20,10 +20,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032A017014' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -36,10 +36,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS06149' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -52,10 +52,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS06149' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -68,10 +68,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS06198' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -84,10 +84,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS06198' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -100,10 +100,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS08053' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -116,10 +116,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS08053' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -132,10 +132,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS11040' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -148,10 +148,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032AS11040' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -164,10 +164,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032B011354' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -180,10 +180,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032B011354' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -196,10 +196,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032D008242' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -212,10 +212,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032D008242' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -228,10 +228,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032L006015' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -244,10 +244,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032L006015' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -260,10 +260,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032L006098' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -276,10 +276,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032L006098' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -292,10 +292,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P002085' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -308,10 +308,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P002085' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -324,10 +324,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P002101' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -340,10 +340,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P002101' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -356,10 +356,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P011045' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -372,10 +372,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P011045' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -388,10 +388,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P011094' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -404,10 +404,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='032P011094' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -420,10 +420,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037A014184' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -436,10 +436,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037A014184' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -452,10 +452,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037A017013' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -468,10 +468,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037A017013' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -484,10 +484,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS12302' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -500,10 +500,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS12302' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -516,10 +516,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS34082' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -532,10 +532,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS34082' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -548,10 +548,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS35022' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -564,10 +564,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS35022' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -580,10 +580,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS36012' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -596,10 +596,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS36012' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -612,10 +612,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS38026' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -628,10 +628,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS38026' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -644,10 +644,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS54239' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -660,10 +660,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037AS54239' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -676,10 +676,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037B011AG1' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -692,10 +692,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037B011AG1' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -708,10 +708,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037B012161' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -724,10 +724,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037B012161' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -740,10 +740,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037E009701' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -756,10 +756,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037E009701' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -772,10 +772,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037E009727' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -788,10 +788,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037E009727' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -804,10 +804,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037F002010' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -820,10 +820,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037F002010' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -836,10 +836,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G003785' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -852,10 +852,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G003785' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -868,10 +868,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G003BD9' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -884,10 +884,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G003BD9' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -900,10 +900,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G030812' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -916,10 +916,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037G030812' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -932,10 +932,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037H004261' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -948,10 +948,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037H004261' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -964,10 +964,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037I002512' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -980,10 +980,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037I002512' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -996,10 +996,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037K008284' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1012,10 +1012,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037K008284' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1028,10 +1028,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037L006493' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1044,10 +1044,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037L006493' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1060,10 +1060,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037L006709' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1076,10 +1076,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037L006709' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1092,10 +1092,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MDER022' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1108,10 +1108,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MDER022' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1124,10 +1124,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MDSL103' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1140,10 +1140,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MDSL103' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1156,10 +1156,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MMED197' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1172,10 +1172,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MMED197' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1188,10 +1188,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MPHC132' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1204,10 +1204,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037MPHC132' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1220,10 +1220,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037O009148' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1236,10 +1236,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037O009148' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1252,10 +1252,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P003108' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1268,10 +1268,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P003108' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1284,10 +1284,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P004148' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1300,10 +1300,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P004148' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1316,10 +1316,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P011291' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1332,10 +1332,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037P011291' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1348,10 +1348,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037RQ04222' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1364,10 +1364,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037RQ04222' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1380,10 +1380,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037RT04333' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1396,10 +1396,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037RT04333' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1412,10 +1412,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037S012056' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1428,10 +1428,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037S012056' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1444,10 +1444,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037SC00501' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1460,10 +1460,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037SC00501' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1476,10 +1476,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037V009140' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1492,10 +1492,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037V009140' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1508,10 +1508,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037V010080' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1524,10 +1524,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037V010080' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1540,10 +1540,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037WHMM024' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1556,10 +1556,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037WHMM024' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1572,10 +1572,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037X002044' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1588,10 +1588,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='037X002044' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1604,10 +1604,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038A017011' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1620,10 +1620,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038A017011' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1636,10 +1636,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS00057' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1652,10 +1652,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS00057' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1668,10 +1668,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS06237' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1684,10 +1684,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS06237' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1700,10 +1700,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS17028' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1716,10 +1716,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS17028' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1732,10 +1732,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS53023' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1748,10 +1748,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038AS53023' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1764,10 +1764,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038B011179' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1780,10 +1780,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038B011179' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1796,10 +1796,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038CC00118' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1812,10 +1812,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038CC00118' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1828,10 +1828,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038D008041' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1844,10 +1844,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038D008041' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1860,10 +1860,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038E009022' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1876,10 +1876,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038E009022' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1892,10 +1892,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038F002075' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1908,10 +1908,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038F002075' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1924,10 +1924,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038G003452' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1940,10 +1940,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038G003452' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1956,10 +1956,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038IU09022' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1972,10 +1972,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038IU09022' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1988,10 +1988,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038K008027' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2004,10 +2004,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038K008027' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2020,10 +2020,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038L006228' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2036,10 +2036,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038L006228' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BL' />
-      <column name=' ACCT_NBR' value='1024700' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BL' />
+      <column name='ACCT_NBR' value='1024700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2052,10 +2052,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MCCC134' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2068,10 +2068,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MCCC134' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2084,10 +2084,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MDSL325' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2100,10 +2100,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MDSL325' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2116,10 +2116,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MPHC072' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2132,10 +2132,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MPHC072' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2148,10 +2148,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MSCI011' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2164,10 +2164,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038MSCI011' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2180,10 +2180,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038N008222' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2196,10 +2196,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038N008222' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2212,10 +2212,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038P003213' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2228,10 +2228,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038P003213' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2244,10 +2244,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038P011463' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2260,10 +2260,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038P011463' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2276,10 +2276,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RPS1012' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='BA' />
-      <column name=' ACCT_NBR' value='6040000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='BA' />
+      <column name='ACCT_NBR' value='6040000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2292,10 +2292,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RPS1012' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='BA' />
-      <column name=' ACCT_NBR' value='6040000' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='BA' />
+      <column name='ACCT_NBR' value='6040000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2308,10 +2308,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RQ04162' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2324,10 +2324,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RQ04162' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2340,10 +2340,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RR04087' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2356,10 +2356,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RR04087' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2372,10 +2372,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RT04091' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2388,10 +2388,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RT04091' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2404,10 +2404,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RV04351' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2420,10 +2420,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038RV04351' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2436,10 +2436,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038SC01010' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2452,10 +2452,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='038SC01010' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='IN' />
-      <column name=' ACCT_NBR' value='1292016' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='IN' />
+      <column name='ACCT_NBR' value='1292016' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2468,10 +2468,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='046G007720' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2484,10 +2484,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='046G007720' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2500,10 +2500,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='046G007CD0' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2516,10 +2516,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='046G007CD0' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2532,10 +2532,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF013' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2548,10 +2548,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF013' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2564,10 +2564,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF021' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2580,10 +2580,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF021' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2596,10 +2596,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF997' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2612,10 +2612,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PLTF997' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2628,10 +2628,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='909BTIP011' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2644,10 +2644,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='909BTIP011' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2660,10 +2660,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='909ETIP018' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2676,10 +2676,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='909ETIP018' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2692,10 +2692,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PSTF018' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2708,10 +2708,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PSTF018' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2724,10 +2724,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PSTF034' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2740,10 +2740,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PSTF034' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2756,10 +2756,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PMKT010' />
-      <column name=' IP_IND_CD' value='I' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='I' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -2772,10 +2772,10 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_GL_LNK_T'>
       <column name='KEMID' value='099PMKT010' />
-      <column name=' IP_IND_CD' value='P' />
-      <column name=' CHRT_CD' value='UA' />
-      <column name=' ACCT_NBR' value='6815067' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='IP_IND_CD' value='P' />
+      <column name='CHRT_CD' value='UA' />
+      <column name='ACCT_NBR' value='6815067' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

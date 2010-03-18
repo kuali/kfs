@@ -4,15 +4,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032A017014' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-12-28' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used for annual athletic student scholarships  The number, amount and recipients of the scholarships will be determined by the Athletic Department and as permitted by the NCAA  Should the annual contributions received exceed the am' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-12-28' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used for annual athletic student scholarships  The number, amount and recipients of the scholarships will be determined by the Athletic Department and as permitted by the NCAA  Should the annual contributions received exceed the am' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -25,15 +25,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032AS06149' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-03-17' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general support for faculty and graduate students in inorganic chemistry  Expenditures may include but are not limited to, education, research, travel, supplies, awards, fellowships, and other expenses which may best se' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-03-17' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used for the general support for faculty and graduate students in inorganic chemistry  Expenditures may include but are not limited to, education, research, travel, supplies, awards, fellowships, and other expenses which may best se' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -46,15 +46,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032AS06198' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-04-09' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used to provide general support to further the research activities in organic synthesis of the Johnston Research Group within the Department of Chemistry at IUB' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-04-09' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used to provide general support to further the research activities in organic synthesis of the Johnston Research Group within the Department of Chemistry at IUB' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -67,15 +67,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032AS08053' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-12-24' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general support of the Comparative Literature Program at the discretion of the Chair' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-12-24' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used for the general support of the Comparative Literature Program at the discretion of the Chair' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -88,15 +88,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032AS11040' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-05-15' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the account be used for faculty and staff recruiting, faculty development, faculty travel, program promotion, speakervisitor expenses, computer software, and other expenses which may best serve the project' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-05-15' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that the account be used for faculty and staff recruiting, faculty development, faculty travel, program promotion, speakervisitor expenses, computer software, and other expenses which may best serve the project' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -109,15 +109,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032B011354' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-08-30' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used to support the Kelley School of Business activities related to teaching business turnaround concepts  Expenses include, but are not limited to, development of case materi' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-08-30' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used to support the Kelley School of Business activities related to teaching business turnaround concepts  Expenses include, but are not limited to, development of case materi' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -130,15 +130,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032D008242' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-11-30' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support undergraduate scholarships for students enrolled Dental Hygiene Program at the School  Preference should be given to students living in Randolph County Indiana o' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-11-30' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support undergraduate scholarships for students enrolled Dental Hygiene Program at the School  Preference should be given to students living in Randolph County Indiana o' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -151,15 +151,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032L006015' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-09-16' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the gifts be used for scholarships  This fund will receive named scholarships that are too small to warrant a separate account as well as general scholarship monies  The school scholarship committee will determined th' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-09-16' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that the gifts be used for scholarships  This fund will receive named scholarships that are too small to warrant a separate account as well as general scholarship monies  The school scholarship committee will determined th' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -172,15 +172,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032L006098' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-02-03' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used for annual student fellowships for students at the Indiana University School of Law, who demonstrate an interest in the area of public interest law  The number, amount, and recipients of the fellowships will be determined by' />
-      <column name=' CMNT' value='IU Account  26-473-83' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-02-03' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used for annual student fellowships for students at the Indiana University School of Law, who demonstrate an interest in the area of public interest law  The number, amount, and recipients of the fellowships will be determined by' />
+      <column name='CMNT' value='IU Account  26-473-83' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -193,15 +193,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032P002085' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-02-04' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used for the general support of the Multicultural Center at IUPUI' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-02-04' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used for the general support of the Multicultural Center at IUPUI' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -214,15 +214,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032P002101' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-09-02' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used for general support of the office of Housing and Residence Life at IUPUI' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-09-02' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used for general support of the office of Housing and Residence Life at IUPUI' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -235,15 +235,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032P011045' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='B' />
-      <column name=' AGRMNT_STAT_CD' value='PEND' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1976-04-16' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Account Intent Not Finalized' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='B' />
+      <column name='AGRMNT_STAT_CD' value='PEND' />
+      <column name='AGRMNT_STAT_DT' valueDate='1976-04-16' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Account Intent Not Finalized' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -256,15 +256,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='032P011094' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-01-29' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This Account shall be used for the general operating purposes of the public speaking program of the Communication Studies Department  Uses shall include, but not be limited to, activities related to public speaking competitions and enrichment and recogni' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-01-29' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This Account shall be used for the general operating purposes of the public speaking program of the Communication Studies Department  Uses shall include, but not be limited to, activities related to public speaking competitions and enrichment and recogni' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -277,15 +277,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037A014184' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1992-04-17' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Funds will be used for support and maintenance of scholarships for athletes in their respective sports The number, amount, and recipients of the scholarships will be determined by the Director of Athletics  The scholarships will be in the amount' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1992-04-17' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Funds will be used for support and maintenance of scholarships for athletes in their respective sports The number, amount, and recipients of the scholarships will be determined by the Director of Athletics  The scholarships will be in the amount' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -298,15 +298,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037A017013' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-06-11' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Multiple Gift Agreements on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-06-11' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Multiple Gift Agreements on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -319,15 +319,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS12302' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-11-09' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support a doctoral fellowship in the Department of English  The recipient will have a record of academic distinction and excellence The Fellowship wi' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-11-09' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support a doctoral fellowship in the Department of English  The recipient will have a record of academic distinction and excellence The Fellowship wi' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -340,15 +340,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS34082' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-02-19' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support graduate students in Sociology for purposes including, but not limited to, graduate fellowships, research support, or prizes for outstanding research  The number, amount, and r' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-02-19' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support graduate students in Sociology for purposes including, but not limited to, graduate fellowships, research support, or prizes for outstanding research  The number, amount, and r' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -361,15 +361,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS35022' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-05-22' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the fund be utilized for miscellaneous departmental expenses as determined by the department board' />
-      <column name=' CMNT' value='IU Accounts 25-33204  26-33201' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-05-22' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that the fund be utilized for miscellaneous departmental expenses as determined by the department board' />
+      <column name='CMNT' value='IU Accounts 25-33204  26-33201' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -382,15 +382,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS36012' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='I' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1971-03-26' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby established shall be used for the support and maintenance of an award to be known as the Eugene C Chenoweth Intercollegiate Debate-Discussion Award, hereinafter referred to as the Fund The recipient of the award shall be selected by a c' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='I' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1971-03-26' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby established shall be used for the support and maintenance of an award to be known as the Eugene C Chenoweth Intercollegiate Debate-Discussion Award, hereinafter referred to as the Fund The recipient of the award shall be selected by a c' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -403,15 +403,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS38026' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1996-04-04' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund will be used to permanently endow, support and maintain a chair to be known as The Ottoman and Modern Turkish Studies Endowed Chair Chair  The Chair, which will be established in the College of Arts and Sciences of Indiana University within' />
-      <column name=' CMNT' value='FEMP 28-23230' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1996-04-04' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund will be used to permanently endow, support and maintain a chair to be known as The Ottoman and Modern Turkish Studies Endowed Chair Chair  The Chair, which will be established in the College of Arts and Sciences of Indiana University within' />
+      <column name='CMNT' value='FEMP 28-23230' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -424,15 +424,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037AS54239' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-11-07' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support undergraduate scholarships  The recipients shall be incoming freshmen students, who are United States citizens, and have indicated interest in pu' />
-      <column name=' CMNT' value='MPS' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-11-07' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support undergraduate scholarships  The recipients shall be incoming freshmen students, who are United States citizens, and have indicated interest in pu' />
+      <column name='CMNT' value='MPS' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -445,15 +445,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037B011AG1' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='I' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1974-06-29' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Five Hundred Dollars 50000 of said gift shall be used for the establishment of a scholarship to be known as the Phipps and Funkey Scholarship to be administered under the following terms, to wit The scholarship shall be awarded by a committee compos' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='I' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1974-06-29' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Five Hundred Dollars 50000 of said gift shall be used for the establishment of a scholarship to be known as the Phipps and Funkey Scholarship to be administered under the following terms, to wit The scholarship shall be awarded by a committee compos' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -466,15 +466,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037B012161' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2002-10-24' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift is used for a chair on the Indianapolis campus of the School Expenditures may include, but not are not limited to, a salary or salary supplement for the designated holder of the chair, support for' />
-      <column name=' CMNT' value='FEMP 28-89500' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2002-10-24' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift is used for a chair on the Indianapolis campus of the School Expenditures may include, but not are not limited to, a salary or salary supplement for the designated holder of the chair, support for' />
+      <column name='CMNT' value='FEMP 28-89500' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -487,15 +487,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037E009701' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-06-15' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from these gifts be used to support a graduate student with tuition, fees andor salary support, who is employed in the Center for Human Growth The recipient of the Fund will be d' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-06-15' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from these gifts be used to support a graduate student with tuition, fees andor salary support, who is employed in the Center for Human Growth The recipient of the Fund will be d' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -508,15 +508,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037E009727' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-12-30' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift be used to support undergraduate students participating in an international student teaching experience The number, amount, and recipients of the Scholarship will be de' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-12-30' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift be used to support undergraduate students participating in an international student teaching experience The number, amount, and recipients of the Scholarship will be de' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -529,15 +529,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037F002010' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2003-11-03' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support a competition for the best lecture given by a graduate student or advanced undergraduate student on a work or group of works in the Art Museum  Expenditures for the competition m' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2003-11-03' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support a competition for the best lecture given by a graduate student or advanced undergraduate student on a work or group of works in the Art Museum  Expenditures for the competition m' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -550,15 +550,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037G003785' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-02-04' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that use of income generated from this gift will be used for support of the Professorships  It is the further intent of the Donor that the income shall be awarded to a person designated the Harry Pratter Professor of Law for' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-02-04' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that use of income generated from this gift will be used for support of the Professorships  It is the further intent of the Donor that the income shall be awarded to a person designated the Harry Pratter Professor of Law for' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -571,15 +571,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037G003BD9' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-03-22' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from these gifts be used to support scholarships for full-time undergraduate students, enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amount of 1,000  The recipients will have a minimum 25 GPA, a minimum of one-year involvement within Recreational Sports, demonstrated leadership abilities, responsibilities and potential in any area of campus life, and civic responsibility through involvement in the Division of Recreational Sports, Indiana University and community organizations  The number, and recipients of the Scholarship will be determined by the Scholarship Committee of the Foundation    In order to be considered for this Scholarship, candidates must submit an application and two 2 letter of recommendation from one 1 Division of Recreational Sports representative and one 1 person from Indiana University outside the Division of Recreational Sports or in the Bloomington or one of the surrounding communities who can comment on the candidates leadership, character, and commitment to civic responsibility' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-03-22' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from these gifts be used to support scholarships for full-time undergraduate students, enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amount of 1,000  The recipients will have a minimum 25 GPA, a minimum of one-year involvement within Recreational Sports, demonstrated leadership abilities, responsibilities and potential in any area of campus life, and civic responsibility through involvement in the Division of Recreational Sports, Indiana University and community organizations  The number, and recipients of the Scholarship will be determined by the Scholarship Committee of the Foundation    In order to be considered for this Scholarship, candidates must submit an application and two 2 letter of recommendation from one 1 Division of Recreational Sports representative and one 1 person from Indiana University outside the Division of Recreational Sports or in the Bloomington or one of the surrounding communities who can comment on the candidates leadership, character, and commitment to civic responsibility' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -592,15 +592,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037G030812' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-03-22' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from these gifts be used to support scholarships for full-time undergraduate students, enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amo' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-03-22' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from these gifts be used to support scholarships for full-time undergraduate students, enrolled in any baccalaureate program at Indiana University  Each Scholarship will be in the amo' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -613,15 +613,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037H004261' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-11-08' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support an annual undergraduate scholarship  The Scholarship will be given out to an incoming freshman majoring in the Department of Recreation, Park and' />
-      <column name=' CMNT' value='MPS 25-451-00' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-11-08' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support an annual undergraduate scholarship  The Scholarship will be given out to an incoming freshman majoring in the Department of Recreation, Park and' />
+      <column name='CMNT' value='MPS 25-451-00' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -634,15 +634,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037I002512' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-06-19' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that each recipient be a graduate or undergraduate student enrolled in the School of Music who is enrolled in the study of composition  The number, amount, and recipients of the scholarships will be determined by the app' />
-      <column name=' CMNT' value='IU Account   26-42652  25-42661' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-06-19' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that each recipient be a graduate or undergraduate student enrolled in the School of Music who is enrolled in the study of composition  The number, amount, and recipients of the scholarships will be determined by the app' />
+      <column name='CMNT' value='IU Account   26-42652  25-42661' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -655,15 +655,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037K008284' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1992-08-20' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund will be used for the establishment, support and maintenance of scholarships to be known as Eli Lilly Law Alumni Scholarships to be awarded to students enrolled at the Indiana University School of Law - Indianapolis School of Law The Scholar' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1992-08-20' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund will be used for the establishment, support and maintenance of scholarships to be known as Eli Lilly Law Alumni Scholarships to be awarded to students enrolled at the Indiana University School of Law - Indianapolis School of Law The Scholar' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -676,15 +676,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037L006493' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-09-05' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Income from these gifts will support a professorship  Expenditures may include, but not be limited to, a salary or salary supplement for the designated holder of the professorship, support for research, manuscript preparation, graduate research assistant' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-09-05' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Income from these gifts will support a professorship  Expenditures may include, but not be limited to, a salary or salary supplement for the designated holder of the professorship, support for research, manuscript preparation, graduate research assistant' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -697,15 +697,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037L006709' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-08-17' />
-      <column name=' AGRMNT_OTHR_DOC' value='Solicitation' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support scholarships  The Scholarship will be awarded to students who demonstrate financial need as determined by the Scholarship Committee of the Law Sc' />
-      <column name=' CMNT' value='IU Account  26-473-88' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-08-17' />
+      <column name='AGRMNT_OTHR_DOC' value='Solicitation' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that the income from this gift be used to support scholarships  The Scholarship will be awarded to students who demonstrate financial need as determined by the Scholarship Committee of the Law Sc' />
+      <column name='CMNT' value='IU Account  26-473-88' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -718,15 +718,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037MDER022' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-01-29' />
-      <column name=' AGRMNT_OTHR_DOC' value='Solicitation' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift be used to support a professorship  The Professorship will be held by the Chief of Dermatology Services at Wishard Health Services and will be a full-time faculty membe' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-01-29' />
+      <column name='AGRMNT_OTHR_DOC' value='Solicitation' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift be used to support a professorship  The Professorship will be held by the Chief of Dermatology Services at Wishard Health Services and will be a full-time faculty membe' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -739,15 +739,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037MDSL103' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1982-06-21' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of a scholarship to be known as The Arnold W Kunkler Scholarship The scholarship shall be awarded according to the policies and practices of the Indiana University' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1982-06-21' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of a scholarship to be known as The Arnold W Kunkler Scholarship The scholarship shall be awarded according to the policies and practices of the Indiana University' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -760,15 +760,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037MMED197' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1998-07-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support a lectureship in infectious diseases at the IU School of Medicine' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1998-07-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support a lectureship in infectious diseases at the IU School of Medicine' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -781,15 +781,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037MPHC132' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-11-01' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that the income from this gift be used to support a lectureship in the Department of Psychiatry Department at Indiana University School of Medicine  The Donor intends for the lectureship to be' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-11-01' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that the income from this gift be used to support a lectureship in the Department of Psychiatry Department at Indiana University School of Medicine  The Donor intends for the lectureship to be' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -802,15 +802,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037O009148' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2003-04-28' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The recipients must be enrolled in the IU School of Optometrys OpticianTechnician program, be in good academic standing, and demonstrate financia' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2003-04-28' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The recipients must be enrolled in the IU School of Optometrys OpticianTechnician program, be in good academic standing, and demonstrate financia' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -823,15 +823,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037P003108' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-05-12' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The criteria is as follows full or part-time students pursuing a degree within the Purdue School of Engineering and Technology, IUPUI, maintaining o' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-05-12' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support undergraduate scholarships  The criteria is as follows full or part-time students pursuing a degree within the Purdue School of Engineering and Technology, IUPUI, maintaining o' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -844,15 +844,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037P004148' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2002-04-16' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that the use of income from these gifts be used for the general support of the School at the deans discretion  These funds may be used to take advantage of unforeseen opportunities to contribute the growth and improvement' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2002-04-16' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that the use of income from these gifts be used for the general support of the School at the deans discretion  These funds may be used to take advantage of unforeseen opportunities to contribute the growth and improvement' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -865,15 +865,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037P011291' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-06-06' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that these gifts be used to create awards for students  The recipients shall be outstanding students in hisher first year as a major in the Department  The number, amount, and recipients of the award will be determined b' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-06-06' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that these gifts be used to create awards for students  The recipients shall be outstanding students in hisher first year as a major in the Department  The number, amount, and recipients of the award will be determined b' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -886,15 +886,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037RQ04222' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-05-05' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Duneland Rock Club Scholarship for the Geosciences  Scholarship The number, amount, and recipients of the Scholarships will be recommended by t' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-05-05' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Duneland Rock Club Scholarship for the Geosciences  Scholarship The number, amount, and recipients of the Scholarships will be recommended by t' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -907,15 +907,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037RT04333' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-01-11' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift support scholarships  In selecting a recipients, preference shall be given to a student who has financial need and a record of academic excellence as demonstrated by a GPA of 32 on a 40 scale' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-01-11' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift support scholarships  In selecting a recipients, preference shall be given to a student who has financial need and a record of academic excellence as demonstrated by a GPA of 32 on a 40 scale' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -928,15 +928,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037S012056' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2003-12-25' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift will be used to support graduate fellowships for SPEA students seeking an MPA  Recipients will have a minimum 30 GPA, demonstrated financial need, interest in pursuing' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2003-12-25' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that income from this gift will be used to support graduate fellowships for SPEA students seeking an MPA  Recipients will have a minimum 30 GPA, demonstrated financial need, interest in pursuing' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -949,15 +949,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037SC00501' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-02-17' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support two or more undergraduate scholarships for students from Elkhart County, Indiana  The recipients shall have demonstrated financial need  If recipients are freshmen, the student' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-02-17' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to support two or more undergraduate scholarships for students from Elkhart County, Indiana  The recipients shall have demonstrated financial need  If recipients are freshmen, the student' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -970,15 +970,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037V009140' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-03-12' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the use of income generated from this gift is to be focused on staff and resources to enhance access by provision of services  Funds may also be used for, but not limited to, acquisition of or access to material, catalo' />
-      <column name=' CMNT' value='No Disbursements - to be funded through bequest' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-03-12' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that the use of income generated from this gift is to be focused on staff and resources to enhance access by provision of services  Funds may also be used for, but not limited to, acquisition of or access to material, catalo' />
+      <column name='CMNT' value='No Disbursements - to be funded through bequest' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -991,15 +991,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037V010080' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-12-17' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support fellowships in scientific information  It is the Donors preference that the fellowships will be in the Schools specialization program in chemical information  The recipients' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-12-17' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that income from this gift be used to support fellowships in scientific information  It is the Donors preference that the fellowships will be in the Schools specialization program in chemical information  The recipients' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1012,15 +1012,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037WHMM024' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-08-25' />
-      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that the income from this gift will be used to aid in the research, teaching, public education, and care of collections undertaken by the Mathers Museum' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-08-25' />
+      <column name='AGRMNT_OTHR_DOC' value='Trust' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that the income from this gift will be used to aid in the research, teaching, public education, and care of collections undertaken by the Mathers Museum' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1033,15 +1033,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='037X002044' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-07-30' />
-      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to pay for sorting, cataloging and distribution of books and materials donated and in acquiring from time to time other books and materials relating to Voltaire to supplement the Voltaire Co' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-07-30' />
+      <column name='AGRMNT_OTHR_DOC' value='Trust' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that income from this gift be used to pay for sorting, cataloging and distribution of books and materials donated and in acquiring from time to time other books and materials relating to Voltaire to supplement the Voltaire Co' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1054,15 +1054,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038A017011' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2003-03-31' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The excess Donor gifts will be held and invested on the principal side of this account as reserve funds and invested in the pooled long term fund  Additions to these funds may occur with approval by the Varsity Club Board and will come from excess oper' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2003-03-31' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The excess Donor gifts will be held and invested on the principal side of this account as reserve funds and invested in the pooled long term fund  Additions to these funds may occur with approval by the Varsity Club Board and will come from excess oper' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1075,15 +1075,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038AS00057' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2002-08-06' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the donors that this fund shall be used for functions and events at the College, faculty and staff recruitment and retention, special scholarshipfellowship support for students, and assorted events and expenses related to fundraising' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2002-08-06' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the donors that this fund shall be used for functions and events at the College, faculty and staff recruitment and retention, special scholarshipfellowship support for students, and assorted events and expenses related to fundraising' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1096,15 +1096,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038AS06237' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-02-23' />
-      <column name=' AGRMNT_OTHR_DOC' value='Trust' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support undergraduate and graduate scholarships in the Department  The number, amount, and recipients of the Scholarship will be determined by the scholarship committee' />
-      <column name=' CMNT' value='IU Account  25-24702  26-24702' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-02-23' />
+      <column name='AGRMNT_OTHR_DOC' value='Trust' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support undergraduate and graduate scholarships in the Department  The number, amount, and recipients of the Scholarship will be determined by the scholarship committee' />
+      <column name='CMNT' value='IU Account  25-24702  26-24702' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1117,15 +1117,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038AS17028' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-03-06' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Gifts to this account will be used for the general support of the Department of Geological Sciences, in the College of Arts and Sciences' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-03-06' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Gifts to this account will be used for the general support of the Department of Geological Sciences, in the College of Arts and Sciences' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1138,15 +1138,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038AS53023' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2000-06-07' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support and operating expenses of the Playhouse at the discretion of the President of the Brown County Playhouse, Inc' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2000-06-07' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support and operating expenses of the Playhouse at the discretion of the President of the Brown County Playhouse, Inc' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1159,15 +1159,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038B011179' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1996-08-05' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund will be used for support and maintenance of an endowment to be known as The Monroe Shine  Co, Inc Endowment Fund Endowment  It is the intent of the Donors that the fund is used for the education of students for localregional public accou' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1996-08-05' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund will be used for support and maintenance of an endowment to be known as The Monroe Shine  Co, Inc Endowment Fund Endowment  It is the intent of the Donors that the fund is used for the education of students for localregional public accou' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1180,15 +1180,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038CC00118' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-11-23' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the donor, and the Foundation agrees, that this gift be used to support native Korean undergraduate and graduate students and visiting scholars on the Bloomington campus of Indiana University' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-11-23' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the donor, and the Foundation agrees, that this gift be used to support native Korean undergraduate and graduate students and visiting scholars on the Bloomington campus of Indiana University' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1201,15 +1201,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038D008041' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-11-02' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support scholarships and loans for undergraduate students enrolled in the Indiana University School of Dentistry  The number, amount, and recipients of the Scholarship will be determined by the' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-11-02' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support scholarships and loans for undergraduate students enrolled in the Indiana University School of Dentistry  The number, amount, and recipients of the Scholarship will be determined by the' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1222,15 +1222,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038E009022' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1998-12-07' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the School of Education  Expenditures may include, but are not limited to, representation, faculty and staff travel, program development, and any other expenses that will best' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1998-12-07' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the School of Education  Expenditures may include, but are not limited to, representation, faculty and staff travel, program development, and any other expenses that will best' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1243,15 +1243,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038F002075' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1996-10-28' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund will be used to support, maintain and enhance the mission, collections, academic and outreach programs, operations and growth of the Museum Expenditures from the Fund will be authorized by the Director of the Indiana University Art Museum for t' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1996-10-28' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund will be used to support, maintain and enhance the mission, collections, academic and outreach programs, operations and growth of the Museum Expenditures from the Fund will be authorized by the Director of the Indiana University Art Museum for t' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1264,15 +1264,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038G003452' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-06-25' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for the general benefit of Indiana University  All income should be reinvested in the Pooled Long Term Fund' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-06-25' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for the general benefit of Indiana University  All income should be reinvested in the Pooled Long Term Fund' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1285,15 +1285,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038IU09022' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-12-11' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Wells Scholars Program' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-12-11' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Wells Scholars Program' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1306,15 +1306,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038K008027' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2001-03-06' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Law School at IUPUI' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2001-03-06' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the Law School at IUPUI' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1327,15 +1327,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038L006228' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1998-12-29' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support a scholarship  Preference is to be given to students of African American or Latin American descent enrolled in the School  The number, amount, and recipients of the Scholarship will be' />
-      <column name=' CMNT' value='IU Account  26-473-90' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1998-12-29' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used to support a scholarship  Preference is to be given to students of African American or Latin American descent enrolled in the School  The number, amount, and recipients of the Scholarship will be' />
+      <column name='CMNT' value='IU Account  26-473-90' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1348,15 +1348,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038MCCC134' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2004-04-28' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support recruitment of physicians and scientists with ovarian cancer expertise, and support pilot projects in ovarian cancer research at the Indiana University Cancer Cent' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2004-04-28' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support recruitment of physicians and scientists with ovarian cancer expertise, and support pilot projects in ovarian cancer research at the Indiana University Cancer Cent' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1369,15 +1369,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038MDSL325' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-02-19' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used to support scholarships for medical students who are attending Indiana University School of Medicine - South Bend on the campus of the University of Notre Dame  The num' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-02-19' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that these gifts be used to support scholarships for medical students who are attending Indiana University School of Medicine - South Bend on the campus of the University of Notre Dame  The num' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1390,15 +1390,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038MPHC072' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-03-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support an annual award given to a senior medical student at the Indiana University School of Medicine  The recipient of this Award need not be pursuing a career in psych' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-03-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor, and the Foundation agrees, that this gift be used to support an annual award given to a senior medical student at the Indiana University School of Medicine  The recipient of this Award need not be pursuing a career in psych' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1411,15 +1411,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038MSCI011' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2008-06-26' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for an award to freshman medical students, who in the opinion of the physiology faculty are most worthy of receiving an outstanding text print, disk, or electronic format in physiology or a closely' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2008-06-26' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for an award to freshman medical students, who in the opinion of the physiology faculty are most worthy of receiving an outstanding text print, disk, or electronic format in physiology or a closely' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1432,15 +1432,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038N008222' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-04-28' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Dorothy Garrigus Adams Emergency Loans Fund will be available to both undergraduate and graduate nursing students who demonstrate the need for emergency assistance  Students may apply for a loan through the Office of Educational Services  The associ' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-04-28' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Dorothy Garrigus Adams Emergency Loans Fund will be available to both undergraduate and graduate nursing students who demonstrate the need for emergency assistance  Students may apply for a loan through the Office of Educational Services  The associ' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1453,15 +1453,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038P003213' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1997-09-10' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the project' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1997-09-10' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors that these gifts be used for general support of the project' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1474,15 +1474,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038P011463' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-07-31' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support the general operating purposes of the Public Speaking Program in the Department of Communication Studies  Expenditures may include, but are not limited to, activ' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-07-31' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support the general operating purposes of the Public Speaking Program in the Department of Communication Studies  Expenditures may include, but are not limited to, activ' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1495,15 +1495,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038RPS1012' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1989-01-26' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of a scholarship to be known as The Gene C Halterman ScholarshipThe scholarships shall be awarded by a committee to be known as the Halterman Scholarship Selecti' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1989-01-26' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of a scholarship to be known as The Gene C Halterman ScholarshipThe scholarships shall be awarded by a committee to be known as the Halterman Scholarship Selecti' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1516,15 +1516,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038RQ04162' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='F' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1996-08-27' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Chancellors Associates Scholarship Scholarship This Fund is specifically meant to provide scholarships to all incoming full-time freshmen students w' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='F' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1996-08-27' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby will be used for support and maintenance of a scholarship at IUN to be known as The Chancellors Associates Scholarship Scholarship This Fund is specifically meant to provide scholarships to all incoming full-time freshmen students w' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1537,15 +1537,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038RR04087' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2003-05-22' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donor that this gift be used to support scholarships to students at IUSB  Preference will be give to qualified minority students, who without this aid might not be able to obtain a higher education  The number, amount, and recipi' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2003-05-22' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donor that this gift be used to support scholarships to students at IUSB  Preference will be give to qualified minority students, who without this aid might not be able to obtain a higher education  The number, amount, and recipi' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1558,15 +1558,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038RT04091' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1998-04-07' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='This account shall be used to benefit the Indiana University Kokomo campus  Expenditures may include, but not be limited to recruitment expenses, employee goodwill, activities and events, conference and seminar expenses, professional publications, dues' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1998-04-07' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='This account shall be used to benefit the Indiana University Kokomo campus  Expenditures may include, but not be limited to recruitment expenses, employee goodwill, activities and events, conference and seminar expenses, professional publications, dues' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1579,15 +1579,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038RV04351' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='G' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-08-09' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support the education of students at IU Southeast for localregional public accounting firms similar to Monroe Shine  Co, Inc A committee will have discretion concern' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='G' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-08-09' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='It is the intent of the Donors, and the Foundation agrees, that this gift be used to support the education of students at IU Southeast for localregional public accounting firms similar to Monroe Shine  Co, Inc A committee will have discretion concern' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1600,15 +1600,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='038SC01010' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='I' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1986-04-09' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of student loans s to be known as The Black Faculty and Staff Council BFSC Short-term Student Loans Fund The loans shall be approved and recommended by the' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='I' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1986-04-09' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='The Fund hereby created shall be used for the establishment, support and maintenance of student loans s to be known as The Black Faculty and Staff Council BFSC Short-term Student Loans Fund The loans shall be approved and recommended by the' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1621,15 +1621,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='046G007720' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='T' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='1999-03-30' />
-      <column name=' AGRMNT_OTHR_DOC' value='Gift Agreement' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='T' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='1999-03-30' />
+      <column name='AGRMNT_OTHR_DOC' value='Gift Agreement' />
+      <column name='DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1642,15 +1642,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='046G007CD0' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='T' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2006-05-31' />
-      <column name=' AGRMNT_OTHR_DOC' value='MemorandumFund Administration Agreement' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='T' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2006-05-31' />
+      <column name='AGRMNT_OTHR_DOC' value='MemorandumFund Administration Agreement' />
+      <column name='DONR_INTNT_TXT' value='Please refer to the Charitable Gift Annuity Agreement on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1663,15 +1663,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PLTF013' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1684,15 +1684,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PLTF021' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1705,15 +1705,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PLTF997' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2007-01-12' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2007-01-12' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1726,15 +1726,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='909BTIP011' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1747,15 +1747,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='909ETIP018' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1768,15 +1768,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PSTF018' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1789,15 +1789,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PSTF034' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -1810,15 +1810,15 @@
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_AGRMNT_T'>
       <column name='KEMID' value='099PMKT010' />
-      <column name=' AGRMNT_ID' value='1' />
-      <column name=' AGRMNT_TYP_CD' value='M' />
-      <column name=' AGRMNT_STAT_CD' value='COMP' />
-      <column name=' AGRMNT_STAT_DT' valueDate='2005-01-13' />
-      <column name=' AGRMNT_OTHR_DOC' value='' />
-      <column name=' DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
-      <column name=' CMNT' value='' />
-      <column name=' ROW_ACTV_IND' value='Y' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='AGRMNT_ID' value='1' />
+      <column name='AGRMNT_TYP_CD' value='M' />
+      <column name='AGRMNT_STAT_CD' value='COMP' />
+      <column name='AGRMNT_STAT_DT' valueDate='2005-01-13' />
+      <column name='AGRMNT_OTHR_DOC' value='' />
+      <column name='DONR_INTNT_TXT' value='Please refer to Memo of Understanding on File' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

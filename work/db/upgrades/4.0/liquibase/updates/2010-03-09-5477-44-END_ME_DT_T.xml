@@ -5,7 +5,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='1' />
       <column name='ME_DT' valueDate='2007-06-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -19,7 +19,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='2' />
       <column name='ME_DT' valueDate='2007-07-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -33,7 +33,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='3' />
       <column name='ME_DT' valueDate='2007-08-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -47,7 +47,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='4' />
       <column name='ME_DT' valueDate='2007-09-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -61,7 +61,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='5' />
       <column name='ME_DT' valueDate='2007-10-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -75,7 +75,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='6' />
       <column name='ME_DT' valueDate='2007-11-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -89,7 +89,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='7' />
       <column name='ME_DT' valueDate='2007-12-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -103,7 +103,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='8' />
       <column name='ME_DT' valueDate='2008-01-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -117,7 +117,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='9' />
       <column name='ME_DT' valueDate='2008-02-29' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -131,7 +131,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='10' />
       <column name='ME_DT' valueDate='2008-03-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -145,7 +145,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='11' />
       <column name='ME_DT' valueDate='2008-04-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -159,7 +159,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='12' />
       <column name='ME_DT' valueDate='2008-05-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -173,7 +173,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='13' />
       <column name='ME_DT' valueDate='2008-06-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -187,7 +187,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='14' />
       <column name='ME_DT' valueDate='2008-07-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -201,7 +201,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='15' />
       <column name='ME_DT' valueDate='2008-08-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -215,7 +215,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='16' />
       <column name='ME_DT' valueDate='2008-09-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -229,7 +229,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='17' />
       <column name='ME_DT' valueDate='2008-10-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -243,7 +243,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='18' />
       <column name='ME_DT' valueDate='2008-11-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -257,7 +257,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='19' />
       <column name='ME_DT' valueDate='2008-12-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -271,7 +271,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='20' />
       <column name='ME_DT' valueDate='2009-01-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -285,7 +285,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='21' />
       <column name='ME_DT' valueDate='2009-02-28' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -299,7 +299,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='22' />
       <column name='ME_DT' valueDate='2009-03-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -313,7 +313,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='23' />
       <column name='ME_DT' valueDate='2009-04-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -327,7 +327,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='24' />
       <column name='ME_DT' valueDate='2009-05-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -341,7 +341,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='25' />
       <column name='ME_DT' valueDate='2009-06-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -355,7 +355,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='26' />
       <column name='ME_DT' valueDate='2009-07-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -369,7 +369,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='27' />
       <column name='ME_DT' valueDate='2009-08-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -383,7 +383,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='28' />
       <column name='ME_DT' valueDate='2009-09-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -397,7 +397,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='29' />
       <column name='ME_DT' valueDate='2009-10-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -411,7 +411,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='30' />
       <column name='ME_DT' valueDate='2009-11-30' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -425,7 +425,7 @@
     <insert tableName='END_ME_DT_T'>
       <column name='ME_DT_ID' value='31' />
       <column name='ME_DT' valueDate='2009-12-31' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

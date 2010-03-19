@@ -97,19 +97,19 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             // if accrual method is 3,6,B,M,T
             if (accrualMethod.equalsIgnoreCase(EndowConstants.AccrualMethod.MORTGAGE_30) || accrualMethod.equalsIgnoreCase(EndowConstants.AccrualMethod.MORTGAGE_60) || accrualMethod.equalsIgnoreCase(EndowConstants.AccrualMethod.DISCOUNT_BONDS) || accrualMethod.equalsIgnoreCase(EndowConstants.AccrualMethod.TIME_DEPOSITS) || accrualMethod.equalsIgnoreCase(EndowConstants.AccrualMethod.TREASURY_NOTES_AND_BONDS)) {
 
-                // issue date required
-                if (ObjectUtils.isNull(newSecurity.getIssueDate())) {
-
-                    String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Security.class.getName()).getAttributeDefinition(EndowPropertyConstants.SECURITY_ISSUE_DATE).getLabel();
-                    putFieldError(EndowPropertyConstants.SECURITY_ISSUE_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
-                    isValid = false;
-                }
-
                 // maturity date required
                 if (ObjectUtils.isNull(newSecurity.getMaturityDate())) {
 
                     String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Security.class.getName()).getAttributeDefinition(EndowPropertyConstants.SECURITY_MATURITY_DATE).getLabel();
                     putFieldError(EndowPropertyConstants.SECURITY_MATURITY_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
+                    isValid = false;
+                }
+
+                // income pay frequency required
+                if (StringUtils.isEmpty(newSecurity.getIncomePayFrequency())) {
+
+                    String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Security.class.getName()).getAttributeDefinition(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY).getLabel();
+                    putFieldError(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY, KFSKeyConstants.ERROR_REQUIRED, label);
                     isValid = false;
                 }
 
@@ -121,13 +121,14 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
                     isValid = false;
                 }
 
-                // income pay frequency required
-                if (StringUtils.isEmpty(newSecurity.getIncomePayFrequency())) {
+                // issue date required
+                if (ObjectUtils.isNull(newSecurity.getIssueDate())) {
 
-                    String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Security.class.getName()).getAttributeDefinition(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY).getLabel();
-                    putFieldError(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY, KFSKeyConstants.ERROR_REQUIRED, label);
+                    String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Security.class.getName()).getAttributeDefinition(EndowPropertyConstants.SECURITY_ISSUE_DATE).getLabel();
+                    putFieldError(EndowPropertyConstants.SECURITY_ISSUE_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
                     isValid = false;
                 }
+
             }
 
             // if security class code type is Alternative Investment the Commitment Amount is required

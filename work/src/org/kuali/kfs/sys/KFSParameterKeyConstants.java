@@ -35,5 +35,10 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
         public static final String PURAP_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_SUB_UNIT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
-    
+ 
+    public static class GlParameterConstants {
+        public static final String PLANT_INDEBTEDNESS_OFFSET_CODE = "PLANT_INDEBTEDNESS_OFFSET_CODE";
+        public static final String CAPITALIZATION_OFFSET_CODE = "CAPITALIZATION_OFFSET_CODE";
+        public static final String LIABILITY_OFFSET_CODE = "LIABILITY_OFFSET_CODE";
+    }
 }

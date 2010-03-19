@@ -43,9 +43,9 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.DemergerSortComparator;
 import org.kuali.kfs.gl.batch.ScrubberSortComparator;
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcess;
@@ -69,6 +69,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -76,6 +77,7 @@ import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
@@ -92,7 +94,7 @@ import org.springframework.util.StringUtils;
  */
 public class ScrubberProcessImpl implements ScrubberProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberProcessImpl.class);
-
+    
     private static final String TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE = "CE";
     private static final String TRANSACTION_TYPE_OFFSET = "O";
     private static final String TRANSACTION_TYPE_CAPITALIZATION = "C";
@@ -158,7 +160,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     private String costShareDescription;
 
     private ParameterService parameterService;
-
+    private BusinessObjectService businessObjectService;
+    
     /**
      * Whether this instance is being used to support the scrubbing of a collector batch
      */
@@ -173,7 +176,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     private String validFile;
     private String errorFile;
     private String expiredFile;
-
+    
     /**
      * Scrub this single group read only. This will only output the scrubber report. It won't output any other groups.
      * 
@@ -1188,22 +1191,31 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 // Clear out the id & the ojb version number to make sure we do an insert on the next one
                 capitalizationEntry.setVersionNumber(null);
                 capitalizationEntry.setEntryId(null);
-
-                capitalizationEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
-                //TODO: check to see if COBOL does this - seems weird - is this saying if the object code doesn't exist use the value from options?  Shouldn't it always come from one or the other?
-                if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
-                    capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+                
+                // Check system parameters for overriding fund balance object code; otherwise, use
+                // the chart fund balance object code.
+                String fundBalanceCode    = parameterService.getParameterValue(
+                        ScrubberStep.class, 
+                        GlParameterConstants.CAPITALIZATION_OFFSET_CODE);
+                
+                ObjectCode fundObjectCode = getFundBalanceObjectCode(fundBalanceCode, capitalizationEntry);
+                
+                if (fundObjectCode != null) {
+                    capitalizationEntry.setFinancialObjectTypeCode(fundObjectCode.getFinancialObjectTypeCode());
+                    capitalizationEntry.setFinancialObjectCode(fundBalanceCode);
                 }
                 else {
-                    capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                    capitalizationEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
+                    //TODO: check to see if COBOL does this - seems weird - is this saying if the object code doesn't exist use the value from options?  Shouldn't it always come from one or the other?
+                    if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
+                        capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+                    }
+                    else {
+                        capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                    }
                 }
-
-                if (scrubbedEntry.isDebit()) {
-                    capitalizationEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-                }
-                else {
-                    capitalizationEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-                }
+                
+                populateTransactionDebtCreditCode(scrubbedEntry, capitalizationEntry);
 
                 try {
                     flexibleOffsetAccountService.updateOffset(capitalizationEntry);
@@ -1222,7 +1234,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         }
         return null;
     }
-
+    
     /**
      * Generates the plant indebtedness entries
      * 
@@ -1252,13 +1264,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (objectSubTypeCodes != null && objectSubTypeCodes.evaluationSucceeds())) {
 
                 plantIndebtednessEntry.setTransactionLedgerEntryDescription(KFSConstants.PLANT_INDEBTEDNESS_ENTRY_DESCRIPTION);
-
-                if (scrubbedEntry.isDebit()) {
-                    plantIndebtednessEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-                }
-                else {
-                    plantIndebtednessEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-                }
+                populateTransactionDebtCreditCode(scrubbedEntry, plantIndebtednessEntry);
 
                 plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
                 createOutputEntry(plantIndebtednessEntry, OUTPUT_GLE_FILE_ps);
@@ -1268,8 +1274,22 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 plantIndebtednessEntry.setVersionNumber(null);
                 plantIndebtednessEntry.setEntryId(null);
 
-                plantIndebtednessEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
-                plantIndebtednessEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                // Check system parameters for overriding fund balance object code; otherwise, use
+                // the chart fund balance object code.
+                String fundBalanceCode    = parameterService.getParameterValue(
+                        ScrubberStep.class, 
+                        GlParameterConstants.PLANT_INDEBTEDNESS_OFFSET_CODE);
+                
+                ObjectCode fundObjectCode = getFundBalanceObjectCode(fundBalanceCode, plantIndebtednessEntry);
+                if (fundObjectCode != null) {
+                    plantIndebtednessEntry.setFinancialObjectTypeCode(fundObjectCode.getFinancialObjectTypeCode());
+                    plantIndebtednessEntry.setFinancialObjectCode(fundBalanceCode);
+                }
+                else {
+                    plantIndebtednessEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                    plantIndebtednessEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
+                }
+                
                 plantIndebtednessEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
 
                 plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
@@ -1323,12 +1343,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 plantIndebtednessEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
                 plantIndebtednessEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
 
-                if (scrubbedEntry.isDebit()) {
-                    plantIndebtednessEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-                }
-                else {
-                    plantIndebtednessEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-                }
+                populateTransactionDebtCreditCode(scrubbedEntry, plantIndebtednessEntry);
 
                 try {
                     flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
@@ -1390,15 +1405,28 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 liabilityEntry.setVersionNumber(null);
                 liabilityEntry.setEntryId(null);
 
-                // ... and now generate the offset half of the liability entry
-                liabilityEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
-                if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
-                    liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+                // Check system parameters for overriding fund balance object code; otherwise, use
+                // the chart fund balance object code.
+                String fundBalanceCode    = parameterService.getParameterValue(
+                        ScrubberStep.class, 
+                        GlParameterConstants.LIABILITY_OFFSET_CODE);
+                
+                ObjectCode fundObjectCode = getFundBalanceObjectCode(fundBalanceCode, liabilityEntry);
+                if (fundObjectCode != null) {
+                    liabilityEntry.setFinancialObjectTypeCode(fundObjectCode.getFinancialObjectTypeCode());
+                    liabilityEntry.setFinancialObjectCode(fundBalanceCode);
                 }
                 else {
-                    liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                    // ... and now generate the offset half of the liability entry
+                    liabilityEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
+                    if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
+                        liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
+                    }
+                    else {
+                        liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
+                    }
                 }
-
+                
                 if (liabilityEntry.isDebit()) {
                     liabilityEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
                 }
@@ -1423,7 +1451,45 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         } 
         return null;
     }
-
+    
+    /**
+     * 
+     * This method...
+     * @param fundBalanceCodeParameter
+     * @param originEntryFull
+     * @return
+     */
+    private ObjectCode getFundBalanceObjectCode(String fundBalanceCode, OriginEntryFull originEntryFull)
+    {
+        ObjectCode fundBalanceObjectCode = null;
+        if (fundBalanceCode != null) {
+            Map<String, Object> criteriaMap = new HashMap<String, Object>();
+            criteriaMap.put("universityFiscalYear", originEntryFull.getUniversityFiscalYear());
+            criteriaMap.put("chartOfAccountsCode", originEntryFull.getChartOfAccountsCode());
+            criteriaMap.put("financialObjectCode",  fundBalanceCode);
+            
+            fundBalanceObjectCode = ((ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, criteriaMap));
+        }
+        
+        return fundBalanceObjectCode;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param scrubbedEntry
+     * @param fullEntry
+     */
+    private void populateTransactionDebtCreditCode(OriginEntryInformation scrubbedEntry, OriginEntryFull fullEntry) 
+    {
+        if (scrubbedEntry.isDebit()) {
+            fullEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        }
+        else {
+            fullEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        }
+    }
+    
     /**
      * Updates the entries with the proper chart and account for the plant fund
      * 
@@ -1769,29 +1835,6 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         }
     }
     
-
-    /**
-     * If object is null, generate an error
-     * 
-     * @param glObject object to test
-     * @param errorMessage error message if glObject is null
-     * @param errorValue value of glObject to print in the error message
-     * @param type Type of message (fatal or warning)
-     * @return true of glObject is null
-     */
-    protected boolean ifNullAddTransactionErrorAndReturnFalse(Object glObject, String errorMessage, String errorValue, int type) {
-        if (glObject == null) {
-            if (StringUtils.hasText(errorMessage)) {
-                addTransactionError(errorMessage, errorValue, type);
-            }
-            else {
-                addTransactionError("Unexpected null object", glObject.getClass().getName(), type);
-            }
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Add an error message to the list of messages for this transaction
      * 
@@ -2367,6 +2410,13 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     public void setPreScrubberReportWriterService(DocumentNumberAwareReportWriterService preScrubberReportWriterService) {
         this.preScrubberReportWriterService = preScrubberReportWriterService;
     }
-    
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
     
 }

@@ -200,5 +200,6 @@ public class EndowConstants {
     public static class Sequences {
         public static final String END_KEMID_SEQ = "END_KEMID_SEQ";
         public static final String END_TICKLER_SEQ = "END_TKLR_SEQ";
+        public static final String END_ACI_SEQ = "END_ACI_SEQ";
     }
 }

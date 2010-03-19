@@ -752,7 +752,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return
      */
     public String getActionTypeCodeDescription() {
-        String actionTypeCodeDesc = (String)CodeTranslator.arStatusLabels.get(getActionTypeCodeToDisplay());
+        String actionTypeCodeDesc = (String)CodeTranslator.arLabels.get(getActionTypeCodeToDisplay());
         return actionTypeCodeDesc==null?"":actionTypeCodeDesc;
     }
 

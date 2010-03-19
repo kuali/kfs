@@ -975,7 +975,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (KemidPayoutInstruction payoutInstruction : newKemid.getKemidPayoutInstructions()) {
-            if (payoutInstruction.getEndDate() != null && payoutInstruction.getEndDate().after(currentDate)) {
+            if (payoutInstruction.getEndDate() == null || payoutInstruction.getEndDate().after(currentDate)) {
                 total = total.add(payoutInstruction.getPercentOfIncomeToPayToKemid());
             }
         }

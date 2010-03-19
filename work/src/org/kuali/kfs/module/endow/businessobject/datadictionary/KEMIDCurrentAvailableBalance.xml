@@ -25,7 +25,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDCurrentAvailableBalance-availableTotalCash" />
         <ref bean="KEMIDCurrentAvailableBalance-kemidObj.shortTitle" />
         <ref bean="KEMIDCurrentAvailableBalance-kemidObj.purposeCode" />
-        <ref bean="KEMIDCurrentAvailableBalance-kemidObj.closedIndicator" />
+        <ref bean="KEMIDCurrentAvailableBalance-kemidObj.active" />
         <ref bean="KEMIDCurrentAvailableBalance-balanceDate" />
       </list>
     </property>
@@ -137,10 +137,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="KEMIDCurrentAvailableBalance-kemidObj.closedIndicator" parent="KEMIDCurrentAvailableBalance-kemidObj.closedIndicator-parentBean" />
+  <bean id="KEMIDCurrentAvailableBalance-kemidObj.active" parent="KEMIDCurrentAvailableBalance-kemidObj.active-parentBean" />
 
-  <bean id="KEMIDCurrentAvailableBalance-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="KEMIDCurrentAvailableBalance-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   
@@ -197,7 +197,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />              
+              p:attributeName="kemidObj.active" />              
         <bean parent="FieldDefinition"
               p:attributeName="balanceDate" />                                     
       </list>
@@ -217,7 +217,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="availableTotalCash" />                                          
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />                                                                 
+              p:attributeName="kemidObj.active" />                                                                 
       </list>
     </property>
   </bean>

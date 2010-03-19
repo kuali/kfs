@@ -384,7 +384,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
         // check that start date is prior to end date
         Date startDate = payoutInstruction.getStartDate();
         Date endDate = payoutInstruction.getEndDate();
-        
+
         if (startDate != null && endDate != null) {
             if (startDate.after(endDate)) {
                 if (index == -1) {
@@ -632,7 +632,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkCloseCode() {
         boolean valid = true;
 
-        if (newKemid.isClosedIndicator()) {
+        if (newKemid.isActive()) {
             String closeCode = newKemid.getCloseCode();
 
             Map pkMap = new HashMap();
@@ -656,7 +656,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkIfKemidHasCurrentCashOpenRecordsIfClosed() {
         boolean valid = true;
 
-        if (newKemid.isClosedIndicator()) {
+        if (newKemid.isActive()) {
             String kemid = newKemid.getKemid();
             boolean hasOpenRecords = SpringContext.getBean(KemidCurrentCashOpenRecordsService.class).hasKemidOpenRecordsInCurrentCash(kemid);
 
@@ -678,7 +678,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkIfKemidHasHoldingTaxLotOpenRecordsIfClosed() {
         boolean valid = true;
 
-        if (newKemid.isClosedIndicator()) {
+        if (newKemid.isActive()) {
             String kemid = newKemid.getKemid();
             boolean hasOpenRecords = SpringContext.getBean(KemidHoldingTaxLotOpenRecordsService.class).hasKemidHoldingTaxLotOpenRecords(kemid);
 

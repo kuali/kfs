@@ -27,6 +27,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -39,7 +40,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * the KEMID and how and when automated activity is yo occur. In addition, fields will be used to define the KEMID that can be
  * instrumental in the development of reports for the institution.
  */
-public class KEMID extends PersistableBusinessObjectBase {
+public class KEMID extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String kemid;
     private String shortTitle;
@@ -56,7 +57,8 @@ public class KEMID extends PersistableBusinessObjectBase {
     private Integer principalACIModelId;
     private boolean dormantIndicator;
     private String purposeCode;
-    private boolean closedIndicator;
+    private boolean active;
+
     private String closedToKEMID;
     private String closeCode;
     private String dispositionOfFunds;
@@ -459,22 +461,19 @@ public class KEMID extends PersistableBusinessObjectBase {
 
     }
 
+
     /**
-     * Gets the closedIndicator.
-     * 
-     * @return closedIndicator
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
-    public boolean isClosedIndicator() {
-        return closedIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the closedIndicator.
-     * 
-     * @param closedIndicator
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
-    public void setClosedIndicator(boolean closedIndicator) {
-        this.closedIndicator = closedIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
@@ -892,13 +891,12 @@ public class KEMID extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * Returns KEMID concatenated with Short Label
+     * 
      * @return
      */
-    public String getKemIdLabel()
-    {
-        String kemID = getKemid()!= null ? getKemid() : "";
+    public String getKemIdLabel() {
+        String kemID = getKemid() != null ? getKemid() : "";
         String shortTitle = getShortTitle() != null ? getShortTitle() : "";
         String kemIdLabel = kemID + " - " + shortTitle;
         return kemIdLabel;

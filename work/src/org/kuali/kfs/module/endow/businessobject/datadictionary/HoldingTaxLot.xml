@@ -37,7 +37,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="HoldingTaxLot-kemidObj.shortTitle" />
         <ref bean="HoldingTaxLot-kemidObj.purposeCode" />
         <ref bean="HoldingTaxLot-kemidObj.purpose.name" />
-        <ref bean="HoldingTaxLot-kemidObj.closedIndicator" />
+        <ref bean="HoldingTaxLot-kemidObj.active" />
         <ref bean="HoldingTaxLot-security.classCode.securityReportingGrp" />
         <ref bean="HoldingTaxLot-security.description" />
       </list>
@@ -288,10 +288,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="kemidObj.shortTitle" />
     <property name="label" value="Short Title" />
   </bean> 
-  <bean id="HoldingTaxLot-kemidObj.closedIndicator" parent="HoldingTaxLot-kemidObj.closedIndicator-parentBean" />
+  <bean id="HoldingTaxLot-kemidObj.active" parent="HoldingTaxLot-kemidObj.active-parentBean" />
 
-  <bean id="HoldingTaxLot-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="HoldingTaxLot-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   <bean id="HoldingTaxLot-security.classCode.securityReportingGrp" parent="HoldingTaxLot-security.classCode.securityReportingGrp-parentBean" />

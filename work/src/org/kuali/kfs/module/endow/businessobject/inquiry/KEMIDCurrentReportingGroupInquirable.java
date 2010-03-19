@@ -60,7 +60,7 @@ public class KEMIDCurrentReportingGroupInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_REGIS_CD, UrlFactory.encode(currentReportingGroup.getRegistrationCode()));
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_DATE, dateTimeService.toDateString(currentReportingGroup.getBalanceDate()));
-            params.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_CLOSED_IND, currentReportingGroup.getKemidObj().isClosedIndicator() ? "Yes" : "No");
+            params.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_CLOSED_IND, currentReportingGroup.getKemidObj().isActive() ? "Yes" : "No");
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_REGIS_DESC, currentReportingGroup.getRegistration().getName());
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_SEC_DESC, currentReportingGroup.getSecurity().getDescription());
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_SHORT_TTL, currentReportingGroup.getKemidObj().getShortTitle());
@@ -77,7 +77,7 @@ public class KEMIDCurrentReportingGroupInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_SECURITY_ID, currentReportingGroup.getSecurityId());
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_REGIS_CD, currentReportingGroup.getRegistrationCode());
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_DATE, dateTimeService.toDateString(currentReportingGroup.getBalanceDate()));
-            fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_CLOSED_IND, currentReportingGroup.getKemidObj().isClosedIndicator() ? "Yes" : "No");
+            fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_CLOSED_IND, currentReportingGroup.getKemidObj().isActive() ? "Yes" : "No");
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_REGIS_DESC, currentReportingGroup.getRegistration().getName());
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_SEC_DESC, currentReportingGroup.getSecurity().getDescription());
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_KEMID_SHORT_TTL, currentReportingGroup.getKemidObj().getShortTitle());

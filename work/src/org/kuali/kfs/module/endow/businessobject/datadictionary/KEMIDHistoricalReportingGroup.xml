@@ -34,7 +34,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDHistoricalReportingGroup-remainderOfFYEstimatedIncome" />
         <ref bean="KEMIDHistoricalReportingGroup-annualEstimatedIncome" />
         <ref bean="KEMIDHistoricalReportingGroup-kemidObj.purposeCode" />
-        <ref bean="KEMIDHistoricalReportingGroup-kemidObj.closedIndicator" />
+        <ref bean="KEMIDHistoricalReportingGroup-kemidObj.active" />
         <ref bean="KEMIDHistoricalReportingGroup-kemidObj.shortTitle" />
         <ref bean="KEMIDHistoricalReportingGroup-kemidObj.purpose.name" />
       </list>
@@ -225,10 +225,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purpose" />
   </bean>   
-  <bean id="KEMIDHistoricalReportingGroup-kemidObj.closedIndicator" parent="KEMIDHistoricalReportingGroup-kemidObj.closedIndicator-parentBean" />
+  <bean id="KEMIDHistoricalReportingGroup-kemidObj.active" parent="KEMIDHistoricalReportingGroup-kemidObj.active-parentBean" />
 
-  <bean id="KEMIDHistoricalReportingGroup-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="KEMIDHistoricalReportingGroup-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   <bean id="KEMIDHistoricalReportingGroup-kemidObj.shortTitle" parent="KEMIDHistoricalReportingGroup-kemidObj.shortTitle-parentBean" />
@@ -323,7 +323,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="incomePrincipalIndicator.name" />              
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />              
+              p:attributeName="kemidObj.active" />              
         <bean parent="FieldDefinition"
               p:attributeName="historyBalanceDateId" />                                     
       </list>

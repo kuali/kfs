@@ -41,7 +41,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CurrentTaxLotBalance-kemidObj.purposeCode" />
         <ref bean="CurrentTaxLotBalance-kemidObj.purpose.name" />
         <ref bean="CurrentTaxLotBalance-balanceDate" />
-        <ref bean="CurrentTaxLotBalance-kemidObj.closedIndicator" />
+        <ref bean="CurrentTaxLotBalance-kemidObj.active" />
         <ref bean="CurrentTaxLotBalance-security.classCode.securityReportingGrp" />
         <ref bean="CurrentTaxLotBalance-security.description" />
       </list>
@@ -352,10 +352,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="CurrentTaxLotBalance-kemidObj.closedIndicator" parent="CurrentTaxLotBalance-kemidObj.closedIndicator-parentBean" />
+  <bean id="CurrentTaxLotBalance-kemidObj.active" parent="CurrentTaxLotBalance-kemidObj.active-parentBean" />
 
-  <bean id="CurrentTaxLotBalance-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="CurrentTaxLotBalance-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   <bean id="CurrentTaxLotBalance-security.classCode.securityReportingGrp" parent="CurrentTaxLotBalance-security.classCode.securityReportingGrp-parentBean" />
@@ -469,7 +469,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="incomePrincipal.name" />                  
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />  
+              p:attributeName="kemidObj.active" />  
         <bean parent="FieldDefinition"
               p:attributeName="securityId" /> 
         <bean parent="FieldDefinition"

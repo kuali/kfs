@@ -29,7 +29,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDCurrentBalance-kemidObj.shortTitle" />
         <ref bean="KEMIDCurrentBalance-kemidObj.purposeCode" />
         <ref bean="KEMIDCurrentBalance-balanceDate" />
-        <ref bean="KEMIDCurrentBalance-kemidObj.closedIndicator" />
+        <ref bean="KEMIDCurrentBalance-kemidObj.active" />
       </list>
     </property>
   </bean>
@@ -200,10 +200,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="KEMIDCurrentBalance-kemidObj.closedIndicator" parent="KEMIDCurrentBalance-kemidObj.closedIndicator-parentBean" />
+  <bean id="KEMIDCurrentBalance-kemidObj.active" parent="KEMIDCurrentBalance-kemidObj.active-parentBean" />
 
-  <bean id="KEMIDCurrentBalance-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="KEMIDCurrentBalance-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   
@@ -261,7 +261,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />              
+              p:attributeName="kemidObj.active" />              
         <bean parent="FieldDefinition"
               p:attributeName="balanceDate" />                                     
       </list>
@@ -287,7 +287,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="nextFYEstimatedIncome" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />                                                                 
+              p:attributeName="kemidObj.active" />                                                                 
       </list>
     </property>
   </bean>

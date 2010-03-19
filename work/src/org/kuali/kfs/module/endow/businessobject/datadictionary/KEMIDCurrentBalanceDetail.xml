@@ -28,7 +28,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDCurrentBalanceDetail-kemidObj.purposeCode" />
         <ref bean="KEMIDCurrentBalanceDetail-kemidObj.purpose.name" />
         <ref bean="KEMIDCurrentBalanceDetail-balanceDate" />
-        <ref bean="KEMIDCurrentBalanceDetail-kemidObj.closedIndicator" />
+        <ref bean="KEMIDCurrentBalanceDetail-kemidObj.active" />
         <ref bean="KEMIDCurrentBalanceDetail-kemidObj.shortTitle" />
         <ref bean="KEMIDCurrentBalanceDetail-reportingGroup.name" />
         <ref bean="KEMIDCurrentBalanceDetail-reportingGroup.securityReportingGrpOrder" />
@@ -184,10 +184,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="KEMIDCurrentBalanceDetail-kemidObj.closedIndicator" parent="KEMIDCurrentBalanceDetail-kemidObj.closedIndicator-parentBean" />
+  <bean id="KEMIDCurrentBalanceDetail-kemidObj.active" parent="KEMIDCurrentBalanceDetail-kemidObj.active-parentBean" />
 
-  <bean id="KEMIDCurrentBalanceDetail-kemidObj.closedIndicator-parentBean" abstract="true" parent="KEMID-closedIndicator">
-    <property name="name" value="kemidObj.closedIndicator" />
+  <bean id="KEMIDCurrentBalanceDetail-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
+    <property name="name" value="kemidObj.active" />
     <property name="label" value="Closed Indicator" />
   </bean> 
   <bean id="KEMIDCurrentBalanceDetail-kemidObj.shortTitle" parent="KEMIDCurrentBalanceDetail-kemidObj.shortTitle-parentBean" />
@@ -289,7 +289,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purpose.name" />                        
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.closedIndicator" />              
+              p:attributeName="kemidObj.active" />              
         <bean parent="FieldDefinition"
               p:attributeName="balanceDate" />                                     
       </list>

@@ -55,7 +55,7 @@ public class KEMIDCurrentBalanceInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.CURRENT_BAL_PURPOSE_CD, UrlFactory.encode(currentBalance.getKemidObj().getPurposeCode()));
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             params.put(EndowPropertyConstants.CURRENT_BAL_KEMID_BALANCE_DATE, dateTimeService.toDateString(currentBalance.getBalanceDate()));
-            params.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalance.getKemidObj().isClosedIndicator() ? "Yes" : "No");
+            params.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalance.getKemidObj().isActive() ? "Yes" : "No");
             params.put(EndowPropertyConstants.KEMID_CRNT_BAL_KEMID_SHORT_TTL, currentBalance.getKemidObj().getShortTitle());
 
             if (ObjectUtils.isNotNull(currentBalance.getKemidObj().getPurpose())) {
@@ -68,7 +68,7 @@ public class KEMIDCurrentBalanceInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.KEMID, currentBalance.getKemid().toString());
             fieldList.put(EndowPropertyConstants.CURRENT_BAL_PURPOSE_CD, currentBalance.getKemidObj().getPurposeCode());
             fieldList.put(EndowPropertyConstants.CURRENT_BAL_KEMID_BALANCE_DATE, dateTimeService.toDateString(currentBalance.getBalanceDate()));
-            fieldList.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalance.getKemidObj().isClosedIndicator() ? "Yes" : "No");
+            fieldList.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalance.getKemidObj().isActive() ? "Yes" : "No");
             fieldList.put(EndowPropertyConstants.KEMID_CRNT_BAL_KEMID_SHORT_TTL, currentBalance.getKemidObj().getShortTitle());
             
             if (ObjectUtils.isNotNull(currentBalance.getKemidObj().getPurpose())) {

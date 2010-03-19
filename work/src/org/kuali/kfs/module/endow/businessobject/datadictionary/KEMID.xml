@@ -24,7 +24,7 @@
         <ref bean="KEMID-purposeCode" />
         <ref bean="KEMID-purpose.name" />
         <ref bean="KEMID-purpose.codeAndDescription" />
-        <ref bean="KEMID-closedIndicator" />
+        <ref bean="KEMID-active" />
         <ref bean="KEMID-longTitle" />
         <ref bean="KEMID-dateOpened" />
         <ref bean="KEMID-dateEstablished" />
@@ -79,6 +79,11 @@
         <bean parent="CollectionDefinition" p:name="kemidCombineDonorStatements" p:label="Combine Donor Statements" p:shortLabel="Combine Donor Statements"  p:elementLabel="Combine Donor Statement"/>
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+	  <list>
+	    <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="type"/>
+	  </list>
+	</property>   
   </bean>
 
 <!-- Attribute Definitions -->
@@ -172,10 +177,10 @@
     <property name="label" value="Purpose" />
   </bean>    
 
-  <bean id="KEMID-closedIndicator" parent="KEMID-closedIndicator-parentBean" />
+  <bean id="KEMID-active" parent="KEMID-active-parentBean" />
 
-  <bean id="KEMID-closedIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="closedIndicator" />
+  <bean id="KEMID-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="active" />
     <property name="label" value="Closed Indicator" />
   </bean>  
   <bean id="KEMID-dateOpened" parent="KEMID-dateOpened-parentBean" />
@@ -462,7 +467,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dormantIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="closedIndicator" />    
+                    p:attributeName="active" />    
               <bean parent="FieldDefinition"
                     p:attributeName="closedToKEMID" />
               <bean parent="FieldDefinition"
@@ -828,7 +833,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="closedIndicator" />              
+              p:attributeName="active" />              
       </list>
     </property>
     <property name="resultFields" >
@@ -844,7 +849,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="closedIndicator" />                  
+              p:attributeName="active" />                  
       </list>
     </property>
   </bean>

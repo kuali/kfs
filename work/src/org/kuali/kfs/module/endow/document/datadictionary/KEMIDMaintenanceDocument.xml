@@ -257,7 +257,7 @@
               p:required="true"
               p:defaultValue="false" />  
         <bean parent="MaintainableFieldDefinition"
-              p:name="closedIndicator"
+              p:name="active"
               p:required="true"
               p:defaultValue="false" />
         <bean parent="MaintainableFieldDefinition"

@@ -25,7 +25,11 @@
         		<ref bean="KemidFee-kemid" />
         		<ref bean="KemidFee-feeMethodSeq" />
         		<ref bean="KemidFee-feeMethodCode" />
+        		<ref bean="KemidFee-feeMethod.name" />
+        		<ref bean="KemidFee-feeMethod.codeAndDescription" />
 		        <ref bean="KemidFee-chargeFeeToKemid" />
+		        <ref bean="KemidFee-chargeFeeToKemidObjRef.shortTitle" />
+		        <ref bean="KemidFee-chargeFeeToKemidObjRef.kemidAndShortTitle" />
 		        <ref bean="KemidFee-percentOfFeeChargedToIncome"/>
 		        <ref bean="KemidFee-percentOfFeeChargedToPrincipal"/>
 		        <ref bean="KemidFee-accrueFees"/>
@@ -71,10 +75,34 @@
     	<property name="label" value="Fee Method" />
     	<property name="required" value="true" />
   	</bean>
+  	<bean id="KemidFee-feeMethod.name" parent="KemidFee-feeMethod.name-parentBean" />
+  
+  	<bean id="KemidFee-feeMethod.name-parentBean" abstract="true" parent="FeeMethod-name">
+  		<property name="name" value="feeMethod.name" />
+    	<property name="label" value="Fee Method Description" />
+  	</bean>
+  	<bean id="KemidFee-feeMethod.codeAndDescription" parent="KemidFee-feeMethod.codeAndDescription-parentBean" />
+  
+  	<bean id="KemidFee-feeMethod.codeAndDescription-parentBean" abstract="true" parent="FeeMethod-codeAndDescription">
+  		<property name="name" value="feeMethod.codeAndDescription" />
+    	<property name="label" value="Fee Method Description" />
+  	</bean>  	
 	<bean id="KemidFee-chargeFeeToKemid" parent="KemidFee-chargeFeeToKemid-parentBean" />
 		        
   	<bean id="KemidFee-chargeFeeToKemid-parentBean" abstract="true" parent="KEMID-kemid">
   		<property name="name" value="chargeFeeToKemid" />
+    	<property name="label" value="Charge Fee To KEMID" />
+  	</bean>
+  	<bean id="KemidFee-chargeFeeToKemidObjRef.shortTitle" parent="KemidFee-chargeFeeToKemidObjRef.shortTitle-parentBean" />
+		        
+  	<bean id="KemidFee-chargeFeeToKemidObjRef.shortTitle-parentBean" abstract="true" parent="KEMID-shortTitle">
+  		<property name="name" value="chargeFeeToKemidObjRef.shortTitle" />
+    	<property name="label" value="Charge Fee To KEMID Short Title" />
+  	</bean>
+  	<bean id="KemidFee-chargeFeeToKemidObjRef.kemidAndShortTitle" parent="KemidFee-chargeFeeToKemidObjRef.kemidAndShortTitle-parentBean" />
+		        
+  	<bean id="KemidFee-chargeFeeToKemidObjRef.kemidAndShortTitle-parentBean" abstract="true" parent="KEMID-kemidAndShortTitle">
+  		<property name="name" value="chargeFeeToKemidObjRef.kemidAndShortTitle" />
     	<property name="label" value="Charge Fee To KEMID" />
   	</bean>
 	<bean id="KemidFee-percentOfFeeChargedToIncome" parent="KemidFee-percentOfFeeChargedToIncome-parentBean" />

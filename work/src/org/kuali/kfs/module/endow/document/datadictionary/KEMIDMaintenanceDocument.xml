@@ -632,8 +632,14 @@
                     p:required="true"
                     p:webUILeaveFieldFunction="loadFeeStartDate" />
               <bean parent="MaintainableFieldDefinition" 
+                    p:name="feeMethod.name"
+                    p:unconditionallyReadOnly="true" />                      
+              <bean parent="MaintainableFieldDefinition" 
                     p:name="chargeFeeToKemid"
                     p:required="true" />   
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="chargeFeeToKemidObjRef.shortTitle"
+                    p:unconditionallyReadOnly="true" />                       
               <bean parent="MaintainableFieldDefinition" 
                     p:name="percentOfFeeChargedToIncome" 
                     p:required="true"

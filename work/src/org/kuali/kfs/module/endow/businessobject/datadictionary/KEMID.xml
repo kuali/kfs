@@ -405,7 +405,7 @@
     <property name="name" value="kemidUseCriteria.useCriteriaSeq" />
   </bean>  
 
-    <bean id="KEMID-kemIdshortTitle-parentBean" abstract="true" parent="AttributeDefinition">
+ <bean id="KEMID-kemIdshortTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="kemIdLabel" />
     <property name="label" value="KEMID" />
     <property name="shortLabel" value="Title" />
@@ -681,9 +681,9 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="feeMethodCode" />
+                          p:attributeName="feeMethod.codeAndDescription" />                          
                     <bean parent="FieldDefinition"
-                          p:attributeName="chargeFeeToKemid" />
+                          p:attributeName="chargeFeeToKemidObjRef.kemidAndShortTitle" />                          
                     <bean parent="FieldDefinition"
                           p:attributeName="percentOfFeeChargedToIncome" /> 
                     <bean parent="FieldDefinition"

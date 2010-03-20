@@ -3,23 +3,23 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
 
-<changeSet id="5407" author="Travis" failOnError="false" dbms="mysql" >
+<changeSet id="5407" author="Travis" failOnError='true' dbms="mysql" >
 <addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
     <column name="preq_id" type="DECIMAL(9,0)"/>
 </addColumn>
 </changeSet>
 
-<changeSet id="5407a" author="Travis" failOnError="false" dbms="oracle">
+<changeSet id="5407a" author="Travis" failOnError='true' dbms="oracle">
 <addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
     <column name="preq_id" type="NUMBER(9,0)"/>
 </addColumn>
 </changeSet>
 
-<changeSet id="5425" author="Jerry" failOnError="false">
+<changeSet id="5425" author="Jerry" failOnError='true'>
 <comment>Ingest BudgetConsructionBeginningBalanceDocument.xml workflow doc type into kuldba</comment>
 </changeSet>
 
-<changeSet id="5426" author="Jerry" failOnError="false">
+<changeSet id="5426" author="Jerry" failOnError='true'>
 <insert tableName="KRNS_PARM_T">
 <column name="NMSPC_CD" value="KFS-PURAP"/>
 <column name="PARM_DTL_TYP_CD" value="Document"/>
@@ -52,7 +52,7 @@
     </modifySql>   
 </changeSet>
 
-<changeSet id="5439" author="David" failOnError="false" context="kuldba">
+<changeSet id="5439" author="David" failOnError='true' context="kuldba">
 <update tableName="AR_ORG_OPTION_T">
 <column name="PRCS_ORG_CD" value="VPIT"/>
 <column name="ORG_MSG_TXT" value="Use to test AZ tax"/>
@@ -69,7 +69,7 @@ UPDATE "KULDBA"."AR_ORG_OPTION_T" SET ORG_MSG_TXT = 'Use to test CA tax', ORG_RE
 	]]></sql>    
 </changeSet>
 
-<changeSet id="5488" author="David" failOnError="false" dbms="oracle">
+<changeSet id="5488" author="David" failOnError='true' dbms="oracle">
 <addColumn tableName="AR_ORG_OPTION_T">
 	<column name="org_postal_cntry_cd" type="varchar2(2)"/>
 </addColumn>
@@ -80,7 +80,7 @@ UPDATE "KULDBA"."AR_ORG_OPTION_T" SET ORG_MSG_TXT = 'Use to test CA tax', ORG_RE
 
 </changeSet>
 
-<changeSet id="5488a" author="David" failOnError="false" dbms="mysql">
+<changeSet id="5488a" author="David" failOnError='true' dbms="mysql">
 <addColumn tableName="AR_ORG_OPTION_T">
 	<column name="org_postal_cntry_cd" type="varchar(2)"/>
 </addColumn>

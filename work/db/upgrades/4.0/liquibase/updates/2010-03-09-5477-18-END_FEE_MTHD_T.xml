@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-18-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-18-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='CRTMF1' />
@@ -35,7 +35,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-18-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='CRTMF2' />
@@ -70,7 +70,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-18-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='SHMF1' />
@@ -105,7 +105,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-18-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-18-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FEE_MTHD_T'>
       <column name='FEE_MTHD' value='SHMF2' />

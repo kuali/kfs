@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-19-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-19-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FND_SRC_CD_T'>
       <column name='FND_SRC_CD' value='MULT' />
@@ -15,7 +15,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-19-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-19-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FND_SRC_CD_T'>
       <column name='FND_SRC_CD' value='KEMID' />
@@ -30,7 +30,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-19-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-19-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FND_SRC_CD_T'>
       <column name='FND_SRC_CD' value='DONOR' />
@@ -45,7 +45,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-19-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-19-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FND_SRC_CD_T'>
       <column name='FND_SRC_CD' value='POOL' />
@@ -60,7 +60,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-19-5' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-19-5' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_FND_SRC_CD_T'>
       <column name='FND_SRC_CD' value='EARN' />

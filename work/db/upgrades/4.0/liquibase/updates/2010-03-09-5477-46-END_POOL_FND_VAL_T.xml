@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-46-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PFIF018' />
@@ -25,7 +25,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -50,7 +50,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -75,7 +75,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -100,7 +100,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-5' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-5' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -125,7 +125,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-6' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-6' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -150,7 +150,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-7' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-7' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -175,7 +175,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-8' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-8' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -200,7 +200,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-9' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-9' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -225,7 +225,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-10' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-10' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -250,7 +250,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-11' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-11' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -275,7 +275,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-12' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-12' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -300,7 +300,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-13' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-13' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -325,7 +325,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-14' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-14' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -350,7 +350,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-15' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-15' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -375,7 +375,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-16' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-16' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -400,7 +400,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-17' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-17' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -425,7 +425,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-18' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-18' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -450,7 +450,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-19' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-19' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -475,7 +475,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-20' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-20' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -500,7 +500,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-21' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-21' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -525,7 +525,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-22' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-22' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -550,7 +550,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-23' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-23' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -575,7 +575,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-24' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-24' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -600,7 +600,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-25' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-25' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -625,7 +625,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-26' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-26' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -650,7 +650,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-27' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-27' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -675,7 +675,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-28' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-28' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -700,7 +700,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-29' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-29' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -725,7 +725,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-30' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-30' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF013' />
@@ -750,7 +750,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-31' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-31' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -775,7 +775,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-32' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-32' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -800,7 +800,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-33' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-33' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -825,7 +825,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-34' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-34' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -850,7 +850,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-35' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-35' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -875,7 +875,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-36' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-36' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -900,7 +900,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-37' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-37' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -925,7 +925,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-38' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-38' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -950,7 +950,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-39' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-39' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -975,7 +975,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-40' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-40' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1000,7 +1000,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-41' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-41' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1025,7 +1025,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-42' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-42' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1050,7 +1050,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-43' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-43' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1075,7 +1075,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-44' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-44' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1100,7 +1100,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-45' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-45' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1125,7 +1125,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-46' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-46' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1150,7 +1150,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-47' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-47' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1175,7 +1175,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-48' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-48' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1200,7 +1200,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-49' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-49' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1225,7 +1225,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-50' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-50' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1250,7 +1250,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-51' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-51' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1275,7 +1275,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-52' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-52' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1300,7 +1300,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-53' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-53' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1325,7 +1325,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-54' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-54' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1350,7 +1350,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-55' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-55' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1375,7 +1375,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-56' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-56' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1400,7 +1400,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-57' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-57' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1425,7 +1425,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-58' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-58' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1450,7 +1450,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-59' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-59' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF021' />
@@ -1475,7 +1475,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-60' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-60' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1500,7 +1500,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-61' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-61' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1525,7 +1525,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-62' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-62' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1550,7 +1550,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-63' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-63' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1575,7 +1575,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-64' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-64' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1600,7 +1600,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-65' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-65' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1625,7 +1625,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-66' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-66' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1650,7 +1650,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-67' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-67' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1675,7 +1675,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-68' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-68' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1700,7 +1700,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-69' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-69' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1725,7 +1725,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-70' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-70' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1750,7 +1750,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-71' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-71' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1775,7 +1775,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-72' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-72' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1800,7 +1800,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-73' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-73' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1825,7 +1825,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-74' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-74' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1850,7 +1850,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-75' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-75' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1875,7 +1875,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-76' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-76' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1900,7 +1900,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-77' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-77' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1925,7 +1925,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-78' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-78' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1950,7 +1950,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-79' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-79' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -1975,7 +1975,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-80' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-80' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2000,7 +2000,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-81' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-81' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2025,7 +2025,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-82' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-82' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2050,7 +2050,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-83' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-83' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2075,7 +2075,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-84' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-84' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2100,7 +2100,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-85' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-85' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2125,7 +2125,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-86' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-86' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2150,7 +2150,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-87' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-87' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />
@@ -2175,7 +2175,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-46-88' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-46-88' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_POOL_FND_VAL_T'>
       <column name='POOL_SEC_ID' value='99PLTF997' />

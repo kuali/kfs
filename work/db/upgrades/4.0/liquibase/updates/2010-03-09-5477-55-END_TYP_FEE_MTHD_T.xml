@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-55-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='011' />
@@ -15,7 +15,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='013' />
@@ -30,7 +30,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='017' />
@@ -45,7 +45,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='027' />
@@ -60,7 +60,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-5' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-5' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='032' />
@@ -75,7 +75,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-6' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-6' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='037' />
@@ -90,7 +90,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-7' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-7' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='038' />
@@ -105,7 +105,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-8' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-8' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='042' />
@@ -120,7 +120,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-9' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-9' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='046' />
@@ -135,7 +135,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-10' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-10' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='047' />
@@ -150,7 +150,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-11' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-11' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='049' />
@@ -165,7 +165,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-12' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-12' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='070' />
@@ -180,7 +180,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-13' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-13' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='042' />
@@ -195,7 +195,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-14' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-14' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='046' />
@@ -210,7 +210,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-15' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-15' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='047' />
@@ -225,7 +225,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-55-16' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-55-16' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_TYP_FEE_MTHD_T'>
       <column name='TYP_CD' value='049' />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-7-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='061' />
@@ -22,7 +22,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='100' />
@@ -44,7 +44,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='011' />
@@ -66,7 +66,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='200' />
@@ -88,7 +88,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-5' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-5' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='025' />
@@ -110,7 +110,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-6' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-6' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='300' />
@@ -132,7 +132,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-7' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-7' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='301' />
@@ -154,7 +154,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-8' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-8' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='307' />
@@ -176,7 +176,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-9' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-9' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='308' />
@@ -198,7 +198,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-10' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-10' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='309' />
@@ -220,7 +220,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-11' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-11' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='310' />
@@ -242,7 +242,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-12' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-12' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='311' />
@@ -264,7 +264,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-13' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-13' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='326' />
@@ -286,7 +286,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-14' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-14' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='400' />
@@ -308,7 +308,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-15' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-15' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='401' />
@@ -330,7 +330,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-16' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-16' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='495' />
@@ -352,7 +352,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-17' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-17' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='498' />
@@ -374,7 +374,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-18' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-18' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='580' />
@@ -396,7 +396,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-19' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-19' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='600' />
@@ -418,7 +418,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-20' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-20' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='700' />
@@ -440,7 +440,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-21' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-21' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='701' />
@@ -462,7 +462,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-22' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-22' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='725' />
@@ -484,7 +484,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-23' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-23' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='750' />
@@ -506,7 +506,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-24' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-24' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='801' />
@@ -528,7 +528,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-25' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-25' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='959' />
@@ -550,7 +550,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-26' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-26' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='702' />
@@ -572,7 +572,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-27' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-27' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='910' />
@@ -594,7 +594,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-28' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-28' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='921' />
@@ -616,7 +616,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-29' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-29' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='922' />
@@ -638,7 +638,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-30' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-30' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='925' />
@@ -660,7 +660,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-31' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-31' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='926' />
@@ -682,7 +682,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-32' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-32' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='931' />
@@ -704,7 +704,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-33' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-33' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='932' />
@@ -726,7 +726,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-34' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-34' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='936' />
@@ -748,7 +748,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-35' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-35' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='964' />
@@ -770,7 +770,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-36' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-36' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='965' />
@@ -792,7 +792,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-7-37' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-7-37' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_CLS_CD_T'>
       <column name='SEC_CLS_CD' value='963' />

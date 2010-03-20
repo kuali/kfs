@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
 
-<changeSet id="5475-1" author="Bonnie" failOnError="false">
+<changeSet id="5475-1" author="Bonnie" failOnError='true'>
 <comment>Create Endowment related Parameters in Rice Tables Step 1</comment>
 
 <insert tableName="KRNS_NMSPC_T">

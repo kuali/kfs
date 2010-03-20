@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-1'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-1'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -12,7 +12,7 @@
       <column name=' CONS_CD' value=' each KEMID initiated will be sequentially numbered by the system based on a database sequence and beginning with the value the sequence has been configured to start with. �	IF the parameter is Manual' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-2'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-2'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -24,7 +24,7 @@
       <column name=' CONS_CD' value='A' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-3'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-3'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -36,7 +36,7 @@
       <column name=' CONS_CD' value='A' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-4'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-4'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -48,7 +48,7 @@
       <column name=' CONS_CD' value='A' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-5'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-5'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -60,7 +60,7 @@
       <column name=' CONS_CD' value='A' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-6'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-6'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -72,7 +72,7 @@
       <column name=' CONS_CD' value='A' />
     </insert>
   </changeSet>
-  <changeSet author='Bonnie' failOnError="false"  id='5475-2-7'>
+  <changeSet author='Bonnie' failOnError="true"  id='5475-2-7'>
   <comment> create Endowment related parameters in RICE tables Step 2</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -85,7 +85,7 @@
     </insert>
   </changeSet>
 
-  <changeSet author='Bonnie' failOnError="false" id='5475-2-8'>
+  <changeSet author='Bonnie' failOnError="true" id='5475-2-8'>
    <comment>upload all endowment document types -- unzip the attached file "endow-doc-types.zip", and run XML Ingester Step 3</comment>
   </changeSet>
 </databaseChangeLog>

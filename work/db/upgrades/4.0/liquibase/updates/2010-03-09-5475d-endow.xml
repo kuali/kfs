@@ -6,7 +6,7 @@
       <where>DOC_TYP_NM = 'TicklerMaintenanceDocument'</where>
     </update>
   </changeSet>
-    <changeSet author='Bonnie' id='5475-1-1' failOnError='false' >
+    <changeSet author='Bonnie' id='5475-1-1' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -23,7 +23,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5475-1-2' failOnError='false' >
+  <changeSet author='Bonnie' id='5475-1-2' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -40,7 +40,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5475-1-3' failOnError='false' >
+  <changeSet author='Bonnie' id='5475-1-3' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -57,7 +57,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5475-1-4' failOnError='false' >
+  <changeSet author='Bonnie' id='5475-1-4' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -74,7 +74,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5475-1-5' failOnError='false' >
+  <changeSet author='Bonnie' id='5475-1-5' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
@@ -92,7 +92,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5475-1-6b' failOnError='false' >
+  <changeSet author='Bonnie' id='5475-1-6b' failOnError='true' >
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />

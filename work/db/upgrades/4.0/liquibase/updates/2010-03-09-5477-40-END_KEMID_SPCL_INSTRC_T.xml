@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Bonnie' id='5477-40-1' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-1' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037A014184' />
@@ -18,7 +18,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-2' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-2' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037AS12302' />
@@ -36,7 +36,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-3' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-3' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037B011AG1' />
@@ -54,7 +54,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-4' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-4' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037E009727' />
@@ -72,7 +72,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-5' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-5' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037G003785' />
@@ -90,7 +90,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-6' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-6' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037H004261' />
@@ -108,7 +108,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-7' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-7' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037H004261' />
@@ -126,7 +126,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-8' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-8' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037P011291' />
@@ -144,7 +144,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-9' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-9' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037RQ04222' />
@@ -162,7 +162,7 @@
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Bonnie' id='5477-40-10' failOnError='false'>
+  <changeSet author='Bonnie' id='5477-40-10' failOnError='true'>
     <comment>Endowment request: insert Endowment sample data to KULDBA</comment>
     <insert tableName='END_KEMID_SPCL_INSTRC_T'>
       <column name='KEMID' value='037SC00501' />

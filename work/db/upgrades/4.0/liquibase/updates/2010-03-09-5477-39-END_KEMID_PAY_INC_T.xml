@@ -9,11 +9,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -28,11 +30,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -47,11 +51,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -66,11 +72,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -85,11 +93,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -104,11 +114,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -123,11 +135,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-12-22' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -142,11 +156,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -161,11 +177,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -180,11 +198,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2007-11-30' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -199,11 +219,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2008-06-19' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -218,11 +240,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -237,11 +261,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -256,11 +282,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -275,11 +303,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -294,11 +324,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-11-09' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -313,11 +345,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -332,11 +366,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -351,11 +387,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -370,11 +408,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -389,11 +429,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2007-09-28' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -408,11 +450,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -427,11 +471,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -446,11 +492,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2007-05-08' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -465,11 +513,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2008-12-10' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -484,11 +534,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -503,11 +555,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -522,11 +576,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -541,11 +597,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2008-12-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -560,11 +618,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -579,11 +639,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -598,11 +660,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -617,11 +681,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -636,11 +702,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-08-04' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -655,11 +723,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -674,11 +744,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -693,11 +765,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -712,11 +786,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-04-27' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -731,11 +807,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -750,11 +828,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -769,11 +849,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -788,11 +870,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -807,11 +891,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -826,11 +912,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -845,11 +933,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -864,11 +954,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -883,11 +975,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -902,11 +996,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -921,11 +1017,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -940,11 +1038,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -959,11 +1059,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -978,11 +1080,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -997,11 +1101,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1016,11 +1122,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1035,11 +1143,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1054,11 +1164,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1073,11 +1185,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1092,11 +1206,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1111,11 +1227,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1130,11 +1248,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1149,11 +1269,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1168,11 +1290,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1187,11 +1311,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1206,11 +1332,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1225,11 +1353,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1244,11 +1374,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2007-01-24' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1263,11 +1395,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2008-01-24' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1282,11 +1416,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1301,11 +1437,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1320,11 +1458,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1339,11 +1479,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-07-31' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1358,11 +1500,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1377,11 +1521,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1396,11 +1542,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1415,11 +1563,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1434,11 +1584,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-08-09' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1453,11 +1605,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1472,11 +1626,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1491,11 +1647,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2006-02-23' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1510,11 +1668,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1529,11 +1689,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1548,11 +1710,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2007-01-12' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1567,11 +1731,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1586,11 +1752,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1605,11 +1773,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1624,11 +1794,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1643,11 +1815,13 @@
       <column name='PAY_INC_PCT' value='1' />
       <column name='PAY_INC_AMT' value='0' />
       <column name='PAY_INC_STRT_DT' valueDate='2005-11-01' />
-      <column name='PAY_INC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

@@ -18,6 +18,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -39,6 +42,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -62,6 +68,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -83,6 +92,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -106,6 +118,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -127,6 +142,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -150,6 +168,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -171,6 +192,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -194,6 +218,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -215,6 +242,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -238,6 +268,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -259,6 +292,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -282,6 +318,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -303,6 +342,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -326,6 +368,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -347,6 +392,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -370,6 +418,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -391,6 +442,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -414,6 +468,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -435,6 +492,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -458,6 +518,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -479,6 +542,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -502,6 +568,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -523,6 +592,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -546,6 +618,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -567,6 +642,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -590,6 +668,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -611,6 +692,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -634,6 +718,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -655,6 +742,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -678,6 +768,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -699,6 +792,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -722,6 +818,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -743,6 +842,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -766,6 +868,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -788,6 +893,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -809,6 +917,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

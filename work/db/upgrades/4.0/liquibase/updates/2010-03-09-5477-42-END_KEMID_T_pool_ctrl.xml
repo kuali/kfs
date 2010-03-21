@@ -22,11 +22,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -54,11 +56,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -86,11 +90,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -118,11 +124,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -150,11 +158,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -182,11 +192,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -214,11 +226,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -246,11 +260,13 @@
       <column name='CLOSED_TO_KEMID' valueNumeric='null' />
       <column name='CLOSE_CD' valueNumeric='null' />
       <column name='FND_DISP' valueNumeric='null' />
-      <column name='CLOSE_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

@@ -10,11 +10,11 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='All' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
-      <column name=' VER_NBR' value='1' />
-      <column name=' NM' value='All' />
-      <column name=' ACTV_IND' value='Y' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VER_NBR' value='1' />
+      <column name='NM' value='All' />
+      <column name='ACTV_IND' value='Y' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -27,11 +27,11 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='Batch' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
-      <column name=' VER_NBR' value='1' />
-      <column name=' NM' value='Batch' />
-      <column name=' ACTV_IND' value='Y' />
+      <column name='PARM_DTL_TYP_CD' value='Batch' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VER_NBR' value='1' />
+      <column name='NM' value='Batch' />
+      <column name='ACTV_IND' value='Y' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -44,11 +44,11 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='Document' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
-      <column name=' VER_NBR' value='1' />
-      <column name=' NM' value='Document' />
-      <column name=' ACTV_IND' value='Y' />
+      <column name='PARM_DTL_TYP_CD' value='Document' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VER_NBR' value='1' />
+      <column name='NM' value='Document' />
+      <column name='ACTV_IND' value='Y' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -61,11 +61,11 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='Lookup' />
-      <column name=' OBJ_ID' type='UUID' valueNumeric='sys_guid' />
-      <column name=' VER_NBR' value='1' />
-      <column name=' NM' value='Lookup' />
-      <column name=' ACTV_IND' value='Y' />
+      <column name='PARM_DTL_TYP_CD' value='Lookup' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
+      <column name='VER_NBR' value='1' />
+      <column name='NM' value='Lookup' />
+      <column name='ACTV_IND' value='Y' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -78,12 +78,12 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='All' />
-      <column name=' PARM_NM' value='USE_PROCESS_DATE' />
-      <column name=' PARM_TYP_CD' value='CONFG' />
-      <column name=' TXT' value='Y' />
-      <column name=' PARM_DESC_TXT' value='If USE_PROCESS_DATE = yes, get the value from CURRENT_PROCESS_DATE. If USE_PROCESS_DATE = no, get the current date from the local system using standard Java API' />
-      <column name=' CONS_CD' value='A' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='USE_PROCESS_DATE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='If USE_PROCESS_DATE = yes, get the value from CURRENT_PROCESS_DATE. If USE_PROCESS_DATE = no, get the current date from the local system using standard Java API' />
+      <column name='CONS_CD' value='A' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
@@ -96,12 +96,12 @@
     <comment>insert Endowment sample data to KULDBA</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name=' PARM_DTL_TYP_CD' value='All' />
-      <column name=' PARM_NM' value='CURRENT_PROCESS_DATE' />
-      <column name=' PARM_TYP_CD' value='CONFG' />
-      <column name=' TXT' valueNumeric='SYSDATE' />
-      <column name=' PARM_DESC_TXT' value='The Current Process Date' />
-      <column name=' CONS_CD' value='A' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='CURRENT_PROCESS_DATE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' valueNumeric='SYSDATE' />
+      <column name='PARM_DESC_TXT' value='The Current Process Date' />
+      <column name='CONS_CD' value='A' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />

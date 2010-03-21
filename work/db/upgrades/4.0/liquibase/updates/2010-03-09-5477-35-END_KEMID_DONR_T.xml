@@ -9,13 +9,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='646422' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -30,13 +32,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='12082' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -51,13 +55,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='254306' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -72,13 +78,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='118381' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -93,13 +101,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -114,13 +124,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='285639' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -143,6 +155,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -156,13 +171,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -177,13 +194,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -198,13 +217,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='887434' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -227,6 +248,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -240,13 +264,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -261,13 +287,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='63304' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -282,13 +310,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='169507' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -303,13 +333,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -332,6 +364,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -345,13 +380,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -366,13 +403,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -387,13 +426,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -408,13 +449,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='295956' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -429,13 +472,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -450,13 +495,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -471,13 +518,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='89713' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -492,13 +541,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -513,13 +564,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -534,13 +587,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -555,13 +610,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -576,13 +633,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -597,13 +656,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -618,13 +679,15 @@
       <column name='DONR_STMT_CD' value='MID' />
       <column name='CMB_DONR_ID' value='107545' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='J' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -639,13 +702,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -660,13 +725,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -681,13 +748,15 @@
       <column name='DONR_STMT_CD' value='STD' />
       <column name='CMB_DONR_ID' value='' />
       <column name='EFF_DT' valueDate='2009-06-30' />
-      <column name='TERM_DT' valueDate='' />
       <column name='TERM_RSN' value='' />
       <column name='DONR_LBL_SEL' value='I' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -710,6 +779,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -731,6 +803,9 @@
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
     </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
     </modifySql>
@@ -751,6 +826,9 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

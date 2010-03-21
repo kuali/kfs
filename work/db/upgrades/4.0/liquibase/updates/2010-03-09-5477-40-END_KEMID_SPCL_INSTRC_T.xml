@@ -8,11 +8,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='TP' />
       <column name='CMNT' value='100 to I37A017013' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -26,11 +28,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
       <column name='CMNT' value='Any funds not awarded will be invested back into the principal until such time when the fund generates enough income to support 2-12 month fellowships' />
       <column name='INSTRC_EST_DT' valueDate='2006-11-09' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -44,11 +48,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
       <column name='CMNT' value='Reinvest to 10,000' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -62,11 +68,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
       <column name='CMNT' value='RE-Interest income be reinvested through Dec 31, 2010 in order to grow the principal per Gift Agreement   2   Remove dollar restriction 5312012' />
       <column name='INSTRC_EST_DT' valueDate='2008-12-10' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -80,11 +88,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='TP' />
       <column name='CMNT' value='Rotate each year Odd Years 100 to 37L006568  Even Years 100 to 37AS19174  2  When fund reaches 1Million close  create new endowments in L006  AS19' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -98,11 +108,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
       <column name='CMNT' value='Reinvest to 25,000' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -116,11 +128,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RE' />
       <column name='CMNT' value='Reinvest to 25,000' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -134,11 +148,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
       <column name='CMNT' value='only if no recipient' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -152,11 +168,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
       <column name='CMNT' value='only if no recipient' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -170,11 +188,13 @@
       <column name='AGRMNT_SPCL_INSTRC_CD' value='RF' />
       <column name='CMNT' value='only if no recipient' />
       <column name='INSTRC_EST_DT' valueDate='2005-11-01' />
-      <column name='INSTRC_TERM_DT' valueDate='' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

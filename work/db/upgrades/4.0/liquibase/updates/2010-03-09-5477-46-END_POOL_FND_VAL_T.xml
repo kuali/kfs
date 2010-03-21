@@ -11,15 +11,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -36,15 +37,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -61,15 +63,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -86,15 +89,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -111,15 +115,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -136,15 +141,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -161,15 +167,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -186,15 +193,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -211,15 +219,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -236,15 +245,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -261,15 +271,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -286,15 +297,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-27' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -311,15 +323,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -336,15 +349,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -361,15 +375,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -386,15 +401,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -411,15 +427,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -436,15 +453,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -461,15 +479,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -486,15 +505,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -511,15 +531,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -536,15 +557,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -561,15 +583,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -586,15 +609,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -611,15 +635,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -636,15 +661,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -661,15 +687,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -686,15 +713,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -711,15 +739,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -736,15 +765,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -761,15 +791,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -786,15 +817,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -811,15 +843,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -836,15 +869,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -861,15 +895,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -886,15 +921,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -911,15 +947,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -936,15 +973,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -961,15 +999,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -986,15 +1025,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1011,15 +1051,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1036,15 +1077,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1061,15 +1103,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1086,15 +1129,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1111,15 +1155,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1136,15 +1181,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1161,15 +1207,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1186,15 +1233,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1211,15 +1259,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1236,15 +1285,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1261,15 +1311,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1286,15 +1337,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1311,15 +1363,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1336,15 +1389,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1361,15 +1415,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1386,15 +1441,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1411,15 +1467,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1436,15 +1493,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1461,15 +1519,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1486,15 +1545,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1511,15 +1571,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-08-30' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1536,15 +1597,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1561,15 +1623,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-10-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1586,15 +1649,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-11-20' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1611,15 +1675,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2007-12-21' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1636,15 +1701,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-01-25' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1661,15 +1727,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-02-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1686,15 +1753,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1711,15 +1779,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-04-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1736,15 +1805,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-05-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1761,15 +1831,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1786,15 +1857,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1811,15 +1883,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-08-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1836,15 +1909,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1861,15 +1935,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-10-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1886,15 +1961,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1911,15 +1987,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2008-12-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1936,15 +2013,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-01-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1961,15 +2039,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-02-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -1986,15 +2065,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-03-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2011,15 +2091,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-04-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2036,15 +2117,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-05-22' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2061,15 +2143,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-06-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2086,15 +2169,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-07-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2111,15 +2195,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-08-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2136,15 +2221,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-09-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2161,15 +2247,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-10-23' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />
@@ -2186,15 +2273,16 @@
       <column name='DSTRB_PROC_ON_DT' valueDate='2009-11-24' />
       <column name='DSTRB_PROC_CMPLT' value='Y' />
       <column name='LT_GAIN_LOSS' value='0' />
-      <column name='LT_PROC_ON_DT' valueDate='' />
       <column name='LT_PROC_CMPLT' value='N' />
       <column name='ST_GAIN_LOSS' value='0' />
-      <column name='ST_PROC_ON_DT' valueDate='' />
       <column name='ST_PROC_CMPLT' value='N' />
       <column name='OBJ_ID' type='UUID' valueNumeric='sys_guid' />
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='sys_guid' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='sys_guid' with='sys_guid()' />

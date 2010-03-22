@@ -721,7 +721,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="combineGroupCode" />
+                          p:attributeName="combineGroup.codeAndDescription" />
                     <bean parent="FieldDefinition"
                           p:attributeName="dateAdded" />
                     <bean parent="FieldDefinition"

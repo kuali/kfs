@@ -158,7 +158,9 @@
         <value>../dwr/interface/TransactionRestrictionCodeService.js</value>
         <value>../scripts/module/endow/transactionRestrictionCode.js</value>
         <value>../dwr/interface/ResponsibleAdministrationCodeService.js</value>
-        <value>../scripts/module/endow/responsibleAdministrationCode.js</value>         
+        <value>../scripts/module/endow/responsibleAdministrationCode.js</value>   
+        <value>../dwr/interface/CombineGroupCodeService.js</value>
+        <value>../scripts/module/endow/kemidCombineGroupCode.js</value>       
       </list>
     </property>
     <property name="workflowAttributes">
@@ -696,13 +698,17 @@
           </property>
           <property name="maintainableFields">
             <list>
-               <bean parent="MaintainableFieldDefinition"
+              <bean parent="MaintainableFieldDefinition"
 		            p:name="combineGroupSeq"
 		            p:required="true"
 		            p:unconditionallyReadOnly="true" />	
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineGroupCode" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadCombineGroupCodeDesc"/>
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="combineGroup.name"
+		            p:unconditionallyReadOnly="true" />	                    
               <bean parent="MaintainableFieldDefinition" 
                     p:name="dateAdded"
                     p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.KEMIDDefaultProcessDateFinder" />   

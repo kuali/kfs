@@ -25,6 +25,8 @@
         		<ref bean="KemidReportGroup-kemid" />
         		<ref bean="KemidReportGroup-combineGroupSeq" />
 		        <ref bean="KemidReportGroup-combineGroupCode" />
+		        <ref bean="KemidReportGroup-combineGroup.name" />
+		        <ref bean="KemidReportGroup-combineGroup.codeAndDescription" />
 		        <ref bean="KemidReportGroup-dateAdded"/>
 		        <ref bean="KemidReportGroup-dateTerminated"/>
         		<ref bean="KemidReportGroup-newCollectionRecord"/>	  
@@ -62,6 +64,18 @@
   		<property name="name" value="combineGroupCode" />
     	<property name="label" value="Combine Group Code" />
     	<property name="required" value="true" />
+  	</bean>
+  	<bean id="KemidReportGroup-combineGroup.name" parent="KemidReportGroup-combineGroup.name-parentBean" />
+  
+  	<bean id="KemidReportGroup-combineGroup.name-parentBean" abstract="true" parent="CombineGroupCode-name">
+  		<property name="name" value="combineGroup.name" />
+    	<property name="label" value="Combine Group Code Description" />
+  	</bean>
+  	<bean id="KemidReportGroup-combineGroup.codeAndDescription" parent="KemidReportGroup-combineGroup.codeAndDescription-parentBean" />
+  
+  	<bean id="KemidReportGroup-combineGroup.codeAndDescription-parentBean" abstract="true" parent="CombineGroupCode-codeAndDescription">
+  		<property name="name" value="combineGroup.codeAndDescription" />
+    	<property name="label" value="Combine Group Code" />
   	</bean>
   	<bean id="KemidReportGroup-dateAdded" parent="KemidReportGroup-dateAdded-parentBean" />
 		        

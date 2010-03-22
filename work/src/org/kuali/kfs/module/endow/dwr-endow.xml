@@ -187,6 +187,14 @@
 	    	<param name="beanName" value="kemService" />
 	        <include method="getCurrentSystemProcessDate" />
 	        <include method="getCurrentSystemProcessDateFormated" />
-	    </create>	    
+	    </create>	
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.CombineGroupCode">
+            <param name="include" value="name" />
+        </convert>
+	    <create creator="spring" javascript="CombineGroupCodeService">
+	    	<param name="beanName" value="combineGroupCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>    
     </allow>
 </dwr>

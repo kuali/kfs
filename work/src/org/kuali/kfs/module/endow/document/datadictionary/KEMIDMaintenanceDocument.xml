@@ -143,6 +143,7 @@
         <value>../scripts/module/endow/kemidObjectInfo.js</value>
         <value>../dwr/interface/KEMService.js</value>
         <value>../dwr/interface/FeeMethodService.js</value>
+        <value>../dwr/interface/KEMIDService.js</value>
         <value>../scripts/module/endow/kemidFee.js</value>
         <value>../scripts/module/endow/kemidAgreement.js</value>
         <value>../scripts/module/endow/kemidBenefittingOrganization.js</value>
@@ -632,13 +633,14 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="feeMethodCode" 
                     p:required="true"
-                    p:webUILeaveFieldFunction="loadFeeStartDate" />
+                    p:webUILeaveFieldFunction="setRelatedFields" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="feeMethod.name"
                     p:unconditionallyReadOnly="true" />                      
               <bean parent="MaintainableFieldDefinition" 
                     p:name="chargeFeeToKemid"
-                    p:required="true" />   
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadKEMIDShortTitle" />   
               <bean parent="MaintainableFieldDefinition" 
                     p:name="chargeFeeToKemidObjRef.shortTitle"
                     p:unconditionallyReadOnly="true" />                       

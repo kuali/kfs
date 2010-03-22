@@ -139,6 +139,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="projectDirector.name" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="principalId" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
@@ -230,6 +231,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="awardSubcontractorDescription"/>
               <bean parent="MaintainableFieldDefinition" p:name="subcontractorAmount" p:defaultValue="0.00"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>

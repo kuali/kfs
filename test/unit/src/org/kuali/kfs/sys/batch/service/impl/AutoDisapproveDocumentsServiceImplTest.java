@@ -122,8 +122,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
 
             Date documentCompareDate = autoDisapproveDocumentsService.getDocumentCompareDateParameter(outputErrorFile_ps);
             datesEqual = (compareDate.equals(documentCompareDate));
+            assertTrue("The two Dates are not equal.  The getDocumentCompareDateParameter() method did not extend the date by 23 hours, 59 mins and 59 seconds", datesEqual);
         }
-        
-    //    assertTrue("The two Dates are not equal.  The getDocumentCompareDateParameter() method did not extend the date by 23 hours, 59 mins and 59 seconds", datesEqual);
     }
 }

@@ -13,10 +13,10 @@
     </property>
     <property name="attributes">
       <list>
-        <!-- <ref bean="ElectronicInvoiceItemMapping-active" /> -->
         <ref bean="ElectronicInvoiceItemMapping-invoiceItemTypeCode"/>
         <ref bean="ElectronicInvoiceItemMapping-itemTypeCode"/>
         <ref bean="ElectronicInvoiceItemMapping-invoiceMapIdentifier"/>
+        <ref bean="ElectronicInvoiceItemMapping-active" />
         <ref bean="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier"/>
         <ref bean="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier"/>
       </list>
@@ -25,20 +25,19 @@
 
 <!-- Attribute Definitions -->
 
-	<!-- 
   <bean id="ElectronicInvoiceItemMapping-active" parent="ElectronicInvoiceItemMapping-active-parentBean" />
 
   <bean id="ElectronicInvoiceItemMapping-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="active" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Data Object Maintenance Code Active Indicator" />
+    <property name="label" value="Active Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  -->
+  
   <bean id="ElectronicInvoiceItemMapping-invoiceItemTypeCode" parent="ElectronicInvoiceItemMapping-invoiceItemTypeCode-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-invoiceItemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -133,15 +132,12 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-            	<!-- 
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              -->
               <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
               <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
               <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -163,28 +159,22 @@
     </property>
     <property name="lookupFields">
       <list>
-      	<!--
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        -->
         <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <!--
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        -->
         <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

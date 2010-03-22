@@ -39,9 +39,10 @@
       <list>
       	<bean parent="MaintainableFieldDefinition" p:name="invoiceMapIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="invoiceItemTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="itemTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="itemTypeCode"/>        
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>

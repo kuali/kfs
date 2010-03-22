@@ -240,6 +240,10 @@ public class GeneralLedgerConstants {
         //TODO:- move to OriginEntrySource??
         static final public String SCRUBBER_ERROR_PREFIX = "scrberr2";
 
+        static final public String AUTO_DISAPPROVE_DOCUMENTS_OUTPUT_FILE = "sys_autoDisapprove_output";
+        static final public String AUTO_DISAPPROVE_DOCUMENTS_ERROR_OUTPUT_FILE = "sys_autoDisapprove_errs";
+        static final public String TEXT_EXTENSION = ".txt";
+        
         static final public String BACKUP_FILE = "gl_glbackup";
         
         static final public String  COLLECTOR_BACKUP_FILE = "col_glbackup";

@@ -293,6 +293,7 @@
 		<property name="autoDisapproveDocumentsService">
 			<ref bean="autoDisapproveService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/sys"/>		
 	</bean>
 	
 	<bean id="autoDisapproveService" class="org.kuali.kfs.sys.batch.service.impl.AutoDisapproveDocumentsServiceImpl">

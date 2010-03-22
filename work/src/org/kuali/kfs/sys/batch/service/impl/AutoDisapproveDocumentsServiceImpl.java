@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
+import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -45,6 +46,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -75,15 +77,32 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      * Gathers all documents that are in ENROUTE status and auto disapproves them.
      * @see org.kuali.kfs.sys.batch.service.autoDisapproveDocumentsInEnrouteStatus#autoDisapproveDocumentsInEnrouteStatus()
      */
-    public void autoDisapproveDocumentsInEnrouteStatus() {
+    public boolean autoDisapproveDocumentsInEnrouteStatus(PrintStream outputErrorFile_ps) {
+        boolean success = true ;
+        
         LOG.debug("autoDisapproveDocumentsInEnrouteStatus() started");
         
         Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         
         String principalId = systemUser.getPrincipalId();
         String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
-
-        Date documentCompareDate = getDocumentCompareDateParameter();
+        
+        Date documentCompareDate = getDocumentCompareDateParameter(outputErrorFile_ps);
+        success = processAutoDisapproveDocuments(principalId, annotationForAutoDisapprovalDocument, documentCompareDate, outputErrorFile_ps);
+        
+        return success;
+    }
+        
+    /**
+     * This method will use documentsearchcriteriaDTO to search for the documents that are in enroute status and disapproves them
+     * @param principalId The principal id which is KFS-SYS System user to run the process under.
+     * @param annotation The annotation to be set as note in the note of the document.
+     * @param documentCompareDate The document create date to compare to
+     * @param outputPrintStreamFortAutoDisapprovalJob The output file
+     * @param outputErrorFileForAutoDisapprovalJob The error file to capture any errors during execution.
+     */
+    protected boolean processAutoDisapproveDocuments(String principalId, String annotation, Date documentCompareDate, PrintStream outputErrorFile_ps) {
+        boolean success = true;
         
         WorkflowInfo workflowInfo = new WorkflowInfo();
         
@@ -104,32 +123,38 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                     }
                 }
                 
-                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
-                 if (document != null) {
-                     if (checkIfDocumentEligibleForAutoDispproval(document)) {
-                         if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
-                             try {
-                                 autoDisapprovalYearEndDocument(document, annotationForAutoDisapprovalDocument);
-                                 LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
-                             }
-                             catch (Exception e) {
-                                 LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
-                             }
-                         }
-                         else {
-                             LOG.info("Exception to Auto Disapprove:  The document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT AUTO DISAPPROVED.");
-                         }
-                     } 
-                 }
-                 else {
-                     LOG.error("Document is NULL.  It should never have been null");
-                 }
+                Document document = findDocumentForAutoDisapproval(documentHeaderId);
+                if (document != null) {
+                    if (checkIfDocumentEligibleForAutoDispproval(document)) {
+                        if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate, outputErrorFile_ps)) {
+                            try {
+                                autoDisapprovalYearEndDocument(document, annotation);
+                                LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
+                            }
+                            catch (Exception e) {
+                                outputErrorFile_ps.printf("Exception encountered trying to auto disapprove the document: %s - %s" , documentHeaderId, e.getMessage());
+                                LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
+                            }
+                        }
+                        else {
+                            LOG.info("Year End Auto Disapproval Exceptions:  The document: " + documentHeaderId + " is NOT AUTO DISAPPROVED.");
+                        }
+                    } 
+                }
+                else {
+                        outputErrorFile_ps.printf("Error: Document with id: %s does not exist.\n", documentHeaderId);
+                        LOG.error("Document is NULL.  It should never have been null");
+                }
             } 
-        } catch (WorkflowException wfe) {
+       } catch (WorkflowException wfe) {
+            success = false;
+            outputErrorFile_ps.printf("%s\n", "Error with workflow search for documents for auto disapproval");
             LOG.warn("Error with workflow search for documents for auto disapproval");
             }
+       
+       return success;
     }
-    
+        
     /**
      * This method will check the document's document type against the parent document type as specified in the system parameter
      * @param document
@@ -155,10 +180,18 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      * It then adds 23 hours, 59 minutes and 59 seconds to the compare date.
      * @return  documentCompareDate returns YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE from the system parameter
      */
-    protected Date getDocumentCompareDateParameter() {
+    protected Date getDocumentCompareDateParameter(PrintStream outputErrorFile_ps) {
         Date documentCompareDate = null;
         
         String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
+        
+        if (ObjectUtils.isNull(yearEndAutoDisapproveDocumentDate)) {
+            LOG.warn("Exception: System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
+            outputErrorFile_ps.printf("%s\n", "Exception: System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
+            outputErrorFile_ps.printf("%s\n", "AutoDisapprovalStep job stopped.");            
+            outputErrorFile_ps.close();
+            throw new RuntimeException("Exception: AutoDisapprovalStep job stopped because System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE is null");   
+        }
         
         try {
             Date compareDate = getDateTimeService().convertToDate(yearEndAutoDisapproveDocumentDate);
@@ -170,7 +203,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
             documentCompareDate = calendar.getTime();
         }
         catch (ParseException pe) {
-            LOG.error("System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
+            LOG.warn("ParseException: System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
+            outputErrorFile_ps.printf("%s\n", "ParseException: System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE value is invalid.");
+            outputErrorFile_ps.printf("%s\n", "AutoDisapprovalStep job stopped.");
+            outputErrorFile_ps.close();  
+            throw new RuntimeException("ParseException: AutoDisapprovalStep job stopped because System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE is invalid");   
         }
         
         return documentCompareDate;
@@ -183,11 +220,12 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      */
     protected Document findDocumentForAutoDisapproval(String documentHeaderId) {
         Document document = null;
+        
         try {
             document = documentService.getByDocumentHeaderId(documentHeaderId);
         }
         catch (WorkflowException wfe) {
-            LOG.error("exception encountered on finding the document: " + documentHeaderId + " - " + wfe.getMessage());
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId + " - " + wfe.getMessage());
         }
         
         return document;
@@ -201,12 +239,14 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      * @return true if  document's create date is <= documentCompareDate and if document type is not in the
      * system parameter document types that are set to disallow.
      */
-    protected boolean exceptionsToAutoDisapproveProcess(Document document, Date documentCompareDate) {
+    protected boolean exceptionsToAutoDisapproveProcess(Document document, Date documentCompareDate, PrintStream outputErrorFile_ps) {
         boolean exceptionToDisapprove = true;
         Date createDate = null;
+
         String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
         Timestamp documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(documentCompareDate);
         String strCompareDate = calendar.getTime().toString();
@@ -216,6 +256,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         }
         catch (ParseException pe){
             LOG.error("Document create date can not be determined.");
+            outputErrorFile_ps.printf("Document create date can not be determined for the document: %s - %s", documentNumber, pe.getMessage());
             return exceptionToDisapprove;
         }
         

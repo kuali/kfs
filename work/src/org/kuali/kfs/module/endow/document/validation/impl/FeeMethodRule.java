@@ -394,7 +394,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getMessageMap().putError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_NEGATIVE);
                 return false;
             }
-            if (!corputPctToTolerance.isZero() && !corputPctToTolerance.isGreaterEqual(new KualiDecimal("1.0"))) {
+            if (!corputPctToTolerance.isZero() && !corputPctToTolerance.isGreaterThan(new KualiDecimal("1.0"))) {
                 GlobalVariables.getMessageMap().putError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_MUST_BE_GREATER_THAN_ONE);
                 return false;
             }

@@ -24,7 +24,8 @@
       		<list>
         		<ref bean="FundSourceCode-code"/>
         		<ref bean="FundSourceCode-name"/>
-		        <ref bean="FundSourceCode-active"/>
+        		<ref bean="FundSourceCode-codeAndDescription"/>
+        		<ref bean="FundSourceCode-active"/>
       		</list>
     	</property>
 	</bean>
@@ -64,6 +65,19 @@
     	</property>
   	</bean>
   	
+  <bean id="FundSourceCode-codeAndDescription" parent="FundSourceCode-codeAndDescription-parentBean" />
+  
+  <bean id="FundSourceCode-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="codeAndDescription" />
+    <property name="label" value="Fund Source" />
+    <property name="shortLabel" value="Fund Source" />
+    <property name="maxLength" value="45" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  
 	<bean id="FundSourceCode-active" parent="FundSourceCode-active-parentBean"/>
 
 	<bean id="FundSourceCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

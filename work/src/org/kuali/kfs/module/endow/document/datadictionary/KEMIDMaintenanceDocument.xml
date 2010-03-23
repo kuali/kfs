@@ -154,6 +154,8 @@
         <value>../scripts/module/endow/purposeCode.js</value>
         <value>../scripts/module/endow/agreementTypeCode.js</value>
         <value>../scripts/module/endow/agreementStatusCode.js</value>
+        <value>../dwr/interface/FundSourceService.js</value>
+        <value>../scripts/module/endow/fundSourceCode.js</value>
         <value>../dwr/interface/CAECodeService.js</value>
         <value>../scripts/module/endow/caeCode.js</value>
         <value>../dwr/interface/TransactionRestrictionCodeService.js</value>
@@ -363,7 +365,12 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="fundSourceCode" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadFundSourceDesc"
+                    />
+			  <bean parent="MaintainableFieldDefinition"
+              		p:name="fundSource.name"
+              		p:unconditionallyReadOnly="true" />         
               <bean parent="MaintainableFieldDefinition" 
                     p:name="openedFromKemid" />
               <bean parent="MaintainableFieldDefinition" 

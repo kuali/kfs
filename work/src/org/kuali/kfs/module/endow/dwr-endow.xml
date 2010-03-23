@@ -145,6 +145,9 @@
 	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.AgreementType">
             <param name="include" value="name" />
         </convert>
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.FundSourceCode">
+            <param name="include" value="name" />
+        </convert>
         <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.AgreementStatus">
             <param name="include" value="name" />
         </convert>
@@ -160,6 +163,10 @@
 	    	<param name="beanName" value="agreementStatusService" />
 	        <include method="getByPrimaryKey" />
 	    </create>		    
+	    <create creator="spring" javascript="FundSourceService">
+	    	<param name="beanName" value="fundSourceService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
 	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TransactionRestrictionCode">
             <param name="include" value="name" />
         </convert>

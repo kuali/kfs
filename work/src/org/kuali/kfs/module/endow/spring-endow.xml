@@ -227,6 +227,12 @@
 		</property>				
 	</bean>
 			
+	<bean id="fundSourceService" class="org.kuali.kfs.module.endow.document.service.impl.FundSourceServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+	</bean>
+	
 	<bean id="transactionRestrictionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionRestrictionCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

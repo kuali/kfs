@@ -524,7 +524,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="fundSourceCode" />
+                          p:attributeName="fundSource.codeAndDescription" />
                     <bean parent="FieldDefinition"
                           p:attributeName="openedFromKemid" />
                     <bean parent="FieldDefinition"

@@ -25,6 +25,8 @@
         		<ref bean="KemidSourceOfFunds-kemid" />
         		<ref bean="KemidSourceOfFunds-kemidFundSourceSequenceNumber" />
 		        <ref bean="KemidSourceOfFunds-fundSourceCode" />
+		        <ref bean="KemidSourceOfFunds-fundSource-name" />
+		        <ref bean="KemidSourceOfFunds-fundSource-codeAndDescription" />
 		        <ref bean="KemidSourceOfFunds-openedFromKemid"/>
 		        <ref bean="KemidSourceOfFunds-fundHistory"/>
 		        <ref bean="KemidSourceOfFunds-additionalSourceData"/>
@@ -113,6 +115,21 @@
   	<bean id="KemidSourceOfFunds-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   	</bean>
   
+    <bean id="KemidSourceOfFunds-fundSource-name" parent="KemidSourceOfFunds-fundSource-name-parentBean" />
+  
+  	<bean id="KemidSourceOfFunds-fundSource-name-parentBean" abstract="true" parent="FundSourceCode-name">
+    	<property name="name" value="fundSource.name"/>
+    	<property name="label" value="Fund Source"/>
+    	<property name="shortLabel" value="Fund Source"/>
+  	</bean>
+  	
+  	<bean id="KemidSourceOfFunds-fundSource-codeAndDescription" parent="KemidSourceOfFunds-fundSource-codeAndDescription-parentBean" />
+  
+  	<bean id="KemidSourceOfFunds-fundSource-codeAndDescription-parentBean" abstract="true" parent="FundSourceCode-codeAndDescription">
+  		<property name="name" value="fundSource.codeAndDescription"/>
+  	</bean>
+  	
+  	
 <!-- Business Object Inquiry Definition -->
 
 	<bean id="KemidSourceOfFunds-inquiryDefinition" parent="KemidSourceOfFunds-inquiryDefinition-parentBean" />

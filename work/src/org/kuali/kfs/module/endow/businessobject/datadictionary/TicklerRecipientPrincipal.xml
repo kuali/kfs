@@ -80,13 +80,11 @@
 
   <bean id="TicklerRecipientPrincipal-contact.principalName" parent="TicklerRecipientPrincipal-contact.principalName-parentBean"/>
 
-  <dd:boAttributeRef id="TicklerRecipientPrincipal-contact.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" 
-  					attributeName="contact.principalName" 
-  					label="Person" 
-  					shortLabel="Person" 
-  					required="false">
-      <dd:user universalIdAttribute="principalId" userObjectAttribute="contact"/> 
-  </dd:boAttributeRef>
+  <bean id="TicklerRecipientPrincipal-contact.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="contact.principalName"/>
+    <property name="label" value="Person"/>
+    <property name="required" value="false"/>
+  </bean>
 
 	  
 	<!-- Tickler Number -->

@@ -341,7 +341,7 @@
 		                <property name="inquiryFields" >
 		                  <list>
 		                    <bean parent="FieldDefinition"
-		                          p:attributeName="contectNameAndID" />
+		                          p:attributeName="contact.principalName" />
 		                    <bean parent="FieldDefinition"
 		                          p:attributeName="active" />     
 		                  </list>
@@ -362,7 +362,9 @@
 		                <property name="inquiryFields" >
 		                  <list>
 		                    <bean parent="FieldDefinition"
-		                          p:attributeName="assignedToGroup.groupName" />
+		                          p:attributeName="assignedToGroup.groupName" p:forceInquiry="true"/>
+		                    <bean parent="FieldDefinition"
+		                          p:attributeName="groupId" /> 
 		                    <bean parent="FieldDefinition"
 		                          p:attributeName="active" />     
 		                  </list>

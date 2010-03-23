@@ -163,17 +163,25 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         }
         if (vendorType != null && vendorType.isVendorShowReviewIndicator()) {
             String questionText = vendorType.getVendorReviewText();
-            if (vendorDetail.getVendorName() != null) {
-                questionText = questionText.replace("{0}", vendorDetail.getVendorName());
-            }
-            else {
-                questionText = questionText.replace("{0}", "(not entered)");
-            }
-            questionText = questionText.replace("{1}", document.getDocumentNumber());
-            Boolean proceed = super.askOrAnalyzeYesNoQuestion(VendorConstants.ACKNOWLEDGE_NEW_VENDOR_INFO, questionText);
 
-            if (!proceed) {
-                abortRulesCheck();
+            //
+            // Only recognize the review request if the question text isn't null.
+            // Why preview something that doesn't exist?
+            //
+            if (questionText != null) {
+
+                if (vendorDetail.getVendorName() != null) {
+                    questionText = questionText.replace("{0}", vendorDetail.getVendorName());
+                }
+                else {
+                    questionText = questionText.replace("{0}", "(not entered)");
+                }
+                questionText = questionText.replace("{1}", document.getDocumentNumber());
+                Boolean proceed = super.askOrAnalyzeYesNoQuestion(VendorConstants.ACKNOWLEDGE_NEW_VENDOR_INFO, questionText);
+
+                if (!proceed) {
+                    abortRulesCheck();
+                }
             }
         }
     }

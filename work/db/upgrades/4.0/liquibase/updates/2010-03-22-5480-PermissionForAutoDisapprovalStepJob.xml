@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Muddu' id='5480-1-1' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <insert tableName='KRIM_PERM_T'>
+      <column name='PERM_ID' value='1100' />
+      <column name='OBJ_ID' value='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_TMPL_ID' value='3' />
+      <column name='NMSPC_CD' value='KFS-SYS' />
+      <column name='NM' value='Administer Routing for Document' />
+      <column name='DESC_TXT' value='Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them such as approving the document, approving individual requests, or sending the document to a specified route node' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5480-1-2' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <insert tableName='KRIM_PERM_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='10000' />
+      <column name='OBJ_ID' value='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_ID' value='1100' />
+      <column name='KIM_TYP_ID' value='3' />
+      <column name='KIM_ATTR_DEFN_ID' value='13' />
+      <column name='ATTR_VAL' value='KFST' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5480-1-3' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='1106' />
+      <column name='OBJ_ID' value='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' value='62' />
+      <column name='PERM_ID' value='1100' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5480-1-4' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='1106' />
+      <column name='OBJ_ID' value='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' value='55' />
+      <column name='PERM_ID' value='1100' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5480-1-5' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <delete tableName='KRIM_ROLE_PERM_T'>
+      <where>ROLE_ID IN ('62', '55') AND PERM_ID IN ('68', '203', '204')</where>
+    </delete>
+  </changeSet>
+  <changeSet author='Muddu' id='5480-1-6' failOnError='true'>
+    <comment>Setup a new permission for document type KFST</comment>
+    <delete tableName='KRIM_PERM_T'>
+      <where>NM = 'Administer Routing for Document' AND PERM_ID IN ('68', '203', '204')</where>
+    </delete>
+  </changeSet>
+</databaseChangeLog>

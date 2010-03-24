@@ -26,6 +26,7 @@
         		<ref bean="Donor-firstName"/>
         		<ref bean="Donor-middleName"/>
         		<ref bean="Donor-lastName"/>
+        		<ref bean="Donor-fullName"/>
         		<ref bean="Donor-address1"/>
         		<ref bean="Donor-address2"/>
         		<ref bean="Donor-address3"/>
@@ -109,7 +110,20 @@
       		<bean parent="TextControlDefinition" p:size="74"/>
     	</property>
 	</bean>
-	
+	<bean id="Donor-fullName" parent="Donor-fullName-parentBean"/>
+
+  	<bean id="Donor-fullName-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="fullName"/>
+    	<property name="label" value="Donor Name"/>
+    	<property name="shortLabel" value="Donor Name"/>
+    	<property name="maxLength" value="72"/>
+    	<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    	</property>    	
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="152"/>
+    	</property>
+	</bean>
 	<bean id="Donor-address1" parent="Donor-address1-parentBean"/>
 
   	<bean id="Donor-address1-parentBean" abstract="true" parent="AttributeDefinition">

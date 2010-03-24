@@ -19,19 +19,20 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class Donor extends PersistableBusinessObjectBase implements Inactivateable {
-    
+
     private String donorID;
-    
+
     // name
     private String firstName;
     private String middleName;
     private String lastName;
-    
+
     // address
     private String address1;
     private String address2;
@@ -39,30 +40,31 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     private String city;
     private String state;
     private String postalCode;
-    private String country;    // should reference org.kuali.rice.kns.bo.Country later
-    
+    private String country; // should reference org.kuali.rice.kns.bo.Country later
+
     private String phoneNumber;
-    
+
     private String individualSalutation;
     private String individualMailLabel;
     private String jointSalutation;
     private String jointMailLabel;
-    
+
     private String developmentOfficer;
-    
+
     private Date deceasedDate;
-    
+
     private String firstCorporateContact;
     private String firstContactTitle;
     private String secondCorporateContact;
     private String secondContactTitle;
-    
+
     private String comments;
-    
-    private boolean active;    
-    
+
+    private boolean active;
+
     /**
-     * Gets the donorID attribute. 
+     * Gets the donorID attribute.
+     * 
      * @return Returns the donorID.
      */
     public String getDonorID() {
@@ -71,6 +73,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the donorID attribute value.
+     * 
      * @param donorID The donorID to set.
      */
     public void setDonorID(String donorID) {
@@ -78,7 +81,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the firstName attribute. 
+     * Gets the firstName attribute.
+     * 
      * @return Returns the firstName.
      */
     public String getFirstName() {
@@ -87,6 +91,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the firstName attribute value.
+     * 
      * @param firstName The firstName to set.
      */
     public void setFirstName(String firstName) {
@@ -94,7 +99,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the middleName attribute. 
+     * Gets the middleName attribute.
+     * 
      * @return Returns the middleName.
      */
     public String getMiddleName() {
@@ -103,6 +109,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the middleName attribute value.
+     * 
      * @param middleName The middleName to set.
      */
     public void setMiddleName(String middleName) {
@@ -110,7 +117,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the lastName attribute. 
+     * Gets the lastName attribute.
+     * 
      * @return Returns the lastName.
      */
     public String getLastName() {
@@ -119,6 +127,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the lastName attribute value.
+     * 
      * @param lastName The lastName to set.
      */
     public void setLastName(String lastName) {
@@ -126,7 +135,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the address1 attribute. 
+     * Gets the address1 attribute.
+     * 
      * @return Returns the address1.
      */
     public String getAddress1() {
@@ -135,6 +145,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the address1 attribute value.
+     * 
      * @param address1 The address1 to set.
      */
     public void setAddress1(String address1) {
@@ -142,7 +153,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the address2 attribute. 
+     * Gets the address2 attribute.
+     * 
      * @return Returns the address2.
      */
     public String getAddress2() {
@@ -151,6 +163,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the address2 attribute value.
+     * 
      * @param address2 The address2 to set.
      */
     public void setAddress2(String address2) {
@@ -158,7 +171,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the address3 attribute. 
+     * Gets the address3 attribute.
+     * 
      * @return Returns the address3.
      */
     public String getAddress3() {
@@ -167,6 +181,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the address3 attribute value.
+     * 
      * @param address3 The address3 to set.
      */
     public void setAddress3(String address3) {
@@ -174,7 +189,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the city attribute. 
+     * Gets the city attribute.
+     * 
      * @return Returns the city.
      */
     public String getCity() {
@@ -183,6 +199,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the city attribute value.
+     * 
      * @param city The city to set.
      */
     public void setCity(String city) {
@@ -190,7 +207,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the state attribute. 
+     * Gets the state attribute.
+     * 
      * @return Returns the state.
      */
     public String getState() {
@@ -199,6 +217,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the state attribute value.
+     * 
      * @param state The state to set.
      */
     public void setState(String state) {
@@ -206,7 +225,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the postalCode attribute. 
+     * Gets the postalCode attribute.
+     * 
      * @return Returns the postalCode.
      */
     public String getPostalCode() {
@@ -215,6 +235,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the postalCode attribute value.
+     * 
      * @param postalCode The postalCode to set.
      */
     public void setPostalCode(String postalCode) {
@@ -222,7 +243,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the country attribute. 
+     * Gets the country attribute.
+     * 
      * @return Returns the country.
      */
     public String getCountry() {
@@ -231,6 +253,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the country attribute value.
+     * 
      * @param country The country to set.
      */
     public void setCountry(String country) {
@@ -238,7 +261,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the phoneNumber attribute. 
+     * Gets the phoneNumber attribute.
+     * 
      * @return Returns the phoneNumber.
      */
     public String getPhoneNumber() {
@@ -247,6 +271,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the phoneNumber attribute value.
+     * 
      * @param phoneNumber The phoneNumber to set.
      */
     public void setPhoneNumber(String phoneNumber) {
@@ -254,7 +279,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the individualSalutation attribute. 
+     * Gets the individualSalutation attribute.
+     * 
      * @return Returns the individualSalutation.
      */
     public String getIndividualSalutation() {
@@ -263,6 +289,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the individualSalutation attribute value.
+     * 
      * @param individualSalutation The individualSalutation to set.
      */
     public void setIndividualSalutation(String individualSalutation) {
@@ -270,7 +297,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the individualMailLabel attribute. 
+     * Gets the individualMailLabel attribute.
+     * 
      * @return Returns the individualMailLabel.
      */
     public String getIndividualMailLabel() {
@@ -279,6 +307,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the individualMailLabel attribute value.
+     * 
      * @param individualMailLabel The individualMailLabel to set.
      */
     public void setIndividualMailLabel(String individualMailLabel) {
@@ -286,7 +315,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the jointSalutation attribute. 
+     * Gets the jointSalutation attribute.
+     * 
      * @return Returns the jointSalutation.
      */
     public String getJointSalutation() {
@@ -295,6 +325,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the jointSalutation attribute value.
+     * 
      * @param jointSalutation The jointSalutation to set.
      */
     public void setJointSalutation(String jointSalutation) {
@@ -302,7 +333,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the jointMailLabel attribute. 
+     * Gets the jointMailLabel attribute.
+     * 
      * @return Returns the jointMailLabel.
      */
     public String getJointMailLabel() {
@@ -311,6 +343,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the jointMailLabel attribute value.
+     * 
      * @param jointMailLabel The jointMailLabel to set.
      */
     public void setJointMailLabel(String jointMailLabel) {
@@ -318,7 +351,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the developmentOfficer attribute. 
+     * Gets the developmentOfficer attribute.
+     * 
      * @return Returns the developmentOfficer.
      */
     public String getDevelopmentOfficer() {
@@ -327,6 +361,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the developmentOfficer attribute value.
+     * 
      * @param developmentOfficer The developmentOfficer to set.
      */
     public void setDevelopmentOfficer(String developmentOfficer) {
@@ -334,7 +369,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the deceasedDate attribute. 
+     * Gets the deceasedDate attribute.
+     * 
      * @return Returns the deceasedDate.
      */
     public Date getDeceasedDate() {
@@ -343,6 +379,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the deceasedDate attribute value.
+     * 
      * @param deceasedDate The deceasedDate to set.
      */
     public void setDeceasedDate(Date deceasedDate) {
@@ -350,7 +387,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the firstCorporateContact attribute. 
+     * Gets the firstCorporateContact attribute.
+     * 
      * @return Returns the firstCorporateContact.
      */
     public String getFirstCorporateContact() {
@@ -359,6 +397,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the firstCorporateContact attribute value.
+     * 
      * @param firstCorporateContact The firstCorporateContact to set.
      */
     public void setFirstCorporateContact(String firstCorporateContact) {
@@ -366,7 +405,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the firstContactTitle attribute. 
+     * Gets the firstContactTitle attribute.
+     * 
      * @return Returns the firstContactTitle.
      */
     public String getFirstContactTitle() {
@@ -375,6 +415,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the firstContactTitle attribute value.
+     * 
      * @param firstContactTitle The firstContactTitle to set.
      */
     public void setFirstContactTitle(String firstContactTitle) {
@@ -382,7 +423,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the secondCorporateContact attribute. 
+     * Gets the secondCorporateContact attribute.
+     * 
      * @return Returns the secondCorporateContact.
      */
     public String getSecondCorporateContact() {
@@ -391,6 +433,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the secondCorporateContact attribute value.
+     * 
      * @param secondCorporateContact The secondCorporateContact to set.
      */
     public void setSecondCorporateContact(String secondCorporateContact) {
@@ -398,7 +441,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the secondContactTitle attribute. 
+     * Gets the secondContactTitle attribute.
+     * 
      * @return Returns the secondContactTitle.
      */
     public String getSecondContactTitle() {
@@ -407,6 +451,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the secondContactTitle attribute value.
+     * 
      * @param secondContactTitle The secondContactTitle to set.
      */
     public void setSecondContactTitle(String secondContactTitle) {
@@ -414,7 +459,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the comments attribute. 
+     * Gets the comments attribute.
+     * 
      * @return Returns the comments.
      */
     public String getComments() {
@@ -423,6 +469,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the comments attribute value.
+     * 
      * @param comments The comments to set.
      */
     public void setComments(String comments) {
@@ -430,7 +477,8 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -439,10 +487,26 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * Gets the donor's full name: First name + middle name + last name
+     * 
+     * @return donor's full name
+     */
+    public String getFullName() {
+        String firstName = getFirstName() == null ? KFSConstants.EMPTY_STRING : getFirstName() + " ";
+        String middleName = getMiddleName() == null ? KFSConstants.EMPTY_STRING : getMiddleName();
+        String lastName = getLastName() == null ? KFSConstants.EMPTY_STRING : " " + getLastName();
+
+        String fullName = firstName + middleName + lastName;
+
+        return fullName;
     }
 
     /**

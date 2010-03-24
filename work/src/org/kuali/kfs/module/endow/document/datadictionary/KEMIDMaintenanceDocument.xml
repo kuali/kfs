@@ -758,7 +758,10 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorId" 
-                    p:required="true" />                  
+                    p:required="true" /> 
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="donor.fullName"
+		            p:unconditionallyReadOnly="true" />  
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorStatementCode"
                     p:required="true" />   

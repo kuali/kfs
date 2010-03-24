@@ -24,6 +24,7 @@
       		<list>
         		<ref bean="KemidDonorStatement-kemid" />
         		<ref bean="KemidDonorStatement-donorId" />
+        		<ref bean="KemidDonorStatement-donor.fullName" />
 		        <ref bean="KemidDonorStatement-donorSeq" />
 		        <ref bean="KemidDonorStatement-donorStatementCode"/>
 		        <ref bean="KemidDonorStatement-combineWithDonorId"/>
@@ -51,6 +52,12 @@
     	<property name="label" value="Donor ID" />
     	<property name="required" value="true" />
   	</bean>
+  	<bean id="KemidDonorStatement-donor.fullName" parent="KemidDonorStatement-donor.fullName-parentBean" />
+  
+  	<bean id="KemidDonorStatement-donor.fullName-parentBean" abstract="true" parent="Donor-fullName">
+  		<property name="name" value="donor.fullName" />
+    	<property name="label" value="Donor Name" />
+  	</bean>  	
 	<bean id="KemidDonorStatement-donorSeq" parent="KemidDonorStatement-donorSeq-parentBean" />
 
  	<bean id="KemidDonorStatement-donorSeq-parentBean" abstract="true" parent="AttributeDefinition">

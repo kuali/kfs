@@ -145,6 +145,9 @@
     <property name="name" value="itemReceivedToBeQuantity"/>
     <property name="label" value="To be Received"/>
     <property name="shortLabel" value="To be Received"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2" p:allowNegative="true"/>
+    </property>
   </bean>
   <bean id="LineItemReceivingItem-itemReasonAddedCode" parent="LineItemReceivingItem-itemReasonAddedCode-parentBean"/>
 

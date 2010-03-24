@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
+import org.kuali.kfs.module.endow.businessobject.KemidDonorStatement;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
@@ -67,9 +68,10 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         updateBenefittingOrgs(maintenanceDocument);
         setPayoutInstructionsSeq();
         setUseCriteriaSeq();
-        setFeeethodSequence();
+        setFeeMethodSequence();
         setReportGroupSequence();
         setSpecialInstructionSeq();
+        setDonorStatementsSeq();
         setCombineDonorSeq();
 
         return preRulesOK;
@@ -264,7 +266,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
     /**
      * Sets the fee method sequence for all the new fees as the next sequencial number.
      */
-    private void setFeeethodSequence() {
+    private void setFeeMethodSequence() {
         List<KemidFee> oldFees = new ArrayList<KemidFee>();
         List<KemidFee> newFees = new ArrayList<KemidFee>();
 
@@ -332,6 +334,31 @@ public class KemidPreRule extends MaintenancePreRulesBase {
 
         for (KemidSpecialInstruction specialInstruction : newSpecialInstructions) {
             specialInstruction.setInstructionSeq(new KualiInteger(++sequenceStart));
+        }
+
+    }
+
+    /**
+     * Sets the donor sequence for all the new donor statements as the next sequencial number.
+     */
+    private void setDonorStatementsSeq() {
+        List<KemidDonorStatement> oldDonorStatement = new ArrayList<KemidDonorStatement>();
+        List<KemidDonorStatement> newDonorStatement = new ArrayList<KemidDonorStatement>();
+
+
+        for (KemidDonorStatement donorStatement : newKemid.getKemidDonorStatements()) {
+            if (donorStatement.isNewCollectionRecord()) {
+                newDonorStatement.add(donorStatement);
+            }
+            else {
+                oldDonorStatement.add(donorStatement);
+            }
+        }
+
+        int sequenceStart = oldDonorStatement.size();
+
+        for (KemidDonorStatement donorStatement : newDonorStatement) {
+            donorStatement.setDonorSeq(new KualiInteger(++sequenceStart));
         }
 
     }

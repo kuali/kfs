@@ -7,7 +7,7 @@
     </update>
   </changeSet>
     <changeSet author='Bonnie' id='5475-1-1' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='All' />
@@ -24,7 +24,7 @@
     </modifySql>
   </changeSet>
   <changeSet author='Bonnie' id='5475-1-2' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='Batch' />
@@ -41,7 +41,7 @@
     </modifySql>
   </changeSet>
   <changeSet author='Bonnie' id='5475-1-3' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='Document' />
@@ -58,7 +58,7 @@
     </modifySql>
   </changeSet>
   <changeSet author='Bonnie' id='5475-1-4' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='Lookup' />
@@ -75,7 +75,7 @@
     </modifySql>
   </changeSet>
   <changeSet author='Bonnie' id='5475-1-5' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='All' />
@@ -93,7 +93,7 @@
     </modifySql>
   </changeSet>
   <changeSet author='Bonnie' id='5475-1-6b' failOnError='true' >
-    <comment>insert Endowment sample data to KULDBA</comment>
+    <comment>add default parameter components to KFS-ENDOW</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
       <column name='PARM_DTL_TYP_CD' value='All' />
@@ -112,4 +112,11 @@
       <replace replace='SYSDATE' with='to_char(SYSDATE, &apos;MM/DD/YYYY&apos;)' />
     </modifySql>
   </changeSet>
+ <changeSet author='Bonnie' id='5475-1-7' failOnError='true' >
+    <comment>add default parameter components to KFS-ENDOW</comment>
+    <update tableName='KREW_DOC_TYP_T'>
+      <column name='lbl' value='Tickler Maintenance Document' />
+      <where>DOC_TYP_NM = 'TicklerMaintenanceDocument'</where>
+      </update>
+   </changeSet>
 </databaseChangeLog>

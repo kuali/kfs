@@ -53,6 +53,7 @@
 </changeSet>
 
 <changeSet id="5439" author="David" failOnError='true' context="kuldba">
+<comment>Tax test</comment>
 <update tableName="AR_ORG_OPTION_T">
 <column name="PRCS_ORG_CD" value="VPIT"/>
 <column name="ORG_MSG_TXT" value="Use to test AZ tax"/>

@@ -70,4 +70,6 @@
 <include file="updates/2010-03-09-5477-36-END_KEMID_FEE_T.xml"/>
 <include file="updates/2010-03-18-5487-KRNS_PARM_T.xml"/>
 <include file="updates/2010-03-19-5515-AP_ELECTRIC_INV_MAP_T.xml"/>
+<include file="updates/2010-03-22-5480-PermissionForAutoDisapprovalStepJob.xml"/>
+<include file="updates/2010-03-22-5490-1-KFS-SYS+Systerm+Parameters.xml"/>
 </databaseChangeLog>

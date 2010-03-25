@@ -1408,6 +1408,16 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountGuideline(new AccountGuideline());
         newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789");
         assertTrue("Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() > 400);
+        
+        // setup new subfund
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setFundGroupCode(Accounts.SubFund.Code.GF1);
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
+
+        // set subfund group to null
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules(maintDoc);
@@ -1422,6 +1432,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "013245678901234567890123456789013245678901324567890123456789012345678901324");
         System.out.println(newAccount.getAccountGuideline().getAccountPurposeText().length());
         assertTrue("Purpose text should be <= 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() <= 400);
+        // setup new subfund
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setFundGroupCode(Accounts.SubFund.Code.GF1);
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
+
+        // set subfund group to null
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
+        newAccount.setSubFundGroup(subFundGroup);
+
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules(maintDoc);

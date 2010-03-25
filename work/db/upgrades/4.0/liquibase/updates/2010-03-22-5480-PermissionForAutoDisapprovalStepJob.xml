@@ -66,7 +66,7 @@
   <changeSet author='Muddu' id='5480-1-4' failOnError='true'>
     <comment>Setup a new permission for document type KFST</comment>
     <insert tableName='KRIM_ROLE_PERM_T'>
-      <column name='ROLE_PERM_ID' value='1106' />
+      <column name='ROLE_PERM_ID' value='1107' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
       <column name='ROLE_ID' value='55' />

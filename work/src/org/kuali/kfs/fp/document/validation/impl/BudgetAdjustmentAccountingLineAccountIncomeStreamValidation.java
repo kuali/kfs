@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -38,9 +43,13 @@ public class BudgetAdjustmentAccountingLineAccountIncomeStreamValidation extends
         if (getAccountingLineForValidation().getCurrentBudgetAdjustmentAmount().isNonZero()) {
             getAccountingLineForValidation().refreshReferenceObject("account");
             if (!ObjectUtils.isNull(getAccountingLineForValidation().getAccount())) {
-                if (ObjectUtils.isNull(getAccountingLineForValidation().getAccount().getIncomeStreamAccount())) {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
-                    accountNumberAllowed = false;
+                String fundGroupCode = getAccountingLineForValidation().getAccount().getSubFundGroup().getFundGroupCode();
+                String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
+                if (StringUtils.containsIgnoreCase(fundGroupCode, incomeStreamRequiringFundGroupCode)) {
+                    if (ObjectUtils.isNull(getAccountingLineForValidation().getAccount().getIncomeStreamAccount())) {
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
+                        accountNumberAllowed = false;
+                    }
                 }
             }
         }

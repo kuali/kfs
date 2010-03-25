@@ -153,7 +153,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkExpirationDate(document);
         success &= checkFundGroup(document);
         success &= checkSubFundGroup(document);
-
+        success &= checkIncomeStreamAccountRule();
+        
         return success;
     }
 
@@ -1038,6 +1039,29 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * the income stream account is required if account's sub fund group code's fund group code is either GF or CG.
+     * 
+     * @param newAccount
+     * @return true if fund group code (obtained through sub fund group) is in the system parameter INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS (values GF;CG)
+     * else return false.
+     */
+    protected boolean checkIncomeStreamAccountRule() {
+
+        boolean result = true;
+        // KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
+        String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
+        String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
+        if (StringUtils.containsIgnoreCase(fundGroupCode, incomeStreamRequiringFundGroupCode)) {
+            if (ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, newAccount.getAccountNumber());
+                result = false;
+            }
+        }
+
+        return result;
+    }
+    
     /**
      * This method checks to see if the contracts and grants fields are filled in or not
      * 

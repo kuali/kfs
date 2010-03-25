@@ -42,7 +42,9 @@ public class BudgetAdjustmentAccountingLineAccountIncomeStreamValidation extends
         boolean accountNumberAllowed = true;
         if (getAccountingLineForValidation().getCurrentBudgetAdjustmentAmount().isNonZero()) {
             getAccountingLineForValidation().refreshReferenceObject("account");
+            
             if (!ObjectUtils.isNull(getAccountingLineForValidation().getAccount())) {
+                //KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
                 String fundGroupCode = getAccountingLineForValidation().getAccount().getSubFundGroup().getFundGroupCode();
                 String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
                 if (StringUtils.containsIgnoreCase(fundGroupCode, incomeStreamRequiringFundGroupCode)) {
@@ -53,6 +55,7 @@ public class BudgetAdjustmentAccountingLineAccountIncomeStreamValidation extends
                 }
             }
         }
+        
         return accountNumberAllowed;
     }
 

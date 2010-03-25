@@ -66,7 +66,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         /* check payment reason is allowed for payee type */
-        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, paymentReasonCode, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode());
+        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, DisbursementVoucherConstants.INVALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
         paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
 
         // restrictions on payment reason when alien indicator is checked

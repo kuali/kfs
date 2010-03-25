@@ -279,7 +279,14 @@
 			<ref bean="ticklerLookupableHelperService" />
 		</property>
 	</bean>
+	
 	<bean id="combineGroupCodeService" class="org.kuali.kfs.module.endow.document.service.impl.CombineGroupCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+	</bean>
+	
+    <bean id="donorStatementCodeService" class="org.kuali.kfs.module.endow.document.service.impl.DonorStatementCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				

@@ -27,6 +27,8 @@
         		<ref bean="KemidDonorStatement-donor.fullName" />
 		        <ref bean="KemidDonorStatement-donorSeq" />
 		        <ref bean="KemidDonorStatement-donorStatementCode"/>
+		        <ref bean="KemidDonorStatement-donorStatement.name"/>
+		        <ref bean="KemidDonorStatement-donorStatement.codeAndDescription"/>
 		        <ref bean="KemidDonorStatement-combineWithDonorId"/>
 		        <ref bean="KemidDonorStatement-donorLabel"/>
 		        <ref bean="KemidDonorStatement-effectiveDate"/>
@@ -81,6 +83,18 @@
     	<property name="label" value="Donor Statement Code" />
     	<property name="required" value="true" />
   	</bean>
+    <bean id="KemidDonorStatement-donorStatement.name" parent="KemidDonorStatement-donorStatement.name-parentBean" />
+		        
+  	<bean id="KemidDonorStatement-donorStatement.name-parentBean" abstract="true" parent="DonorStatementCode-name">
+  		<property name="name" value="donorStatement.name" />
+    	<property name="label" value="Donor Statement Code Description" />
+  	</bean>
+	<bean id="KemidDonorStatement-donorStatement.codeAndDescription" parent="KemidDonorStatement-donorStatement.codeAndDescription-parentBean" />
+		        
+  	<bean id="KemidDonorStatement-donorStatement.codeAndDescription-parentBean" abstract="true" parent="DonorStatementCode-codeAndDescription">
+  		<property name="name" value="donorStatement.codeAndDescription" />
+    	<property name="label" value="Donor Statement Code" />
+  	</bean>  	
   	<bean id="KemidDonorStatement-combineWithDonorId" parent="KemidDonorStatement-combineWithDonorId-parentBean" />
 		        
   	<bean id="KemidDonorStatement-combineWithDonorId-parentBean" abstract="true" parent="Donor-donorID">

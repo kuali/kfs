@@ -749,7 +749,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="donor.fullName" />                          
                     <bean parent="FieldDefinition"
-                          p:attributeName="donorStatementCode" />
+                          p:attributeName="donorStatement.codeAndDescription" />                          
                     <bean parent="FieldDefinition"
                           p:attributeName="combineWithDonorId" />
                     <bean parent="FieldDefinition"

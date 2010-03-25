@@ -24,6 +24,7 @@
       		<list>
         		<ref bean="DonorStatementCode-code"/>
         		<ref bean="DonorStatementCode-name"/>
+        		<ref bean="DonorStatementCode-codeAndDescription"/>
 		        <ref bean="DonorStatementCode-active"/>
       		</list>
     	</property>
@@ -63,6 +64,21 @@
       		<bean parent="TextControlDefinition" p:size="52"/>
     	</property>
   	</bean>
+  	
+	<bean id="DonorStatementCode-codeAndDescription" parent="DonorStatementCode-codeAndDescription-parentBean"/>
+
+ 	<bean id="DonorStatementCode-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="codeAndDescription"/>
+    	<property name="label" value="Donor Statement Code"/>
+    	<property name="shortLabel" value="Donor Statement"/>
+    	<property name="maxLength" value="58"/>
+    	<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="58"/>
+    	</property>
+  	</bean>  	
   	
 	<bean id="DonorStatementCode-active" parent="DonorStatementCode-active-parentBean"/>
 

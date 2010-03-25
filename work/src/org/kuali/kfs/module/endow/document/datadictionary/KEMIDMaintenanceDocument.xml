@@ -163,7 +163,9 @@
         <value>../dwr/interface/ResponsibleAdministrationCodeService.js</value>
         <value>../scripts/module/endow/responsibleAdministrationCode.js</value>   
         <value>../dwr/interface/CombineGroupCodeService.js</value>
-        <value>../scripts/module/endow/kemidCombineGroupCode.js</value>       
+        <value>../scripts/module/endow/kemidCombineGroupCode.js</value>    
+        <value>../dwr/interface/DonorStatementCodeService.js</value>
+        <value>../scripts/module/endow/kemidDonorStatement.js</value>    
       </list>
     </property>
     <property name="workflowAttributes">
@@ -764,7 +766,11 @@
 		            p:unconditionallyReadOnly="true" />  
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorStatementCode"
-                    p:required="true" />   
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadDonorStatementCodeDesc" />   
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="donorStatement.name"
+		            p:unconditionallyReadOnly="true" />                     
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineWithDonorId" />   
               <bean parent="MaintainableFieldDefinition" 

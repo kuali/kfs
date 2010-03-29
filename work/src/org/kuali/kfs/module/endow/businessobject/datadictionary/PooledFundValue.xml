@@ -120,8 +120,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Income Distribution Complete" />
-    <property name="description" value="This attribute is used to describe whether the income distribution complete." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean> 
 
@@ -162,8 +160,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="L/T Gain or Loss Distribution Complete" />
-    <property name="description" value="This attribute is used to describe whether the long term gain or loss distribution complete." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean> 
   
@@ -204,8 +200,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="S/T Gain or Loss Distribution Complete" />
-    <property name="description" value="This attribute is used to describe whether the short term gain or loss distribution complete." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean> 
     

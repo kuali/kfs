@@ -238,8 +238,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Distribute Gains And Losses Indicator" />
-    <property name="description" value="This attribute is used to describe whether the distribution is gains or losses." />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>  
  

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Winston' id='5473-addr-1-1' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4109' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4108' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='85 North South St' />
+      <column name='VNDR_CTY_NM' value='Lansdale' />
+      <column name='VNDR_ST_CD' value='PA' />
+      <column name='VNDR_ZIP_CD' value='19446' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-2' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4110' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4108' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='87 North South St' />
+      <column name='VNDR_CTY_NM' value='Lansdale' />
+      <column name='VNDR_ST_CD' value='PA' />
+      <column name='VNDR_ZIP_CD' value='19446' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-3' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4119' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4116' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='123 E Queen St' />
+      <column name='VNDR_CTY_NM' value='Trumansburg' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14886' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-4' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4120' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4117' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='707 School of Economics Building' />
+      <column name='VNDR_LN2_ADDR' value='Institute for Advanced Res - 777 Guoding Rd' />
+      <column name='VNDR_CTY_NM' value='Shanghai' />
+      <column name='VNDR_ZIP_CD' value='200433' />
+      <column name='VNDR_CNTRY_CD' value='CH' />
+      <column name='VNDR_ATTN_NM' value='Shanghai University of Finance &amp; Economics' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-5' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4113' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4111' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='12 Snowly Lane' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-6' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4114' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4111' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='12 Snowy Lane' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-7' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4111' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4109' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='987 West East St' />
+      <column name='VNDR_CTY_NM' value='Lansdale' />
+      <column name='VNDR_ST_CD' value='PA' />
+      <column name='VNDR_ZIP_CD' value='19446' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-8' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4115' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4112' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='2050 University Ave' />
+      <column name='VNDR_CTY_NM' value='E Palo Alto' />
+      <column name='VNDR_ST_CD' value='CA' />
+      <column name='VNDR_ZIP_CD' value='94303' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-9' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4116' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='3' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4113' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='787 Airport Rd' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-10' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4117' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4114' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='73526 Elm Tree Road' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-11' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4118' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4115' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='654 Accordian St' />
+      <column name='VNDR_CTY_NM' value='North Wales' />
+      <column name='VNDR_ST_CD' value='PA' />
+      <column name='VNDR_ZIP_CD' value='19440' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-12' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4105' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4105' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='12 Rue de Rivoli' />
+      <column name='VNDR_CTY_NM' value='Paris' />
+      <column name='VNDR_ZIP_CD' value='75044' />
+      <column name='VNDR_CNTRY_CD' value='FR' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-13' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4106' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4105' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='123 E Main St' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='N' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-14' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4107' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4106' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='341 Pine Tree Rd' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-15' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4108' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4107' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='RM' />
+      <column name='VNDR_LN1_ADDR' value='123 E Queen St' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-16' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4112' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='2' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4110' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='4415 East State St' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-17' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4121' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4118' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='2922 River Road' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='5473-addr-1-18' failOnError='true'>
+    <comment>DV Vendor - add a foreign vendor to the master data base</comment>
+    <insert tableName='PUR_VNDR_ADDR_T'>
+      <column name='VNDR_ADDR_GNRTD_ID' valueNumeric='4122' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='VNDR_HDR_GNRTD_ID' valueNumeric='4119' />
+      <column name='VNDR_DTL_ASND_ID' valueNumeric='0' />
+      <column name='VNDR_ADDR_TYP_CD' value='PO' />
+      <column name='VNDR_LN1_ADDR' value='191 Lake St' />
+      <column name='VNDR_CTY_NM' value='Ithaca' />
+      <column name='VNDR_ST_CD' value='NY' />
+      <column name='VNDR_ZIP_CD' value='14850' />
+      <column name='VNDR_CNTRY_CD' value='US' />
+      <column name='VNDR_DFLT_ADDR_IND' value='Y' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

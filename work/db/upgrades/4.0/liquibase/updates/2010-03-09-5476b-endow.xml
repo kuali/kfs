@@ -19,6 +19,7 @@
         <constraints primaryKey='true' primaryKeyName='id' nullable='false' />
       </column>
     </createTable>
+    <sql>ALTER TABLE END_KEMID_SEQ auto_increment=1</sql>
   </changeSet>
   <changeSet author='Bonnie' id='5476b-5' failOnError='true' dbms='mysql'>
     <comment>create endow sequences.sql</comment>
@@ -27,6 +28,7 @@
         <constraints primaryKey='true' primaryKeyName='id' nullable='false' />
       </column>
     </createTable>
+    <sql>ALTER TABLE END_TKLR_SEQ auto_increment=1</sql>
   </changeSet>
   <changeSet author='Bonnie' id='5476b-6' failOnError='true' dbms='mysql'>
     <comment>create endow sequences.sql</comment>
@@ -35,5 +37,6 @@
         <constraints primaryKey='true' primaryKeyName='id' nullable='false' />
       </column>
     </createTable>
+    <sql>ALTER TABLE END_ACI_SEQ auto_increment=1</sql>
   </changeSet>
 </databaseChangeLog>

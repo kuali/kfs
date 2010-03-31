@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Muddu' id='5490-1-1' failOnError='true'>
-    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run.</comment>
+  <changeSet author='Muddu' id='5490-2-1' failOnError='true'>
+    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run. </comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-SYS' />
       <column name='PARM_DTL_TYP_CD' value='AutoDisapproveDocumentsStep' />
@@ -24,8 +24,8 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Muddu' id='5490-1-2' failOnError='true'>
-    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run.</comment>
+  <changeSet author='Muddu' id='5490-2-2' failOnError='true'>
+    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run. </comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-SYS' />
       <column name='PARM_DTL_TYP_CD' value='AutoDisapproveDocumentsStep' />
@@ -33,7 +33,7 @@
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
       <column name='PARM_TYP_CD' value='CONFG' />
-      <column name='TXT' value='6302010' />
+      <column name='TXT' value='6/30/2010' />
       <column name='PARM_DESC_TXT' value='The automatic disapproval job will disapprove enroute documents with a create date equal to or earlier than this date' />
       <column name='CONS_CD' value='A' />
       <column name='APPL_NMSPC_CD' value='KFS' />
@@ -48,8 +48,8 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Muddu' id='5490-1-3' failOnError='true'>
-    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run.</comment>
+  <changeSet author='Muddu' id='5490-2-3' failOnError='true'>
+    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run. </comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-SYS' />
       <column name='PARM_DTL_TYP_CD' value='AutoDisapproveDocumentsStep' />
@@ -57,7 +57,7 @@
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
       <column name='PARM_TYP_CD' value='CONFG' />
-      <column name='TXT' value='6302010' />
+      <column name='TXT' value='6/30/2010' />
       <column name='PARM_DESC_TXT' value='Controls the date on which the auto disapproval step should run' />
       <column name='CONS_CD' value='A' />
       <column name='APPL_NMSPC_CD' value='KFS' />
@@ -72,8 +72,8 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Muddu' id='5490-1-4' failOnError='true'>
-    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run.</comment>
+  <changeSet author='Muddu' id='5490-2-4' failOnError='true'>
+    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run. </comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-SYS' />
       <column name='PARM_DTL_TYP_CD' value='AutoDisapproveDocumentsStep' />
@@ -96,8 +96,8 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Muddu' id='5490-1-5' failOnError='true'>
-    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run.</comment>
+  <changeSet author='Muddu' id='5490-2-5' failOnError='true'>
+    <comment>create the system parameters identified in the attached text file for the autoDisapproval job to run. </comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-SYS' />
       <column name='PARM_DTL_TYP_CD' value='AutoDisapproveDocumentsStep' />

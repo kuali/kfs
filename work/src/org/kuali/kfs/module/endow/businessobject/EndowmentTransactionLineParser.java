@@ -42,24 +42,24 @@ public interface EndowmentTransactionLineParser {
     public String getExpectedTransactionLineFormatAsString(Class<? extends EndowmentTransactionLine> transactionLineClass);
 
     /**
-     * parses a comma deliminated string into an EndowmentSourceTransactionLine by populating the attributes found in the
+     * parses a comma deliminated string into an <code>EndowmentSourceTransactionLine</code> by populating the attributes found in the
      * getSourceTransactionLineFormat()
      * 
      * @param transactionalDocument
      * @param sourceTransactionLineString
      * @return EndowmentSourceTransactionLine
      */
-    public EndowmentSourceTransactionLine parseSourceTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String sourceTransactionLineString);
+//    public EndowmentSourceTransactionLine parseSourceTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String sourceTransactionLineString);
 
     /**
-     * parses a comma deliminated string into an EndowmentTargetTransactionLine by populating the attributes found in the
+     * parses a comma deliminated string into an <code>EndowmentTargetTransactionLine</code> by populating the attributes found in the
      * getTargetTransactionLineFormat()
      * 
      * @param transactionalDocument
      * @param targetTransactionLineString
      * @return EndowmentTargetTransactionLine
      */
-    public EndowmentTargetTransactionLine parseTargetTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String targetTransactionLineString);
+//    public EndowmentTargetTransactionLine parseTargetTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String targetTransactionLineString);
 
     /**
      * generates a list of EndowmentSourceTransactionLine from the inputStream

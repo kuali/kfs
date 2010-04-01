@@ -52,7 +52,7 @@ public interface EndowmentTransactionLineParser {
     public EndowmentSourceTransactionLine parseSourceTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String sourceTransactionLineString);
 
     /**
-     * parses a comma deliminated string into an EndowmentTargetAccountingLine by populating the attributes found in the
+     * parses a comma deliminated string into an EndowmentTargetTransactionLine by populating the attributes found in the
      * getTargetTransactionLineFormat()
      * 
      * @param transactionalDocument

@@ -59,7 +59,7 @@ public interface EndowmentTransactionLineParser {
      * @param targetTransactionLineString
      * @return EndowmentTargetTransactionLine
      */
-    public EndowmentTargetTransactionLine parseTargetAccountingLine(EndowmentTransactionLinesDocument transactionalDocument, String targetTransactionLineString);
+    public EndowmentTargetTransactionLine parseTargetTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String targetTransactionLineString);
 
     /**
      * generates a list of EndowmentSourceTransactionLine from the inputStream

@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+//import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+//import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -97,7 +97,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param line
      */
-    public void addSourceTransactionLine(EndowmentSourceTransactionLine line);
+//    public void addSourceTransactionLine(EndowmentSourceTransactionLine line);
 
     /**
      * This method returns a list of source transaction lines.
@@ -112,7 +112,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param index
      * @return The source transaction line at the specified index.
      */
-    public EndowmentSourceTransactionLine getSourceTransactionLinee(int index);
+//    public EndowmentSourceTransactionLine getSourceTransactionLinee(int index);
 
     /**
      * This method sets the list of source transaction lines for this document.
@@ -126,7 +126,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param line
      */
-    public void addTargetTransactionLine(EndowmentTargetTransactionLine line);
+//    public void addTargetTransactionLine(EndowmentTargetTransactionLine line);
 
     /**
      * This method retrieves all of the target transaction lines associated with this document.
@@ -139,7 +139,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param index
      * @return The target transaction line at the passed in index.
      */
-    public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
+//    public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
 
     /**
      * This method sets the list of target transaction lines for this document.

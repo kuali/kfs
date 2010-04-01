@@ -26,12 +26,12 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
  */
 public interface EndowmentTransactionLineParser {
     /**
-     * @return <code>SourceTransactionLine</code> attribute format
+     * @return EndowmentSourceTransactionLine attribute format
      */
     public String[] getSourceTransactionLineFormat();
 
     /**
-     * @return <code>TargetTransactionLine</code> attribute format
+     * @return EndowmentTargetTransactionLine attribute format
      */
     public String[] getTargetTransactionLineFormat();
 
@@ -42,8 +42,8 @@ public interface EndowmentTransactionLineParser {
     public String getExpectedTransactionLineFormatAsString(Class<? extends EndowmentTransactionLine> transactionLineClass);
 
     /**
-     * parses a comma deliminated string into an <code>SourceAccountingLine</code> by populating the attributes found in the
-     * getSourceAccountingLineFormat()
+     * parses a comma deliminated string into an EndowmentSourceTransactionLine by populating the attributes found in the
+     * getSourceTransactionLineFormat()
      * 
      * @param transactionalDocument
      * @param sourceTransactionLineString
@@ -52,8 +52,8 @@ public interface EndowmentTransactionLineParser {
     public EndowmentSourceTransactionLine parseSourceTransactionLine(EndowmentTransactionLinesDocument transactionalDocument, String sourceTransactionLineString);
 
     /**
-     * parses a comma deliminated string into an <code>TargetAccountingLine</code> by populating the attributes found in the
-     * getTargetAccountingLineFormat()
+     * parses a comma deliminated string into an EndowmentTargetAccountingLine by populating the attributes found in the
+     * getTargetTransactionLineFormat()
      * 
      * @param transactionalDocument
      * @param targetTransactionLineString
@@ -62,20 +62,20 @@ public interface EndowmentTransactionLineParser {
     public EndowmentTargetTransactionLine parseTargetAccountingLine(EndowmentTransactionLinesDocument transactionalDocument, String targetTransactionLineString);
 
     /**
-     * generates a list of <code>SourceTransactionLine</code> from the inputStream
+     * generates a list of EndowmentSourceTransactionLine from the inputStream
      * 
      * @param stream
      * @param document
-     * @return List containing <code>EndowmentSourceTransactionLine</code>s
+     * @return List containing EndowmentSourceTransactionLine
      */
     public List importEndowmentSourceTransactionLines(String fileName, InputStream stream, EndowmentTransactionLinesDocument document);
 
     /**
-     * generates a list of <code>EndowmentTargetTransactionLine</code> from the inputStream
+     * generates a list of EndowmentTargetTransactionLine from the inputStream
      * 
      * @param stream
      * @param document
-     * @return List containing <code>EndowmentTargetTransactionLine</code>s
+     * @return List containing EndowmentTargetTransactionLine
      */
     public List importEndowmentTargetTransactionLines(String fileName, InputStream stream, EndowmentTransactionLinesDocument document);
 

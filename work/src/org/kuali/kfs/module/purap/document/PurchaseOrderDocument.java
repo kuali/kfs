@@ -483,9 +483,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void prepareForSave(KualiDocumentEvent event) {
         KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
         String documentType = workFlowDocument.getDocumentType();
-        String status = workFlowDocument.getStatusDisplayValue();
-        Boolean state = workFlowDocument.stateIsCanceled();
-        
+ 
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
             if (workFlowDocument.stateIsCanceled() && (! workFlowDocument.stateIsFinal())) {

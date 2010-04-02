@@ -153,7 +153,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                         if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
                             //Default must be 'Y' not 'true'
-                            if (!lookupDefinition.getLookupField(ACTIVE_FIELD_NAME).getDefaultValue().equals("Y")){
+                            if (!StringUtils.equals(lookupDefinition.getLookupField(ACTIVE_FIELD_NAME).getDefaultValue(), "Y")) {
                                 defaultValueWrongList.add(businessObjectEntry.getBusinessObjectClass());
                             }
                         }

@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
@@ -68,24 +63,6 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     public void setTransactionPosted(boolean transactionPosted) {
         this.transactionPosted = transactionPosted;
-    }
-
-    /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute.
-     * 
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
     }
 
 }

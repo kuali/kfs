@@ -42,6 +42,9 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
 
+    /**
+     * Constructs a EndowmentTransactionLineBase.java.
+     */
     public EndowmentTransactionLineBase() {
         setTransactionAmount(KualiDecimal.ZERO);
         setTransactionUnits(KualiDecimal.ZERO);

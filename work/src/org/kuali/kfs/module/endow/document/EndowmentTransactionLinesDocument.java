@@ -17,21 +17,21 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
-//import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-//import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public interface EndowmentTransactionLinesDocument extends EndowmentTransactionalDocument {
-   
-    //Question from Bonnie: do we need this? it seems that all titles in the existing spec are same -- Transaction Lines
+
+    // Question from Bonnie: do we need this? it seems that all titles in the existing spec are same -- Transaction Lines
     /**
      * This method is used to return the title that a transactional document should give to it's source transaction line section.
      * 
      * @return The source transaction line section's title.
-     */    
+     */
     public String getSourceTransactionLinesSectionTitle();
 
     /**
@@ -45,7 +45,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * Sums up the amounts of all of the target transaction lines for income.
      */
     public KualiDecimal getTargetIncomeTotal();
-    
+
     /**
      * Sums up the amounts of all of the target transaction lines for principal.
      */
@@ -65,11 +65,11 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @return TransactionLineParser instance appropriate for importing TransactionLines for this document type
      */
     public EndowmentTransactionLineParser getTransactionLineParser();
-    
+
 
     /**
-     * Retrieves the next line sequence number for a transaction line in the Source transaction line section on an endowment transactional
-     * document.
+     * Retrieves the next line sequence number for a transaction line in the Source transaction line section on an endowment
+     * transactional document.
      * 
      * @return The next available source line number.
      */
@@ -81,8 +81,8 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     public void setNextSourceLineNumber(Integer nextLineNumber);
 
     /**
-     * Retrieves the next line sequence number for an transaction line in the Target transaction line section on an endowment transactional
-     * document.
+     * Retrieves the next line sequence number for an transaction line in the Target transaction line section on an endowment
+     * transactional document.
      * 
      * @return The next available target line number.
      */
@@ -98,7 +98,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param line
      */
-//    public void addSourceTransactionLine(EndowmentSourceTransactionLine line);
+    public void addSourceTransactionLine(EndowmentSourceTransactionLine line);
 
     /**
      * This method returns a list of source transaction lines.
@@ -113,7 +113,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param index
      * @return The source transaction line at the specified index.
      */
-//    public EndowmentSourceTransactionLine getSourceTransactionLinee(int index);
+    public EndowmentSourceTransactionLine getSourceTransactionLinee(int index);
 
     /**
      * This method sets the list of source transaction lines for this document.
@@ -127,7 +127,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param line
      */
-//    public void addTargetTransactionLine(EndowmentTargetTransactionLine line);
+    public void addTargetTransactionLine(EndowmentTargetTransactionLine line);
 
     /**
      * This method retrieves all of the target transaction lines associated with this document.
@@ -140,7 +140,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param index
      * @return The target transaction line at the passed in index.
      */
-//    public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
+    public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
 
     /**
      * This method sets the list of target transaction lines for this document.
@@ -148,7 +148,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param targetLines
      */
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines);
-    
+
     /**
      * @return Name of the document's source transaction lines
      */
@@ -159,24 +159,24 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @return Name of the document's target transaction lines
      */
     public String getTargetTransactionLineEntryName();
-    
-//[Bonnie] I'll comment out the following methods for now 
+
+    // [Bonnie] I'll comment out the following methods for now
 
     /*
      * @return Class of the document's source transaction lines
      */
-//    public Class getSourceTransactionLineClass();
+    // public Class getSourceTransactionLineClass();
 
 
     /*
      * @return Class of the document's target transaction lines
      */
-//    public Class getTargetTransactionLineClass();
+    // public Class getTargetTransactionLineClass();
 
-    
+
     /**
      * This method returns the Class to use for TransactionLineValuesAllowedValidation.
      */
-//    public Class<? extends EndowmentTransactionLinesDocument> getDocumentClassForTransactionLineValueAllowedValidation();
+    // public Class<? extends EndowmentTransactionLinesDocument> getDocumentClassForTransactionLineValueAllowedValidation();
 
 }

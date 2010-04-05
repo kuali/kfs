@@ -71,4 +71,9 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         this.securityTaxLotIndicator = securityTaxLotIndicator;
 
     }
+
+    public void setSecurityTransactionCode(String securityTransactionCode) {
+        this.securityTransactionCode = securityTransactionCode;
+
+    }
 }

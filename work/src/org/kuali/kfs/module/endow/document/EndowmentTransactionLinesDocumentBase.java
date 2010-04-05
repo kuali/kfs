@@ -19,9 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
 
+    protected Integer nextSourceLineNumber;
+    protected Integer nextTargetLineNumber;
     protected List<EndowmentTransactionLine> sourceTransactionLines;
     protected List<EndowmentTransactionLine> targetTransactionLines;
 
@@ -30,6 +35,8 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      */
     public EndowmentTransactionLinesDocumentBase() {
         super();
+        this.nextSourceLineNumber = new Integer(1);
+        this.nextTargetLineNumber = new Integer(1);
         sourceTransactionLines = new ArrayList<EndowmentTransactionLine>();
         targetTransactionLines = new ArrayList<EndowmentTransactionLine>();
     }
@@ -48,6 +55,31 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetTransactionLines) {
         this.targetTransactionLines = targetTransactionLines;
+    }
+
+    public String getSourceTransactionLinesSectionTitle() {
+        return KFSConstants.SOURCE;
+
+    }
+
+    public String getTargetTransactionLinesSectionTitle() {
+        return KFSConstants.TARGET;
+    }
+
+    public Integer getNextSourceLineNumber() {
+        return nextSourceLineNumber;
+    }
+
+    public void setNextSourceLineNumber(Integer nextSourceLineNumber) {
+        this.nextSourceLineNumber = nextSourceLineNumber;
+    }
+
+    public Integer getNextTargetLineNumber() {
+        return nextTargetLineNumber;
+    }
+
+    public void setNextTargetLineNumber(Integer nextTargetLineNumber) {
+        this.nextTargetLineNumber = nextTargetLineNumber;
     }
 
 }

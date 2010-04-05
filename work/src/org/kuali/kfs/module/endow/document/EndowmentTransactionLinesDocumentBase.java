@@ -15,12 +15,39 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
 
+    protected List<EndowmentTransactionLine> sourceTransactionLines;
+    protected List<EndowmentTransactionLine> targetTransactionLines;
 
+    /**
+     * Constructs a EndowmentTransactionLinesDocumentBase.java.
+     */
+    public EndowmentTransactionLinesDocumentBase() {
+        super();
+        sourceTransactionLines = new ArrayList<EndowmentTransactionLine>();
+        targetTransactionLines = new ArrayList<EndowmentTransactionLine>();
+    }
+
+    public List<EndowmentTransactionLine> getSourceTransactionLines() {
+        return sourceTransactionLines;
+    }
+
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceTransactionLines) {
+        this.sourceTransactionLines = sourceTransactionLines;
+    }
+
+    public List<EndowmentTransactionLine> getTargetTransactionLines() {
+        return targetTransactionLines;
+    }
+
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetTransactionLines) {
+        this.targetTransactionLines = targetTransactionLines;
+    }
 
 }

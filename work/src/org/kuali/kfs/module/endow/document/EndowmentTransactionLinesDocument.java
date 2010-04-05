@@ -19,6 +19,7 @@ import java.util.List;
 
 //import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 //import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -104,7 +105,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @return The list of source transaction lines.
      */
-    public List getSourceTransactionLines();
+    public List<EndowmentTransactionLine> getSourceTransactionLines();
 
     /**
      * This method returns the transaction line at a particular spot in the overall list of transaction lines.
@@ -119,7 +120,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param sourceLines
      */
-    public void setSourceTransactionLines(List sourceLines);
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines);
 
     /**
      * This method adds a target transaction line to the document.
@@ -131,7 +132,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     /**
      * This method retrieves all of the target transaction lines associated with this document.
      */
-    public List getTargetTransactionLines();
+    public List<EndowmentTransactionLine> getTargetTransactionLines();
 
     /**
      * This method retrieves the target transaction line at the specified index.
@@ -146,7 +147,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * 
      * @param targetLines
      */
-    public void setTargetTransactionLines(List targetLines);
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines);
     
     /**
      * @return Name of the document's source transaction lines

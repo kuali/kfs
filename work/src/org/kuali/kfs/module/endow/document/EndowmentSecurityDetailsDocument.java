@@ -17,4 +17,73 @@ package org.kuali.kfs.module.endow.document;
 
 public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLinesDocument {
 
+    /**
+     * Gets the security Id.
+     * 
+     * @return the security id
+     */
+    public String getSecurityId();
+
+    /**
+     * Sets the security Id.
+     * 
+     * @param securityId
+     */
+    public void setSecurityId(String securityId);
+
+    /**
+     * Gets the security class code.
+     * 
+     * @return the security class code
+     */
+    public String getSecurityClassCode();
+
+    /**
+     * Sets the security class code.
+     * 
+     * @param securityClassCode
+     */
+    public void setSecurityClassCode(String securityClassCode);
+
+    /**
+     * Gets the security transaction code.
+     * 
+     * @return the security transaction code
+     */
+    public String getSecurityTransactionCode();
+
+    /**
+     * Sets the security transaction code.
+     * 
+     * @param securityTransactionCode
+     */
+    public void setSecurityTransactionCode(String securityTransactionCode);
+
+    /**
+     * Gets the security tax lot indicator.
+     * 
+     * @return the security tax lot indicator
+     */
+    public String getSecurityTaxLotIndicator();
+
+    /**
+     * Sets the security tax lot indicator.
+     * 
+     * @param securityTaxLotIndicator
+     */
+    public void setSecurityTaxLotIndicator(String securityTaxLotIndicator);
+
+    /**
+     * Gets the registration code.
+     * 
+     * @return the registration code
+     */
+    public String getRegistrationCode();
+
+    /**
+     * Sets the security registration code.
+     * 
+     * @param securityRegistrationCode
+     */
+    public void setRegistrationCode(String securityRegistrationCode);
 }

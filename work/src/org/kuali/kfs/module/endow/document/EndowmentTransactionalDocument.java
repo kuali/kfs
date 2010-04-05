@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 
 /**
@@ -27,7 +30,7 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      * 
      * @return transaction type code
      */
-    public String getTransactionTypeCode ();
+    public String getTransactionTypeCode();
 
     /**
      * Sets the transaction type code
@@ -41,7 +44,7 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      * 
      * @return transaction sub-type code
      */
-    public String getTransactionSubTypeCode ();
+    public String getTransactionSubTypeCode();
 
     /**
      * Sets the transaction sub-type code
@@ -49,13 +52,13 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      * @param transactionSubTypeCode
      */
     public void setTransactionSubTypeCode(String transactionSubTypeCode);
-    
+
     /**
      * Gets the transaction source type code
      * 
      * @return transaction source type code
      */
-    public String getTransactionSourceTypeCode ();
+    public String getTransactionSourceTypeCode();
 
     /**
      * Sets the transaction source type code

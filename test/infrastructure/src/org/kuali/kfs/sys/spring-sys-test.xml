@@ -58,4 +58,12 @@
 		</property>
 	</bean>	
     
+    <bean id="mockReportWriterService" class="org.kuali.kfs.gl.service.impl.MockReportWriterService" />
+    
+	<bean id="sysMockAutoDisapproveDocumentsService" parent="autoDisapproveService">
+		<property name="autoDisapproveErrorReportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+	</bean>
+    
 </beans>

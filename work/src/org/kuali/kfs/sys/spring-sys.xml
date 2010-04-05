@@ -289,7 +289,12 @@
 		</property>
 	</bean>
 	
-	<bean id="autoDisapproveDocumentsStep" class="org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep" parent="step">
+	<bean id="autoDisapproveDocumentsStep" class="org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="autoDisapproveErrorReportWriterService" />
+			</list>
+		</property>
 		<property name="autoDisapproveDocumentsService">
 			<ref bean="autoDisapproveService" />
 		</property>
@@ -309,7 +314,18 @@
 		 <property name="noteService">
 			<ref bean="noteService" />
 		</property>	
+		<property name="autoDisapproveErrorReportWriterService">
+			<ref bean="autoDisapproveErrorReportWriterService" />
+		</property>
 	</bean>
+	
+	<bean id="autoDisapproveErrorReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/sys"/>
+		<property name="fileNamePrefix" value="autoDisapproveErrors"/>
+        <property name="title" value="YEAR END AUTO DISAPPROVAL JOB ERRORS REPORT"/>
+        <property name="aggregationModeOn" value="false"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
+    </bean>
 	
 	<!-- end core batch jobs -->
 	

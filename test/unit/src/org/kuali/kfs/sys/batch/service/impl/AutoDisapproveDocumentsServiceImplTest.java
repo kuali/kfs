@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -33,7 +31,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.aop.support.AopUtils;
 
@@ -45,6 +46,8 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
     private DateTimeService dateTimeService;
     private String reportsDirectory;
     private PrintStream outputErrorFile_ps;
+    private UnitTestSqlDao unitTestSqlDao;
+    private DocumentService documentService;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -53,54 +56,81 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        autoDisapproveDocumentsService = (AutoDisapproveDocumentsServiceImpl) TestUtils.getUnproxiedService("autoDisapproveService");
+        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+        autoDisapproveDocumentsService = (AutoDisapproveDocumentsServiceImpl) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class); 
         reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) + "/sys";
-        
-        outputErrorFile_ps = openPrintStreamForAutoDisapproveErrorsAndWriteHeader();
-        
     }
 
     /**
-     * This method will open the error file and writes the header information.
+     * This method tests if the YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_RUN_DATE parameter is setup.  If not, accessing it will cause a NPE
      */
-    protected PrintStream openPrintStreamForAutoDisapproveErrorsAndWriteHeader() {
-        LOG.info("openPrintStreamForAutoDisapproveErrorsAndWriteHeader() started.");
+    public final void testCheckIfRunDateParameterExists() {
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE'");
         
-        try {
-            PrintStream printStreamForErrorOutput = new PrintStream(reportsDirectory + File.separator + "UnitTest_sys_autoDisapprove_errs" + GeneralLedgerConstants.BatchFileSystem.TEXT_EXTENSION);
-            printStreamForErrorOutput.printf("Auto Disapproval Process - Errors - Job run date: %s\n", dateTimeService.getCurrentDate().toString());
-            printStreamForErrorOutput.printf("%s\n\n", "------------------------------------------------------------------------------------");
-            return printStreamForErrorOutput;            
-        }         
-        catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            throw new RuntimeException("Can not open Error output fle for AutoDisapprovalStep process: " + e1.getMessage(), e1);
+        if (!systemParameters.isEmpty()) {
+            boolean parameterExists = autoDisapproveDocumentsService.checkIfRunDateParameterExists();
+            assertTrue("YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_RUN_DATE System parameter does not exist.", parameterExists);
         }
     }
     
     /**
-     * This method tests if the system parameters have been setup.  If they have not been setup, accessing them will cause a NPE
+     * This method tests if the YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE parameter is setup.  If not, accessing it will cause a NPE
      */
-    public final void testSystemParametersExist() {
-        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
-        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
-
-        boolean systemParametersExist = autoDisapproveDocumentsStep.systemParametersForAutoDisapproveDocumentsJobExist(outputErrorFile_ps);
-   //     assertTrue("System Parameters for this autoDisapproveDocumentsStep job have not been setup.", systemParametersExist);
+    public final void testCheckIfParentDocumentTypeParameterExists() {
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE'");
+        
+        if (!systemParameters.isEmpty()) {
+            boolean parameterExists = autoDisapproveDocumentsService.checkIfParentDocumentTypeParameterExists();
+            assertTrue("YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE System parameter does not exist.", parameterExists);
+        }
     }
     
     /**
-     * This method will test today's date and compare to that the system parameter date
-     * Today's date will be extended by adding 1 second less than 24 and this will be compared to the returned value
-     * from getDocumentCompareDateParameter() method.
+     * This method tests if the YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE parameter is setup.  If not, accessing it will cause a NPE
      */
-    public final void testGetDocumentCompareDateParameter() {
-        boolean datesEqual = true;
+    public final void testCheckIfDocumentCompareCreateDateParameterExists() {
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE'");
+        
+        if (!systemParameters.isEmpty()) {
+            boolean parameterExists = autoDisapproveDocumentsService.checkIfDocumentCompareCreateDateParameterExists();
+            assertTrue("YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE System parameter does not exist.", parameterExists);        
+       }
+    }    
+    
+    /**
+     * This method tests if the YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter is setup.  If not, accessing it will cause a NPE
+     */
+    public final void testCheckIfDocumentTypesExceptionParameterExists() {
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES'");
+        
+        if (!systemParameters.isEmpty()) {
+            boolean parameterExists = autoDisapproveDocumentsService.checkIfParentDocumentTypeParameterExists();
+            assertTrue("YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES System parameter does not exist.", parameterExists);
+        }
+    }    
+    
+    /**
+     * This method tests if the YEAR_END_AUTO_DISAPPROVE_ANNOTATION parameter is setup.  If not, accessing it will cause a NPE
+     */
+    public final void testCheckIfAnnotationForDisapprovalParameterExists() {
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_ANNOTATION'");
+        
+        if (!systemParameters.isEmpty()) {
+            boolean parameterExists = autoDisapproveDocumentsService.checkIfAnnotationForDisapprovalParameterExists();
+            assertTrue("YEAR_END_AUTO_DISAPPROVE_ANNOTATION System parameter does not exist.", parameterExists);
+        }
+    }    
+    
+    /**
+     * This method prepares today's date and returns the today's date
+     */
+    protected Date getToday() {
         Date compareDate = null;
         
         String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());
+        
         try {
             Date tmpcompareDate = dateTimeService.convertToDate(today);
             Calendar calendar = Calendar.getInstance();
@@ -111,18 +141,72 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
             compareDate = calendar.getTime();
         }
         catch (ParseException pe) {
-            
         }
+        
+        return compareDate;
+    }
+    
+    /**
+     * This method will test today's date and compare to that the system parameter date
+     * Today's date will be extended by adding 1 second less than 24 and this will be compared to the returned value
+     * from getDocumentCompareDateParameter() method.
+     */
+    public final void testGetDocumentCompareDateParameter() {
+        boolean datesEqual = true;
+        
+        Date compareDate = getToday();
+
+        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
+        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
+        
+        if (autoDisapproveDocumentsService.systemParametersForAutoDisapproveDocumentsJobExist()) {
+            // set the parameter to today and then compare to the date retrieved from the method getDocumentCompareDateParameter..
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE, compareDate.toString());
+
+            Date documentCompareDate = autoDisapproveDocumentsService.getDocumentCompareDateParameter();
+            datesEqual = (compareDate.equals(documentCompareDate));
+            assertTrue("The two Dates are not equal.  The getDocumentCompareDateParameter() method did not extend the date by 23 hours, 59 mins and 59 seconds", datesEqual);
+        }
+    }
+    
+    /**
+     * This test method will test if the auto disapproval job can be run by comparing today's date to
+     * the system parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_STEP_RUN_DATE value
+     */
+    public final void testCanAutoDisapproveJobRun() {
+        Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
+        AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
+        
+        if (autoDisapproveDocumentsService.systemParametersForAutoDisapproveDocumentsJobExist()) {
+            // intentionally set the run date to 00/00/00 so the test fails...
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_STEP_RUN_DATE, "00/00/00");
+
+            boolean canJobRun = autoDisapproveDocumentsService.canAutoDisapproveJobRun();
+            assertFalse("The canAutoDisapproveJobRun() method did not fail..", canJobRun);
+            
+            //set the system parameter to today's date.  The test should pass...
+            String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_STEP_RUN_DATE, today);            
+            canJobRun = autoDisapproveDocumentsService.canAutoDisapproveJobRun();
+            assertTrue("The canAutoDisapproveJobRun() method failed because system parameter date does not equal to today's date.", canJobRun);
+        }
+    }
+    
+    /**
+     * This test method will add a document to the table and call the method in impl class 
+     * to see if the document can be retrieve properly.
+     */
+    public final void testAutoDisapproveDocumentsInEnrouteStatus() {
         
         Step step = BatchSpringContext.getStep("autoDisapproveDocumentsStep");
         AutoDisapproveDocumentsStep autoDisapproveDocumentsStep = (AutoDisapproveDocumentsStep) ProxyUtils.getTargetIfProxied(step);
         
-        if (autoDisapproveDocumentsStep.systemParametersForAutoDisapproveDocumentsJobExist(outputErrorFile_ps)) {
-            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE, today);
-
-            Date documentCompareDate = autoDisapproveDocumentsService.getDocumentCompareDateParameter(outputErrorFile_ps);
-            datesEqual = (compareDate.equals(documentCompareDate));
-            assertTrue("The two Dates are not equal.  The getDocumentCompareDateParameter() method did not extend the date by 23 hours, 59 mins and 59 seconds", datesEqual);
+        if (autoDisapproveDocumentsService.systemParametersForAutoDisapproveDocumentsJobExist()) {
+            //set the system parameter to today's date.  The test should pass...
+            String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_STEP_RUN_DATE, today);            
+            boolean success = autoDisapproveDocumentsService.autoDisapproveDocumentsInEnrouteStatus();
+            assertTrue("The auto disproval job did not succeed.", success);
         }
     }
 }

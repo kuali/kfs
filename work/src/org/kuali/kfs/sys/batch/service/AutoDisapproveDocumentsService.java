@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.io.PrintStream;
-
 /**
  * This interface defines the batch job that would be run at the end of the fiscal year to pickup any EDoc that is in 
  * ENROUTE status and cancels it.  A note is made in the document.
@@ -26,5 +24,5 @@ public interface AutoDisapproveDocumentsService {
     /**
      * Auto Disapprove any Documents that are in "ENROUTE" status only.
      */
-    public boolean autoDisapproveDocumentsInEnrouteStatus(PrintStream outputErrorFile_ps);
+    public boolean autoDisapproveDocumentsInEnrouteStatus();
 }

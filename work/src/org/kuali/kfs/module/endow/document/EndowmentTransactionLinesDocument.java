@@ -113,7 +113,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      * @param index
      * @return The source transaction line at the specified index.
      */
-    public EndowmentSourceTransactionLine getSourceTransactionLinee(int index);
+    public EndowmentSourceTransactionLine getSourceTransactionLine(int index);
 
     /**
      * This method sets the list of source transaction lines for this document.
@@ -152,13 +152,15 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     /**
      * @return Name of the document's source transaction lines
      */
-    public String getSourceTransactionLineEntryName();
+    // [Daniela] if we don't provide getSourceTransactionLineClass this method does not make sense
+    // public String getSourceTransactionLineEntryName();
 
 
     /**
      * @return Name of the document's target transaction lines
      */
-    public String getTargetTransactionLineEntryName();
+    // [Daniela] if we don't provide getTargetTransactionLineClass this method does not make sense
+    // public String getTargetTransactionLineEntryName();
 
     // [Bonnie] I'll comment out the following methods for now
 

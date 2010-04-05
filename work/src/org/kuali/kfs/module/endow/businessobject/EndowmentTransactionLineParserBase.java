@@ -15,6 +15,37 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-public abstract class EndowmentTransactionLineParserBase implements EndowmentTransactionLineParser {
+import java.io.InputStream;
+import java.util.List;
+
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+
+public class EndowmentTransactionLineParserBase implements EndowmentTransactionLineParser {
+    // TODO these methods don't do anything for now, added just to allow coding the EndowmentTransactionLinesDocumentBase
+
+    public String getExpectedTransactionLineFormatAsString(Class<? extends EndowmentTransactionLine> transactionLineClass) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String[] getSourceTransactionLineFormat() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String[] getTargetTransactionLineFormat() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List importEndowmentSourceTransactionLines(String fileName, InputStream stream, EndowmentTransactionLinesDocument document) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List importEndowmentTargetTransactionLines(String fileName, InputStream stream, EndowmentTransactionLinesDocument document) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

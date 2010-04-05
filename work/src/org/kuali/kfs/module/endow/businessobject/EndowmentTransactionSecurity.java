@@ -13,57 +13,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document;
+package org.kuali.kfs.module.endow.businessobject;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
+public class EndowmentTransactionSecurity extends PersistableBusinessObjectBase {
 
-    private EndowmentTransactionSecurity transactionSecurity;
+    private String securityId;
+    private String securityClassCode;
+    private String securityTaxLotIndicator;
+    private String securityTransactionCode;
+    private String registrationCode;
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
     public String getRegistrationCode() {
-        return transactionSecurity.getRegistrationCode();
+        return registrationCode;
     }
 
     public String getSecurityClassCode() {
-        return transactionSecurity.getSecurityClassCode();
+        return securityClassCode;
     }
 
     public String getSecurityId() {
-        return transactionSecurity.getSecurityId();
+        return securityId;
     }
 
     public String getSecurityTaxLotIndicator() {
-        return transactionSecurity.getSecurityTaxLotIndicator();
+        return securityTaxLotIndicator;
     }
 
     public String getSecurityTransactionCode() {
-        return transactionSecurity.getSecurityTransactionCode();
+        return securityTransactionCode;
     }
 
     public void setRegistrationCode(String registrationCode) {
-        transactionSecurity.setRegistrationCode(registrationCode);
+        this.registrationCode = registrationCode;
 
     }
 
     public void setSecurityClassCode(String securityClassCode) {
-        transactionSecurity.setSecurityClassCode(securityClassCode);
+        this.securityClassCode = securityClassCode;
 
     }
 
     public void setSecurityId(String securityId) {
-        transactionSecurity.setSecurityId(securityId);
+        this.securityId = securityId;
 
     }
 
     public void setSecurityTaxLotIndicator(String securityTaxLotIndicator) {
-        transactionSecurity.setSecurityTaxLotIndicator(securityTaxLotIndicator);
+        this.securityTaxLotIndicator = securityTaxLotIndicator;
 
     }
 
     public void setSecurityTransactionCode(String securityTransactionCode) {
-        transactionSecurity.setSecurityTransactionCode(securityTransactionCode);
+        this.securityTransactionCode = securityTransactionCode;
 
     }
+
+
 }

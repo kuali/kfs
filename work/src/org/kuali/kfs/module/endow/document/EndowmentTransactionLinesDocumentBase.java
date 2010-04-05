@@ -18,6 +18,8 @@ package org.kuali.kfs.module.endow.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.sys.KFSConstants;
@@ -80,6 +82,60 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
     public void setNextTargetLineNumber(Integer nextTargetLineNumber) {
         this.nextTargetLineNumber = nextTargetLineNumber;
+    }
+
+
+    public void addSourceTransactionLine(EndowmentSourceTransactionLine line) {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    public void addTargetTransactionLine(EndowmentTargetTransactionLine line) {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    public KualiDecimal getSourceIncomeTotal() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public KualiDecimal getSourcePrincipalTotal() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public EndowmentSourceTransactionLine getSourceTransactionLine(int index) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public KualiDecimal getTargetIncomeTotal() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public KualiDecimal getTargetPrincipalTotal() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public EndowmentTargetTransactionLine getTargetTransactionLine(int index) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public EndowmentTransactionLineParser getTransactionLineParser() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

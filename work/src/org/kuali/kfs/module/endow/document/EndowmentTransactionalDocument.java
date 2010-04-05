@@ -64,4 +64,18 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      */
     public void setTransactionSourceTypeCode(String transactionSourceTypeCode);
 
+    /**
+     * Gets the transaction posted flag.
+     * 
+     * @return true of false depending on whether the transactions on this document have been posted or not
+     */
+    public boolean isTransactionPosted();
+
+    /**
+     * Sets the transaction posted flag.
+     * 
+     * @param transactionPosted the value to be set
+     */
+    public void setTransactionPosted(boolean transactionPosted);
+
 }

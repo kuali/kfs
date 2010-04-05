@@ -31,7 +31,7 @@
 	
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
      
-    <endow:assetIncreaseDetails
+    <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.AssetIncreaseDocument.attributes}"
          readOnly="${readOnly}" />
         

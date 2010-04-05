@@ -39,6 +39,19 @@
 				</td>
 			</tr>
 			
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.transactionSourceTypeCode}"
+					horizontal="true" width="50%" />
+
+				<td class="datacell-nowrap">
+					<kul:htmlControlAttribute
+						attributeEntry="${documentAttributes.transactionSourceTypeCode}"
+						property="document.transactionSourceTypeCode"
+						readOnly="true"/>
+				</td>
+			</tr>
+			
 		</table>
 	</div>
 </kul:tab>

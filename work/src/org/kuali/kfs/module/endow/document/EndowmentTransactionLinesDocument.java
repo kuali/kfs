@@ -64,7 +64,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     /**
      * @return TransactionLineParser instance appropriate for importing TransactionLines for this document type
      */
-    public EndowmentTransactionLineParser getTraRnsactionLineParser();
+    public EndowmentTransactionLineParser getTransactionLineParser();
     
 
     /**

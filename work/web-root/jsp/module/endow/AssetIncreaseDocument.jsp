@@ -34,6 +34,12 @@
     <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.AssetIncreaseDocument.attributes}"
          readOnly="${readOnly}" />
+         
+    <endow:endowmentTransactionalLines isSource="true"
+         readOnly="${readOnly}" />       
+         
+    <endow:endowmentTransactionalDocumentDetails isSource="false"
+         readOnly="${readOnly}" />              
         
 	<kul:notes /> 
 	

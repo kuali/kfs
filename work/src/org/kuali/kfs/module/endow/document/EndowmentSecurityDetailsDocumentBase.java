@@ -20,50 +20,44 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
 
-    private EndowmentTransactionSecurity transactionSecurity;
+    private EndowmentTransactionSecurity fromTransactionSecurity;
+    private EndowmentTransactionSecurity toTransactionSecurity;
 
-    public String getRegistrationCode() {
-        return transactionSecurity.getRegistrationCode();
+    /**
+     * Gets the fromTransactionSecurity attribute.
+     * 
+     * @return Returns the fromTransactionSecurity.
+     */
+    public EndowmentTransactionSecurity getFromTransactionSecurity() {
+        return fromTransactionSecurity;
     }
 
-    public String getSecurityClassCode() {
-        return transactionSecurity.getSecurityClassCode();
+    /**
+     * Sets the fromTransactionSecurity attribute value.
+     * 
+     * @param fromTransactionSecurity The fromTransactionSecurity to set.
+     */
+    public void setFromTransactionSecurity(EndowmentTransactionSecurity fromTransactionSecurity) {
+        this.fromTransactionSecurity = fromTransactionSecurity;
     }
 
-    public String getSecurityId() {
-        return transactionSecurity.getSecurityId();
+    /**
+     * Gets the toTransactionSecurity attribute.
+     * 
+     * @return Returns the toTransactionSecurity.
+     */
+    public EndowmentTransactionSecurity getToTransactionSecurity() {
+        return toTransactionSecurity;
     }
 
-    public String getSecurityTaxLotIndicator() {
-        return transactionSecurity.getSecurityTaxLotIndicator();
+    /**
+     * Sets the toTransactionSecurity attribute value.
+     * 
+     * @param toTransactionSecurity The toTransactionSecurity to set.
+     */
+    public void setToTransactionSecurity(EndowmentTransactionSecurity toTransactionSecurity) {
+        this.toTransactionSecurity = toTransactionSecurity;
     }
 
-    public String getSecurityTransactionCode() {
-        return transactionSecurity.getSecurityTransactionCode();
-    }
 
-    public void setRegistrationCode(String registrationCode) {
-        transactionSecurity.setRegistrationCode(registrationCode);
-
-    }
-
-    public void setSecurityClassCode(String securityClassCode) {
-        transactionSecurity.setSecurityClassCode(securityClassCode);
-
-    }
-
-    public void setSecurityId(String securityId) {
-        transactionSecurity.setSecurityId(securityId);
-
-    }
-
-    public void setSecurityTaxLotIndicator(String securityTaxLotIndicator) {
-        transactionSecurity.setSecurityTaxLotIndicator(securityTaxLotIndicator);
-
-    }
-
-    public void setSecurityTransactionCode(String securityTransactionCode) {
-        transactionSecurity.setSecurityTransactionCode(securityTransactionCode);
-
-    }
 }

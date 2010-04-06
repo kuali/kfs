@@ -24,6 +24,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
 
@@ -39,8 +40,8 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         super();
         this.nextSourceLineNumber = new Integer(1);
         this.nextTargetLineNumber = new Integer(1);
-        sourceTransactionLines = new ArrayList<EndowmentTransactionLine>();
-        targetTransactionLines = new ArrayList<EndowmentTransactionLine>();
+        sourceTransactionLines = new TypedArrayList(EndowmentTransactionLine.class);
+        targetTransactionLines = new TypedArrayList(EndowmentTransactionLine.class);
     }
 
     public List<EndowmentTransactionLine> getSourceTransactionLines() {

@@ -22,60 +22,25 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public abstract class EndowmentTransactionSecurity extends PersistableBusinessObjectBase {
 
     private String securityId;
-    private String securityClassCode;
-    private String securityTaxLotIndicator;
-    private String securityTransactionCode;
     private String registrationCode;
     private String securityLineTypeCode;
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public String getRegistrationCode() {
         return registrationCode;
-    }
-
-    public String getSecurityClassCode() {
-        return securityClassCode;
     }
 
     public String getSecurityId() {
         return securityId;
     }
 
-    public String getSecurityTaxLotIndicator() {
-        return securityTaxLotIndicator;
-    }
-
-    public String getSecurityTransactionCode() {
-        return securityTransactionCode;
-    }
 
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
 
     }
 
-    public void setSecurityClassCode(String securityClassCode) {
-        this.securityClassCode = securityClassCode;
-
-    }
-
     public void setSecurityId(String securityId) {
         this.securityId = securityId;
-
-    }
-
-    public void setSecurityTaxLotIndicator(String securityTaxLotIndicator) {
-        this.securityTaxLotIndicator = securityTaxLotIndicator;
-
-    }
-
-    public void setSecurityTransactionCode(String securityTransactionCode) {
-        this.securityTransactionCode = securityTransactionCode;
 
     }
 
@@ -95,6 +60,12 @@ public abstract class EndowmentTransactionSecurity extends PersistableBusinessOb
      */
     public void setSecurityLineTypeCode(String securityLineTypeCode) {
         this.securityLineTypeCode = securityLineTypeCode;
+    }
+    
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 

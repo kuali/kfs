@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public class AssetIncreaseDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
+    private EndowmentTransactionLine newSourceTransactionLine;
+    private EndowmentTransactionLine newTargetTransactionLine;
 
     public AssetIncreaseDocumentForm() {
         super();
@@ -38,5 +40,42 @@ public class AssetIncreaseDocumentForm extends FinancialSystemTransactionalDocum
     public AssetIncreaseDocument getCashControlDocument() {
         return (AssetIncreaseDocument) getDocument();
     }
+
+    /**
+     * Gets the newSourceTransactionLine attribute.
+     * 
+     * @return Returns the newSourceTransactionLine.
+     */
+    public EndowmentTransactionLine getNewSourceTransactionLine() {
+        return newSourceTransactionLine;
+    }
+
+    /**
+     * Sets the newSourceTransactionLine attribute value.
+     * 
+     * @param newSourceTransactionLine The newSourceTransactionLine to set.
+     */
+    public void setNewSourceTransactionLine(EndowmentTransactionLine newSourceTransactionLine) {
+        this.newSourceTransactionLine = newSourceTransactionLine;
+    }
+
+    /**
+     * Gets the newTargetTransactionLine attribute.
+     * 
+     * @return Returns the newTargetTransactionLine.
+     */
+    public EndowmentTransactionLine getNewTargetTransactionLine() {
+        return newTargetTransactionLine;
+    }
+
+    /**
+     * Sets the newTargetTransactionLine attribute value.
+     * 
+     * @param newTargetTransactionLine The newTargetTransactionLine to set.
+     */
+    public void setNewTargetTransactionLine(EndowmentTransactionLine newTargetTransactionLine) {
+        this.newTargetTransactionLine = newTargetTransactionLine;
+    }
+
 
 }

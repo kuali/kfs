@@ -1529,6 +1529,16 @@
 	<field-descriptor name="transactionAmount" column="TRAN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="corpusIndicator" column="CORPUS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="linePosted" column="LN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	
+	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
+	</reference-descriptor>	
+    <reference-descriptor name="etranObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="etranCode" />
+	</reference-descriptor>	
+    <reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionIncomePrincipalIndicatorCode" />
+	</reference-descriptor>		
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" table="END_TRAN_LINE_T">
@@ -1544,6 +1554,16 @@
 	<field-descriptor name="transactionAmount" column="TRAN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="corpusIndicator" column="CORPUS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="linePosted" column="LN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	
+	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
+	</reference-descriptor>	
+    <reference-descriptor name="etranObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="etranCode" />
+	</reference-descriptor>	
+    <reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionIncomePrincipalIndicatorCode" />
+	</reference-descriptor>			
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.document.AssetIncreaseDocument" table="END_TRAN_DOC_T">

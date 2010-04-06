@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public interface EndowmentTransactionLine extends PersistableBusinessObject {
 
@@ -49,6 +50,34 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @return Returns the EndowmentTransactionCode object.
      */
     public EndowmentTransactionCode getEtranCodeObj();
+
+    /**
+     * Gets the transactionLineTypeCode.
+     * 
+     * @return transactionLineTypeCode
+     */
+    public String getTransactionLineTypeCode();
+    
+    /**
+     *Sets the transactionLineTypeCode.
+     * 
+     * @param transactionLineTypeCode
+     */
+    public void setTransactionLineTypeCode(String transactionLineTypeCode);
+
+    /**
+     * Gets the transactionLineNumber.
+     * 
+     * @return transactionLineNumber
+     */
+    public KualiInteger getTransactionLineNumber();
+
+    /**
+     * Sets the transactionLineNumber.
+     * 
+     * @param transactionLineNumber
+     */
+    public void setTransactionLineNumber(KualiInteger transactionLineNumber);
 
     /**
      * @return Returns the transaction line description.

@@ -19,6 +19,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants {
+    
+    public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
 
     public static class SecurityReportingGroups {
         public static final String CASH_EQUIVALENTS = "CSHEQ";

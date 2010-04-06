@@ -25,6 +25,16 @@ public abstract class EndowmentTransactionSecurity extends PersistableBusinessOb
     private String registrationCode;
     private String securityLineTypeCode;
 
+    private Security security;
+
+    public Security getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(Security security) {
+        this.security = security;
+    }
+
     public String getRegistrationCode() {
         return registrationCode;
     }
@@ -61,7 +71,7 @@ public abstract class EndowmentTransactionSecurity extends PersistableBusinessOb
     public void setSecurityLineTypeCode(String securityLineTypeCode) {
         this.securityLineTypeCode = securityLineTypeCode;
     }
-    
+
     @Override
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub

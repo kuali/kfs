@@ -24,36 +24,28 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     private EndowmentTransactionSecurity toTransactionSecurity;
 
     /**
-     * Gets the fromTransactionSecurity attribute.
-     * 
-     * @return Returns the fromTransactionSecurity.
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getFromTransactionSecurity()
      */
     public EndowmentTransactionSecurity getFromTransactionSecurity() {
         return fromTransactionSecurity;
     }
 
     /**
-     * Sets the fromTransactionSecurity attribute value.
-     * 
-     * @param fromTransactionSecurity The fromTransactionSecurity to set.
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setFromTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
      */
     public void setFromTransactionSecurity(EndowmentTransactionSecurity fromTransactionSecurity) {
         this.fromTransactionSecurity = fromTransactionSecurity;
     }
 
     /**
-     * Gets the toTransactionSecurity attribute.
-     * 
-     * @return Returns the toTransactionSecurity.
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getToTransactionSecurity()
      */
     public EndowmentTransactionSecurity getToTransactionSecurity() {
         return toTransactionSecurity;
     }
 
     /**
-     * Sets the toTransactionSecurity attribute value.
-     * 
-     * @param toTransactionSecurity The toTransactionSecurity to set.
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setToTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
      */
     public void setToTransactionSecurity(EndowmentTransactionSecurity toTransactionSecurity) {
         this.toTransactionSecurity = toTransactionSecurity;

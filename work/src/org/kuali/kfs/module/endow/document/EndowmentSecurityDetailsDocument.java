@@ -15,75 +15,35 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+
 public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLinesDocument {
+    /**
+     * Gets the fromTransactionSecurity attribute.
+     * 
+     * @return Returns the fromTransactionSecurity.
+     */
+    public EndowmentTransactionSecurity getFromTransactionSecurity();
 
     /**
-     * Gets the security Id.
+     * Sets the fromTransactionSecurity attribute value.
      * 
-     * @return the security id
+     * @param fromTransactionSecurity The fromTransactionSecurity to set.
      */
-    public String getSecurityId();
+    public void setFromTransactionSecurity(EndowmentTransactionSecurity fromTransactionSecurity);
 
     /**
-     * Sets the security Id.
+     * Gets the toTransactionSecurity attribute.
      * 
-     * @param securityId
+     * @return Returns the toTransactionSecurity.
      */
-    public void setSecurityId(String securityId);
+    public EndowmentTransactionSecurity getToTransactionSecurity();
 
     /**
-     * Gets the security class code.
+     * Sets the toTransactionSecurity attribute value.
      * 
-     * @return the security class code
+     * @param toTransactionSecurity The toTransactionSecurity to set.
      */
-    public String getSecurityClassCode();
+    public void setToTransactionSecurity(EndowmentTransactionSecurity toTransactionSecurity);
 
-    /**
-     * Sets the security class code.
-     * 
-     * @param securityClassCode
-     */
-    public void setSecurityClassCode(String securityClassCode);
-
-    /**
-     * Gets the security transaction code.
-     * 
-     * @return the security transaction code
-     */
-    public String getSecurityTransactionCode();
-
-    /**
-     * Sets the security transaction code.
-     * 
-     * @param securityTransactionCode
-     */
-    public void setSecurityTransactionCode(String securityTransactionCode);
-
-    /**
-     * Gets the security tax lot indicator.
-     * 
-     * @return the security tax lot indicator
-     */
-    public String getSecurityTaxLotIndicator();
-
-    /**
-     * Sets the security tax lot indicator.
-     * 
-     * @param securityTaxLotIndicator
-     */
-    public void setSecurityTaxLotIndicator(String securityTaxLotIndicator);
-
-    /**
-     * Gets the registration code.
-     * 
-     * @return the registration code
-     */
-    public String getRegistrationCode();
-
-    /**
-     * Sets the security registration code.
-     * 
-     * @param securityRegistrationCode
-     */
-    public void setRegistrationCode(String securityRegistrationCode);
 }

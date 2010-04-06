@@ -269,7 +269,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                             }
                             catch (Exception e) {
                                 LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
-                                String message = ("Exception encountered trying to auto disapprove the document: ").concat(documentHeaderId).concat(" - Message: ").concat(e.getMessage());
+                                String message = ("Exception encountered trying to auto disapprove the document: ").concat(documentHeaderId);                                    
                                 autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message); 
                             }
                         }

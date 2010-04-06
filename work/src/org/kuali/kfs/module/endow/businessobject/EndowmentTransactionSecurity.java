@@ -19,13 +19,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class EndowmentTransactionSecurity extends PersistableBusinessObjectBase {
+public abstract class EndowmentTransactionSecurity extends PersistableBusinessObjectBase {
 
     private String securityId;
     private String securityClassCode;
     private String securityTaxLotIndicator;
     private String securityTransactionCode;
     private String registrationCode;
+    private String securityLineTypeCode;
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -76,6 +77,24 @@ public class EndowmentTransactionSecurity extends PersistableBusinessObjectBase 
     public void setSecurityTransactionCode(String securityTransactionCode) {
         this.securityTransactionCode = securityTransactionCode;
 
+    }
+
+    /**
+     * Gets the securityLineTypeCode attribute.
+     * 
+     * @return Returns the securityLineTypeCode.
+     */
+    public String getSecurityLineTypeCode() {
+        return securityLineTypeCode;
+    }
+
+    /**
+     * Sets the securityLineTypeCode attribute value.
+     * 
+     * @param securityLineTypeCode The securityLineTypeCode to set.
+     */
+    public void setSecurityLineTypeCode(String securityLineTypeCode) {
+        this.securityLineTypeCode = securityLineTypeCode;
     }
 
 

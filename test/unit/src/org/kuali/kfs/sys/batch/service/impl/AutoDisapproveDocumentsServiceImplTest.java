@@ -161,8 +161,8 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
         
         if (autoDisapproveDocumentsService.systemParametersForAutoDisapproveDocumentsJobExist()) {
             // set the parameter to today and then compare to the date retrieved from the method getDocumentCompareDateParameter..
-            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE, compareDate.toString());
-
+            String today = dateTimeService.toDateString(dateTimeService.getCurrentDate());
+            TestUtils.setSystemParameter(AopUtils.getTargetClass(autoDisapproveDocumentsStep), KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE, today);
             Date documentCompareDate = autoDisapproveDocumentsService.getDocumentCompareDateParameter();
             datesEqual = (compareDate.equals(documentCompareDate));
             assertTrue("The two Dates are not equal.  The getDocumentCompareDateParameter() method did not extend the date by 23 hours, 59 mins and 59 seconds", datesEqual);

@@ -68,18 +68,14 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
     /**
-     * Gets the documentNumber.
-     * 
-     * @return documentNumber
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getDocumentNumber()
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * Sets the documentNumber.
-     * 
-     * @param documentNumber
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setDocumentNumber(java.lang.String)
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;

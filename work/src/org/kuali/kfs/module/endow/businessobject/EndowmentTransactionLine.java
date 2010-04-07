@@ -22,35 +22,19 @@ import org.kuali.rice.kns.util.KualiInteger;
 public interface EndowmentTransactionLine extends PersistableBusinessObject {
 
     /**
-     * @return Returns the kemid.
+     * Get the documentNumber
+     * 
+     * @return documentNumber
      */
-    public String getKemid();
-
+    public String getDocumentNumber();
+    
     /**
-     * @param kemid The kemid to set.
+     * Set the documentNumber
+     * 
+     * @param documentNumber
      */
-    public void setKemid(String kemid);
-
-    /**
-     * @return Returns the kemid object.
-     */
-    public KEMID getKemidObj();
-
-    /**
-     * @return Returns the endowment transaction type code.
-     */
-    public String getEtranCode();
-
-    /**
-     * @param endowmentTransactionTypeCode The endowment transaction type code to set.
-     */
-    public void setEtranCode(String endowmentTransactionTypeCode);
-
-    /**
-     * @return Returns the EndowmentTransactionCode object.
-     */
-    public EndowmentTransactionCode getEtranCodeObj();
-
+    public void setDocumentNumber (String documentNumber);
+    
     /**
      * Gets the transactionLineTypeCode.
      * 
@@ -80,6 +64,46 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
     public void setTransactionLineNumber(KualiInteger transactionLineNumber);
 
     /**
+     * @return Returns the kemid.
+     */
+    public String getKemid();
+
+    /**
+     * @param kemid The kemid to set.
+     */
+    public void setKemid(String kemid);
+
+    /**
+     * @return Returns the kemid object.
+     */
+    public KEMID getKemidObj();
+    
+    /**
+     * @param kemidObj The kemid object to set.
+     */
+    public void setKemidObj(KEMID kemidObj);
+    
+    /**
+     * @return Returns the endowment transaction type code.
+     */
+    public String getEtranCode();
+
+    /**
+     * @param endowmentTransactionTypeCode The endowment transaction type code to set.
+     */
+    public void setEtranCode(String endowmentTransactionTypeCode);
+
+    /**
+     * @return Returns the EndowmentTransactionCode object.
+     */
+    public EndowmentTransactionCode getEtranCodeObj();
+    
+    /**
+     * @param etranCodeObj the EndowmentTransactionCode object to set.
+     */
+    public void setEtranCodeObj(EndowmentTransactionCode etranCodeObj);
+
+    /**
      * @return Returns the transaction line description.
      */
     public String getTransactionLineDescription();
@@ -92,12 +116,12 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
     /**
      * @return Returns the income/principal indicator code.
      */
-    public String getTransactionIncomePrincipalIndicatorCode();
+    public String getTransactionIPIndicatorCode();
 
     /**
      * @param ipIndicator The income/principal indicator code to set.
      */
-    public void setTransactionIncomePrincipalIndicatorCode(String ipIndicator);
+    public void setTransactionIPIndicatorCode(String ipIndicator);
 
     /**
      * @return Returns the income/principal indicator.
@@ -107,6 +131,7 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
     /**
      * @param incomePrincipalIndicator The income/principal indicator to set.
      */
+    //Do we need this?
     public void setIncomePrincipalIndicator(IncomePrincipalIndicator incomePrincipalIndicator);
 
     /**

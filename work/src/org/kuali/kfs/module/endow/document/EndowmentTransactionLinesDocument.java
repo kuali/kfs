@@ -26,7 +26,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface EndowmentTransactionLinesDocument extends EndowmentTransactionalDocument {
 
-    // Question from Bonnie: do we need this? it seems that all titles in the existing spec are same -- Transaction Lines
     /**
      * This method is used to return the title that a transactional document should give to it's source transaction line section.
      * 
@@ -149,36 +148,5 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      */
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines);
 
-    /**
-     * @return Name of the document's source transaction lines
-     */
-    // [Daniela] if we don't provide getSourceTransactionLineClass this method does not make sense
-    // public String getSourceTransactionLineEntryName();
-
-
-    /**
-     * @return Name of the document's target transaction lines
-     */
-    // [Daniela] if we don't provide getTargetTransactionLineClass this method does not make sense
-    // public String getTargetTransactionLineEntryName();
-
-    // [Bonnie] I'll comment out the following methods for now
-
-    /*
-     * @return Class of the document's source transaction lines
-     */
-    // public Class getSourceTransactionLineClass();
-
-
-    /*
-     * @return Class of the document's target transaction lines
-     */
-    // public Class getTargetTransactionLineClass();
-
-
-    /**
-     * This method returns the Class to use for TransactionLineValuesAllowedValidation.
-     */
-    // public Class<? extends EndowmentTransactionLinesDocument> getDocumentClassForTransactionLineValueAllowedValidation();
-
+    
 }

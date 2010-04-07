@@ -485,4 +485,12 @@ public class EndowPropertyConstants {
     public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName" ; 
     public static final String TICKLER_LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
 
+    //Transaction Line
+    public static final String TRANSACTION_LINE_DOCUMENT_NUMBER = "documentNumber";
+    public static final String TRANSACTION_LINE_TYPE_CODE = "transactionLineTypeCode";
+    public static final String TRANSACTION_LINE_NUMBER = "transactionLineNumber";
+    
+    //Transaction Document
+    public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
+    public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";
 }

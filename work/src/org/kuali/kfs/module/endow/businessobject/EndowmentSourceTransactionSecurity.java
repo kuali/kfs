@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-public class EndowmentSourceTransactionSecurity extends EndowmentTransactionSecurity {
+public class EndowmentSourceTransactionSecurity extends EndowmentTransactionSecurityBase {
     
     public EndowmentSourceTransactionSecurity() {
         super();

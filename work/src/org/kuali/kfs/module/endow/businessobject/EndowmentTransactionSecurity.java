@@ -15,68 +15,78 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.LinkedHashMap;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-public abstract class EndowmentTransactionSecurity extends PersistableBusinessObjectBase {
-
-    private String securityId;
-    private String registrationCode;
-    private String securityLineTypeCode;
-
-    private Security security;
-
-    public Security getSecurity() {
-        return security;
-    }
-
-    public void setSecurity(Security security) {
-        this.security = security;
-    }
-
-    public String getRegistrationCode() {
-        return registrationCode;
-    }
-
-    public String getSecurityId() {
-        return securityId;
-    }
-
-
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
-
-    }
-
-    public void setSecurityId(String securityId) {
-        this.securityId = securityId;
-
-    }
+public interface EndowmentTransactionSecurity extends PersistableBusinessObject {
 
     /**
-     * Gets the securityLineTypeCode attribute.
+     * Get the documentNumber
      * 
-     * @return Returns the securityLineTypeCode.
+     * @return documentNumber
      */
-    public String getSecurityLineTypeCode() {
-        return securityLineTypeCode;
-    }
+    public String getDocumentNumber();
+    
+    /**
+     * Set the documentNumber
+     * 
+     * @param documentNumber
+     */
+    public void setDocumentNumber (String documentNumber);
+    
+    /**
+     * Gets the securityLineTypeCode.
+     * 
+     * @return securityLineTypeCode
+     */
+    public String getSecurityLineTypeCode();
+    
+    /**
+     *Sets the securityLineTypeCode.
+     * 
+     * @param securityLineTypeCode
+     */
+    public void setSecurityLineTypeCode(String securityLineTypeCode);
+        
+    /**
+     * @return Returns the securityID.
+     */
+    public String getSecurityID();
 
     /**
-     * Sets the securityLineTypeCode attribute value.
-     * 
-     * @param securityLineTypeCode The securityLineTypeCode to set.
+     * @param securityID The securityID to set.
      */
-    public void setSecurityLineTypeCode(String securityLineTypeCode) {
-        this.securityLineTypeCode = securityLineTypeCode;
-    }
+    public void setSecurityID(String securityID);
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    /**
+     * @return Returns the security object.
+     */
+    public Security getSecurity();    
+    
+    /**
+     * @param security The security object to set.
+     */
+    public void setSecurity(Security security);
+        
+    /**
+     * @return Returns the registrationCode.
+     */
+    public String getRegistrationCode();
 
+    /**
+     * @param registrationCode The registrationCode to set.
+     */
+    public void setRegistrationCode(String registrationCode);
+
+    /**
+     * @return Returns the registrationCode object.
+     */
+    public RegistrationCode getRegistrationCodeObj();    
+    
+    /**
+     * @param registrationCodeObj The registrationCode object to set.
+     */
+    public void setRegistrationCodeObj(RegistrationCode registrationCodeObj);
+    
 
 }
+

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -32,7 +33,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     private String kemid;
     private String etranCode;
     private String transactionLineDescription;
-    private String transactionIncomePrincipalIndicatorCode;
+    private String transactionIPIndicatorCode;
     private KualiDecimal transactionAmount;
     private boolean corpusIndicator;
     private KualiDecimal transactionUnits;
@@ -52,6 +53,18 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
         kemidObj = new KEMID();
         etranCodeObj = new EndowmentTransactionCode();
         incomePrincipalIndicator = new IncomePrincipalIndicator();
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_DOCUMENT_NUMBER, this.documentNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_TYPE_CODE, this.transactionLineTypeCode);
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_NUMBER, this.transactionLineNumber);
+        return m;
     }
 
     /**
@@ -202,24 +215,17 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getTransactionIncomePrincipalIndicatorCode()
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getTransactionIPIndicatorCode()
      */
-    public String getTransactionIncomePrincipalIndicatorCode() {
-        return transactionIncomePrincipalIndicatorCode;
+    public String getTransactionIPIndicatorCode() {
+        return transactionIPIndicatorCode;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionIncomePrincipalIndicatorCode(java.lang.String)
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionIPIndicatorCode(java.lang.String)
      */
-    public void setTransactionIncomePrincipalIndicatorCode(String transactionIncomePrincipalIndicatorCode) {
-        this.transactionIncomePrincipalIndicatorCode = transactionIncomePrincipalIndicatorCode;
-    }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+    public void setTransactionIPIndicatorCode(String transactionIPIndicatorCode) {
+        this.transactionIPIndicatorCode = transactionIPIndicatorCode;
     }
 
     /**
@@ -235,23 +241,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public void setIncomePrincipalIndicator(IncomePrincipalIndicator incomePrincipalIndicator) {
         this.incomePrincipalIndicator = incomePrincipalIndicator;
     }
-
-    /**
-     * This method...
-     * @param kemidObj
-     */
-    public void setKemidObj(KEMID kemidObj) {
-        this.kemidObj = kemidObj;
-    }
-
-    /**
-     * This method...
-     * @param etranCodeObj
-     */
-    public void setEtranCodeObj(EndowmentTransactionCode etranCodeObj) {
-        this.etranCodeObj = etranCodeObj;
-    }
-
+    
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getKemidObj()
      */
@@ -260,11 +250,24 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setKemidObj(org.kuali.kfs.module.endow.businessobject.KEMID)
+     */
+    public void setKemidObj(KEMID kemidObj) {
+        this.kemidObj = kemidObj;
+    }
+
+    /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getEtranCodeObj()
      */
     public EndowmentTransactionCode getEtranCodeObj() {
         return etranCodeObj;
     }
-
+    
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setEtranCodeObj(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode)
+     */
+    public void setEtranCodeObj(EndowmentTransactionCode etranCodeObj) {
+        this.etranCodeObj = etranCodeObj;
+    }
 
 }

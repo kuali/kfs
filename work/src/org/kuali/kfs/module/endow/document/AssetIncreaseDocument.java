@@ -23,7 +23,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
-import org.kuali.kfs.module.endow.businessobject.TaxLotLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;

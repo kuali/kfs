@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.TaxLotLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 
 public interface EndowmentTaxLotLinesDocument extends EndowmentSecurityDetailsDocument {
 
@@ -25,12 +25,12 @@ public interface EndowmentTaxLotLinesDocument extends EndowmentSecurityDetailsDo
      * Gets the tax lot lines
      * @return
      */
-    public List<TaxLotLine> getTaxLotLines();
+    public List<EndowmentTransactionTaxLotLine> getTaxLotLines();
 
     /**
      * Sets the tax lot lines
      * @param taxLotLines
      */
-    public void setTaxLotLines(List<TaxLotLine> taxLotLines);
+    public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines);
 
 }

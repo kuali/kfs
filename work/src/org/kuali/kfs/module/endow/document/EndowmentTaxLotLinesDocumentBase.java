@@ -19,25 +19,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
-import org.kuali.kfs.module.endow.businessobject.TaxLotLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument {
 
 
-    private List<TaxLotLine> taxLotLines;
+    private List<EndowmentTransactionTaxLotLine> taxLotLines;
 
-    public List<TaxLotLine> getTaxLotLines() {
+    public List<EndowmentTransactionTaxLotLine> getTaxLotLines() {
         return taxLotLines;
     }
 
-    public void setTaxLotLines(List<TaxLotLine> taxLotLines) {
+    public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines) {
         this.taxLotLines = taxLotLines;
     }
 
     public EndowmentTaxLotLinesDocumentBase() {
         super();
-        taxLotLines = new ArrayList<TaxLotLine>();
+        taxLotLines = new ArrayList<EndowmentTransactionTaxLotLine>();
     }
 
 }

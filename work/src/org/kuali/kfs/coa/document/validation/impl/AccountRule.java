@@ -39,11 +39,13 @@ import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -154,6 +156,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkFundGroup(document);
         success &= checkSubFundGroup(document);
         success &= checkIncomeStreamAccountRule();
+        success &= checkUniqueAccountNumber(document);
         
         return success;
     }
@@ -1080,6 +1083,32 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * This method checks to see if account is allowed to cross chart; 
+     * and if not makes sure that the account number is unique in the whole system. 
+     * This checking is only needed when adding a new account, 
+     * since users are not allowed to change account numbers on editing.
+     * 
+     * @param maintenanceDocument
+     * @return false on account-cross-chart rule violation
+     */
+    protected boolean checkUniqueAccountNumber(MaintenanceDocument maintenanceDocument) {
+        boolean success = true;
+        String accountNumber = newAccount.getAccountNumber();
+        
+        if (maintenanceDocument.isNew() && // if adding a new account
+                // while account is not allowed to cross chart 
+                !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND) &&
+                // and with an account number that already exists
+                !accountService.getAccountsForAccountNumber(accountNumber).isEmpty()) {
+            // report error
+            success = false;
+            putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE, accountNumber);            
+        }
+        
+        return success;
+    }
+    
     /**
      * This method sets the generalLedgerPendingEntryService
      * 

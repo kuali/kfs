@@ -123,6 +123,7 @@ public class KFSKeyConstants {
 
     // Account Maintenance error messages
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED = "error.document.accountMaintenance.accountNumberNotAllowed";
+    public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE = "error.document.accountMaintenance.accountNumberNotUnique";
     public static final String ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT = "error.document.accountMaintenance.onlySupervisorsCanEditClosedAccounts";
     public static final String ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ = "error.document.accountMaintenance.restrictedStatusDateRequired";
     public static final String ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE = "error.document.accountMaintenance.reportsToAccountRequiredIfFringeBenefitsFalse";

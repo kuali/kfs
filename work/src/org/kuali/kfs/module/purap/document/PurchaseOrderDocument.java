@@ -408,6 +408,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         List managedLists = super.buildListOfDeletionAwareLists();
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchaseOrderVendorQuotes());
+            managedLists.add(this.getGeneralLedgerPendingEntries());
         }
         return managedLists;
     }

@@ -8,11 +8,11 @@
 
   <bean id="EndowmentSourceTransactionSecurity-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" />
-    <property name="titleAttribute" value="securityId" />
+    <property name="titleAttribute" value="securityID" />
     <property name="objectLabel" value="Transaction Security" />
     <property name="attributes" >
       <list>
-        <ref bean="EndowmentSourceTransactionSecurity-securityId" />
+        <ref bean="EndowmentSourceTransactionSecurity-securityID" />
         <ref bean="EndowmentSourceTransactionSecurity-registrationCode" />
         <ref bean="EndowmentSourceTransactionSecurity-securityLineTypeCode" />
       </list>
@@ -20,10 +20,10 @@
   </bean>
   
   <!-- Attribute Definitions -->
-  <bean id="EndowmentSourceTransactionSecurity-securityId" parent="EndowmentSourceTransactionSecurity-securityId-parentBean" />
+  <bean id="EndowmentSourceTransactionSecurity-securityID" parent="EndowmentSourceTransactionSecurity-securityID-parentBean" />
 
-  <bean id="EndowmentSourceTransactionSecurity-securityId-parentBean" abstract="true" parent="Security-id">
-    <property name="name" value="securityId" />
+  <bean id="EndowmentSourceTransactionSecurity-securityID-parentBean" abstract="true" parent="Security-id">
+    <property name="name" value="securityID" />
   </bean>
   
    <bean id="EndowmentSourceTransactionSecurity-registrationCode" parent="EndowmentSourceTransactionSecurity-registrationCode-parentBean" />

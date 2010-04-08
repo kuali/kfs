@@ -835,7 +835,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" />              
+              p:attributeName="active" p:defaultValue="N" />              
       </list>
     </property>
     <property name="resultFields" >

@@ -1650,6 +1650,12 @@
 	<field-descriptor name="lotHoldingCost" column="LOT_UNITS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_UNITS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotShortTermGainLoss" column="LOT_UNITS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	
+	<reference-descriptor name="transactionLine" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="documentNumber" />
+		<foreignkey field-ref="documentLineNumber" />
+		<foreignkey field-ref="documentLineTypeCode" />
+	</reference-descriptor>	
 </class-descriptor>
 -->
 

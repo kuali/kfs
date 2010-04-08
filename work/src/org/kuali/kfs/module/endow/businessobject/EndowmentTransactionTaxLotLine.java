@@ -37,6 +37,7 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private KualiDecimal lotLongTermGainLoss;
     private KualiDecimal lotShortTermGainLoss;
     
+    private EndowmentTargetTransactionLine transactionLine;
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -144,6 +145,14 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
 
     public void setLotShortTermGainLoss(KualiDecimal lotShortTermGainLoss) {
         this.lotShortTermGainLoss = lotShortTermGainLoss;
+    }
+
+    public EndowmentTargetTransactionLine getTransactionLine() {
+        return transactionLine;
+    }
+
+    public void setTransactionLine(EndowmentTargetTransactionLine transactionLine) {
+        this.transactionLine = transactionLine;
     }
 
 }

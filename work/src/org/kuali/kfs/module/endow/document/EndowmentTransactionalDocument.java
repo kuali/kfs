@@ -23,20 +23,6 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 public interface EndowmentTransactionalDocument extends FinancialSystemTransactionalDocument {
 
     /**
-     * Gets the transaction type code
-     * 
-     * @return transaction type code
-     */
-    public String getTransactionTypeCode();
-
-    /**
-     * Sets the transaction type code
-     * 
-     * @param transactionTypeCode
-     */
-    public void setTransactionTypeCode(String transactionTypeCode);
-
-    /**
      * Gets the transaction sub-type code
      * 
      * @return transaction sub-type code

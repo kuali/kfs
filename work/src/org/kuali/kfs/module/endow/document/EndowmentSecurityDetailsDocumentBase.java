@@ -20,35 +20,35 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
 
-    private EndowmentTransactionSecurity fromTransactionSecurity;
-    private EndowmentTransactionSecurity toTransactionSecurity;
+    private EndowmentTransactionSecurity sourceTransactionSecurity;
+    private EndowmentTransactionSecurity targetTransactionSecurity;
 
     /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getFromTransactionSecurity()
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getSourceTransactionSecurity()
      */
-    public EndowmentTransactionSecurity getFromTransactionSecurity() {
-        return fromTransactionSecurity;
+    public EndowmentTransactionSecurity getSourceTransactionSecurity() {
+        return sourceTransactionSecurity;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setFromTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setSourceTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
      */
-    public void setFromTransactionSecurity(EndowmentTransactionSecurity fromTransactionSecurity) {
-        this.fromTransactionSecurity = fromTransactionSecurity;
+    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) {
+        this.sourceTransactionSecurity = sourceTransactionSecurity;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getToTransactionSecurity()
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getTargetTransactionSecurity()
      */
-    public EndowmentTransactionSecurity getToTransactionSecurity() {
-        return toTransactionSecurity;
+    public EndowmentTransactionSecurity getTargetTransactionSecurity() {
+        return targetTransactionSecurity;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setToTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setTargetTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
      */
-    public void setToTransactionSecurity(EndowmentTransactionSecurity toTransactionSecurity) {
-        this.toTransactionSecurity = toTransactionSecurity;
+    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) {
+        this.targetTransactionSecurity = targetTransactionSecurity;
     }
 
 

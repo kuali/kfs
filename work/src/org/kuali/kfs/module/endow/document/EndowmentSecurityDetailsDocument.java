@@ -19,31 +19,31 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLinesDocument {
     /**
-     * Gets the fromTransactionSecurity attribute.
+     * Gets the sourceTransactionSecurity attribute.
      * 
-     * @return Returns the fromTransactionSecurity.
+     * @return Returns the sourceTransactionSecurity.
      */
-    public EndowmentTransactionSecurity getFromTransactionSecurity();
+    public EndowmentTransactionSecurity getSourceTransactionSecurity();
 
     /**
-     * Sets the fromTransactionSecurity attribute value.
+     * Sets the sourceTransactionSecurity attribute value.
      * 
-     * @param fromTransactionSecurity The fromTransactionSecurity to set.
+     * @param sourceTransactionSecurity The sourceTransactionSecurity to set.
      */
-    public void setFromTransactionSecurity(EndowmentTransactionSecurity fromTransactionSecurity);
+    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity);
 
     /**
-     * Gets the toTransactionSecurity attribute.
+     * Gets the targetTransactionSecurity attribute.
      * 
-     * @return Returns the toTransactionSecurity.
+     * @return Returns the targetTransactionSecurity.
      */
-    public EndowmentTransactionSecurity getToTransactionSecurity();
+    public EndowmentTransactionSecurity getTargetTransactionSecurity();
 
     /**
-     * Sets the toTransactionSecurity attribute value.
+     * Sets the targetTransactionSecurity attribute value.
      * 
-     * @param toTransactionSecurity The toTransactionSecurity to set.
+     * @param targetTransactionSecurity The targetTransactionSecurity to set.
      */
-    public void setToTransactionSecurity(EndowmentTransactionSecurity toTransactionSecurity);
+    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity);
 
 }

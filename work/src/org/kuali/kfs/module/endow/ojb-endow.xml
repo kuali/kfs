@@ -1638,8 +1638,8 @@
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.endow.document.EndowmentTransactionTaxLotLine" table="END_TRAN_HLDG_LOT_T">
+-->
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine" table="END_TRAN_HLDG_LOT_T">
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1657,6 +1657,6 @@
 		<foreignkey field-ref="documentLineTypeCode" />
 	</reference-descriptor>	
 </class-descriptor>
--->
+
 
 </descriptor-repository>

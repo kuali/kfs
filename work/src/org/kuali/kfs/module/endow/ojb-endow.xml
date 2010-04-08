@@ -1519,23 +1519,23 @@
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionDocumentType" table="END_TRAN_DOC_TYP_T">
 	<field-descriptor name="code" column="TRAN_DOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="TRAN_DOC_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="name" column="TRAN_DOC_TYP_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" table="END_TRAN_SUB_TYP_T">
 	<field-descriptor name="code" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="TRAN_SUB_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="name" column="TRAN_SUB_TYP_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType" table="END_TRAN_SRC_TYP_T">
 	<field-descriptor name="code" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="TRAN_SRC_TYP_DESC" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="name" column="TRAN_SRC_TYP_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase">
@@ -1561,7 +1561,7 @@
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="kemid" />
 	</reference-descriptor>	
-    <reference-descriptor name="etranObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="etranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="etranCode" />
 	</reference-descriptor>	
     <reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1587,7 +1587,7 @@
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="kemid" />
 	</reference-descriptor>	
-    <reference-descriptor name="etranObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="etranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="etranCode" />
 	</reference-descriptor>	
     <reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1600,20 +1600,40 @@
     <extent-class class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" />
 </class-descriptor>
 
-<!-- 
-
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" table="END_TRAN_SEC_T">
-	<field-descriptor name="number" column="TKLR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="principalId" column="TKLR_RECP_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityLineTypeCode" column="SEC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityID" column="SEC_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="registrationCode" column="SEC_REGIS_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	
+	<reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="securityID" />
+	</reference-descriptor>	
+    <reference-descriptor name="registrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="registrationCode" />
+	</reference-descriptor>		
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" table="END_TRAN_SEC_T">
-
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityLineTypeCode" column="SEC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityID" column="SEC_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="registrationCode" column="SEC_REGIS_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	
+	<reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="securityID" />
+	</reference-descriptor>	
+    <reference-descriptor name="registrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="registrationCode" />
+	</reference-descriptor>	
 </class-descriptor>
 
+
+<!-- 
 <class-descriptor class="org.kuali.kfs.module.endow.document.AssetIncreaseDocument" table="END_TRAN_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

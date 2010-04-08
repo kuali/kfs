@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.io.PrintStream;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,16 +35,16 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.aop.support.AopUtils;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
-@ConfigureContext
+@ConfigureContext(session = kfs)
 public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoDisapproveDocumentsServiceImplTest.class);
     
     private AutoDisapproveDocumentsServiceImpl autoDisapproveDocumentsService;    
     private DateTimeService dateTimeService;
-    private String reportsDirectory;
-    private PrintStream outputErrorFile_ps;
     private UnitTestSqlDao unitTestSqlDao;
     private DocumentService documentService;
     
@@ -60,7 +59,6 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
         autoDisapproveDocumentsService = (AutoDisapproveDocumentsServiceImpl) TestUtils.getUnproxiedService("sysMockAutoDisapproveDocumentsService");
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class); 
-        reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) + "/sys";
     }
 
     /**

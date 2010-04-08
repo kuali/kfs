@@ -25,7 +25,7 @@
   <changeSet author='Muddu' id='5480-1-2' failOnError='true'>
     <comment>Setup a new permission for document type KFST</comment>
     <insert tableName='KRIM_PERM_ATTR_DATA_T'>
-      <column name='ATTR_DATA_ID' value='10000' />
+      <column name='ATTR_DATA_ID' valueNumeric='MAXID' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
       <column name='PERM_ID' value='1100' />
@@ -35,12 +35,14 @@
     </insert>
     <modifySql dbms='mysql'>
       <replace replace='SYS_GUID' with='uuid()' />
+      <replace replace='MAXID' with='select (max(ATTR_DATA_ID)+1) from KRIM_PERM_ATTR_DATA_T  ' />
     </modifySql>
     <modifySql dbms='mysql'>
       <replace replace='SYSDATE' with='now()' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='SYS_GUID' with='sys_guid()' />
+      <replace replace='MAXID' with='MAX(TO_NUMBER(ATTR_DATA_ID))+1' />
     </modifySql>
   </changeSet>
   <changeSet author='Muddu' id='5480-1-3' failOnError='true'>

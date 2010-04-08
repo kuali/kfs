@@ -148,7 +148,7 @@
   <bean id="EndowmentTargetTransactionLine-transactionUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionUnits"/>
     <property name="label" value="Transaction Units"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentTargetTransactionLine-linePosted" parent="EndowmentTargetTransactionLine-linePosted-parentBean"/>
 

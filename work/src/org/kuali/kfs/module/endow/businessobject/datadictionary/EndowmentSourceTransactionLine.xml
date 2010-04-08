@@ -35,7 +35,6 @@
         <ref bean="EndowmentSourceTransactionLine-corpusIndicator"/>
         <ref bean="EndowmentSourceTransactionLine-transactionUnits"/>
         <ref bean="EndowmentSourceTransactionLine-linePosted"/>
-
       </list>
     </property>
   </bean>
@@ -148,16 +147,12 @@
   <bean id="EndowmentSourceTransactionLine-transactionUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionUnits"/>
     <property name="label" value="Transaction Units"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-linePosted" parent="EndowmentSourceTransactionLine-linePosted-parentBean"/>
 
   <bean id="EndowmentSourceTransactionLine-linePosted-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="linePosted"/>
     <property name="label" value="Line Posted"/>
-  </bean>
-  
-  
-  
-
+  </bean> 
 </beans>

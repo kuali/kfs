@@ -32,7 +32,6 @@
     </property>
     <property name="attributes">
       <list>
-        <ref bean="AssetIncreaseDocument-transactionTypeCode"/>
         <ref bean="AssetIncreaseDocument-transactionSubTypeCode"/>
         <ref bean="AssetIncreaseDocument-transactionSourceTypeCode"/>
         <ref bean="AssetIncreaseDocument-transactionPosted"/>
@@ -42,21 +41,7 @@
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="AssetIncreaseDocument-transactionTypeCode" parent="AssetIncreaseDocument-transactionTypeCode-parentBean"/>
-  <bean id="AssetIncreaseDocument-transactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionTypeCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Transaction Type Code"/>
-    <property name="shortLabel" value="Type"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-  </bean>
-  
+
   <bean id="AssetIncreaseDocument-transactionSubTypeCode" parent="AssetIncreaseDocument-transactionSubTypeCode-parentBean"/>
   <bean id="AssetIncreaseDocument-transactionSubTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSubTypeCode"/>

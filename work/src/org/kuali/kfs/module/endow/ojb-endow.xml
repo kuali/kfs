@@ -1517,14 +1517,8 @@
 
 <!-- Transaction Documents Tables -->
 
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionDocumentType" table="END_TRAN_DOC_TYP_T">
-	<field-descriptor name="code" column="TRAN_DOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="name" column="TRAN_DOC_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" table="END_TRAN_SUB_TYP_T">
+<!-- 
+ <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" table="END_TRAN_SUB_TYP_T">
 	<field-descriptor name="code" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="name" column="TRAN_SUB_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -1537,6 +1531,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
+-->
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase">
     <extent-class class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine" />

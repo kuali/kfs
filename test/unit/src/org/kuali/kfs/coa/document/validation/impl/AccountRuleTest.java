@@ -22,18 +22,22 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -1067,8 +1071,6 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckIncomeStreamRequired_NotApplicableAccount() {
-
-
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1224,6 +1226,62 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
         assertGlobalErrorMapSize(2);
 
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testCheckUniqueAccountNumber_AccountsCanCrossCharts() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "Y");
+        
+        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        // find an existing account
+        Iterator accountList = SpringContext.getBean(AccountService.class).getAllAccounts();
+        Account account = accountList.hasNext() ? (Account)accountList.next() : null;
+        if (account == null) return; // shouldn't happen: there shall always be some accounts in the system
+        
+        // set new COA code different from the existing account        
+        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";               
+        newAccount.setChartOfAccountsCode(chartCode);
+        
+        // set new account number same as the existing account        
+        String accountNumber = account.getAccountNumber();               
+        newAccount.setAccountNumber(accountNumber);        
+
+        // run the rule
+        result = rule.checkUniqueAccountNumber(maintDoc);
+        assertEquals("Accounts should be allowed to cross charts with current settings", true, result);
+        this.assertFieldErrorDoesNotExist("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE);
+        assertGlobalErrorMapSize(0);
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testCheckUniqueAccountNumber_AccountsCantCrossCharts() {
+        SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "N");
+        
+        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        // find an existing account
+        Iterator accountList = SpringContext.getBean(AccountService.class).getAllAccounts();
+        Account account = accountList.hasNext() ? (Account)accountList.next() : null;
+        if (account == null) return; // shouldn't happen: there shall always be some accounts in the system
+        
+        // set new COA code different from the existing account        
+        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";               
+        newAccount.setChartOfAccountsCode(chartCode);
+        
+        // set new account number same as the existing account        
+        String accountNumber = account.getAccountNumber();               
+        newAccount.setAccountNumber(accountNumber);  
+        
+        // run the rule
+        result = rule.checkUniqueAccountNumber(maintDoc);
+        assertEquals("Accounts shouldn't be allowed to cross charts with current settings", false, result);
+        assertFieldErrorExists("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE);
+        assertGlobalErrorMapSize(1);
     }
 
     public void testIsUpdateExpirationDateInvalid_BothExpirationDatesNull() {

@@ -19,7 +19,6 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
 
-    private String transactionTypeCode;
     private String transactionSubTypeCode;
     private String transactionSourceTypeCode;
     private boolean transactionPosted;
@@ -31,14 +30,6 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public EndowmentTransactionalDocumentBase() {
         super();
 
-    }
-
-    public String getTransactionTypeCode() {
-        return transactionTypeCode;
-    }
-
-    public void setTransactionTypeCode(String transactionTypeCode) {
-        this.transactionTypeCode = transactionTypeCode;
     }
 
     public String getTransactionSubTypeCode() {

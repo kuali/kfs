@@ -30,7 +30,7 @@
         <ref bean="EndowmentSourceTransactionLine-etranCode"/>
         <ref bean="EndowmentSourceTransactionLine-etranCodeObj.name"/>
         <ref bean="EndowmentSourceTransactionLine-transactionLineDescription"/>
-        <ref bean="EndowmentSourceTransactionLine-transactionIncomePrincipalIndicatorCode"/>
+        <ref bean="EndowmentSourceTransactionLine-transactionIPIndicatorCode"/>
         <ref bean="EndowmentSourceTransactionLine-transactionAmount"/>
         <ref bean="EndowmentSourceTransactionLine-corpusIndicator"/>
         <ref bean="EndowmentSourceTransactionLine-transactionUnits"/>
@@ -123,10 +123,10 @@
       <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="EndowmentSourceTransactionLine-transactionIncomePrincipalIndicatorCode" parent="EndowmentSourceTransactionLine-transactionIncomePrincipalIndicatorCode-parentBean"/>
+  <bean id="EndowmentSourceTransactionLine-transactionIPIndicatorCode" parent="EndowmentSourceTransactionLine-transactionIPIndicatorCode-parentBean"/>
 
-  <bean id="EndowmentSourceTransactionLine-transactionIncomePrincipalIndicatorCode-parentBean" abstract="true" parent="IncomePrincipalIndicator-code">
-    <property name="name" value="transactionIncomePrincipalIndicatorCode"/>
+  <bean id="EndowmentSourceTransactionLine-transactionIPIndicatorCode-parentBean" abstract="true" parent="IncomePrincipalIndicator-code">
+    <property name="name" value="transactionIPIndicatorCode"/>
     <property name="label" value="Income or Principal"/>
     <property name="required" value="true"/>
   </bean>

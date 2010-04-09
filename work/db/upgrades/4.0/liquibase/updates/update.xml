@@ -78,4 +78,7 @@
 <include file="updates/2010-03-30-5473-1-PUR_VNDR_DTL_T.xml"/>
 <include file="updates/2010-03-30-5473-1-PUR_VNDR_ADDR_T.xml"/>
 <include file="updates/2010-04-08-5580-1-PDP_PMT_GRP_T.xml"/>
+<include file="updates/2010-04-09-5578-0-dropEndowTables.xml"/>
+<include file="updates/2010-04-08-5578-Endow.xml"/>
+<include file="updates/2010-04-09-5578-1-createEndowTransactionDocumentBasicTables.xml"/>
 </databaseChangeLog>

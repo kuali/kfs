@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Travis' id='5580-1-1' failOnError='true'>
+    <comment>-- Changeset updates/2010-04-08-5580-1-PDP_PMT_GRP_T.xml::5580-1-1::Travis::(MD5Sum: ce135f6a8b516e371d811471e60ff18) -- ALTER TABLE PDP_PMT_GRP_T MODIFY(PMT_SORT_ORD_VAL varchar2(150)) ALTER TABLE `PDP_PMT_GRP_T` MODIFY `PMT_SORT_ORD_VAL` VARCHAR(150));</comment>
+    <modifyColumn tableName='PDP_PMT_GRP_T'>
+      <column name='PMT_SORT_ORD_VAL' type='VARCHAR2(150)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-1' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_SEC_T' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-2' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_HLDG_LOT_T' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-3' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_LN_T' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-4' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_DOC_T' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-5' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_SUB_TYP_T' />
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-09-5578d-6' failOnError='true'>
+    <comment>drop all tables and recreate them</comment>
+    <dropTable tableName='END_TRAN_SRC_TYP_T' />
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-1' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_SUB_TYP_T'>
+      <column name='TRAN_SUB_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' primaryKey='true' />
+      </column>
+      <column name='TRAN_SUB_TYP_DESC' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-2' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_SRC_TYP_T'>
+      <column name='TRAN_SRC_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' primaryKey='true' />
+      </column>
+      <column name='TRAN_SRC_TYP_DESC' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-3' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_DOC_T'>
+      <column name='FDOC_NBR' type='VARCHAR2(14)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='TRAN_SUB_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_SRC_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_PSTD' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-4' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_LN_T'>
+      <column name='FDOC_NBR' type='VARCHAR2(14)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='FDOC_LN_NBR' type='NUMBER(7)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_LN_DESC' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TRAN_IP_IND_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_AMT' type='NUMBER(19,2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_UNITS' type='NUMBER(16,4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LN_PSTD' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-5' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_SEC_T'>
+      <column name='FDOC_NBR' type='VARCHAR2(14)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='SEC_LN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-4-08-5578c-6' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA</comment>
+    <createTable tableName='END_TRAN_HLDG_LOT_T'>
+      <column name='FDOC_NBR' type='VARCHAR2(14)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='FDOC_LN_NBR' type='NUMBER(7)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='TRAN_HLDG_LT_NBR' type='NUMBER(4)'>
+        <constraints nullable='false' primaryKey='true' />
+      </column>
+      <column name='LOT_UNITS' type='NUMBER(16,4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='LOT_HLDG_COST' type='NUMBER(19,2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LOT_LT_GAIN_LOSS' type='NUMBER(19,2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LOT_ST_GAIN_LOSS' type='NUMBER(19,2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

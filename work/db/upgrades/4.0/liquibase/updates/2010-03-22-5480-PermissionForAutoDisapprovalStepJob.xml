@@ -22,7 +22,7 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
     </modifySql>
   </changeSet>
-  <changeSet author='Muddu' id='5480-1-2' failOnError='true'>
+  <changeSet author='Muddu' id='5480-1-2' failOnError='true' dbms='oracle' >
     <comment>Setup a new permission for document type KFST</comment>
     <insert tableName='KRIM_PERM_ATTR_DATA_T'>
       <column name='ATTR_DATA_ID' valueNumeric='MAXID' />
@@ -44,6 +44,11 @@
       <replace replace='SYS_GUID' with='sys_guid()' />
       <replace replace='MAXID' with='MAX(TO_NUMBER(ATTR_DATA_ID))+1' />
     </modifySql>
+  </changeSet>
+  
+  <changeSet author='Muddu' id='5480-1-2mysql' failOnError='true' dbms='mysql'>
+  <sql>set @valMax =(SELECT MAX(CAST(ATTR_DATA_ID as UNSIGNED))+1 AS MAXID FROM KRIM_PERM_ATTR_DATA_T);
+insert into KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) VALUES (@valMax, uuid(), 1, '1100', '3', '13', 'KFST' );</sql>
   </changeSet>
   <changeSet author='Muddu' id='5480-1-3' failOnError='true'>
     <comment>Setup a new permission for document type KFST</comment>

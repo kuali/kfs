@@ -7,7 +7,11 @@ INSERT INTO `KRIM_PERM_T` (`DESC_TXT`, `VER_NBR`, `PERM_TMPL_ID`, `OBJ_ID`, `ACT
 
 -- Changeset updates/2010-03-22-5480-PermissionForAutoDisapprovalStepJob.xml::5480-1-2::Muddu::(MD5Sum: 35a49d486e238ce6cb859248171d570)
 -- Setup a new permission for document type KFST
-INSERT INTO `KRIM_PERM_ATTR_DATA_T` (`VER_NBR`, `OBJ_ID`, `ATTR_VAL`, `PERM_ID`, `KIM_ATTR_DEFN_ID`, `ATTR_DATA_ID`, `KIM_TYP_ID`) VALUES (1, uuid(), 'KFST', '1100', '13', '10000', '3');
+--INSERT INTO `KRIM_PERM_ATTR_DATA_T` (`VER_NBR`, `OBJ_ID`, `ATTR_VAL`, `PERM_ID`, `KIM_ATTR_DEFN_ID`, `ATTR_DATA_ID`, `KIM_TYP_ID`) VALUES (1, uuid(), 'KFST', '1100', '13', '10000', '3');
+set @valMax =(SELECT MAX(CAST(ATTR_DATA_ID as UNSIGNED))+1 AS MAXID FROM KRIM_PERM_ATTR_DATA_T);
+--select @valMax
+insert into KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) VALUES (@valMax, uuid(), 1, '1100', '3', '13', 'KFST' );
+
 
 
 -- Changeset updates/2010-03-22-5480-PermissionForAutoDisapprovalStepJob.xml::5480-1-3::Muddu::(MD5Sum: f614af0a286319181dbfb207f35b5)

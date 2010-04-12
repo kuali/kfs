@@ -18,7 +18,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>EAI</name>
-      <parent>KFST</parent>
+      <parent>ET</parent>
       <docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
     </documentType>
   </documentTypes>

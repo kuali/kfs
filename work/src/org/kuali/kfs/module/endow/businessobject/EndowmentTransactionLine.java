@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.util.List;
+
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -173,4 +175,8 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @param linePostedIndicator The line posted indicator to set.
      */
     public void setLinePosted(boolean linePostedIndicator);
+    
+    public List<EndowmentTransactionTaxLotLine> getTaxLotLines();
+
+    public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines);
 }

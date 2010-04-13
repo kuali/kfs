@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
@@ -23,6 +25,8 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     private String transactionSourceTypeCode;
     private boolean transactionPosted;
 
+    private EndowmentTransactionSubType  transactionSubType;
+    private EndowmentTransactionSourceType transactionSourceType;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.
@@ -56,4 +60,19 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         this.transactionPosted = transactionPosted;
     }
 
+    public EndowmentTransactionSubType getTransactionSubType() {
+        return transactionSubType;
+    }
+
+    public void setTransactionSubType(EndowmentTransactionSubType transactionSubType) {
+        this.transactionSubType = transactionSubType;
+    }
+
+    public EndowmentTransactionSourceType getTransactionSourceType() {
+        return transactionSourceType;
+    }
+
+    public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
+        this.transactionSourceType = transactionSourceType;
+    }
 }

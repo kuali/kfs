@@ -22,22 +22,13 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument {
+public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase {
 
 
-    private List<EndowmentTransactionTaxLotLine> taxLotLines;
+    
 
-    public List<EndowmentTransactionTaxLotLine> getTaxLotLines() {
-        return taxLotLines;
-    }
 
-    public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines) {
-        this.taxLotLines = taxLotLines;
-    }
 
-    public EndowmentTaxLotLinesDocumentBase() {
-        super();
-        taxLotLines = new ArrayList<EndowmentTransactionTaxLotLine>();
-    }
+
 
 }

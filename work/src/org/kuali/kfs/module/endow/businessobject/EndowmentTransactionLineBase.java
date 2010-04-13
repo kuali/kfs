@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -25,7 +27,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 /**
  * This is the generic class which contains all the elements on a typical Endowment Transaction Line.
  */
-public abstract class EndowmentTransactionLineBase extends PersistableBusinessObjectBase implements EndowmentTransactionLine {
+public abstract class EndowmentTransactionLineBase extends PersistableBusinessObjectBase implements EndowmentTransactionLine  {
 
     private String documentNumber;
     private String transactionLineTypeCode;
@@ -43,6 +45,8 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
 
+    private List<EndowmentTransactionTaxLotLine> taxLotLines;
+    
     /**
      * Constructs a EndowmentTransactionLineBase.java.
      */
@@ -264,6 +268,14 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
      */
     public void setEtranCodeObj(EndowmentTransactionCode etranCodeObj) {
         this.etranCodeObj = etranCodeObj;
+    }
+
+    public List<EndowmentTransactionTaxLotLine> getTaxLotLines() {
+        return taxLotLines;
+    }
+
+    public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines) {
+        this.taxLotLines = taxLotLines;
     }
 
 }

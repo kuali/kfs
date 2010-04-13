@@ -29,9 +29,9 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private HoldingTaxLot holdingTaxLot;
 
     private String documentNumber;
-    private Long documentLineNumber;
+    private KualiInteger documentLineNumber;
     private String documentLineTypeCode;
-    private Long transactionHoldingLongTermNumber;
+    private KualiInteger transactionHoldingLongTermNumber;
     private KualiDecimal lotUnits;
     private KualiDecimal lotHoldingCost;
     private KualiDecimal lotLongTermGainLoss;
@@ -91,11 +91,11 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.documentNumber = documentNumber;
     }
 
-    public Long getDocumentLineNumber() {
+    public KualiInteger getDocumentLineNumber() {
         return documentLineNumber;
     }
 
-    public void setDocumentLineNumber(Long documentLineNumber) {
+    public void setDocumentLineNumber(KualiInteger documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
 
@@ -107,11 +107,11 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.documentLineTypeCode = documentLineTypeCode;
     }
 
-    public Long getTransactionHoldingLongTermNumber() {
+    public KualiInteger getTransactionHoldingLongTermNumber() {
         return transactionHoldingLongTermNumber;
     }
 
-    public void setTransactionHoldingLongTermNumber(Long transactionHoldingLongTermNumber) {
+    public void setTransactionHoldingLongTermNumber(KualiInteger transactionHoldingLongTermNumber) {
         this.transactionHoldingLongTermNumber = transactionHoldingLongTermNumber;
     }
 

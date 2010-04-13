@@ -15,41 +15,37 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
 
-    private EndowmentTransactionSecurity sourceTransactionSecurity;
-    private EndowmentTransactionSecurity targetTransactionSecurity;
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getSourceTransactionSecurity()
-     */
-    public EndowmentTransactionSecurity getSourceTransactionSecurity() {
+    private List<EndowmentTransactionSecurity> sourceTransactionSecurity;
+    private List<EndowmentTransactionSecurity> targetTransactionSecurity;
+    
+    public List<EndowmentTransactionSecurity> getSourceTransactionSecurity() 
+    {
         return sourceTransactionSecurity;
     }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setSourceTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
-     */
-    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) {
+    
+    public void setSourceTransactionSecurity(List<EndowmentTransactionSecurity> sourceTransactionSecurity) 
+    {
         this.sourceTransactionSecurity = sourceTransactionSecurity;
     }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getTargetTransactionSecurity()
-     */
-    public EndowmentTransactionSecurity getTargetTransactionSecurity() {
+    
+    public List<EndowmentTransactionSecurity> getTargetTransactionSecurity() 
+    {
         return targetTransactionSecurity;
     }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setTargetTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
-     */
-    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) {
+    
+    public void setTargetTransactionSecurity(List<EndowmentTransactionSecurity> targetTransactionSecurity) 
+    {
         this.targetTransactionSecurity = targetTransactionSecurity;
     }
+
+    
 
 
 }

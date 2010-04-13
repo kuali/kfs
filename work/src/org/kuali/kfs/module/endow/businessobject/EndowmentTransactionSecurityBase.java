@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,6 +30,7 @@ public abstract class EndowmentTransactionSecurityBase extends PersistableBusine
 
     private Security security;
     private RegistrationCode registrationCodeObj;
+    
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -74,7 +76,7 @@ public abstract class EndowmentTransactionSecurityBase extends PersistableBusine
     }
     
     public void setSecurityID(String securityID ) {
-        securityID = this.securityID;
+        this.securityID = securityID;
     }
     
     public Security getSecurity() {
@@ -102,4 +104,5 @@ public abstract class EndowmentTransactionSecurityBase extends PersistableBusine
         this.registrationCodeObj = registrationCodeObj;
 
     }
+
 }

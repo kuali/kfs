@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLinesDocument {
@@ -23,27 +25,27 @@ public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLi
      * 
      * @return Returns the sourceTransactionSecurity.
      */
-    public EndowmentTransactionSecurity getSourceTransactionSecurity();
+    public List<EndowmentTransactionSecurity> getSourceTransactionSecurity();
 
     /**
      * Sets the sourceTransactionSecurity attribute value.
      * 
      * @param sourceTransactionSecurity The sourceTransactionSecurity to set.
      */
-    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity);
+    public void setSourceTransactionSecurity(List<EndowmentTransactionSecurity> sourceTransactionSecurity);
 
     /**
      * Gets the targetTransactionSecurity attribute.
      * 
      * @return Returns the targetTransactionSecurity.
      */
-    public EndowmentTransactionSecurity getTargetTransactionSecurity();
+    public List<EndowmentTransactionSecurity> getTargetTransactionSecurity();
 
     /**
      * Sets the targetTransactionSecurity attribute value.
      * 
      * @param targetTransactionSecurity The targetTransactionSecurity to set.
      */
-    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity);
+    public void setTargetTransactionSecurity(List<EndowmentTransactionSecurity> targetTransactionSecurity);
 
 }

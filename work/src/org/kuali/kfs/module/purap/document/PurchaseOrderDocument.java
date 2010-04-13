@@ -488,7 +488,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
-            if (workFlowDocument.stateIsCanceled() && (! workFlowDocument.stateIsFinal())) {
+            if (workFlowDocument.stateIsCanceled() || ( workFlowDocument.stateIsFinal())) {
                 setGeneralLedgerPendingEntries(new ArrayList());
             }
             else {

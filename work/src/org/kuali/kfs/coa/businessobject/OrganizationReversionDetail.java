@@ -33,7 +33,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase i
     private String organizationReversionCategoryCode;
     private String organizationReversionCode;
     private String organizationReversionObjectCode;
-    private boolean active;
+    private boolean active = true;
 
     private ObjectCode organizationReversionObject;
     private Organization organization;

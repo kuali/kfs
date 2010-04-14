@@ -1332,6 +1332,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         if (revLine.getAdjustmentAmount() != null) {
             this.adjustRequest(revLine);
+            docForm.populatePBGLLines();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1344,6 +1345,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         if (expLine.getAdjustmentAmount() != null) {
             this.adjustRequest(expLine);
+            docForm.populatePBGLLines();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1364,6 +1366,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     revenueLine.setAdjustmentAmount(adjustmentAmount);
                     this.adjustRequest(revenueLine);
                 }
+            }
+            if (isEditable){
+                docForm.populatePBGLLines();
             }
         }
 
@@ -1387,6 +1392,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     expenditureLine.setAdjustmentAmount(adjustmentAmount);
                     this.adjustRequest(expenditureLine);
                 }
+            }
+            if (isEditable){
+                docForm.populatePBGLLines();
             }
         }
 

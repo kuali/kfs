@@ -52,12 +52,14 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      */
     public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         if (appointmentFunding.getEffectiveCSFTracker() == null) {
-            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER);
+            // These error messages should not be displayed since the reported condition is obvious and benign.
+            //errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER);
             return false;
         }
         
         if (appointmentFunding.isAppointmentFundingDeleteIndicator()) {
-            errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE);
+            // These error messages should not be displayed since the reported condition is obvious and benign.
+            //errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE);
             return false;
         }
 

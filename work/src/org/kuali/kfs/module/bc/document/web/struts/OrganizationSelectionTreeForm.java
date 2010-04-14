@@ -346,7 +346,11 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
             for (BudgetConstructionPullup selectionSubTreeOrg : selectionSubTreeOrgs) {
                 selectionSubTreeOrg.setPullFlag(0);
             }
+            this.setAccountSummaryConsolidation(false);
+            this.setAccountObjectDetailConsolidation(false);
+            this.setMonthObjectSummaryConsolidation(false);
         }
+
         this.getMessages().clear();
     }
 

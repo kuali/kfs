@@ -15,35 +15,72 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
-public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
+public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument 
+{
+    public EndowmentSecurityDetailsDocumentBase()
+    {
+        super();
+        //this.nextSourceLineNumber = new Integer(1);
+        //this.nextTargetLineNumber = new Integer(1);
+        sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
+        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
+        
+    }
 
-    private List<EndowmentTransactionSecurity> sourceTransactionSecurity;
-    private List<EndowmentTransactionSecurity> targetTransactionSecurity;
+    private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
+    private List<EndowmentTransactionSecurity> targetTransactionSecurities;
     
-    public List<EndowmentTransactionSecurity> getSourceTransactionSecurity() 
+    private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
+    private EndowmentTargetTransactionSecurity targetTransactionSecurity;
+    
+    public List<EndowmentTransactionSecurity> getSourceTransactionSecurities() {
+        return sourceTransactionSecurities;
+    }
+    public void setSourceTransactionSecurities(List<EndowmentTransactionSecurity> sourceTransactionSecurities) {
+        this.sourceTransactionSecurities = sourceTransactionSecurities;
+    }
+    public List<EndowmentTransactionSecurity> getTargetTransactionSecurities() {
+        return targetTransactionSecurities;
+    }
+    public void setTargetTransactionSecurities(List<EndowmentTransactionSecurity> targetTransactionSecurities) {
+        this.targetTransactionSecurities = targetTransactionSecurities;
+    }
+    
+    public EndowmentTransactionSecurity getSourceTransactionSecurity() 
     {
         return sourceTransactionSecurity;
     }
     
-    public void setSourceTransactionSecurity(List<EndowmentTransactionSecurity> sourceTransactionSecurity) 
+    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) 
     {
-        this.sourceTransactionSecurity = sourceTransactionSecurity;
+        this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity)sourceTransactionSecurity;
+        this.sourceTransactionSecurities.set(0, sourceTransactionSecurity) ;
     }
     
-    public List<EndowmentTransactionSecurity> getTargetTransactionSecurity() 
+    public EndowmentTransactionSecurity getTargetTransactionSecurity() 
     {
         return targetTransactionSecurity;
     }
     
-    public void setTargetTransactionSecurity(List<EndowmentTransactionSecurity> targetTransactionSecurity) 
+    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) 
     {
-        this.targetTransactionSecurity = targetTransactionSecurity;
+        this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity)targetTransactionSecurity;
+        this.targetTransactionSecurities.set(0, targetTransactionSecurity) ;
     }
+    
+    
 
     
 

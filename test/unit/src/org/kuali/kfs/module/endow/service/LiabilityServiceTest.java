@@ -123,7 +123,7 @@ public class LiabilityServiceTest extends KualiTestBase
         List secList = new ArrayList();
         secList.add(tranSec);
         
-        tx.setSourceTransactionSecurity(secList);
+        tx.setSourceTransactionSecurity(tranSec);
         
         //saving Part of a Liability Transaction Document
         businessObjectService.save(tx);
@@ -133,7 +133,7 @@ public class LiabilityServiceTest extends KualiTestBase
         
         assertEquals("S0urce Lines",1, newTx.getSourceTransactionLines().size());
         assertEquals("Target Lines", 0,newTx.getTargetTransactionLines().size());
-        assertEquals("Source Security",1, newTx.getSourceTransactionSecurity().size());
+        assertNotNull("Source Security",newTx.getSourceTransactionSecurity());
         
         /*
          EndowmentSourceTransactionSecurity sec = new EndowmentSourceTransactionSecurity();

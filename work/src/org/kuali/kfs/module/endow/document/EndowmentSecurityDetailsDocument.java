@@ -25,27 +25,27 @@ public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLi
      * 
      * @return Returns the sourceTransactionSecurity.
      */
-    public List<EndowmentTransactionSecurity> getSourceTransactionSecurity();
+    public EndowmentTransactionSecurity getSourceTransactionSecurity();
 
     /**
      * Sets the sourceTransactionSecurity attribute value.
      * 
      * @param sourceTransactionSecurity The sourceTransactionSecurity to set.
      */
-    public void setSourceTransactionSecurity(List<EndowmentTransactionSecurity> sourceTransactionSecurity);
+    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity);
 
     /**
      * Gets the targetTransactionSecurity attribute.
      * 
      * @return Returns the targetTransactionSecurity.
      */
-    public List<EndowmentTransactionSecurity> getTargetTransactionSecurity();
+    public EndowmentTransactionSecurity getTargetTransactionSecurity();
 
     /**
      * Sets the targetTransactionSecurity attribute value.
      * 
      * @param targetTransactionSecurity The targetTransactionSecurity to set.
      */
-    public void setTargetTransactionSecurity(List<EndowmentTransactionSecurity> targetTransactionSecurity);
+    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity);
 
 }

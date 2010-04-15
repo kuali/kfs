@@ -20,16 +20,23 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>	
-
-<kul:tab tabTitle="Asset Increase Details" defaultOpen="true"
+<%@ attribute name="tabTitle" required="true"
+	description="This is displayed as Tab title."%>
+<%@ attribute name="summaryTitle" required="true"
+	description="This is displayed as summary title."%>
+<%@ attribute name="headingTitle" required="true"
+	description="This is displayed as heading in H3 title."%>
+		
+<kul:tab tabTitle="${tabTitle}" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
-			<h3>Asset Increase Details</h3>
-		<table cellpadding="0" cellspacing="0" summary="Asset Increase Details">
+			<h3>${headingTitle}</h3>
+		<table cellpadding="0" cellspacing="0" summary="${summaryTitle}">
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.transactionSubTypeCode}"
+					useShortLabel="false"
 					horizontal="true" width="50%" />
 
 				<td class="datacell-nowrap">
@@ -42,13 +49,16 @@
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.transactionSourceTypeCode}"
+					useShortLabel="false"
 					horizontal="true" width="50%" />
 
 				<td class="datacell-nowrap">
-					<kul:htmlControlAttribute
+				Manual Entry
+				<%-- 	<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.transactionSourceTypeCode}"
 						property="document.transactionSourceTypeCode"
 						readOnly="true"/>
+				--%>
 				</td>
 			</tr>
 			

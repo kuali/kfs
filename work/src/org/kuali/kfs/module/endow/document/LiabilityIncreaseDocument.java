@@ -34,6 +34,8 @@ public class LiabilityIncreaseDocument extends EndowmentTaxLotLinesDocumentBase 
 
     public LiabilityIncreaseDocument() {
         super();
+        setTransactionSourceTypeCode("M");
     }
 
+    
 }

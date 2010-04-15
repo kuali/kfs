@@ -232,6 +232,9 @@
         <!-- Endowment Module Bean Definitions -->			
 		<form-bean name="AssetIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />			
+		<form-bean name="LiabilityIncreaseDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityIncreaseDocumentForm" />			
+
 	</form-beans>
 
 	<global-exceptions>

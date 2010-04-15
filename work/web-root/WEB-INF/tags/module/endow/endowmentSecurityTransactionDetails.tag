@@ -68,21 +68,19 @@
       
         <tr>
             <td class="infoline">
-            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.sourceTransactionSecurity.securityID" />
-            &nbsp;
-			<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
-				fieldConversions="id:document.sourceTransactionSecurity.securityID" />
-            
-            
+	            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.sourceTransactionSecurity.securityID" />
+	            &nbsp;
+				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
+					fieldConversions="id:document.sourceTransactionSecurity.securityID" />
             </td>
             <td>
-            	hmmmm...
+            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.securityClassCode" readOnly="true" />
             </td>
             <td>
-            	hmmmm...
+            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
             </td>
             <td>
-            	hmmmm...
+            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.taxLotIndicator" readOnly="true" />
             </td>
             <td class="infoline">
             	<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" property="document.sourceTransactionSecurity.registrationCode" />

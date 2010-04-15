@@ -15,7 +15,27 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.module.endow.document.service.ClassCodeService;
+import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+
+
+public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase 
+{
+
+        
 
 }

@@ -22,9 +22,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.module.endow.document.service.ClassCodeService;
+import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +37,9 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 
-public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
+public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase 
+{
+    private static final String SECURITY_REFRESH ="document.sourceTransactionSecurity.securityID";
 
     /**
      * This action executes an insert of an EndowmentSourceTransactionLine into a document only after validating the Transaction
@@ -69,4 +76,30 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    
+    
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+        super.refresh(mapping, form, request, response);
+        
+        //To Determine if the refresh is coming from Security lookup 
+        if( request.getParameterMap().containsKey(SECURITY_REFRESH) ) 
+        {
+            refreshSecurityDetails(mapping, form, request, response);    
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+        LiabilityIncreaseDocument liabilityIncreaseDocument = ((LiabilityIncreaseDocumentForm) form).getLiabilityIncreaseDocument();
+        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(liabilityIncreaseDocument.getSourceTransactionSecurity().getSecurityID());
+        ClassCode classCode  = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
+        security.setClassCode(classCode);
+        liabilityIncreaseDocument.getSourceTransactionSecurity().setSecurity(security);
+        return null;
+        
+    }
 }

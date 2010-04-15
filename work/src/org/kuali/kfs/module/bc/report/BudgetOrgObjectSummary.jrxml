@@ -109,7 +109,7 @@
 
 
 		<group  name="SubFundGroup" isStartNewPage="true" >
-			<groupExpression><![CDATA[$F{subFundGroupCode}]]></groupExpression>
+			<groupExpression><![CDATA[$F{chartOfAccountsCode}+$F{subFundGroupCode}+$F{organizationCode}+$F{orgChartOfAccountsCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

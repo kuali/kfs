@@ -22,7 +22,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase {
+public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase 
+{
 
 
     

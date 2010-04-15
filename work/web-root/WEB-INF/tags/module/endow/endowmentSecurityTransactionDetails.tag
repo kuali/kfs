@@ -56,14 +56,6 @@
 				useShortLabel="false"
 				/>
 
-            
-            
-            <%--
-            <kul:htmlAttributeHeaderCell attributeEntry="${securityTransactionAttributes.security.classCode.securityEndowmentTransactionCode}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${securityTransactionAttributes.security.classCode.endowmentTransactionCode.name}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${securityTransactionAttributes.registrationCode}"/>
-            --%>
-            
 		</tr>
       
         <tr>

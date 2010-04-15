@@ -35,10 +35,31 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         //this.nextTargetLineNumber = new Integer(1);
         sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
         targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        sourceTransactionSecurities = new TypedArrayList(EndowmentSourceTransactionSecurity.class);
+        //sourceTransactionSecurities.set(0,sourceTransactionSecurity);
         targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
+        //targetTransactionSecurities .set(0, targetTransactionSecurity);
         
     }
 
+    @Override
+    public void prepareForSave() 
+    {
+        super.prepareForSave();
+        //Set the fdoc # for transaction securities
+        getSourceTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
+        getTargetTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
+        
+        //A Hack to insert transaction securities in the securities collection.
+        if(getSourceTransactionSecurity().getSecurityID() != null)
+            setSourceTransactionSecurity(getSourceTransactionSecurity());
+
+        //A Hack to insert transaction securities in the securities collection.
+        if(getTargetTransactionSecurity().getSecurityID() != null)
+            setTargetTransactionSecurity(getTargetTransactionSecurity());
+
+    }
+    
     private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
     private List<EndowmentTransactionSecurity> targetTransactionSecurities;
     
@@ -62,16 +83,16 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     {
         return sourceTransactionSecurity;
     }
+
+    public EndowmentTransactionSecurity getTargetTransactionSecurity() 
+    {
+        return targetTransactionSecurity;
+    }
     
     public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) 
     {
         this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity)sourceTransactionSecurity;
         this.sourceTransactionSecurities.set(0, sourceTransactionSecurity) ;
-    }
-    
-    public EndowmentTransactionSecurity getTargetTransactionSecurity() 
-    {
-        return targetTransactionSecurity;
     }
     
     public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) 

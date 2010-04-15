@@ -1693,7 +1693,11 @@
 	<reference-descriptor name="transactionSourceType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transactionSourceTypeCode" />
 	</reference-descriptor>	
-	    	    
+	 
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>    	    
+   
     <!--  collections -->
 
     <!--  common collections --> 
@@ -1713,7 +1717,7 @@
 				</query-customizer>
     </collection-descriptor>
 
-    <collection-descriptor name="sourceTransactionSecurity" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="sourceTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="securityID" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
@@ -1721,7 +1725,7 @@
 				</query-customizer>
     </collection-descriptor>
 
-    <collection-descriptor name="targetTransactionSecurity" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="targetTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="securityID" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">

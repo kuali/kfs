@@ -32,12 +32,6 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
-import org.kuali.kfs.module.endow.businessobject.Tickler;
-import org.kuali.kfs.module.endow.businessobject.TicklerKEMID;
-import org.kuali.kfs.module.endow.businessobject.TicklerRecipientGroup;
-import org.kuali.kfs.module.endow.businessobject.TicklerRecipientPrincipal;
-import org.kuali.kfs.module.endow.businessobject.TicklerSecurity;
-import org.kuali.kfs.module.endow.businessobject.TicklerTypeCode;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -59,7 +53,7 @@ public class LiabilityServiceTest extends KualiTestBase
 
     private boolean runTests() 
     { // change this to return false to prevent running tests
-        return false;
+        return true;
     }
 
     /**

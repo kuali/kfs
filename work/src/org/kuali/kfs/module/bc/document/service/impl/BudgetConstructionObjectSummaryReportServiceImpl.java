@@ -307,7 +307,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
                 Integer differenceAmountChange = total.getDifferenceAccountLineAnnualBalanceAmount() - total.getDifferenceFinancialBeginningBalanceLineAmount();
                 orgObjectSummaryReportEntry.setDifferenceAmountChange(differenceAmountChange);
-                orgObjectSummaryReportEntry.setDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(differenceAmountChange, total.getDifferenceAccountLineAnnualBalanceAmount()));
+                orgObjectSummaryReportEntry.setDifferencePercentChange(BudgetConstructionReportHelper.calculatePercent(differenceAmountChange, total.getDifferenceFinancialBeginningBalanceLineAmount()));
             }
         }
     }

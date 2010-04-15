@@ -225,6 +225,18 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_bcnstr_month_t.fin_coa_cd = ?\n");
         sqlBuilder.append("  AND ld_bcnstr_month_t.account_nbr = ?\n");
         sqlBuilder.append("  AND ld_bcnstr_month_t.sub_acct_nbr = ?\n");
+        sqlBuilder.append("  AND NOT (ld_bcnstr_month_t.fdoc_ln_mo1_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo2_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo3_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo4_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo5_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo6_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo7_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo8_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo9_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo10_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo11_amt = 0\n");
+        sqlBuilder.append("          AND ld_bcnstr_month_t.fdoc_ln_mo12_amt = 0) \n");
         sqlBuilder.append("  AND EXISTS\n");
         sqlBuilder.append("        (SELECT 1\n");
         sqlBuilder.append("         FROM LD_PND_BCNSTR_GL_T\n");

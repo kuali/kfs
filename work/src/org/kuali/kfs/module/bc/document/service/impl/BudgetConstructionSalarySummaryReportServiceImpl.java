@@ -116,7 +116,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * builds report Header
      */
     public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
-        String chartDesc = salaryFundingEntry.getChartOfAccounts().getFinChartOfAccountDescription();
+        String chartDesc = bcSSN.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = bcSSN.getOrganization().getOrganizationName();
 
 
@@ -131,12 +131,12 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             orgSalarySummaryReportEntry.setOrganizationName(orgName);
         }
 
-        orgSalarySummaryReportEntry.setChartOfAccountsCode(salaryFundingEntry.getChartOfAccountsCode());
+        orgSalarySummaryReportEntry.setOrgChartOfAccountsCode(bcSSN.getOrganizationChartOfAccountsCode());
         if (chartDesc == null) {
-            orgSalarySummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgSalarySummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
-            orgSalarySummaryReportEntry.setChartOfAccountDescription(chartDesc);
+            orgSalarySummaryReportEntry.setOrgChartOfAccountDescription(chartDesc);
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
@@ -178,6 +178,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
 
         // set report body
+        orgSalarySummaryReportEntry.setChartOfAccountsCode(salaryFundingEntry.getChartOfAccountsCode());
         orgSalarySummaryReportEntry.setAccountNumber(salaryFundingEntry.getAccountNumber());
         orgSalarySummaryReportEntry.setSubAccountNumber(salaryFundingEntry.getSubAccountNumber());
         orgSalarySummaryReportEntry.setFinancialSubObjectCode(salaryFundingEntry.getFinancialSubObjectCode());

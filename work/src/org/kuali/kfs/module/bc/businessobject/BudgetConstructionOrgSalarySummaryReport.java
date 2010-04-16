@@ -25,8 +25,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
     // Header parts
     private String fiscalYear;
 
-    private String chartOfAccountsCode;
-    private String chartOfAccountDescription;
+    private String orgChartOfAccountsCode;
+    private String orgChartOfAccountDescription;
     private String organizationCode;
     private String organizationName;
     private String consHdr;
@@ -42,6 +42,7 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     // Body parts
 
+    private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
     private String financialObjectCode;
@@ -202,8 +203,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
      * 
      * @return Returns the chartOfAccountDescription.
      */
-    public String getChartOfAccountDescription() {
-        return chartOfAccountDescription;
+    public String getOrgChartOfAccountDescription() {
+        return orgChartOfAccountDescription;
     }
 
     /**
@@ -211,8 +212,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
      * 
      * @param chartOfAccountDescription The chartOfAccountDescription to set.
      */
-    public void setChartOfAccountDescription(String chartOfAccountDescription) {
-        this.chartOfAccountDescription = chartOfAccountDescription;
+    public void setOrgChartOfAccountDescription(String orgChartOfAccountDescription) {
+        this.orgChartOfAccountDescription = orgChartOfAccountDescription;
     }
 
     /**
@@ -220,8 +221,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
      * 
      * @return Returns the chartOfAccountsCode.
      */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+    public String getOrgChartOfAccountsCode() {
+        return orgChartOfAccountsCode;
     }
 
     /**
@@ -229,8 +230,8 @@ public class BudgetConstructionOrgSalarySummaryReport {
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+    public void setOrgChartOfAccountsCode(String orgChartOfAccountsCode) {
+        this.orgChartOfAccountsCode = orgChartOfAccountsCode;
     }
 
 
@@ -353,6 +354,22 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
     public void setPercentChange(BigDecimal percentChange) {
         this.percentChange = percentChange;
+    }
+
+    /**
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute value.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
     public String getAccountNumber() {

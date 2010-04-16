@@ -24,7 +24,6 @@ public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase impl
 
     public AssetIncreaseDocument() {
         super();
-        this.targetTransactionLines.add(new EndowmentTargetTransactionLine());
     }
 
 

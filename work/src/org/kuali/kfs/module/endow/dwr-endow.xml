@@ -210,6 +210,13 @@
 	    <create creator="spring" javascript="DonorStatementCodeService">
 	    	<param name="beanName" value="donorStatementCodeService" />
 	        <include method="getByPrimaryKey" />
-	    </create>     
+	    </create>
+	  
+	  	<convert converter="array" match="[S"/>
+	  	  
+	    <create creator="spring" javascript="EndowmentTransactionDocumentService">
+	    	<param name="beanName" value="endowmentTransactionDocumentService" />
+	    	<include method="getSecurity" />
+	    </create>	     
     </allow>
 </dwr>

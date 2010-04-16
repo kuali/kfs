@@ -15,6 +15,9 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type='text/javascript' src="dwr/interface/EndowmentTransactionDocumentService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/endow/securityObjectInfo.js"></script>
+
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="showSource" required="true" %>
 <%@ attribute name="showTarget" required="true" %>
@@ -60,19 +63,28 @@
       
         <tr>
             <td class="infoline">
-	            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.sourceTransactionSecurity.securityID" />
+	            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" 
+	            	property="document.sourceTransactionSecurity.securityID" 
+	            	onblur="loadSecurityInfo(this.name);"
+	            	/>
 	            &nbsp;
 				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
 					fieldConversions="id:document.sourceTransactionSecurity.securityID" />
             </td>
             <td>
-            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.securityClassCode" readOnly="true" />
+            	<div id="document.sourceTransactionSecurity.security.securityClassCode">
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.securityClassCode" readOnly="true" />
+            	</div>
             </td>
             <td>
-            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
+            	<div id="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode">
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
+            	</div>	
             </td>
             <td>
-            	<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.taxLotIndicator" readOnly="true" />
+            	<div id="document.sourceTransactionSecurity.security.classCode.taxLotIndicator">
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.taxLotIndicator" readOnly="true" />
+            	</div>	
             </td>
             <td class="infoline">
             	<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" property="document.sourceTransactionSecurity.registrationCode" />

@@ -100,7 +100,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * @param positionFundingDetail
      */
     public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgPositionFundingDetailReport orgPositionFundingDetailReportEntry, BudgetConstructionPositionFunding positionFundingDetail) {
-        String chartDesc = positionFundingDetail.getChartOfAccounts().getFinChartOfAccountDescription();
+        String chartDesc = positionFundingDetail.getSelectedOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = positionFundingDetail.getSelectedOrganization().getOrganizationName();
         Integer prevFiscalyear = universityFiscalYear - 1;
         orgPositionFundingDetailReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
@@ -113,12 +113,12 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
             orgPositionFundingDetailReportEntry.setOrganizationName(orgName);
         }
 
-        orgPositionFundingDetailReportEntry.setChartOfAccountsCode(positionFundingDetail.getChartOfAccountsCode());
+        orgPositionFundingDetailReportEntry.setOrgChartOfAccountsCode(positionFundingDetail.getSelectedOrganizationChartOfAccountsCode());
         if (chartDesc == null) {
-            orgPositionFundingDetailReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgPositionFundingDetailReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
-            orgPositionFundingDetailReportEntry.setChartOfAccountDescription(chartDesc);
+            orgPositionFundingDetailReportEntry.setOrgChartOfAccountDescription(chartDesc);
         }
         orgPositionFundingDetailReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgPositionFundingDetailReportEntry.setFinancialObjectCode(positionFundingDetail.getFinancialObjectCode());
@@ -140,6 +140,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
 
         // set report body
+        detailReportEntry.setChartOfAccountsCode(positionFundingDetailEntry.getChartOfAccountsCode());
         detailReportEntry.setAccountNumber(positionFundingDetailEntry.getAccountNumber());
         detailReportEntry.setSubAccountNumber(positionFundingDetailEntry.getSubAccountNumber());
         detailReportEntry.setFinancialSubObjectCode(positionFundingDetailEntry.getFinancialSubObjectCode());

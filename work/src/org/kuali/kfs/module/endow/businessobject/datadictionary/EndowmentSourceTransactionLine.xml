@@ -83,7 +83,7 @@
   <bean id="EndowmentSourceTransactionLine-kemid-parentBean" abstract="true" parent="KEMID-kemid">
     <property name="name" value="kemid"/>
     <property name="label" value="KEMID"/>
-    <property name="required" value="false"/>
+    <property name="required" value="true"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-kemidObj.shortTitle" parent="EndowmentSourceTransactionLine-kemidObj.shortTitle-parentBean"/>
 
@@ -97,7 +97,8 @@
   <bean id="EndowmentSourceTransactionLine-etranCode-parentBean" abstract="true" parent="EndowmentTransactionCode-code">
     <property name="name" value="etranCode"/>
     <property name="label" value="Etran Code"/>
-    <property name="required" value="false"/>
+    <property name="shortLabel" value="Etran Code"/>
+    <property name="required" value="true"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-etranCodeObj.name" parent="EndowmentSourceTransactionLine-etranCodeObj.name-parentBean"/>
 
@@ -112,7 +113,7 @@
   <bean id="EndowmentSourceTransactionLine-transactionLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLineDescription"/>
     <property name="label" value="Line Description"/>
-    <property name="shortLabel" value="Description"/>
+    <property name="shortLabel" value="Line Description"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -126,14 +127,21 @@
 
   <bean id="EndowmentSourceTransactionLine-transactionIPIndicatorCode-parentBean" abstract="true" parent="IncomePrincipalIndicator-code">
     <property name="name" value="transactionIPIndicatorCode"/>
-    <property name="label" value="Income or Principal"/>
+    <property name="label" value="Income or Principal" />
+    <property name="shortLabel" value="Income or Principal" />
     <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.IncomePrincipalIndicatorValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
   <bean id="EndowmentSourceTransactionLine-transactionAmount" parent="EndowmentSourceTransactionLine-transactionAmount-parentBean"/>
 
   <bean id="EndowmentSourceTransactionLine-transactionAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionAmount"/>
     <property name="label" value="Transaction Amount"/>
+    <property name="shortLabel" value="Transaction Amount"/>
     <property name="required" value="true"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-corpusIndicator" parent="EndowmentSourceTransactionLine-corpusIndicator-parentBean"/>
@@ -147,6 +155,7 @@
   <bean id="EndowmentSourceTransactionLine-transactionUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionUnits"/>
     <property name="label" value="Transaction Units"/>
+    <property name="shortLabel" value="Transaction Units"/>
     <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-linePosted" parent="EndowmentSourceTransactionLine-linePosted-parentBean"/>

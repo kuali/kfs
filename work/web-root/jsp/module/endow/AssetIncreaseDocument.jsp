@@ -40,7 +40,7 @@
 
     <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true"/>          
          
-    <!--<endow:endowmentTransactionalLines isSource="true" /> !-->                 
+    <endow:endowmentTransactionalLines isSource="false" isTarget="true"/>                 
         
 	<kul:notes /> 
 	

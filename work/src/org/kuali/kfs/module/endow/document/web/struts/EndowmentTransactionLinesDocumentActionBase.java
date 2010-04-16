@@ -37,9 +37,8 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 
-public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase 
-{
-    private static final String SECURITY_REFRESH ="document.sourceTransactionSecurity.securityID";
+public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
+    private static final String SECURITY_REFRESH = "document.sourceTransactionSecurity.securityID";
 
     /**
      * This action executes an insert of an EndowmentSourceTransactionLine into a document only after validating the Transaction
@@ -76,30 +75,93 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
-    
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
-        super.refresh(mapping, form, request, response);
-        
-        //To Determine if the refresh is coming from Security lookup 
-        if( request.getParameterMap().containsKey(SECURITY_REFRESH) ) 
-        {
-            refreshSecurityDetails(mapping, form, request, response);    
+    /**
+     * This action executes an insert of an EndowmentTargetTransactionLine into a document only after validating the Transaction
+     * line and checking any appropriate business rules.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward insertTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AssetIncreaseDocumentForm documentForm = (AssetIncreaseDocumentForm) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        EndowmentTransactionLine transLine = documentForm.getNewSourceTransactionLine();
+
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent("", EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+
+        if (rulePassed) {
+            // add accountingLine
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            // insertAccountingLine(true, financialDocumentForm, line);
+            endowmentDocument.getSourceTransactionLines().add(transLine);
+
+            // clear the used newTargetLine
+            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
+
+    /**
+     * This action deletes an EndowmentSourceTransactionLine from a document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action deletes an EndowmentTargetTransactionLine from a document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+
+        // To Determine if the refresh is coming from Security lookup
+        if (request.getParameterMap().containsKey(SECURITY_REFRESH)) {
+            refreshSecurityDetails(mapping, form, request, response);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LiabilityIncreaseDocument liabilityIncreaseDocument = ((LiabilityIncreaseDocumentForm) form).getLiabilityIncreaseDocument();
         Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(liabilityIncreaseDocument.getSourceTransactionSecurity().getSecurityID());
-        ClassCode classCode  = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
+        ClassCode classCode = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
         security.setClassCode(classCode);
         liabilityIncreaseDocument.getSourceTransactionSecurity().setSecurity(security);
         return null;
-        
+
     }
 }

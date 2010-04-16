@@ -118,6 +118,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @Transactional
     public Document saveDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException, ValidationException {
 
+        // user did explicit save here so mark as touched
+        budgetConstructionDocument.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
         GlobalVariables.getUserSession().setWorkflowDocument(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());

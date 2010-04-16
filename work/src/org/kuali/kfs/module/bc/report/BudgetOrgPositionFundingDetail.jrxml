@@ -25,8 +25,8 @@
 
 
 	<field name="fiscalYear" class="java.lang.String"/>
-	<field name="chartOfAccountsCode" class="java.lang.String"/>
-	<field name="chartOfAccountDescription" class="java.lang.String"/>
+	<field name="orgChartOfAccountsCode" class="java.lang.String"/>
+	<field name="orgChartOfAccountDescription" class="java.lang.String"/>
 	<field name="organizationCode" class="java.lang.String"/>
 	<field name="organizationName" class="java.lang.String"/>
 	<field name="reqFy" class="java.lang.String"/>
@@ -76,10 +76,11 @@
 	<field name="appointmentRequestedPayRate" class="java.math.BigDecimal"/>
 	<field name="csfFundingStatusCode" class="java.lang.String"/>
 	<field name="personSortCode" class="java.lang.Integer"/>
+	<field name="chartOfAccountsCode" class="java.lang.String"/>
 
 
 		<group  name="OrganizationCodeGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
-			<groupExpression><![CDATA[$F{organizationCode}]]></groupExpression>
+			<groupExpression><![CDATA[$F{organizationCode}+$F{orgChartOfAccountsCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -455,7 +456,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{chartOfAccountsCode}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgChartOfAccountsCode}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -468,7 +469,7 @@
 					<textElement>
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{chartOfAccountDescription}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgChartOfAccountDescription}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

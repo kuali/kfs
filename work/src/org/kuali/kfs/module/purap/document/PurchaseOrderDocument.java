@@ -702,6 +702,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 // DOCUMENT CANCELED
                 else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
                      SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CANCELLED);
+                     setGeneralLedgerPendingEntries(new ArrayList());
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                 }
             }

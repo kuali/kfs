@@ -27,7 +27,7 @@ public class LiabilityIncreaseDocumentForm extends EndowmentTransactionLinesDocu
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "LID";
+        return "ELI";
     }
 
     /**

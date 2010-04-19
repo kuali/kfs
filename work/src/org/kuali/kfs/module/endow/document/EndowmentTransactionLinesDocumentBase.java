@@ -109,13 +109,6 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         return null;
     }
 
-
-    public EndowmentSourceTransactionLine getSourceTransactionLine(int index) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
     public KualiDecimal getTargetIncomeTotal() {
         // TODO Auto-generated method stub
         return null;
@@ -126,13 +119,6 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         // TODO Auto-generated method stub
         return null;
     }
-
-
-    public EndowmentTargetTransactionLine getTargetTransactionLine(int index) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
     public EndowmentTransactionLineParser getTransactionLineParser() {
         // TODO Auto-generated method stub

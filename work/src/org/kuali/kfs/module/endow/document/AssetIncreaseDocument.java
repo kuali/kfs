@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, IncomePrincipalAmountTotaling, IncomePrincipalUnitsTotaling {
-
 
     public AssetIncreaseDocument() {
         super();
@@ -31,48 +29,57 @@ public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase impl
      * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalIncomeAmount()
      */
     public KualiDecimal getTotalIncomeAmount() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+
+        return this.getTargetIncomeTotal();
     }
 
     /**
      * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalPrincipalAmount()
      */
     public KualiDecimal getTotalPrincipalAmount() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+
+        return this.getTargetPrincipalTotal();
     }
 
     /**
      * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal totalAmount = new KualiDecimal();
+
+        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
+        totalAmount = totalAmount.add(getTotalIncomeUnits());
+        totalAmount = totalAmount.add(getTotalPrincipalUnits());
+
+        return totalAmount;
     }
 
     /**
      * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalIncomeUnits()
      */
     public KualiDecimal getTotalIncomeUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+
+        return this.getTargetIncomeTotalUnits();
     }
 
     /**
      * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalPrincipalUnits()
      */
     public KualiDecimal getTotalPrincipalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+
+        return this.getTargetPrincipalTotalUnits();
     }
 
     /**
      * @see org.kuali.kfs.module.endow.document.UnitsTotaling#getTotalUnits()
      */
     public KualiDecimal getTotalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal totalUnits = new KualiDecimal();
+        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
+        totalUnits = totalUnits.add(getTotalIncomeUnits());
+        totalUnits = totalUnits.add(getTotalPrincipalUnits());
+
+        return totalUnits;
     }
 
 }

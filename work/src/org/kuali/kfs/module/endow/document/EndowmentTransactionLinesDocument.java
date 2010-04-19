@@ -61,6 +61,34 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     public KualiDecimal getSourcePrincipalTotal();
 
     /**
+     * Sums up the units of all the source transaction lines for income.
+     * 
+     * @return the total income units
+     */
+    public KualiDecimal getSourceIncomeTotalUnits();
+
+    /**
+     * Sums up the units of all source transaction lines for principal.
+     * 
+     * @return the total principal units
+     */
+    public KualiDecimal getSourcePrincipalTotalUnits();
+
+    /**
+     * Sums up the units of all the target transaction lines for income.
+     * 
+     * @return the total income units
+     */
+    public KualiDecimal getTargetIncomeTotalUnits();
+
+    /**
+     * Sums up the units of all source transaction lines for principal.
+     * 
+     * @return the total principal units
+     */
+    public KualiDecimal getTargetPrincipalTotalUnits();
+
+    /**
      * @return TransactionLineParser instance appropriate for importing TransactionLines for this document type
      */
     public EndowmentTransactionLineParser getTransactionLineParser();
@@ -132,5 +160,5 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      */
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines);
 
-    
+
 }

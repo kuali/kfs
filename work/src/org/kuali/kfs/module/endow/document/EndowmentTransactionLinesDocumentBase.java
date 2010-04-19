@@ -44,82 +44,169 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLines()
+     */
     public List<EndowmentTransactionLine> getSourceTransactionLines() {
         return sourceTransactionLines;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#setSourceTransactionLines(java.util.List)
+     */
     public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceTransactionLines) {
         this.sourceTransactionLines = sourceTransactionLines;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTransactionLines()
+     */
     public List<EndowmentTransactionLine> getTargetTransactionLines() {
         return targetTransactionLines;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#setTargetTransactionLines(java.util.List)
+     */
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetTransactionLines) {
         this.targetTransactionLines = targetTransactionLines;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLinesSectionTitle()
+     */
     public String getSourceTransactionLinesSectionTitle() {
         return KFSConstants.SOURCE;
 
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTransactionLinesSectionTitle()
+     */
     public String getTargetTransactionLinesSectionTitle() {
         return KFSConstants.TARGET;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getNextSourceLineNumber()
+     */
     public Integer getNextSourceLineNumber() {
         return nextSourceLineNumber;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#setNextSourceLineNumber(java.lang.Integer)
+     */
     public void setNextSourceLineNumber(Integer nextSourceLineNumber) {
         this.nextSourceLineNumber = nextSourceLineNumber;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getNextTargetLineNumber()
+     */
     public Integer getNextTargetLineNumber() {
         return nextTargetLineNumber;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#setNextTargetLineNumber(java.lang.Integer)
+     */
     public void setNextTargetLineNumber(Integer nextTargetLineNumber) {
         this.nextTargetLineNumber = nextTargetLineNumber;
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#addSourceTransactionLine(org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine)
+     */
     public void addSourceTransactionLine(EndowmentSourceTransactionLine line) {
         // TODO Auto-generated method stub
 
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#addTargetTransactionLine(org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine)
+     */
     public void addTargetTransactionLine(EndowmentTargetTransactionLine line) {
         // TODO Auto-generated method stub
 
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceIncomeTotal()
+     */
     public KualiDecimal getSourceIncomeTotal() {
         // TODO Auto-generated method stub
-        return null;
+        return KualiDecimal.ZERO;
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourcePrincipalTotal()
+     */
     public KualiDecimal getSourcePrincipalTotal() {
         // TODO Auto-generated method stub
-        return null;
+        return KualiDecimal.ZERO;
     }
 
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetIncomeTotal()
+     */
     public KualiDecimal getTargetIncomeTotal() {
         // TODO Auto-generated method stub
-        return null;
+        return KualiDecimal.ZERO;
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetPrincipalTotal()
+     */
     public KualiDecimal getTargetPrincipalTotal() {
         // TODO Auto-generated method stub
-        return null;
+        return KualiDecimal.ZERO;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceIncomeTotalUnits()
+     */
+    public KualiDecimal getSourceIncomeTotalUnits() {
+        // TODO Auto-generated method stub
+        return KualiDecimal.ZERO;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourcePrincipalTotalUnits()
+     */
+    public KualiDecimal getSourcePrincipalTotalUnits() {
+        // TODO Auto-generated method stub
+        return KualiDecimal.ZERO;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetIncomeTotalUnits()
+     */
+    public KualiDecimal getTargetIncomeTotalUnits() {
+        // TODO Auto-generated method stub
+        return KualiDecimal.ZERO;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetPrincipalTotalUnits()
+     */
+    public KualiDecimal getTargetPrincipalTotalUnits() {
+        // TODO Auto-generated method stub
+        return KualiDecimal.ZERO;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTransactionLineParser()
+     */
     public EndowmentTransactionLineParser getTransactionLineParser() {
         // TODO Auto-generated method stub
         return null;

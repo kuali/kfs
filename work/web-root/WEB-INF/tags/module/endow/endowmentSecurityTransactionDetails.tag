@@ -15,8 +15,10 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type='text/javascript' src="dwr/interface/RegistrationCodeService.js"></script>
 <script type='text/javascript' src="dwr/interface/EndowmentTransactionDocumentService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/securityObjectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/endow/registrationObjectInfo.js"></script>
 
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="showSource" required="true" %>
@@ -32,7 +34,7 @@
 
  <div class="tab-container" align=center>
 	<h3>Security Details</h3>
-	<table cellpadding="0" cellspacing="0" class="datatable" summary="Security Details2">
+	<table cellpadding="0" cellspacing="0" class="datatable" summary="Security Details2" style='table-layout:fixed'>
 	<c:if  test="${showSource}">  
 		<c:set var="sourceSecurityTransactionAttributes" value="${DataDictionary.EndowmentSourceTransactionSecurity.attributes}" /> 
 		<tr>
@@ -61,7 +63,7 @@
 
 		</tr>
       
-        <tr>
+        <tr> 
             <td class="infoline">
 	            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" 
 	            	property="document.sourceTransactionSecurity.securityID" 
@@ -70,15 +72,23 @@
 	            &nbsp;
 				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
 					fieldConversions="id:document.sourceTransactionSecurity.securityID" />
+				<br/>
+				<div id="security.description" style="height:20px;">
+            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.sourceTransactionSecurity.security.description" readOnly="true" />
+            	</div>	
             </td>
             <td>
-            	<div id="document.sourceTransactionSecurity.security.securityClassCode">
+            	<div id="document.sourceTransactionSecurity.security.securityClassCode" >
             		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.securityClassCode" readOnly="true" />
+            		-
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.name" readOnly="true" />
             	</div>
             </td>
             <td>
             	<div id="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode">
             		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
+            		-
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.endowmentTransactionCode.name" readOnly="true" />
             	</div>	
             </td>
             <td>
@@ -87,11 +97,19 @@
             	</div>	
             </td>
             <td class="infoline">
-            	<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" property="document.sourceTransactionSecurity.registrationCode" />
+            	<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" 
+            			property="document.sourceTransactionSecurity.registrationCode"
+            			onblur="loadRegistrationInfo(this.name);" 
+            	/>
                 &nbsp;
 				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.RegistrationCode"
-					fieldConversions="code:document.sourceTransactionSecurity.registrationCode" />
-            	</td> 
+					fieldConversions="code:document.sourceTransactionSecurity.registrationCode" 
+					/>
+				<br/>
+				<div id="registration.description" style="height:20px;">
+            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" property="document.sourceTransactionSecurity.registrationCodeObj.name" readOnly="true" />
+            	</div>		
+            </td> 
         </tr>
     </c:if>
     <%--

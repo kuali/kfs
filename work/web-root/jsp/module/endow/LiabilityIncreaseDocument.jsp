@@ -41,14 +41,14 @@
 
     <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true"/>  
                   
-      
-    
-<%--         
-	 <endow:endowmentTransactionalLines isSource="true" />       
-         
+	<endow:endowmentTransactionalLines isSource="false" isTarget="true"/>    
+                  
+    <endow:endowmentTaxLotLine 
+    	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
+    	isSource="true"
+    	isTarget="false"
+    	readOnly="true"/>
 
-    <endow:endowmentTaxLotLine documentAttributes="${DataDictionary.AssetIncreaseDocument.attributes}" />              
- --%>       
 	<kul:notes /> 
 	
 	<kul:routeLog />

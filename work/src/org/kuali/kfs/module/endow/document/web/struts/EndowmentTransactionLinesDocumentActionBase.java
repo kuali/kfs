@@ -24,11 +24,16 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
+import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
@@ -38,7 +43,9 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
+    
     private static final String SECURITY_REFRESH = "document.sourceTransactionSecurity.securityID";
+    private static final String REGISTRATION_REFRESH = "document.sourceTransactionSecurity.registrationCode";
 
     /**
      * This action executes an insert of an EndowmentSourceTransactionLine into a document only after validating the Transaction
@@ -152,15 +159,36 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
             refreshSecurityDetails(mapping, form, request, response);
         }
 
+        // To Determine if the refresh is coming from Registration lookup
+        if (request.getParameterMap().containsKey(REGISTRATION_REFRESH)) {
+            refreshRegistrationDetails(mapping, form, request, response);
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LiabilityIncreaseDocument liabilityIncreaseDocument = ((LiabilityIncreaseDocumentForm) form).getLiabilityIncreaseDocument();
-        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(liabilityIncreaseDocument.getSourceTransactionSecurity().getSecurityID());
+    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = ( EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument() ;
+
+        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getSecurityID());
         ClassCode classCode = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
         security.setClassCode(classCode);
-        liabilityIncreaseDocument.getSourceTransactionSecurity().setSecurity(security);
+        EndowmentTransactionCode endowmentTransactionCode  = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
+        classCode.setEndowmentTransactionCode(endowmentTransactionCode);
+        endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setSecurity(security);
+
+        return null;
+
+    }
+    
+    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = ( EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument() ;
+
+        RegistrationCode registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getRegistrationCode());
+        endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
+        
         return null;
 
     }

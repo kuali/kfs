@@ -40,12 +40,16 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
     {
         Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(securityID);
         ClassCode classCode  = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
+        EndowmentTransactionCode tranCode  = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
+        
+        
         security.setClassCode(classCode);
         
-        String returnArray[] = new String[3];
-        returnArray[0] = security.getSecurityClassCode();
-        returnArray[1] = security.getClassCode().getSecurityEndowmentTransactionCode();
-        returnArray[2] = new Boolean( security.getClassCode().isTaxLotIndicator()).toString();
+        String returnArray[] = new String[4];
+        returnArray[0] = security.getDescription(); 
+        returnArray[1] = security.getSecurityClassCode() + " - " + classCode.getName();
+        returnArray[2] = tranCode.getCode() + " - " + classCode.getName();
+        returnArray[3] = new Boolean( security.getClassCode().isTaxLotIndicator()).toString();
         
         return returnArray;
     }

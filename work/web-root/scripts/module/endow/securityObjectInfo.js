@@ -17,29 +17,35 @@ function loadSecurityInfo( securityIdFieldName)
 {
     var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
 
+    var securityCodeField = "security.description";
     var classCodeField = "document.sourceTransactionSecurity.security.securityClassCode";
     var transactionCodeField = "document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode";
     var taxLotIndicatorField = "document.sourceTransactionSecurity.security.classCode.taxLotIndicator";
     
-	if (securityId=='') 
-	{
-		clearRecipients(classCodeField, "");
-		clearRecipients(transactionCodeField, "");
-		clearRecipients(taxLotIndicatorField, "");
-	} 
-	else 
+
+	clearRecipients(securityCodeField, "");
+	clearRecipients(classCodeField, "-");
+	clearRecipients(transactionCodeField, "-");
+	clearRecipients(taxLotIndicatorField, "-");
+ 
+	if (securityId != '') 
 	{
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( classCodeField, data[0]);
-				setRecipientValue( transactionCodeField, data[1] );
-				setRecipientValue( taxLotIndicatorField, data[2] );
-			} else {
-				setRecipientValue( securityNameFieldName, wrapError( "Security not found" ), true );			
+			if ( data != null && typeof data == 'object' ) 
+			{
+				setRecipientValue( securityCodeField, data[0]);
+				setRecipientValue( classCodeField, data[1]);
+				setRecipientValue( transactionCodeField, data[2] );
+				setRecipientValue( taxLotIndicatorField, data[3] );
+			} 
+			else 
+			{
+				setRecipientValue( classCodeField, wrapError( "Security not found" ), true );			
 			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( securityNameFieldName, wrapError( "Security not found" ), true );
+			errorHandler:function( errorMessage ) 
+			{ 
+				setRecipientValue( classCodeField, wrapError( "Security not found" ), true );
 			}
 		};
 		EndowmentTransactionDocumentService.getSecurity( securityId, dwrReply );

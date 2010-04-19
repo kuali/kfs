@@ -147,6 +147,19 @@ public interface AccountService {
      * @param accountNumber the account number
      * @return a list of accounts associated with that account number 
      */
-    public abstract Collection<Account> getAccountsForAccountNumber(String accountNumber);
+    public abstract Collection<Account> getAccountsForAccountNumber(String accountNumber);    
+    
+    /**
+     * Returns the unique account associated with a given account number.
+     * This method only applies when parameter ACCOUNTS_CAN_CROSS_CHARTS_IND is set to "N".
+     * @param accountNumber the account number
+     * @return the unique account associated with that account number 
+     */
+    public Account getUniqueAccountForAccountNumber(String accountNumber);
+    
+    /**
+     * Returns true if parameter ACCOUNTS_CAN_CROSS_CHARTS_IND is set to "Y"; otherwise false.     
+     */
+    public boolean accountsCanCrossCharts();
 }
 

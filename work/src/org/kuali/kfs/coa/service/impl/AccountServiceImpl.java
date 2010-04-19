@@ -29,10 +29,14 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -257,16 +261,37 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * @see org.kuali.kfs.coa.service.AccountService#getAccountsForAccountNumber(java.lang.String)
+     */
+    public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
+        return accountDao.getAccountsForAccountNumber(accountNumber);
+    }
+    
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)
+     */
+    public Account getUniqueAccountForAccountNumber(String accountNumber) {
+        Iterator accounts = accountDao.getAccountsForAccountNumber(accountNumber).iterator();
+        Account account = null;
+        // there should be only one account in the collection
+        if (accounts.hasNext()) {
+            account = (Account)accounts.next();
+        }
+        return account;
+    }
+    
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
+     */
+    public boolean accountsCanCrossCharts() {
+        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+    }
+    
+    /**
      * @param accountDao The accountDao to set.
      */
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    /**
-     * @see org.kuali.kfs.coa.service.AccountService#getAccountsForAccountNumber(java.lang.String)
-     */
-    public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
-        return accountDao.getAccountsForAccountNumber(accountNumber);
-    }
 }

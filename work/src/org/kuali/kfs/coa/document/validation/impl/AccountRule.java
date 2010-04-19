@@ -1098,7 +1098,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         
         if (maintenanceDocument.isNew() && // if adding a new account
                 // while account is not allowed to cross chart 
-                !getParameterService().getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND) &&
+                !accountService.accountsCanCrossCharts() &&
                 // and with an account number that already exists
                 !accountService.getAccountsForAccountNumber(accountNumber).isEmpty()) {
             // report error

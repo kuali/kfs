@@ -290,7 +290,6 @@
 				<include name="${source.directory}/${ojb.repository.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
-				<include name="${xsd.directory}/**/**" />
 				<include name="${war.directory}/**/**" />
 				<include name="${test.directory}/**/**" />
 				<include name="*.war" />

@@ -99,7 +99,7 @@ public class LiabilityServiceTest extends KualiTestBase
         hldg.setDocumentNumber("4160");
         hldg.setDocumentLineNumber(new KualiInteger("1"));
         hldg.setDocumentLineTypeCode("F");
-        hldg.setTransactionHoldingLongTermNumber(new KualiInteger("99"));
+        hldg.setTransactionHoldingLotNumber(new KualiInteger("99"));
         hldg.setLotUnits(new KualiDecimal("22"));
         
         //Setting the tax lot line.

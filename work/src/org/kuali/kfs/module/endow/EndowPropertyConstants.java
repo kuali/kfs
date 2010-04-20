@@ -490,6 +490,9 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_LINE_TYPE_CODE = "transactionLineTypeCode";
     public static final String TRANSACTION_LINE_NUMBER = "transactionLineNumber";
     
+    //Transaction Holding Lot Line
+    public static final String TRANSACTION_HOLDING_LOT_NUMBER = "transactionHoldingLotNumber";
+    
     //Transaction Document
     public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";

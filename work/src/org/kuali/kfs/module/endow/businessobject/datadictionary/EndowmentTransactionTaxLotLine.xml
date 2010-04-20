@@ -22,7 +22,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         
         -->
         <ref bean="EndowmentTransactionTaxLotLine-documentLineNumber" />
-        <ref bean="EndowmentTransactionTaxLotLine-transactionHoldingLongTermNumber" />
+        <ref bean="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber" />
         <ref bean="EndowmentTransactionTaxLotLine-lotUnits" />
         <ref bean="EndowmentTransactionTaxLotLine-lotHoldingCost" />
       </list>
@@ -45,10 +45,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-  <bean id="EndowmentTransactionTaxLotLine-transactionHoldingLongTermNumber" parent="EndowmentTransactionTaxLotLine-transactionHoldingLongTermNumber-parentBean" />
+  <bean id="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber" parent="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber-parentBean" />
 
-  <bean id="EndowmentTransactionTaxLotLine-transactionHoldingLongTermNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionHoldingLongTermNumber" />
+  <bean id="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionHoldingLotNumber" />
     <property name="label" value="Transaction Lot Number" />
     <property name="shortLabel" value="Lot Number" />
     <property name="maxLength" value="10" />

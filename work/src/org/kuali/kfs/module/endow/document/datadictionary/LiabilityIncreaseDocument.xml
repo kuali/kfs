@@ -19,7 +19,7 @@
 
   <bean id="LiabilityIncreaseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     
-    <property name="documentTypeName" value="LID"/>
+    <property name="documentTypeName" value="ELI"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.LiabilityIncreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.LiabilityIncreaseDocumentAuthorizer"/>

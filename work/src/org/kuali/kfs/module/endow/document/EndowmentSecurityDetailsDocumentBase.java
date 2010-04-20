@@ -28,18 +28,19 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument 
 {
+    private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
+    private List<EndowmentTransactionSecurity> targetTransactionSecurities;
+    
+    private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
+    private EndowmentTargetTransactionSecurity targetTransactionSecurity;
+    
     public EndowmentSecurityDetailsDocumentBase()
     {
         super();
-        //this.nextSourceLineNumber = new Integer(1);
-        //this.nextTargetLineNumber = new Integer(1);
         sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
         targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
         sourceTransactionSecurities = new TypedArrayList(EndowmentSourceTransactionSecurity.class);
-        //sourceTransactionSecurities.set(0,sourceTransactionSecurity);
         targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
-        //targetTransactionSecurities .set(0, targetTransactionSecurity);
-        
     }
 
     @Override
@@ -59,12 +60,6 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
             setTargetTransactionSecurity(getTargetTransactionSecurity());
 
     }
-    
-    private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
-    private List<EndowmentTransactionSecurity> targetTransactionSecurities;
-    
-    private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
-    private EndowmentTargetTransactionSecurity targetTransactionSecurity;
     
     public List<EndowmentTransactionSecurity> getSourceTransactionSecurities() {
         return sourceTransactionSecurities;
@@ -100,10 +95,4 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity)targetTransactionSecurity;
         this.targetTransactionSecurities.set(0, targetTransactionSecurity) ;
     }
-    
-    
-
-    
-
-
 }

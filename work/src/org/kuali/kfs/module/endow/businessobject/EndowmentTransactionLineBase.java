@@ -18,11 +18,13 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.TypedArrayList;
+
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 
 /**
  * This is the generic class which contains all the elements on a typical Endowment Transaction Line.
@@ -57,6 +59,8 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
         kemidObj = new KEMID();
         etranCodeObj = new EndowmentTransactionCode();
         incomePrincipalIndicator = new IncomePrincipalIndicator();
+        
+        taxLotLines = new TypedArrayList(EndowmentTransactionTaxLotLine.class);
     }
     
     /**

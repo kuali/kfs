@@ -72,9 +72,17 @@
 			<available file="${shared.external.build.properties}" />
 			<then>
 				<echo message="Reading Properties: ${shared.external.build.properties}" />
+				<property file="${shared.external.build.properties}" />
 			</then>
 		</if>
-		<property file="${shared.external.build.properties}" />
+    	<property name="build.environment" value="dev"/>
+		<if>
+			<available file="${basedir}/${build.environment}-build.properties" />
+			<then>
+				<echo message="Reading Properties: ${basedir}/${build.environment}-build.properties" />    	
+		        <property file="${basedir}/${build.environment}-build.properties" />
+			</then>
+		</if>
 		<property name="properties.directory" location="build/properties" />
 		<echo message="Reading Properties: ${properties.directory}/build.properties" />
 		<property file="${properties.directory}/build.properties" />

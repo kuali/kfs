@@ -1,0 +1,65 @@
+  <!--
+ Copyright 2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ChartAttribute-TextControl" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="chartOfAccountsCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Chart Code" />
+		<property name="shortLabel" value="Chart" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern" ref="ChartValidationPattern" />
+		<property name="required" value="true" />
+		<property name="control" ref="ChartTextControl" />
+	</bean>
+	        
+  <bean id="EndowmentTransactionalDocument-transactionSubTypeCode" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionSubTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Transaction Sub-Type"/>
+    <property name="shortLabel" value="Sub Type"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TransactionSubTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
+  <bean id="EndowmentTransactionalDocument-transactionSourceTypeCode" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionSourceTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Transaction Source-Type"/>
+    <property name="shortLabel" value="Source Type"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
+    </property>
+  </bean>
+  
+  <bean id="EndowmentTransactionalDocument-transactionPosted" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="transactionPosted"/>
+    <property name="label" value="Transaction Posted"/>
+  </bean>
+</beans>

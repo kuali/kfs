@@ -1536,7 +1536,7 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentLineNumber" column="FDOC_LN_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/> 
 	<field-descriptor name="documentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="transactionHoldingLongTermNumber" column="TRAN_HLDG_LT_NBR" jdbc-type="INTEGER" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/> 
+	<field-descriptor name="transactionHoldingLotNumber" column="TRAN_HLDG_LT_NBR" jdbc-type="INTEGER" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/> 
 	<field-descriptor name="lotUnits" column="LOT_UNITS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotHoldingCost" column="LOT_HLDG_COST" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_LT_GAIN_LOSS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
@@ -1588,7 +1588,7 @@
 	<!--  Common collections -->
 	 
     <collection-descriptor name="taxLotLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="transactionHoldingLongTermNumber" sort="ASC" /> 
+        <orderby name="transactionHoldingLotNumber" sort="ASC" /> 
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="documentLineNumber" />  
 		<inverse-foreignkey field-ref="documentLineTypeCode" /> 
@@ -1625,6 +1625,22 @@
     <reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transactionIPIndicatorCode" />
 	</reference-descriptor>		
+	
+	<!-- Collections -->
+	
+	<!--  Common collections -->
+	 
+    <collection-descriptor name="taxLotLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionHoldingLotNumber" sort="ASC" /> 
+		<inverse-foreignkey field-ref="documentNumber" />
+		<inverse-foreignkey field-ref="documentLineNumber" />  
+		<inverse-foreignkey field-ref="documentLineTypeCode" /> 
+		<!-- 
+		<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+				<attribute attribute-name="transactionLineTypeCode" attribute-value="F" />
+		</query-customizer>
+		-->		
+    </collection-descriptor>
 </class-descriptor>
 
 
@@ -1734,5 +1750,47 @@
     </collection-descriptor>
 
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.document.CashIncreaseDocument" table="END_TRAN_DOC_T">
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	
+	<reference-descriptor name="transactionSubType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionSubTypeCode" />
+	</reference-descriptor>	
+	
+	<reference-descriptor name="transactionSourceType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionSourceTypeCode" />
+	</reference-descriptor>	
+	
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>   
+	    	    
+    <!--  collections -->
+
+    <!--  common collections --> 
+    <collection-descriptor name="targetTransactionLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="transactionLineTypeCode" attribute-value="T" />
+				</query-customizer>
+    </collection-descriptor>
+
+    <collection-descriptor name="targetTransactionSecurity" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="securityID" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="securityLineTypeCode" attribute-value="T" />
+				</query-customizer>
+    </collection-descriptor>
+
+</class-descriptor>
+
 
 </descriptor-repository>

@@ -43,7 +43,7 @@
 	<field name="thresholdOrReason" class="java.lang.String"/>
 
 
-		<group  name="ChartOfAccountsCodeGroup" >
+		<group  name="ChartOfAccountsCodeGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[$F{chartOfAccountsCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >
@@ -54,7 +54,7 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="OrganizationCodeGroup" >
+		<group  name="OrganizationCodeGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[$F{organizationCode}]]></groupExpression>
 			<groupHeader>
 			<band height="0"  isSplitAllowed="true" >

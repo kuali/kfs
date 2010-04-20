@@ -32,6 +32,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalary
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReportTotal;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalarySummaryReportTotal;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
@@ -41,11 +42,13 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySumma
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSalarySummaryReportServiceImpl.OrganizationTotalHolder;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,25 +89,21 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     public Collection<BudgetConstructionOrgReasonSummaryReport> buildReports(Integer universityFiscalYear, String principalId, BudgetConstructionReportThresholdSettings reportThresholdSettings) {
         Collection<BudgetConstructionOrgReasonSummaryReport> reportSet = new ArrayList<BudgetConstructionOrgReasonSummaryReport>();
 
-        Map<String, Object> salaryFundingSearchCriteria = new HashMap<String, Object>();
-        salaryFundingSearchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalId);
+        BudgetConstructionOrgReasonSummaryReport reasonSummaryReport;
+        Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionSalarySocialSecurityNumber.class, principalId, buildOrderByList());
 
-        List<String> orderList = this.buildOrderByList();
-        List<BudgetConstructionSalaryFunding> reasonSummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryFunding.class, salaryFundingSearchCriteria, orderList);
-
-        // get BudgetConstructionSalarySocialSecurityNumber and put into map
-        Map<BudgetConstructionSalaryFunding, BudgetConstructionSalarySocialSecurityNumber> salarySsnMap = new HashMap<BudgetConstructionSalaryFunding, BudgetConstructionSalarySocialSecurityNumber>();
-        for (BudgetConstructionSalaryFunding salaryFunding : reasonSummaryList) {
-            BudgetConstructionSalarySocialSecurityNumber salarySocialSecurityNumber = budgetConstructionReportsServiceHelper.getBudgetConstructionSalarySocialSecurityNumber(principalId, salaryFunding);
-            salarySsnMap.put(salaryFunding, salarySocialSecurityNumber);
+        Map salaryFundingMap = new HashMap();
+        for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
+            Collection<BudgetConstructionSalaryFunding> salaryFundingList = budgetConstructionReportsServiceHelper.getSalaryFunding(principalId, ssnEntry.getEmplid());
+            salaryFundingMap.put(ssnEntry, salaryFundingList);
         }
 
-        List<BudgetConstructionSalaryFunding> listForCalculateTotalPerson = this.retainUniqeSalaryFunding(reasonSummaryList, salarySsnMap, 1);
-        List<BudgetConstructionSalaryFunding> listForCalculateTotalOrg = this.retainUniqeSalaryFunding(reasonSummaryList, salarySsnMap, 2);
+        List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalPerson = deleteDuplicated((List) bcSalarySsnList, 1);
+        List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalOrg = deleteDuplicated((List) bcSalarySsnList, 2);
 
         // Calculate Total Section
-        Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson = calculatePersonTotal(universityFiscalYear, reasonSummaryList, listForCalculateTotalPerson, salarySsnMap);
-        Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalOrg = calculateOrgTotal(reasonSummaryTotalPerson, listForCalculateTotalOrg, salarySsnMap);
+        Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson = calculatePersonTotal(universityFiscalYear, bcSalarySsnList, listForCalculateTotalPerson, salaryFundingMap);
+        Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalOrg = calculateOrgTotal(reasonSummaryTotalPerson, listForCalculateTotalOrg, salaryFundingMap);
 
         // get object codes
         String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalId);
@@ -112,15 +111,16 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         // get reason codes
         String reasonCodes = budgetConstructionReportsServiceHelper.getSelectedReasonCodes(principalId);
 
-        for (BudgetConstructionSalaryFunding salaryFundingEntry : reasonSummaryList) {
-            BudgetConstructionSalarySocialSecurityNumber budgetSsnEntry = salarySsnMap.get(salaryFundingEntry);
-            BudgetConstructionOrgReasonSummaryReport reasonSummaryReport = new BudgetConstructionOrgReasonSummaryReport();
-
-            buildReportsHeader(universityFiscalYear, objectCodes, reasonCodes, reasonSummaryReport, salaryFundingEntry, budgetSsnEntry, reportThresholdSettings);
-            buildReportsBody(universityFiscalYear, reasonSummaryReport, salaryFundingEntry, budgetSsnEntry);
-            buildReportsTotal(reasonSummaryReport, salaryFundingEntry, reasonSummaryTotalPerson, reasonSummaryTotalOrg, salarySsnMap);
-
-            reportSet.add(reasonSummaryReport);
+        for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
+            Collection<BudgetConstructionSalaryFunding> salaryFundingList = (Collection) salaryFundingMap.get(ssnEntry);
+            
+            for (BudgetConstructionSalaryFunding salaryFundingEntry : salaryFundingList) {
+                reasonSummaryReport = new BudgetConstructionOrgReasonSummaryReport();
+                buildReportsHeader(universityFiscalYear, objectCodes, reasonCodes, reasonSummaryReport, salaryFundingEntry, ssnEntry, reportThresholdSettings);
+                buildReportsBody(universityFiscalYear, reasonSummaryReport, salaryFundingEntry, ssnEntry);
+                buildReportsTotal(reasonSummaryReport, ssnEntry, reasonSummaryTotalPerson, reasonSummaryTotalOrg);
+                reportSet.add(reasonSummaryReport);
+            }
         }
 
         return reportSet;
@@ -143,14 +143,14 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             reasonSummaryReport.setOrganizationName(organizationName);
         }
 
-        reasonSummaryReport.setChartOfAccountsCode(salaryFundingEntry.getChartOfAccountsCode());
-        String chartDescription = salaryFundingEntry.getChartOfAccounts().getFinChartOfAccountDescription();
+        reasonSummaryReport.setOrgChartOfAccountsCode(bcSSN.getOrganizationChartOfAccountsCode());
+        String chartDescription = bcSSN.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         if (chartDescription == null) {
             String wrongChartDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
-            reasonSummaryReport.setChartOfAccountDescription(wrongChartDescription);
+            reasonSummaryReport.setOrgChartOfAccountDescription(wrongChartDescription);
         }
         else {
-            reasonSummaryReport.setChartOfAccountDescription(chartDescription);
+            reasonSummaryReport.setOrgChartOfAccountDescription(chartDescription);
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
@@ -206,6 +206,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(fiscalYear, appointmentFunding);
 
         // set report body
+        reasonSummaryReport.setChartOfAccountsCode(salaryFundingEntry.getChartOfAccountsCode());
         reasonSummaryReport.setAccountNumber(salaryFundingEntry.getAccountNumber());
         reasonSummaryReport.setSubAccountNumber(salaryFundingEntry.getSubAccountNumber());
         reasonSummaryReport.setFinancialSubObjectCode(salaryFundingEntry.getFinancialSubObjectCode());
@@ -290,11 +291,13 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
     }
 
-
-    public void buildReportsTotal(BudgetConstructionOrgReasonSummaryReport reasonSummaryReportEntry, BudgetConstructionSalaryFunding salaryFundingEntry, Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalOrg, Map budgetSsnMap) {
+    /**
+     * build the total sections for the report 
+     */
+    public void buildReportsTotal(BudgetConstructionOrgReasonSummaryReport reasonSummaryReportEntry, BudgetConstructionSalarySocialSecurityNumber ssnEntry, Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalOrg) {
 
         for (BudgetConstructionOrgReasonSummaryReportTotal totalPersonEntry : reasonSummaryTotalPerson) {
-            if (isSameSalaryFundingEntryForTotalPerson(totalPersonEntry.getBudgetConstructionSalaryFunding(), salaryFundingEntry, budgetSsnMap)) {
+            if (isSameSsnEntryForTotalPerson(totalPersonEntry.getBudgetConstructionSalarySocialSecurityNumber(), ssnEntry)) {
                 reasonSummaryReportEntry.setPersonPositionNumber(totalPersonEntry.getPersonPositionNumber());
                 reasonSummaryReportEntry.setPersonFiscalYearTag(totalPersonEntry.getPersonFiscalYearTag());
                 reasonSummaryReportEntry.setPersonNormalMonthsAndPayMonths(totalPersonEntry.getPersonCsfNormalMonths().toString() + "/" + totalPersonEntry.getPersonCsfPayMonths().toString());
@@ -309,7 +312,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
                 reasonSummaryReportEntry.setPersonPercentChange(totalPersonEntry.getPersonPercentChange());
             }
             for (BudgetConstructionOrgReasonSummaryReportTotal totalOrgEntry : reasonSummaryTotalOrg) {
-                if (isSameSalaryFundingEntryForTotalOrg(totalPersonEntry.getBudgetConstructionSalaryFunding(), salaryFundingEntry, budgetSsnMap)) {
+                if (isSameSsnEntryForTotalOrg(totalOrgEntry.getBudgetConstructionSalarySocialSecurityNumber(), ssnEntry)) {
                     reasonSummaryReportEntry.setNewFte(totalOrgEntry.getNewFte());
                     reasonSummaryReportEntry.setNewTotalAmount(totalOrgEntry.getNewTotalAmount());
                     reasonSummaryReportEntry.setConTotalBaseAmount(totalOrgEntry.getConTotalBaseAmount());
@@ -325,99 +328,38 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
     }
 
-    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, List<BudgetConstructionSalaryFunding> listForCalculateTotalPerson, Map budgetSsnMap) {
+    // calculate the totals for the given person
+    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalPerson, Map salaryFundingMap) {
         Collection<BudgetConstructionOrgReasonSummaryReportTotal> returnCollection = new ArrayList<BudgetConstructionOrgReasonSummaryReportTotal>();
 
-        for (BudgetConstructionSalaryFunding totalPersonEntry : listForCalculateTotalPerson) {
-            PersonTotalHolder totalsHolder = this.calculateTotalForPerson(totalPersonEntry, reasonSummaryList, budgetSsnMap);
-            this.adjustPersonTotal(totalsHolder);
+        for (BudgetConstructionSalarySocialSecurityNumber personEntry : listForCalculateTotalPerson) {
+            PersonTotalHolder totalsHolder = new PersonTotalHolder();
+            totalsHolder.emplid = personEntry.getEmplid();
 
-            returnCollection.add(this.createReportTotal(totalPersonEntry, totalsHolder));
+            for (BudgetConstructionSalarySocialSecurityNumber salaryFundingEntry : bcSalarySsnList) {
+                if (isSameSsnEntryForTotalPerson(personEntry, salaryFundingEntry)) {
+                    Collection<BudgetConstructionSalaryFunding> salaryFundings = (Collection<BudgetConstructionSalaryFunding>) salaryFundingMap.get(personEntry);
+                    this.collectPersonTotal(universityFiscalYear, salaryFundings, totalsHolder);
+                }
+            }
+
+            this.adjustPersonTotal(totalsHolder);
+            returnCollection.add(this.createReportTotal(personEntry, totalsHolder));
         }
 
         return returnCollection;
     }
 
-    protected PersonTotalHolder calculateTotalForPerson(BudgetConstructionSalaryFunding totalPersonEntry, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, Map budgetSsnMap) {
-        PersonTotalHolder totalsHolder = new PersonTotalHolder();
-
-        int maxSalaryAmount = 0;
-        int maxCsfAmount = 0;
-
-        for (BudgetConstructionSalaryFunding salaryfundingEntry : reasonSummaryList) {
-            PendingBudgetConstructionAppointmentFunding appointmentFunding = salaryfundingEntry.getPendingAppointmentFunding();
-            Integer universityFiscalYear = appointmentFunding.getUniversityFiscalYear();
-            BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFunding);
-
-            if (isSameSalaryFundingEntryForTotalPerson(totalPersonEntry, salaryfundingEntry, budgetSsnMap)) {
-                int tempSalaryMonth = 0;
-                String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
-
-                if (StringUtils.equals(durationCode, BCConstants.Report.NONE)) {
-                    totalsHolder.salaryAmount += appointmentFunding.getAppointmentRequestedAmount().intValue();
-                    totalsHolder.salaryPercent = totalsHolder.salaryPercent.add(appointmentFunding.getAppointmentRequestedTimePercent());
-                    tempSalaryMonth = appointmentFunding.getAppointmentFundingMonth();
-                }
-                else {
-                    totalsHolder.salaryAmount += appointmentFunding.getAppointmentRequestedCsfAmount().intValue();
-                    totalsHolder.salaryPercent = totalsHolder.salaryPercent.add(appointmentFunding.getAppointmentRequestedCsfTimePercent());
-                    tempSalaryMonth = budgetConstructionPosition.getIuNormalWorkMonths();
-                }
-
-                if (totalsHolder.salaryAmount > maxSalaryAmount) {
-                    maxSalaryAmount = totalsHolder.salaryAmount;
-                    totalsHolder.salaryPayMonth = budgetConstructionPosition.getIuPayMonths();
-                    totalsHolder.salaryNormalMonths = tempSalaryMonth;
-                }
-
-                BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = appointmentFunding.getEffectiveCSFTracker();
-                if (csfTracker != null && csfTracker.getCsfAmount() != null && csfTracker.getCsfAmount().intValue() != 0) {
-                    int csfAmount = csfTracker.getCsfAmount().intValue();
-
-                    totalsHolder.csfAmount += csfAmount;
-                    totalsHolder.csfPercent = totalsHolder.csfPercent.add(csfTracker.getCsfTimePercent());
-
-                    if (csfAmount > maxCsfAmount) {
-                        maxCsfAmount = csfAmount;
-                    }
-                }
-
-                // data for previous year, position table has two data, one is for current year and another is for previous year.
-                Integer previousFiscalYear = universityFiscalYear - 1;
-                BudgetConstructionPosition previousYearBudgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(previousFiscalYear, appointmentFunding);
-
-                totalsHolder.csfPayMonths = previousYearBudgetConstructionPosition.getIuPayMonths();
-                totalsHolder.csfNormalMonths = previousYearBudgetConstructionPosition.getIuNormalWorkMonths();
-                totalsHolder.fiscalYearTag = previousFiscalYear.toString() + ":";
-
-                totalsHolder.positionNumber = budgetConstructionPosition.getPositionNumber();
-
-                if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
-                    if (totalsHolder.curToInt <= -1) {
-                        totalsHolder.curToInt = appointmentFunding.getAppointmentTotalIntendedAmount().intValue();
-                    }
-
-                    if (totalsHolder.curFteInt <= -1.00) {
-                        totalsHolder.curFteInt = appointmentFunding.getAppointmentTotalIntendedFteQuantity().doubleValue();
-                    }
-                }
-            }
-        }
-
-        return totalsHolder;
-    }
-
     // adjust the total amount that just is held by the given holder
     protected void adjustPersonTotal(PersonTotalHolder totalsHolder) {
         Integer restatementCsfAmount = 0;
-
         if (totalsHolder.salaryPayMonth == 0 || totalsHolder.csfPayMonths == 0 || BigDecimal.ZERO.compareTo(totalsHolder.csfPercent) == 0 || totalsHolder.csfNormalMonths == 0) {
             restatementCsfAmount = 0;
         }
         else {
             BigDecimal salaryMonthPercent = new BigDecimal(totalsHolder.salaryNormalMonths * 1.0 / totalsHolder.salaryPayMonth);
             BigDecimal salaryFteQuantity = totalsHolder.salaryPercent.multiply(salaryMonthPercent);
-
+            
             BigDecimal csfMonthpercent = new BigDecimal(totalsHolder.csfNormalMonths * 1.0 / totalsHolder.csfPayMonths);
             BigDecimal csfFteQuantity = totalsHolder.csfPercent.multiply(csfMonthpercent);
 
@@ -443,7 +385,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
                 restatementCsfAmount = BudgetConstructionReportHelper.setDecimalDigit(amount, 0, false).intValue();
             }
         }
-
+        
         totalsHolder.csfAmount = restatementCsfAmount;
         totalsHolder.amountChange = totalsHolder.salaryAmount - totalsHolder.csfAmount;
 
@@ -462,11 +404,152 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
     }
 
-    // create a report total for the given person with the values in the given total holder
-    protected BudgetConstructionOrgReasonSummaryReportTotal createReportTotal(BudgetConstructionSalaryFunding totalPersonEntry, PersonTotalHolder totalsHolder) {
+    // collect the total amounts for a single person and save the totals in the given holder
+    protected void collectPersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> salaryFundings, PersonTotalHolder totalsHolder) {
+        int maxSalaryAmount = 0;
+        int maxCsfAmount = 0;
+
+        for (BudgetConstructionSalaryFunding salaryFunding : salaryFundings) {
+            PendingBudgetConstructionAppointmentFunding appointmentFunding = salaryFunding.getPendingAppointmentFunding();
+            BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFunding);
+            
+            int salaryAmount = 0;
+            BigDecimal salaryPercent = BigDecimal.ZERO;
+            String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
+            
+            if (StringUtils.equals(durationCode, BCConstants.Report.NONE)) {
+                salaryAmount = appointmentFunding.getAppointmentRequestedAmount().intValue();
+                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+                salaryPercent = appointmentFunding.getAppointmentRequestedTimePercent();
+            }
+            else {
+                salaryAmount = appointmentFunding.getAppointmentRequestedCsfAmount().intValue();
+                totalsHolder.salaryNormalMonths = budgetConstructionPosition.getIuNormalWorkMonths();
+                
+                boolean hasRequestedCsfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent() != null;
+                salaryPercent = hasRequestedCsfTimePercent ? appointmentFunding.getAppointmentRequestedCsfTimePercent() : BigDecimal.ZERO;
+            }
+
+            if (salaryAmount > maxSalaryAmount) {
+                maxSalaryAmount = totalsHolder.salaryAmount;
+                totalsHolder.salaryPayMonth = budgetConstructionPosition.getIuPayMonths();
+                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+            }
+            
+            totalsHolder.salaryAmount += salaryAmount;
+            totalsHolder.salaryPercent = totalsHolder.salaryPercent.add(salaryPercent);
+
+            BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = appointmentFunding.getEffectiveCSFTracker();
+            if (csfTracker == null) {
+                continue;
+            }
+
+            KualiInteger effectiveCsfAmount = csfTracker.getCsfAmount();
+            if (effectiveCsfAmount == null || effectiveCsfAmount.isZero()) {
+                continue;
+            }
+
+            if (effectiveCsfAmount.intValue() > maxCsfAmount) {
+                maxCsfAmount = effectiveCsfAmount.intValue();
+            }
+
+            totalsHolder.csfAmount += effectiveCsfAmount.intValue();
+            totalsHolder.csfPercent = totalsHolder.csfPercent.add(csfTracker.getCsfTimePercent());
+
+            // data for previous year, position table has two data, one is for current year and another is for previous year.
+            Integer previousFiscalYear = universityFiscalYear - 1;
+            BudgetConstructionPosition previousYearBudgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(previousFiscalYear, appointmentFunding);
+            
+            totalsHolder.csfPayMonths = previousYearBudgetConstructionPosition.getIuPayMonths();
+            totalsHolder.csfNormalMonths = previousYearBudgetConstructionPosition.getIuNormalWorkMonths();
+            
+            totalsHolder.positionNumber = budgetConstructionPosition.getPositionNumber();
+            totalsHolder.fiscalYearTag = previousFiscalYear.toString() + ":";
+
+            if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
+                if (totalsHolder.curToInt <= -1) {
+                    totalsHolder.curToInt = appointmentFunding.getAppointmentTotalIntendedAmount().intValue();
+                }
+
+                if (totalsHolder.curFteInt <= -1.00) {
+                    totalsHolder.curFteInt = appointmentFunding.getAppointmentTotalIntendedFteQuantity().doubleValue();
+                }
+            }
+        }
+    }
+
+    // calculate the totals for the given organization
+    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalOrg, Map salaryFundingMap) {
+        Collection<BudgetConstructionOrgReasonSummaryReportTotal> returnCollection = new ArrayList<BudgetConstructionOrgReasonSummaryReportTotal>();
+
+        for (BudgetConstructionSalarySocialSecurityNumber totalOrgEntry : listForCalculateTotalOrg) {
+            OrganizationTotalHolder totalsHolder = new OrganizationTotalHolder();
+
+            for (BudgetConstructionOrgReasonSummaryReportTotal reportTotalPersonEntry : reasonSummaryTotalPerson) {
+                if (isSameSsnEntryForTotalOrg(totalOrgEntry, reportTotalPersonEntry.getBudgetConstructionSalarySocialSecurityNumber())) {
+                    if (reportTotalPersonEntry.getPersonCsfAmount() == 0) {
+                        totalsHolder.newFte = totalsHolder.newFte.add(reportTotalPersonEntry.getPersonSalaryFte());
+                        totalsHolder.newTotalAmount += reportTotalPersonEntry.getPersonSalaryAmount();
+                    }
+                    else {
+                        totalsHolder.conTotalBaseAmount += reportTotalPersonEntry.getPersonCsfAmount();
+                        totalsHolder.conFte = totalsHolder.conFte.add(reportTotalPersonEntry.getPersonSalaryFte());
+                        totalsHolder.conTotalRequestAmount += reportTotalPersonEntry.getPersonSalaryAmount();
+                    }
+                }
+            }
+
+            // calculate average and change
+            if (BigDecimal.ZERO.compareTo(totalsHolder.newFte) != 0) {
+                BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.newTotalAmount), totalsHolder.newFte);
+                totalsHolder.newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
+            }
+
+            if (BigDecimal.ZERO.compareTo(totalsHolder.conFte) != 0) {
+                BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.conTotalBaseAmount), totalsHolder.conFte);
+                totalsHolder.conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
+
+                BigDecimal averageRequestAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.conTotalRequestAmount), totalsHolder.conFte);
+                totalsHolder.conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(averageRequestAmount, 0, false).intValue();
+            }
+
+            totalsHolder.conAveragechange = totalsHolder.conAverageRequestAmount - totalsHolder.conAverageBaseAmount;
+
+            if (totalsHolder.conAverageBaseAmount != 0) {
+                totalsHolder.conPercentChange = BudgetConstructionReportHelper.calculatePercent(totalsHolder.conAveragechange, totalsHolder.conAverageBaseAmount);
+            }
+
+            returnCollection.add(this.createReportTotal(totalOrgEntry, totalsHolder));
+        }
+
+        return returnCollection;
+    }
+
+    // create a report total for the given organization with the values in the given total holder
+    protected BudgetConstructionOrgReasonSummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalOrgEntry, OrganizationTotalHolder totalsHolder) {
         BudgetConstructionOrgReasonSummaryReportTotal reportTotal = new BudgetConstructionOrgReasonSummaryReportTotal();
 
-        reportTotal.setBudgetConstructionSalaryFunding(totalPersonEntry);
+        reportTotal.setBudgetConstructionSalarySocialSecurityNumber(totalOrgEntry);
+        reportTotal.setNewFte(totalsHolder.newFte);
+        reportTotal.setNewTotalAmount(totalsHolder.newTotalAmount);
+        reportTotal.setConTotalBaseAmount(totalsHolder.conTotalBaseAmount);
+        reportTotal.setConFte(totalsHolder.conFte);
+        reportTotal.setConTotalRequestAmount(totalsHolder.conTotalRequestAmount);
+        reportTotal.setNewAverageAmount(totalsHolder.newAverageAmount);
+        reportTotal.setConAverageBaseAmount(totalsHolder.conAverageBaseAmount);
+        reportTotal.setConAverageRequestAmount(totalsHolder.conAverageRequestAmount);
+        reportTotal.setConAveragechange(totalsHolder.conAveragechange);
+        reportTotal.setConPercentChange(totalsHolder.conPercentChange);
+
+        return reportTotal;
+    }
+
+
+    // create a report total for the given person with the values in the given total holder
+    protected BudgetConstructionOrgReasonSummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalPersonEntry, PersonTotalHolder totalsHolder) {
+        BudgetConstructionOrgReasonSummaryReportTotal reportTotal = new BudgetConstructionOrgReasonSummaryReportTotal();
+
+        reportTotal.setBudgetConstructionSalarySocialSecurityNumber(totalPersonEntry);
         reportTotal.setPersonPositionNumber(totalsHolder.positionNumber);
         reportTotal.setPersonFiscalYearTag(totalsHolder.fiscalYearTag);
         reportTotal.setPersonCsfNormalMonths(totalsHolder.csfNormalMonths);
@@ -483,6 +566,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
 
         return reportTotal;
     }
+
 
     // a total holder that contains the totals for a single person
     protected class PersonTotalHolder {
@@ -509,9 +593,8 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         double curFteInt = -1.00;
     }
 
-    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, List<BudgetConstructionSalaryFunding> listForCalculateTotalOrg, Map budgetSsnMap) {
-        Collection<BudgetConstructionOrgReasonSummaryReportTotal> returnCollection = new ArrayList();
-
+    // a total holder that contains the totals for an organization
+    protected class OrganizationTotalHolder {
         BigDecimal newFte = BigDecimal.ZERO;
         Integer newTotalAmount = 0;
         Integer newAverageAmount = 0;
@@ -522,70 +605,6 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         Integer conAverageRequestAmount = 0;
         Integer conAveragechange = 0;
         BigDecimal conPercentChange = BigDecimal.ZERO;
-
-        for (BudgetConstructionSalaryFunding totalOrgEntry : listForCalculateTotalOrg) {
-            BudgetConstructionOrgReasonSummaryReportTotal budgetConstructionOrgReasonSummaryReportTotal = new BudgetConstructionOrgReasonSummaryReportTotal();
-            for (BudgetConstructionOrgReasonSummaryReportTotal reportTotalPersonEntry : reasonSummaryTotalPerson) {
-                if (isSameSalaryFundingEntryForTotalOrg(totalOrgEntry, reportTotalPersonEntry.getBudgetConstructionSalaryFunding(), budgetSsnMap)) {
-                    if (reportTotalPersonEntry.getPersonCsfAmount() == 0) {
-                        newFte = newFte.add(reportTotalPersonEntry.getPersonSalaryFte());
-                        newTotalAmount += reportTotalPersonEntry.getPersonSalaryAmount();
-                    }
-                    else {
-                        conTotalBaseAmount += reportTotalPersonEntry.getPersonCsfAmount();
-                        conFte = conFte.add(reportTotalPersonEntry.getPersonSalaryFte());
-                        conTotalRequestAmount += reportTotalPersonEntry.getPersonSalaryAmount();
-                    }
-                }
-            }
-
-            // calculate average and change
-            if (BigDecimal.ZERO.compareTo(newFte) != 0) {
-                BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(newTotalAmount), newFte);
-                newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
-            }
-
-            if (BigDecimal.ZERO.compareTo(conFte) != 0) {
-                BigDecimal averageBaseAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(conTotalBaseAmount), conFte);
-                conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(averageBaseAmount, 0, false).intValue();
-
-                BigDecimal averageRequestAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(conTotalRequestAmount), conFte);
-                conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(averageRequestAmount, 0, false).intValue();
-            }
-
-            conAveragechange = conAverageRequestAmount - conAverageBaseAmount;
-
-            if (conAverageBaseAmount != 0) {
-                BigDecimal percentChange = BudgetConstructionReportHelper.calculatePercent(conAveragechange, conAverageBaseAmount);
-                conPercentChange = BudgetConstructionReportHelper.setDecimalDigit(percentChange, 1, false);
-            }
-
-            budgetConstructionOrgReasonSummaryReportTotal.setBudgetConstructionSalaryFunding(totalOrgEntry);
-            budgetConstructionOrgReasonSummaryReportTotal.setNewFte(newFte);
-            budgetConstructionOrgReasonSummaryReportTotal.setNewTotalAmount(newTotalAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setConTotalBaseAmount(conTotalBaseAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setConFte(conFte);
-            budgetConstructionOrgReasonSummaryReportTotal.setConTotalRequestAmount(conTotalRequestAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setNewAverageAmount(newAverageAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setConAverageBaseAmount(conAverageBaseAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setConAverageRequestAmount(conAverageRequestAmount);
-            budgetConstructionOrgReasonSummaryReportTotal.setConAveragechange(conAveragechange);
-            budgetConstructionOrgReasonSummaryReportTotal.setConPercentChange(conPercentChange);
-
-            returnCollection.add(budgetConstructionOrgReasonSummaryReportTotal);
-
-            newFte = BigDecimal.ZERO;
-            newTotalAmount = 0;
-            newAverageAmount = 0;
-            conFte = BigDecimal.ZERO;
-            conTotalBaseAmount = 0;
-            conTotalRequestAmount = 0;
-            conAverageBaseAmount = 0;
-            conAverageRequestAmount = 0;
-            conAveragechange = 0;
-            conPercentChange = BigDecimal.ZERO;
-        }
-        return returnCollection;
     }
 
     /**
@@ -595,6 +614,9 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
      */
     public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList<String>();
+        returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        returnList.add(KFSPropertyConstants.PERSON_NAME);
         returnList.add(KFSPropertyConstants.EMPLID);
 
         return returnList;
@@ -606,52 +628,54 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
-    protected List<BudgetConstructionSalaryFunding> retainUniqeSalaryFunding(List<BudgetConstructionSalaryFunding> salaryFundingList, Map map, int mode) {
-        List<BudgetConstructionSalaryFunding> returnList = new ArrayList<BudgetConstructionSalaryFunding>();
-
-        BudgetConstructionSalaryFunding salaryFundingEntryAux = null;
-        for (BudgetConstructionSalaryFunding salaryFundingEntry : salaryFundingList) {
-            switch (mode) {
-                case 1: { // mode 1 is for getting a list of total object
-                    if (salaryFundingEntryAux == null || !isSameSalaryFundingEntryForTotalPerson(salaryFundingEntry, salaryFundingEntryAux, map)) {
-                        returnList.add(salaryFundingEntry);
-                        salaryFundingEntryAux = salaryFundingEntry;
+    protected List deleteDuplicated(List list, int mode) {
+        // mode 1 is for getting a list of total object
+        // mode 2 is for getting a list of total account
+        int count = 0;
+        BudgetConstructionSalarySocialSecurityNumber ssnEntry = null;
+        BudgetConstructionSalarySocialSecurityNumber ssnEntryAux = null;
+        List returnList = new ArrayList();
+        if ((list != null) && (list.size() > 0)) {
+            ssnEntry = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
+            ssnEntryAux = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
+            returnList.add(ssnEntry);
+            count++;
+            while (count < list.size()) {
+                ssnEntry = (BudgetConstructionSalarySocialSecurityNumber) list.get(count);
+                switch (mode) {
+                    case 1: {
+                        if (!isSameSsnEntryForTotalPerson(ssnEntry, ssnEntryAux)) {
+                            returnList.add(ssnEntry);
+                            ssnEntryAux = ssnEntry;
+                        }
                     }
-
-                    break;
-                }
-                case 2: {// mode 2 is for getting a list of total account
-                    if (salaryFundingEntryAux == null || !isSameSalaryFundingEntryForTotalOrg(salaryFundingEntry, salaryFundingEntryAux, map)) {
-                        returnList.add(salaryFundingEntry);
-                        salaryFundingEntryAux = salaryFundingEntry;
+                    case 2: {
+                        if (!isSameSsnEntryForTotalOrg(ssnEntry, ssnEntryAux)) {
+                            returnList.add(ssnEntry);
+                            ssnEntryAux = ssnEntry;
+                        }
                     }
-
-                    break;
                 }
+                count++;
             }
         }
-
         return returnList;
     }
 
-    protected boolean isSameSalaryFundingEntryForTotalPerson(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
-        BudgetConstructionSalarySocialSecurityNumber firstBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(firstbcsf);
-        BudgetConstructionSalarySocialSecurityNumber secondBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(secondbcsf);
-        if (firstBcssn.getOrganizationChartOfAccountsCode().equals(secondBcssn.getOrganizationChartOfAccountsCode()) && firstBcssn.getOrganizationCode().equals(secondBcssn.getOrganizationCode()) && firstBcssn.getEmplid().equals(secondBcssn.getEmplid())) {
+    protected boolean isSameSsnEntryForTotalPerson(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
+        if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode()) && firstSsn.getEmplid().equals(secondSsn.getEmplid())) {
             return true;
         }
-
-        return false;
+        else
+            return false;
     }
 
-    protected boolean isSameSalaryFundingEntryForTotalOrg(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
-        BudgetConstructionSalarySocialSecurityNumber firstBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(firstbcsf);
-        BudgetConstructionSalarySocialSecurityNumber secondBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(secondbcsf);
-        if (firstBcssn.getOrganizationChartOfAccountsCode().equals(secondBcssn.getOrganizationChartOfAccountsCode()) && firstBcssn.getOrganizationCode().equals(secondBcssn.getOrganizationCode())) {
+    protected boolean isSameSsnEntryForTotalOrg(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
+        if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode())) {
             return true;
         }
-
-        return false;
+        else
+            return false;
     }
 
     /**

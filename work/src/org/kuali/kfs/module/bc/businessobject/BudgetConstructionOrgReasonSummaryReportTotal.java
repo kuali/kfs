@@ -49,14 +49,22 @@ public class BudgetConstructionOrgReasonSummaryReportTotal {
     private Integer conAveragechange;
     private BigDecimal conPercentChange;
     
-    private BudgetConstructionSalaryFunding budgetConstructionSalaryFunding;
-
-    public BudgetConstructionSalaryFunding getBudgetConstructionSalaryFunding() {
-        return budgetConstructionSalaryFunding;
+    private BudgetConstructionSalarySocialSecurityNumber budgetConstructionSalarySocialSecurityNumber;
+    
+    /**
+     * Gets the budgetConstructionSalarySocialSecurityNumber attribute. 
+     * @return Returns the budgetConstructionSalarySocialSecurityNumber.
+     */
+    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber() {
+        return budgetConstructionSalarySocialSecurityNumber;
     }
 
-    public void setBudgetConstructionSalaryFunding(BudgetConstructionSalaryFunding budgetConstructionSalaryFunding) {
-        this.budgetConstructionSalaryFunding = budgetConstructionSalaryFunding;
+    /**
+     * Sets the budgetConstructionSalarySocialSecurityNumber attribute value.
+     * @param budgetConstructionSalarySocialSecurityNumber The budgetConstructionSalarySocialSecurityNumber to set.
+     */
+    public void setBudgetConstructionSalarySocialSecurityNumber(BudgetConstructionSalarySocialSecurityNumber budgetConstructionSalarySocialSecurityNumber) {
+        this.budgetConstructionSalarySocialSecurityNumber = budgetConstructionSalarySocialSecurityNumber;
     }
 
     public Integer getConAverageBaseAmount() {

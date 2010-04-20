@@ -44,7 +44,8 @@ import org.kuali.rice.kns.service.PersistenceService;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
     
-    private static final String SECURITY_REFRESH = "document.sourceTransactionSecurity.securityID";
+    private static final String SECURITY_SOURCE_REFRESH = "document.sourceTransactionSecurity.securityID";
+    private static final String SECURITY_TARGET_REFRESH = "document.targetTransactionSecurity.securityID";
     private static final String REGISTRATION_REFRESH = "document.sourceTransactionSecurity.registrationCode";
 
     /**
@@ -155,7 +156,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         super.refresh(mapping, form, request, response);
 
         // To Determine if the refresh is coming from Security lookup
-        if (request.getParameterMap().containsKey(SECURITY_REFRESH)) {
+        if (request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH) || request.getParameterMap().containsKey(SECURITY_TARGET_REFRESH)) 
+        {
             refreshSecurityDetails(mapping, form, request, response);
         }
 
@@ -171,15 +173,23 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     {
         EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = ( EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument() ;
 
-        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getSecurityID());
+        Security security;
+        if(request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
+            security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getSecurityID());
+        else
+            security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().getSecurityID());
+        
         ClassCode classCode = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
         security.setClassCode(classCode);
         EndowmentTransactionCode endowmentTransactionCode  = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
         classCode.setEndowmentTransactionCode(endowmentTransactionCode);
-        endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setSecurity(security);
+        
+        if(request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
+            endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setSecurity(security);
+        else
+            endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().setSecurity(security);
 
         return null;
-
     }
     
     public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 

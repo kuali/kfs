@@ -284,7 +284,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 orgSalarySummaryReportEntry.setPersonPercentChange(totalPersonEntry.getPersonPercentChange());
             }
             for (BudgetConstructionOrgSalarySummaryReportTotal totalOrgEntry : salarySummaryTotalOrg) {
-                if (isSameSsnEntryForTotalOrg(totalPersonEntry.getBudgetConstructionSalarySocialSecurityNumber(), ssnEntry)) {
+                if (isSameSsnEntryForTotalOrg(totalOrgEntry.getBudgetConstructionSalarySocialSecurityNumber(), ssnEntry)) {
                     orgSalarySummaryReportEntry.setNewFte(totalOrgEntry.getNewFte());
                     orgSalarySummaryReportEntry.setNewTotalAmount(totalOrgEntry.getNewTotalAmount());
                     orgSalarySummaryReportEntry.setConTotalBaseAmount(totalOrgEntry.getConTotalBaseAmount());

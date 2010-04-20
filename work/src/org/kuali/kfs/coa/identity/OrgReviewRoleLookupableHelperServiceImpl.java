@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -26,7 +27,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -39,7 +39,6 @@ import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
@@ -74,6 +73,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     
     protected static final String WILDCARD = "*";
     protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
+    protected static final String SEARCH_CRITERIA_DOCUMENT_TYPE_NAME = "documentTypeName";
     public static final String MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static final String MEMBER_ATTRIBUTE_ORGANIZATION_CODE = "organizationCode";
     protected static final String MEMBER_PRINCIPAL_NAME = "principalMemberPrincipalName";
@@ -215,10 +215,124 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         List<OrgReviewRole> flattenedSearchResults = new ArrayList<OrgReviewRole>();
         flattenedSearchResults.addAll(flattenToOrgReviewMembers(fieldValues.get(ACTIVE), documentTypeName, searchResultsRoleMembers));
-        flattenedSearchResults.addAll(flattenToOrgReviewDelegationMembers(fieldValues.get(ACTIVE), documentTypeName, searchResultsDelegationMembers));
+        flattenedSearchResults.addAll(flattenToOrgReviewDelegationMembers(fieldValues.get(ACTIVE), documentTypeName, searchResultsDelegationMembers));        
+        filterOrgReview(fieldValues, flattenedSearchResults);
+        
         return flattenedSearchResults;
     }
 
+    protected void filterOrgReview(Map<String, String> fieldValues, List<OrgReviewRole> searchResults){
+    
+        String principalName = fieldValues.get(MEMBER_PRINCIPAL_NAME);
+        List<Person> principals = null;
+        if(StringUtils.isNotEmpty(principalName)){
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
+            principals = (List<Person>)getPersons(criteria);
+        }
+        String assignedToGroupNamespaceCode = fieldValues.get(MEMBER_GROUP_NAMESPACE_CODE);
+        String assignedToGroupName = fieldValues.get(MEMBER_GROUP_NAME);
+        List<Group> groups = null;
+        if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
+                StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
+                StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
+            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
+            groups = getGroups(searchCriteria);
+        }
+
+        String assignedToRoleNamespaceCode = fieldValues.get(MEMBER_ROLE_NAMESPACE);
+        String assignedToRoleName = fieldValues.get(MEMBER_ROLE_NAME);
+
+        List<Role> roles = null;
+        if(StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isEmpty(assignedToRoleName) ||
+                StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
+                StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
+            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
+            roles = getRoles(searchCriteria);
+        }
+
+        String financialSystemDocumentTypeCode = fieldValues.get(DOCUMENT_TYPE_NAME);
+        String chartOfAccountsCode = fieldValues.get(MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE);
+        String organizationCode = fieldValues.get(MEMBER_ATTRIBUTE_ORGANIZATION_CODE);
+        
+        //Loop through org review roles and remove rows where necessary
+        Iterator<OrgReviewRole> it = searchResults.iterator();
+        OrgReviewRole orgReviewRole = null;
+        boolean remove = false;
+        
+    	while(it.hasNext()){
+    	
+    	    orgReviewRole = it.next();
+    	    remove = false;
+    	    
+    	    //check member attribute parameters
+    	    if(StringUtils.isNotBlank(organizationCode)){
+    	        //filter by chart/document type if they exist
+    	        if(StringUtils.isNotBlank(chartOfAccountsCode)){
+    	            if(!chartOfAccountsCode.equals(orgReviewRole.getChartOfAccountsCode())){    	                
+    	                remove = true;
+    	            }
+    	        }
+    	        
+    	        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
+    	            if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())){    	                
+    	                remove = true;
+    	            }
+    	        }
+            }else if(StringUtils.isNotBlank(chartOfAccountsCode)){
+                //filter by document type if it exists
+                if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
+                    if(!financialSystemDocumentTypeCode.equals(orgReviewRole.getFinancialSystemDocumentTypeCode())){                        
+                        remove = true;
+                    }                    
+                }
+            }
+
+    	    List<String> items = new ArrayList<String>();
+    	    
+    	    //check member id parameters, and only if it hasn't already been marked for removal.
+    	    if(remove == false){
+                if(roles!=null){
+                    if(groups!=null){
+                        for(Group group: groups){                                                        
+                            items.add(group.getGroupId());
+                        }
+                        if(!items.contains(orgReviewRole.getGroupMemberGroupId())){
+                            remove = true;
+                        }
+                    }
+                    if(principals!=null){                                            
+                        for(Person principal: principals){
+                            items.add(principal.getPrincipalId());                            
+                        }
+                        if(!items.contains(orgReviewRole.getPrincipalMemberPrincipalId())){
+                            remove = true;
+                        }                        
+                    }
+
+                }else if(groups!=null){
+                    if(principals!=null){                    
+                        for(Person principal: principals){
+                            items.add(principal.getPrincipalId());                            
+                        }
+                        if(!items.contains(orgReviewRole.getPrincipalMemberPrincipalId())){
+                            remove = true;
+                        }                        
+                    }
+                }
+    	    }
+    	    
+    	    //remove if necessary
+            if(remove){
+                it.remove();
+            }
+    	}
+    }
+    
     protected Map<String, String> addRoleToConsiderSearchCriteria(String documentTypeName, Map<String, String> searchCriteria){
         List<String> roleNamesToSearchInto = getRolesToConsider(documentTypeName);
         if(searchCriteria==null)
@@ -511,6 +625,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
         Map<String, String> searchCriteriaMain = new HashMap<String, String>();
 
+        String financialSystemDocumentTypeCode = fieldValues.get(DOCUMENT_TYPE_NAME);
+        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
+            searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, SEARCH_CRITERIA_DOCUMENT_TYPE_NAME);
+            searchCriteriaMain.put(MEMBER_ATTRIBUTE_VALUE_KEY, financialSystemDocumentTypeCode);
+        }        
         String chartOfAccountsCode = fieldValues.get(MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE);
         if(StringUtils.isNotBlank(chartOfAccountsCode)){
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
@@ -604,6 +723,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
 
         final Map<String, String> searchCriteriaMain = new HashMap<String, String>();
+        String financialSystemDocumentTypeCode = fieldValues.get(DOCUMENT_TYPE_NAME);
+        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
+            searchCriteriaMain.put(DELEGATION_MEMBER_ATTRIBUTE_NAME_KEY, SEARCH_CRITERIA_DOCUMENT_TYPE_NAME);
+            searchCriteriaMain.put(DELEGATION_MEMBER_ATTRIBUTE_VALUE_KEY, financialSystemDocumentTypeCode);
+        }                
         String chartOfAccountsCode = fieldValues.get(MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE);
         if(StringUtils.isNotBlank(chartOfAccountsCode)){
             searchCriteriaMain.put(DELEGATION_MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);

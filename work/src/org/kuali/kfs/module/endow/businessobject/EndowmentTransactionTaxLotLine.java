@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -31,7 +32,7 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private String documentNumber;
     private KualiInteger documentLineNumber;
     private String documentLineTypeCode;
-    private KualiInteger transactionHoldingLongTermNumber;
+    private KualiInteger transactionHoldingLotNumber;
     private KualiDecimal lotUnits;
     private KualiDecimal lotHoldingCost;
     private KualiDecimal lotLongTermGainLoss;
@@ -43,8 +44,13 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
      */
     @Override
     protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+        LinkedHashMap m = new LinkedHashMap();
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_DOCUMENT_NUMBER, this.documentNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_TYPE_CODE, this.documentLineTypeCode);
+        m.put(EndowPropertyConstants.TRANSACTION_LINE_NUMBER, this.documentLineNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_HOLDING_LOT_NUMBER, this.transactionHoldingLotNumber);
+        return m;
+
     }
 
     /**
@@ -107,12 +113,12 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.documentLineTypeCode = documentLineTypeCode;
     }
 
-    public KualiInteger getTransactionHoldingLongTermNumber() {
-        return transactionHoldingLongTermNumber;
+    public KualiInteger getTransactionHoldingLotNumber() {
+        return transactionHoldingLotNumber;
     }
 
-    public void setTransactionHoldingLongTermNumber(KualiInteger transactionHoldingLongTermNumber) {
-        this.transactionHoldingLongTermNumber = transactionHoldingLongTermNumber;
+    public void setTransactionHoldingLotNumber(KualiInteger transactionHoldingLotNumber) {
+        this.transactionHoldingLotNumber = transactionHoldingLotNumber;
     }
 
     public KualiDecimal getLotUnits() {

@@ -15,13 +15,27 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, IncomePrincipalAmountTotaling, IncomePrincipalUnitsTotaling {
 
     public AssetIncreaseDocument() {
         super();
+        this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("code", this.getTransactionSourceTypeCode());
+        EndowmentTransactionSourceType endowmentTransactionSourceType = (EndowmentTransactionSourceType) businessObjectService.findByPrimaryKey(EndowmentTransactionSourceType.class, primaryKeys);
+        this.setTransactionSourceType(endowmentTransactionSourceType);
     }
 
 

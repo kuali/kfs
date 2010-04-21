@@ -19,7 +19,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants {
-    
+
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
 
     public static class SecurityReportingGroups {
@@ -203,5 +203,11 @@ public class EndowConstants {
         public static final String END_KEMID_SEQ = "END_KEMID_SEQ";
         public static final String END_TICKLER_SEQ = "END_TKLR_SEQ";
         public static final String END_ACI_SEQ = "END_ACI_SEQ";
+    }
+
+    // Transactions
+
+    public static class TransactionSourceTypeCode {
+        public static final String MANUAL = "M";
     }
 }

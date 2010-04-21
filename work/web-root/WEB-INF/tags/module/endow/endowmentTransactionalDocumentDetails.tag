@@ -53,12 +53,10 @@
 					horizontal="true" width="50%" />
 
 				<td class="datacell-nowrap">
-				Manual Entry
-				<%-- 	<kul:htmlControlAttribute
-						attributeEntry="${documentAttributes.transactionSourceTypeCode}"
-						property="document.transactionSourceTypeCode"
+					<kul:htmlControlAttribute
+						attributeEntry="${documentAttributes.transactionSourceType.name}"
+						property="document.transactionSourceType.name"
 						readOnly="true"/>
-				--%>
 				</td>
 			</tr>
 			

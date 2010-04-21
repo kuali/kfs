@@ -25,7 +25,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     private String transactionSourceTypeCode;
     private boolean transactionPosted;
 
-    private EndowmentTransactionSubType  transactionSubType;
+    private EndowmentTransactionSubType transactionSubType;
     private EndowmentTransactionSourceType transactionSourceType;
 
     /**
@@ -33,53 +33,93 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      */
     public EndowmentTransactionalDocumentBase() {
         super();
-        this.transactionPosted=false;
+        this.transactionPosted = false;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#prepareForSave()
+     */
     @Override
-    public void prepareForSave() 
-    {
+    public void prepareForSave() {
         super.prepareForSave();
-        //Assign Doc header id to the transaction docs number(END_TRAN_DOC_T.FDOC_NBR)
+        // Assign Doc header id to the transaction docs number(END_TRAN_DOC_T.FDOC_NBR)
         setDocumentNumber(getDocumentHeader().getDocumentNumber());
-    } 
+    }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#getTransactionSubTypeCode()
+     */
     public String getTransactionSubTypeCode() {
         return transactionSubTypeCode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionSubTypeCode(java.lang.String)
+     */
     public void setTransactionSubTypeCode(String transactionSubTypeCode) {
         this.transactionSubTypeCode = transactionSubTypeCode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#getTransactionSourceTypeCode()
+     */
     public String getTransactionSourceTypeCode() {
         return transactionSourceTypeCode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionSourceTypeCode(java.lang.String)
+     */
     public void setTransactionSourceTypeCode(String transactionSourceTypeCode) {
         this.transactionSourceTypeCode = transactionSourceTypeCode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#isTransactionPosted()
+     */
     public boolean isTransactionPosted() {
         return transactionPosted;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument#setTransactionPosted(boolean)
+     */
     public void setTransactionPosted(boolean transactionPosted) {
         this.transactionPosted = transactionPosted;
     }
 
+    /**
+     * Gets the transactionSubType.
+     * 
+     * @return transactionSubType
+     */
     public EndowmentTransactionSubType getTransactionSubType() {
         return transactionSubType;
     }
 
+    /**
+     * Sets the transactionSubType.
+     * 
+     * @param transactionSubType
+     */
     public void setTransactionSubType(EndowmentTransactionSubType transactionSubType) {
         this.transactionSubType = transactionSubType;
     }
 
+    /**
+     * Gets the transactionSourceType.
+     * 
+     * @return transactionSourceType
+     */
     public EndowmentTransactionSourceType getTransactionSourceType() {
         return transactionSourceType;
     }
 
+    /**
+     * Sets the transactionSourceType.
+     * 
+     * @param transactionSourceType
+     */
     public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
         this.transactionSourceType = transactionSourceType;
     }

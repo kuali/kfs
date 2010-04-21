@@ -33,6 +33,7 @@
     <property name="attributes">
       <list>
         <ref bean="AssetIncreaseDocument-transactionSubTypeCode"/>
+        <ref bean="AssetIncreaseDocument-transactionSourceType.name"/>
         <ref bean="AssetIncreaseDocument-transactionSourceTypeCode"/>
         <ref bean="AssetIncreaseDocument-transactionPosted"/>
         <ref bean="AssetIncreaseDocument-versionNumber"/>
@@ -53,8 +54,15 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="2"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TransactionSubTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
+  </bean>
+  
+  <bean id="AssetIncreaseDocument-transactionSourceType.name" parent="AssetIncreaseDocument-transactionSourceType.name-parentBean"/>
+  <bean id="AssetIncreaseDocument-transactionSourceType.name-parentBean" abstract="true" parent="EndowmentTransactionSourceType-name">
+    <property name="name" value="transactionSourceType.name"/>
+    <property name="label" value="Transaction Source Type Code"/>
+    <property name="shortLabel" value="Transaction Source"/>
   </bean>
   
   <bean id="AssetIncreaseDocument-transactionSourceTypeCode" parent="AssetIncreaseDocument-transactionSourceTypeCode-parentBean"/>
@@ -62,7 +70,7 @@
     <property name="name" value="transactionSourceTypeCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Source Type Code"/>
-    <property name="shortLabel" value="Source Type"/>
+    <property name="shortLabel" value="Transaction Source"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />

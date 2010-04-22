@@ -20,15 +20,16 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
     private EndowmentTransactionLine newSourceTransactionLine;
     private EndowmentTransactionLine newTargetTransactionLine;
-    private EndowmentSourceTransactionSecurity sourceTransactionSecurity; 
+    private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     private EndowmentTargetTransactionSecurity targetTransactionSecurity;
-    
+
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -37,7 +38,15 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
         newSourceTransactionLine = new EndowmentSourceTransactionLine();
         newTargetTransactionLine = new EndowmentTargetTransactionLine();
         sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
-        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();   
+        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+    }
+
+    /**
+     * Gets an EndowmentTransactionLinesDocumentBase.
+     * @return EndowmentTransactionLinesDocumentBase
+     */
+    public EndowmentTransactionLinesDocumentBase getEndowmentTransactionLinesDocumentBase() {
+        return (EndowmentTransactionLinesDocumentBase) getDocument();
     }
 
     /**

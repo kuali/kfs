@@ -61,7 +61,7 @@
   <bean id="AssetIncreaseDocument-transactionSourceType.name" parent="AssetIncreaseDocument-transactionSourceType.name-parentBean"/>
   <bean id="AssetIncreaseDocument-transactionSourceType.name-parentBean" abstract="true" parent="EndowmentTransactionSourceType-name">
     <property name="name" value="transactionSourceType.name"/>
-    <property name="label" value="Transaction Source Type Code"/>
+    <property name="label" value="Transaction Source"/>
     <property name="shortLabel" value="Transaction Source"/>
   </bean>
   
@@ -69,7 +69,7 @@
   <bean id="AssetIncreaseDocument-transactionSourceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSourceTypeCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Transaction Source Type Code"/>
+    <property name="label" value="Transaction Source"/>
     <property name="shortLabel" value="Transaction Source"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">

@@ -15,7 +15,19 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+
 
 public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+    
+
 
 }

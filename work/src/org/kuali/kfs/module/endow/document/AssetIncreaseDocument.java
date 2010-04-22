@@ -30,12 +30,6 @@ public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase impl
 
     public AssetIncreaseDocument() {
         super();
-        this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("code", this.getTransactionSourceTypeCode());
-        EndowmentTransactionSourceType endowmentTransactionSourceType = (EndowmentTransactionSourceType) businessObjectService.findByPrimaryKey(EndowmentTransactionSourceType.class, primaryKeys);
-        this.setTransactionSourceType(endowmentTransactionSourceType);
     }
 
 

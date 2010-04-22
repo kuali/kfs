@@ -26,13 +26,15 @@ import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
+import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
@@ -43,10 +45,11 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
-    
+
     private static final String SECURITY_SOURCE_REFRESH = "document.sourceTransactionSecurity.securityID";
     private static final String SECURITY_TARGET_REFRESH = "document.targetTransactionSecurity.securityID";
     private static final String REGISTRATION_REFRESH = "document.sourceTransactionSecurity.registrationCode";
+
 
     /**
      * This action executes an insert of an EndowmentSourceTransactionLine into a document only after validating the Transaction
@@ -155,9 +158,11 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
 
+        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocumentBase etlDoc = ((EndowmentTransactionLinesDocumentFormBase) form).getEndowmentTransactionLinesDocumentBase();
+
         // To Determine if the refresh is coming from Security lookup
-        if (request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH) || request.getParameterMap().containsKey(SECURITY_TARGET_REFRESH)) 
-        {
+        if (request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH) || request.getParameterMap().containsKey(SECURITY_TARGET_REFRESH)) {
             refreshSecurityDetails(mapping, form, request, response);
         }
 
@@ -165,40 +170,97 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         if (request.getParameterMap().containsKey(REGISTRATION_REFRESH)) {
             refreshRegistrationDetails(mapping, form, request, response);
         }
-        
+
+        // To determine if the refresh is coming from KEMID lookup
+        if (request.getParameterMap().containsKey("newSourceTransactionLine.kemid")) {
+            refreshKemid(etlForm, true);
+        }
+        if (request.getParameterMap().containsKey("newTargetTransactionLine.kemid")) {
+            refreshKemid(etlForm, false);
+        }
+
+        // To determine if the refresh is coming from Etran Code lookup
+        if (request.getParameterMap().containsKey("newSourceTransactionLine.etranCode")) {
+            refreshEtranCode(etlForm, true);
+        }
+        if (request.getParameterMap().containsKey("newTargetTransactionLine.etranCode")) {
+            refreshEtranCode(etlForm, false);
+        }
+
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
-        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = ( EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument() ;
+    /**
+     * Retrieves and sets the reference kemid object on newSourceTransactionLine or newTargetTransactionLine based on the kemid
+     * looked up value.
+     * 
+     * @param etlForm
+     * @param isSource
+     */
+    private void refreshKemid(EndowmentTransactionLinesDocumentFormBase etlForm, boolean isSource) {
+        KEMID kemid = null;
+
+        if (isSource) {
+            kemid = SpringContext.getBean(KEMIDService.class).getByPrimaryKey(etlForm.getNewSourceTransactionLine().getKemid());
+            etlForm.getNewSourceTransactionLine().setKemidObj(kemid);
+        }
+        else {
+            kemid = SpringContext.getBean(KEMIDService.class).getByPrimaryKey(etlForm.getNewTargetTransactionLine().getKemid());
+            etlForm.getNewTargetTransactionLine().setKemidObj(kemid);
+        }
+
+    }
+
+    /**
+     * Retrieves and sets the reference endowment transaction code object on newSourceTransactionLine or newTargetTransactionLine
+     * based on the etranCode looked up value.
+     * 
+     * @param etlForm
+     * @param isSource
+     */
+    private void refreshEtranCode(EndowmentTransactionLinesDocumentFormBase etlForm, boolean isSource) {
+        EndowmentTransactionCode etranCode = null;
+
+        if (isSource) {
+            etranCode = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(etlForm.getNewSourceTransactionLine().getEtranCode());
+            etlForm.getNewSourceTransactionLine().setEtranCodeObj(etranCode);
+        }
+        else {
+            etranCode = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(etlForm.getNewTargetTransactionLine().getEtranCode());
+            etlForm.getNewTargetTransactionLine().setEtranCodeObj(etranCode);
+        }
+
+    }
+
+    public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument();
 
         Security security;
-        if(request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
+        if (request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
             security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getSecurityID());
         else
             security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().getSecurityID());
-        
+
         ClassCode classCode = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
         security.setClassCode(classCode);
-        EndowmentTransactionCode endowmentTransactionCode  = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
+        EndowmentTransactionCode endowmentTransactionCode = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
         classCode.setEndowmentTransactionCode(endowmentTransactionCode);
-        
-        if(request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
+
+        if (request.getParameterMap().containsKey(SECURITY_SOURCE_REFRESH))
             endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setSecurity(security);
         else
             endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().setSecurity(security);
 
         return null;
     }
-    
-    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
-        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = ( EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument() ;
+
+    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument();
 
         RegistrationCode registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getRegistrationCode());
         endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
-        
+
         return null;
 
     }

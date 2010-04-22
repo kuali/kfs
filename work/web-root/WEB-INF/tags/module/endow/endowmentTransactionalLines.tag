@@ -62,7 +62,7 @@
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 				                fieldConversions="kemid:${newTransactionLine}.kemid" />
 				    <br/>
-					<div id="kemid.shortTitle" style="height:20px;">
+					<div id="${newTransactionLine}.div" class="fineprint"">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
             		</div>					                
 				</td>
@@ -70,7 +70,7 @@
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
 				                fieldConversions="code:${newTransactionLine}.etranCode" />
 				    <br/>
-					<div id="etranCode.name" style="height:20px;">
+					<div id="${newTransactionLine}.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCodeObj.name" readOnly="true" />
             		</div>						                
 				                

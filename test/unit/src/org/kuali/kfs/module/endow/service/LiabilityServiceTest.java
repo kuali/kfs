@@ -53,7 +53,7 @@ public class LiabilityServiceTest extends KualiTestBase
 
     private boolean runTests() 
     { // change this to return false to prevent running tests
-        return true;
+        return false;
     }
 
     /**

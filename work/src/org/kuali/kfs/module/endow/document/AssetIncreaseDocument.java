@@ -53,7 +53,7 @@ public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase impl
      * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal totalAmount = new KualiDecimal();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
         totalAmount = totalAmount.add(getTotalIncomeUnits());

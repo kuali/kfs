@@ -56,14 +56,14 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * 
      * @return transactionLineNumber
      */
-    public KualiInteger getTransactionLineNumber();
+    public Integer getTransactionLineNumber();
 
     /**
      * Sets the transactionLineNumber.
      * 
      * @param transactionLineNumber
      */
-    public void setTransactionLineNumber(KualiInteger transactionLineNumber);
+    public void setTransactionLineNumber(Integer transactionLineNumber);
 
     /**
      * @return Returns the kemid.

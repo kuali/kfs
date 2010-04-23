@@ -83,7 +83,7 @@ public class LiabilityServiceTest extends KualiTestBase
         //Saving a Trans Line
         EndowmentTransactionLine tranLine = new EndowmentSourceTransactionLine();
         tranLine.setDocumentNumber("4160");
-        tranLine.setTransactionLineNumber(new KualiInteger("1"));
+        tranLine.setTransactionLineNumber(new Integer("1"));
         tranLine.setKemid("099PLTF013");
         tranLine.setEtranCode("00100");
         tranLine.setTransactionIPIndicatorCode("I");

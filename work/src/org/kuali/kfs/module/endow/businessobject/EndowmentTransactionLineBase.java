@@ -33,7 +33,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
 
     private String documentNumber;
     private String transactionLineTypeCode;
-    private KualiInteger transactionLineNumber;
+    private Integer transactionLineNumber;
     private String kemid;
     private String etranCode;
     private String transactionLineDescription;
@@ -108,7 +108,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getTransactionLineNumber()
      */
-    public KualiInteger getTransactionLineNumber() {
+    public Integer getTransactionLineNumber() {
         return transactionLineNumber;
     }
 
@@ -116,7 +116,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionLineNumber(org.kuali.rice.kns.util.KualiInteger)
      */
-    public void setTransactionLineNumber(KualiInteger transactionLineNumber) {
+    public void setTransactionLineNumber(Integer transactionLineNumber) {
         this.transactionLineNumber = transactionLineNumber;
     }
 

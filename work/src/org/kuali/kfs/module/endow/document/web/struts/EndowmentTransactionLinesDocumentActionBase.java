@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
@@ -39,10 +40,11 @@ import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -63,10 +65,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @throws Exception
      */
     public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AssetIncreaseDocumentForm documentForm = (AssetIncreaseDocumentForm) form;
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
 
-        EndowmentTransactionLine transLine = documentForm.getNewSourceTransactionLine();
+        EndowmentSourceTransactionLine transLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
 
         boolean rulePassed = true;
 
@@ -75,9 +77,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         if (rulePassed) {
             // add accountingLine
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
-            // insertAccountingLine(true, financialDocumentForm, line);
-            endowmentDocument.getSourceTransactionLines().add(transLine);
+            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            insertTransactionLine(true, documentForm, transLine);
 
             // clear the used newTargetLine
             documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
@@ -98,10 +99,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @throws Exception
      */
     public ActionForward insertTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AssetIncreaseDocumentForm documentForm = (AssetIncreaseDocumentForm) form;
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
 
-        EndowmentTransactionLine transLine = documentForm.getNewSourceTransactionLine();
+        EndowmentTargetTransactionLine transLine = (EndowmentTargetTransactionLine) documentForm.getNewTargetTransactionLine();
 
         boolean rulePassed = true;
 
@@ -110,15 +111,39 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         if (rulePassed) {
             // add accountingLine
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
-            // insertAccountingLine(true, financialDocumentForm, line);
-            endowmentDocument.getSourceTransactionLines().add(transLine);
+
+            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            insertTransactionLine(false, documentForm, transLine);
 
             // clear the used newTargetLine
-            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
+            documentForm.setNewTargetTransactionLine(new EndowmentTargetTransactionLine());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Adds the given transactionLine to the appropriate form-related datastructures.
+     * 
+     * @param isSource
+     * @param etlDocumentForm
+     * @param line
+     */
+    protected void insertTransactionLine(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, EndowmentTransactionLine line) {
+        EndowmentTransactionLinesDocumentBase etlDoc = etlDocumentForm.getEndowmentTransactionLinesDocumentBase();
+        if (isSource) {
+            // add it to the document
+            etlDoc.addSourceTransactionLine((EndowmentSourceTransactionLine) line);
+
+            // Update the doc total
+            // TODO check why total updated only on source
+            if (etlDoc instanceof AmountTotaling)
+                ((FinancialSystemDocumentHeader) etlDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) etlDoc).getTotalDollarAmount());
+        }
+        else {
+            // add it to the document
+            etlDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
+        }
     }
 
     /**

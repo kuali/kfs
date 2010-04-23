@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
@@ -120,7 +119,9 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#addSourceTransactionLine(org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine)
      */
     public void addSourceTransactionLine(EndowmentSourceTransactionLine line) {
-        // TODO Auto-generated method stub
+        line.setTransactionLineNumber(this.getNextSourceLineNumber());
+        this.sourceTransactionLines.add(line);
+        this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);
 
     }
 
@@ -129,10 +130,10 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#addTargetTransactionLine(org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine)
      */
     public void addTargetTransactionLine(EndowmentTargetTransactionLine line) {
-        // TODO Auto-generated method stub
-
+        line.setTransactionLineNumber(this.getNextTargetLineNumber());
+        this.targetTransactionLines.add(line);
+        this.nextTargetLineNumber = new Integer(this.getNextTargetLineNumber().intValue() + 1);
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceIncomeTotal()
@@ -203,7 +204,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         // TODO Auto-generated method stub
         return KualiDecimal.ZERO;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTransactionLineParser()
      */

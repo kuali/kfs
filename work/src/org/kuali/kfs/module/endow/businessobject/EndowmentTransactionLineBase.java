@@ -105,6 +105,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
 
+
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getTransactionLineNumber()
      */
@@ -114,7 +115,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
 
 
     /**
-     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionLineNumber(org.kuali.rice.kns.util.KualiInteger)
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionLineNumber(java.lang.Integer)
      */
     public void setTransactionLineNumber(Integer transactionLineNumber) {
         this.transactionLineNumber = transactionLineNumber;

@@ -168,7 +168,7 @@
 		<property name="name" value="disbursementNbr"/>
 		<property name="label" value="Disbursement Number"/>
 		<property name="shortLabel" value="Disbursement Nbr"/>
-		<property name="maxLength" value="7"/>
+		<property name="maxLength" value="9"/>
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
 		</property>

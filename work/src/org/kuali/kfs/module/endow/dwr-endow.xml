@@ -33,6 +33,7 @@
     	<create creator="spring" javascript="KEMIDService">
 	    	<param name="beanName" value="KEMIDService" />
 	        <include method="getByPrimaryKey" />
+	        <include method="isTrueEndowment" />
 	    </create>
 	    
 	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.PooledFundControl">

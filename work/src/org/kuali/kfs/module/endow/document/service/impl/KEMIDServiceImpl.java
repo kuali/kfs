@@ -41,6 +41,18 @@ public class KEMIDServiceImpl implements KEMIDService {
         }
         return theKemidObj;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMIDService#isTrueEndowment(java.lang.String)
+     */
+    public boolean isTrueEndowment(String kemid){
+        boolean isTrueEndowment = false;
+        KEMID theKemidObj = getByPrimaryKey(kemid);
+        if (theKemidObj.getType().getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator()){
+            isTrueEndowment = true;
+        }
+        return isTrueEndowment;
+    }
 
     /**
      * This method gets the businessObjectService.

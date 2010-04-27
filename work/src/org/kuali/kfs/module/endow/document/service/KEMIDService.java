@@ -25,5 +25,15 @@ public interface KEMIDService {
      * @return a KEMID
      */
     public KEMID getByPrimaryKey(String kemid);
+    
+    /**
+     * Validate if a KEMID is a true endowment (or permanently restricted endowment).
+     * If the Type Code for a KEMID has a Principal Restriction Code (END_TYP_T: TYP_PRIN_RESTR_CD) where the Permanent Indicator for the Restriction code (END_TYP_RESTR_CD_T:PERM) is Yes, then the KEMID is a true or permanently restricted endowment.  
+     * A true endowment or Permanently restricted endowment is one in which the principal funds cannot be expended.   
+     * @param kemid
+     * @return true or false
+     */
+    public boolean isTrueEndowment(String kemid);
+    
 
 }

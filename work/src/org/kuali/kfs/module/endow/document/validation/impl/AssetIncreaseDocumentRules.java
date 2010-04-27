@@ -17,6 +17,6 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 
-public class AssetIncreaseDocumentRules extends TransactionalDocumentRuleBase {
+public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
 
 }

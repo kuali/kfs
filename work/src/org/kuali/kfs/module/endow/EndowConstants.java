@@ -210,4 +210,7 @@ public class EndowConstants {
     public static class TransactionSourceTypeCode {
         public static final String MANUAL = "M";
     }
+
+    public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
+    public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";
 }

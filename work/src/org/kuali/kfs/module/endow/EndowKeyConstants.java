@@ -161,4 +161,9 @@ public class EndowKeyConstants {
 
 
     }
+    
+    public static class TransactionalDocuments{
+        public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
+        public static final String ERROR_ADDING_TRANSACTION_LINE = "error.transactionLine.addRule.invalid";
+    }
 }

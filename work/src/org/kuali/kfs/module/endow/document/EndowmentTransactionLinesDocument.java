@@ -160,5 +160,20 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      */
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines);
 
+    /**
+     * This method returns the transaction line at a particular spot in the overall list of transaction lines.
+     * 
+     * @param index
+     * @return The source transaction line at the specified index.
+     */
+    public EndowmentSourceTransactionLine getSourceTransactionLine(int index);
+
+    /**
+     * This method retrieves the target transaction line at the specified index.
+     * 
+     * @param index
+     * @return The target transaction line at the passed in index.
+     */
+    public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
 
 }

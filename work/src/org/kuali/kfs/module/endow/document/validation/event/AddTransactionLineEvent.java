@@ -29,8 +29,8 @@ public class AddTransactionLineEvent extends KualiDocumentEventBase {
      * @param errorPathPrefix
      * @param document
      */
-    public AddTransactionLineEvent(String description, String errorPathPrefix, EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
-        super(description, errorPathPrefix, document);
+    public AddTransactionLineEvent(String errorPathPrefix, EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
+        super("Adding Transaction Line to document " + getDocumentId(document), errorPathPrefix, document);
         this.document = document;
         this.line = line;        
     }

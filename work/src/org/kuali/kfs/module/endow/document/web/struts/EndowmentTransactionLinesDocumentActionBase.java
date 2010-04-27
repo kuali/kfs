@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -39,12 +40,14 @@ import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.module.endow.document.validation.event.DeleteTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -73,7 +76,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent("", EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
 
         if (rulePassed) {
             // add accountingLine
@@ -107,7 +110,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent("", EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
 
         if (rulePassed) {
             // add accountingLine
@@ -157,7 +160,21 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @throws Exception
      */
     public ActionForward deleteSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument etlDoc = etlForm.getEndowmentTransactionLinesDocumentBase();
 
+        int deleteIndex = getLineToDelete(request);
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTransactionLineEvent(errorPath, etlDoc, etlDoc.getSourceTransactionLine(deleteIndex)));
+
+        // if the rule evaluation passed, let's delete it
+        if (rulePassed) {
+            deleteTransactionLine(false, etlForm, deleteIndex);
+        }
+        else {
+            String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_TRANSACTION_LINE, errorParams);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -173,12 +190,54 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @throws Exception
      */
     public ActionForward deleteTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument etlDoc = etlForm.getEndowmentTransactionLinesDocumentBase();
 
+        int deleteIndex = getLineToDelete(request);
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTransactionLineEvent(errorPath, etlDoc, etlDoc.getTargetTransactionLine(deleteIndex)));
+
+        // if the rule evaluation passed, let's delete it
+        if (rulePassed) {
+            deleteTransactionLine(false, etlForm, deleteIndex);
+        }
+        else {
+            String[] errorParams = new String[] { "target", Integer.toString(deleteIndex + 1) };
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_TRANSACTION_LINE, errorParams);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Deletes a Transaction Line.
+     * 
+     * @param isSource
+     * @param etlDocumentForm
+     * @param index
+     */
+    private void deleteTransactionLine(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, int index) {
+        if (isSource) {
+            // remove from document
+            etlDocumentForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().remove(index);
 
+        }
+        else {
+            // remove from document
+            etlDocumentForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines().remove(index);
+        }
+        // update the doc total
+        EndowmentTransactionLinesDocument tdoc = etlDocumentForm.getEndowmentTransactionLinesDocumentBase();
+        if (tdoc instanceof AmountTotaling) {
+            ((FinancialSystemDocumentHeader) etlDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+        }
+    }
+
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);

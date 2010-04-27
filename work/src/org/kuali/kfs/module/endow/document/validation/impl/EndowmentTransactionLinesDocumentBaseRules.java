@@ -22,11 +22,17 @@ import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine> {
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument EndowmentTransactionLinesDocument, EndowmentTransactionLine EndowmentTransactionLine) {
         // TODO Auto-generated method stub
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule#processDeleteTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */
     public boolean processDeleteTransactionLineRules(EndowmentTransactionLinesDocument EndowmentTransactionLinesDocument, EndowmentTransactionLine EndowmentTransactionLine) {
         // TODO Auto-generated method stub
         return true;

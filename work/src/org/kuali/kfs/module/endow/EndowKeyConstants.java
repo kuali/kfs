@@ -161,7 +161,21 @@ public class EndowKeyConstants {
 
 
     }
-    
+
+    public static class EndowmentTransactionDocumentConstants 
+    {
+        public static final String ERROR_TRANSACTION_LINE_KEMID_REQUIRED = "error.document.transactionLine.kemid.required";
+        public static final String ERROR_TRANSACTION_LINE_KEMID_INVALID = "error.document.transactionLine.kemid.invalid";
+        public static final String ERROR_TRANSACTION_LINE_KEMID_INACTIVE = "error.document.transactionLine.kemid.inactive";
+        public static final String ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE = "error.document.transactionLine.kemid.notran.code";
+        public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO = "error.document.transactionLine.amount.greaterthen.zero";
+        public static final String ERROR_TRANSACTION_LINE_ETRAN_REQUIRED = "error.document.transactionLine.etran.required";
+        public static final String ERROR_TRANSACTION_LINE_ETRAN_INVALID = "error.document.transactionLine.etran.invalid";
+        public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY = "error.document.transactionLine.etran.typecode.validity";
+        public static final String ERROR_TRANSACTION_SECURITY_REQUIRED = "error.document.transaction.security.required";
+        public static final String ERROR_TRANSACTION_SECURITY_INVALID = "error.document.transaction.security.invalid";
+    }
+
     public static class TransactionalDocuments{
         public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
         public static final String ERROR_ADDING_TRANSACTION_LINE = "error.transactionLine.addRule.invalid";

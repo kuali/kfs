@@ -192,11 +192,7 @@
 		<!-- CG Module Bean Definitions -->
 		<form-bean name="CloseForm"
 			type="org.kuali.kfs.module.cg.web.struts.CloseForm" />
-
-		<!-- CG Module Bean Definitions -->
-		<form-bean name="AssetIncreaseDocumentForm"
-			type="org.kuali.kfs.module.cg.web.struts.AssetIncreaseDocumentForm" />
-			
+	
 		<!-- PDP Module Bean Definitions -->
 	    <form-bean name="PdpFormatForm"
 			type="org.kuali.kfs.pdp.web.struts.FormatForm" />
@@ -231,7 +227,9 @@
 
         <!-- Endowment Module Bean Definitions -->			
 		<form-bean name="AssetIncreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />			
+			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />
+		<form-bean name="CashIncreaseDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.CashIncreaseDocumentForm" />				
 		<form-bean name="LiabilityIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityIncreaseDocumentForm" />			
 

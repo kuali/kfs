@@ -27,7 +27,11 @@
   <c:set var="newTransactionLine" value="newSourceTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertSourceTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTransactionLine" />
-  <c:set var="transLines" value="document.sourceTransactionLines"/>  
+  <c:set var="transLines" value="document.sourceTransactionLines"/> 
+  <c:set var="totalIncomeAmount" value="${KualiForm.document.sourceIncomeTotal}"/> 
+  <c:set var="totalPrincipalAmount" value="${KualiForm.document.sourcePrincipalTotal}"/>
+  <c:set var="totalIncomeUnits" value="${KualiForm.document.sourceIncomeTotalUnits}"/>
+  <c:set var="totalPrincipalUnits" value="${KualiForm.document.sourcePrincipalTotalUnits}"/>
 </c:if>
 <c:if test="${isTarget}">
   <c:set var="lineAttributes" value="${DataDictionary.EndowmentTargetTransactionLine.attributes}" />
@@ -35,6 +39,10 @@
   <c:set var="methodToCallAdd" value="methodToCall.insertTargetTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTransactionLine" />
   <c:set var="transLines" value="document.targetTransactionLines"/>
+  <c:set var="totalIncomeAmount" value="${KualiForm.document.targetIncomeTotal}"/> 
+  <c:set var="totalPrincipalAmount" value="${KualiForm.document.targetPrincipalTotal}"/>
+  <c:set var="totalIncomeUnits" value="${KualiForm.document.targetIncomeTotalUnits}"/>
+  <c:set var="totalPrincipalUnits" value="${KualiForm.document.targetPrincipalTotalUnits}"/>
 </c:if>
 
  <div class="tab-container" align=center>
@@ -113,11 +121,11 @@
 			</td>
 			<td class="total-line">
 				<strong>Total Income Amount:
-					${KualiForm.document.totalIncomeAmount}</strong>
+					${totalIncomeAmount}</strong>
 			</td>
 			<td class="total-line">
 			    <strong>Total Principal Amount:
-					${KualiForm.document.totalPrincipalAmount}</strong>
+					${totalPrincipalAmount}</strong>
 			</td>
 			<c:if test="${!readOnly}">
 				<td class="total-line">
@@ -131,11 +139,11 @@
 			</td>
 			<td class="total-line">
 				<strong>Total Income Units:
-					${KualiForm.document.totalIncomeUnits}</strong>
+					${totalIncomeUnits}</strong>
 			</td>
 			<td class="total-line">
 			    <strong>Total Principal Units:
-					${KualiForm.document.totalPrincipalUnits}</strong>
+					${totalPrincipalUnits}</strong>
 			</td>
 			<c:if test="${!readOnly}">
 				<td class="total-line">

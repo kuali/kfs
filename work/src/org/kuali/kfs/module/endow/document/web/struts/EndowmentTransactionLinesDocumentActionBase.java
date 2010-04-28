@@ -53,7 +53,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
     private static final String SECURITY_SOURCE_REFRESH = "document.sourceTransactionSecurity.securityID";
     private static final String SECURITY_TARGET_REFRESH = "document.targetTransactionSecurity.securityID";
-    private static final String REGISTRATION_REFRESH = "document.sourceTransactionSecurity.registrationCode";
+    private static final String REGISTRATION_SOURCE_REFRESH = "document.sourceTransactionSecurity.registrationCode";
+    private static final String REGISTRATION_TARGET_REFRESH = "document.targetTransactionSecurity.registrationCode";
 
 
     /**
@@ -251,7 +252,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // To Determine if the refresh is coming from Registration lookup
-        if (request.getParameterMap().containsKey(REGISTRATION_REFRESH)) {
+        if (request.getParameterMap().containsKey(REGISTRATION_SOURCE_REFRESH)|| request.getParameterMap().containsKey(REGISTRATION_TARGET_REFRESH)) {
             refreshRegistrationDetails(mapping, form, request, response);
         }
 

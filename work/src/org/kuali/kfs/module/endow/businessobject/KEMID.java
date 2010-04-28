@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * the KEMID and how and when automated activity is yo occur. In addition, fields will be used to define the KEMID that can be
  * instrumental in the development of reports for the institution.
  */
-public class KEMID extends PersistableBusinessObjectBase implements Inactivateable {
+public class KEMID extends PersistableBusinessObjectBase {
 
     private String kemid;
     private String shortTitle;
@@ -57,7 +57,7 @@ public class KEMID extends PersistableBusinessObjectBase implements Inactivateab
     private Integer principalACIModelId;
     private boolean dormantIndicator;
     private String purposeCode;
-    private boolean active;
+    private boolean close;
 
     private String closedToKEMID;
     private String closeCode;
@@ -463,17 +463,21 @@ public class KEMID extends PersistableBusinessObjectBase implements Inactivateab
 
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * Get the close indicator.
+     * 
+     * @return close
      */
-    public boolean isActive() {
-        return active;
+    public boolean isClose() {
+        return close;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * Sets the close indicator.
+     * 
+     * @param close
      */
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setClose(boolean close) {
+        this.close = close;
     }
 
     /**

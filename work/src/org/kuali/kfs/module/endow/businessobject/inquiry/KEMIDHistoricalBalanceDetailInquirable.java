@@ -61,7 +61,7 @@ public class KEMIDHistoricalBalanceDetailInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(String.valueOf(historicalBalanceDetail.getKemid())));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, UrlFactory.encode(historicalBalanceDetail.getKemidObj().getPurposeCode()));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID, UrlFactory.encode(String.valueOf(historicalBalanceDetail.getHistoryBalanceDateId())));
-            params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalanceDetail.getKemidObj().isActive() ? "Yes" : "No");
+            params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalanceDetail.getKemidObj().isClose() ? "Yes" : "No");
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND, historicalBalanceDetail.getIncomePrincipalIndicator());
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_CD, historicalBalanceDetail.getReportingGroupCode());
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_KEMID_SHORT_TTL, historicalBalanceDetail.getKemidObj().getShortTitle());
@@ -74,7 +74,7 @@ public class KEMIDHistoricalBalanceDetailInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.KEMID, historicalBalanceDetail.getKemid().toString());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, historicalBalanceDetail.getKemidObj().getPurposeCode());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID, String.valueOf(historicalBalanceDetail.getHistoryBalanceDateId()));
-            fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalanceDetail.getKemidObj().isActive() ? "Yes" : "No");
+            fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalanceDetail.getKemidObj().isClose() ? "Yes" : "No");
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND, historicalBalanceDetail.getIncomePrincipalIndicator());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_CD, historicalBalanceDetail.getReportingGroupCode());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_KEMID_SHORT_TTL, historicalBalanceDetail.getKemidObj().getShortTitle());

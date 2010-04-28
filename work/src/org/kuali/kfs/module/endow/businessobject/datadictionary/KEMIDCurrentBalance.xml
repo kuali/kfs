@@ -29,7 +29,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDCurrentBalance-kemidObj.shortTitle" />
         <ref bean="KEMIDCurrentBalance-kemidObj.purposeCode" />
         <ref bean="KEMIDCurrentBalance-balanceDate" />
-        <ref bean="KEMIDCurrentBalance-kemidObj.active" />
+        <ref bean="KEMIDCurrentBalance-kemidObj.close" />
       </list>
     </property>
   </bean>
@@ -200,10 +200,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="KEMIDCurrentBalance-kemidObj.active" parent="KEMIDCurrentBalance-kemidObj.active-parentBean" />
+  <bean id="KEMIDCurrentBalance-kemidObj.close" parent="KEMIDCurrentBalance-kemidObj.close-parentBean" />
 
-  <bean id="KEMIDCurrentBalance-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
-    <property name="name" value="kemidObj.active" />
+  <bean id="KEMIDCurrentBalance-kemidObj.close-parentBean" abstract="true" parent="KEMID-close">
+    <property name="name" value="kemidObj.close" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   
@@ -261,7 +261,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.active" />              
+              p:attributeName="kemidObj.close" />              
         <bean parent="FieldDefinition"
               p:attributeName="balanceDate" />                                     
       </list>
@@ -287,7 +287,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="nextFYEstimatedIncome" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.active" />                                                                 
+              p:attributeName="kemidObj.close" />                                                                 
       </list>
     </property>
   </bean>

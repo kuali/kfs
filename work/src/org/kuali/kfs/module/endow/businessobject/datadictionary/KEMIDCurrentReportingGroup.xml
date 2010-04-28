@@ -34,7 +34,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDCurrentReportingGroup-remainderOfFYEstimatedIncome" />
         <ref bean="KEMIDCurrentReportingGroup-annualEstimatedIncome" />
         <ref bean="KEMIDCurrentReportingGroup-kemidObj.purposeCode" />
-        <ref bean="KEMIDCurrentReportingGroup-kemidObj.active" />
+        <ref bean="KEMIDCurrentReportingGroup-kemidObj.close" />
         <ref bean="KEMIDCurrentReportingGroup-kemidObj.shortTitle" />
         <ref bean="KEMIDCurrentReportingGroup-kemidObj.purpose.name" />
       </list>
@@ -225,10 +225,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purpose" />
   </bean>   
-  <bean id="KEMIDCurrentReportingGroup-kemidObj.active" parent="KEMIDCurrentReportingGroup-kemidObj.active-parentBean" />
+  <bean id="KEMIDCurrentReportingGroup-kemidObj.close" parent="KEMIDCurrentReportingGroup-kemidObj.close-parentBean" />
 
-  <bean id="KEMIDCurrentReportingGroup-kemidObj.active-parentBean" abstract="true" parent="KEMID-active">
-    <property name="name" value="kemidObj.active" />
+  <bean id="KEMIDCurrentReportingGroup-kemidObj.close-parentBean" abstract="true" parent="KEMID-close">
+    <property name="name" value="kemidObj.close" />
     <property name="label" value="Closed Indicator" />
   </bean>   
   <bean id="KEMIDCurrentReportingGroup-kemidObj.shortTitle" parent="KEMIDCurrentReportingGroup-kemidObj.shortTitle-parentBean" />
@@ -323,7 +323,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="incomePrincipalIndicator.name" />              
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.active" />              
+              p:attributeName="kemidObj.close" />              
         <bean parent="FieldDefinition"
               p:attributeName="balanceDate" />                                     
       </list>

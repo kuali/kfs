@@ -703,7 +703,7 @@
 	<field-descriptor name="shortTitle" column="SHRT_TTL" jdbc-type="VARCHAR"/>
 	<field-descriptor name="longTitle" column="LONG_TTL" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purposeCode" column="PRPS_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="close" column="CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="dateOpened" column="OPND_DT" jdbc-type="DATE"/>
 	<field-descriptor name="dateEstablished" column="ESTBL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR"/>

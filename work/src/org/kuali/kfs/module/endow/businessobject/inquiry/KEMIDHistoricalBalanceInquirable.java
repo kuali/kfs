@@ -53,7 +53,7 @@ public class KEMIDHistoricalBalanceInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID, UrlFactory.encode(String.valueOf(historicalBalance.getKemid())));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, UrlFactory.encode(historicalBalance.getKemidObj().getPurposeCode()));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID, UrlFactory.encode(String.valueOf(historicalBalance.getHistoryBalanceDateId())));
-            params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalance.getKemidObj().isActive() ? "Yes" : "No");
+            params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalance.getKemidObj().isClose() ? "Yes" : "No");
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_SHORT_TTL, historicalBalance.getKemidObj().getShortTitle());
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_PURPOSE_DESC, historicalBalance.getKemidObj().getPurpose().getName());
 
@@ -63,7 +63,7 @@ public class KEMIDHistoricalBalanceInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID, historicalBalance.getKemid().toString());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, historicalBalance.getKemidObj().getPurposeCode());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID, String.valueOf(historicalBalance.getHistoryBalanceDateId()));
-            fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalance.getKemidObj().isActive() ? "Yes" : "No");
+            fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR, historicalBalance.getKemidObj().isClose() ? "Yes" : "No");
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_SHORT_TTL, historicalBalance.getKemidObj().getShortTitle());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_PURPOSE_DESC, historicalBalance.getKemidObj().getPurpose().getName());
 

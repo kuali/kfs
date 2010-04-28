@@ -63,7 +63,7 @@ public class KEMIDCurrentBalanceDetailInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.CURRENT_BAL_PURPOSE_CD, UrlFactory.encode(currentBalanceDetail.getKemidObj().getPurposeCode()));
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             params.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_DATE, dateTimeService.toDateString(currentBalanceDetail.getBalanceDate()));
-            params.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalanceDetail.getKemidObj().isActive() ? "Yes" : "No");
+            params.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalanceDetail.getKemidObj().isClose() ? "Yes" : "No");
             params.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_IP_IND, currentBalanceDetail.getIncomePrincipalIndicator());
             params.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_CD, currentBalanceDetail.getReportingGroupCode());
             params.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_KEMID_SHORT_TTL, currentBalanceDetail.getKemidObj().getShortTitle());
@@ -76,7 +76,7 @@ public class KEMIDCurrentBalanceDetailInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.KEMID, currentBalanceDetail.getKemid().toString());
             fieldList.put(EndowPropertyConstants.CURRENT_BAL_PURPOSE_CD, currentBalanceDetail.getKemidObj().getPurposeCode());
             fieldList.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_DATE, dateTimeService.toDateString(currentBalanceDetail.getBalanceDate()));
-            fieldList.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalanceDetail.getKemidObj().isActive() ? "Yes" : "No");
+            fieldList.put(EndowPropertyConstants.CURRENT_BAL_CLOSED_INDICATOR, currentBalanceDetail.getKemidObj().isClose() ? "Yes" : "No");
             fieldList.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_IP_IND, currentBalanceDetail.getIncomePrincipalIndicator());
             fieldList.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_CD, currentBalanceDetail.getReportingGroupCode());
             fieldList.put(EndowPropertyConstants.KEMID_CRNT_REP_GRP_KEMID_SHORT_TTL, currentBalanceDetail.getKemidObj().getShortTitle());

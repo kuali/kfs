@@ -24,7 +24,7 @@
         <ref bean="KEMID-purposeCode" />
         <ref bean="KEMID-purpose.name" />
         <ref bean="KEMID-purpose.codeAndDescription" />
-        <ref bean="KEMID-active" />
+        <ref bean="KEMID-close" />
         <ref bean="KEMID-longTitle" />
         <ref bean="KEMID-dateOpened" />
         <ref bean="KEMID-dateEstablished" />
@@ -177,10 +177,10 @@
     <property name="label" value="Purpose" />
   </bean>    
 
-  <bean id="KEMID-active" parent="KEMID-active-parentBean" />
+  <bean id="KEMID-close" parent="KEMID-close-parentBean" />
 
-  <bean id="KEMID-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="active" />
+  <bean id="KEMID-close-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="close" />
     <property name="label" value="Closed Indicator" />
   </bean>  
   <bean id="KEMID-dateOpened" parent="KEMID-dateOpened-parentBean" />
@@ -467,7 +467,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dormantIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="active" />    
+                    p:attributeName="close" />    
               <bean parent="FieldDefinition"
                     p:attributeName="closedToKEMID" />
               <bean parent="FieldDefinition"
@@ -835,7 +835,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" p:defaultValue="N" />              
+              p:attributeName="close" p:defaultValue="N" />              
       </list>
     </property>
     <property name="resultFields" >
@@ -851,7 +851,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" />                  
+              p:attributeName="close" />                  
       </list>
     </property>
   </bean>

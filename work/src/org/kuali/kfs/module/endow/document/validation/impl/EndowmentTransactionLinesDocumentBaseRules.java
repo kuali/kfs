@@ -118,14 +118,15 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     private boolean isActiveKemId(EndowmentTransactionLine line)
     {
-        if(line.getKemidObj().isActive())
-        {
-            return true;
-        }
-        else
+        if(line.getKemidObj().isClose())
         {
             putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_INACTIVE);
             return false;
+            
+        }
+        else
+        {
+            return true;
         }
     }
     

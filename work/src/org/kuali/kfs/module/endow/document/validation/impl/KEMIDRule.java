@@ -632,7 +632,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkCloseCode() {
         boolean valid = true;
 
-        if (newKemid.isActive()) {
+        if (newKemid.isClose()) {
             String closeCode = newKemid.getCloseCode();
 
             Map pkMap = new HashMap();
@@ -656,7 +656,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkIfKemidHasCurrentCashOpenRecordsIfClosed() {
         boolean valid = true;
 
-        if (newKemid.isActive()) {
+        if (newKemid.isClose()) {
             String kemid = newKemid.getKemid();
             boolean hasOpenRecords = SpringContext.getBean(KemidCurrentCashOpenRecordsService.class).hasKemidOpenRecordsInCurrentCash(kemid);
 
@@ -678,7 +678,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     private boolean checkIfKemidHasHoldingTaxLotOpenRecordsIfClosed() {
         boolean valid = true;
 
-        if (newKemid.isActive()) {
+        if (newKemid.isClose()) {
             String kemid = newKemid.getKemid();
             boolean hasOpenRecords = SpringContext.getBean(KemidHoldingTaxLotOpenRecordsService.class).hasKemidHoldingTaxLotOpenRecords(kemid);
 
@@ -819,11 +819,11 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the GeneralLedgerAccounts tab. In KEMID spec, section 6.5.1.1, item 1 and 2, the rules should be updated to : 1.
-     * One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to I must exist for each END_KEMID_T record.
+     * Validates the GeneralLedgerAccounts tab. In KEMID spec, section 6.5.1.1, item 1 and 2, the rules should be updated to : 
+     * 1. One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to I must exist for each END_KEMID_T record.
      * 2. One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P must exist for each END_KEMID_T
-     * record where the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is NOT equal to NA (Not Applicable) 3. If the
-     * TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is equal to NA (Not Applicable), each END_KEMID_T record can have
+     * record where the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is NOT equal to NA (Not Applicable) 
+     * 3. If the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is equal to NA (Not Applicable), each END_KEMID_T record can have
      * either zero or one INACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P
      * 
      * @return true if valid, false otherwise

@@ -51,14 +51,41 @@ public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase i
      * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal totalAmount = new KualiDecimal();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
-        totalAmount = totalAmount.add(getTotalIncomeAmount());
-        totalAmount = totalAmount.add(getTotalPrincipalAmount());
+        totalAmount = totalAmount.add(getTotalIncomeUnits());
+        totalAmount = totalAmount.add(getTotalPrincipalUnits());
 
         return totalAmount;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalIncomeUnits()
+     */
+    public KualiDecimal getTotalIncomeUnits() {
+
+        return this.getTargetIncomeTotalUnits();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalPrincipalUnits()
+     */
+    public KualiDecimal getTotalPrincipalUnits() {
+
+        return this.getTargetPrincipalTotalUnits();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.UnitsTotaling#getTotalUnits()
+     */
+    public KualiDecimal getTotalUnits() {
+        KualiDecimal totalUnits = new KualiDecimal();
+        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
+        totalUnits = totalUnits.add(getTotalIncomeUnits());
+        totalUnits = totalUnits.add(getTotalPrincipalUnits());
+
+        return totalUnits;
+    }
 
 }

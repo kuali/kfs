@@ -1,0 +1,2613 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-1' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_BENE_ORG_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='BENE_ORG_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='BENE_ORG_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='BENE_PCT' type='NUMBER(3 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='BENE_ORG_STRT_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='BENE_ORG_CHG_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='BENE_CHRT_CD' type='VARCHAR2(2)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-2' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CURR_ENDOW_CORPUS_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_VAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-3' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_AGRMNT_SPCL_INSTRC_CD_T'>
+      <column name='AGRMNT_SPCL_INSTRC_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_SPCL_INSTRC_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-4' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CSH_SWEEP_MDL_T'>
+      <column name='CSH_SWEEP_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CSH_SWEEP_MDL_NM' type='VARCHAR2(100)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INC_SWEEP_LOWER_LMT' type='NUMBER(7 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INC_SWEEP_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INC_SWEEP_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRIN_SWEEP_LOWER_LMT' type='NUMBER(7 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CSH_SWEEP_FREQ' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CSH_SWEEP_MDL_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PRIN_SWEEP_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PRIN_SWEEP_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-5' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CRNT_TAX_LOT_BAL_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_LOT_NBR' type='NUMBER(4 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_IP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_UNITS' type='NUMBER(16 , 4)' defaultValue='0.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_COST' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ANNL_INC_EST' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_FY_REM_EST_INC' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_NEXT_FY_EST_INC' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_UNIT_VAL' type='NUMBER(19 , 5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ACQD_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_PRIOR_ACRD_INC' type='NUMBER(19 , 2)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ACRD_INC_DUE' type='NUMBER(19 , 5)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_FRGN_TAX_WITH' type='NUMBER(19 , 5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='LAST_TRAN_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_MVAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-6' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TYP_RESTR_CD_T'>
+      <column name='TYP_RESTR_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_RESTR_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PERM' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-7' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_BAL_TYP_CD_T'>
+      <column name='FEE_BAL_TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BAL_TYP_DESC' type='VARCHAR2(22)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-8' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_HIST_CSH_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ME_DT_ID' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HIST_INC_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HIST_PRIN_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-9' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CAE_CD_T'>
+      <column name='CAE_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CAE_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CAE_TYP' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-10' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_AGRMNT_STAT_CD_T'>
+      <column name='AGRMNT_STAT_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_STAT_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_DFLT_TRAN_RESTR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-11' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_VAL_HIST_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_VAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-12' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_TRAN_TYP_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-13' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TRAN_TYP_CD_T'>
+      <column name='TRAN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_TYP_DESC' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-14' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_POOL_FND_VAL_T'>
+      <column name='POOL_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VAL_EFF_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VAL_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DSTRB_AMT' type='NUMBER(19 , 5)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DSTRB_PROC_ON_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DSTRB_PROC_CMPLT' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='LT_GAIN_LOSS' type='NUMBER(19 , 5)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='LT_PROC_ON_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LT_PROC_CMPLT' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ST_PROC_CMPLT' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ST_GAIN_LOSS' type='NUMBER(19 , 5)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ST_PROC_ON_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='POOL_FND_UNIT_VAL' type='NUMBER(19 , 5)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-15' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_MTHD_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_MTHD_DESC' type='VARCHAR2(50)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_FREQ_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_NXT_PROC_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_LST_PROC_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_RT_DEF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_RT_1' type='NUMBER(9 , 4)' defaultValue='0.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BRK_1' type='NUMBER(19 , 2)' defaultValue='99999999999999999.99'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_RT_2' type='NUMBER(9 , 4)' defaultValue='0.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BRK_2' type='NUMBER(19 , 2)' defaultValue='99999999999999999.99'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_RT_3' type='NUMBER(9 , 4)' defaultValue='0.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_MIN_AMT' type='NUMBER(4 , 2)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BASE_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_EXP_ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_POST_PEND_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_PCT_TLRNC' type='NUMBER(5 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_BAL_TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BY_CLS_CD' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_BY_SEC_ID' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_BY_TRAN_TYP' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_BY_ETRAN_CD' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-16' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_FND_SRC_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='KEMID_FND_SRC_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FND_SRC_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OPND_FRM_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FND_HIST' type='VARCHAR2(250)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FND_SRC_ADTNL_DTA' type='VARCHAR2(250)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-17' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_CMB_GRP_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_GRP_ID' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TERM_CMB_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-18' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_AGRMNT_TYP_CD_T'>
+      <column name='AGRMNT_TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_TYP_CD_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-19' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_SEC_T'>
+      <column name='TKLR_NBR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_SEC_ID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-20' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TYP_FEE_MTHD_T'>
+      <column name='TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_MTHD' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-21' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_GL_LNK_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='IP_IND_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CHRT_CD' type='VARCHAR2(2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACCT_NBR' type='VARCHAR2(7)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-22' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='POOL_FND_DESC' type='VARCHAR2(120)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PF_BATCH_ID' type='VARCHAR2(5)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INCRM_VLTN_DAYS' type='NUMBER(3 , 0)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AST_PURCH_OFST_CD' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='AST_SALE_OFST_CD' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SALE_GAIN_LOSS_CD' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CSH_DPST_OFST_CD' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DSTRB_GAIN_LOSS_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-23' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_SEC_T'>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_DESC' type='VARCHAR2(120)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_TKR_SYMB' type='VARCHAR2(6)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_CLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_SUBCLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_MAT_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_UNIT_VAL' type='NUMBER(19 , 5)' defaultValue='1,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_UNITS_HELD' type='NUMBER(16 , 5)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_VAL_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='UNIT_VAL_SRC' type='VARCHAR2(30)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PREV_UNIT_VAL' type='NUMBER(19 , 5)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PREV_UNIT_VAL_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_CVAL' type='NUMBER(19 , 2)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LAST_TRAN_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_INC_PAY_FREQ' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_INC_NEXT_PAY_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_RT' type='NUMBER(19 , 5)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_INC_CHG_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_ISS_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_DVDND_REC_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_EX_DVDND_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_DVDND_PAY_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_DVDND_AMT' type='NUMBER(19 , 4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CMTMNT_AMT' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FRGN_WITH_PCT' type='NUMBER(5 , 4)' defaultValue='0.00,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='NXT_FSCL_YR_DSTRB_AMT' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-24' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_USE_CRIT_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='USE_CRIT_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='USE_CRIT_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='USE_CRIT_ADTNL_DTA' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-25' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_TYP_CD_T'>
+      <column name='FEE_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_TYP_DESC' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-26' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_RECP_GRP_T'>
+      <column name='TKLR_NBR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_RECP_GRP_ID' type='VARCHAR2(40)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-27' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_ETRAN_CD_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-28' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_SEC_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-29' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_USE_CRIT_T'>
+      <column name='USE_CRIT_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='USE_CRIT_DESC' type='VARCHAR2(100)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-30' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TYP_T'>
+      <column name='TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_DESC' type='VARCHAR2(100)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_INC_RESTR_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_PRIN_RESTR_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_CSH_SWEEP_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TYP_INC_ACI_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TYP_PRIN_ACI_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-31' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_RESTR_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-32' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_PMT_TYP_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PMT_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-33' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ETRAN_TYP_CD_T'>
+      <column name='ETRAN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ETRAN_TYP_DESC' type='VARCHAR2(40)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-34' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_REGIS_CD_T'>
+      <column name='REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='REGIS_CD_DESC' type='VARCHAR2(50)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-35' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='RESP_ADMIN_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-36' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ETRAN_CD_DESC' type='VARCHAR2(120)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ETRAN_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CORPUS_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-37' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_RECP_PRNCPL_T'>
+      <column name='TKLR_NBR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_RECP_PRNCPL_ID' type='VARCHAR2(40)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-38' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_AVAIL_CSH_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AVAIL_INC_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AVAIL_PRIN_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AVAIL_TOT_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-39' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FND_SRC_CD_T'>
+      <column name='FND_SRC_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FND_SRC_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-40' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_PMT_TYP_CD_T'>
+      <column name='PMT_TYP_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PMT_TYP_DESC' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-41' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_DONR_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DONR_ID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DONR_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DONR_STMT_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_DONR_ID' type='VARCHAR2(10)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='EFF_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TERM_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TERM_RSN' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DONR_LBL_SEL' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-42' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_SUBCLS_CD_T'>
+      <column name='SEC_SUBCLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_SUBCLS_CD_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-43' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_DONR_T'>
+      <column name='DONR_ID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FIRST_NM' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='MID_NM' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LAST_NM' type='VARCHAR2(72)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ADDR1' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ADDR2' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ADDR3' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CITY' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ST' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PSTL_CD' type='VARCHAR2(15)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CNTRY' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PHN_NBR' type='VARCHAR2(15)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INDIV_SLTN' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INDIV_MAIL_LBL' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='JNT_SLTN' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='JNT_MAIL_LBL' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DEVEL_OFFCR' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DEC_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CORP_NM1' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CORP_TTL1' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CORP_NM2' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CORP_TTL2' type='VARCHAR2(80)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CMNT' type='VARCHAR2(300)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-44' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CLS_CD_TYP_T'>
+      <column name='CLS_CD_TYP' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CLS_CD_TYP_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-45' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_RT_DEF_CD_T'>
+      <column name='FEE_RT_DEF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_RT_DEF_DESC' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-46' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_T'>
+      <column name='TKLR_NBR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_TYP_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_FREQ' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TKLR_NXT_DUE_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_DTL' type='VARCHAR2(1024)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_ENTRY_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_TERM_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-47' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_TYP_CD_T'>
+      <column name='TKLR_TYP_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_TYP_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-48' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CLS_CD_T'>
+      <column name='SEC_CLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_CLS_CD_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_RPT_GRP' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ACRL_MTHD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_INC_ETRAN_POST_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TAX_LOT_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CLS_CD_TYP' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VLTN_MTHD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-49' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_AUTO_CSH_INVEST_MDL_T'>
+      <column name='ACI_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_MDL_NM' type='VARCHAR2(100)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_HLDG_IP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_POOL1_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_POOL1_PCT' type='NUMBER(5 , 4)' defaultValue='1.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_POOL2_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL2_PCT' type='NUMBER(5 , 4)' defaultValue='0.0000,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL3_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL3_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL3_PCT' type='NUMBER(5 , 4)' defaultValue='0.0000,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL4_SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL4_PCT' type='NUMBER(5 , 4)' defaultValue='0.0000,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_FREQ' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_MDL_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_POOL1_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ACI_POOL2_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACI_POOL4_REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-50' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_CLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-51' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_PRPS_CD_T'>
+      <column name='PRPS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PRPS_DESC' type='VARCHAR2(100)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-52' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_CORPUS_VAL_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CURR_CORPUS_VAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CURR_PRIN_MVAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRIOR_FY_CORPUS_VAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRIOR_FY_PRIN_MVAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-53' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ACRL_MTHD_T'>
+      <column name='SEC_ACRL_MTHD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ACRL_MTHD_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-54' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_DONR_STMT_CD_T'>
+      <column name='DONR_STMT_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DONR_STMT_DESC' type='VARCHAR2(50)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-55' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_SEC_RPT_GRP_T'>
+      <column name='SEC_RPT_GRP' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_RPT_GRP_DESC' type='VARCHAR2(50)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_RPT_GRP_ORD' type='NUMBER(2 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-56' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_SEC_VLTN_MTHD_T'>
+      <column name='VLTN_MTHD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VLTN_MTHD_DESC' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-57' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_DONR_LBL_SEL_T'>
+      <column name='DONR_LBL_SEL' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DONR_LBL_SEL_DESC' type='VARCHAR2(50)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-58' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CMB_GRP_T'>
+      <column name='CMB_GRP_ID' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_GRP_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-59' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_HLDG_HIST_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ME_DT_ID' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_LOT_NBR' type='NUMBER(4 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_IP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_UNITS' type='NUMBER(16 , 4)' defaultValue='0.0000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_COST' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ANNL_INC_EST' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_UNIT_VAL' type='NUMBER(19 , 5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ACQD_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_PRIOR_ACRD_INC' type='NUMBER(19 , 2)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_ACRD_INC_DUE' type='NUMBER(19 , 5)' defaultValue='0'>
+        <constraints nullable='false' />
+      </column>
+      <column name='LAST_TRAN_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_MVAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_FRGN_TAX_WITH' type='NUMBER(19 , 5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AVG_MVAL' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_FY_REM_EST_INC' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_NEXT_FY_EST_INC' type='NUMBER(19 , 2)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-60' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CLOSE_CD_T'>
+      <column name='CLOSE_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CLOSE_DESC' type='VARCHAR2(75)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-61' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FEE_BASE_CD_T'>
+      <column name='FEE_BASE_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_BASE_DESC' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-62' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_FREQ_CD_T'>
+      <column name='FREQ_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FREQ_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-63' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_SPCL_INSTRC_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INSTRC_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_SPCL_INSTRC_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMNT' type='VARCHAR2(1024)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INSTRC_EST_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INSTRC_TERM_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-64' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ME_DT_T'>
+      <column name='ME_DT_ID' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ME_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-65' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_AGRMNT_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_ID' type='NUMBER(2 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_TYP_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_STAT_CD' type='VARCHAR2(4)' defaultValue='PEND'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_STAT_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='AGRMNT_OTHR_DOC' type='VARCHAR2(1024)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DONR_INTNT_TXT' type='VARCHAR2(4000)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CMNT' type='VARCHAR2(1024)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-66' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ROLE_CD_T'>
+      <column name='ROLE_CD' type='VARCHAR2(6)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROLE_DESC' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-67' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_FEE_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_MTHD_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CHRG_FEE_TO_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PCT_CHRG_FEE_TO_INC' type='NUMBER(3 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PCT_CHRG_FEE_TO_PRIN' type='NUMBER(3 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACR_FEE' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACRD_FEE_TO_DT' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='WAIVE_FEE' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='WAIVED_FEE_YTD' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='WAIVED_FEE_TO_DT' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FEE_IMPL_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FEE_TERM_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-68' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CRNT_INC_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CRNT_PRIN_CSH' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-69' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SHRT_TTL' type='VARCHAR2(50)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CLOSED_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRPS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INC_CAE_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRIN_CAE_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CLOSED_TO_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CLOSE_CD' type='VARCHAR2(3)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FND_DISP' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CLOSE_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LONG_TTL' type='VARCHAR2(255)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OPND_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ESTBL_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TYP_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='RESP_ADMIN_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='TRAN_RESTR_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CSH_SWEEP_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INC_ACI_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PRIN_ACI_MDL_ID' type='NUMBER(9 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='DORMANT_IND' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-70' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_IP_IND_T'>
+      <column name='IP_IND_CD' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='IP_IND_DESC' type='VARCHAR2(150)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-71' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_HLDG_TAX_LOT_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_LOT_NBR' type='NUMBER(4 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_IP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_UNITS' type='NUMBER(16 , 4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_COST' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_ACQD_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_PRIOR_ACRD_INC' type='NUMBER(19 , 2)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_ACRD_INC_DUE' type='NUMBER(19 , 5)' defaultValue='0,'>
+        <constraints nullable='true' />
+      </column>
+      <column name='LAST_TRAN_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='HLDG_FRGN_TAX_WITH' type='NUMBER(19 , 5)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-72' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_PAY_INC_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PAY_INC_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PAY_INC_TO_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PAY_INC_PCT' type='NUMBER(3 , 2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PAY_INC_AMT' type='NUMBER(19 , 2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='PAY_INC_STRT_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='PAY_INC_TERM_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-73' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_KEMID_DONR_CMB_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_SEQ' type='NUMBER(3 , 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CMB_DT' type='DATE'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TERM_CMB_DT' type='DATE'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-74' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_ETRAN_GL_LNK_T'>
+      <column name='ETRAN_CD' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='CHART_CD' type='VARCHAR2(2)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJECT' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='2010-04-26-5615-3-75' failOnError='true'>
+    <comment> update endowment tables - create Tables</comment>
+    <createTable tableName='END_TKLR_KEMID_T'>
+      <column name='TKLR_NBR' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TKLR_KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8 , 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

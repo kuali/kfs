@@ -1,0 +1,1789 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-13-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='646422' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtythree' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='66798' />
+      <column name='FIRST_NM' value='Donora' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtythree' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='219073' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Eleven' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='565335' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirty' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='215823' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Ten' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C32273a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Heritage Financial Group Inc' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='109948' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Two' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-8' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='118381' />
+      <column name='FIRST_NM' value='Donora' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Two' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-9' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C1663a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Phipps &amp; Funkey Inc' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-10' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='405935' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentyfour' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-11' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='380980' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentytwo' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-12' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='279927' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirteen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-13' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='50595' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentyeight' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-14' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='887434' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtysix' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-15' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C37451a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Embassy of the Republic of Croatia' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-16' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='63304' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtytwo' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-17' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C3617a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Assn for the Advancement of Urban Health' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-18' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='207159' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Nine' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-19' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='301745' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Sixteen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-20' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='302969' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Seventeen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-21' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='107545' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='One' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-22' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='337605' />
+      <column name='FIRST_NM' value='Donora' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='One' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-23' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='451957' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentyseven' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-24' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='169507' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Six' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-25' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='428275' />
+      <column name='FIRST_NM' value='Donora' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Six' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-26' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='285639' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Fourteen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-27' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='451251' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentysix' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-28' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='338203' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twenty' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-29' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='204836' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Eight' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-30' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C2267a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='New York Foundation' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-31' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C28826a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Tuneland Rock Club Inc' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-32' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='17537' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Seven' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-33' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='254306' />
+      <column name='FIRST_NM' value='Donora' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Seven' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-34' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='89712' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtyseven' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-35' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='14541' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Five' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-36' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='327773' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Eighteen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-37' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='54593' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentynine' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-38' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='576391' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtyone' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-39' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='12082' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Four' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-40' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='295944' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Fifteen' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-41' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='741828' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Thirtyfive' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-42' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='367814' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentyone' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-43' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='393833' />
+      <column name='FIRST_NM' value='Donor' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Twentythree' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-44' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C2907a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Clark Sand Company' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-45' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='C124241a' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Alumni Chapter of the South Pacific' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-46' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='295956' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Sixty' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-13-47' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_DONR_T'>
+      <column name='DONR_ID' value='89713' />
+      <column name='FIRST_NM' value='' />
+      <column name='MID_NM' value='' />
+      <column name='LAST_NM' value='Fiftysix' />
+      <column name='ADDR1' value='' />
+      <column name='ADDR2' value='' />
+      <column name='ADDR3' value='' />
+      <column name='CITY' value='' />
+      <column name='ST' value='' />
+      <column name='PSTL_CD' value='' />
+      <column name='CNTRY' value='' />
+      <column name='PHN_NBR' value='' />
+      <column name='INDIV_SLTN' value='' />
+      <column name='INDIV_MAIL_LBL' value='' />
+      <column name='JNT_SLTN' value='' />
+      <column name='JNT_MAIL_LBL' value='' />
+      <column name='DEVEL_OFFCR' value='' />
+      <column name='CORP_NM1' value='' />
+      <column name='CORP_TTL1' value='' />
+      <column name='CORP_NM2' value='' />
+      <column name='CORP_TTL2' value='' />
+      <column name='CMNT' value='' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

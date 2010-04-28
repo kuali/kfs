@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-54-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='NDISB' />
+      <column name='TRAN_RESTR_DESC' value='No Disbursements' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='DEP' />
+      <column name='TRAN_RESTR_DESC' value='Deposits Only' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='NTRAN' />
+      <column name='TRAN_RESTR_DESC' value='No Transactions' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='ADMIN' />
+      <column name='TRAN_RESTR_DESC' value='Admin Approval Required' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='SIGN' />
+      <column name='TRAN_RESTR_DESC' value='Signature Card Needed' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='ATRAN' />
+      <column name='TRAN_RESTR_DESC' value='Authorized Transactions Only' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-54-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_TRAN_RESTR_CD_T'>
+      <column name='TRAN_RESTR_CD' value='NONE' />
+      <column name='TRAN_RESTR_DESC' value='None' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-9-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CSH_SWEEP_MDL_T'>
+      <column name='CSH_SWEEP_MDL_ID' value='1' />
+      <column name='CSH_SWEEP_MDL_NM' value='Pooled Short Term Investment - Daily Investments' />
+      <column name='INC_SWEEP_LOWER_LMT' value='1' />
+      <column name='INC_SWEEP_SEC_ID' value='99PSTF018' />
+      <column name='INC_SWEEP_REGIS_CD' value='0AI' />
+      <column name='PRIN_SWEEP_LOWER_LMT' value='1' />
+      <column name='PRIN_SWEEP_SEC_ID' value='99PSTF034' />
+      <column name='PRIN_SWEEP_REGIS_CD' value='0AP' />
+      <column name='CSH_SWEEP_FREQ' value='D' />
+      <column name='CSH_SWEEP_MDL_DT' valueDate='2004-11-16' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

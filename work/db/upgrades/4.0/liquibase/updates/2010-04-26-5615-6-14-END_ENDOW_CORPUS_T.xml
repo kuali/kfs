@@ -1,0 +1,1893 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-14-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='13220' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='154186189' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='250000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='13232857' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='5250' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='317119' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='900000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-8' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='741299' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-9' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='600000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-10' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='16130' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-11' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1593274' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-12' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='48059453' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-13' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1897861' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-14' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='4801933' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-15' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='21108764' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-16' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='13013742' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-17' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='9938435' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-18' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='30566342' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-19' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='10345813' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-20' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='13146693' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-21' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='100000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-22' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1080805' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-23' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1004002' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-24' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='25462006' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-25' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1530942' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-26' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='926837' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-27' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='9578' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-28' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='3939467' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-29' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='10757643' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-30' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='9270' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-31' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G003BD9' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='1177408' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-32' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='100320' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-33' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='2986125' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-34' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2007-06-30' />
+      <column name='CORPUS_VAL' value='29899637' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-35' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='13420' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-36' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='1521982361' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-37' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='250700' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-38' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='14038857' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-39' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='5250' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-40' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='317119' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-41' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='900000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-42' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='50000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-43' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='778212' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-44' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='600000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-45' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='188396' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-46' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='1593274' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-47' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='48059453' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-48' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='2238799' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-49' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='5202859' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-50' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='21628764' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-51' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='13013742' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-52' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='10874951' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-53' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='33092821' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-54' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='10529002' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-55' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='13138851' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-56' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='9903911' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-57' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='1163305' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-58' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='201608' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-59' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='3301694' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-60' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='1745942' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-61' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='926837' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-62' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='9578' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-63' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='4029467' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-64' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='10757643' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-65' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='10270' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-66' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G003BD9' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='1206408' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-67' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='100320' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-68' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='2986125' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-69' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2008-06-30' />
+      <column name='CORPUS_VAL' value='29899637' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-70' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='13620' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-71' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='1495773782' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-72' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='301300' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-73' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='14038857' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-74' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='5250' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-75' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='317119' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-76' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='900000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-77' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='50000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-78' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='819908' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-79' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='600000' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-80' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='200146' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-81' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='10260645' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-82' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='1593274' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-83' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='48059453' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-84' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='1237508' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-85' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='2627431' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-86' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='5656597' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-87' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='22653764' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-88' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='13013742' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-89' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='11704002' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-90' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='36182855' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-91' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='10640804' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-92' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='13165595' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-93' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='9904226' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-94' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='1193305' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-95' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='201608' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-96' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='3964194' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-97' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='1908442' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-98' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='926837' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-99' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='9678' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-100' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='4096967' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-101' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='11444215' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-102' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='11270' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-103' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='100320' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-104' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='2986125' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-14-105' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ENDOW_CORPUS_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name='CORPUS_VAL_HIST_DT' valueDate='2009-06-30' />
+      <column name='CORPUS_VAL' value='29899637' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

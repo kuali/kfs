@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-49-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='ACCT' />
+      <column name='RESP_ADMIN_DESC' value='Accounting' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='AGNC' />
+      <column name='RESP_ADMIN_DESC' value='Agency' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='GENA' />
+      <column name='RESP_ADMIN_DESC' value='General Administration' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='INTL' />
+      <column name='RESP_ADMIN_DESC' value='Internal' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='INVS' />
+      <column name='RESP_ADMIN_DESC' value='Investments' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='PLFD' />
+      <column name='RESP_ADMIN_DESC' value='Pooled Funds' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-49-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_RESP_ADMIN_CD_T'>
+      <column name='RESP_ADMIN_CD' value='TRST' />
+      <column name='RESP_ADMIN_DESC' value='Trust Accounting' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

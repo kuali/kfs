@@ -1,0 +1,1425 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-8-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032A017014' />
+      <column name='CRNT_INC_CSH' value='043' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032AS06149' />
+      <column name='CRNT_INC_CSH' value='068' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032AS08053' />
+      <column name='CRNT_INC_CSH' value='037' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032AS11040' />
+      <column name='CRNT_INC_CSH' value='053' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032B011354' />
+      <column name='CRNT_INC_CSH' value='045' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032D008242' />
+      <column name='CRNT_INC_CSH' value='06' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032L006015' />
+      <column name='CRNT_INC_CSH' value='053' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-8' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032L006098' />
+      <column name='CRNT_INC_CSH' value='066' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-9' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032P002085' />
+      <column name='CRNT_INC_CSH' value='001' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-10' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032P002101' />
+      <column name='CRNT_INC_CSH' value='059' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-11' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='032P011045' />
+      <column name='CRNT_INC_CSH' value='054' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-12' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037A014184' />
+      <column name='CRNT_INC_CSH' value='0' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-13' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037A017013' />
+      <column name='CRNT_INC_CSH' value='003' />
+      <column name='CRNT_PRIN_CSH' value='065' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-14' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS12302' />
+      <column name='CRNT_INC_CSH' value='079' />
+      <column name='CRNT_PRIN_CSH' value='047' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-15' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS34082' />
+      <column name='CRNT_INC_CSH' value='043' />
+      <column name='CRNT_PRIN_CSH' value='002' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-16' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS35022' />
+      <column name='CRNT_INC_CSH' value='053' />
+      <column name='CRNT_PRIN_CSH' value='018' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-17' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS36012' />
+      <column name='CRNT_INC_CSH' value='07' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-18' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS38026' />
+      <column name='CRNT_INC_CSH' value='084' />
+      <column name='CRNT_PRIN_CSH' value='059' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-19' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037AS54239' />
+      <column name='CRNT_INC_CSH' value='049' />
+      <column name='CRNT_PRIN_CSH' value='031' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-20' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037B011AG1' />
+      <column name='CRNT_INC_CSH' value='0' />
+      <column name='CRNT_PRIN_CSH' value='028' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-21' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037B012161' />
+      <column name='CRNT_INC_CSH' value='049' />
+      <column name='CRNT_PRIN_CSH' value='05' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-22' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037E009701' />
+      <column name='CRNT_INC_CSH' value='012' />
+      <column name='CRNT_PRIN_CSH' value='043' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-23' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037E009727' />
+      <column name='CRNT_INC_CSH' value='013' />
+      <column name='CRNT_PRIN_CSH' value='005' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-24' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037F002010' />
+      <column name='CRNT_INC_CSH' value='038' />
+      <column name='CRNT_PRIN_CSH' value='037' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-25' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037G003785' />
+      <column name='CRNT_INC_CSH' value='0' />
+      <column name='CRNT_PRIN_CSH' value='022' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-26' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037G030812' />
+      <column name='CRNT_INC_CSH' value='034' />
+      <column name='CRNT_PRIN_CSH' value='053' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-27' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037H004261' />
+      <column name='CRNT_INC_CSH' value='098' />
+      <column name='CRNT_PRIN_CSH' value='047' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-28' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037I002512' />
+      <column name='CRNT_INC_CSH' value='09' />
+      <column name='CRNT_PRIN_CSH' value='018' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-29' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037K008284' />
+      <column name='CRNT_INC_CSH' value='074' />
+      <column name='CRNT_PRIN_CSH' value='052' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-30' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037L006493' />
+      <column name='CRNT_INC_CSH' value='059' />
+      <column name='CRNT_PRIN_CSH' value='006' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-31' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037L006709' />
+      <column name='CRNT_INC_CSH' value='0' />
+      <column name='CRNT_PRIN_CSH' value='086' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-32' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037MDER022' />
+      <column name='CRNT_INC_CSH' value='098' />
+      <column name='CRNT_PRIN_CSH' value='006' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-33' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037MDSL103' />
+      <column name='CRNT_INC_CSH' value='059' />
+      <column name='CRNT_PRIN_CSH' value='079' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-34' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037MMED197' />
+      <column name='CRNT_INC_CSH' value='01' />
+      <column name='CRNT_PRIN_CSH' value='042' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-35' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037MPHC132' />
+      <column name='CRNT_INC_CSH' value='025' />
+      <column name='CRNT_PRIN_CSH' value='037' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-36' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037O009148' />
+      <column name='CRNT_INC_CSH' value='03' />
+      <column name='CRNT_PRIN_CSH' value='037' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-37' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037P003108' />
+      <column name='CRNT_INC_CSH' value='014' />
+      <column name='CRNT_PRIN_CSH' value='005' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-38' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037P004148' />
+      <column name='CRNT_INC_CSH' value='046' />
+      <column name='CRNT_PRIN_CSH' value='017' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-39' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037P011291' />
+      <column name='CRNT_INC_CSH' value='083' />
+      <column name='CRNT_PRIN_CSH' value='04' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-40' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037RQ04222' />
+      <column name='CRNT_INC_CSH' value='066' />
+      <column name='CRNT_PRIN_CSH' value='009' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-41' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037RT04333' />
+      <column name='CRNT_INC_CSH' value='086' />
+      <column name='CRNT_PRIN_CSH' value='08' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-42' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037S012056' />
+      <column name='CRNT_INC_CSH' value='076' />
+      <column name='CRNT_PRIN_CSH' value='068' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-43' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037SC00501' />
+      <column name='CRNT_INC_CSH' value='008' />
+      <column name='CRNT_PRIN_CSH' value='011' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-44' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037V009140' />
+      <column name='CRNT_INC_CSH' value='026' />
+      <column name='CRNT_PRIN_CSH' value='022' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-45' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037V010080' />
+      <column name='CRNT_INC_CSH' value='059' />
+      <column name='CRNT_PRIN_CSH' value='0' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-46' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037WHMM024' />
+      <column name='CRNT_INC_CSH' value='004' />
+      <column name='CRNT_PRIN_CSH' value='023' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-47' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='037X002044' />
+      <column name='CRNT_INC_CSH' value='043' />
+      <column name='CRNT_PRIN_CSH' value='009' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-48' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038A017011' />
+      <column name='CRNT_INC_CSH' value='054' />
+      <column name='CRNT_PRIN_CSH' value='05' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-49' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038AS00057' />
+      <column name='CRNT_INC_CSH' value='008' />
+      <column name='CRNT_PRIN_CSH' value='011' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-50' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038AS06237' />
+      <column name='CRNT_INC_CSH' value='095' />
+      <column name='CRNT_PRIN_CSH' value='038' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-51' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038AS17028' />
+      <column name='CRNT_INC_CSH' value='06' />
+      <column name='CRNT_PRIN_CSH' value='048' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-52' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038AS53023' />
+      <column name='CRNT_INC_CSH' value='-28045385' />
+      <column name='CRNT_PRIN_CSH' value='061' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-53' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038B011179' />
+      <column name='CRNT_INC_CSH' value='036' />
+      <column name='CRNT_PRIN_CSH' value='004' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-54' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038CC00118' />
+      <column name='CRNT_INC_CSH' value='045' />
+      <column name='CRNT_PRIN_CSH' value='054' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-55' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038D008041' />
+      <column name='CRNT_INC_CSH' value='002' />
+      <column name='CRNT_PRIN_CSH' value='011' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-56' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038E009022' />
+      <column name='CRNT_INC_CSH' value='0' />
+      <column name='CRNT_PRIN_CSH' value='019' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-57' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038F002075' />
+      <column name='CRNT_INC_CSH' value='013' />
+      <column name='CRNT_PRIN_CSH' value='008' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-58' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038G003452' />
+      <column name='CRNT_INC_CSH' value='069' />
+      <column name='CRNT_PRIN_CSH' value='011' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-59' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038IU09022' />
+      <column name='CRNT_INC_CSH' value='076' />
+      <column name='CRNT_PRIN_CSH' value='002' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-60' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038K008027' />
+      <column name='CRNT_INC_CSH' value='056' />
+      <column name='CRNT_PRIN_CSH' value='046' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-61' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038L006228' />
+      <column name='CRNT_INC_CSH' value='05' />
+      <column name='CRNT_PRIN_CSH' value='047' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-62' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038MCCC134' />
+      <column name='CRNT_INC_CSH' value='088' />
+      <column name='CRNT_PRIN_CSH' value='038' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-63' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038MDSL325' />
+      <column name='CRNT_INC_CSH' value='059' />
+      <column name='CRNT_PRIN_CSH' value='-044' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-64' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038MPHC072' />
+      <column name='CRNT_INC_CSH' value='071' />
+      <column name='CRNT_PRIN_CSH' value='085' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-65' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038MSCI011' />
+      <column name='CRNT_INC_CSH' value='029' />
+      <column name='CRNT_PRIN_CSH' value='044' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-66' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038N008222' />
+      <column name='CRNT_INC_CSH' value='076' />
+      <column name='CRNT_PRIN_CSH' value='01' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-67' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038P011463' />
+      <column name='CRNT_INC_CSH' value='096' />
+      <column name='CRNT_PRIN_CSH' value='001' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-68' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038RPS1012' />
+      <column name='CRNT_INC_CSH' value='045' />
+      <column name='CRNT_PRIN_CSH' value='072' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-69' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038RQ04162' />
+      <column name='CRNT_INC_CSH' value='068' />
+      <column name='CRNT_PRIN_CSH' value='072' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-70' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038RR04087' />
+      <column name='CRNT_INC_CSH' value='093' />
+      <column name='CRNT_PRIN_CSH' value='003' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-71' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038RT04091' />
+      <column name='CRNT_INC_CSH' value='047' />
+      <column name='CRNT_PRIN_CSH' value='06' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-72' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038RV04351' />
+      <column name='CRNT_INC_CSH' value='027' />
+      <column name='CRNT_PRIN_CSH' value='003' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-73' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='038SC01010' />
+      <column name='CRNT_INC_CSH' value='052' />
+      <column name='CRNT_PRIN_CSH' value='014' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-74' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='046G007720' />
+      <column name='CRNT_INC_CSH' value='-687416' />
+      <column name='CRNT_PRIN_CSH' value='011' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-75' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='099PLTF013' />
+      <column name='CRNT_INC_CSH' value='14787264' />
+      <column name='CRNT_PRIN_CSH' value='-7172029' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-76' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='099PLTF021' />
+      <column name='CRNT_INC_CSH' value='-14403164' />
+      <column name='CRNT_PRIN_CSH' value='90647263' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-77' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='099PLTF997' />
+      <column name='CRNT_INC_CSH' value='-261366580' />
+      <column name='CRNT_PRIN_CSH' value='2350107391' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-78' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='909BTIP011' />
+      <column name='CRNT_INC_CSH' value='17810669' />
+      <column name='CRNT_PRIN_CSH' value='30630115' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-8-79' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_CRNT_CSH_T'>
+      <column name='KEMID' value='909ETIP018' />
+      <column name='CRNT_INC_CSH' value='-2100426' />
+      <column name='CRNT_PRIN_CSH' value='66477161' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

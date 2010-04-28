@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-17-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='025' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='100' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='011' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='200' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='400' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='401' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='495' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-8' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='498' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-9' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='580' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-10' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='600' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-11' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF1' />
+      <column name='SEC_CLS_CD' value='801' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-12' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='025' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-13' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='100' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-14' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='011' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-15' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='200' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-16' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='400' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-17' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='401' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-18' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='495' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-19' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='498' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-20' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='580' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-21' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='600' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-22' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='SHMF2' />
+      <column name='SEC_CLS_CD' value='801' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-23' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='SEC_CLS_CD' value='310' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-24' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='CRTMF1' />
+      <column name='SEC_CLS_CD' value='300' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-25' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='CRTMF2' />
+      <column name='SEC_CLS_CD' value='310' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-17-26' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_FEE_CLS_CD_T'>
+      <column name='FEE_MTHD' value='CRTMF2' />
+      <column name='SEC_CLS_CD' value='300' />
+      <column name='INCL' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

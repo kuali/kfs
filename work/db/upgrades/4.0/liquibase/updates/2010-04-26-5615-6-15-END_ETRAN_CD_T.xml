@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5615-6-15-1' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='00100' />
+      <column name='ETRAN_CD_DESC' value='Petty Cash' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-2' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='01005' />
+      <column name='ETRAN_CD_DESC' value='Other Trust Bank Accounts' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-3' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='01200' />
+      <column name='ETRAN_CD_DESC' value='Money Market Participation' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-4' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='01205' />
+      <column name='ETRAN_CD_DESC' value='Money Market Participant Liab' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-5' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='01290' />
+      <column name='ETRAN_CD_DESC' value='Separately Held Money Market' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-6' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='02020' />
+      <column name='ETRAN_CD_DESC' value='Int Receivable - Sep Held' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-7' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='02100' />
+      <column name='ETRAN_CD_DESC' value='Int Receivable - Interfund' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-8' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='03050' />
+      <column name='ETRAN_CD_DESC' value='Other Receivables' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-9' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='05030' />
+      <column name='ETRAN_CD_DESC' value='Student Loans' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-10' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='05035' />
+      <column name='ETRAN_CD_DESC' value='Faculty &amp; Staff Advances' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-11' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='05100' />
+      <column name='ETRAN_CD_DESC' value='Notes Receivable - Interfund' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-12' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='06000' />
+      <column name='ETRAN_CD_DESC' value='Other Assets' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-13' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10000' />
+      <column name='ETRAN_CD_DESC' value='Common and Preferred Stock' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-14' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10100' />
+      <column name='ETRAN_CD_DESC' value='US Securities - Par' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-15' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10200' />
+      <column name='ETRAN_CD_DESC' value='Corp Bonds - Par' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-16' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10300' />
+      <column name='ETRAN_CD_DESC' value='Tax Exempt - Par' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-17' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10400' />
+      <column name='ETRAN_CD_DESC' value='Mutual Funds' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-18' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10600' />
+      <column name='ETRAN_CD_DESC' value='Outside Managers Cash &amp; Cash Equivalents' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-19' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10700' />
+      <column name='ETRAN_CD_DESC' value='Commercial Paper' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-20' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10900' />
+      <column name='ETRAN_CD_DESC' value='Certificates of Deposit' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-21' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='11000' />
+      <column name='ETRAN_CD_DESC' value='Pooled Equity Shares' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-22' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='11100' />
+      <column name='ETRAN_CD_DESC' value='PEF - Participant Liability' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-23' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='11500' />
+      <column name='ETRAN_CD_DESC' value='Equity Trust Investment Pool' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-24' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='11700' />
+      <column name='ETRAN_CD_DESC' value='Pooled Long Term Investment Fund' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-25' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='12000' />
+      <column name='ETRAN_CD_DESC' value='Pooled Fixed Income Shares' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-26' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='12100' />
+      <column name='ETRAN_CD_DESC' value='PFI - Participant Liability' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-27' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='12500' />
+      <column name='ETRAN_CD_DESC' value='Bond Trust Investment Pool' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-28' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='13000' />
+      <column name='ETRAN_CD_DESC' value='Real Estate' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-29' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='14000' />
+      <column name='ETRAN_CD_DESC' value='Mortgage Contracts' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-30' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='15000' />
+      <column name='ETRAN_CD_DESC' value='CSV of Life Insurance' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-31' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='17000' />
+      <column name='ETRAN_CD_DESC' value='Alternative Investments' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-32' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='22025' />
+      <column name='ETRAN_CD_DESC' value='Legal Fees Payable' />
+      <column name='ETRAN_TYP_CD' value='L' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-33' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='22500' />
+      <column name='ETRAN_CD_DESC' value='Damage deposit payable' />
+      <column name='ETRAN_TYP_CD' value='L' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-34' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='24000' />
+      <column name='ETRAN_CD_DESC' value='Notes Pay - Compton CRUT' />
+      <column name='ETRAN_TYP_CD' value='L' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-35' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42000' />
+      <column name='ETRAN_CD_DESC' value='Trust Accounts - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-36' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42010' />
+      <column name='ETRAN_CD_DESC' value='Money Markets - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-37' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42015' />
+      <column name='ETRAN_CD_DESC' value='CDs - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-38' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42020' />
+      <column name='ETRAN_CD_DESC' value='Miscellaneous - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-39' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42100' />
+      <column name='ETRAN_CD_DESC' value='Stock Dividends' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-40' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42120' />
+      <column name='ETRAN_CD_DESC' value='US Securities - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-41' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42140' />
+      <column name='ETRAN_CD_DESC' value='Corp Bonds - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-42' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42160' />
+      <column name='ETRAN_CD_DESC' value='Tax Exempt - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-43' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42190' />
+      <column name='ETRAN_CD_DESC' value='Mortgage Contracts - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-44' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42200' />
+      <column name='ETRAN_CD_DESC' value='Pooled Equity Dividends' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-45' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42210' />
+      <column name='ETRAN_CD_DESC' value='Equity TIP Dividends' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-46' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42270' />
+      <column name='ETRAN_CD_DESC' value='Pooled Long-Term Dividends' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-47' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42300' />
+      <column name='ETRAN_CD_DESC' value='Pooled Fixed Income Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-48' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42320' />
+      <column name='ETRAN_CD_DESC' value='Bond TIP Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-49' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='42415' />
+      <column name='ETRAN_CD_DESC' value='Student Loans - Interest' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-50' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='45000' />
+      <column name='ETRAN_CD_DESC' value='Rent Income' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-51' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='45100' />
+      <column name='ETRAN_CD_DESC' value='Interest Income - Interfund' />
+      <column name='ETRAN_TYP_CD' value='I' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-52' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='74000' />
+      <column name='ETRAN_CD_DESC' value='Interest Expense' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-53' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='74100' />
+      <column name='ETRAN_CD_DESC' value='Interest Expense - Interfund related to IU' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-54' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='75010' />
+      <column name='ETRAN_CD_DESC' value='PEF - Distrib to Accounts' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-55' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='75020' />
+      <column name='ETRAN_CD_DESC' value='Equity TIP - Distribution to Accounts - ONLY FUND 99' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-56' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='76010' />
+      <column name='ETRAN_CD_DESC' value='PFI - Distrib to Accounts' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-57' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='76020' />
+      <column name='ETRAN_CD_DESC' value='Bond TIP - Distribution to Accounts' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-58' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='78100' />
+      <column name='ETRAN_CD_DESC' value='Pooled Fund Dist Gain/loss' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-59' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='77000' />
+      <column name='ETRAN_CD_DESC' value='Separately Held Management Fees' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-60' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='10601' />
+      <column name='ETRAN_CD_DESC' value='Negative Cash &amp; Equivalents held by mgrs' />
+      <column name='ETRAN_TYP_CD' value='A' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5615-6-15-61' failOnError='true'>
+    <comment> update endowment tables - insert data</comment>
+    <insert tableName='END_ETRAN_CD_T'>
+      <column name='ETRAN_CD' value='75720' />
+      <column name='ETRAN_CD_DESC' value='PLTIF - Distribution to Accounts' />
+      <column name='ETRAN_TYP_CD' value='E' />
+      <column name='ROW_ACTV_IND' value='Y' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

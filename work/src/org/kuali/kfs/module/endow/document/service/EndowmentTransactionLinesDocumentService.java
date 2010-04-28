@@ -26,4 +26,11 @@ public interface EndowmentTransactionLinesDocumentService {
      */
     public boolean getCorpusIndicatorValueforAnEndowmentTransactionLine (String kemid, String etranCode, String ipIndicator);
 
+    /**
+     * Check if a KEMID can have a principal activity
+     * @param kemid
+     * @param ipIndicator
+     * @return true or false
+     */
+    public boolean canKEMIDHaveAPrincipalActivity (String kemid, String ipIndicator);
 }

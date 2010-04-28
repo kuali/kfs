@@ -57,6 +57,26 @@ public class EndowmentTransactionLinesDocumentServiceImpl implements EndowmentTr
     }
     
     /**
+     * @see org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService#canKEMIDHaveAPrincipalActivity(java.lang.String, java.lang.String)
+     * 
+     * IF the END _TRAN_LN_T: TRAN_IP_IND_CD for the transaction line is equal to P, then the KEMID must have a type code (END_KEMID_T: TYP_CD) 
+     * that does not have the END_TYPE_T: TYP_PRIN_RESTR_CD equal to NA which implies that the KEMID cannot have any activity in Principal. 
+     * This would guarantee that the KEMID has an active general ledger account with the Income/Principal indicator equal to "P".
+     */
+    public boolean canKEMIDHaveAPrincipalActivity (String kemid, String ipIndicator){
+        boolean canHaveAPrincipalActivity = true;
+        KEMID theKemidObj = null;
+        if (ipIndicator.equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)){
+            theKemidObj = kemidService.getByPrimaryKey(kemid);
+            if (theKemidObj.getType().getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE)){
+                canHaveAPrincipalActivity = false;
+            }
+        }
+        return canHaveAPrincipalActivity;
+    }
+
+    
+    /**
      * Gets the kemidService.
      * 
      * @return kemidService

@@ -295,7 +295,13 @@
 	<bean id="endowmentTransactionDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionDocumentServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>				
+		</property>
+		<property name="kemidService">
+			<ref bean="KEMIDService" />
+		</property>		
+		<property name="endowmentTransactionCodeService">
+			<ref bean="endowmentTransactionCodeService" />
+		</property>					
 	</bean>
 	
 	<bean id="endowmentTransactionLinesDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionLinesDocumentServiceImpl">

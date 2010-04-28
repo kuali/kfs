@@ -16,15 +16,21 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.GLLink;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
+import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -35,14 +41,15 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransactionDocumentService 
 {
     private BusinessObjectService businessObjectService;
+    private KEMIDService kemidService;
+    private EndowmentTransactionCodeService endowmentTransactionCodeService;
 
     public String[] getSecurity(String securityID)
     {
         Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(securityID);
         ClassCode classCode  = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
         EndowmentTransactionCode tranCode  = SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(classCode.getSecurityEndowmentTransactionCode());
-        
-        
+               
         security.setClassCode(classCode);
         
         String returnArray[] = new String[4];
@@ -52,6 +59,43 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
         returnArray[3] = new Boolean( security.getClassCode().isTaxLotIndicator()).toString();
         
         return returnArray;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService#matchChartBetweenKEMIDAndETranCode(java.lang.String, java.lang.String, java.lang.String)
+     * 
+     * Check if the chart code matches based on the following rule:
+     * The ETRAN Code used must have an appropriately identified general ledger object code record; 
+     * one that matches the Chart for the KEMID associated general ledger account.   
+     * - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I, the chart must match the chart of the active END_KEMID_GL_LNK_T record where the IP_IND_CD is equal to I.
+     * - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, the chart must match the chart of the active END_KEMID_GL_LNK_T record where the IP_IND_CD is equal to P.
+     * Assume that all inputs are valid.
+     */
+    public boolean matchChartBetweenKEMIDAndETranCode(String kemid, String etranCode, String ipIndicator){
+        boolean matchChartIndicator = false;
+        List<KemidGeneralLedgerAccount> kemidGeneralLedgerAccounts = null;
+        List<GLLink> glLinks = null;
+        String theChartCode = null;
+        
+        //Get the chart code, it can't be null because each KEMID always have one active income KemidGeneralLedgerAccount.
+        //Each KEMID always have one active principal KemidGeneralLedgerAccount if type code --> principal restriction code is not NA
+        //This will be valid before checking if the chart codes match.
+        kemidGeneralLedgerAccounts = kemidService.getByPrimaryKey(kemid).getKemidGeneralLedgerAccounts();
+        for (KemidGeneralLedgerAccount kemidGeneralLedgerAccount:kemidGeneralLedgerAccounts){
+           String theIpIndicator = kemidGeneralLedgerAccount.getIncomePrincipalIndicatorCode();
+           if (theIpIndicator.equalsIgnoreCase(ipIndicator)){
+               theChartCode = kemidGeneralLedgerAccount.getChartCode();
+               break;
+           }
+        }
+        glLinks = endowmentTransactionCodeService.getByPrimaryKey(etranCode).getGlLinks();
+        for (GLLink glLink:glLinks){
+            if (glLink.getChartCode().equalsIgnoreCase(theChartCode)){
+                matchChartIndicator = true;
+                break;
+            }
+        }        
+        return matchChartIndicator;
     }
     
     /**
@@ -70,6 +114,42 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Gets the kemidService.
+     * 
+     * @return kemidService
+     */
+    public KEMIDService getKemidService(){
+        return kemidService;
+    }
+    
+    /**
+     * Sets the kemidService.
+     * 
+     * @param kemidService
+     */
+    public void setKemidService (KEMIDService kemidService){
+        this.kemidService = kemidService; 
+    }
+    
+    /**
+     * Gets the endowmentTransactionCodeService.
+     * 
+     * @return endowmentTransactionCodeService
+     */
+    public EndowmentTransactionCodeService getEndowmentTransactionCodeService(){
+        return endowmentTransactionCodeService;
+    }
+    
+    /**
+     * Sets the endowmentTransactionCodeService.
+     * 
+     * @param endowmentTransactionCodeService
+     */
+    public void setEndowmentTransactionCodeService (EndowmentTransactionCodeService endowmentTransactionCodeService){
+        this.endowmentTransactionCodeService = endowmentTransactionCodeService; 
     }
 
 }

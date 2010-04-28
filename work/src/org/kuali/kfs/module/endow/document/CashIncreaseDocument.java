@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document;
 
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase implements Correctable {
 
@@ -23,4 +24,41 @@ public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase i
         super();
         setTransactionSourceTypeCode("M");
     }
+    
+    @Override
+    public void prepareForSave() 
+    {
+        super.prepareForSave();
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalIncomeAmount()
+     */
+    public KualiDecimal getTotalIncomeAmount() {
+
+        return this.getTargetIncomeTotal();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalPrincipalAmount()
+     */
+    public KualiDecimal getTotalPrincipalAmount() {
+
+        return this.getTargetPrincipalTotal();
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
+     */
+    public KualiDecimal getTotalDollarAmount() {
+        KualiDecimal totalAmount = new KualiDecimal();
+
+        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
+        totalAmount = totalAmount.add(getTotalIncomeAmount());
+        totalAmount = totalAmount.add(getTotalPrincipalAmount());
+
+        return totalAmount;
+    }
+
+
 }

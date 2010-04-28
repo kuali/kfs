@@ -20,6 +20,7 @@
 			<name>ECI</name>
 			<label>Endowment Cash Increase</label>
 			<parent>ET</parent>
+      		<docHandler> ${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 	</documentTypes>
 </data>

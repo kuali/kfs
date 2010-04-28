@@ -37,8 +37,8 @@
   <bean id="EndowmentTransactionalDocument-transactionSourceTypeCode" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSourceTypeCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Transaction Source-Type"/>
-    <property name="shortLabel" value="Source Type"/>
+    <property name="label" value="Transaction Source"/>
+    <property name="shortLabel" value="Transaction Source"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />

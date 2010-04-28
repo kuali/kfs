@@ -51,9 +51,9 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) 
     {
         boolean isValid = true; 
-        isValid &= GlobalVariables.getMessageMap().hasErrors(); 
+        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
-        if(!isValid)
+        if(isValid)
         {
             //Validate Kemid
             if(!validateKemId(line))

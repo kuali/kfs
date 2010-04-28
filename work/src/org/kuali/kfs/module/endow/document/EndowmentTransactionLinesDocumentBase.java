@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
@@ -139,8 +140,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceIncomeTotal()
      */
     public KualiDecimal getSourceIncomeTotal() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionAmount());
+            }
+        }
+
+        return total;
     }
 
 
@@ -148,8 +156,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourcePrincipalTotal()
      */
     public KualiDecimal getSourcePrincipalTotal() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionAmount());
+            }
+        }
+
+        return total;
     }
 
 
@@ -157,8 +172,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetIncomeTotal()
      */
     public KualiDecimal getTargetIncomeTotal() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionAmount());
+            }
+        }
+
+        return total;
     }
 
 
@@ -166,16 +188,30 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetPrincipalTotal()
      */
     public KualiDecimal getTargetPrincipalTotal() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionAmount());
+            }
+        }
+
+        return total;
     }
 
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceIncomeTotalUnits()
      */
     public KualiDecimal getSourceIncomeTotalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionUnits());
+            }
+        }
+
+        return total;
     }
 
 
@@ -183,8 +219,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourcePrincipalTotalUnits()
      */
     public KualiDecimal getSourcePrincipalTotalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionUnits());
+            }
+        }
+
+        return total;
     }
 
 
@@ -192,8 +235,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetIncomeTotalUnits()
      */
     public KualiDecimal getTargetIncomeTotalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionUnits());
+            }
+        }
+
+        return total;
     }
 
 
@@ -201,8 +251,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetPrincipalTotalUnits()
      */
     public KualiDecimal getTargetPrincipalTotalUnits() {
-        // TODO Auto-generated method stub
-        return KualiDecimal.ZERO;
+        KualiDecimal total = KualiDecimal.ZERO;
+
+        for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
+            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+                total = total.add(tl.getTransactionUnits());
+            }
+        }
+
+        return total;
     }
 
     /**

@@ -15,14 +15,19 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -37,37 +42,35 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.bo.Person)
      */
-    /*@Override
-    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
-        Set<String> editableFields = super.getEditableBlocksInReadOnlyLine(accountingDocument, accountingLine, currentUser);
-
-        DocumentAuthorizationService documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class);
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(accountingDocument);
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-
-        // only check special expense edits if we are in special routing
-        if (!workflowDocument.stateIsEnroute() || !workflowDocument.isApprovalRequested() || !dvAuthorizer.isSpecialRouting(accountingDocument, currentUser)) {
-            return editableFields;
+    /**
+     * Overridden to make:
+     * 1. amount read only for fiscal officer
+     */
+    @Override
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
+        boolean canModify = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
+        final KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        List<String> currentRouteLevels = null;
+        try {
+            currentRouteLevels = Arrays.asList(workflowDocument.getNodeNames());
         }
-
-        DisbursementVoucherWorkGroupService workGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
-
-        boolean isObjectCodeEditable = workGroupService.isUserInDvAdminGroup(currentUser);
-        isObjectCodeEditable |= workGroupService.isUserInTravelGroup(currentUser);
-        isObjectCodeEditable &= SpringContext.getBean(ParameterService.class).getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.ALLOW_OBJECT_CODE_EDITS);
-        if (isObjectCodeEditable) {
-            editableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        catch (WorkflowException ex) {
+            throw new RuntimeException(ex);
         }
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT)) {
+            if (StringUtils.equals(fieldName, getAmountPropertyName())) {  //FO? 
+                canModify = false;
+            }
+        }        
+        return canModify;
+    }
 
-        boolean isAmountEditable = workGroupService.isUserInTaxGroup(currentUser);
-        isAmountEditable |= workGroupService.isUserInFRNGroup(currentUser);
-        isAmountEditable |= workGroupService.isUserInWireGroup(currentUser);
-        isAmountEditable |= workGroupService.isUserInTravelGroup(currentUser);
-        if (isAmountEditable) {
-            editableFields.add(KFSPropertyConstants.AMOUNT);
-        }
 
-        return editableFields;
-    } */
+    /**
+     * @return the property name of the amount field, which will be set read only for fiscal officers
+     */
+    protected String getAmountPropertyName() {
+        return "amount";
+    }
 }
 

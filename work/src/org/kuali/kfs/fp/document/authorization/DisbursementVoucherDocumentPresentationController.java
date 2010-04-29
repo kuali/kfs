@@ -120,9 +120,10 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) { // FO or tax manager? Then only allow this if we're going to route to travel node anyway
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT)) {  //FO? 
+        } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) { //tax manager? Then only allow this if we're going to route to travel node anyway
             if (((DisbursementVoucherDocument)document).isTravelReviewRequired()) {
-                editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
+               editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
             }
         } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PAYMENT_METHOD) && ((DisbursementVoucherDocument)document).getDisbVchrPaymentMethodCode().equals(DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);

@@ -47,7 +47,7 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
      */
     @Override
     public boolean canSave(Document document) {
-        return false;
+        return true;
     }
 
     /**

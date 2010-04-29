@@ -58,9 +58,6 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
 
     /**
-     * This action executes an insert of an EndowmentSourceTransactionLine into a document only after validating the Transaction
-     * line and checking any appropriate business rules.
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -68,25 +65,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
-        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-
-        EndowmentSourceTransactionLine transLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
-
-        boolean rulePassed = true;
-
-        // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
-
-        if (rulePassed) {
-            // add accountingLine
-            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
-            insertTransactionLine(true, documentForm, transLine);
-
-            // clear the used newTargetLine
-            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
-        }
+    public ActionForward importTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -252,7 +231,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // To Determine if the refresh is coming from Registration lookup
-        if (request.getParameterMap().containsKey(REGISTRATION_SOURCE_REFRESH)|| request.getParameterMap().containsKey(REGISTRATION_TARGET_REFRESH)) {
+        if (request.getParameterMap().containsKey(REGISTRATION_SOURCE_REFRESH) || request.getParameterMap().containsKey(REGISTRATION_TARGET_REFRESH)) {
             refreshRegistrationDetails(mapping, form, request, response);
         }
 
@@ -348,5 +327,28 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         return null;
 
+    }
+
+    public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        EndowmentSourceTransactionLine transLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
+
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+
+        if (rulePassed) {
+            // add accountingLine
+            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            insertTransactionLine(true, documentForm, transLine);
+
+            // clear the used newTargetLine
+            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

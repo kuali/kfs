@@ -293,4 +293,86 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
             return null;
     }
 
+    /**
+     * Compute the total amount for the target transaction lines.
+     * 
+     * @return the total amount for the target transaction lines
+     */
+    public KualiDecimal getTargetTotalAmount() {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
+        totalAmount = totalAmount.add(getTargetIncomeTotal());
+        totalAmount = totalAmount.add(getTargetPrincipalTotal());
+
+        return totalAmount;
+    }
+
+    /**
+     * Compute the total amount for the source transaction lines.
+     * 
+     * @return the total amount for the source transaction lines
+     */
+    public KualiDecimal getSourceTotalAmount() {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
+        totalAmount = totalAmount.add(getSourceIncomeTotal());
+        totalAmount = totalAmount.add(getSourcePrincipalTotal());
+
+        return totalAmount;
+    }
+
+
+    /**
+     * Base implementation to compute the document total amount. Documents that display the total amount will implement the
+     * AmountTotaling interface and can override this method if needed.
+     * 
+     * @return the total units for the document
+     */
+    public KualiDecimal getTotalDollarAmount() {
+
+        return getTargetTotalAmount().equals(KualiDecimal.ZERO) ? getSourceTotalAmount() : getTargetTotalAmount();
+
+    }
+
+    /**
+     * Computes the total units for the source transaction lines.
+     * 
+     * @return the total units for the source transaction lines
+     */
+    public KualiDecimal getSourceTotalUnits() {
+        KualiDecimal totalUnits = new KualiDecimal();
+        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
+        totalUnits = totalUnits.add(getSourceIncomeTotalUnits());
+        totalUnits = totalUnits.add(getSourcePrincipalTotalUnits());
+
+        return totalUnits;
+    }
+
+    /**
+     * Computes the total units for the target transaction lines.
+     * 
+     * @return the total units for the target transaction lines
+     */
+    public KualiDecimal getTargetTotalUnits() {
+        KualiDecimal totalUnits = new KualiDecimal();
+        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
+        totalUnits = totalUnits.add(getTargetIncomeTotalUnits());
+        totalUnits = totalUnits.add(getTargetPrincipalTotalUnits());
+
+        return totalUnits;
+    }
+
+
+    /**
+     * Base implementation to compute the document total units. Documents that display the total units will implement the
+     * UnitsTotaling interface and can override this method if needed.
+     * 
+     * @return the total units for the document
+     */
+    public KualiDecimal getTotalUnits() {
+        return getTargetTotalUnits().equals(KualiDecimal.ZERO) ? getSourceTotalUnits() : getTargetTotalUnits();
+    }
+
 }

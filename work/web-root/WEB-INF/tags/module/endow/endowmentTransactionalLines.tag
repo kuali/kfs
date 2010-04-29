@@ -17,10 +17,7 @@
 
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="isSource" required="true" %>
-<%@ attribute name="isTarget" required="true" %>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-
-<kul:tab tabTitle="Transaction Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ITEM_LINE_ERRORS}">
 
 <c:if test="${isSource}" >
   <c:set var="lineAttributes" value="${DataDictionary.EndowmentSourceTransactionLine.attributes}" />
@@ -33,7 +30,7 @@
   <c:set var="totalIncomeUnits" value="${KualiForm.document.sourceIncomeTotalUnits}"/>
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.sourcePrincipalTotalUnits}"/>
 </c:if>
-<c:if test="${isTarget}">
+<c:if test="${not isSource}">
   <c:set var="lineAttributes" value="${DataDictionary.EndowmentTargetTransactionLine.attributes}" />
   <c:set var="newTransactionLine" value="newTargetTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertTargetTransactionLine" />
@@ -45,10 +42,47 @@
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.targetPrincipalTotalUnits}"/>
 </c:if>
 
- <div class="tab-container" align=center>
-	<h3>Transaction Lines</h3>
-	<table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
-	    
+<table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
+	    <tr>
+	            <td colspan="1" class="tab-subhead" style="border-right: none;" align="left">
+	            <c:if test="${isSource}">FROM</c:if>
+	            <c:if test="${not isSource}">TO</c:if>
+	            </td>    
+	            <td colspan="5" class="tab-subhead" style="border-right: none;border-left: none;" >
+	            &nbsp;
+	            </td>
+                <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+					<SCRIPT type="text/javascript">
+                		<!--
+                  		function hideImport() {
+                      		document.getElementById("showLink").style.display="inline";
+                      		document.getElementById("uploadDiv").style.display="none";
+                  		}
+                  		function showImport() {
+                      		document.getElementById("showLink").style.display="none";
+                      		document.getElementById("uploadDiv").style.display="inline";
+                  		}
+                  		document.write(
+                    		'<a id="showLink" href="#" onclick="showImport();return false;">' +
+                      		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import transaction lines from file" alt="import transaction lines from file"' +
+                      		'     width=72 height=15 border=0 align="right" class="det-button">' +
+                    		'<\/a>' +
+                    		'<div id="uploadDiv" style="display:none;" >' +
+                      		'<html:file size="30" property="transactionLineImportFile" />' +
+                      		'<html:image property="methodToCall.importTransactionLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                                    styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
+                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
+                    		'<\/div>');
+                		//-->
+            		</SCRIPT>
+					<NOSCRIPT>
+						Import lines
+						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
+						<html:image property="methodToCall.importTransactionLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+					</NOSCRIPT>
+				</td>
+	    </tr>
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.kemid}"/>
@@ -151,8 +185,3 @@
 				</td>
 			</c:if>
 		</tr>
-        
-	</table>
-</div>
-
-</kul:tab>

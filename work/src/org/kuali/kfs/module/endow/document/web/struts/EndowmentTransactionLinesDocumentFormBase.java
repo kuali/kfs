@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -25,6 +26,7 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
+    protected FormFile transactionLineImportFile;
     private EndowmentTransactionLine newSourceTransactionLine;
     private EndowmentTransactionLine newTargetTransactionLine;
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
@@ -43,6 +45,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Gets an EndowmentTransactionLinesDocumentBase.
+     * 
      * @return EndowmentTransactionLinesDocumentBase
      */
     public EndowmentTransactionLinesDocumentBase getEndowmentTransactionLinesDocumentBase() {
@@ -100,4 +103,23 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setTargetTransactionSecurity(EndowmentTargetTransactionSecurity targetTransactionSecurity) {
         this.targetTransactionSecurity = targetTransactionSecurity;
     }
+
+    /**
+     * Gets the transactionLineImportFile.
+     * 
+     * @return transactionLineImportFile
+     */
+    public FormFile getTransactionLineImportFile() {
+        return transactionLineImportFile;
+    }
+
+    /**
+     * Sets the transactionLineImportFile.
+     * 
+     * @param transactionLineImportFile
+     */
+    public void setTransactionLineImportFile(FormFile transactionLineImportFile) {
+        this.transactionLineImportFile = transactionLineImportFile;
+    }
+
 }

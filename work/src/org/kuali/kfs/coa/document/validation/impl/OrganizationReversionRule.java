@@ -84,13 +84,14 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
             String errorPath = "organizationReversionDetail[" + index + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             validateOrganizationReversionDetail(dtl);
+            validateOrganizationReversionCode(orgReversion, dtl);
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
         }
         GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
         return GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
     }
-
+    
     /**
      * 
      * This checks to make sure that the organization reversion object on the detail object actually exists
@@ -98,15 +99,48 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * @return false if the organization reversion object doesn't exist
      */
     protected boolean validateOrganizationReversionDetail(OrganizationReversionDetail detail) {
-        boolean result = true; // let's assume this detail will pass the rule
+        
+        // let's assume this detail will pass the rule
+        boolean result = true;
+        
         // 1. makes sure the financial object code exists
         detail.refreshReferenceObject("organizationReversionObject");
-        LOG.debug("organization reversion finanical object = " + detail.getOrganizationReversionObject().getName());
         if (ObjectUtils.isNull(detail.getOrganizationReversionObject())) {
+            LOG.debug("organization reversion finanical object = null");
             result = false;
             GlobalVariables.getMessageMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: " + detail.getOrganizationReversionObjectCode() });
         }
         return result;
     }
 
+    /**
+     * 
+     * Verifies that a reversion code exists when the 
+     * "Carry Forward by Object Code" indicator is selected.  If this indicator
+     * isn't selected, then the reversion codes isn't required.
+     * 
+     * @param reversion OrganizationReversion object
+     * @param detail OrganizationReversionDetail object
+     * 
+     * @return true for successful validation
+     */
+    protected boolean validateOrganizationReversionCode(OrganizationReversion reversion, OrganizationReversionDetail detail) {
+        
+        //
+        // Assume it will pass!
+        //
+        boolean result = true;
+        
+        //
+        // Only need to verify that organization reversion code exists if the
+        // "Carry Forward by Object Code Indicator" is not selected.
+        //
+        if (reversion.isCarryForwardByObjectCodeIndicator()) {
+            if (ObjectUtils.isNull(detail.getOrganizationReversionCode())) {
+                result = false;
+                GlobalVariables.getMessageMap().putError("organizationReversionCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_NO_REVERSION_CODE);
+            }
+        }
+        return result;
+    }
 }

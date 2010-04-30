@@ -29,6 +29,9 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -51,12 +54,25 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         boolean isValid = true;
-        
+      
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
 
         if (!payeeDetail.isVendor()) {
-            return true;
+            
+            String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            final KimEntityInfo entityInfo= SpringContext.getBean(IdentityManagementService.class).getEntityInfoByPrincipalId(initiator);
+            String originatorId = entityInfo.getEmploymentInformation().get(0).getEmployeeId();
+            String employeeId = payeeDetail.getDisbVchrEmployeeIdNumber();
+            // verify that originator does not equal payee
+            if (originatorId.equals(employeeId)) {
+                isValid = false;
+                MessageMap errors = GlobalVariables.getMessageMap();
+                errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+                String[] errorName = { "Payee ID " + employeeId ," Originator has the same ID ", "name" };
+                errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION, errorName);
+            }
+            return isValid;
         }
 
         if (StringUtils.isBlank(payeeDetail.getDisbVchrPayeeIdNumber())) {
@@ -98,6 +114,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
 
                 }
             }
+           
             else if (isEmployeeSSN(vendor.getVendorHeader().getVendorTaxNumber())) {
                 // check param setting for paid outside payroll check
                 boolean performPaidOutsidePayrollInd = parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM);

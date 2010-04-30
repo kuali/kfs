@@ -17,8 +17,9 @@ package org.kuali.kfs.module.endow;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.util.JSTLConstants;
 
-public class EndowConstants {
+public class EndowConstants extends JSTLConstants{
 
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
 
@@ -210,6 +211,8 @@ public class EndowConstants {
     public static class TransactionSourceTypeCode {
         public static final String MANUAL = "M";
     }
+
+    public static final String UNITS_TOTALING_EDITING_MODE = "unitsTotaling";
 
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
     public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";

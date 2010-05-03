@@ -224,36 +224,39 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                         && !DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)
                         && !DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc));
         }
-        else { // Payee is not an employee
-            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
-            
-            // Assume it is not taxable until proven otherwise
-            pg.setTaxablePayment(Boolean.FALSE);
+        // Payee is not an employee
+        else {
 
             // These are taxable
             VendorDetail vendDetail = SpringContext.getBean(VendorService.class).getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
             String vendorOwnerCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
             String vendorOwnerCategoryCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
             String payReasonCode = pd.getDisbVchrPaymentReasonCode();
+            
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
+            
+            // Assume it is not taxable until proven otherwise
+            pg.setTaxablePayment(Boolean.FALSE);
+            pg.setPayeeOwnerCd(vendorOwnerCode);
 
             ParameterEvaluator parameterEvaluator1 = this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_OWNERSHIP_CODES_PARAMETER_NAME, vendorOwnerCode, payReasonCode);
             ParameterEvaluator parameterEvaluator2 = this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, PdpParameterConstants.NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY_PARAMETER_NAME, vendorOwnerCategoryCode, payReasonCode);
             
-            if ( parameterEvaluator1.evaluationSucceeds() ) pg.setTaxablePayment(Boolean.TRUE);
-            
+            if ( parameterEvaluator1.evaluationSucceeds() ) {
+                pg.setTaxablePayment(Boolean.TRUE);
+            }
             else if (this.parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP") &&
                       StringUtils.isEmpty(vendorOwnerCategoryCode) &&
                       this.parameterService.getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_FOR_BLANK_CORPORATION_OWNERSHIP_TYPE_CATEGORIES_PARAMETER_NAME, payReasonCode).evaluationSucceeds()) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            
             else if (this.parameterService.getParameterValue(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP")
                         && !StringUtils.isEmpty(vendorOwnerCategoryCode)
                         && parameterEvaluator2.evaluationSucceeds() ) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            
         }
+        
         pg.setCity(pd.getDisbVchrPayeeCityName());
         pg.setCountry(pd.getDisbVchrPayeeCountryCode());
         pg.setLine1Address(pd.getDisbVchrPayeeLine1Addr());

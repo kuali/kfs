@@ -488,6 +488,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String SOURCE_ACCOUNTING_LINE_ERRORS = EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + ACCOUNTING_LINE_GROUP_SUFFIX;
     public static final String TARGET_ACCOUNTING_LINE_ERRORS = EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME + ACCOUNTING_LINE_GROUP_SUFFIX;
     public static final String ITEM_LINE_ERRORS = "newItem*,document.item*";
+    
     public static final String CREDIT_CARD_RECEIPTS_LINE_ERRORS = "newCreditCardReceipt*,document.creditCardReceipt*";
     public static final String ADVANCE_DEPOSITS_LINE_ERRORS = "newAdvanceDeposit*,document.advanceDeposit*";
     public static final String GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS = "document.generalLedgerPendingEntr*";
@@ -1249,5 +1250,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String DD_VALIDATION_PREFIX = "dd:";
     }
 
+    public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
+    public static final String TRANSACTION_LINE_ERRORS = "newTargetTransactionLine*,document.newTargetTransactionLine*";
+    public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
 }
 

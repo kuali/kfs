@@ -297,6 +297,16 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
     }
 
+    /**
+     * Retrieves and sets the reference Security object on Source or Target transactionsecurity based on the looked up value.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward refreshSecurityDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument();
 
@@ -319,14 +329,32 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         return null;
     }
 
-    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * Retrieves and sets the reference RegistrationCode object on Source or Target transactionsecurity based on the looked up value.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
         EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument();
 
-        RegistrationCode registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getRegistrationCode());
-        endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
+        RegistrationCode registrationCode = null;
+        if (request.getParameterMap().containsKey(REGISTRATION_SOURCE_REFRESH))
+            registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().getRegistrationCode());
+        else
+            registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().getRegistrationCode());
+
+        if (request.getParameterMap().containsKey(REGISTRATION_SOURCE_REFRESH))
+            endowmentSecurityDetailsDocumentBase.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
+        else
+            endowmentSecurityDetailsDocumentBase.getTargetTransactionSecurity().setRegistrationCodeObj(registrationCode);
 
         return null;
-
     }
 
     public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

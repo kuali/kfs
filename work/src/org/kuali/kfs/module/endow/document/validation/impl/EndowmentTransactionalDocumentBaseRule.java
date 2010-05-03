@@ -21,14 +21,21 @@ import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
+import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
+import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.sys.KFSConstants;
@@ -224,38 +231,231 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
       }
   }
 
-    
+  
+  /**
+   * This method obtains the Prefix for displaying errors on the UI for Source & Target lines.
+   * 
+   * @param document
+   * @param isSource
+   * @return
+   */
+  protected String getEndowmentTransactionSecurityPrefix(EndowmentTransactionalDocument document, boolean isSource)
+  {
+      if(isSource)
+          return EndowPropertyConstants.TRANSACTION_SOURCE_SECURITY_PREFIX; 
+      else
+          return EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX;
+  }
+
+  /**
+   * This method returns the Security line associated with a Transaction.
+   * 
+   * @param document
+   * @param isSource
+   * @return
+   */
+  protected EndowmentTransactionSecurity getEndowmentTransactionSecurity(EndowmentTransactionalDocument document, boolean isSource)
+  {
+      if(isSource)
+          return ((EndowmentSecurityDetailsDocument)document).getSourceTransactionSecurity();
+      else
+          return ((EndowmentSecurityDetailsDocument)document).getTargetTransactionSecurity();
+  }
+  
     /**
-     * This method validate the Security code and tries to create a Security object from the code. 
+     * This method validate the Security code. 
      * 
      * @param tranSecurity
      * @return
      */
-    private boolean validateSecurityCode(EndowmentTransactionSecurity tranSecurity)
+    protected boolean isSecurityCodeEmpty(EndowmentTransactionalDocument document,boolean isSource)
+    {
+        boolean success = true;
+        String prefix = null;
+        
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+ 
+        if( StringUtils.isEmpty(tranSecurity.getSecurityID()) )
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method validates the Registration code.   
+     * 
+     * @param tranSecurity
+     * @return
+     */
+    protected boolean isRegistrationCodeEmpty(EndowmentTransactionalDocument document,boolean isSource)
+    {
+        boolean success = true;
+        String prefix = null;
+        
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+ 
+        if( StringUtils.isEmpty(tranSecurity.getRegistrationCode()) )
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_REQUIRED);
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    
+    
+    /**
+     * This method validates the Security code by trying to create a Security object from the code. 
+     * 
+     * @param document
+     * @param isSource
+     * @return
+     */
+    protected boolean validateSecurityCode(EndowmentSecurityDetailsDocument document,boolean isSource)
+    {
+        boolean success = true;
+        String prefix = null;
+        
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        
+        Security security = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(tranSecurity.getSecurityID());
+        tranSecurity.setSecurity(security);
+        if( null == security )
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INVALID);
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method validates the Registration code by trying to create a RegistrationCode object from the code. 
+     * 
+     * @param document
+     * @param isSource
+     * @return
+     */
+    protected boolean validateRegistrationCode(EndowmentSecurityDetailsDocument document,boolean isSource)
+    {
+        boolean success = true;
+        String prefix = null;
+        
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        
+        RegistrationCode registrationCode = (RegistrationCode) SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(tranSecurity.getRegistrationCode());
+        tranSecurity.setRegistrationCodeObj(registrationCode);
+        if( null == registrationCode )
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_INVALID);
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method checks if the Security is Active.    
+     * 
+     * @param document
+     * @param isSource
+     * @return
+     */
+    protected boolean isSecurityActive(EndowmentSecurityDetailsDocument document,boolean isSource)
+    {
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        
+        if( tranSecurity.getSecurity().isActive() )
+            return true;
+        else
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INACTIVE);
+            return false;
+        }
+    }
+
+    /**
+     * This method checks if the Registration Code is Active.  
+     * 
+     * @param document
+     * @param isSource
+     * @return
+     */
+    protected boolean isRegistrationCodeActive(EndowmentSecurityDetailsDocument document,boolean isSource)
+    {
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        
+        if( tranSecurity.getRegistrationCodeObj().isActive() )
+            return true;
+        else
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_INACTIVE);
+            return false;
+        }
+    }
+    
+    /**
+     * This method validates the Security Class Type Code. 
+     * 
+     * @param document
+     * @param isSource
+     * @param classCode
+     * @return
+     */
+    protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document,boolean isSource,String classCode)
+    {
+        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        
+        if( tranSecurity.getSecurity().getSecurityClassCode().equalsIgnoreCase(classCode) )
+            return true;
+        else
+        {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CLASS_CODE_MISMATCH);
+            return false;
+        }
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) 
+    {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document); 
+        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
+        
+        EndowmentTransactionalDocument endowmentTransactionalDocument =null;
+        
+        if(isValid)
+        {
+            endowmentTransactionalDocument = (EndowmentTransactionalDocument) document;
+            
+            //Validates Tx Sub Type Code
+            isValid &= validateSubType(endowmentTransactionalDocument);
+        }
+        
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+    
+    /**
+     * This method validates the Sub Type Code. 
+     * 
+     * @param document
+     * @return
+     */
+    protected boolean validateSubType(EndowmentTransactionalDocument document)
     {
         boolean success = true;
         
-        if( StringUtils.isEmpty(tranSecurity.getSecurityID()) )
+        if( StringUtils.isEmpty(document.getTransactionSubTypeCode()) )
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
+            putFieldError(EndowConstants.TRANSACTION_DETAILS_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_DETAILS_SUB_TYPE_REQUIRED);
             success = false;
         }
-        else 
-        {
-            Security security= (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(tranSecurity.getSecurityID());
-            tranSecurity.setSecurity(security);
-            if( null == security )
-            {
-                putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INVALID);
-                success = false;
-            }
-        }
-        return success;
-    }
-
-    private boolean templateMethod(EndowmentTransactionLine line)
-    {
-        boolean success = true;
         
         return success;
     }

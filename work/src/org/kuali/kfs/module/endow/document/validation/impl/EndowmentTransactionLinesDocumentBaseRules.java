@@ -18,12 +18,15 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
@@ -47,66 +50,92 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     /**
      * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) 
     {
         boolean isValid = true; 
         isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
+        //Obtain Prefix for Error fields in UI.
+        String ERROR_PREFIX = null;
+        if( line instanceof EndowmentSourceTransactionLine)
+            ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
+        else
+            ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;            
+            
         if(isValid)
         {
-            //Validate Kemid
-            if(!validateKemId(line))
+            //Is Kemid empty
+            if(isKemIdCodeEmpty(line,ERROR_PREFIX))
+                return false;
+         
+            //Validate KemID
+            if(!validateKemId(line,ERROR_PREFIX))
                 return false;
          
             //Active Kemid
-            isValid &= isActiveKemId(line);
+            isValid &= isActiveKemId(line,ERROR_PREFIX);
             
             //Validate no restriction transaction restriction
-            isValid &= validateNoTransactionRestriction(line);
+            isValid &= validateNoTransactionRestriction(line,ERROR_PREFIX);
             
             //Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line);
+            isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
+            
+            //Is Endowment Transaction Code empty
+            if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
+                return false;
             
             //Validate ETran code
-            if(!validateEndowmentTransactionCode(line))
+            if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
                 return false;
 
             //Refresh all references for the given KemId
             //line.getKemidObj().refreshNonUpdateableReferences();
 
             //Validate ETran code as E or I
-            isValid &= validateEndowmentTransactionTypeCode(line);
+            isValid &= validateEndowmentTransactionTypeCode(line,ERROR_PREFIX);
         }
         
-        return isValid;
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
     /**
-     * This method validate the KemId code and tries to create a KEMID object from the code.
+     * This method validates the KEMID code. 
      * 
-     * @param line
+     * @param tranSecurity
      * @return
      */
-    private boolean validateKemId(EndowmentTransactionLine line)
+    protected boolean isKemIdCodeEmpty(EndowmentTransactionLine line, String prefix)
     {
         boolean success = true;
         
         if( StringUtils.isEmpty(line.getKemid()) )
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_REQUIRED);
+            putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_REQUIRED);
+            success = false;        
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method validates the KemId code and tries to create a KEMID object from the code.
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean validateKemId(EndowmentTransactionLine line,String prefix)
+    {
+        boolean success = true;
+        
+        KEMID kemId = (KEMID) SpringContext.getBean(KEMIDService.class).getByPrimaryKey(line.getKemid());
+        line.setKemidObj(kemId);
+        if( null == kemId )
+        {
+            putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_INVALID);
             success = false;
         }
-        else 
-        {
-            KEMID kemId = (KEMID) SpringContext.getBean(KEMIDService.class).getByPrimaryKey(line.getKemid());
-            line.setKemidObj(kemId);
-            if( null == kemId )
-            {
-                putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_INVALID);
-                success = false;
-            }
-        }
+
         return success;
     }
 
@@ -116,11 +145,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    private boolean isActiveKemId(EndowmentTransactionLine line)
+    protected boolean isActiveKemId(EndowmentTransactionLine line,String prefix)
     {
         if(line.getKemidObj().isClose())
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_INACTIVE);
+            putFieldError(prefix + EndowPropertyConstants.KEMID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_INACTIVE);
             return false;
             
         }
@@ -136,11 +165,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    private boolean validateNoTransactionRestriction(EndowmentTransactionLine line)
+    protected boolean validateNoTransactionRestriction(EndowmentTransactionLine line,String prefix)
     {
         if(line.getKemidObj().getTransactionRestrictionCode().equalsIgnoreCase(EndowConstants.TransactionRestrictionCode.TRAN_RESTR_CD_NTRAN))
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE);
+            putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE);
             return false;
         }
         else
@@ -156,72 +185,50 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    private boolean validateTransactionAmountGreaterThanZero(EndowmentTransactionLine line)
+    protected boolean validateTransactionAmountGreaterThanZero(EndowmentTransactionLine line, String prefix)
     {
         if(line.getTransactionAmount().isGreaterThan(AbstractKualiDecimal.ZERO))
             return true;
         else
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO);
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO);
             return false;
         }
-            
     }
     
     /**
-     * This method validate the ETRAN code and tries to create a EndowmentTransactionCode object from the code.
+     * This method checks is the Transaction Units entered is greater than Zero. 
      * 
      * @param line
      * @return
      */
-    private boolean validateEndowmentTransactionCode(EndowmentTransactionLine line)
+    protected boolean validateTransactionUnitsGreaterThanZero(EndowmentTransactionLine line, String prefix)
     {
-        boolean success = true;
-        
-        if( StringUtils.isEmpty(line.getEtranCode()) )
+        if(line.getTransactionUnits().isGreaterThan(AbstractKualiDecimal.ZERO))
+            return true;
+        else
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_REQUIRED);
-            success = false;
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO);
+            return false;
         }
-        else 
-        {
-            EndowmentTransactionCode etran = (EndowmentTransactionCode) SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(line.getEtranCode());
-            line.setEtranCodeObj(etran);
-            if( null == etran )
-            {
-                putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_INVALID);
-                success = false;
-            }
-        }
-        return success;
     }
-
+    
     /**
-     * This method validate the Security code and tries to create a Security object from the code. 
+     * This method checks is the Transaction Units & Amount entered are equal. 
      * 
-     * @param tranSecurity
+     * @param line
+     * @param prefix
      * @return
      */
-    private boolean validateSecurityCode(EndowmentTransactionSecurity tranSecurity)
+    protected boolean validateTransactionUnitsAmountEqual(EndowmentTransactionLine line, String prefix)
     {
-        boolean success = true;
-        
-        if( StringUtils.isEmpty(tranSecurity.getSecurityID()) )
+        if(line.getTransactionUnits().compareTo(line.getTransactionAmount()) == 0)
+            return true;
+        else
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
-            success = false;
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_AMOUNT_UNITS_EQUAL);
+            return false;
         }
-        else 
-        {
-            Security security= (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(tranSecurity.getSecurityID());
-            tranSecurity.setSecurity(security);
-            if( null == security )
-            {
-                putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INVALID);
-                success = false;
-            }
-        }
-        return success;
     }
 
     /**
@@ -230,18 +237,58 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    private boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLine line)
+    protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLine line,String prefix)
     {
         if(line.getEtranCodeObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE) || line.getEtranCodeObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE) )
             return true;
         else
         {
-            putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY);
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY);
             return false;
         }
     }
     
-    private boolean templateMethod(EndowmentTransactionLine line)
+    /**
+     * This method validates the EndowmentTransaction code. 
+     * 
+     * @param tranSecurity
+     * @return
+     */
+    protected boolean isEndowmentTransactionCodeEmpty(EndowmentTransactionLine line,String prefix)
+    {
+        boolean success = true;
+        
+        if( StringUtils.isEmpty(line.getEtranCode()) )
+        {
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_REQUIRED);
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method validates the EndowmentTransaction code and tries to create a EndowmentTransactionCode object from the code.
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean validateEndowmentTransactionCode(EndowmentTransactionLine line,String prefix)
+    {
+        boolean success = true;
+        
+        EndowmentTransactionCode etran = (EndowmentTransactionCode) SpringContext.getBean(EndowmentTransactionCodeService.class).getByPrimaryKey(line.getEtranCode());
+        line.setEtranCodeObj(etran);
+        if( null == etran )
+        {
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_INVALID);
+            success = false;
+        }
+
+        return success;
+    }
+    
+    protected boolean templateMethod(EndowmentTransactionLine line)
     {
         boolean success = true;
         

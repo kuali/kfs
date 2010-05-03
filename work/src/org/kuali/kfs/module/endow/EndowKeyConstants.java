@@ -169,11 +169,19 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_INACTIVE = "error.document.transactionLine.kemid.inactive";
         public static final String ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE = "error.document.transactionLine.kemid.notran.code";
         public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO = "error.document.transactionLine.amount.greaterthen.zero";
+        public static final String ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterthen.zero";
+        public static final String ERROR_TRANSACTION_AMOUNT_UNITS_EQUAL = "error.document.transactionLine.units.amount.equal";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_REQUIRED = "error.document.transactionLine.etran.required";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_INVALID = "error.document.transactionLine.etran.invalid";
         public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY = "error.document.transactionLine.etran.typecode.validity";
         public static final String ERROR_TRANSACTION_SECURITY_REQUIRED = "error.document.transaction.security.required";
+        public static final String ERROR_TRANSACTION_REGISTRATION_CODE_REQUIRED = "error.document.transaction.registrationCode.required";
         public static final String ERROR_TRANSACTION_SECURITY_INVALID = "error.document.transaction.security.invalid";
+        public static final String ERROR_TRANSACTION_SECURITY_INACTIVE = "error.document.transaction.security.inactive";
+        public static final String ERROR_TRANSACTION_SECURITY_CLASS_CODE_MISMATCH = "error.document.transaction.security.classCode.mismatch";
+        public static final String ERROR_TRANSACTION_DETAILS_SUB_TYPE_REQUIRED = "error.document.transaction.detail.subtype.required";
+        public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INVALID = "error.document.transaction.registrationCode.invalid";
+        public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INACTIVE = "error.document.transaction.registrationCode.inactive";
     }
 
     public static class TransactionalDocuments{

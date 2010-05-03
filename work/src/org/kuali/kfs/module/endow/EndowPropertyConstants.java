@@ -496,4 +496,20 @@ public class EndowPropertyConstants {
     //Transaction Document
     public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";
+
+    public static final String TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE = "etranCode";
+    public static final String TRANSACTION_LINE_TRANSACTION_AMOUNT = "transactionAmount"; 
+    public static final String TRANSACTION_LINE_TRANSACTION_UNITS = "transactionUnits";
+    
+    public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";
+    public static final String SOURCE_TRANSACTION_LINE_PREFIX = "newSourceTransactionLine.";
+    
+    public static final String TRANSACTION_SECURITY_ID = "securityID";
+    public static final String TRANSACTION_REGISTRATION_ID = "registrationCode";
+    
+    
+    public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
+    public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
+    
+    
 }

@@ -22,11 +22,15 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
+public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument 
+{
+    private static final String SOURCE_TAX_LOT_LINE = "F"; 
+    private static final String TARGET_TAX_LOT_LINE = "T";
 
     protected Integer nextSourceLineNumber;
     protected Integer nextTargetLineNumber;
@@ -43,6 +47,36 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
         targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
     }
+
+    @Override
+    public void prepareForSave() 
+    {
+        prepareTaxLotLinesForSave();
+    }
+    
+    /**
+     * This method will fill the Type identifier(Source/Target) for all the  Tax lot objects depending on the Source/Target collection they are present in. 
+     */
+    public void prepareTaxLotLinesForSave() 
+    {
+        for(EndowmentTransactionLine transactionLine: sourceTransactionLines )
+        {
+            for(EndowmentTransactionTaxLotLine taxLotLine: transactionLine.getTaxLotLines() )
+            {
+                taxLotLine.setDocumentLineTypeCode(SOURCE_TAX_LOT_LINE);
+            }
+        }
+
+        for(EndowmentTransactionLine transactionLine: targetTransactionLines )
+        {
+            for(EndowmentTransactionTaxLotLine taxLotLine: transactionLine.getTaxLotLines() )
+            {
+                taxLotLine.setDocumentLineTypeCode(TARGET_TAX_LOT_LINE);
+            }
+        }
+
+    } 
+    
 
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLines()

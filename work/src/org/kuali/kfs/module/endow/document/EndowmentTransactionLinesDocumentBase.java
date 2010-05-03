@@ -238,7 +238,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
-            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+            if (tl.getTransactionUnits() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
                 total = total.add(tl.getTransactionUnits());
             }
         }
@@ -254,7 +254,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (EndowmentTransactionLine tl : getTargetTransactionLines()) {
-            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+            if (tl.getTransactionUnits() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
                 total = total.add(tl.getTransactionUnits());
             }
         }
@@ -293,32 +293,38 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
             return null;
     }
 
+
     /**
-     * Compute the total amount for the target transaction lines.
-     * 
-     * @return the total amount for the target transaction lines
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTotalAmount()
      */
     public KualiDecimal getTargetTotalAmount() {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
-        totalAmount = totalAmount.add(getTargetIncomeTotal());
-        totalAmount = totalAmount.add(getTargetPrincipalTotal());
+        if (getTargetIncomeTotal() != null) {
+            totalAmount = totalAmount.add(getTargetIncomeTotal());
+        }
+        if (getTargetPrincipalTotal() != null) {
+            totalAmount = totalAmount.add(getTargetPrincipalTotal());
+        }
 
         return totalAmount;
     }
 
+
     /**
-     * Compute the total amount for the source transaction lines.
-     * 
-     * @return the total amount for the source transaction lines
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTotalAmount()
      */
     public KualiDecimal getSourceTotalAmount() {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
-        totalAmount = totalAmount.add(getSourceIncomeTotal());
-        totalAmount = totalAmount.add(getSourcePrincipalTotal());
+        if (getSourceIncomeTotal() != null) {
+            totalAmount = totalAmount.add(getSourceIncomeTotal());
+        }
+        if (getSourcePrincipalTotal() != null) {
+            totalAmount = totalAmount.add(getSourcePrincipalTotal());
+        }
 
         return totalAmount;
     }
@@ -336,43 +342,56 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
     }
 
+
     /**
-     * Computes the total units for the source transaction lines.
-     * 
-     * @return the total units for the source transaction lines
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTotalUnits()
      */
     public KualiDecimal getSourceTotalUnits() {
-        KualiDecimal totalUnits = new KualiDecimal();
+        KualiDecimal totalUnits = KualiDecimal.ZERO;
         // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
-        totalUnits = totalUnits.add(getSourceIncomeTotalUnits());
-        totalUnits = totalUnits.add(getSourcePrincipalTotalUnits());
+
+        if (getSourceIncomeTotalUnits() != null) {
+            totalUnits = totalUnits.add(getSourceIncomeTotalUnits());
+        }
+
+        if (getSourcePrincipalTotalUnits() != null) {
+            totalUnits = totalUnits.add(getSourcePrincipalTotalUnits());
+        }
 
         return totalUnits;
     }
 
+
     /**
-     * Computes the total units for the target transaction lines.
-     * 
-     * @return the total units for the target transaction lines
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTotalUnits()
      */
     public KualiDecimal getTargetTotalUnits() {
-        KualiDecimal totalUnits = new KualiDecimal();
+        KualiDecimal totalUnits = KualiDecimal.ZERO;
         // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
-        totalUnits = totalUnits.add(getTargetIncomeTotalUnits());
-        totalUnits = totalUnits.add(getTargetPrincipalTotalUnits());
+        if (getTargetIncomeTotalUnits() != null) {
+            totalUnits = totalUnits.add(getTargetIncomeTotalUnits());
+        }
+
+        if (getTargetPrincipalTotalUnits() != null) {
+            totalUnits = totalUnits.add(getTargetPrincipalTotalUnits());
+        }
 
         return totalUnits;
     }
 
 
     /**
-     * Base implementation to compute the document total units. Documents that display the total units will implement the
-     * UnitsTotaling interface and can override this method if needed.
-     * 
-     * @return the total units for the document
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTotalUnits()
      */
     public KualiDecimal getTotalUnits() {
-        return getTargetTotalUnits().equals(KualiDecimal.ZERO) ? getSourceTotalUnits() : getTargetTotalUnits();
-    }
+        KualiDecimal totalUnits = KualiDecimal.ZERO;
+        if (getTargetTotalUnits() != null && getTargetTotalUnits().compareTo(KualiDecimal.ZERO) == 0) {
+            totalUnits = getSourceTotalUnits();
+        }
+        else if (getTargetTotalUnits() != null) {
+            totalUnits = getTargetTotalUnits();
+        }
 
+        return totalUnits;
+    }
 }

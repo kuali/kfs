@@ -89,6 +89,42 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
     public KualiDecimal getTargetPrincipalTotalUnits();
 
     /**
+     * Compute the total amount for the target transaction lines.
+     * 
+     * @return the total amount for the target transaction lines
+     */
+    public KualiDecimal getTargetTotalAmount();
+
+    /**
+     * Compute the total amount for the source transaction lines.
+     * 
+     * @return the total amount for the source transaction lines
+     */
+    public KualiDecimal getSourceTotalAmount();
+
+    /**
+     * Computes the total units for the source transaction lines.
+     * 
+     * @return the total units for the source transaction lines
+     */
+    public KualiDecimal getSourceTotalUnits();
+
+    /**
+     * Computes the total units for the target transaction lines.
+     * 
+     * @return the total units for the target transaction lines
+     */
+    public KualiDecimal getTargetTotalUnits();
+
+    /**
+     * Base implementation to compute the document total units. Documents that display the total units will implement the
+     * UnitsTotaling interface and can override this method if needed.
+     * 
+     * @return the total units for the document
+     */
+    public KualiDecimal getTotalUnits();
+
+    /**
      * @return TransactionLineParser instance appropriate for importing TransactionLines for this document type
      */
     public EndowmentTransactionLineParser getTransactionLineParser();

@@ -36,6 +36,7 @@
         <ref bean="AssetIncreaseDocument-transactionSourceType.name"/>
         <ref bean="AssetIncreaseDocument-transactionSourceTypeCode"/>
         <ref bean="AssetIncreaseDocument-transactionPosted"/>
+        <ref bean="AssetIncreaseDocument-totalUnits"/>
         <ref bean="AssetIncreaseDocument-versionNumber"/>
       </list>
     </property>
@@ -84,6 +85,13 @@
   <bean id="AssetIncreaseDocument-transactionPosted-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="transactionPosted"/>
     <property name="label" value="Transaction Posted"/>
+  </bean>
+  
+  <bean id="AssetIncreaseDocument-totalUnits" parent="AssetIncreaseDocument-totalUnits-parentBean"/>
+  <bean id="AssetIncreaseDocument-totalUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalUnits"/>
+    <property name="shortLabel" value="Total Units"/>
+    <property name="label" value="Total Units"/>
   </bean>
 
   <bean id="AssetIncreaseDocument-versionNumber" parent="GenericAttributes-versionNumber"/>

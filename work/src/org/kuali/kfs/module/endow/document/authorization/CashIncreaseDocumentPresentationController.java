@@ -17,6 +17,6 @@ package org.kuali.kfs.module.endow.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
-public class CashIncreaseDocumentPresentationController extends FinancialSystemTransactionalDocumentAuthorizerBase {
+public class CashIncreaseDocumentPresentationController extends EndowmentTransactionalDocumentPresentationController {
 
 }

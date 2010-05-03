@@ -27,7 +27,8 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
+	<endow:endowmentDocumentOverview editingMode="${KualiForm.editingMode}" 
+	                                 endowDocAttributes="${DataDictionary.AssetIncreaseDocument.attributes}" />
 	
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
      
@@ -40,7 +41,13 @@
 
     <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true"/>          
          
-    <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true"/>                 
+    <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true"/>     
+    
+    <endow:endowmentTaxLotLine 
+    	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
+    	isSource="false"
+    	isTarget="true"
+    	readOnly="true"/>            
         
 	<kul:notes /> 
 	

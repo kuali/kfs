@@ -25,21 +25,29 @@
 <%@ attribute name="showTarget" required="true" %>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<kul:tab tabTitle="Security Details" defaultOpen="true" tabErrorKey="${KFSConstants.ITEM_LINE_ERRORS}">
+<kul:tab tabTitle="Security Details" defaultOpen="true" tabErrorKey="${KFSConstants.TRANSACTION_SECURITY_TAB_ERRORS}">
 
 
- <c:set var="securityTransactionAttributes" value="${DataDictionary.EndowmentTransactionSecurity.attributes}" />
-<c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />
-
+ <c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />
 
  <div class="tab-container" align=center>
 	<h3>Security Details</h3>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Security Details2" style='table-layout:fixed'>
-	<c:if  test="${showSource}">  
-		<c:set var="sourceSecurityTransactionAttributes" value="${DataDictionary.EndowmentSourceTransactionSecurity.attributes}" /> 
+	
+	<c:choose>
+		<c:when  test="${showSource}">  
+			<c:set var="securityTransactionAttributes" value="${DataDictionary.EndowmentSourceTransactionSecurity.attributes}" /> 
+			<c:set var="securityType" value="sourceTransactionSecurity" />
+		</c:when>
+		<c:when  test="${showTarget}">  
+			<c:set var="securityTransactionAttributes" value="${DataDictionary.EndowmentSourceTransactionSecurity.attributes}" />
+			<c:set var="securityType" value="targetTransactionSecurity" /> 
+		</c:when>
+	</c:choose>
+		
 		<tr>
          	<kul:htmlAttributeHeaderCell
-				attributeEntry="${sourceSecurityTransactionAttributes.securityID}"
+				attributeEntry="${securityTransactionAttributes.securityID}"
 				forceRequired="true"
 				useShortLabel="false"
 				/>
@@ -57,61 +65,61 @@
 				useShortLabel="false" />
 								
          	<kul:htmlAttributeHeaderCell
-				attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}"
+				attributeEntry="${securityTransactionAttributes.registrationCode}"
 				useShortLabel="false"
 				/>
 
 		</tr>
-      
+       
         <tr> 
             <td class="infoline">
-	            <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" 
-	            	property="document.sourceTransactionSecurity.securityID" 
+	            <kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.securityID}" 
+	            	property="document.${securityType}.securityID" 
 	            	onblur="loadSecurityInfo(this.name);"
 	            	/>
 	            &nbsp;
 				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
-					fieldConversions="id:document.sourceTransactionSecurity.securityID" />
+					fieldConversions="id:document.${securityType}.securityID" />
 				<br/>
 				<div id="security.description" style="height:20px;">
-            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.sourceTransactionSecurity.security.description" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.${securityType}.security.description" readOnly="true" />
             	</div>	
             </td>
             <td>
-            	<div id="document.sourceTransactionSecurity.security.securityClassCode" >
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.securityClassCode" readOnly="true" />
+            	<div id="document.${securityType}.security.securityClassCode" >
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.securityClassCode" readOnly="true" />
             		-
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.name" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.classCode.name" readOnly="true" />
             	</div>
             </td>
             <td>
-            	<div id="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode">
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
+            	<div id="document.${securityType}.security.classCode.securityEndowmentTransactionCode">
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.classCode.securityEndowmentTransactionCode" readOnly="true" />
             		-
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.endowmentTransactionCode.name" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.classCode.endowmentTransactionCode.name" readOnly="true" />
             	</div>	
             </td>
             <td>
-            	<div id="document.sourceTransactionSecurity.security.classCode.taxLotIndicator">
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.sourceTransactionSecurity.security.classCode.taxLotIndicator" readOnly="true" />
+            	<div id="document.${securityType}.security.classCode.taxLotIndicator">
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.classCode.taxLotIndicator" readOnly="true" />
             	</div>	
             </td>
             <td class="infoline">
-            	<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" 
-            			property="document.sourceTransactionSecurity.registrationCode"
+            	<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" 
+            			property="document.${securityType}.registrationCode"
             			onblur="loadRegistrationInfo(this.name);" 
             	/>
                 &nbsp;
 				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.RegistrationCode"
-					fieldConversions="code:document.sourceTransactionSecurity.registrationCode" 
+					fieldConversions="code:document.${securityType}.registrationCode" 
 					/>
 				<br/>
 				<div id="registration.description" style="height:20px;">
-            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.registrationCode}" property="document.sourceTransactionSecurity.registrationCodeObj.name" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="document.${securityType}.registrationCodeObj.name" readOnly="true" />
             	</div>		
             </td> 
         </tr>
-    </c:if>
+       
     <%--
     <c:if  test="${showTarget}">  
 		<tr>

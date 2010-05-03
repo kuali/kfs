@@ -20,7 +20,7 @@
 	
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="LiabilityIncreaseDocument"
-	htmlFormAction="endowLiabilityIncreaseDocument" renderMultipart="true"
+	htmlFormAction="endowLiabilityIncreaseDocument" renderMultipart="true" 
 	showTabButtons="true">
 
     <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
@@ -39,18 +39,19 @@
          summaryTitle="Liability Increase Details"
          />
 
-    <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true"/>  
+    <endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false"/>  
                   
-	<endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true"/>    
-                  
+	<endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true"/> 
+                   
     <endow:endowmentTaxLotLine 
     	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
     	isSource="true"
     	isTarget="false"
     	readOnly="true"/>
 
+ 
 	<kul:notes /> 
-	
+
 	<kul:routeLog />
 
 	<kul:panelFooter />

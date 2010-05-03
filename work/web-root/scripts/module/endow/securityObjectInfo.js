@@ -15,12 +15,19 @@
  */
 function loadSecurityInfo( securityIdFieldName) 
 {
-    var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
-
+	var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
+	
+	//Selecting the type of Security - Source or Target
+	var securityType= null;
+	if( securityIdFieldName.match("target") != null)
+		securityType = 'target';
+	else
+		securityType = 'source';
+		
     var securityCodeField = "security.description";
-    var classCodeField = "document.sourceTransactionSecurity.security.securityClassCode";
-    var transactionCodeField = "document.sourceTransactionSecurity.security.classCode.securityEndowmentTransactionCode";
-    var taxLotIndicatorField = "document.sourceTransactionSecurity.security.classCode.taxLotIndicator";
+    var classCodeField = "document." + securityType + "TransactionSecurity.security.securityClassCode";
+    var transactionCodeField = "document." + securityType + "TransactionSecurity.security.classCode.securityEndowmentTransactionCode";
+    var taxLotIndicatorField = "document." + securityType + "TransactionSecurity.security.classCode.taxLotIndicator";
     
 
 	clearRecipients(securityCodeField, "");

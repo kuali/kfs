@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.document;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 
-public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling {
+public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling {
 
     public AssetIncreaseDocument() {
         super();

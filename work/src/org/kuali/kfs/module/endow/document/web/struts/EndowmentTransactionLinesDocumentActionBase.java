@@ -114,19 +114,19 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      */
     protected void insertTransactionLine(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, EndowmentTransactionLine line) {
         EndowmentTransactionLinesDocumentBase etlDoc = etlDocumentForm.getEndowmentTransactionLinesDocumentBase();
+
         if (isSource) {
             // add it to the document
             etlDoc.addSourceTransactionLine((EndowmentSourceTransactionLine) line);
-
-            // Update the doc total
-            // TODO check why total updated only on source
-            if (etlDoc instanceof AmountTotaling)
-                ((FinancialSystemDocumentHeader) etlDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) etlDoc).getTotalDollarAmount());
         }
         else {
             // add it to the document
             etlDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
         }
+
+        // Update the doc total
+        if (etlDoc instanceof AmountTotaling)
+            ((FinancialSystemDocumentHeader) etlDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) etlDoc).getTotalDollarAmount());
     }
 
     /**

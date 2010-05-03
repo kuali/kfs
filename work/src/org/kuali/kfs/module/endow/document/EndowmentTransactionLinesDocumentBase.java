@@ -338,7 +338,15 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      */
     public KualiDecimal getTotalDollarAmount() {
 
-        return getTargetTotalAmount().equals(KualiDecimal.ZERO) ? getSourceTotalAmount() : getTargetTotalAmount();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        if (getTargetTotalAmount() != null && getTargetTotalAmount().compareTo(KualiDecimal.ZERO) == 0) {
+            totalAmount = getSourceTotalAmount();
+        }
+        else if (getTargetTotalUnits() != null) {
+            totalAmount = getTargetTotalAmount();
+        }
+
+        return totalAmount;
 
     }
 

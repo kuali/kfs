@@ -397,15 +397,15 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      * 
      * @param document
      * @param isSource
-     * @param classCode
+     * @param classCodeType
      * @return
      */
-    protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document,boolean isSource,String classCode)
+    protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document,boolean isSource,String classCodeType)
     {
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
         tranSecurity.getSecurity().refreshNonUpdateableReferences();
         
-        if( tranSecurity.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(classCode) )
+        if( tranSecurity.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(classCodeType) )
             return true;
         else
         {

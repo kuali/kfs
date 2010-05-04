@@ -15,6 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-public class CashIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+public class CashIncreaseDocumentAction extends CashDocumentActionBase {
 
 }

@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
@@ -29,6 +33,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
@@ -46,8 +51,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -100,6 +109,40 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
             // clear the used newTargetLine
             documentForm.setNewTargetTransactionLine(new EndowmentTargetTransactionLine());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action executes an insert of an EndowmentTargetTransactionLine into a document only after validating the Transaction
+     * line and checking any appropriate business rules.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        EndowmentSourceTransactionLine transLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
+
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+
+        if (rulePassed) {
+            // add accountingLine
+            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            insertTransactionLine(true, documentForm, transLine);
+
+            // clear the used newTargetLine
+            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -252,6 +295,13 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
 
+        // balance inquiry anchor is set before doing a balance inquiry
+        if (etlForm.getBalanceInquiryReturnAnchor() != null) {
+            etlForm.setAnchor(etlForm.getBalanceInquiryReturnAnchor());
+            etlForm.setBalanceInquiryReturnAnchor(null);
+        }
+
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -330,7 +380,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     }
 
     /**
-     * Retrieves and sets the reference RegistrationCode object on Source or Target transactionsecurity based on the looked up value.
+     * Retrieves and sets the reference RegistrationCode object on Source or Target transactionsecurity based on the looked up
+     * value.
      * 
      * @param mapping
      * @param form
@@ -339,8 +390,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @return
      * @throws Exception
      */
-    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
+    public ActionForward refreshRegistrationDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) ((EndowmentTransactionLinesDocumentFormBase) form).getDocument();
 
         RegistrationCode registrationCode = null;
@@ -357,26 +407,118 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         return null;
     }
 
-    public ActionForward insertSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
-        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
 
-        EndowmentSourceTransactionLine transLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
+    /**
+     * This method returns the balance inquiry for target transaction lines.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiryForTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performBalanceInquiry(false, mapping, form, request, response);
+    }
 
-        boolean rulePassed = true;
+    /**
+     * This method returns the balance inquiry for source transaction lines.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiryForSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performBalanceInquiry(true, mapping, form, request, response);
+    }
 
-        // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+    /**
+     * This method provides the KEMIDCurrentBalance as the default lookup object. If a different lookup is needed this method should
+     * be overriden.
+     * 
+     * @param isSource
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiry(boolean isSource, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String boName = KEMIDCurrentBalance.class.getName();
+        return performBalanceInquiry(isSource, boName, mapping, form, request, response);
+    }
 
-        if (rulePassed) {
-            // add accountingLine
-            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
-            insertTransactionLine(true, documentForm, transLine);
+    /**
+     * This method is similar to org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase.performBalanceInquiry()
+     * 
+     * @param isRevenue
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiry(boolean isSource, String boName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String docNumber;
 
-            // clear the used newTargetLine
-            documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
+        // get the selected line, setup parms and redirect to balance inquiry
+        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocumentBase etlDoc = ((EndowmentTransactionLinesDocumentFormBase) form).getEndowmentTransactionLinesDocumentBase();
+
+
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        etlForm.registerNextMethodToCallIsRefresh(true);
+
+        EndowmentTransactionLine etLine;
+        if (isSource) {
+            etLine = etlDoc.getSourceTransactionLines().get(this.getSelectedLine(request));
+        }
+        else {
+            etLine = etlDoc.getTargetTransactionLines().get(this.getSelectedLine(request));
         }
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        // build out base path for return location, use config service
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+        // this hack sets the return anchor we want to return too after the inquiry
+        // do this here so it gets into the session stored form version
+        // refresh checks for this after and resets the anchor
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            etlForm.setBalanceInquiryReturnAnchor(((KualiForm) form).getAnchor());
+        }
+
+        // build out the actual form key that will be used to retrieve the form on refresh
+        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
+
+        // now add required parameters
+        Properties params = new Properties();
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boName);
+        params.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
+
+        if (StringUtils.isNotBlank(etLine.getKemid())) {
+            params.put("kemid", etLine.getKemid());
+        }
+
+        // anchor, if it exists
+        // this doesn't seem to work with the balance inquiry infrastructure, so added hack above
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            params.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+
+        String lookupUrl = UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
+
+        this.setupDocumentExit();
+        return new ActionForward(lookupUrl, true);
     }
 }

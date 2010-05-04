@@ -24,6 +24,7 @@
   <c:set var="newTransactionLine" value="newSourceTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertSourceTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTransactionLine" />
+  <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForSourceTransactionLine" />
   <c:set var="transLines" value="document.sourceTransactionLines"/> 
   <c:set var="totalIncomeAmount" value="${KualiForm.document.sourceIncomeTotal}"/> 
   <c:set var="totalPrincipalAmount" value="${KualiForm.document.sourcePrincipalTotal}"/>
@@ -35,6 +36,7 @@
   <c:set var="newTransactionLine" value="newTargetTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertTargetTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTransactionLine" />
+  <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForTargetTransactionLine" />
   <c:set var="transLines" value="document.targetTransactionLines"/>
   <c:set var="totalIncomeAmount" value="${KualiForm.document.targetIncomeTotal}"/> 
   <c:set var="totalPrincipalAmount" value="${KualiForm.document.targetPrincipalTotal}"/>
@@ -143,9 +145,11 @@
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly}" styleClass="right"/></td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 
+                <td class="datacell"><div align="center"><html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/></div>
                 <c:if test="${not readOnly}">
-                    <td class="datacell"><div align="center"><html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Item ${ctr+1}" alt="Delete Item ${ctr+1}" styleClass="tinybutton"/></div></td>
+                   <div align="center"><html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/></div>
                 </c:if>
+                </td>
             </tr>
         </logic:iterate>
         

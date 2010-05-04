@@ -31,6 +31,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     private EndowmentTransactionLine newTargetTransactionLine;
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     private EndowmentTargetTransactionSecurity targetTransactionSecurity;
+    
+    private String balanceInquiryReturnAnchor;
 
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
@@ -120,6 +122,24 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setTransactionLineImportFile(FormFile transactionLineImportFile) {
         this.transactionLineImportFile = transactionLineImportFile;
+    }
+    
+    /**
+     * Gets the balanceInquiryReturnAnchor attribute.
+     * 
+     * @return Returns the balanceInquiryReturnAnchor.
+     */
+    public String getBalanceInquiryReturnAnchor() {
+        return balanceInquiryReturnAnchor;
+    }
+
+    /**
+     * Sets the balanceInquiryReturnAnchor attribute value.
+     * 
+     * @param balanceInquiryReturnAnchor The balanceInquiryReturnAnchor to set.
+     */
+    public void setBalanceInquiryReturnAnchor(String balanceInquiryReturnAnchor) {
+        this.balanceInquiryReturnAnchor = balanceInquiryReturnAnchor;
     }
 
 }

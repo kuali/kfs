@@ -22,6 +22,7 @@ import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,11 +86,27 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     }
 
     /**
+     * Gets today's date and then sets the day of the month as 15th, irrespective of the current day of the month
+     * @return the modified reversal date
+     */
+    protected Date getAvReversalDate() {
+        java.sql.Date avReversalDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(avReversalDate);
+        cal.set(Calendar.DAY_OF_MONTH, KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH);
+
+        long timeInMillis = cal.getTimeInMillis();
+        avReversalDate.setTime(timeInMillis);
+        return avReversalDate;
+    }
+    
+    /**
      * Handles special case display rules for displaying Reversal Date at UI layer
      */
     public void populateReversalDateForRendering() {
-        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
-
+        java.sql.Date today = getAvReversalDate();
+        
         if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) && (getAuxiliaryVoucherDocument().getReversalDate() == null || getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
             getAuxiliaryVoucherDocument().setReversalDate(today);
         }

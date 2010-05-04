@@ -638,6 +638,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String RECODE_DOC_TYPE_NAME = "Recode";
         public static final String ACCRUAL_DOC_TYPE = "AVAE";
         public static final String ACCRUAL_DOC_TYPE_NAME = "Accrual";
+        public static final int ACCRUAL_DOC_DAY_OF_MONTH = 15;
         public static final String ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL = "Unable to auto-generate Distribution of Income and Expense for document with number \"%s.\" Please contact your System Administrator for a Distribution of Income and Expense to be created manually.";
         public static final String ERROR_DOCUMENT_HAS_TARGET_LINES = "AV document doesn't have target accounting lines. This method should have never been entered";
         public static final String RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_DESCRIPTION = "Auto-generated for Auxiliary Voucher";

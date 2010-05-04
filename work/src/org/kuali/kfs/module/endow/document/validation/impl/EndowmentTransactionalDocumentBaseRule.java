@@ -403,8 +403,9 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document,boolean isSource,String classCode)
     {
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+        tranSecurity.getSecurity().refreshNonUpdateableReferences();
         
-        if( tranSecurity.getSecurity().getSecurityClassCode().equalsIgnoreCase(classCode) )
+        if( tranSecurity.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(classCode) )
             return true;
         else
         {

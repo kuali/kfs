@@ -45,14 +45,12 @@
 			</tr>
 			
 			<logic:iterate id="range" name="KualiForm" property="ranges" indexId="ctr">
-              <c:if test="${range.active}">
-                <tr>
-                  <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="range[${ctr}].physCampusProcCode" readOnly="true" /></th>
-                  <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${bankAttributes.bankName}" property="range[${ctr}].bank.bankName" readOnly="true" /></td>
-                  <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.disbursementTypeCode}" property="range[${ctr}].disbursementTypeCode" readOnly="true" /></th>
-                  <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.lastAssignedDisbNbr}" property="range[${ctr}].lastAssignedDisbNbr" readOnly="true" /></td>
+              <tr>
+                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="range[${ctr}].physCampusProcCode" readOnly="true" /></th>
+                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${bankAttributes.bankName}" property="range[${ctr}].bank.bankName" readOnly="true" /></td>
+                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.disbursementTypeCode}" property="range[${ctr}].disbursementTypeCode" readOnly="true" /></th>
+                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.lastAssignedDisbNbr}" property="range[${ctr}].lastAssignedDisbNbr" readOnly="true" /></td>
               </tr>
-              </c:if>
             </logic:iterate>
 
 		</table>

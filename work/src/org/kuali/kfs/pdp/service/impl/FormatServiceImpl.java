@@ -55,6 +55,7 @@ import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.impl.exception.FormatException;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -570,9 +571,13 @@ public class FormatServiceImpl implements FormatService {
      * @see org.kuali.kfs.pdp.service.FormatService#getAllCustomerProfiles()
      */
     public List getAllCustomerProfiles() {
-        LOG.debug("getAllCustomerProfiles() started");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAllCustomerProfiles() started");
+        }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
-        List<CustomerProfile> customerProfileList = (List<CustomerProfile>) this.businessObjectService.findAll(CustomerProfile.class);
+        List<CustomerProfile> customerProfileList = (List<CustomerProfile>) getBusinessObjectService().findMatching(CustomerProfile.class, criteria);
 
         DynamicCollectionComparator.sort(customerProfileList, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
 
@@ -583,9 +588,13 @@ public class FormatServiceImpl implements FormatService {
      * @see org.kuali.kfs.pdp.service.FormatService#getAllDisbursementNumberRanges()
      */
     public List<DisbursementNumberRange> getAllDisbursementNumberRanges() {
-        LOG.debug("getAllDisbursementNumberRanges() started");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAllDisbursementNumberRanges() started");
+        }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
-        List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) this.businessObjectService.findAll(DisbursementNumberRange.class);
+        List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) getBusinessObjectService().findMatching(DisbursementNumberRange.class, criteria);
         DynamicCollectionComparator.sort(disbursementNumberRangeList, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_PHYS_CAMPUS_PROC_CODE, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_TYPE_CODE);
 
         return disbursementNumberRangeList;
@@ -698,6 +707,14 @@ public class FormatServiceImpl implements FormatService {
         this.parameterService = parameterService;
     }
 
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
     /**
      * This method sets the businessObjectService
      * 

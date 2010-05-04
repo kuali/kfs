@@ -270,18 +270,15 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      */
     protected boolean isSecurityCodeEmpty(EndowmentTransactionalDocument document,boolean isSource)
     {
-        boolean success = true;
-        String prefix = null;
-        
-        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
+       EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
  
         if( StringUtils.isEmpty(tranSecurity.getSecurityID()) )
         {
             putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
-            success = false;
+            return true;
         }
         
-        return success;
+        return false;
     }
     
     /**
@@ -292,18 +289,15 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      */
     protected boolean isRegistrationCodeEmpty(EndowmentTransactionalDocument document,boolean isSource)
     {
-        boolean success = true;
-        String prefix = null;
-        
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document,isSource);
  
         if( StringUtils.isEmpty(tranSecurity.getRegistrationCode()) )
         {
             putFieldError(getEndowmentTransactionSecurityPrefix(document,isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_REQUIRED);
-            success = false;
+            return true;
         }
         
-        return success;
+        return false;
     }
     
     

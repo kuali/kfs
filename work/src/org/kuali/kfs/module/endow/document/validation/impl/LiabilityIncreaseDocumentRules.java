@@ -78,7 +78,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
             
             //Checks if Security Code is empty.
-            if(!isSecurityCodeEmpty(liabilityIncreaseDocument,false))
+            if(isSecurityCodeEmpty(liabilityIncreaseDocument,false))
                 return false;
             
             //Validates Security Code. 
@@ -92,7 +92,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false,LIABILITY_CLASS_CODE);
             
             //Checks if registration code is empty
-            if(!isRegistrationCodeEmpty(liabilityIncreaseDocument,false))
+            if(isRegistrationCodeEmpty(liabilityIncreaseDocument,false))
                 return false;
             
             //Validate Registration code.

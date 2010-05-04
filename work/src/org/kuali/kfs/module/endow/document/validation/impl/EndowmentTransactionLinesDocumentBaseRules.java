@@ -107,15 +107,13 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     protected boolean isKemIdCodeEmpty(EndowmentTransactionLine line, String prefix)
     {
-        boolean success = true;
-        
         if( StringUtils.isEmpty(line.getKemid()) )
         {
             putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_REQUIRED);
-            success = false;        
+            return true;        
         }
         
-        return success;
+        return false;
     }
     
     /**
@@ -256,15 +254,13 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     protected boolean isEndowmentTransactionCodeEmpty(EndowmentTransactionLine line,String prefix)
     {
-        boolean success = true;
-        
         if( StringUtils.isEmpty(line.getEtranCode()) )
         {
             putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_REQUIRED);
-            success = false;
+            return true;
         }
         
-        return success;
+        return false;
     }
     
     /**

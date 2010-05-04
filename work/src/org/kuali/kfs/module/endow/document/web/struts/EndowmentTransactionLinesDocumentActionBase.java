@@ -99,7 +99,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
 
         if (rulePassed) {
             // add accountingLine

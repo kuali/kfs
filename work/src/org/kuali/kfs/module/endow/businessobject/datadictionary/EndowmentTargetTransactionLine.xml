@@ -157,7 +157,7 @@
     <property name="name" value="transactionUnits"/>
     <property name="label" value="Transaction Units"/>
     <property name="shortLabel" value="Transaction Units"/>
-    <property name="required" value="false"/>
+    <property name="required" value="true"/>
   </bean>
   <bean id="EndowmentTargetTransactionLine-linePosted" parent="EndowmentTargetTransactionLine-linePosted-parentBean"/>
 

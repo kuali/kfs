@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules 
 {
@@ -55,7 +57,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         else
             ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;            
             
-        if(!isValid)
+        if(isValid)
         {
             //Validate Units is Greater then Zero(thus positive) value
             isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
@@ -71,9 +73,9 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
     protected boolean processCustomSaveDocumentBusinessRules(Document document) 
     {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document); 
-        isValid &= GlobalVariables.getMessageMap().hasErrors(); 
+        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
-        if(!isValid)
+        if(isValid)
         {
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
             

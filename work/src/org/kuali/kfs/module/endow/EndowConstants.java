@@ -22,6 +22,7 @@ import org.kuali.rice.core.util.JSTLConstants;
 public class EndowConstants extends JSTLConstants{
 
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
+    public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
 
     public static class SecurityReportingGroups {
         public static final String CASH_EQUIVALENTS = "CSHEQ";

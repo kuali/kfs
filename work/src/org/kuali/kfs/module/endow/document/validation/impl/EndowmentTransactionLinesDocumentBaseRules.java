@@ -34,8 +34,12 @@ import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine> {
 
@@ -64,26 +68,16 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             
         if(isValid)
         {
-            //Is Kemid empty
-            if(isKemIdCodeEmpty(line,ERROR_PREFIX))
-                return false;
-         
+            //Is Income or Principal drop down value selected.
+            if(!SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(line, null))
+                return false;    
+            
             //Validate KemID
             if(!validateKemId(line,ERROR_PREFIX))
                 return false;
          
             //Active Kemid
             isValid &= isActiveKemId(line,ERROR_PREFIX);
-            
-            //Validate no restriction transaction restriction
-            isValid &= validateNoTransactionRestriction(line,ERROR_PREFIX);
-            
-            //Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
-            
-            //Is Endowment Transaction Code empty
-            if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
-                return false;
             
             //Validate ETran code
             if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
@@ -94,6 +88,12 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
             //Validate ETran code as E or I
             isValid &= validateEndowmentTransactionTypeCode(line,ERROR_PREFIX);
+            
+            //Validate no restriction transaction restriction
+            isValid &= validateNoTransactionRestriction(line,ERROR_PREFIX);
+            
+            //Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
         }
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;

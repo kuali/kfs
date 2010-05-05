@@ -171,10 +171,9 @@
                  
                  <c:set var="w9IndReadOnly" value="${!fullEntryMode}"/>
                  <%-- cannot change w9 indicator if it has previousely been checked --%>
-                 <c:if test="${KualiForm.document.disbVchrPayeeW9CompleteCode=='Yes'}">  
+                 <c:if test="${KualiForm.document.editW9W8BENbox==true}">  
                      <c:set var="w9IndReadOnly" value="true"/>    
                  </c:if>
-                 
                  <c:if test="${w9IndReadOnly}">    
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" property="document.disbVchrPayeeW9CompleteCode" disabled="true"/>
                    <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" noColon="true" /><br>                     

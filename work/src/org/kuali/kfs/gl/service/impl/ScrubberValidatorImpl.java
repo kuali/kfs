@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -499,30 +500,39 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // If the sub account number is empty, set it to dashes.
         // Otherwise set the workingEntry sub account number to the
         // sub account number of the input origin entry.
-        if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
+        String subAccount = originEntry.getSubAccountNumber();
+        if (StringUtils.hasText(subAccount)) {
             // sub account IS specified
-            if (!KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
-              SubAccount originEntrySubAccount = accountingCycleCachingService.getSubAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), originEntry.getSubAccountNumber());
+            // check if need upper case
+            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+            // uppercase the data used to generate the collector header
+            if (dataDictionaryService.getAttributeForceUppercase(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)) {
+                subAccount = originEntry.getSubAccountNumber().toUpperCase();
+            } 
+
+            if (!KFSConstants.getDashSubAccountNumber().equals(subAccount)) {
+              SubAccount originEntrySubAccount = accountingCycleCachingService.getSubAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), subAccount);
               //SubAccount originEntrySubAccount = getSubAccount(originEntry);
                 if (originEntrySubAccount == null) {
-                    // sub account is not valid
-                    return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber(), Message.TYPE_FATAL);
+                    
+                     // sub account is not valid
+                    return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + subAccount, Message.TYPE_FATAL);
                 }
                 else {
                     // sub account IS valid
                     if (originEntrySubAccount.isActive()) {
                         // sub account IS active
-                        workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
+                        workingEntry.setSubAccountNumber(subAccount);
                     }
                     else {
                         // sub account IS NOT active
                         if (parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(originEntry.getFinancialDocumentTypeCode())) {
                             // document IS annual closing
-                            workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
+                            workingEntry.setSubAccountNumber(subAccount);
                         }
                         else {
                             // document is NOT annual closing
-                            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber(), Message.TYPE_FATAL);
+                            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + subAccount, Message.TYPE_FATAL);
                         }
                     }
                 }

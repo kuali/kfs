@@ -182,6 +182,8 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_DETAILS_SUB_TYPE_REQUIRED = "error.document.transaction.detail.subtype.required";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INVALID = "error.document.transaction.registrationCode.invalid";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INACTIVE = "error.document.transaction.registrationCode.inactive";
+        public static final String ERROR_TRANSACTION_LINE_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_TRANSACTION = "error.document.transactionLine.kemid.canNotHaveAPrincipalTransaction";
+       
     }
 
     public static class TransactionalDocuments{

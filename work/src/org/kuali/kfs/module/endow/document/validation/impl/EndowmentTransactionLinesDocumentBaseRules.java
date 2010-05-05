@@ -30,6 +30,7 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.sys.KFSConstants;
@@ -94,7 +95,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             
             //Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
-        }
+            
+            //Validate if a KEMID can have a principal transaction when IP indicator is P
+            isValid &= canKEMIDHaveAPrincipalTransaction(line,ERROR_PREFIX);
+        } 
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
@@ -282,6 +286,25 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
 
         return success;
+    }
+    
+    /**
+     * This method validates if a KEMID can have a principal transaction when IP indicator is equal to P.
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean canKEMIDHaveAPrincipalTransaction(EndowmentTransactionLine line, String prefix){
+        boolean canHaveTransaction = true;
+        String ipIndicatorCode = line.getTransactionIPIndicatorCode();
+        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)){
+            String kemid = line.getKemid();
+            if (!SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).canKEMIDHaveAPrincipalActivity(kemid, ipIndicatorCode)){
+                putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_TRANSACTION);
+                canHaveTransaction = false;
+            }
+        }
+        return canHaveTransaction;
     }
     
     protected boolean templateMethod(EndowmentTransactionLine line)

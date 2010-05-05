@@ -500,6 +500,8 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE = "etranCode";
     public static final String TRANSACTION_LINE_TRANSACTION_AMOUNT = "transactionAmount"; 
     public static final String TRANSACTION_LINE_TRANSACTION_UNITS = "transactionUnits";
+    public static final String TRANSACTION_LINE_IP_INDICATOR_CODE ="transactionIPIndicatorCode";
+
     
     public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";
     public static final String SOURCE_TRANSACTION_LINE_PREFIX = "newSourceTransactionLine.";

@@ -38,6 +38,7 @@
         <ref bean="Balance-balanceTypeCode"/>
         <ref bean="Balance-accountLineAnnualBalanceAmount"/>
         <ref bean="Balance-beginningBalanceLineAmount"/>
+        <ref bean="Balance-combinedBeginningBalanceAmount"/>
         <ref bean="Balance-contractsGrantsBeginningBalanceAmount"/>
         <ref bean="Balance-month1Amount"/>
         <ref bean="Balance-month2Amount"/>
@@ -131,6 +132,15 @@
     <property name="shortLabel" value="Beginning Balance Line Amount"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
+   <bean id="Balance-combinedBeginningBalanceAmount" parent="Balance-combinedBeginningBalanceAmount-parentBean"/>
+
+  <bean id="Balance-combinedBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="combinedBeginningBalanceAmount"/>
+    <property name="label" value="Combined Beginning Balance Amount"/>
+    <property name="shortLabel" value="Combined Beginning Balance Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+  </bean>
+  
   <bean id="Balance-contractsGrantsBeginningBalanceAmount" parent="Balance-contractsGrantsBeginningBalanceAmount-parentBean"/>
 
   <bean id="Balance-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

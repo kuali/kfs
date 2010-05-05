@@ -49,6 +49,7 @@ public class Balance extends PersistableBusinessObjectBase {
     private String balanceTypeCode;
     private String objectTypeCode;
     private KualiDecimal accountLineAnnualBalanceAmount;
+   
     private KualiDecimal beginningBalanceLineAmount;
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
     private KualiDecimal month1Amount;
@@ -849,4 +850,13 @@ public class Balance extends PersistableBusinessObjectBase {
     public void setYearToDayBalance(KualiDecimal yearToDayBalance) {
         this.yearToDayBalance = yearToDayBalance;
     }    
+ 
+
+    public KualiDecimal getCombinedBeginningBalanceAmount() {
+        KualiDecimal combinedBeginningBalanceAmount;
+        combinedBeginningBalanceAmount = KualiDecimal.ZERO;
+        combinedBeginningBalanceAmount = combinedBeginningBalanceAmount.add(getBeginningBalanceLineAmount());
+        combinedBeginningBalanceAmount = combinedBeginningBalanceAmount.add(getContractsGrantsBeginningBalanceAmount());
+        return combinedBeginningBalanceAmount;
+    }
 }

@@ -1,0 +1,10 @@
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('E', 'Expended', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('F', 'New Fund', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('I', 'Transferred to IU', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('M', 'Merged', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('N', 'Not Funded', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('O', 'Transferred to Outside Organization', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('P', 'Opened in Error', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('R', 'Refunded to Donor', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('T', 'Terminated', 'Y',sys_guid());
+insert into END_CLOSE_CD_T columns (CLOSE_CD, CLOSE_DESC, ROW_ACTV_IND, OBJ_ID) values ('U', 'New Unit', 'Y',sys_guid());

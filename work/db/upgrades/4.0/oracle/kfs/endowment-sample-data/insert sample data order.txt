@@ -1,0 +1,53 @@
+Please follow the oder to run the scripts, ignore #12 and #25.
+1. end_etran_cd_t
+2. end_etran_gl_lnk_t
+3. end_agrmnt_spcl_instr_cd_t
+4. end_tran_restr_cd_t 
+5. end_agrmnt_stat_cd_t -- some already in the bootstrap
+6. end_agrmnt_typ_cd_t
+7. end_close_cd_t
+8. end_donr_t
+9. end_donr_stmnt_cd_t
+10. end_sec_rpt_grp_t 
+11. end_cls_cd_t
+--12. end_fee_typ_cd_t (data has been inserted through bootstrap script)
+13. end_fee_mthd_t
+15. end_fee_cls_cd_t
+16. end_fnd_src_cd_t
+17. end_prps_cd_t
+18. END_RESP_ADMIN_CD_T
+19.end_role_cd_t
+20.end_tklr_typ_cd_t
+21. end_sec_t
+22. end_regis_cd_t
+23. end_typ_restr_cd_t --> some already in the bootstrap, some have the similar meaning but with different code
+24. END_TYP_T_pool_fnd.sql
+--25. end_cae_cd_t (data has been inserted through bootstrap script)
+27. insert pool kemid --> END_KEMID_T_pool_ctrl
+28. end_pool_fnd_ctrl_t
+29. end_auto_csh_invest_mdl_t
+30. end_csh_sweep_mdl_t
+31. end_typ_t
+32. insert kemid (first END_KEMID_T_pool_ctrl.sql, then END_KEMID_T.sql)
+33. end_kemid_agrmnt_t
+34. end_kemid_fnd_src_cd
+35. end_kemid_bene_org_t
+36. end_kemid_gl_lnk_t
+37. end_kemid_pay_inc_t
+38. end_use_crit_t
+39. end_kemid_use_crit_t
+40. end_kemid_spcl_instrc_t
+41. end_kemid_corpus_val_t
+42. end_kemid_donr_t
+43. end_curr_endow_corpus_t
+44. end_endow_corpus_t
+45. end_hldg_tax_lot
+46. end_crnt_csh
+47. end_me_dt
+48. end_hldg_hist_t
+49. end_hist_csh_t
+50. end_crnt_tax_lot_bal_t
+51. end_avail_csh_t
+52. end_pool_fnd_val_t --> might have duplicate records
+14. end_typ_fee_mthd_t
+53. end_kemid_fee_t

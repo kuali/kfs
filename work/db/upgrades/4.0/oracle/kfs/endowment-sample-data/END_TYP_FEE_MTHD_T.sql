@@ -1,0 +1,16 @@
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('011', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('013', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('017', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('027', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('032', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('037', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('038', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('042', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('046', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('047', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('049', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('070', 'SHMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('042', 'CRTMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('046', 'CRTMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('047', 'CRTMF1', 'Y',sys_guid());
+insert into END_TYP_FEE_MTHD_T columns (TYP_CD, FEE_MTHD, ROW_ACTV_IND, OBJ_ID) values ('049', 'CRTMF1', 'Y',sys_guid());

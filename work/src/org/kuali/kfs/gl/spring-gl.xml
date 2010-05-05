@@ -2594,7 +2594,7 @@
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
                 <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
+                <entry key="combinedBeginningBalanceAmount" value="BEGINNING BAL"/>
                 <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
                 <entry key="month1Amount" value="ACCUM AMT FOR JUL"/>
                 <entry key="month2Amount" value="ACCUM AMT FOR AUG"/>                
@@ -2624,7 +2624,7 @@
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
                 <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
+                <entry key="combinedBeginningBalanceAmount" value="BEGINNING BAL"/>
                 <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
                 <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
                 <entry key="yearToDayBalance" value="YTD Balance"/>

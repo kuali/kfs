@@ -397,7 +397,16 @@ public class PosterServiceImpl implements PosterService {
                 tran.setObjectType(accountingCycleCachingService.getObjectType(tran.getFinancialObjectTypeCode()));
                 tran.setBalanceType(accountingCycleCachingService.getBalanceType(tran.getFinancialBalanceTypeCode()));
                 tran.setOption(accountingCycleCachingService.getSystemOptions(tran.getUniversityFiscalYear()));
-                tran.setFinancialObject(accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
+
+                ObjectCode objectCode = accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode());
+                if (ObjectUtils.isNull(objectCode)) {
+                    LOG.warn(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode());                    
+                    errors.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + tran.getUniversityFiscalYear() + "," + tran.getChartOfAccountsCode() + "," + tran.getFinancialObjectCode(), Message.TYPE_WARNING));                    
+                }
+                else {
+                    tran.setFinancialObject(accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
+                }
+
                 // Make sure the row will be unique when adding to the entries table by adjusting the transaction sequence id
                 int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(tran);
                 ((OriginEntryFull) tran).setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));

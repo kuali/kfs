@@ -19,7 +19,7 @@
     <documentType>
       <name>ELI</name>
       <parent>ET</parent>
-      <docHandler> ${application.url}/endowLiabilityIncrease.do?methodToCall=docHandler </docHandler>
+      <docHandler> ${application.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler </docHandler>
     </documentType>
   </documentTypes>
 </data>

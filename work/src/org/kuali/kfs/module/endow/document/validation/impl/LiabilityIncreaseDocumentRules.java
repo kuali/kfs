@@ -59,8 +59,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             
         if(isValid)
         {
-            //Validate Units is Greater then Zero(thus positive) value
-            isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
+
             
             //Validates Units & Amount are equal.
             isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
@@ -104,21 +103,15 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             //Checks if registration code is active
             isValid &= isRegistrationCodeActive(liabilityIncreaseDocument, false);
             
-            //Obtaining all the transaction lines
-            List<EndowmentTransactionLine> txLines = liabilityIncreaseDocument.getSourceTransactionLines();
-            txLines.addAll(liabilityIncreaseDocument.getTargetTransactionLines());
+            //Empty out the Source Tx Line in weird case they got entered.  
+            liabilityIncreaseDocument.getSourceTransactionLines().clear();
             
-            //No validation if no Tx lines entered.
-            if(txLines.size() != 0)
+            //Obtaining all the transaction lines for validations
+            List<EndowmentTransactionLine> txLines = liabilityIncreaseDocument.getTargetTransactionLines();
+            
+            for(EndowmentTransactionLine txLine :txLines)
             {
-                for(EndowmentTransactionLine txLine :txLines)
-                {
-                    if( StringUtils.isEmpty(txLine.getKemid()) )
-                    {
-                        putFieldError(KFSConstants.ITEM_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_KEMID_REQUIRED, txLine.getDocumentNumber());
-                    }
-                        
-                }
+                isValid &= processAddTransactionLineRules(null,txLine);
             }
         }
         

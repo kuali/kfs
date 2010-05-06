@@ -430,7 +430,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
             endowmentTransactionalDocument = (EndowmentTransactionalDocument) document;
             
             //Validates Tx Sub Type Code
-            isValid &= validateSubType(endowmentTransactionalDocument);
+            isValid &= isSubTypeEmpty(endowmentTransactionalDocument);
         }
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -442,7 +442,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
      * @param document
      * @return
      */
-    protected boolean validateSubType(EndowmentTransactionalDocument document)
+    protected boolean isSubTypeEmpty(EndowmentTransactionalDocument document)
     {
         boolean success = true;
         

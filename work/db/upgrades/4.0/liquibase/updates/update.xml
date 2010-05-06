@@ -140,4 +140,5 @@
 <include file="updates/2010-04-26-5615-6-36-END_KEMID_FEE_T.xml"/>
 <include file="updates/2010-04-26-5615-7-1-CreateTransactionalDocs.xml"/>
 <include file="updates/2010-04-26-5615-8-1-createEndowTransactionDocumentBasicTables.xml"/>
+<include file="updates/2010-05-06-5578a-1-END_TRAN_DOC.xml"/>
 </databaseChangeLog>

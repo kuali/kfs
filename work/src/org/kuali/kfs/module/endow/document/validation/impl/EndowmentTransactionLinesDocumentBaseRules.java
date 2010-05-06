@@ -28,6 +28,8 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
@@ -69,7 +71,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             
         if(isValid)
         {
-            //Is Income or Principal drop down value selected.
+            //General not null validation for KemID, Etran and Income/Principal DropDown.
             if(!SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(line, null))
                 return false;    
             
@@ -80,21 +82,30 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             //Active Kemid
             isValid &= isActiveKemId(line,ERROR_PREFIX);
             
+            //Validate no restriction transaction restriction
+            isValid &= validateNoTransactionRestriction(line,ERROR_PREFIX);
+            
             //Validate ETran code
             if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
                 return false;
 
+            //Validate GL object Code
+            isValid &=  SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenKEMIDAndETranCode(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode());
+            
+            //Set Corpus Indicator  
+            line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
+            
             //Refresh all references for the given KemId
             //line.getKemidObj().refreshNonUpdateableReferences();
 
             //Validate ETran code as E or I
             isValid &= validateEndowmentTransactionTypeCode(line,ERROR_PREFIX);
             
-            //Validate no restriction transaction restriction
-            isValid &= validateNoTransactionRestriction(line,ERROR_PREFIX);
-            
             //Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
+            
+            //Validate Units is Greater then Zero(thus positive) value
+            isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
             
             //Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line,ERROR_PREFIX);

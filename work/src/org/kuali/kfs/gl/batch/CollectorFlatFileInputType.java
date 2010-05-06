@@ -291,6 +291,8 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, orginEntryError.getMessage()); 
         }
         
+        originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(originEntry.getTransactionLedgerEntryAmount().toString()));
+
         return originEntry;
     }
 

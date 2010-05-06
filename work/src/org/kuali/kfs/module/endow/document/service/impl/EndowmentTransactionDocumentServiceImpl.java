@@ -81,20 +81,26 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
         //Each KEMID always have one active principal KemidGeneralLedgerAccount if type code --> principal restriction code is not NA
         //This will be valid before checking if the chart codes match.
         kemidGeneralLedgerAccounts = kemidService.getByPrimaryKey(kemid).getKemidGeneralLedgerAccounts();
+        String theIpIndicator = null;
+        boolean activeIndicatorForKemidGLAccount = false;
+        
         for (KemidGeneralLedgerAccount kemidGeneralLedgerAccount:kemidGeneralLedgerAccounts){
-           String theIpIndicator = kemidGeneralLedgerAccount.getIncomePrincipalIndicatorCode();
-           if (theIpIndicator.equalsIgnoreCase(ipIndicator)){
+           theIpIndicator = kemidGeneralLedgerAccount.getIncomePrincipalIndicatorCode();
+           activeIndicatorForKemidGLAccount = kemidGeneralLedgerAccount.isActive();
+           if (theIpIndicator.equalsIgnoreCase(ipIndicator) && activeIndicatorForKemidGLAccount ){
                theChartCode = kemidGeneralLedgerAccount.getChartCode();
                break;
            }
         }
         glLinks = endowmentTransactionCodeService.getByPrimaryKey(etranCode).getGlLinks();
-        for (GLLink glLink:glLinks){
-            if (glLink.getChartCode().equalsIgnoreCase(theChartCode)){
-                matchChartIndicator = true;
-                break;
+        if (theChartCode != null){
+            for (GLLink glLink:glLinks){
+                if (glLink.getChartCode().equalsIgnoreCase(theChartCode) && glLink.isActive()){
+                    matchChartIndicator = true;
+                    break;
+                }
             }
-        }        
+        }
         return matchChartIndicator;
     }
     

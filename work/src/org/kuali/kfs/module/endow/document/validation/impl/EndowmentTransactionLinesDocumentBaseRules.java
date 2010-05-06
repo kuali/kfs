@@ -49,7 +49,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     /**
      * @see org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule#processDeleteTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public boolean processDeleteTransactionLineRules(EndowmentTransactionLinesDocument EndowmentTransactionLinesDocument, EndowmentTransactionLine EndowmentTransactionLine) {
+    public boolean processDeleteTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine) {
         // TODO Auto-generated method stub
         return true;
     }
@@ -57,8 +57,12 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     /**
      * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) 
+    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) 
     {
+        return validateTransactionLine(line);
+    }
+    
+    public boolean validateTransactionLine (EndowmentTransactionLine line){
         boolean isValid = true; 
         isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
@@ -109,6 +113,9 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             
             //Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line,ERROR_PREFIX);
+            
+            //Validate if the chart is matched between the KEMID and EtranCode
+            isValid &= validateChartMatch(line,ERROR_PREFIX);
         } 
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -316,6 +323,29 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             }
         }
         return canHaveTransaction;
+    }
+    
+    /**
+     * This method validates if the chart is matched between GL Account in the KEMID and GL Link in the Endowment Transaction Code.
+     * If the Chart codes do not match, the Etran Code field should be highlighted. 
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean validateChartMatch (EndowmentTransactionLine line, String prefix){
+        boolean isChartMatched = true;
+        String kemid = line.getKemid();
+        String etranCode = line.getEtranCode();
+        String ipIndicatorCode = line.getTransactionIPIndicatorCode();
+        if (!SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenKEMIDAndETranCode(kemid, etranCode, ipIndicatorCode)){
+            if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode))
+                putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_PRINCIPAL);
+            else
+                putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME);
+
+            isChartMatched = false;
+        }        
+        return isChartMatched;
     }
     
     protected boolean templateMethod(EndowmentTransactionLine line)

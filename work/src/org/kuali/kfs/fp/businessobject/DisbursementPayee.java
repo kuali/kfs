@@ -106,7 +106,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     public static Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
-        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
+    //    fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
 
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
@@ -157,7 +157,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         disbursementPayee.setPrincipalId(person.getPrincipalId());
         
         disbursementPayee.setPayeeName(person.getName());
-        disbursementPayee.setTaxNumber(person.getExternalId(VendorConstants.TAX_TYPE_TAX));
+       // disbursementPayee.setTaxNumber(person.getExternalId(VendorConstants.TAX_TYPE_TAX));
         disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
 
         String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());

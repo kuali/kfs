@@ -115,10 +115,13 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
         final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
         final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
-
+        final String vendorTaxNumber = (String)fieldValues.get(KFSPropertyConstants.TAX_NUMBER);
+        final String vendorTaxNumberLabel = this.getAttributeLabel(KFSPropertyConstants.TAX_NUMBER);        
+        
+        final String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        
         if (StringUtils.isBlank(vendorNumber) && StringUtils.isBlank(employeeId) && StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName) && StringUtils.isBlank(vendorName)) {
             final String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
-            final String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
             final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
             final String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
             final String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
@@ -128,11 +131,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             if (isVendorInfoEntered && StringUtils.isNotBlank(employeeId)) {
                 // only can use the vendor name and vendor number fields or the employee id field, but not both.
                 String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
-    
                 String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
                 String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
-                String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
-    
                 GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
             }
             if (StringUtils.isBlank(vendorNumber) && !StringUtils.isBlank(vendorName) && !filledEnough(vendorName)) {
@@ -141,6 +141,28 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             }
     
             final boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
+            final String employeeFirstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+            final String employeeLastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+            
+            // we do not use to use Tax Number field for the lookup on the person...
+            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(firstName)) {
+                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, messageKey, vendorTaxNumberLabel, employeeFirstNameLabel);                
+            }
+            // if tax number and employee last name entered then send an error message...
+            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(lastName)) {
+                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, messageKey, vendorTaxNumberLabel, employeeLastNameLabel);                
+            }
+            // if tax number and employee id entered then send an error message...
+            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(employeeId)) {
+                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorTaxNumberLabel);                
+            }            
+            
             if (isPersonNameEntered && StringUtils.isNotBlank(vendorName)) {
                 // only can use the person first and last name fields or the vendor name field, but not both.
                 String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
@@ -287,9 +309,9 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 
-        if (StringUtils.isNotBlank(personFieldValues.get(KIMPropertyConstants.Person.EXTERNAL_ID))) {
-            personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_TAX);
-        }
+  //      if (StringUtils.isNotBlank(personFieldValues.get(KIMPropertyConstants.Person.EXTERNAL_ID))) {
+  //          personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_TAX);
+  //      }
 
         personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
 

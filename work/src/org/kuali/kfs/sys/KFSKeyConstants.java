@@ -847,6 +847,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
     public static final String ERROR_DV_NAME_NOT_FILLED_ENOUGH = "error.dv.nameNotFilledEnough";
     public static final String ERROR_DV_LOOKUP_NEEDS_SOME_FIELD = "error.dv.lookupNeedsSomeField";
+    public static final String ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION = "error.dv.vendorTaxNumberEmployeeDetailsConfusion";
     
     public static final class Balancing {
         public static final String ERROR_BATCH_BALANCING_FILES = "error.batch.balancing.files";

@@ -87,8 +87,8 @@
   <bean id="DisbursementPayee-taxNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="taxNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Tax Number"/>
-    <property name="shortLabel" value="Tax Number"/>
+    <property name="label" value="Vendor Tax Number"/>
+    <property name="shortLabel" value="Vendor Tax Number"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern" p:exactLength="9"/>

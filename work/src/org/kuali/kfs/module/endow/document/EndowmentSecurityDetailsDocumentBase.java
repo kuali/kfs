@@ -37,8 +37,8 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public EndowmentSecurityDetailsDocumentBase()
     {
         super();
-        sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
-        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();;
+        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();;
         sourceTransactionSecurities = new TypedArrayList(EndowmentSourceTransactionSecurity.class);
         targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
     }
@@ -48,16 +48,20 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     {
         super.prepareForSave();
         //Set the fdoc # for transaction securities
-        getSourceTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
-        getTargetTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
+        //getSourceTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
+        //getTargetTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
         
         //A Hack to insert transaction securities in the securities collection.
         if(getSourceTransactionSecurity().getSecurityID() != null)
-            setSourceTransactionSecurity(getSourceTransactionSecurity());
+        {
+            getSourceTransactionSecurities().add(sourceTransactionSecurity);
+        }
 
         //A Hack to insert transaction securities in the securities collection.
         if(getTargetTransactionSecurity().getSecurityID() != null)
-            setTargetTransactionSecurity(getTargetTransactionSecurity());
+        {
+            getTargetTransactionSecurities().add(targetTransactionSecurity);        
+        }
 
     }
     
@@ -76,23 +80,29 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     
     public EndowmentTransactionSecurity getSourceTransactionSecurity() 
     {
-        return sourceTransactionSecurity;
-    }
+        if(this.sourceTransactionSecurities.size() > 0)
+            return this.sourceTransactionSecurities.get(0);
+        else 
+            return this.sourceTransactionSecurity;
+   }
 
     public EndowmentTransactionSecurity getTargetTransactionSecurity() 
     {
-        return targetTransactionSecurity;
+        if(this.targetTransactionSecurities.size() > 0)
+            return this.targetTransactionSecurities.get(0);
+        else 
+            return this.targetTransactionSecurity; 
     }
     
     public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) 
     {
         this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity)sourceTransactionSecurity;
-        this.sourceTransactionSecurities.set(0, sourceTransactionSecurity) ;
+        //this.sourceTransactionSecurities.set(0, sourceTransactionSecurity) ;
     }
     
     public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) 
     {
         this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity)targetTransactionSecurity;
-        this.targetTransactionSecurities.set(0, targetTransactionSecurity) ;
+        //this.targetTransactionSecurities.set(0, targetTransactionSecurity) ;
     }
 }

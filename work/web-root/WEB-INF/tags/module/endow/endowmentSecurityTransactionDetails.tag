@@ -40,7 +40,7 @@
 			<c:set var="securityType" value="sourceTransactionSecurity" />
 		</c:when>
 		<c:when  test="${showTarget}">  
-			<c:set var="securityTransactionAttributes" value="${DataDictionary.EndowmentSourceTransactionSecurity.attributes}" />
+			<c:set var="securityTransactionAttributes" value="${DataDictionary.EndowmentTargetTransactionSecurity.attributes}" />
 			<c:set var="securityType" value="targetTransactionSecurity" /> 
 		</c:when>
 	</c:choose>

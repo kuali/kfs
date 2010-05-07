@@ -48,7 +48,7 @@
 
   <bean id="ClassCodeType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="label" value="Class Code Type Description" />
+    <property name="label" value="Class Code Type" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >

@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -157,7 +158,8 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         disbursementPayee.setPrincipalId(person.getPrincipalId());
         
         disbursementPayee.setPayeeName(person.getName());
-       // disbursementPayee.setTaxNumber(person.getExternalId(VendorConstants.TAX_TYPE_TAX));
+        disbursementPayee.setTaxNumber(KFSConstants.BLANK_SPACE);
+        
         disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
 
         String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());

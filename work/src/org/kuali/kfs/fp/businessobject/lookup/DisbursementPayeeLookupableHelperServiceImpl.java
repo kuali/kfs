@@ -28,24 +28,26 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.AttributeSecurity;
 
 public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
@@ -242,6 +244,12 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
         
+        //KFSMI-5497
+        //get the attributeSecurity property and mask the field so that on results screen will be shown masked.        
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
+        attributeSecurity.setMask(true);
+        
         return payee;
     }
 
@@ -297,6 +305,12 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+
+        //KFSMI-5497
+        //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
+        attributeSecurity.setMask(false);
         
         return payee;
     }
@@ -308,10 +322,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
         Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
-
-  //      if (StringUtils.isNotBlank(personFieldValues.get(KIMPropertyConstants.Person.EXTERNAL_ID))) {
-  //          personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_TAX);
-  //      }
 
         personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
 

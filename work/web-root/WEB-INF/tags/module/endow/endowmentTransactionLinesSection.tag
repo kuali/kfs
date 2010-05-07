@@ -18,6 +18,7 @@
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="hasSource" required="true" %>
 <%@ attribute name="hasTarget" required="true" %>
+<%@ attribute name="hasUnits" required="true" %>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Transaction Lines" defaultOpen="true" tabErrorKey="${KFSConstants.TRANSACTION_LINE_ERRORS}">
@@ -25,10 +26,10 @@
  <div class="tab-container" align=center>
 	<h3>Transaction Lines</h3>
 	<c:if test="${hasSource}" >
-		<endow:endowmentTransactionalLines isSource="true"/>
+		<endow:endowmentTransactionalLines isSource="true" hasUnits="${hasUnits}"/>
 	</c:if>
 	<c:if test="${hasTarget}" >
-		<endow:endowmentTransactionalLines isSource="false"/>
+		<endow:endowmentTransactionalLines isSource="false" hasUnits="${hasUnits}"/>
 	</c:if>
         
 	</table>

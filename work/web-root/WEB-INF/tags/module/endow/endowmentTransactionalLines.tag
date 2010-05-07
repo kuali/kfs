@@ -17,6 +17,7 @@
 
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="isSource" required="true" %>
+<%@ attribute name="hasUnits" required="true" %>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <c:if test="${isSource}" >
@@ -24,6 +25,7 @@
   <c:set var="newTransactionLine" value="newSourceTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertSourceTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTransactionLine" />
+  <c:set var="methodToCallRefreshTaxLotLines" value="methodToCall.refreshSourceTaxLots" />
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForSourceTransactionLine" />
   <c:set var="transLines" value="document.sourceTransactionLines"/> 
   <c:set var="totalIncomeAmount" value="${KualiForm.document.sourceIncomeTotal}"/> 
@@ -36,6 +38,7 @@
   <c:set var="newTransactionLine" value="newTargetTransactionLine" />
   <c:set var="methodToCallAdd" value="methodToCall.insertTargetTransactionLine" />
   <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTransactionLine" />
+  <c:set var="methodToCallRefreshTaxLotLines" value="methodToCall.refreshTargetTaxLots" />
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForTargetTransactionLine" />
   <c:set var="transLines" value="document.targetTransactionLines"/>
   <c:set var="totalIncomeAmount" value="${KualiForm.document.targetIncomeTotal}"/> 
@@ -122,7 +125,9 @@
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${newTransactionLine}.transactionLineDescription" /></td>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" /></td>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right"/></td>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
+                <c:if test="${hasUnits}">
+                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
+                </c:if>
                 <td class="infoline"><div align="center"><html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/></div></td>
             </tr>
         </c:if>
@@ -143,12 +148,20 @@
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly}" styleClass="right"/></td>
-                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 
-                <td class="datacell"><div align="center"><html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/></div>
-                <c:if test="${not readOnly}">
-                   <div align="center"><html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/></div>
+                <c:if test="${hasUnits}">
+                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>
+                <td class="datacell">
+                <div align="center">
+                <c:if test="${not readOnly and hasUnits}" >
+               		<html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
+                </c:if>
+                <html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
+                <c:if test="${not readOnly}">
+                	<html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
+                </c:if>
+                </div>
                 </td>
             </tr>
         </logic:iterate>

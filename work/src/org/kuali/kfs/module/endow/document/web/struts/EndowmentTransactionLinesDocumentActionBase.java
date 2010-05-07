@@ -167,6 +167,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
             etlDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
         }
 
+        updateTaxLots(isSource, etlDoc, line);
+
         // Update the doc total
         if (etlDoc instanceof AmountTotaling)
             ((FinancialSystemDocumentHeader) etlDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) etlDoc).getTotalDollarAmount());
@@ -521,4 +523,53 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         this.setupDocumentExit();
         return new ActionForward(lookupUrl, true);
     }
+
+    /**
+     * This method...
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshTargetTaxLots(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        EndowmentTransactionLine transLine = endowmentDocument.getTargetTransactionLines().get(this.getSelectedLine(request));
+
+        updateTaxLots(true, endowmentDocument, transLine);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method...
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward refreshSourceTaxLots(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        EndowmentTransactionLine transLine = endowmentDocument.getSourceTransactionLines().get(this.getSelectedLine(request));
+        
+        updateTaxLots(true, endowmentDocument, transLine);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method...
+     * 
+     * @param isSource
+     * @param etlDocument
+     * @param index
+     */
+    protected abstract void updateTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine);
 }

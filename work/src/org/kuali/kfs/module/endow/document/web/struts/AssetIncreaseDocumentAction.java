@@ -15,19 +15,32 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
-    
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTaxLots(boolean,
+     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, int)
+     */
+    @Override
+    protected void updateTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+
+        // create and set a new tax lot line
+        EndowmentTransactionTaxLotLine taxLotLine = new EndowmentTransactionTaxLotLine();
+        taxLotLine.setDocumentNumber(etlDocument.getDocumentNumber());
+        taxLotLine.setDocumentLineNumber(new KualiInteger(transLine.getTransactionLineNumber()));
+        taxLotLine.setTransactionHoldingLotNumber(new KualiInteger(1));
+        taxLotLine.setLotUnits(transLine.getTransactionUnits());
+        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount());
+
+        transLine.getTaxLotLines().clear();
+        transLine.getTaxLotLines().add(taxLotLine);
+
+    }
 
 }

@@ -141,4 +141,5 @@
 <include file="updates/2010-04-26-5615-7-1-CreateTransactionalDocs.xml"/>
 <include file="updates/2010-04-26-5615-8-1-createEndowTransactionDocumentBasicTables.xml"/>
 <include file="updates/2010-05-06-5578a-1-END_TRAN_DOC.xml"/>
+<include file="updates/2010-05-07-5675-2-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

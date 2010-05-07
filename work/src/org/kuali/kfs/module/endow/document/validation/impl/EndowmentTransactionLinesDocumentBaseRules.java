@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
@@ -26,6 +28,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
@@ -62,7 +65,35 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return validateTransactionLine(line);
     }
     
-    public boolean validateTransactionLine (EndowmentTransactionLine line){
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) 
+    {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document); 
+        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
+        
+        EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase =null;
+        
+        if(isValid)
+        {        
+            endowmentTransactionLinesDocumentBase = (EndowmentTransactionLinesDocumentBase) document;
+            
+            //Obtaining all the transaction lines for validations
+            List<EndowmentTransactionLine> txLines = endowmentTransactionLinesDocumentBase.getSourceTransactionLines();
+            txLines.addAll(endowmentTransactionLinesDocumentBase.getTargetTransactionLines());
+            
+            for(EndowmentTransactionLine txLine :txLines)
+            {
+                isValid &= validateTransactionLine(txLine);
+            }
+        }
+        
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+    
+    protected boolean validateTransactionLine (EndowmentTransactionLine line){
         boolean isValid = true; 
         isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
@@ -107,9 +138,6 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             
             //Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line,ERROR_PREFIX);
-            
-            //Validate Units is Greater then Zero(thus positive) value
-            isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
             
             //Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line,ERROR_PREFIX);

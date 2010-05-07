@@ -51,19 +51,29 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         boolean isValid = super.processAddTransactionLineRules(transLine, line); 
         isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
         
+        if(isValid)
+        {
+            isValid &= validateLiabilityTransactionLine(line);
+        }
+        
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+
+    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line) 
+    {
+        boolean isValid = true;
+        
         String ERROR_PREFIX = null;
         if( line instanceof EndowmentSourceTransactionLine)
             ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
         else
             ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;            
             
-        if(isValid)
-        {
-
-            
-            //Validates Units & Amount are equal.
-            isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
-        }
+        //Validates Units & Amount are equal.
+        isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
+        
+        //Validate Units is Greater then Zero(thus positive) value
+        isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
@@ -111,7 +121,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             
             for(EndowmentTransactionLine txLine :txLines)
             {
-                isValid &= processAddTransactionLineRules(null,txLine);
+                isValid &= validateLiabilityTransactionLine(txLine);
             }
         }
         

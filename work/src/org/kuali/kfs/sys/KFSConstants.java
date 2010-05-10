@@ -1252,7 +1252,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
-    public static final String TRANSACTION_LINE_ERRORS = "newTargetTransactionLine*,document.newTargetTransactionLine*";
+    public static final String TRANSACTION_LINE_ERRORS = "newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*,document.sourceTransactionLines*";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
 }
 

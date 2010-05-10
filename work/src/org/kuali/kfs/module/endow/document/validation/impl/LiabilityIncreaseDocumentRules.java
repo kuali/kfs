@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,93 +39,88 @@ import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
-public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules 
-{
+public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
     private static final String LIABILITY_CLASS_CODE = "L";
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) 
-    {
-        boolean isValid = super.processAddTransactionLineRules(transLine, line); 
-        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
-        
-        if(isValid)
-        {
+    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) {
+        boolean isValid = super.processAddTransactionLineRules(transLine, line);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        if (isValid) {
             isValid &= validateLiabilityTransactionLine(line);
         }
-        
+
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line) 
-    {
+    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line) {
         boolean isValid = true;
-        
+
         String ERROR_PREFIX = null;
-        if( line instanceof EndowmentSourceTransactionLine)
+        if (line instanceof EndowmentSourceTransactionLine)
             ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
         else
-            ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;            
-            
-        //Validates Units & Amount are equal.
-        isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
-        
-        //Validate Units is Greater then Zero(thus positive) value
-        isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
-        
+            ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
+
+        // Validates Units & Amount are equal.
+        isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
+
+        // Validate Units is Greater then Zero(thus positive) value
+        isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
-    
+
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) 
-    {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document); 
-        isValid &= !GlobalVariables.getMessageMap().hasErrors(); 
-        
-        if(isValid)
-        {
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        if (isValid) {
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
-            
-            //Checks if Security Code is empty.
-            if(isSecurityCodeEmpty(liabilityIncreaseDocument,false))
-                return false;
-            
-            //Validates Security Code. 
-            if(!validateSecurityCode(liabilityIncreaseDocument, false))
-                return false;
-            
-            //Checks if Security is Active
-            isValid &= isSecurityActive(liabilityIncreaseDocument, false);
-            
-            //Validates Security class code
-            isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false,LIABILITY_CLASS_CODE);
-            
-            //Checks if registration code is empty
-            if(isRegistrationCodeEmpty(liabilityIncreaseDocument,false))
-                return false;
-            
-            //Validate Registration code.
-            if(!validateRegistrationCode(liabilityIncreaseDocument,false))
+
+            // Checks if Security Code is empty.
+            if (isSecurityCodeEmpty(liabilityIncreaseDocument, false))
                 return false;
 
-            //Checks if registration code is active
+            // Validates Security Code.
+            if (!validateSecurityCode(liabilityIncreaseDocument, false))
+                return false;
+
+            // Checks if Security is Active
+            isValid &= isSecurityActive(liabilityIncreaseDocument, false);
+
+            // Validates Security class code
+            isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false, LIABILITY_CLASS_CODE);
+
+            // Checks if registration code is empty
+            if (isRegistrationCodeEmpty(liabilityIncreaseDocument, false))
+                return false;
+
+            // Validate Registration code.
+            if (!validateRegistrationCode(liabilityIncreaseDocument, false))
+                return false;
+
+            // Checks if registration code is active
             isValid &= isRegistrationCodeActive(liabilityIncreaseDocument, false);
-            
-            //Empty out the Source Tx Line in weird case they got entered.  
+
+            // Empty out the Source Tx Line in weird case they got entered.
             liabilityIncreaseDocument.getSourceTransactionLines().clear();
-            
-            //Obtaining all the transaction lines for validations
-            List<EndowmentTransactionLine> txLines = liabilityIncreaseDocument.getTargetTransactionLines();
-            
-            for(EndowmentTransactionLine txLine :txLines)
-            {
+
+            // Obtaining all the transaction lines for validations
+            List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
+            txLines.addAll(liabilityIncreaseDocument.getTargetTransactionLines());
+
+            for (EndowmentTransactionLine txLine : txLines) {
                 isValid &= validateLiabilityTransactionLine(txLine);
             }
         }
-        
+
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
@@ -132,30 +128,25 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) 
-    {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         super.processCustomRouteDocumentBusinessRules(document);
-     
+
         LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
-        
-        if(GlobalVariables.getMessageMap().getErrorCount() == 0)
-        {
+
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             List txLines = liabilityIncreaseDocument.getSourceTransactionLines();
-            
-            //Ensure atleast one Tx line is entered.
-            if(txLines.size() != 0)
-            {
-                
+
+            // Ensure atleast one Tx line is entered.
+            if (txLines.size() != 0) {
+
             }
-            else
-            {
-                putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);   
+            else {
+                putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
             }
-            
+
             return GlobalVariables.getMessageMap().getErrorCount() == 0;
         }
-        else
-        {
+        else {
             return false;
         }
     }

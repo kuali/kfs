@@ -162,8 +162,7 @@ public class EndowKeyConstants {
 
     }
 
-    public static class EndowmentTransactionDocumentConstants 
-    {
+    public static class EndowmentTransactionDocumentConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_REQUIRED = "error.document.transactionLine.kemid.required";
         public static final String ERROR_TRANSACTION_LINE_KEMID_INVALID = "error.document.transactionLine.kemid.invalid";
         public static final String ERROR_TRANSACTION_LINE_KEMID_INACTIVE = "error.document.transactionLine.kemid.inactive";
@@ -185,9 +184,14 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_TRANSACTION = "error.document.transactionLine.kemid.canNotHaveAPrincipalTransaction";
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_PRINCIPAL = "error.document.transactionLine.etran.chartCodeDoesNotMatchForPrincipal";
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
+        
+        // Asset increase constants
+        public static final String ERROR_TRANSACTION_LINE_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterThanZero";
+        public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
+
     }
 
-    public static class TransactionalDocuments{
+    public static class TransactionalDocuments {
         public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
         public static final String ERROR_ADDING_TRANSACTION_LINE = "error.transactionLine.addRule.invalid";
     }

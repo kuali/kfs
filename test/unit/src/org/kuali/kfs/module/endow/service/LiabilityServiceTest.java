@@ -97,9 +97,9 @@ public class LiabilityServiceTest extends KualiTestBase
         //Saving a Holding line for a Trans Line
         EndowmentTransactionTaxLotLine hldg = new EndowmentTransactionTaxLotLine();
         hldg.setDocumentNumber("4160");
-        hldg.setDocumentLineNumber(new KualiInteger("1"));
+        hldg.setDocumentLineNumber(1);
         hldg.setDocumentLineTypeCode("F");
-        hldg.setTransactionHoldingLotNumber(new KualiInteger("99"));
+        hldg.setTransactionHoldingLotNumber(99);
         hldg.setLotUnits(new KualiDecimal("22"));
         
         //Setting the tax lot line.

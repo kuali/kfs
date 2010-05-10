@@ -1534,22 +1534,22 @@
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine" table="END_TRAN_HLDG_LOT_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="documentLineNumber" column="FDOC_LN_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/> 
+	<field-descriptor name="documentLineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/> 
 	<field-descriptor name="documentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="transactionHoldingLotNumber" column="TRAN_HLDG_LT_NBR" jdbc-type="INTEGER" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/> 
+	<field-descriptor name="transactionHoldingLotNumber" column="TRAN_HLDG_LT_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/> 
 	<field-descriptor name="lotUnits" column="LOT_UNITS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotHoldingCost" column="LOT_HLDG_COST" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_LT_GAIN_LOSS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotShortTermGainLoss" column="LOT_ST_GAIN_LOSS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>	
-	<!-- 
-	<reference-descriptor name="transactionLine" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+
+	<reference-descriptor name="transactionLine" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="documentLineNumber" />
 		<foreignkey field-ref="documentLineTypeCode" />
 	</reference-descriptor>
-	-->	
+
 </class-descriptor>
  
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase">
@@ -1605,8 +1605,8 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="transactionLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionLineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="transactionLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="etranCode" column="ETRAN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionLineDescription" column="TRAN_LN_DESC" jdbc-type="VARCHAR"/>

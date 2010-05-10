@@ -23,18 +23,20 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
 
+
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, int)
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
+     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected void updateTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+    protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
 
         // create and set a new tax lot line
         EndowmentTransactionTaxLotLine taxLotLine = new EndowmentTransactionTaxLotLine();
         taxLotLine.setDocumentNumber(etlDocument.getDocumentNumber());
-        taxLotLine.setDocumentLineNumber(new KualiInteger(transLine.getTransactionLineNumber()));
-        taxLotLine.setTransactionHoldingLotNumber(new KualiInteger(1));
+        taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
+        taxLotLine.setTransactionHoldingLotNumber(1);
         taxLotLine.setLotUnits(transLine.getTransactionUnits());
         taxLotLine.setLotHoldingCost(transLine.getTransactionAmount());
 

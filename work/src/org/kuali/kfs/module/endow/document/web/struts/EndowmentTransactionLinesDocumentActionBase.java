@@ -46,6 +46,7 @@ import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteTransactionLineEvent;
+import org.kuali.kfs.module.endow.document.validation.event.RefreshTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -167,7 +168,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
             etlDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
         }
 
-        updateTaxLots(isSource, etlDoc, line);
+        updateTransactionLineTaxLots(isSource, etlDoc, line);
 
         // Update the doc total
         if (etlDoc instanceof AmountTotaling)
@@ -525,7 +526,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     }
 
     /**
-     * This method...
+     * Refreshes the tax lots for the selected target transaction line.
      * 
      * @param mapping
      * @param form
@@ -537,15 +538,22 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     public ActionForward refreshTargetTaxLots(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-        EndowmentTransactionLine transLine = endowmentDocument.getTargetTransactionLines().get(this.getSelectedLine(request));
+        int selectedLine = this.getSelectedLine(request);
+        EndowmentTransactionLine transLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
 
-        updateTaxLots(true, endowmentDocument, transLine);
+        boolean rulePassed = true;
 
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
+
+        if (rulePassed) {
+            updateTransactionLineTaxLots(true, endowmentDocument, transLine);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method...
+     * Refreshes the tax lots for the selected source transaction line.
      * 
      * @param mapping
      * @param form
@@ -557,19 +565,81 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     public ActionForward refreshSourceTaxLots(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-        EndowmentTransactionLine transLine = endowmentDocument.getSourceTransactionLines().get(this.getSelectedLine(request));
-        
-        updateTaxLots(true, endowmentDocument, transLine);
+        int selectedLine = this.getSelectedLine(request);
+        EndowmentTransactionLine transLine = endowmentDocument.getSourceTransactionLines().get(selectedLine);
+
+        boolean rulePassed = true;
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
+
+        if (rulePassed) {
+            updateTransactionLineTaxLots(true, endowmentDocument, transLine);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method...
+     * Updates the tax lots for the given transaction line.
      * 
      * @param isSource
      * @param etlDocument
-     * @param index
+     * @param transLine
      */
-    protected abstract void updateTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine);
+    protected abstract void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine);
+
+    /**
+     * Updates the tax lots for the given document.
+     * 
+     * @param isSource
+     * @param etlDocument
+     */
+    protected void updateTaxLots(EndowmentTransactionLinesDocument etlDocument) {
+
+
+        if (etlDocument.getSourceTransactionLines() != null) {
+            for (EndowmentTransactionLine endowmentTransactionLine : etlDocument.getSourceTransactionLines()) {
+                updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+            }
+        }
+
+        if (etlDocument.getTargetTransactionLines() != null) {
+            for (EndowmentTransactionLine endowmentTransactionLine : etlDocument.getTargetTransactionLines()) {
+                updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = super.save(mapping, form, request, response);
+
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        updateTaxLots(endowmentDocument);
+
+        return forward;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = super.route(mapping, form, request, response);
+
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        updateTaxLots(endowmentDocument);
+
+        return forward;
+    }
+
 }

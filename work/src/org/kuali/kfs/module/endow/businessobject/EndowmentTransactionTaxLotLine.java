@@ -30,15 +30,16 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private HoldingTaxLot holdingTaxLot;
 
     private String documentNumber;
-    private KualiInteger documentLineNumber;
+    private Integer documentLineNumber;
     private String documentLineTypeCode;
-    private KualiInteger transactionHoldingLotNumber;
+    private Integer transactionHoldingLotNumber;
     private KualiDecimal lotUnits;
     private KualiDecimal lotHoldingCost;
     private KualiDecimal lotLongTermGainLoss;
     private KualiDecimal lotShortTermGainLoss;
-    
-    private EndowmentTargetTransactionLine transactionLine;
+
+    private EndowmentTransactionLine transactionLine;
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -97,11 +98,11 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.documentNumber = documentNumber;
     }
 
-    public KualiInteger getDocumentLineNumber() {
+    public Integer getDocumentLineNumber() {
         return documentLineNumber;
     }
 
-    public void setDocumentLineNumber(KualiInteger documentLineNumber) {
+    public void setDocumentLineNumber(Integer documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
 
@@ -113,11 +114,11 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.documentLineTypeCode = documentLineTypeCode;
     }
 
-    public KualiInteger getTransactionHoldingLotNumber() {
+    public Integer getTransactionHoldingLotNumber() {
         return transactionHoldingLotNumber;
     }
 
-    public void setTransactionHoldingLotNumber(KualiInteger transactionHoldingLotNumber) {
+    public void setTransactionHoldingLotNumber(Integer transactionHoldingLotNumber) {
         this.transactionHoldingLotNumber = transactionHoldingLotNumber;
     }
 
@@ -153,11 +154,11 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.lotShortTermGainLoss = lotShortTermGainLoss;
     }
 
-    public EndowmentTargetTransactionLine getTransactionLine() {
+    public EndowmentTransactionLine getTransactionLine() {
         return transactionLine;
     }
 
-    public void setTransactionLine(EndowmentTargetTransactionLine transactionLine) {
+    public void setTransactionLine(EndowmentTransactionLine transactionLine) {
         this.transactionLine = transactionLine;
     }
 

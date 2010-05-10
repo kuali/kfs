@@ -426,7 +426,7 @@
     <property name="name" value="payeeOwnerCd"/>
     <property name="label" value="Payee Ownership Code"/>
     <property name="shortLabel" value="Payee Ownership Code"/>
-    <property name="maxLength" value="1"/>
+    <property name="maxLength" value="2"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>

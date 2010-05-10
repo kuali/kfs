@@ -58,6 +58,7 @@ import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.LaborScrubberSortComparator;
+import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
@@ -68,6 +69,7 @@ import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator.LaborO
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.LdParameterConstants;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -115,6 +117,7 @@ public class LaborScrubberProcess {
     private DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService;
     private ReportWriterService laborDemergerReportWriterService;
     private DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService;
+    private ParameterService parameterService;
     
     private String batchFileDirectoryName;
 
@@ -161,7 +164,27 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, DocumentNumberAwareReportWriterService laborMainReportWriterService, DocumentNumberAwareReportWriterService laborLedgerReportWriterService, ReportWriterService laborBadBalanceTypeReportWriterService, ReportWriterService laborErrorListingReportWriterService, DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, ReportWriterService laborDemergerReportWriterService, PreScrubberService laborPreScrubberService, DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, 
+                                LaborAccountingCycleCachingService laborAccountingCycleCachingService, 
+                                LaborOriginEntryService laborOriginEntryService, 
+                                OriginEntryGroupService originEntryGroupService, 
+                                DateTimeService dateTimeService, 
+                                OffsetDefinitionService offsetDefinitionService, 
+                                ObjectCodeService objectCodeService, 
+                                KualiConfigurationService kualiConfigurationService, 
+                                UniversityDateDao universityDateDao, 
+                                PersistenceService persistenceService, 
+                                ScrubberValidator scrubberValidator, 
+                                String batchFileDirectoryName, 
+                                DocumentNumberAwareReportWriterService laborMainReportWriterService, 
+                                DocumentNumberAwareReportWriterService laborLedgerReportWriterService, 
+                                ReportWriterService laborBadBalanceTypeReportWriterService, 
+                                ReportWriterService laborErrorListingReportWriterService, 
+                                DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, 
+                                ReportWriterService laborDemergerReportWriterService, 
+                                PreScrubberService laborPreScrubberService, 
+                                DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService,
+                                ParameterService parameterService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
@@ -183,6 +206,8 @@ public class LaborScrubberProcess {
         this.laborDemergerReportWriterService = laborDemergerReportWriterService;
         this.laborPreScrubberService = laborPreScrubberService;
         this.laborPreScrubberReportWriterService = laborPreScrubberReportWriterService;
+        this.parameterService = parameterService;
+        
         cutoffHour = null;
         cutoffMinute = null;
         cutoffSecond = null;
@@ -386,7 +411,7 @@ public class LaborScrubberProcess {
 
         LedgerSummaryReport laborLedgerSummaryReport = new LedgerSummaryReport();
         LaborOriginEntry unscrubbedEntry = new LaborOriginEntry();
-        List<Message> tmperrors = new ArrayList();
+        List<Message> tmperrors = new ArrayList<Message>();
         try {
             String currentLine = INPUT_GLE_FILE_br.readLine();
 
@@ -813,8 +838,19 @@ public class LaborScrubberProcess {
 
         OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorOutputFilename);
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
-        // TODO: Change to constants?
-        String[] documentTypesBeProcessed = { "BT", "YEBT", "ST", "YEST" };
+        
+        //
+        // Get the list of document type codes from the parameter.  If the 
+        // current document type matches any of parameter defined type codes,
+        // then demerge all other entries for this document; otherwise, only
+        // pull the entry with the error and don't demerge anything else.
+        //
+        String documentTypeCodes = parameterService.getParameterValue(
+                LaborScrubberStep.class,
+                LdParameterConstants.DEMERGE_DOCUMENT_TYPES);
+        
+        // Make sure "toUpperCase" doesn't mess-up the delimiter character.
+        String[] documentTypesBeProcessed = documentTypeCodes.toUpperCase().split(";");
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
@@ -845,7 +881,7 @@ public class LaborScrubberProcess {
             throw new RuntimeException(e);
         }
 
-        Collection<LaborOriginEntry> validEntryCollection = new ArrayList();
+        Collection<LaborOriginEntry> validEntryCollection = new ArrayList<LaborOriginEntry>();
 
         int validRead = 0;
         int errorRead = 0;
@@ -921,15 +957,33 @@ public class LaborScrubberProcess {
                 errorSaved++;
             }
 
-            INPUT_GLE_FILE_br.close();
-            INPUT_ERR_FILE_br.close();
-            OUTPUT_DEMERGER_GLE_FILE_ps.close();
-            OUTPUT_DEMERGER_ERR_FILE_ps.close();
-
         }
         catch (Exception e) {
             LOG.error("performDemerger() s" + "topped due to: " + e.getMessage(), e);
             throw new RuntimeException("performDemerger() stopped due to: " + e.getMessage(), e);
+        }
+        finally {
+            
+            try {
+                if (INPUT_GLE_FILE_br != null) {
+                    INPUT_GLE_FILE_br.close();
+                }
+            }
+            catch (IOException e) {
+                LOG.error("performDemerger() s" + "Failed to close resources due to: " + e.getMessage(), e);
+            }
+            
+            try {
+                if (INPUT_ERR_FILE_br != null) {
+                    INPUT_ERR_FILE_br.close();
+                }
+            }
+            catch (IOException e) {
+                LOG.error("performDemerger() s" + "Failed to close resources due to: " + e.getMessage(), e);
+            }
+
+            OUTPUT_DEMERGER_GLE_FILE_ps.close();
+            OUTPUT_DEMERGER_ERR_FILE_ps.close();
         }
 
         demergerReport.setValidTransactionsRead(validRead);

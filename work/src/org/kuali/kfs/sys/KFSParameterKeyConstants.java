@@ -41,4 +41,8 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
         public static final String CAPITALIZATION_OFFSET_CODE = "CAPITALIZATION_OFFSET_CODE";
         public static final String LIABILITY_OFFSET_CODE = "LIABILITY_OFFSET_CODE";
     }
+    
+    public static class LdParameterConstants {
+        public static final String DEMERGE_DOCUMENT_TYPES = "DEMERGE_DOCUMENT_TYPES";
+    }
 }

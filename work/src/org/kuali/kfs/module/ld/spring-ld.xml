@@ -340,7 +340,10 @@
 		</property>	
         <property name="laborDemergerReportWriterService">
 		  	<ref bean="laborDemergerReportWriterService" />
-		</property>											
+		</property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>											
 		<property name="laborPreScrubberService" ref="laborPreScrubberService" />											
 		<property name="llcpPreScrubberReportWriterService" ref="llcpPreScrubberReportWriterService" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>

@@ -32,7 +32,7 @@
   <bean id="EndowmentTransactionType-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Transaction Type Code" />
+    <property name="label" value="Transaction Code Type" />
     <property name="shortLabel" value="Type Code" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
@@ -48,7 +48,7 @@
 
   <bean id="EndowmentTransactionType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="label" value="Transaction Type Description" />
+    <property name="label" value="Transaction Code Type Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >

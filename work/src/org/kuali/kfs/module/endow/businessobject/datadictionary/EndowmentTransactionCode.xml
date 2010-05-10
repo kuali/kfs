@@ -111,6 +111,7 @@
 
   <bean id="EndowmentTransactionCode-endowmentTransactionType.name-parentBean" abstract="true" parent="EndowmentTransactionType-name">
     <property name="name" value="endowmentTransactionType.name" />
+    <property name="label" value="Transaction Code Type" />
   </bean>
   <bean id="EndowmentTransactionCode-corpusIndicator" parent="EndowmentTransactionCode-corpusIndicator-parentBean" />
 
@@ -199,7 +200,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="name" />               
+              p:attributeName="name" />    
+        <bean parent="FieldDefinition"
+              p:attributeName="endowmentTransactionTypeCode" />                         
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

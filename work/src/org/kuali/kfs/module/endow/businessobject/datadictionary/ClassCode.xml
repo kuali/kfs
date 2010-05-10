@@ -139,6 +139,7 @@
   
   <bean id="ClassCode-codeType.name-parentBean" abstract="true" parent="ClassCodeType-name">
     <property name="name" value="codeType.name" />
+    <property name="label" value="Class Code Type" />
   </bean>  
   <bean id="ClassCode-valuationMethod" parent="ClassCode-valuationMethod-parentBean" />
   

@@ -17,8 +17,12 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -265,9 +269,10 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
-                if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getPrincipalId()).getPrincipalName();
-                    this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
+                SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
+                if (sortedActionsTaken.size() > 0) {
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
                 }
                 else {
                     this.financialDocumentInitiatorIdentifier = "NotFound";
@@ -305,9 +310,10 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
                 ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
-                if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getPrincipalId()).getPrincipalName();
-                    this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
+                SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
+                if (sortedActionsTaken.size() > 0) {
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
                 }
 
             }
@@ -440,6 +446,27 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
+    }
+    
+    /**
+     * Takes a list of ActionTakenValue and returns a sorted set ordered by action date
+     *  
+     * @param actionsTaken
+     * @return
+     */
+    protected SortedSet<ActionTakenValue> getSortedActionsTaken(List<ActionTakenValue> actionsTaken){
+
+        // we need a sorted set of actions taken by action date
+        SortedSet<ActionTakenValue> sortedActionsTaken = new TreeSet<ActionTakenValue>(new Comparator<ActionTakenValue>(){
+            public int compare(ActionTakenValue aTaken, ActionTakenValue bTaken){
+                Timestamp aActionDate = aTaken.getActionDate();
+                Timestamp bActionDate = bTaken.getActionDate();
+                return aActionDate.compareTo(bActionDate);
+            }
+        });
+        sortedActionsTaken.addAll(actionsTaken);
+        return sortedActionsTaken;
+        
     }
 
     /**

@@ -51,6 +51,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
     @Override
     public void prepareForSave() 
     {
+        super.prepareForSave();
         prepareTaxLotLinesForSave();
     }
     
@@ -67,6 +68,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
             }
         }
 
+        
         for(EndowmentTransactionLine transactionLine: targetTransactionLines )
         {
             for(EndowmentTransactionTaxLotLine taxLotLine: transactionLine.getTaxLotLines() )
@@ -74,7 +76,6 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
                 taxLotLine.setDocumentLineTypeCode(TARGET_TAX_LOT_LINE);
             }
         }
-
     } 
     
 

@@ -58,11 +58,22 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      *
      * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier used to obtain the payment request documents.
      * @param vendorDetailAssignedIdentifier  The vendorDetailAssignedIdentifier used to obtain the payment request documents.
+     * @return                                The List of payment request documents that match the given criterias.
+     */
+    public List getPaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier);
+
+    /**
+     * Obtains a list of payment request documents given the vendorHeaderGeneratedIdentifier, vendorDetailAssignedIdentifier and the invoice number.
+     *
+     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier used to obtain the payment request documents.
+     * @param vendorDetailAssignedIdentifier  The vendorDetailAssignedIdentifier used to obtain the payment request documents.
      * @param invoiceNumber                   The invoice number used to obtain the payment request documents.
      * @return                                The List of payment request documents that match the given criterias.
      */
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String invoiceNumber);
 
+    
+    
     /**
      * Determines whether the invoice date is after today.
      * 

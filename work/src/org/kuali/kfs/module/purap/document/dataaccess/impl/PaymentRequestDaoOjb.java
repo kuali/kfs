@@ -362,6 +362,24 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
+     * Retrieves a list of payment requests with the given vendor id and invoice number.
+     * 
+     * @param vendorHeaderGeneratedId - header id of the vendor id
+     * @param vendorDetailAssignedId - detail id of the vendor id
+     * @param invoiceNumber - invoice number as entered by AP
+     * @return - List of payment requests.
+     */
+    public List<PaymentRequestDocument> getActivePaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId) {
+        LOG.debug("getActivePaymentRequestsByVendorNumber started");
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedId);
+        criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailAssignedId);
+        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        return this.getPaymentRequestsByQueryByCriteria(qbc);
+    }
+    
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */

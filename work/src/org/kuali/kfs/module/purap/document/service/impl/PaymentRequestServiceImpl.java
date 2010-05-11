@@ -419,6 +419,19 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param invoiceNumber            The invoice number as entered by AP.
      * @return                         List of payment request document.
      */
+    public List getPaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId) {
+        LOG.debug("getActivePaymentRequestsByVendorNumber() started");
+        return paymentRequestDao.getActivePaymentRequestsByVendorNumber(vendorHeaderGeneratedId, vendorDetailAssignedId);
+    }
+    
+    /**
+     * Retrieves a list of payment request documents with the given vendor id and invoice number.
+     * 
+     * @param vendorHeaderGeneratedId  The vendor header generated id.
+     * @param vendorDetailAssignedId   The vendor detail assigned id.
+     * @param invoiceNumber            The invoice number as entered by AP.
+     * @return                         List of payment request document.
+     */
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         return paymentRequestDao.getActivePaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
@@ -444,9 +457,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             Integer vendorDetailAssignedId = po.getVendorDetailAssignedIdentifier();
             Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedIdentifier();
 
-
-            List<PaymentRequestDocument> preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, document.getInvoiceNumber());
-
+            List<PaymentRequestDocument> preqs = new ArrayList();
+            
+            List<PaymentRequestDocument> preqsDuplicates = getPaymentRequestsByVendorNumber(vendorHeaderGeneratedId, vendorDetailAssignedId);
+            for (PaymentRequestDocument duplicatePREQ : preqsDuplicates) {
+               if (duplicatePREQ.getInvoiceNumber().toUpperCase().equals(document.getInvoiceNumber().toUpperCase())) {
+                   //found the duplicate row... so add to the preqs list...
+                   preqs.add(duplicatePREQ);
+               }
+            }
+            
             if (preqs.size() > 0) {
                 boolean addedMessage = false;
                 boolean foundCanceledPostApprove = false; // cancelled

@@ -106,6 +106,15 @@ public interface PaymentRequestDao {
     public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber);
 
     /**
+     * Retrieves a list of Payment Requests with the given vendor id and invoice number.
+     * 
+     * @param vendorHeaderGeneratedId - header id of the vendor id
+     * @param vendorDetailAssignedId - detail id of the vendor id
+     * @return - List of Payment Requests.
+     */
+    public List getActivePaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId);
+    
+    /**
      * Retrieves a list of Payment Requests with the given PO Id, invoice amount, and invoice date.
      * 
      * @param poId - purchase order ID

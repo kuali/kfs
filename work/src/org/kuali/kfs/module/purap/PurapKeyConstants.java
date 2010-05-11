@@ -164,6 +164,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN = "error.invoice.purchaseOrder.notOpen";
     public static final String ERROR_PURCHASE_PENDING_ACTION = "error.invoice.purchaseOrder.pending.action";
     public static final String ERROR_PURCHASE_ORDER_IS_PENDING = "error.invoice.purchaseOrder.isPending";
+    public static final String ERROR_DUPLICATE_INVOICE_NUMBER_ENTERED = "error.duplicate.invoiceNumberEntered";
     public static final String ERROR_INVALID_INVOICE_DATE = "errors.invalid.invoice.date";
     public static final String ERROR_INVALID_PAY_DATE = "errors.invalid.pay.date";
     public static final String ERROR_NO_ITEMS_TO_INVOICE = "errors.invoice.items.noneLeft";

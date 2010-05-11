@@ -301,7 +301,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 if (lineStrings[2].equals(StringUtils.repeat("0", 14))) {
                     timestamp = null;
                 }
-
+                
                 barcodeInventoryErrorDetail = new BarcodeInventoryErrorDetail();
                 barcodeInventoryErrorDetail.setUploadRowNumber(ln);
                 barcodeInventoryErrorDetail.setAssetTagNumber(lineStrings[0].trim());
@@ -313,6 +313,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 barcodeInventoryErrorDetail.setBuildingSubRoomNumber(lineStrings[6].trim().toUpperCase());
                 barcodeInventoryErrorDetail.setAssetConditionCode(lineStrings[7].trim().toUpperCase());
                 barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR);
+                barcodeInventoryErrorDetail.setCorrectorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
                 barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
                 ln++;

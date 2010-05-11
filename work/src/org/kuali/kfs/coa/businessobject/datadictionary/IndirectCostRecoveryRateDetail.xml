@@ -81,18 +81,33 @@
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-chartOfAccountsCode" parent="IndirectCostRecoveryRateDetail-chartOfAccountsCode-parentBean"/>
-  <bean id="IndirectCostRecoveryRateDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl" />
+  <bean id="IndirectCostRecoveryRateDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+  <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+  </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-accountNumber" parent="IndirectCostRecoveryRateDetail-accountNumber-parentBean"/>
-  <bean id="IndirectCostRecoveryRateDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+  <bean id="IndirectCostRecoveryRateDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+  <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+  </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-subAccountNumber" parent="IndirectCostRecoveryRateDetail-subAccountNumber-parentBean"/>
   <bean id="IndirectCostRecoveryRateDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="required" value="false"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-financialObjectCode" parent="IndirectCostRecoveryRateDetail-financialObjectCode-parentBean"/>
-  <bean id="IndirectCostRecoveryRateDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute" />
+  <bean id="IndirectCostRecoveryRateDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
+  <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+  </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode" parent="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean"/>
   <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">

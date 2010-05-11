@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -52,15 +53,15 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         //getTargetTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
         
         //A Hack to insert transaction securities in the securities collection.
-        if(getSourceTransactionSecurity().getSecurityID() != null)
+        if( !StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID()) )
         {
-            getSourceTransactionSecurities().add(sourceTransactionSecurity);
+            getSourceTransactionSecurities().add(0,sourceTransactionSecurity);
         }
 
         //A Hack to insert transaction securities in the securities collection.
-        if(getTargetTransactionSecurity().getSecurityID() != null)
+        if( !StringUtils.isEmpty(targetTransactionSecurity.getSecurityID()) )
         {
-            getTargetTransactionSecurities().add(targetTransactionSecurity);        
+            getTargetTransactionSecurities().add(0,targetTransactionSecurity);        
         }
 
     }
@@ -81,7 +82,10 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public EndowmentTransactionSecurity getSourceTransactionSecurity() 
     {
         if(this.sourceTransactionSecurities.size() > 0)
+        {
+            //setSourceTransactionSecurity(this.sourceTransactionSecurities.get(0));
             return this.sourceTransactionSecurities.get(0);
+        }
         else 
             return this.sourceTransactionSecurity;
    }
@@ -89,7 +93,10 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public EndowmentTransactionSecurity getTargetTransactionSecurity() 
     {
         if(this.targetTransactionSecurities.size() > 0)
+        {
+           // setTargetTransactionSecurity(this.targetTransactionSecurities.get(0));
             return this.targetTransactionSecurities.get(0);
+        }
         else 
             return this.targetTransactionSecurity; 
     }

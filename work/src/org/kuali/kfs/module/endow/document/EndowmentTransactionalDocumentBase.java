@@ -55,7 +55,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public void prepareForSave() {
         super.prepareForSave();
         // Assign Doc header id to the transaction docs number(END_TRAN_DOC_T.FDOC_NBR)
-        setDocumentNumber(getDocumentHeader().getDocumentNumber());
+        //setDocumentNumber(getDocumentHeader().getDocumentNumber());
     }
 
     /**

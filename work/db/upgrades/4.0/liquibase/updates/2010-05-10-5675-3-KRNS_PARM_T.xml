@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Travis' id='5675-3-1' failOnError='true'>
+    <comment>Add New LD Parameter Type for Demerger</comment>
+    <update tableName='krns_parm_t'>
+      <column name='txt' value='BT;YEBT;ST;YEST' />
+      <where>nmspc_cd='KFS-LD' AND PARM_DTL_TYP_CD='LaborScrubberStep' AND PARM_NM='DEMERGE_DOCUMENT_TYPES'</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

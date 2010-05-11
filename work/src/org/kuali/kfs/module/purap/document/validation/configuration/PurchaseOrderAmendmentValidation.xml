@@ -60,7 +60,11 @@
 				
 				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  														
+				</bean>		
+				
+				<bean parent="PurchaseOrderAmendment-accountValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>
   			</list>
   		</property>
   	</bean>
@@ -100,7 +104,11 @@
 				
 				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  													
+				</bean>  	
+
+				<bean parent="PurchaseOrderAmendment-accountValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>
   			</list>
   		</property>
   	</bean>

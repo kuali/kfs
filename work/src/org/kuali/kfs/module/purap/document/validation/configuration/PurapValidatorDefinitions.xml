@@ -534,6 +534,8 @@
 		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />		
 	</bean>
 		
+	<bean id="PurchaseOrderAmendment-accountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountValidation" abstract="true"/>
+		
     <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">
 	    <property name="dataDictionaryService" ref="dataDictionaryService" />
 	    <property name="purapService" ref="purapService" />

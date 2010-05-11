@@ -251,6 +251,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ACCOUNT_AMOUNT_TOTAL = "errors.accountString.totalAmount.negative";
     public static final String ERROR_ITEM_ACCOUNT_EXPIRED = "errors.item.accounting.expired";
     public static final String ERROR_ITEM_ACCOUNT_EXPIRED_REPLACE = "errors.item.accounting.expired.replace";
+    public static final String ERROR_ITEM_ACCOUNT_INACTIVE = "errors.item.accounting.inactive";
     public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
     public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
     public static final String ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE = "errors.item.tradeIn.outstanding.encumbered.amount.negative";

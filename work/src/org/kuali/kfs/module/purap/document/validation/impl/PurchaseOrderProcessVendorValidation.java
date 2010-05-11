@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants.VendorTypes;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
@@ -36,6 +37,7 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
 
     private DataDictionaryService dataDictionaryService;
     private PostalCodeValidationService postalCodeValidationService;
+ //   private VendorService vendorService;
     
     /**
      * Validation for the Stipulation tab.
@@ -58,6 +60,17 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_NONEXIST_VENDOR);
         }
 
+        // vendor active validation...
+        VendorDetail vendorDetail = super.getVendorService().getVendorDetail(poDocument.getVendorHeaderGeneratedIdentifier(), poDocument.getVendorDetailAssignedIdentifier());
+        if (ObjectUtils.isNull(vendorDetail))
+            return valid;
+
+        // make sure that the vendor is active
+        if (!vendorDetail.isActiveIndicator()) {
+            valid &= false;
+            errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
+        }
+        
         // validate vendor address
         postalCodeValidationService.validateAddress(poDocument.getVendorCountryCode(), poDocument.getVendorStateCode(), poDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
         
@@ -97,5 +110,11 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
     public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
         this.postalCodeValidationService = postalCodeValidationService;
     }
+ //   public VendorService getVendorService() {
+ //       return vendorService;
+ //   }
 
+ //   public void setVendorService(VendorService vendorService) {
+ //       this.vendorService = vendorService;
+ //   }
 }

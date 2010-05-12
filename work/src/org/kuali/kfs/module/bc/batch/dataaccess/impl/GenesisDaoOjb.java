@@ -49,6 +49,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
@@ -1401,6 +1402,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             lockedDocuments.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
             getPersistenceBrokerTemplate().store(lockedDocuments);
         }
+        //   we need to clear the position and funding locks as well
+        clearHangingPositionLocks(RequestYear);
+        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionFundingLock.class, QueryByCriteria.CRITERIA_SELECT_ALL);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     public void initialLoadToPBGL(Integer BaseYear) {
@@ -1421,6 +1427,35 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         writeFinalDiagnosticCounts();
         pBGLCleanUp();
     }
+    
+    //
+    //  clear any hanging position locks
+    protected void clearHangingPositionLocks(Integer RequestYear)
+    {
+        BudgetConstructionPosition lockedPositions;
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
+        Criteria lockID = new Criteria();
+        if (BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null) {
+            //  make sure that a NULL test is used in case = NULL is not supported
+            //  by the database
+            lockID.addNotNull(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER);
+        }
+        else {
+            lockID.addNotEqualTo(BCPropertyConstants.POSITION_LOCK_USER_IDENTIFIER, BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        }
+        ;
+        criteriaID.addAndCriteria(lockID);
+        //
+        QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionPosition.class, criteriaID);
+        Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        //  now just loop through and change the locks
+        while (Results.hasNext()) {
+            lockedPositions = (BudgetConstructionPosition) Results.next();
+            lockedPositions.setPositionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            getPersistenceBrokerTemplate().store(lockedPositions);
+        }
+ }
 
     //
     //  two test routines to display the field values in the two business objects

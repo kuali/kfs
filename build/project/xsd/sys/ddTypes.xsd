@@ -578,7 +578,7 @@
  
     <xsd:simpleType name="CollectorBatch.emailAddress">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="70"/>
+            <xsd:maxLength value="40"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -593,7 +593,7 @@
  
     <xsd:simpleType name="CollectorBatch.phoneNumber">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="20"/>
+            <xsd:maxLength value="10"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -921,7 +921,7 @@
     <xsd:simpleType name="PaymentGroup.payeeName">
         <xsd:restriction base="xsd:normalizedString">
             <xsd:minLength value="1"/>
-            <xsd:maxLength value="40"/>
+            <xsd:maxLength value="45"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -1068,7 +1068,7 @@
  
     <xsd:simpleType name="PaymentGroup.payeeOwnerCd">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="1"/>
+            <xsd:maxLength value="2"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>

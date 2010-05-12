@@ -76,6 +76,8 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
         fieldValues.put("purchaseOrderQuoteLanguageCreateDate", newQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate());
         
         if (oldQuoteLanguage != null && newQuoteLanguage != null &&
+            newQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier() != null && oldQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier() != null &&
+            newQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate() != null && oldQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate() != null &&
             StringUtils.equalsIgnoreCase(newQuoteLanguage.getPurchaseOrderQuoteLanguageDescription(),oldQuoteLanguage.getPurchaseOrderQuoteLanguageDescription()) &&
             newQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier().equals(oldQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier()) &&
             newQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate().equals(oldQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate())){

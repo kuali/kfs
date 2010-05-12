@@ -65,7 +65,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
-        return validateTransactionLine(line, -1);
+        return validateTransactionLine((EndowmentTransactionLinesDocumentBase) document, line, -1);
     }
 
     /**
@@ -73,7 +73,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
      */
     public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {
-        return validateTransactionLine(endowmentTransactionLine, (Integer) index);
+        return validateTransactionLine((EndowmentTransactionLinesDocumentBase)endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index);
     }
 
     /**
@@ -93,7 +93,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if (endowmentTransactionLinesDocumentBase.getSourceTransactionLines() != null) {
                 for (int i = 0; i < endowmentTransactionLinesDocumentBase.getSourceTransactionLines().size(); i++) {
                     EndowmentTransactionLine transactionLine = endowmentTransactionLinesDocumentBase.getSourceTransactionLines().get(i);
-                    validateTransactionLine(transactionLine, i);
+                    validateTransactionLine(endowmentTransactionLinesDocumentBase,transactionLine, i);
                 }
             }
 
@@ -101,7 +101,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if (endowmentTransactionLinesDocumentBase.getTargetTransactionLines() != null) {
                 for (int i = 0; i < endowmentTransactionLinesDocumentBase.getTargetTransactionLines().size(); i++) {
                     EndowmentTransactionLine transactionLine = endowmentTransactionLinesDocumentBase.getTargetTransactionLines().get(i);
-                    validateTransactionLine(transactionLine, i);
+                    validateTransactionLine(endowmentTransactionLinesDocumentBase,transactionLine, i);
                 }
             }
 
@@ -117,7 +117,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param index
      * @return
      */
-    protected boolean validateTransactionLine(EndowmentTransactionLine line, int index) {
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
         boolean isValid = true;
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
@@ -140,11 +140,12 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             }
         }
 
-        if (isValid) {
-            // General not null validation for KemID, Etran and Income/Principal DropDown.
+        if (isValid) 
+        {
             GlobalVariables.getMessageMap().clearErrorPath();
-            if (!SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(line, ERROR_PREFIX))
-                return false;
+            
+            //General not null validation for KemID
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(),"kemid",line.getKemid(),false,ERROR_PREFIX + EndowPropertyConstants.KEMID);
 
             // Validate KemID
             if (!validateKemId(line, ERROR_PREFIX))
@@ -156,21 +157,34 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             // Validate no restriction transaction restriction
             isValid &= validateNoTransactionRestriction(line, ERROR_PREFIX);
 
-            // Validate ETran code
-            if (!validateEndowmentTransactionCode(line, ERROR_PREFIX))
-                return false;
+            //Validate Income/Principal DropDown
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(),"transactionIPIndicatorCode",line.getTransactionIPIndicatorCode(),false,ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_IPINDICATOR);
+            isValid &= GlobalVariables.getMessageMap().getErrorCount() == 0 ? true : false ;
+            if(!isValid)
+                return isValid;
 
-            // Validate GL object Code
-            isValid &= SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenKEMIDAndETranCode(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode());
+            if( nonCashTransaction(endowmentTransactionLinesDocumentBase) )
+            {
+                //Is Etran code empty
+                if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
+                    return false;
+                
+                //Validate ETran code
+                if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
+                    return false;
 
-            // Set Corpus Indicator
-            line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
-
+                // Validate ETran code as E or I
+                isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+                
+                //Validate if the chart is matched between the KEMID and EtranCode
+                isValid &= validateChartMatch(line,ERROR_PREFIX);
+                
+                //Set Corpus Indicator  
+                line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
+            }
+            
             // Refresh all references for the given KemId
             // line.getKemidObj().refreshNonUpdateableReferences();
-
-            // Validate ETran code as E or I
-            isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
 
             // Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
@@ -178,11 +192,17 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX);
 
-            // Validate if the chart is matched between the KEMID and EtranCode
-            isValid &= validateChartMatch(line, ERROR_PREFIX);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+    
+    private boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase)
+    {
+        if(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode().equalsIgnoreCase("N"))
+            return true;
+        else
+            return false;
     }
 
     /**

@@ -52,27 +52,40 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            isValid &= validateLiabilityTransactionLine(line);
+            isValid &= validateLiabilityTransactionLine(line, -1);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line) {
+    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
+        // Obtain Prefix for Error fields in UI.
         String ERROR_PREFIX = null;
-        if (line instanceof EndowmentSourceTransactionLine)
-            ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
-        else
-            ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
+        if (line instanceof EndowmentSourceTransactionLine) {
+            if (index == -1) {
+                ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
+            }
+            else {
+                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_TRANSACTION_LINE_PREFIX + "[" + index + "].";
+            }
+        }
+        else {
+            if (index == -1) {
+                ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
+            }
+            else {
+                ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
+            }
+        }            
 
-        // Validates Units & Amount are equal.
-        isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
-
-        // Validate Units is Greater then Zero(thus positive) value
-        isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
-
+        //Validate Units is Greater then Zero(thus positive) value
+        isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
+        
+        //Validates Units & Amount are equal.
+        isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
+        
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
@@ -116,8 +129,10 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
             txLines.addAll(liabilityIncreaseDocument.getTargetTransactionLines());
 
-            for (EndowmentTransactionLine txLine : txLines) {
-                isValid &= validateLiabilityTransactionLine(txLine);
+            for (int i = 0; i < liabilityIncreaseDocument.getTargetTransactionLines().size(); i++) 
+            {
+                EndowmentTransactionLine txLine = liabilityIncreaseDocument.getTargetTransactionLines().get(i);
+                isValid &= validateLiabilityTransactionLine(txLine,i);
             }
         }
 

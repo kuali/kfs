@@ -211,7 +211,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber.toUpperCase();
+        if (!StringUtils.isEmpty(invoiceNumber))
+            this.invoiceNumber = invoiceNumber.toUpperCase();
+        else
+            this.invoiceNumber = invoiceNumber;
     }
 
     public KualiDecimal getVendorInvoiceAmount() {

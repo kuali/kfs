@@ -26,6 +26,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -644,15 +646,41 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
+    // TODO check if asset is canceled or disapproved; set lines back to active
+    // try using the document header/purchase order number along with a service to get the pretag lines
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
-        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        // OLD AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        AssetGlobal assetGlobal = (AssetGlobal) this.getBusinessObject();
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 
         // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+
+        // force pretagDetail active indicators back to true
+        if (workflowDoc.stateIsCanceled()) {
+            if (ObjectUtils.isNotNull(assetGlobal)) {
+                List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
+                if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
+                    for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
+                        if (!assetGlobaldetails.getCampusTagNumber().isEmpty()) {
+                            HashMap<Object, Object> map = new HashMap<Object, Object>();
+                            map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
+                            List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
+                            if (ObjectUtils.isNotNull(pretagDetailList)) {
+                                for (PretagDetail pretagDetail : pretagDetailList) {
+                                    pretagDetail.setActive(true);
+                                    SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed())) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);

@@ -93,6 +93,12 @@ public class CabPropertyConstants {
         public static final String REPRESENTATIVE_ID = "personUniversal.principalName";
     }
 
+    public static class PretagDetail {
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+        public static final String ITEM_LINE_NUMBER = "itemLineNumber";
+        public static final String PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
+    }    
+    
     public static final String DOCUMENT_NUMBER = "documentNumber";
 
     public static class PurApLineForm {

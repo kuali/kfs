@@ -23,6 +23,8 @@
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="showSource" required="true" %>
 <%@ attribute name="showTarget" required="true" %>
+<%@ attribute name="showRegistrationCode" required="true" %>
+
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Security Details" defaultOpen="true" tabErrorKey="${KFSConstants.TRANSACTION_SECURITY_TAB_ERRORS}">
@@ -63,11 +65,13 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${ClassCodeAttributes.taxLotIndicator}" 
 				hideRequiredAsterisk="true"
 				useShortLabel="false" />
-								
-         	<kul:htmlAttributeHeaderCell
-				attributeEntry="${securityTransactionAttributes.registrationCode}"
-				useShortLabel="false"
-				/>
+			
+			<c:if test="${showRegistrationCode}">
+	          	<kul:htmlAttributeHeaderCell
+					attributeEntry="${securityTransactionAttributes.registrationCode}"
+					useShortLabel="false"
+				/>            
+			</c:if>					
 
 		</tr>
        
@@ -104,6 +108,7 @@
             		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.${securityType}.security.classCode.taxLotIndicator" readOnly="true" />
             	</div>	
             </td>
+            <c:if test="${showRegistrationCode}">
             <td class="infoline">
             	<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" 
             			property="document.${securityType}.registrationCode"
@@ -118,6 +123,7 @@
             		<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="document.${securityType}.registrationCodeObj.name" readOnly="true" />
             	</div>		
             </td> 
+            </c:if>
         </tr>
        
     <%--

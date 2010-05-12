@@ -40,7 +40,7 @@
          headingTitle="Asset Increase Details"
          summaryTitle="Asset Increase Details" />
 
-    <endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false"/>          
+    <endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false" showRegistrationCode="true"/>          
          
     <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="true"/>     
     

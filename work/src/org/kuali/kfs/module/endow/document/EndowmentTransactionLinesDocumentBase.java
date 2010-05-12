@@ -437,4 +437,18 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
         return totalUnits;
     }
+    
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+
+        managedList.add(getTargetTransactionLines());
+        managedList.add(getSourceTransactionLines());
+
+        return managedList;
+    }
+
 }

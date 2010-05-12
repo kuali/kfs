@@ -314,4 +314,14 @@
 	
 	</bean>
 	
+	<bean id="holdingTaxLotService" class="org.kuali.kfs.module.endow.document.service.impl.HoldingTaxLotServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="updateAssetIncreaseDocumentTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateAssetIncreaseDocumentTaxLotsServiceImpl">
+	
+	</bean>
+	
 </beans>

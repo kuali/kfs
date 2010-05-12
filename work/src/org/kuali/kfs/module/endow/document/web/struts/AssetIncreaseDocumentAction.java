@@ -17,7 +17,10 @@ package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
+import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -32,16 +35,9 @@ public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocume
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
 
-        // create and set a new tax lot line
-        EndowmentTransactionTaxLotLine taxLotLine = new EndowmentTransactionTaxLotLine();
-        taxLotLine.setDocumentNumber(etlDocument.getDocumentNumber());
-        taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
-        taxLotLine.setTransactionHoldingLotNumber(1);
-        taxLotLine.setLotUnits(transLine.getTransactionUnits());
-        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount());
-
-        transLine.getTaxLotLines().clear();
-        transLine.getTaxLotLines().add(taxLotLine);
+        UpdateAssetIncreaseDocumentTaxLotsService taxLotsService = SpringContext.getBean(UpdateAssetIncreaseDocumentTaxLotsService.class);
+        AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) etlDocument;
+        taxLotsService.updateTransactionLineTaxLots(isSource, assetIncreaseDocument, transLine);
 
     }
 

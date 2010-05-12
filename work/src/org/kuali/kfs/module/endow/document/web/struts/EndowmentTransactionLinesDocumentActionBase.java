@@ -598,14 +598,29 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
 
         if (etlDocument.getSourceTransactionLines() != null) {
-            for (EndowmentTransactionLine endowmentTransactionLine : etlDocument.getSourceTransactionLines()) {
-                updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+            for (int i = 0; i < etlDocument.getSourceTransactionLines().size(); i++) {
+                EndowmentTransactionLine endowmentTransactionLine = (EndowmentTransactionLine) etlDocument.getSourceTransactionLines().get(i);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
+
+                if (rulePassed) {
+                    updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+                }
+
             }
         }
 
         if (etlDocument.getTargetTransactionLines() != null) {
-            for (EndowmentTransactionLine endowmentTransactionLine : etlDocument.getTargetTransactionLines()) {
-                updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+            for (int i = 0; i < etlDocument.getTargetTransactionLines().size(); i++) {
+                EndowmentTransactionLine endowmentTransactionLine = (EndowmentTransactionLine) etlDocument.getTargetTransactionLines().get(i);
+                boolean rulePassed = true;
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
+
+                if (rulePassed) {
+                    updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+                }
             }
         }
     }
@@ -617,13 +632,11 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = super.save(mapping, form, request, response);
-
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
         updateTaxLots(endowmentDocument);
 
-        return forward;
+        return super.save(mapping, form, request, response);
     }
 
     /**
@@ -633,13 +646,11 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = super.route(mapping, form, request, response);
-
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
         updateTaxLots(endowmentDocument);
 
-        return forward;
+        return super.route(mapping, form, request, response);
     }
 
 }

@@ -163,6 +163,9 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if(!isValid)
                 return isValid;
 
+            if(!isSubTypeEmpty(endowmentTransactionLinesDocumentBase))
+                return false;
+            
             if( nonCashTransaction(endowmentTransactionLinesDocumentBase) )
             {
                 //Is Etran code empty
@@ -199,7 +202,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     
     private boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase)
     {
-        if(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode().equalsIgnoreCase("N"))
+        if( endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode().equalsIgnoreCase("N"))
             return true;
         else
             return false;

@@ -20,6 +20,8 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>	
+<%@ attribute name="subTypeReadOnly" required="true"
+	description="If sub type code filed is in read only mode"%>	
 <%@ attribute name="tabTitle" required="true"
 	description="This is displayed as Tab title."%>
 <%@ attribute name="summaryTitle" required="true"
@@ -42,7 +44,8 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.transactionSubTypeCode}"
-						property="document.transactionSubTypeCode"/>
+						property="document.transactionSubTypeCode"
+						readOnly="${readOnly or subTypeReadOnly}"/>
 				</td>
 			</tr>
 			

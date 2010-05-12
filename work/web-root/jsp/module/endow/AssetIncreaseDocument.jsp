@@ -35,6 +35,7 @@
     <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.AssetIncreaseDocument.attributes}"
          readOnly="${readOnly}"
+         subTypeReadOnly="false"
          tabTitle="Asset Increase Details"
          headingTitle="Asset Increase Details"
          summaryTitle="Asset Increase Details" />

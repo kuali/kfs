@@ -34,6 +34,7 @@
     <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.CashIncreaseDocument.attributes}"
          readOnly="${readOnly}"
+         subTypeReadOnly="true"
          tabTitle="Cash Increase Details"
          headingTitle="Cash Increase Details"
          summaryTitle="Cash Increase Details" />

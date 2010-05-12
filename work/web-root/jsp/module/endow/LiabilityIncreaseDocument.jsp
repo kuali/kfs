@@ -34,6 +34,7 @@
     <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.LiabilityIncreaseDocument.attributes}" 
          readOnly="${readOnly}" 
+         subTypeReadOnly="false"
          tabTitle="Liability Increase Details"
          headingTitle="Liability Increase Details"
          summaryTitle="Liability Increase Details"

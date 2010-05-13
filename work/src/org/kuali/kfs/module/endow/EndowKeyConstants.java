@@ -171,6 +171,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterthen.zero";
         public static final String ERROR_TRANSACTION_AMOUNT_UNITS_EQUAL = "error.document.transactionLine.units.amount.equal";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_REQUIRED = "error.document.transactionLine.etran.required";
+        public static final String ERROR_TRANSACTION_LINE_ETRAN_BLANK = "error.document.transactionLine.etran.blank";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_INVALID = "error.document.transactionLine.etran.invalid";
         public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY = "error.document.transactionLine.etran.typecode.validity";
         public static final String ERROR_TRANSACTION_SECURITY_REQUIRED = "error.document.transaction.security.required";

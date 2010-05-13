@@ -35,14 +35,12 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.coa.businessobject.Organization;
 
 /**
  * Effort Certification Document Class.
@@ -76,7 +74,6 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     
     protected Person ledgerPerson;
     
-
     /**
      * Default constructor.
      */

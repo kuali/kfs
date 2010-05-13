@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -581,7 +582,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         if (this.getAccount() != null && !this.getAccount().isActive()) {
             return false;
         }
-
+        
         return true;
     }
 

@@ -38,11 +38,9 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverr
 import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
 import org.kuali.kfs.module.ec.businessobject.inquiry.EffortPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kim.bo.Person;

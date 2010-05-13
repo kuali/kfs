@@ -32,6 +32,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class CertificationRecreateAction extends EffortCertificationAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateAction.class);
 
+    
     /**
      * load the detail lines with the given information
      */

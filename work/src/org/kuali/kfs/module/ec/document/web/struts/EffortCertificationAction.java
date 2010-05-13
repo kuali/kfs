@@ -49,12 +49,13 @@ public class EffortCertificationAction extends FinancialSystemTransactionalDocum
         
         String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
         try {
-            if (formBase.isFormDocumentInitialized()) {
+            if (formBase.isFormDocumentInitialized() && formBase.isDocumentEnRoute()) {
                 Set<Person> priorApprovers = formBase.getDocument().getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
                 for (Person priorApprover : priorApprovers) {
                     if (principalId.equals(priorApprover.getPrincipalId())) {
                         documentActions.put(KNSConstants.KUALI_ACTION_CAN_EDIT, "true");
                         documentActions.put(KNSConstants.KUALI_ACTION_CAN_SAVE, "true");
+                        documentActions.put(KNSConstants.KUALI_ACTION_CAN_APPROVE, "true");                        
                     }
                  }
             }

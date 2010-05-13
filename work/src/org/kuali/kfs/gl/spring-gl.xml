@@ -64,11 +64,6 @@
 				<value>posterBalancingHistorySyncJob</value>
 			</list>
 		</property>
-		<property name="fiscalYearMakers">
-          <list>
-            <ref bean="universityDateFiscalYearMaker" />
-          </list>	
-        </property>
         <property name="batchFileDirectories">
           <list>
             <value>${reports.directory}/gl</value>

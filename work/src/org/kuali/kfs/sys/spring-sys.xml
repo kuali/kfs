@@ -64,6 +64,7 @@
         <property name="fiscalYearMakers">
           <list>
             <ref bean="systemOptionsFiscalYearMaker" />
+            <ref bean="universityDateFiscalYearMaker" />
           </list>	
         </property>
         <property name="batchFileDirectories">

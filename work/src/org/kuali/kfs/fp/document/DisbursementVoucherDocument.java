@@ -1311,7 +1311,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         // default bank code
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(DisbursementVoucherDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
         if (defaultBank != null) {
             this.disbVchrBankCode = defaultBank.getBankCode();
             this.bank = defaultBank;

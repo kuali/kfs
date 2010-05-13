@@ -54,7 +54,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      *      org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakerHelper)
      */
     public void deleteNewYearRows(Integer baseYear, FiscalYearMaker objectFiscalYearMaker) {
-        LOG.info(String.format("\ndeleting %s for %d", objectFiscalYearMaker.getBusinessObjectClass().getName(), baseYear + 1));
+        LOG.info(String.format("\ndeleting %s for target year(s)", objectFiscalYearMaker.getBusinessObjectClass().getName()));
 
         QueryByCriteria queryID = new QueryByCriteria(objectFiscalYearMaker.getBusinessObjectClass(), objectFiscalYearMaker.createDeleteCriteria(baseYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);

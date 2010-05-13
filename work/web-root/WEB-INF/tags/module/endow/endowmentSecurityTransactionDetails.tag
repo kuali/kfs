@@ -24,10 +24,11 @@
 <%@ attribute name="showSource" required="true" %>
 <%@ attribute name="showTarget" required="true" %>
 <%@ attribute name="showRegistrationCode" required="true" %>
+<%@ attribute name="openTabByDefault" required="true" %>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<kul:tab tabTitle="Security Details" defaultOpen="true" tabErrorKey="${KFSConstants.TRANSACTION_SECURITY_TAB_ERRORS}">
+<kul:tab tabTitle="Security Details" defaultOpen="${openTabByDefault}" tabErrorKey="${KFSConstants.TRANSACTION_SECURITY_TAB_ERRORS}">
 
 
  <c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />

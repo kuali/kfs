@@ -643,16 +643,13 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
     }
 
-    /**
+    /** 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
-    // TODO check if asset is canceled or disapproved; set lines back to active
-    // try using the document header/purchase order number along with a service to get the pretag lines
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
-        // OLD AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        AssetGlobal assetGlobal = (AssetGlobal) this.getBusinessObject();
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 

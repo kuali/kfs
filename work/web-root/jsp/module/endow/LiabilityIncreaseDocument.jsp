@@ -46,8 +46,8 @@
                    
     <endow:endowmentTaxLotLine 
     	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
-    	isSource="true"
-    	isTarget="false"
+    	isSource="false"
+    	isTarget="true"
     	readOnly="true"/>
 
  

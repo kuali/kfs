@@ -148,6 +148,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
 
         LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
 
+        //TODO:Remove below statement
         if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             List txLines = liabilityIncreaseDocument.getSourceTransactionLines();
 
@@ -159,6 +160,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
                 putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
             }
 
+            //TODO:Remove below statement
             return GlobalVariables.getMessageMap().getErrorCount() == 0;
         }
         else {

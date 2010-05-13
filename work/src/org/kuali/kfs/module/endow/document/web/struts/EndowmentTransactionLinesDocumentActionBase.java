@@ -547,7 +547,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
 
         if (rulePassed) {
-            updateTransactionLineTaxLots(true, endowmentDocument, transLine);
+            updateTransactionLineTaxLots(false, endowmentDocument, transLine);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -619,7 +619,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
                 rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
 
                 if (rulePassed) {
-                    updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
+                    updateTransactionLineTaxLots(false, etlDocument, endowmentTransactionLine);
                 }
             }
         }

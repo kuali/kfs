@@ -52,12 +52,14 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
     public void prepareForSave() 
     {
         super.prepareForSave();
-        prepareTaxLotLinesForSave();
+        //prepareTaxLotLinesForSave();
     }
+    
     
     /**
      * This method will fill the Type identifier(Source/Target) for all the  Tax lot objects depending on the Source/Target collection they are present in. 
      */
+    /*
     public void prepareTaxLotLinesForSave() 
     {
         for(EndowmentTransactionLine transactionLine: sourceTransactionLines )
@@ -77,7 +79,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
             }
         }
     } 
-    
+    */
 
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLines()

@@ -22,9 +22,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
+import org.kuali.kfs.module.endow.document.service.UpdateLiabilityIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase 
@@ -102,13 +106,17 @@ public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDo
 
 
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
+     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-        // TODO Auto-generated method stub
-        
-    }
-        
+
+        UpdateLiabilityIncreaseDocumentTaxLotsService taxLotsService = SpringContext.getBean(UpdateLiabilityIncreaseDocumentTaxLotsService.class);
+        LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) etlDocument;
+        taxLotsService.updateTransactionLineTaxLots(isSource, liabilityIncreaseDocument, transLine);
+
+    }        
 
 }

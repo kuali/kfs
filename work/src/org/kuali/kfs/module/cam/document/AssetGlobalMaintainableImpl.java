@@ -653,11 +653,10 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 
-        // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
 
         // force pretagDetail active indicators back to true
-        if (workflowDoc.stateIsCanceled()) {
+        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
@@ -678,6 +677,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             }
         }
 
+        // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed())) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);

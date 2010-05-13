@@ -26,10 +26,16 @@
 
 <c:set var="holdingTaxLotAttributes" value="${DataDictionary.HoldingTaxLot.attributes}"/>
 
-<kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${KFSConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}">
+<kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${KFSConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}" tabItemCount="${KualiForm.document.taxLotLinesNumber}">
 	<div class="tab-container" align=center>
 			<h3>Tax Lot Lines</h3>
 		<table cellpadding="0" cellspacing="0" summary="Tax Lot Lines">
+		<c:if test="${isSource}">	
+			<tr>
+	            <td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+	        	    FROM
+	            </td>   
+	        </tr>	
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.documentLineNumber}"
@@ -57,8 +63,6 @@
 					useShortLabel="false"
 					/>
 			</tr>
-
-		<c:if test="${isSource}">		
 			<logic:iterate id="taxLotLinesCollection" name="KualiForm" property="document.sourceTransactionLines" indexId="outerctr">
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>
@@ -72,7 +76,39 @@
 		    </logic:iterate>
 		</c:if>
 		
-		<c:if test="${isTarget}">		
+		<c:if test="${isTarget}">	
+			<tr>
+	            <td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+	        	    TO
+	            </td>   
+	        </tr>	
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.documentLineNumber}"
+					useShortLabel="false"
+					/>
+
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${holdingTaxLotAttributes.lotNumber}"
+					useShortLabel="false"
+					hideRequiredAsterisk="true"
+					/>
+
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.lotUnits}"
+					useShortLabel="false"
+					/>
+
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.lotHoldingCost}"
+					useShortLabel="false"
+					/>
+
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${holdingTaxLotAttributes.acquiredDate}"
+					useShortLabel="false"
+					/>
+			</tr>	
 			<logic:iterate id="taxLotLinesCollection" name="KualiForm" property="document.targetTransactionLines" indexId="outerctr">
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>

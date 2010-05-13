@@ -15,21 +15,30 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
-import org.kuali.rice.kns.util.KualiDecimal;
-
-public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase
-{
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 
 
-    
+public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase {
 
+    /**
+     * This method returns the number of tax lot lines on the document.
+     * 
+     * @return the number of tax lot lines number
+     */
+    public int getTaxLotLinesNumber() {
+        int taxLotLinesNbr = 0;
+        
+        for (int i = 0; i < getTargetTransactionLines().size(); i++) {
+            EndowmentTransactionLine transactionLine = (EndowmentTransactionLine) getTargetTransactionLines().get(i);
+            taxLotLinesNbr += transactionLine.getTaxLotLines().size();
+        }
+        
+        for (int i = 0; i < getSourceTransactionLines().size(); i++) {
+            EndowmentTransactionLine transactionLine = (EndowmentTransactionLine) getSourceTransactionLines().get(i);
+            taxLotLinesNbr += transactionLine.getTaxLotLines().size();
+        }
 
-
-
+        return taxLotLinesNbr;
+    }
 
 }

@@ -1541,6 +1541,7 @@
 	<field-descriptor name="lotHoldingCost" column="LOT_HLDG_COST" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_LT_GAIN_LOSS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="lotShortTermGainLoss" column="LOT_ST_GAIN_LOSS" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="lotAcquiredDate" column="LOT_ACQD_DT" jdbc-type="DATE"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>	
 

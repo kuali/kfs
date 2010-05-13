@@ -186,7 +186,6 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
         
         // Asset increase constants
-        public static final String ERROR_TRANSACTION_LINE_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterThanZero";
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
 
     }

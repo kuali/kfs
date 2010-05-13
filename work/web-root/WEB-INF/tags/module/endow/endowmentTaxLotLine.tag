@@ -66,7 +66,7 @@
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.lotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].documentLineNumber" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].documentLineNumber" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
 		            </tr>
 		        </logic:iterate>
 		    </logic:iterate>
@@ -80,7 +80,7 @@
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.lotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].documentLineNumber" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].documentLineNumber" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
 		            </tr>
 		        </logic:iterate>
 		    </logic:iterate>

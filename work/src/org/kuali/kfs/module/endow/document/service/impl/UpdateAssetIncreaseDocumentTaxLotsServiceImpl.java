@@ -21,18 +21,21 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class...
+ * This class provides an implementation for the transaction line related tax lots update for the AssetIncreaseDocument.
  */
 public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAssetIncreaseDocumentTaxLotsService {
 
     private HoldingTaxLotService taxLotService;
     private SecurityService securityService;
+    private KEMService kemService;
 
 
     /**
@@ -62,18 +65,30 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
         taxLotLine.setLotHoldingCost(transLine.getTransactionAmount());
 
 
-        // EndowmentTransactionSecurity endowmentTransactionSecurity = aiDocument.getTargetTransactionSecurity();
-        // Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
-        //
-        // if (!security.getClassCode().isTaxLotIndicator()) {
-        // HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(),
-        // endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), 1,
-        // transLine.getTransactionIPIndicatorCode());
-        // taxLotLine.set
-        // }
-        // else {
-        //
-        // }
+        EndowmentTransactionSecurity endowmentTransactionSecurity = aiDocument.getTargetTransactionSecurity();
+
+        Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
+
+        // if security tax lot indicator is 'No'
+        if (!security.getClassCode().isTaxLotIndicator()) {
+            HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), 1, transLine.getTransactionIPIndicatorCode());
+            if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                if (holdingTaxLot.getUnits().equals(KualiDecimal.ZERO) && holdingTaxLot.getCost().equals(KualiDecimal.ZERO)) {
+                    taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+                }
+                else {
+                    taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
+                }
+            }
+            else {
+                taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+            }
+
+        }
+        // if security tax lot indicator is 'Yes'
+        else {
+            taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+        }
 
         if (newLine) {
             transLine.getTaxLotLines().add(taxLotLine);
@@ -115,5 +130,23 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
      */
     public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
+    }
+
+    /**
+     * Gets the kemService.
+     * 
+     * @return kemService
+     */
+    public KEMService getKemService() {
+        return kemService;
+    }
+
+    /**
+     * Sets the kemService.
+     * 
+     * @param kemService
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
 }

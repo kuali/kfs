@@ -321,7 +321,15 @@
 	</bean>
 	
 	<bean id="updateAssetIncreaseDocumentTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateAssetIncreaseDocumentTaxLotsServiceImpl">
-	
+		<property name="taxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
 	</bean>
 	
 </beans>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -37,8 +38,10 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private KualiDecimal lotHoldingCost;
     private KualiDecimal lotLongTermGainLoss;
     private KualiDecimal lotShortTermGainLoss;
+    private Date lotAcquiredDate;
 
     private EndowmentTransactionLine transactionLine;
+
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -162,4 +165,21 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.transactionLine = transactionLine;
     }
 
+    /**
+     * Gets the lotAcquiredDate.
+     * 
+     * @return lotAcquiredDate
+     */
+    public Date getLotAcquiredDate() {
+        return lotAcquiredDate;
+    }
+
+    /**
+     * Sets the lotAcquiredDate.
+     * 
+     * @param lotAcquiredDate
+     */
+    public void setLotAcquiredDate(Date lotAcquiredDate) {
+        this.lotAcquiredDate = lotAcquiredDate;
+    }
 }

@@ -33,7 +33,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -845,12 +844,9 @@ public class LaborScrubberProcess {
         // then demerge all other entries for this document; otherwise, only
         // pull the entry with the error and don't demerge anything else.
         //
-        String documentTypeCodes = parameterService.getParameterValue(
+        List<String> demergeDocumentTypes = parameterService.getParameterValues(
                 LaborScrubberStep.class,
                 LdParameterConstants.DEMERGE_DOCUMENT_TYPES);
-        
-        // Make sure "toUpperCase" doesn't mess-up the delimiter character.
-        String[] documentTypesBeProcessed = documentTypeCodes.toUpperCase().split(";");
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
@@ -925,7 +921,7 @@ public class LaborScrubberProcess {
                     documentTypeCode = documentTypeCode.trim();
                 }
 
-                if (ArrayUtils.contains(documentTypesBeProcessed, documentTypeCode)) {
+                if (demergeDocumentTypes.contains(documentTypeCode)) {
                     String compareStringFromValidEntry = currentValidLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
                     String compareStringFromErrorEntry = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
 

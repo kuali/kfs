@@ -656,7 +656,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
 
         // force pretagDetail active indicators back to true
-        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved()) {
+        if (workflowDoc.stateIsCanceled()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {

@@ -110,18 +110,8 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    /**
-     * This method...
-     * 
-     * @param line
-     * @param index
-     * @return
-     */
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
-        boolean isValid = true;
-        isValid &= !GlobalVariables.getMessageMap().hasErrors();
-
-        // Obtain Prefix for Error fields in UI.
+    // Obtain Prefix for Error fields in UI.
+    public String getErrorPrefix (EndowmentTransactionLine line, int index){
         String ERROR_PREFIX = null;
         if (line instanceof EndowmentSourceTransactionLine) {
             if (index == -1) {
@@ -139,6 +129,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
             }
         }
+        return ERROR_PREFIX;
+
+    }
+    /**
+     * This method...
+     * 
+     * @param line
+     * @param index
+     * @return
+     */
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
+        boolean isValid = true;
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        String ERROR_PREFIX = getErrorPrefix(line, index);
 
         if (isValid) 
         {

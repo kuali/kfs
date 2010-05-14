@@ -96,7 +96,7 @@
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionIPIndicatorCode}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
             <c:if test="${hasUnits}">
-            	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
+           		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
             </c:if>	
             <c:if test="${not readOnly}">
                 <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
@@ -139,13 +139,17 @@
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row" ></kul:htmlAttributeHeaderCell>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid" readOnly="${readOnly}"/>
-                	<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
-				                fieldConversions="kemid:${transLines}[${ctr}].kemid" />
+                	<c:if test="${not readOnly}">
+                		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
+				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
+                    </c:if>				                
                 </td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCode" readOnly="${readOnly}"/>
-                	<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
-				                fieldConversions="code:${transLines}[${ctr}].etranCode" />
+                	<c:if test="${not readOnly}">
+                		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
+				                    fieldConversions="code:${transLines}[${ctr}].etranCode" />
+				    </c:if>
                 </td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
@@ -156,11 +160,11 @@
                 </c:if>
                 <td class="datacell">
                 <div align="center">
-                <c:if test="${not readOnly and hasUnits}" >
+                <c:if test="${not readOnly}" >
+                <c:if test="${hasUnits}">
                		<html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
                 </c:if>
-                <html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
-                <c:if test="${not readOnly}">
+                	<html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
                 	<html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
                 </c:if>
                 </div>

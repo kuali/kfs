@@ -20,11 +20,13 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -123,6 +125,24 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         return isValid;
 
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
+     */
+    @Override
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+
+        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+        EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) line;
+
+        if (isValid) {
+            isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+            isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+        }
+
+        return isValid;
     }
 
 }

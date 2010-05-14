@@ -98,7 +98,7 @@
     <property name="name" value="etranCode"/>
     <property name="label" value="Etran Code"/>
     <property name="shortLabel" value="Etran Code"/>
-    <property name="required" value="true"/>
+	<property name="required" value="false"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-etranCodeObj.name" parent="EndowmentSourceTransactionLine-etranCodeObj.name-parentBean"/>
 

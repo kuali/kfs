@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
-public interface EndowmentTransactionLinesDocumentService {
+public interface EndowmentTransactionLinesDocumentService extends EndowmentTransactionDocumentService{
     
     /**
      * Get the value of CorpusIndicator

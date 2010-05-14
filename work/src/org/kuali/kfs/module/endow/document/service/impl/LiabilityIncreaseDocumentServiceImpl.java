@@ -25,16 +25,17 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.document.service.LiabilityIncreaseDocumentService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
-import org.kuali.kfs.module.endow.document.service.UpdateLiabilityIncreaseDocumentTaxLotsService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
  */
-public class UpdateLiabilityIncreaseDocumentTaxLotsServiceImpl implements UpdateLiabilityIncreaseDocumentTaxLotsService {
+public class LiabilityIncreaseDocumentServiceImpl extends EndowmentTransactionLinesDocumentServiceImpl implements LiabilityIncreaseDocumentService
+{
 
     private HoldingTaxLotService taxLotService;
     private SecurityService securityService;

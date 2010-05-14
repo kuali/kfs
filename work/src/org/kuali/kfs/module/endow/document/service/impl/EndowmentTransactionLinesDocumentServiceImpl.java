@@ -28,7 +28,7 @@ import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class EndowmentTransactionLinesDocumentServiceImpl implements EndowmentTransactionLinesDocumentService {
+public class EndowmentTransactionLinesDocumentServiceImpl extends EndowmentTransactionDocumentServiceImpl implements EndowmentTransactionLinesDocumentService {
 
     private KEMIDService kemidService;
     private EndowmentTransactionCodeService endowmentTransactionCodeService;

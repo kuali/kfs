@@ -21,7 +21,7 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
-<c:set var="includeTotalUnits" value="${not empty editingMode[KFSConstants.UNITS_TOTALING_EDITING_MODE]}" />
+<c:set var="includeTotalUnits" value="${not empty editingMode[EndowConstants.UNITS_TOTALING_EDITING_MODE]}" />
 
 <kul:documentOverview editingMode="${editingMode}">
 	<c:if test="${includeTotalUnits or includeTotalAmount}">

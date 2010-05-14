@@ -95,7 +95,9 @@
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionLineDescription}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionIPIndicatorCode}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
+            <c:if test="${hasUnits}">
+            	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
+            </c:if>	
             <c:if test="${not readOnly}">
                 <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
             </c:if>

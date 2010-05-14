@@ -55,7 +55,6 @@ public class EffortCertificationAction extends FinancialSystemTransactionalDocum
                     if (principalId.equals(priorApprover.getPrincipalId())) {
                         documentActions.put(KNSConstants.KUALI_ACTION_CAN_EDIT, "true");
                         documentActions.put(KNSConstants.KUALI_ACTION_CAN_SAVE, "true");
-                        documentActions.put(KNSConstants.KUALI_ACTION_CAN_APPROVE, "true");                        
                     }
                  }
             }

@@ -65,19 +65,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         // Obtain Prefix for Error fields in UI.
         String ERROR_PREFIX = getErrorPrefix(line, index);           
 
-        //For Cash based Tx the Etran code must be empty
-        if( !nonCashTransaction(endowmentTransactionLinesDocumentBase) )
-        {
-            //If Tx is Cash based, check for Etran code and if not null display Warning message.
-            if ( !StringUtils.isEmpty(line.getEtranCode()) )
-            {
-                //Blank out Etran code. 
-                //line.setEtranCode(null);
-                putFieldError(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                //GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                isValid = false;
-            }
-        }
+        isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase,line,ERROR_PREFIX);
         
         //Validate Units is Greater then Zero(thus positive) value
         isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
@@ -156,7 +144,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
 
             }
             else {
-                putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
+                //putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
             }
 
             //TODO:Remove below statement

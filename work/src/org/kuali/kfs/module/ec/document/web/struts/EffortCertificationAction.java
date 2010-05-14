@@ -39,33 +39,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class EffortCertificationAction extends FinancialSystemTransactionalDocumentActionBase {
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
-        super.populateAuthorizationFields(formBase);
-        
-        Map<String, String> documentActions = formBase.getDocumentActions();
-        
-        String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
-        try {
-            if (formBase.isFormDocumentInitialized() && formBase.isDocumentEnRoute()) {
-                Set<Person> priorApprovers = formBase.getDocument().getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
-                for (Person priorApprover : priorApprovers) {
-                    if (principalId.equals(priorApprover.getPrincipalId())) {
-                        documentActions.put(KNSConstants.KUALI_ACTION_CAN_EDIT, "true");
-                        documentActions.put(KNSConstants.KUALI_ACTION_CAN_SAVE, "true");
-                    }
-                 }
-            }
-        }
-        catch (WorkflowException wfe) {
-            throw new RuntimeException("Unable to retrieve prior Approvers list");
-        }
-    }
-    
-    
-    /**
      * execute the rules associated with the given event
      * 
      * @param event the event that just occured

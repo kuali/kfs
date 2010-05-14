@@ -21,8 +21,12 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
-<c:set var="includeTotalUnits" value="${not empty editingMode[EndowConstants.UNITS_TOTALING_EDITING_MODE]}" />
-
+<c:set var="includeTotalUnits" value="${not empty editingMode[KFSConstants.UNITS_TOTALING_EDITING_MODE]}" />
+${editingMode}
+-->Amount
+${includeTotalAmount}
+-->Units
+${includeTotalUnits}
 <kul:documentOverview editingMode="${editingMode}">
 	<c:if test="${includeTotalUnits or includeTotalAmount}">
 	  <h3><c:out value="Endowment Document Details"/></h3>
@@ -31,6 +35,7 @@
 	    <tr>
 	      <c:choose>
 	        <c:when test="${includeTotalUnits}">
+		        Here
 		        <kul:htmlAttributeHeaderCell
 		                labelFor="document.totalUnits"
 		                attributeEntry="${endowDocAttributes.totalUnits}"

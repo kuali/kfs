@@ -63,23 +63,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         boolean isValid = true;
 
         // Obtain Prefix for Error fields in UI.
-        String ERROR_PREFIX = null;
-        if (line instanceof EndowmentSourceTransactionLine) {
-            if (index == -1) {
-                ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
-            }
-            else {
-                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_TRANSACTION_LINE_PREFIX + "[" + index + "].";
-            }
-        }
-        else {
-            if (index == -1) {
-                ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
-            }
-            else {
-                ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
-            }
-        }            
+        String ERROR_PREFIX = getErrorPrefix(line, index);           
 
         //For Cash based Tx the Etran code must be empty
         if( !nonCashTransaction(endowmentTransactionLinesDocumentBase) )

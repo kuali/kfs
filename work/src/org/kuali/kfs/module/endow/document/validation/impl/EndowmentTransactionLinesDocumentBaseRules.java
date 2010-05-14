@@ -417,6 +417,24 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
         return isChartMatched;
     }
+    
+    /**
+     * For a true endowment, when the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, a warning message will be placed in the document transaction line 
+     * notifying the viewer that the transaction will reduce the value of the endowment at the time the transaction line is added.
+     * WARNING:  This transaction will reduce permanently restricted funds!.  
+     * 
+     * @param line
+     * @return
+     * 
+     */
+    protected void checkWhetherReducePermanentlyRestrictedFund (EndowmentTransactionLine line, String prefix){
+        String ipIndicatorCode = line.getTransactionIPIndicatorCode();
+        String kemid = line.getKemid();
+        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode) &&
+            SpringContext.getBean(KEMIDService.class).isTrueEndowment(kemid)) {
+            GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS);       
+        }
+    }
 
     protected boolean templateMethod(EndowmentTransactionLine line) {
         boolean success = true;

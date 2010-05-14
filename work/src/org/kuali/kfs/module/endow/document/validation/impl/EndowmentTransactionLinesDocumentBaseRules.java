@@ -185,18 +185,6 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 //Set Corpus Indicator  
                 line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
             }
-            else 
-            {
-                //If Tx is Cash based, check for Etran code and if not null display Warning message.
-                if ( !StringUtils.isEmpty(line.getEtranCode()) )
-                {
-                    //Blank out Etran code. 
-                    //line.setEtranCode(null);
-                    putFieldError(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                    //GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                    isValid = false;
-                }
-            }
             
             // Refresh all references for the given KemId
             // line.getKemidObj().refreshNonUpdateableReferences();
@@ -212,7 +200,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
     
-    private boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase)
+    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase)
     {
         if( endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode().equalsIgnoreCase("N"))
             return true;

@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -52,13 +53,13 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            isValid &= validateLiabilityTransactionLine(line, -1);
+            isValid &= validateLiabilityTransactionLine((EndowmentTransactionLinesDocumentBase) transLine, line, -1);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLine line, int index) {
+    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
         // Obtain Prefix for Error fields in UI.
@@ -80,6 +81,20 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             }
         }            
 
+        //For Cash based Tx the Etran code must be empty
+        if( !nonCashTransaction(endowmentTransactionLinesDocumentBase) )
+        {
+            //If Tx is Cash based, check for Etran code and if not null display Warning message.
+            if ( !StringUtils.isEmpty(line.getEtranCode()) )
+            {
+                //Blank out Etran code. 
+                //line.setEtranCode(null);
+                putFieldError(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
+                //GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
+                isValid = false;
+            }
+        }
+        
         //Validate Units is Greater then Zero(thus positive) value
         isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
         
@@ -132,7 +147,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             for (int i = 0; i < liabilityIncreaseDocument.getTargetTransactionLines().size(); i++) 
             {
                 EndowmentTransactionLine txLine = liabilityIncreaseDocument.getTargetTransactionLines().get(i);
-                isValid &= validateLiabilityTransactionLine(txLine,i);
+                isValid &= validateLiabilityTransactionLine(liabilityIncreaseDocument,txLine,i);
             }
         }
 

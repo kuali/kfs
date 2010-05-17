@@ -17,14 +17,14 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DropDownRenderer;
+import org.kuali.kfs.sys.document.web.renderers.DynamicReadOnlyRender;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
 import org.kuali.kfs.sys.document.web.renderers.HiddenRenderer;
 import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
@@ -193,9 +194,14 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      */
     public FieldRenderer getFieldRendererForField(Field field, AccountingLine accountingLineToRender) {
         FieldRenderer renderer = null;
+
         if (field.isReadOnly() || field.getFieldType().equals(Field.READONLY)) {
             renderer = new ReadOnlyRenderer();
-        } else if (field.getFieldType().equals(Field.TEXT)) {
+        } else if (field.getPropertyName().equals(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME) && !SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            // the special case for rendering chart of accounts code when accounts can't cross charts
+            renderer = new DynamicReadOnlyRender();   
+        }
+        else if (field.getFieldType().equals(Field.TEXT)) {
             if (field.isDatePicker() || usesDateValidation(field.getPropertyName(), accountingLineToRender)) { // are we a date?
                 renderer = new DateRenderer();
             } else {

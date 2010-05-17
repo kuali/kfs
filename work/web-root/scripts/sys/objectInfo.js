@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+var chartCodeSuffix = ".chartOfAccountsCode";
+var chartNameSuffix = ".chart.finChartOfAccountDescription";
 var accountNumberSuffix = ".accountNumber";
 var accountNameSuffix = ".account.accountName";
 var subAccountNumberSuffix = ".subAccountNumber";
 var subAccountNameSuffix = ".subAccount.subAccountName";
-var chartCodeSuffix = ".chartOfAccountsCode";
 var objectCodeSuffix = ".financialObjectCode";
 var objectCodeNameSuffix = ".objectCode.financialObjectCodeName";
 var subObjectCodeSuffix = ".financialSubObjectCode";
@@ -65,14 +66,14 @@ function setReportsToChartCode() {
 			}
 		};
 		ChartService.getByPrimaryId( coaCode, dwrReply );
-	}		
-	
+	}			
 }
 
 function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
     var accountCode = DWRUtil.getValue( accountCodeFieldName );
-    var coaCode = DWRUtil.getValue( elPrefix + chartCodeSuffix );
+	var coaCodeFieldName = elPrefix + chartCodeSuffix;
+	var coaNameFieldName = elPrefix + chartNameSuffix;
 
     if (valueChanged( accountCodeFieldName )) {
         setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
@@ -81,26 +82,64 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
         setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
     }
     
-    if (accountCode=='') {
-		clearRecipients(accountNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
-	} else {
-		accountCode = accountCode.toUpperCase();
-		
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( accountNameFieldName, data.accountName );
-			} else {
-				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
-			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
-			}
-		};
-		AccountService.getByPrimaryIdWithCaching( coaCode, accountCode, dwrReply );
-	}	
+    var dwrResult = {
+    	callback:function(param) {
+    	if ( typeof param == 'boolean' && param == true) {	
+    		var coaCode = DWRUtil.getValue( coaCodeFieldName );
+    		//alert('went to AccountCanCrossChart branch, coaCode = ' + coaCode + ', accountCode = ' + accountCode);
+    		if (accountCode=='') {
+    			clearRecipients(accountNameFieldName);
+    		} else if (coaCode=='') {
+    			setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
+    		} else {
+    			accountCode = accountCode.toUpperCase();
+    			var dwrReply = {
+    				callback:function(data) {
+    				if ( data != null && typeof data == 'object' ) {
+    					setRecipientValue( accountNameFieldName, data.accountName );
+    				} else {
+    					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+    				} },
+    				errorHandler:function( errorMessage ) { 
+    					setRecipientValue( accountNameFieldName, wrapError( "error looking up account"), true );
+    				}
+    			};
+    			AccountService.getByPrimaryIdWithCaching( coaCode, accountCode, dwrReply );
+    		}	
+    	} else {
+    		//alert('went to the ELSE branch, coaCodeFieldName = ' + coaCodeFieldName);
+    		if (accountCode=='') {
+    			clearRecipients(accountNameFieldName);
+    			clearRecipients(coaCodeFieldName);    		
+    			clearRecipients(coaNameFieldName);    		
+    		} else {
+    			accountCode = accountCode.toUpperCase();
+    			var dwrReply = {
+    				callback:function(data) {
+    				if ( data != null && typeof data == 'object' ) {    				
+    					setRecipientValue( accountNameFieldName, data.accountName );
+    					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName));
+    					setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
+    				} else {
+    					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+    					clearRecipients(coaCodeFieldName);    		
+    					clearRecipients(coaNameFieldName);    		
+    				} },
+    				errorHandler:function( errorMessage ) { 
+    					setRecipientValue( accountNameFieldName, wrapError( "error looking up account"), true);
+    					clearRecipients(coaCodeFieldName);    		
+    					clearRecipients(coaNameFieldName);    		
+    				}
+    			};
+    			AccountService.getUniqueAccountForAccountNumber( accountCode, dwrReply );	    
+    		}
+    	} },
+    	errorHandler:function( errorMessage ) { 
+    		setRecipientValue( accountNameFieldName, wrapError( "error looking up AccountCanCrossChart parameter"), true );
+    	}
+    };
+    AccountService.accountsCanCrossCharts(dwrResult);
 }
 
 function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) {

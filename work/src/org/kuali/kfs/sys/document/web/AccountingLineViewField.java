@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.document.web;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -192,7 +191,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         List errors = renderingContext.getErrors();
         
         this.getField().setPropertyPrefix(accountingLineProperty);
-        if (!renderingContext.isFieldModifyable(this.getName())) {
+        //boolean chartSetByAccount = getName().equals(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME) && !SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
+        //set chartOfAccountsCode readOnly if account can't cross charts
+        if (!renderingContext.isFieldModifyable(this.getName()) /*|| chartSetByAccount*/) {
             this.getField().setReadOnly(true);
         }
 

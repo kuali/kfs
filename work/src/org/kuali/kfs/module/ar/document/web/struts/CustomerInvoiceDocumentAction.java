@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -299,6 +300,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
 
+        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(customerInvoiceDetail);
+        
         // make sure amount is up to date before rules
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
         service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);

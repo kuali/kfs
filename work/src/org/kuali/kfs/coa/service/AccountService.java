@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kim.bo.Person;
@@ -161,5 +162,12 @@ public interface AccountService {
      * Returns true if parameter ACCOUNTS_CAN_CROSS_CHARTS_IND is set to "Y"; otherwise false.     
      */
     public boolean accountsCanCrossCharts();
+    
+    /*
+     * Populate chart code if it's null, according to the account number in the specified accounting line.
+     * This only happens when parameter ACCOUNTS_CAN_CROSS_CHARTS_IND is set to "N", and Javascript is turned off.
+     * @param the new source accounting line
+     */
+    public void populateAccountingLineChartIfNeeded(AccountingLine line);
 }
 

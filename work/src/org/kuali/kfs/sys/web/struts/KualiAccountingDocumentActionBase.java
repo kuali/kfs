@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.SalesTax;
@@ -447,8 +448,11 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     public ActionForward insertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
-
         TargetAccountingLine line = financialDocumentForm.getNewTargetLine();
+        
+        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        
         boolean rulePassed = true;
         // before we check the regular rules we need to check the sales tax rules
         // TODO: Refactor rules so we no longer have to call this before a copy of the
@@ -484,9 +488,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @throws Exception
      */
     public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
-
+        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;       
         SourceAccountingLine line = financialDocumentForm.getNewSourceLine();
+        
+        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        
         boolean rulePassed = true;
         // before we check the regular rules we need to check the sales tax rules
         // TODO: Refactor rules so we no longer have to call this before a copy of the

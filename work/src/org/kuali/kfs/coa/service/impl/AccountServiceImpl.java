@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -271,7 +272,7 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)
      */
     public Account getUniqueAccountForAccountNumber(String accountNumber) {
-        Iterator accounts = accountDao.getAccountsForAccountNumber(accountNumber).iterator();
+        Iterator<Account> accounts = accountDao.getAccountsForAccountNumber(accountNumber).iterator();
         Account account = null;
         // there should be only one account in the collection
         if (accounts.hasNext()) {
@@ -285,6 +286,16 @@ public class AccountServiceImpl implements AccountService {
      */
     public boolean accountsCanCrossCharts() {
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+    }
+    
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
+     */
+    public void populateAccountingLineChartIfNeeded(AccountingLine line) {
+        if (!accountsCanCrossCharts() && line.getChartOfAccountsCode() == null) {
+            Account account = getUniqueAccountForAccountNumber(line.getAccountNumber());
+            line.setChartOfAccountsCode(account.getChartOfAccountsCode());
+        }
     }
     
     /**

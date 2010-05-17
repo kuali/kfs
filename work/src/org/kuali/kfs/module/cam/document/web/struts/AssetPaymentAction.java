@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -180,10 +181,12 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     @Override
     public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AssetPaymentForm assetPaymentForm = (AssetPaymentForm) form;
-
         SourceAccountingLine line = assetPaymentForm.getNewSourceLine();
-        boolean rulePassed = true;
 
+        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+
+        boolean rulePassed = true;
         // Check any business rules. We separate general accounting line validation into AssetPaymentManuallyAddAccountingLineEvent,
         // and trigger it from this action, also document save.
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentManuallyAddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, assetPaymentForm.getDocument(), line));
@@ -198,6 +201,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             // clear the used new source line
             assetPaymentForm.setNewSourceLine(new AssetPaymentDetail());
         }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

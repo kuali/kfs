@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
@@ -79,8 +80,10 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
 
         // get index of new target line
         int newTargetIndex = super.getSelectedLine(request);
-
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
+        
+        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
 
         ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(newTargetIndex);
         line.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());

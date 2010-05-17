@@ -105,7 +105,7 @@
 
 	<servlet>
 		<servlet-name>attachment</servlet-name>
-		<servlet-class>org.kuali.rice.kew.notes.AttachmentServlet</servlet-class>
+		<servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
 	</servlet>
 
 	<servlet>

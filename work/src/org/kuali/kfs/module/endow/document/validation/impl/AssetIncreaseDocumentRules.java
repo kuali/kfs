@@ -33,11 +33,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    @Override
-    public boolean processSaveDocument(Document document) {
-        boolean isValid = super.processSaveDocument(document);
+    public boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
         if (isValid) {
             AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
@@ -48,12 +47,12 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         return isValid;
     }
 
+
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processRouteDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    @Override
-    public boolean processRouteDocument(Document document) {
-        boolean isValid = super.processRouteDocument(document);
+    public boolean processCustomRouteDocumentBusinessRules(Document document){
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         if (isValid) {
             AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;

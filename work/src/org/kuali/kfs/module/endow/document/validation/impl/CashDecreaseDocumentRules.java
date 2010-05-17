@@ -54,6 +54,7 @@ public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocument
             isValid &= validateChartMatch(line,ERROR_PREFIX);
             
             checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
+            checkWhetherHaveSufficientFundsForCashBasedTransaction(line, ERROR_PREFIX);
             
             //Set Corpus Indicator  
             line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));

@@ -16,18 +16,23 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
@@ -45,9 +50,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number> {
 
@@ -421,7 +428,8 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     /**
      * For a true endowment, when the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, a warning message will be placed in the document transaction line 
      * notifying the viewer that the transaction will reduce the value of the endowment at the time the transaction line is added.
-     * WARNING:  This transaction will reduce permanently restricted funds!.  
+     * WARNING:  This transaction will reduce permanently restricted funds!. 
+     * However, the transaction line would be added on successfully. 
      * 
      * @param line
      * @return
@@ -435,6 +443,38 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS);       
         }
     }
+    
+    /**
+     * Upon adding the transaction line, the system will check to see if there are sufficient funds to process the transaction (END_AVAIL_CSH_T).  
+     * If there are not, a warning message will be placed in the document transaction line notifying the viewer that there are not sufficient funds.
+     *   -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I verify against END_AVAIL_CSH_T: AVAIL_TOT_CSH
+     *   -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P verify against END_AVAIL_CSH_T: AVAIL_PRIN_CSH
+     * However, the transaction line would be added on successfully.
+     * 
+     * @param line
+     * @return 
+     * 
+     */
+    protected void checkWhetherHaveSufficientFundsForCashBasedTransaction (EndowmentTransactionLine line, String prefix) {
+        String ipIndicatorCode = line.getTransactionIPIndicatorCode();
+        String kemid = line.getKemid();
+        KualiDecimal amount = line.getTransactionAmount();
+        
+        Map criteria = new HashMap();
+        criteria.put(EndowPropertyConstants.KEMID, kemid);
+        KEMIDCurrentAvailableBalance theKEMIDCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KEMIDCurrentAvailableBalance.class, criteria);
+       
+        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)){
+            if (amount.isGreaterThan(new KualiDecimal (theKEMIDCurrentAvailableBalance.getAvailablePrincipalCash()))){
+                GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+            }
+        }else {
+            if (amount.isGreaterThan(new KualiDecimal (theKEMIDCurrentAvailableBalance.getAvailableTotalCash()))){
+                GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+            }            
+        }        
+    }
+    
 
     protected boolean templateMethod(EndowmentTransactionLine line) {
         boolean success = true;

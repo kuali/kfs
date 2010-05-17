@@ -81,13 +81,16 @@
 	            <kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.securityID}" 
 	            	property="document.${securityType}.securityID" 
 	            	onblur="loadSecurityInfo(this.name);"
+	            	readOnly="${readOnly}"
 	            	/>
 	            &nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
-					fieldConversions="id:document.${securityType}.securityID" />
+				<c:if test="${not readOnly}">
+					<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.Security"
+						fieldConversions="id:document.${securityType}.securityID" />
+				</c:if>
 				<br/>
 				<div id="security.description" style="height:20px;">
-            		<kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.${securityType}.security.description" readOnly="true" />
+            		 <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.${securityType}.security.description" readOnly="true" />
             	</div>	
             </td>
             <td>
@@ -113,12 +116,15 @@
             <td class="infoline">
             	<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" 
             			property="document.${securityType}.registrationCode"
-            			onblur="loadRegistrationInfo(this.name);" 
+            			onblur="loadRegistrationInfo(this.name);"
+            			readOnly="${readOnly}" 
             	/>
                 &nbsp;
-				<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.RegistrationCode"
-					fieldConversions="code:document.${securityType}.registrationCode" 
-					/>
+				<c:if test="${not readOnly}">
+					<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.RegistrationCode"
+						fieldConversions="code:document.${securityType}.registrationCode" 
+						/>
+				</c:if>
 				<br/>
 				<div id="registration.description" style="height:20px;">
             		<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="document.${securityType}.registrationCodeObj.name" readOnly="true" />

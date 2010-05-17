@@ -231,7 +231,9 @@
 		<form-bean name="CashIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.CashIncreaseDocumentForm" />	
 		<form-bean name="CashDecreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.CashDecreaseDocumentForm" />							
+			type="org.kuali.kfs.module.endow.document.web.struts.CashDecreaseDocumentForm" />		
+		<form-bean name="CashTransferDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.CashTransferDocumentForm" />								
 		<form-bean name="LiabilityIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityIncreaseDocumentForm" />			
 

@@ -1789,6 +1789,72 @@
 
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument" table="END_TRAN_DOC_T">
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	
+	<!-- Sequence numbers for source & target line numbers -->
+	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
+    
+	<reference-descriptor name="transactionSubType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionSubTypeCode" />
+	</reference-descriptor>	
+	
+	<reference-descriptor name="transactionSourceType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="transactionSourceTypeCode" />
+	</reference-descriptor>	
+	 
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>    	    
+   
+    <!--  collections -->
+
+    <!--  common collections --> 
+     
+    <collection-descriptor name="sourceTransactionLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="transactionLineTypeCode" attribute-value="F" />
+				</query-customizer>
+    </collection-descriptor>
+	 
+	
+	<!--  
+    <collection-descriptor name="targetTransactionLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+		 		<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="transactionLineTypeCode" attribute-value="F" />
+				</query-customizer>
+    </collection-descriptor>
+	-->
+      
+    <collection-descriptor name="sourceTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="securityID" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="securityLineTypeCode" attribute-value="F" />
+				</query-customizer>
+    </collection-descriptor>
+	
+	<!--  
+    <collection-descriptor name="targetTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="securityID" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="securityLineTypeCode" attribute-value="T" />
+				</query-customizer>
+    </collection-descriptor>
+	-->
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.endow.document.CashIncreaseDocument" table="END_TRAN_DOC_T">
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

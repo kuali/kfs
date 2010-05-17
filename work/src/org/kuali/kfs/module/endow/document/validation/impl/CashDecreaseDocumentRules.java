@@ -16,14 +16,37 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
+  
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     *
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
+        if (isValid) {
+            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) document;
+            for (int i = 0; i < cashDecreaseDocument.getSourceTransactionLines().size(); i++) 
+            {
+                EndowmentTransactionLine txLine = cashDecreaseDocument.getSourceTransactionLines().get(i);
+                isValid &= validateCashTransactionLine(cashDecreaseDocument,txLine,i);
+            }
+        }
+
+        return isValid;
+    }
+    
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
@@ -31,13 +54,23 @@ public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocument
     @Override
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
 
-        CashDecreaseDocument cashDecreaseDoc = (CashDecreaseDocument) document;
-        EndowmentTransactionSecurity endowmentTransactionSecurity = cashDecreaseDoc.getTargetTransactionSecurity();
         boolean isValid = super.processAddTransactionLineRules(document, line);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        if (isValid) {
+            isValid &= validateCashTransactionLine((EndowmentTransactionLinesDocumentBase) document, line, -1);
+        }
+
+        return isValid;
+
+    }
+    
+    private boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
+        boolean isValid = true;
 
         if (isValid) {
             // Obtain Prefix for Error fields in UI.
-            String ERROR_PREFIX = getErrorPrefix(line, -1);    
+            String ERROR_PREFIX = getErrorPrefix(line, index);    
             
             //Is Etran code empty
             if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
@@ -59,7 +92,8 @@ public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocument
             //Set Corpus Indicator  
             line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
         }
-
-        return isValid;
+        
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;        
     }
+
 }

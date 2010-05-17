@@ -28,9 +28,9 @@ public class CashDecreaseDocumentForm extends EndowmentTransactionLinesDocumentF
     }
 
     /**
-     * This method gets the asset increase document
+     * This method gets the cash decrease document
      * 
-     * @return the AssetIncreaseDocument
+     * @return the CashDecreaseDocument
      */
     public CashDecreaseDocument getCashDecreaseDocument() {
         return (CashDecreaseDocument) getDocument();

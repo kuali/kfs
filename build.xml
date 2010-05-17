@@ -24,6 +24,17 @@
 		</classpath>
 	</taskdef>    	
 
+    <property name="cobertura.dir" location="test/lib" />
+    
+    <path id="cobertura.classpath">
+        <fileset dir="${cobertura.dir}">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="build/log4j-1.2.14.jar" />
+    </path>
+    
+    <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 		<if>
@@ -521,7 +532,16 @@
         </copy>
 	</target>
 
-	<target name="make-tests" depends="make-foundation-tests,make-additional-tests" />
+	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
+		<mkdir dir="${test.classes.directory}/../instrumented" />
+        <cobertura-instrument maxmemory="1g" todir="${test.classes.directory}/../instrumented">
+            <ignore regex="org.apache.log4j.*" />
+            <fileset dir="${test.classes.directory}">
+                <include name="**/*.class" />
+                <exclude name="**/*Test.class" />
+            </fileset>
+        </cobertura-instrument>	
+	</target>
 
 	<target name="make-foundation-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
@@ -582,11 +602,15 @@
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+	        <sysproperty key="net.sourceforge.cobertura.datafile"
+		file="${basedir}/test/cobertura.ser" />
 			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+			<classpath location="${test.classes.directory}/../instrumented" />
 			<classpath refid="run.tests.classpath" />
+			<classpath refid="cobertura.classpath" />
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
 				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
@@ -602,6 +626,15 @@
 			</fileset>
 			<report format="frames" todir="${test.html.results.directory}" />
 		</junitreport>
+        <cobertura-report format="xml" maxmemory="1g" datafile="${basedir}/test/cobertura.ser" destdir="${basedir}/test/cobertura" >        
+            <fileset dir="${source.directory}">
+                <include name="**/*.java" />
+            </fileset><!--
+            <fileset dir="${src.dir.main}">
+                <include name="**/*.java" />
+            </fileset>
+            -->
+        </cobertura-report>
 		<delete dir="${all.temp.directory}" failonerror="false" />
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>

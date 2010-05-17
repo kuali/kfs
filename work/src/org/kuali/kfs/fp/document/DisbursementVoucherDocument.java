@@ -138,6 +138,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean disbVchrPayeeW9CompleteCode;
     protected String disbVchrPaymentMethodCode;
     protected boolean exceptionIndicator;
+    protected boolean disbExcptAttachedIndicator;
     protected Date extractDate;
     protected Date paidDate;
     protected Date cancelDate;
@@ -1864,7 +1865,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return identityManagementService;
     }
 
-
     /**
      * Sets the identityManagementService attribute value.
      * @param identityManagementService The identityManagementService to set.
@@ -1872,5 +1872,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public static void setIdentityManagementService(IdentityManagementService identityManagementService) {
         DisbursementVoucherDocument.identityManagementService = identityManagementService;
     }
-    
+    /**
+     * @return Returns the disbExcptAttachedIndicator.
+     */
+    public boolean isDisbExcptAttachedIndicator() {
+        return disbExcptAttachedIndicator;
+    }
+
+    /**
+     * @param disbExcptAttachedIndicator The disbExcptAttachedIndicator to set.
+     */
+    public void setDisbExcptAttachedIndicator(boolean disbExcptAttachedIndicator) {
+        this.disbExcptAttachedIndicator = disbExcptAttachedIndicator;
+    }
 }

@@ -62,6 +62,7 @@
         <ref bean="DisbursementVoucherDocument-disbursementVoucherPdpStatus"/>
         <ref bean="DisbursementVoucherDocument-disbVchrBankCode"/>
         <ref bean="DisbursementVoucherDocument-disbVchrPdpBankCode"/>
+        <ref bean="DisbursementVoucherDocument-disbExcptAttachedIndicator"/>
       </list>
     </property>
     
@@ -397,6 +398,19 @@
     <property name="required" value="false"/>
   </bean>
 
+  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator" parent="DisbursementVoucherDocument-disbExcptAttachedIndicator-parenetBean"/>
+  <bean id="DisbursementVoucherDocument-disbExcptAttachedIndicator-parenetBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="disbExcptAttachedIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Exception Attached"/>
+    <property name="shortLabel" value="Excpt Attchd"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
+  
 	<!-- Exported Workflow Attributes -->
   	<bean id="DisbursementVoucherDocument-workflowAttributes" parent="DisbursementVoucherDocument-workflowAttributes-parentBean"/>
 

@@ -184,13 +184,17 @@
                    <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrPayeeW9CompleteCode}" noColon="true"/><br>
                  </c:if>
                  
-                 <c:if test="${fullEntryMode}">
-                   <html:checkbox property="document.exceptionIndicator" onclick="exceptionMessage(this);"/>
-                   Exception Attached
-                 </c:if>  
-                 <c:if test="${!fullEntryMode}">
-                   Exception Attached: <bean:write name="KualiForm" property="document.exceptionIndicator" />
-                 </c:if>
+                 
+				<c:choose>
+                 <c:when test="${fullEntryMode}">        
+                   <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbExcptAttachedIndicator}" property="document.disbExcptAttachedIndicator" onclick="exceptionMessage(this);" readOnly="false"/>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbExcptAttachedIndicator}" noColon="true" /><br>
+                 </c:when>
+                 <c:otherwise>
+                   <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbExcptAttachedIndicator}"/>
+                   <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbExcptAttachedIndicator}" property="document.disbExcptAttachedIndicator" readOnly="true"/><br>          
+                 </c:otherwise>
+				</c:choose>                 
                  </td>
             </tr>
             

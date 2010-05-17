@@ -47,6 +47,14 @@
 	   		</list>
    		</property>
    	</bean>
+  	<bean id="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.reportsToChartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.reportsToOrganizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
 
 	<bean id="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization-OrgFromAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
@@ -110,6 +118,7 @@
     	<property name="documentValuePathGroups">
     		<list>
     			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartAccount"/>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization"/>
     		</list>
     	</property>
     </bean>
@@ -124,6 +133,7 @@
     	<property name="documentValuePathGroups">
     		<list>
     			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization"/>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization"/>
     		</list>
     	</property>
     </bean>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;

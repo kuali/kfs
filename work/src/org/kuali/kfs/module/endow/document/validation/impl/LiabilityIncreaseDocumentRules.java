@@ -112,6 +112,10 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             // Empty out the Source Tx Line in weird case they got entered.
             liabilityIncreaseDocument.getSourceTransactionLines().clear();
 
+            //Validate atleast one Tx was entered.
+            if(!transactionLineSizeGreaterThanZero(liabilityIncreaseDocument,false))
+                return false;
+
             // Obtaining all the transaction lines for validations
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
             txLines.addAll(liabilityIncreaseDocument.getTargetTransactionLines());

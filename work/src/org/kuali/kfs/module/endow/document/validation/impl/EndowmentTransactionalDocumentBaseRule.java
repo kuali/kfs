@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
@@ -31,6 +33,7 @@ import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
@@ -454,5 +457,22 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
         
         return success;
     }
-    
+
+    protected boolean transactionLineSizeGreaterThanZero (EndowmentTransactionLinesDocumentBase document,boolean isSource)
+    {
+        List<EndowmentTransactionLine> transactionLineList = null;
+        if(isSource)
+            transactionLineList = document.getSourceTransactionLines();
+        else
+            transactionLineList = document.getTargetTransactionLines();
+
+        if(transactionLineList != null && transactionLineList.size() > 0)
+            return true;
+        else
+        {
+            putFieldError(KFSConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+            return false;   
+        }
+            
+    }
 }

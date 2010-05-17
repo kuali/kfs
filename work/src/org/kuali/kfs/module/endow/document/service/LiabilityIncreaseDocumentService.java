@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.service;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 
 public interface LiabilityIncreaseDocumentService extends EndowmentTransactionLinesDocumentService
@@ -29,6 +30,6 @@ public interface LiabilityIncreaseDocumentService extends EndowmentTransactionLi
      * @param aiDocument
      * @param transLine
      */
-    public void updateTransactionLineTaxLots(boolean isSource, LiabilityIncreaseDocument aiDocument, EndowmentTransactionLine transLine);
+    public void updateTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase aiDocument, EndowmentTransactionLine transLine);
 
 }

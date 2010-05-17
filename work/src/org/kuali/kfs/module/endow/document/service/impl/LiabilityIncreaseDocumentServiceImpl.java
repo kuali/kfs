@@ -21,6 +21,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
@@ -46,7 +47,7 @@ public class LiabilityIncreaseDocumentServiceImpl extends EndowmentTransactionLi
      *      org.kuali.kfs.module.endow.document.AssetIncreaseDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public void updateTransactionLineTaxLots(boolean isSource, LiabilityIncreaseDocument document, EndowmentTransactionLine transLine) 
+    public void updateTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase document, EndowmentTransactionLine transLine) 
     {
         EndowmentTransactionTaxLotLine taxLotLine = null;
 

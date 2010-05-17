@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -42,16 +41,34 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
             AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
             EndowmentTransactionSecurity endowmentTransactionSecurity = assetIncreaseDoc.getTargetTransactionSecurity();
 
-            isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
+            if (isSecurityCodeEmpty(assetIncreaseDoc, false)) {
+                return false;
+            }
+            if (!validateSecurityCode(assetIncreaseDoc, false)) {
+                return false;
+            }
+
+            if (isValid) {
+                isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
+            }
+
+            if (isRegistrationCodeEmpty(assetIncreaseDoc, false)) {
+                return false;
+            }
+            if (!validateRegistrationCode(assetIncreaseDoc, false)) {
+                {
+                    return false;
+                }
+            }
         }
+
         return isValid;
     }
-
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    public boolean processCustomRouteDocumentBusinessRules(Document document){
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         if (isValid) {
@@ -74,32 +91,22 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         if (isValid) {
 
-            isValid &= validateSecurityNotEmty(endowmentTransactionSecurity);
+            if (isSecurityCodeEmpty(assetIncreaseDoc, false)) {
+                return false;
+            }
+            if (!validateSecurityCode(assetIncreaseDoc, false)) {
+                return false;
+            }
             if (isValid) {
                 isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
             }
+
             isValid &= validateTransactionUnitsGreaterThanZero(line, EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX);
         }
 
         return isValid;
     }
 
-    /**
-     * Validates that the security is not empty.
-     * 
-     * @param document
-     * @return true if valid, false otherwise
-     */
-    private boolean validateSecurityNotEmty(EndowmentTransactionSecurity endowmentTransactionSecurity) {
-        boolean isValid = true;
-
-        if (StringUtils.isEmpty(endowmentTransactionSecurity.getSecurityID())) {
-            isValid = false;
-            putFieldError(EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
-        }
-
-        return isValid;
-    }
 
     /**
      * Validates that the security class code type is not Liability.

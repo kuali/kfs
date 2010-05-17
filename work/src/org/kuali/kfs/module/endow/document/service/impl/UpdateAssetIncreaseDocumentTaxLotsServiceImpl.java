@@ -70,7 +70,7 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
         // if security tax lot indicator is 'No'
-        if (!security.getClassCode().isTaxLotIndicator()) {
+        if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
             HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), 1, transLine.getTransactionIPIndicatorCode());
             if (ObjectUtils.isNotNull(holdingTaxLot)) {
                 if (holdingTaxLot.getUnits().equals(KualiDecimal.ZERO) && holdingTaxLot.getCost().equals(KualiDecimal.ZERO)) {

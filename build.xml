@@ -533,7 +533,7 @@
 	</target>
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
-        <cobertura-instrument maxmemory="1g">
+        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
         	<includeClasses regex="org\..kuali\..*" />
         	<excludeClasses regex="org\..kuali\.rice\..*" />
     		<excludeClasses regex=".*Test.*" />

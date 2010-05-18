@@ -15,19 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
 
@@ -35,11 +29,17 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
+        AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
+        EndowmentTransactionSecurity endowmentTransactionSecurity = assetIncreaseDoc.getTargetTransactionSecurity();
+
+        // Validate at least one Tx was entered.
+        if (!transactionLineSizeGreaterThanZero(assetIncreaseDoc, false))
+            return false;
+
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
         if (isValid) {
-            AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
-            EndowmentTransactionSecurity endowmentTransactionSecurity = assetIncreaseDoc.getTargetTransactionSecurity();
+
 
             if (isSecurityCodeEmpty(assetIncreaseDoc, false)) {
                 return false;
@@ -52,7 +52,7 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
             isValid &= isSecurityActive(assetIncreaseDoc, false);
 
             if (isValid) {
-                isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
+                isValid &= validateSecurityClassCodeTypeNotLiability(assetIncreaseDoc, false);
             }
 
             if (isRegistrationCodeEmpty(assetIncreaseDoc, false)) {
@@ -103,42 +103,14 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
                 return false;
             }
             if (isValid) {
-                isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
+                isValid &= validateSecurityClassCodeTypeNotLiability(assetIncreaseDoc, false);
             }
 
             // Checks if Security is Active
             isValid &= isSecurityActive(assetIncreaseDoc, false);
-
-            isValid &= validateTransactionUnitsGreaterThanZero(line, EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX);
         }
 
         return isValid;
-    }
-
-
-    /**
-     * Validates that the security class code type is not Liability.
-     * 
-     * @param endowmentTransactionSecurity
-     * @return true is valid, false otherwise
-     */
-    private boolean validateSecurityClassCodeTypeNotLiability(EndowmentTransactionSecurity endowmentTransactionSecurity) {
-        boolean isValid = true;
-        Security security = endowmentTransactionSecurity.getSecurity();
-        if (ObjectUtils.isNotNull(security)) {
-            ClassCode classCode = security.getClassCode();
-            if (ObjectUtils.isNotNull(classCode)) {
-                String classCodeType = classCode.getClassCodeType();
-                if (EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCodeType)) {
-                    isValid = false;
-
-                    putFieldError(EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_NOT_LIABILITY);
-                }
-            }
-        }
-
-        return isValid;
-
     }
 
     /**

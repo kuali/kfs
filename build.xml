@@ -534,9 +534,12 @@
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
         <cobertura-instrument maxmemory="1g">
+        	<includeClasses regex=".*" />
+    		<excludeClasses regex=".*\.Test.*" />
             <ignore regex="org.apache.log4j.*" />
         	<ignore regex=".*LOG\..*"/>
         	<ignore regex=".*System\.out.*"/>
+        	<includeclasses regex=""/>
         	<instrumentationclasspath refid="run.tests.classpath" />
         </cobertura-instrument>	
 	</target>

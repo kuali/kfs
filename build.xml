@@ -533,20 +533,20 @@
 	</target>
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
-		<mkdir dir="${test.classes.directory}/../instrumented" />
-        <cobertura-instrument maxmemory="1g" todir="${test.classes.directory}/../instrumented">
+		<mkdir dir="${test.directory}/instrumented" />
+        <cobertura-instrument maxmemory="1g" todir="${test.directory}/instrumented">
             <ignore regex="org.apache.log4j.*" />
             <fileset dir="${test.classes.directory}">
                 <include name="**/*.class" />
                 <exclude name="**/*Test.class" />
             </fileset>
         </cobertura-instrument>	
-		<copy todir="${test.classes.directory}/../instrumented">
+		<copy todir="${test.directory}/instrumented">
 			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" />
 			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" />
 			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" />
 		</copy>
-		<copy todir="${test.classes.directory}/../instrumented">
+		<copy todir="${test.directory}/instrumented">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
 	</target>
@@ -602,23 +602,26 @@
 	<target name="test">
 		<mkdir dir="${all.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
+		<delete file="${test.directory}/cobertura.ser" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+	        <sysproperty key="net.sourceforge.cobertura.datafile"
+		file="${test.directory}/cobertura.ser" />
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath location="${test.classes.directory}/../instrumented" />
+			<classpath location="${test.directory}/instrumented" />
 			<classpath refid="run.tests.classpath" />
 			<classpath refid="cobertura.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
 	        <sysproperty key="net.sourceforge.cobertura.datafile"
-		file="${basedir}/test/cobertura.ser" />
+		file="${test.directory}/cobertura.ser" />
 			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath location="${test.classes.directory}/../instrumented" />
+			<classpath location="${test.directory}/instrumented" />
 			<classpath refid="run.tests.classpath" />
 			<classpath refid="cobertura.classpath" />
 			<formatter type="xml" />
@@ -636,7 +639,9 @@
 			</fileset>
 			<report format="frames" todir="${test.html.results.directory}" />
 		</junitreport>
-        <cobertura-report format="xml" maxmemory="1g" datafile="${basedir}/test/cobertura.ser" destdir="${basedir}/test/cobertura" >        
+		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
+
+        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
             <fileset dir="${source.directory}">
                 <include name="**/*.java" />
             </fileset><!--
@@ -646,7 +651,6 @@
             -->
         </cobertura-report>
 		<delete dir="${all.temp.directory}" failonerror="false" />
-		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
 
 	<target name="dist-external" depends="init-properties">

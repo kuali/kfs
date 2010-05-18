@@ -533,22 +533,12 @@
 	</target>
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
-		<mkdir dir="${test.directory}/instrumented" />
-        <cobertura-instrument maxmemory="1g" todir="${test.directory}/instrumented">
+        <cobertura-instrument maxmemory="1g">
             <ignore regex="org.apache.log4j.*" />
-            <fileset dir="${test.classes.directory}">
-                <include name="**/*.class" />
-                <exclude name="**/*Test.class" />
-            </fileset>
+        	<ignore regex=".*LOG\..*"/>
+        	<ignore regex=".*System\.out.*"/>
+        	<instrumentationclasspath refid="run.tests.classpath" />
         </cobertura-instrument>	
-		<copy todir="${test.directory}/instrumented">
-			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" />
-			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" />
-			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" />
-		</copy>
-		<copy todir="${test.directory}/instrumented">
-			<fileset dir="${source.directory}" includes="${non.java.resources}" />
-		</copy>
 	</target>
 
 	<target name="make-foundation-tests" depends="init-make-references,filter-project">
@@ -609,7 +599,6 @@
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath location="${test.directory}/instrumented" />
 			<classpath refid="run.tests.classpath" />
 			<classpath refid="cobertura.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
@@ -621,7 +610,6 @@
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath location="${test.directory}/instrumented" />
 			<classpath refid="run.tests.classpath" />
 			<classpath refid="cobertura.classpath" />
 			<formatter type="xml" />

@@ -535,8 +535,8 @@
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
 		<delete file="${test.directory}/cobertura.ser" quiet="true" />
         <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
-        	<includeClasses regex=".*org/kuali/.*" />
-        	<excludeClasses regex=".*org/kuali/rice/.*" />
+        	<includeClasses regex=".*org\.kuali\..*" />
+        	<excludeClasses regex=".*org\.kuali\.rice\..*" />
     		<excludeClasses regex=".*Test.*" />
     		<excludeClasses regex=".*Suite.*" />
     		<excludeClasses regex=".*Fixture.*" />

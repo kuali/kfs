@@ -533,6 +533,7 @@
 	</target>
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
+		<delete file="${test.directory}/cobertura.ser" quiet="true" />
         <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
         	<includeClasses regex="org\..kuali\..*" />
         	<excludeClasses regex="org\..kuali\.rice\..*" />
@@ -597,7 +598,6 @@
 	<target name="test">
 		<mkdir dir="${all.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
-		<delete file="${test.directory}/cobertura.ser" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
 	        <sysproperty key="net.sourceforge.cobertura.datafile"
 		file="${test.directory}/cobertura.ser" />

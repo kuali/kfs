@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -196,7 +195,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
-            deleteTransactionLine(false, etlForm, deleteIndex);
+            deleteTransactionLine(true, etlForm, deleteIndex);
         }
         else {
             String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };

@@ -48,6 +48,9 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
                 return false;
             }
 
+            // Checks if Security is Active
+            isValid &= isSecurityActive(assetIncreaseDoc, false);
+
             if (isValid) {
                 isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
             }
@@ -56,10 +59,12 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
                 return false;
             }
             if (!validateRegistrationCode(assetIncreaseDoc, false)) {
-                {
-                    return false;
-                }
+
+                return false;
+
             }
+            // Checks if registration code is active
+            isValid &= isRegistrationCodeActive(assetIncreaseDoc, false);
         }
 
         return isValid;
@@ -100,6 +105,9 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
             if (isValid) {
                 isValid &= validateSecurityClassCodeTypeNotLiability(endowmentTransactionSecurity);
             }
+
+            // Checks if Security is Active
+            isValid &= isSecurityActive(assetIncreaseDoc, false);
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX);
         }

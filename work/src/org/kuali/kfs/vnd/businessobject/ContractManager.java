@@ -16,10 +16,9 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -28,12 +27,9 @@ import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase

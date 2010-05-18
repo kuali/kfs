@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,15 +32,13 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Checks warnings and prompt conditions for dv document.

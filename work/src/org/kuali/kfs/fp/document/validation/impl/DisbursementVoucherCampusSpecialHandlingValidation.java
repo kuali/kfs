@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
@@ -29,8 +30,6 @@ import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Validates that if a disbursement voucher had special handling turned off at the campus node, an extra note explaining that change has been added.

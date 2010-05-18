@@ -17,22 +17,17 @@ package org.kuali.kfs.module.ld.businessobject.options;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.web.util.OriginEntryFileComparator;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.core.util.KeyLabelPair;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Returns list of Labor origin entry filenames

@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.report;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * A class which builds up the data and then reports the PosterOutputSummary report

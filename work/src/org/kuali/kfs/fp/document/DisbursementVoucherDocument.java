@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -89,8 +90,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.

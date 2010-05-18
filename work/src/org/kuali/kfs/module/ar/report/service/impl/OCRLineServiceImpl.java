@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.report.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.util.Strings;
 import org.kuali.kfs.module.ar.report.service.OCRLineService;
 import org.kuali.rice.kns.util.KualiDecimal;
 

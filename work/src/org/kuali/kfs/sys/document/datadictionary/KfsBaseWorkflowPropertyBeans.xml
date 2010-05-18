@@ -133,6 +133,20 @@
     	<property name="documentValuePathGroups">
     		<list>
     			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization"/>
+     		</list>
+    	</property>
+    </bean>
+    
+   	<bean id="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromMaint" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartOrganization"/>
     			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization"/>
     		</list>
     	</property>

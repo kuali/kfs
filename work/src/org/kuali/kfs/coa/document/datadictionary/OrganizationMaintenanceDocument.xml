@@ -147,7 +147,7 @@
     		
     		<map>
     			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromMaint"/>
     		</map>
     	
 		</property>

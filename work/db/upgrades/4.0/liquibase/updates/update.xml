@@ -147,4 +147,5 @@
 <include file="updates/2010-05-13-5578-1-END_TRAN_SEC_T.xml"/>
 <include file="updates/2010-05-14-5692-1-KNS_PARM_T.xml"/>
 <include file="updates/2010-05-14-5616-INGEST-ENDOW.xml"/>
+<include file="updates/2010-05-17-5693-FP_DV_DOC_T.xml"/>
 </databaseChangeLog>

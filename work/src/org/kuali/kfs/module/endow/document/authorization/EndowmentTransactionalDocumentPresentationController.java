@@ -19,12 +19,14 @@ import java.util.Set;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.document.UnitsTotaling;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 
 public class EndowmentTransactionalDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);

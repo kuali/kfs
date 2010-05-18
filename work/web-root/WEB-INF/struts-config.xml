@@ -228,6 +228,8 @@
         <!-- Endowment Module Bean Definitions -->			
 		<form-bean name="AssetIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />
+		<form-bean name="AssetDecreaseDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.AssetDecreaseDocumentForm" />			
 		<form-bean name="CashIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.CashIncreaseDocumentForm" />	
 		<form-bean name="CashDecreaseDocumentForm"

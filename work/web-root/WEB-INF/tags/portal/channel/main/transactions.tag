@@ -67,6 +67,7 @@
     
     <strong>Endowment</strong><br />
     <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Asset Decrease" url="endowAssetDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAD" /></li>
         <li><portal:portalLink displayTitle="true" title="Asset Increase" url="endowAssetIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAI" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Increase" url="endowCashIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECI" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Decrease" url="endowCashDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECDD" /></li>

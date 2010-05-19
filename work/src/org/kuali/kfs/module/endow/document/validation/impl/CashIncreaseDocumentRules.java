@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class CashIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
+public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -36,6 +36,13 @@ public class CashIncreaseDocumentRules extends EndowmentTransactionLinesDocument
 
         if (isValid) {
             CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) document;
+
+            // Checks if Security field is not empty, security code must be valid.
+            if (!isSecurityCodeEmpty(cashIncreaseDocument, true)){
+                if (!validateSecurityCode(cashIncreaseDocument, true))
+                    return false;               
+            }
+            
             for (int i = 0; i < cashIncreaseDocument.getTargetTransactionLines().size(); i++) {
                 EndowmentTransactionLine txLine = cashIncreaseDocument.getTargetTransactionLines().get(i);
                 isValid &= validateCashTransactionLine(cashIncreaseDocument, txLine, i);
@@ -63,7 +70,12 @@ public class CashIncreaseDocumentRules extends EndowmentTransactionLinesDocument
 
     }
 
-    private boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */    
+    @Override
+    protected boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
         if (isValid) {

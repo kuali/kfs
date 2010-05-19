@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
+public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -36,6 +36,13 @@ public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocument
 
         if (isValid) {
             CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) document;
+            
+            // Checks if Security field is not empty, security code must be valid.
+            if (!isSecurityCodeEmpty(cashDecreaseDocument, true)){
+                if (!validateSecurityCode(cashDecreaseDocument, true))
+                    return false;               
+            }
+               
             for (int i = 0; i < cashDecreaseDocument.getSourceTransactionLines().size(); i++) {
                 EndowmentTransactionLine txLine = cashDecreaseDocument.getSourceTransactionLines().get(i);
                 isValid &= validateCashTransactionLine(cashDecreaseDocument, txLine, i);
@@ -62,8 +69,13 @@ public class CashDecreaseDocumentRules extends EndowmentTransactionLinesDocument
         return isValid;
 
     }
-
-    private boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */    
+    @Override
+    protected boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
         if (isValid) {

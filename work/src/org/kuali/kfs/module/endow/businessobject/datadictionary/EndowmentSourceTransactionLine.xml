@@ -142,7 +142,6 @@
     <property name="name" value="transactionAmount"/>
     <property name="label" value="Transaction Amount"/>
     <property name="shortLabel" value="Transaction Amount"/>
-    <property name="required" value="true"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-corpusIndicator" parent="EndowmentSourceTransactionLine-corpusIndicator-parentBean"/>
 

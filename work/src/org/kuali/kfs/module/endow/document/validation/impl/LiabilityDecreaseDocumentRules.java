@@ -17,27 +17,15 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.AssetTransferDocument;
-import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 
 public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
     private static final String LIABILITY_CLASS_CODE = "L";
@@ -78,14 +66,17 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             else {
                 ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
             }
-        }            
+        }
 
-        //Validate Units is Greater then Zero(thus positive) value
-        isValid &= validateTransactionUnitsGreaterThanZero(line,ERROR_PREFIX);
-        
-        //Validates Units & Amount are equal.
-        isValid &= validateTransactionUnitsAmountEqual(line,ERROR_PREFIX);
-        
+        // Validate Greater then Zero(thus positive) value
+        isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+
+        // Validate Units is Greater then Zero(thus positive) value
+        isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+
+        // Validates Units & Amount are equal.
+        isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
+
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
@@ -129,10 +120,9 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
             txLines.addAll(liabilitydecreaseDocument.getTargetTransactionLines());
 
-            for (int i = 0; i < liabilitydecreaseDocument.getTargetTransactionLines().size(); i++) 
-            {
+            for (int i = 0; i < liabilitydecreaseDocument.getTargetTransactionLines().size(); i++) {
                 EndowmentTransactionLine txLine = liabilitydecreaseDocument.getTargetTransactionLines().get(i);
-                isValid &= validateLiabilityTransactionLine(txLine,i);
+                isValid &= validateLiabilityTransactionLine(txLine, i);
             }
         }
 
@@ -148,7 +138,7 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
 
         LiabilityDecreaseDocument liabilitydecreaseDocument = (LiabilityDecreaseDocument) document;
 
-        //TODO:Remove below statement
+        // TODO:Remove below statement
         if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             List txLines = liabilitydecreaseDocument.getSourceTransactionLines();
 
@@ -160,7 +150,7 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
                 putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE, EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
             }
 
-            //TODO:Remove below statement
+            // TODO:Remove below statement
             return GlobalVariables.getMessageMap().getErrorCount() == 0;
         }
         else {

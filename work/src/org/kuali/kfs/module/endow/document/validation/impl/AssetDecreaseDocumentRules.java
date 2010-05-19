@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
@@ -63,10 +64,17 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
 
         boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+        AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) endowmentTransactionLinesDocumentBase;
         EndowmentSourceTransactionLine targetTransactionLine = (EndowmentSourceTransactionLine) line;
 
         if (isValid) {
             isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+
+            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
+                // Validate Greater then Zero(thus positive) value
+                isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            }
+
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
         }
 

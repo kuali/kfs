@@ -19,7 +19,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.core.util.JSTLConstants;
 
-public class EndowConstants extends JSTLConstants{
+public class EndowConstants extends JSTLConstants {
 
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
@@ -217,11 +217,16 @@ public class EndowConstants extends JSTLConstants{
 
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
     public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";
-    
-    //public static class TransactionTabErrors {
-        public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
-        public static final String SECURITY_ERRORS = "securityErrors";
-    //}
+
+    // public static class TransactionTabErrors {
+    public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
+    public static final String SECURITY_ERRORS = "securityErrors";
+    // }
     public static final String TRANSACTION_LINE_TYPE_SOURCE = "F";
     public static final String TRANSACTION_LINE_TYPE_TARGET = "T";
+
+    public static final class TransactionSubTypeCode {
+        public static final String CASH = "C";
+        public static final String NON_CASH = "N";
+    }
 }

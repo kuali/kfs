@@ -125,6 +125,9 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         if (isValid) {
             isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+            // Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
         }
 

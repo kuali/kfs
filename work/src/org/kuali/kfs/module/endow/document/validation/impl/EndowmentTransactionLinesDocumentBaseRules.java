@@ -15,45 +15,33 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
-import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
-import org.kuali.kfs.module.endow.document.service.SecurityService;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.RefreshTransactionLineRule;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number> {
@@ -80,7 +68,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
      */
     public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {
-        return validateTransactionLine((EndowmentTransactionLinesDocumentBase)endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index);
+        return validateTransactionLine((EndowmentTransactionLinesDocumentBase) endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index);
     }
 
     /**
@@ -100,7 +88,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if (endowmentTransactionLinesDocumentBase.getSourceTransactionLines() != null) {
                 for (int i = 0; i < endowmentTransactionLinesDocumentBase.getSourceTransactionLines().size(); i++) {
                     EndowmentTransactionLine transactionLine = endowmentTransactionLinesDocumentBase.getSourceTransactionLines().get(i);
-                    validateTransactionLine(endowmentTransactionLinesDocumentBase,transactionLine, i);
+                    validateTransactionLine(endowmentTransactionLinesDocumentBase, transactionLine, i);
                 }
             }
 
@@ -108,7 +96,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if (endowmentTransactionLinesDocumentBase.getTargetTransactionLines() != null) {
                 for (int i = 0; i < endowmentTransactionLinesDocumentBase.getTargetTransactionLines().size(); i++) {
                     EndowmentTransactionLine transactionLine = endowmentTransactionLinesDocumentBase.getTargetTransactionLines().get(i);
-                    validateTransactionLine(endowmentTransactionLinesDocumentBase,transactionLine, i);
+                    validateTransactionLine(endowmentTransactionLinesDocumentBase, transactionLine, i);
                 }
             }
 
@@ -118,7 +106,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
     // Obtain Prefix for Error fields in UI.
-    public String getErrorPrefix (EndowmentTransactionLine line, int index){
+    public String getErrorPrefix(EndowmentTransactionLine line, int index) {
         String ERROR_PREFIX = null;
         if (line instanceof EndowmentSourceTransactionLine) {
             if (index == -1) {
@@ -139,6 +127,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return ERROR_PREFIX;
 
     }
+
     /**
      * This method...
      * 
@@ -146,18 +135,17 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param index
      * @return
      */
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) {
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         String ERROR_PREFIX = getErrorPrefix(line, index);
 
-        if (isValid) 
-        {
+        if (isValid) {
             GlobalVariables.getMessageMap().clearErrorPath();
-            
-            //General not null validation for KemID
-            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(),"kemid",line.getKemid(),false,ERROR_PREFIX + EndowPropertyConstants.KEMID);
+
+            // General not null validation for KemID
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(), "kemid", line.getKemid(), false, ERROR_PREFIX + EndowPropertyConstants.KEMID);
 
             // Validate KemID
             if (!validateKemId(line, ERROR_PREFIX))
@@ -169,40 +157,36 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             // Validate no restriction transaction restriction
             isValid &= validateNoTransactionRestriction(line, ERROR_PREFIX);
 
-            //Validate Income/Principal DropDown
-            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(),"transactionIPIndicatorCode",line.getTransactionIPIndicatorCode(),false,ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_IPINDICATOR);
-            isValid &= GlobalVariables.getMessageMap().getErrorCount() == 0 ? true : false ;
-            if(!isValid)
+            // Validate Income/Principal DropDown
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(), "transactionIPIndicatorCode", line.getTransactionIPIndicatorCode(), false, ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_IPINDICATOR);
+            isValid &= GlobalVariables.getMessageMap().getErrorCount() == 0 ? true : false;
+            if (!isValid)
                 return isValid;
 
-            if(!isSubTypeEmpty(endowmentTransactionLinesDocumentBase))
+            if (!isSubTypeEmpty(endowmentTransactionLinesDocumentBase))
                 return false;
-            
-            if( nonCashTransaction(endowmentTransactionLinesDocumentBase) )
-            {
-                //Is Etran code empty
-                if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
+
+            if (nonCashTransaction(endowmentTransactionLinesDocumentBase)) {
+                // Is Etran code empty
+                if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
                     return false;
-                
-                //Validate ETran code
-                if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
+
+                // Validate ETran code
+                if (!validateEndowmentTransactionCode(line, ERROR_PREFIX))
                     return false;
 
                 // Validate ETran code as E or I
                 isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
-                
-                //Validate if the chart is matched between the KEMID and EtranCode
-                isValid &= validateChartMatch(line,ERROR_PREFIX);
-                
-                //Set Corpus Indicator  
+
+                // Validate if the chart is matched between the KEMID and EtranCode
+                isValid &= validateChartMatch(line, ERROR_PREFIX);
+
+                // Set Corpus Indicator
                 line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
             }
-            
+
             // Refresh all references for the given KemId
             // line.getKemidObj().refreshNonUpdateableReferences();
-
-            // Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
 
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX);
@@ -211,10 +195,9 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
-    
-    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase)
-    {
-        if( endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode().equalsIgnoreCase("N"))
+
+    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase) {
+        if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode()))
             return true;
         else
             return false;
@@ -295,7 +278,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @return
      */
     protected boolean validateTransactionAmountGreaterThanZero(EndowmentTransactionLine line, String prefix) {
-        if (line.getTransactionAmount().isGreaterThan(AbstractKualiDecimal.ZERO))
+        if (line.getTransactionAmount() != null && line.getTransactionAmount().isGreaterThan(AbstractKualiDecimal.ZERO))
             return true;
         else {
             putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO);
@@ -310,7 +293,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @return
      */
     protected boolean validateTransactionUnitsGreaterThanZero(EndowmentTransactionLine line, String prefix) {
-        if (line.getTransactionUnits().isGreaterThan(AbstractKualiDecimal.ZERO))
+        if (line.getTransactionUnits() != null && line.getTransactionUnits().isGreaterThan(AbstractKualiDecimal.ZERO))
             return true;
         else {
             putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO);
@@ -424,57 +407,55 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
         return isChartMatched;
     }
-    
+
     /**
-     * For a true endowment, when the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, a warning message will be placed in the document transaction line 
-     * notifying the viewer that the transaction will reduce the value of the endowment at the time the transaction line is added.
-     * WARNING:  This transaction will reduce permanently restricted funds!. 
-     * However, the transaction line would be added on successfully. 
+     * For a true endowment, when the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, a warning message will be placed in the document
+     * transaction line notifying the viewer that the transaction will reduce the value of the endowment at the time the transaction
+     * line is added. WARNING: This transaction will reduce permanently restricted funds!. However, the transaction line would be
+     * added on successfully.
      * 
      * @param line
      * @return
-     * 
      */
-    protected void checkWhetherReducePermanentlyRestrictedFund (EndowmentTransactionLine line, String prefix){
+    protected void checkWhetherReducePermanentlyRestrictedFund(EndowmentTransactionLine line, String prefix) {
         String ipIndicatorCode = line.getTransactionIPIndicatorCode();
         String kemid = line.getKemid();
-        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode) &&
-            SpringContext.getBean(KEMIDService.class).isTrueEndowment(kemid)) {
-            GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS);       
+        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode) && SpringContext.getBean(KEMIDService.class).isTrueEndowment(kemid)) {
+            GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS);
         }
     }
-    
+
     /**
-     * Upon adding the transaction line, the system will check to see if there are sufficient funds to process the transaction (END_AVAIL_CSH_T).  
-     * If there are not, a warning message will be placed in the document transaction line notifying the viewer that there are not sufficient funds.
-     *   -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I verify against END_AVAIL_CSH_T: AVAIL_TOT_CSH
-     *   -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P verify against END_AVAIL_CSH_T: AVAIL_PRIN_CSH
-     * However, the transaction line would be added on successfully.
+     * Upon adding the transaction line, the system will check to see if there are sufficient funds to process the transaction
+     * (END_AVAIL_CSH_T). If there are not, a warning message will be placed in the document transaction line notifying the viewer
+     * that there are not sufficient funds. -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I verify against END_AVAIL_CSH_T:
+     * AVAIL_TOT_CSH -If END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P verify against END_AVAIL_CSH_T: AVAIL_PRIN_CSH However, the
+     * transaction line would be added on successfully.
      * 
      * @param line
-     * @return 
-     * 
+     * @return
      */
-    protected void checkWhetherHaveSufficientFundsForCashBasedTransaction (EndowmentTransactionLine line, String prefix) {
+    protected void checkWhetherHaveSufficientFundsForCashBasedTransaction(EndowmentTransactionLine line, String prefix) {
         String ipIndicatorCode = line.getTransactionIPIndicatorCode();
         String kemid = line.getKemid();
         KualiDecimal amount = line.getTransactionAmount();
-        
+
         Map criteria = new HashMap();
         criteria.put(EndowPropertyConstants.KEMID, kemid);
         KEMIDCurrentAvailableBalance theKEMIDCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KEMIDCurrentAvailableBalance.class, criteria);
-       
-        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)){
-            if (amount.isGreaterThan(new KualiDecimal (theKEMIDCurrentAvailableBalance.getAvailablePrincipalCash()))){
+
+        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)) {
+            if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailablePrincipalCash()))) {
                 GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
             }
-        }else {
-            if (amount.isGreaterThan(new KualiDecimal (theKEMIDCurrentAvailableBalance.getAvailableTotalCash()))){
+        }
+        else {
+            if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailableTotalCash()))) {
                 GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
-            }            
-        }        
+            }
+        }
     }
-    
+
 
     protected boolean templateMethod(EndowmentTransactionLine line) {
         boolean success = true;
@@ -483,18 +464,17 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
 
-    protected boolean cashEndowTranCheck(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line,String prefix)
-    {
-        //For Cash based Tx the Etran code must be empty
-        if( !nonCashTransaction(endowmentTransactionLinesDocumentBase) )
-        {
-            //If Tx is Cash based, check for Etran code and if not null display Warning message.
-            if ( !StringUtils.isEmpty(line.getEtranCode()) )
-            {
-                //Blank out Etran code. 
-                //line.setEtranCode(null);
+    protected boolean cashEndowTranCheck(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String prefix) {
+        // For Cash based Tx the Etran code must be empty
+        if (!nonCashTransaction(endowmentTransactionLinesDocumentBase)) {
+            // If Tx is Cash based, check for Etran code and if not null display Warning message.
+            if (!StringUtils.isEmpty(line.getEtranCode())) {
+                // Blank out Etran code.
+                // line.setEtranCode(null);
                 putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                //GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
+                // GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX +
+                // EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE,
+                // EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
                 return false;
             }
         }

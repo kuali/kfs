@@ -185,13 +185,15 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_TRANSACTION = "error.document.transactionLine.kemid.canNotHaveAPrincipalTransaction";
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_PRINCIPAL = "error.document.transactionLine.etran.chartCodeDoesNotMatchForPrincipal";
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
-        
+
         public static final String ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.transactionLine.count.insufficient";
-        
+
         public static final String WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS = "warning.document.transactionLine.reducePermanentlyRestrictedFunds";
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";
         // Asset increase constants
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
+        // Asset decrease constants
+        public static final String ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS = "error.assetDecreaseDocument.insufficientUnits";
 
     }
 

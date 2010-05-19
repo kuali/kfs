@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -32,7 +33,7 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
      */
     public HoldingTaxLot getByPrimaryKey(String kemid, String securityId, String registrationCode, int lotNumber, String ipIndicator) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
-        
+
         primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
         primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
         primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, registrationCode);
@@ -41,6 +42,21 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
 
         return (HoldingTaxLot) businessObjectService.findByPrimaryKey(HoldingTaxLot.class, primaryKeys);
 
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLots(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String)
+     */
+    public List<HoldingTaxLot> getAllTaxLots(String kemid, String securityId, String registrationCode, String ipIndicator) {
+        Map<String, String> criteria = new HashMap<String, String>();
+
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, registrationCode);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR, ipIndicator);
+
+        return (List<HoldingTaxLot>) businessObjectService.findMatching(HoldingTaxLot.class, criteria);
     }
 
     /**

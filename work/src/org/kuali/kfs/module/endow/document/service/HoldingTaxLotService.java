@@ -15,10 +15,33 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 
 public interface HoldingTaxLotService {
 
+    /**
+     * Gets a holding tax lot based on primary keys: kemid, security id, registration code, lot number and IP indicator.
+     * 
+     * @param kemid
+     * @param securityId
+     * @param registrationCode
+     * @param lotNumber
+     * @param ipIndicator
+     * @return the corresponding tax lot
+     */
     public HoldingTaxLot getByPrimaryKey(String kemid, String securityId, String registrationCode, int lotNumber, String ipIndicator);
+
+    /**
+     * Gets the holding tax lot based on the following criteria: kemid, security id, registration code, and IP indicator.
+     * 
+     * @param kemid
+     * @param securityId
+     * @param registrationCode
+     * @param ipIndicator
+     * @return a list of tax lots that meet the criteria
+     */
+    public List<HoldingTaxLot> getAllTaxLots(String kemid, String securityId, String registrationCode, String ipIndicator);
 
 }

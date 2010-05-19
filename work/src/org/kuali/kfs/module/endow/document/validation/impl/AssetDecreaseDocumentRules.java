@@ -15,11 +15,20 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 
 public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
@@ -76,8 +85,39 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             }
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+
+            isValid &= validateSufficientUnits(assetDecreaseDocument, line, index);
         }
 
+        return isValid;
+    }
+
+    /**
+     * Validates that the KEMID has sufficient units in the tax lots to perform the transaction.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    private boolean validateSufficientUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocumentBase, true);
+        boolean isValid = true;
+
+        List<HoldingTaxLot> holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
+
+        BigDecimal totalTaxLotsUnits = new BigDecimal(0);
+
+        if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
+            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+                totalTaxLotsUnits = totalTaxLotsUnits.add(holdingTaxLot.getUnits());
+            }
+        }
+
+        if (line.getTransactionUnits().bigDecimalValue().compareTo(totalTaxLotsUnits) == 1) {
+            isValid = false;
+            putFieldError(getErrorPrefix(line, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+        }
         return isValid;
     }
 

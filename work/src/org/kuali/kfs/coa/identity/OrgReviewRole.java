@@ -158,7 +158,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     
     protected Date activeFromDate;
     protected Date activeToDate;
-
+    
+    public String getReportsToChartOfAccountsCode() {
+        return organization.getReportsToChartOfAccountsCode();
+    }
+    public String getReportsToOrganizationCode() {
+        
+        return organization.getReportsToOrganizationCode();
+    }
     /**
      * Gets the active attribute. 
      * @return Returns the active.
@@ -459,6 +466,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the activeFromDate.
      */
     public Date getActiveFromDate() {
+     
+        Date todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+        this.setActive(todaysDate.after(activeFromDate) && todaysDate.before(activeToDate));
         return activeFromDate;
     }
     /**

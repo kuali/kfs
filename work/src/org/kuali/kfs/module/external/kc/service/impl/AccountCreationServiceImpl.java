@@ -16,13 +16,15 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationResultCodes;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
-    public void createAccount(AccountParameters accountParameters) 
+    public AccountCreationResultCodes createAccount(AccountParameters accountParameters) 
     {
         
+        return new AccountCreationResultCodes();
     }
 
 }

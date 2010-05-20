@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document.service.impl;
 
+import org.apache.batik.i18n.LocaleGroup;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.KCAward;
 import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
@@ -47,7 +48,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     }
     
     /**
-     * This method will create a maintenance document and put the account object
+     * This method will create a account automatic maintenance document and put the account object into it
      * @return documentNumber returns the documentNumber
      * 
      * @see org.kuali.kfs.coa.document.service.CreateAccountService#createAutomaticCGAccountMaintenanceDocument()
@@ -55,7 +56,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     public String createAutomaticCGAccountMaintenanceDocument(Account account) {
 
         //create a new maintenance document
-        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument)createCGMaintenanceDocument();
+        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument();
         
         //set the account object in the maintenance document.
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
@@ -73,6 +74,8 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
        
         if (!checkIfAccountAutoCreateRouteExists()) {
             // error message since there is no system parameter has been setup yet....
+            LOG.warn("ParseException: System Parameter ACCOUNTING_DOCUMENT_TYPE_NAME can not be determined.");
+            throw new RuntimeException("System Parameter Exception: ACCOUNTING_DOCUMENT_TYPE_NAME system parameter does not exist");   
         }
         String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
         
@@ -80,7 +83,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     }
 
     /**
-     * This method create and route automatic CG account maint. document based on system parameter
+     * This method create and route automatic CG account maintenance document based on system parameter
      * @param maintenanceAccountDocument
      * @param accountAutoCreateRoute
      */
@@ -108,7 +111,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
      * This method will use the DocumentService to create a new document....
      * @return document  returns a new document for the account document type
      */
-    protected Document createCGMaintenanceDocument() {
+    protected Document createCGAccountMaintenanceDocument() {
         try {
             Document document = documentService.getNewDocument(KFSConstants.DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME);
             return document;            

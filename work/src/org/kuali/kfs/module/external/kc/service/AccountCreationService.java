@@ -15,11 +15,23 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationResultCodes;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
+import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+
+// TODO: Define WEB_SERVICE_NAME, and MODULE_TARGET_NAMESPACE
+
+@WebService(name = KcConstants.AccountCreationService.WEB_SERVICE_NAME, 
+            targetNamespace = KcConstants.MODULE_TARGET_NAMESPACE)
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, 
+             parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AccountCreationService {
 
-    public AccountCreationResultCodes createAccount(AccountParameters accountParameters);
+    public AccountCreationStatus createAccount(
+            @WebParam(name="accountParameters")AccountParameters accountParameters);
     
 }

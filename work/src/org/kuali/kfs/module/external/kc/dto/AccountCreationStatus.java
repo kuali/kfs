@@ -18,11 +18,11 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class AccountCreationResultCodes implements Serializable {
+public class AccountCreationStatus implements Serializable {
     
     private List<String> resultCodes;
 
-    public AccountCreationResultCodes() {}
+    public AccountCreationStatus() {}
 
     /**
      * Gets the resultCodes attribute. 

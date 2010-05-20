@@ -46,23 +46,21 @@ public class ReadOnlyRenderer extends FieldRendererBase {
 
         try {
             String value = discoverRenderValue();
+            out.write(buildBeginSpan());
             
             if (!StringUtils.isEmpty(value)) {
-                out.write(buildBeginSpan());
                 if (shouldRenderInquiryLink()) {
                     out.write(buildBeginInquiryLink());
-                }
-                
-                out.write(value);
-                
+                }                
+                out.write(value);                
                 if (shouldRenderInquiryLink()) {
                     out.write(buildEndInquiryLink());
-                }
-                                
-                out.write(buildEndSpan());
+                }                                
             } else {
                 out.write(buildNonBreakingSpace());
             }
+            
+            out.write(buildEndSpan());
         }
         catch (IOException ioe) {
             throw new JspException("Difficulty rendering read only field", ioe);
@@ -84,12 +82,10 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return the HTML for the opening span 
      */
     protected String buildBeginSpan() {
-        StringBuilder beginSpan = new StringBuilder();
-        
+        StringBuilder beginSpan = new StringBuilder();        
         beginSpan.append("<span id=\"");
-        beginSpan.append(getField().getPropertyName());
-        beginSpan.append(".div\">");
-        
+        beginSpan.append(getFieldName());
+        beginSpan.append(".div\">");        
         return beginSpan.toString();
     }
     

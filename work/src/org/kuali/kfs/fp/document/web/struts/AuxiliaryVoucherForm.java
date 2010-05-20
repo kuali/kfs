@@ -94,10 +94,21 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(avReversalDate);
+        
+        int thisMonth;
+        
+        if (getAuxiliaryVoucherDocument().getAccountingPeriod().getUniversityFiscalPeriodCode().equals(KFSConstants.MONTH13)) {
+            thisMonth = cal.JULY;
+        } else
+            
+            thisMonth = getAuxiliaryVoucherDocument().getAccountingPeriod().getMonth();
+        
+        cal.set(Calendar.MONTH, (thisMonth));
+        
         //if today's day > 15 then set the month to next month.
-        if (cal.get(Calendar.DAY_OF_MONTH) > KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH) {
-            cal.add(Calendar.MONTH, 1);
-        }
+     //   if (cal.get(Calendar.DAY_OF_MONTH) > KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH) {
+      //      cal.add(Calendar.MONTH, 1);
+      //  }
         cal.set(Calendar.DAY_OF_MONTH, KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH);
         long timeInMillis = cal.getTimeInMillis();
         avReversalDate.setTime(timeInMillis);

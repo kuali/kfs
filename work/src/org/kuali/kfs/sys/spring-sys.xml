@@ -106,6 +106,15 @@
       <property name="retryAttempts" value="0" />
     </bean>
     
+    <bean id="kfsJaxWsSoapService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition" abstract="true">
+       <property name="serviceNameSpaceURI" value="KFS"/>
+       <property name="jaxWsService" value="true"/>
+       <property name="priority" value="3" />
+       <property name="retryAttempts" value="0" />
+       <!-- TODO: make config property for bus security -->
+       <property name="busSecurity" value="false"/>
+    </bean>
+    
 	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />

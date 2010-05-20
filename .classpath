@@ -11,34 +11,34 @@
 			<accessrule kind="nonaccessible" pattern="sunw/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/servlet-api.jar"/>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/jsp-api.jar"/>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/jasper-compiler-jdt.jar">
+	<classpathentry exported="false" kind="lib" path="build/server-lib/servlet-api.jar"/>
+	<classpathentry exported="false" kind="lib" path="build/server-lib/jsp-api.jar"/>
+	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-compiler-jdt.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/jasper-compiler.jar">
+	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-compiler.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/jasper-runtime.jar">
+	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-runtime.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/commons-el.jar">
+	<classpathentry exported="false" kind="lib" path="build/server-lib/commons-el.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="DRIVERS_DIRECTORY/ojdbc14.jar">
+	<classpathentry exported="false" kind="lib" path="build/drivers/ojdbc6.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.5-bin.jar">
+	<classpathentry exported="false" kind="lib" path="build/drivers/mysql-connector-java-5.0.5-bin.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

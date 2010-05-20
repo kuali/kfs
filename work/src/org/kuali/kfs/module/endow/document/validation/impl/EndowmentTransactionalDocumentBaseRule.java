@@ -443,26 +443,4 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
         return success;
     }
 
-    /**
-     * Checks that the document has at least one transaction line.
-     * 
-     * @param document
-     * @param isSource
-     * @return true if valid, false otherwise
-     */
-    protected boolean transactionLineSizeGreaterThanZero(EndowmentTransactionLinesDocumentBase document, boolean isSource) {
-        List<EndowmentTransactionLine> transactionLineList = null;
-        if (isSource)
-            transactionLineList = document.getSourceTransactionLines();
-        else
-            transactionLineList = document.getTargetTransactionLines();
-
-        if (transactionLineList != null && transactionLineList.size() > 0)
-            return true;
-        else {
-            putFieldError(KFSConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
-            return false;
-        }
-
-    }
 }

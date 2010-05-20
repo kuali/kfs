@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,7 @@ import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.RefreshTransactionLineRule;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -190,6 +192,8 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX);
+            
+            
 
         }
 
@@ -479,5 +483,30 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             }
         }
         return true;
+    }
+    
+     /**
+     * Checks that the document has at least one transaction line.
+     * 
+     * @param document
+     * @param isSource
+     * @return true if valid, false otherwise
+     */
+    protected boolean transactionLineSizeGreaterThanZero (EndowmentTransactionLinesDocumentBase document,boolean isSource)
+    {
+        List<EndowmentTransactionLine> transactionLineList = null;
+        if(isSource)
+            transactionLineList = document.getSourceTransactionLines();
+        else
+            transactionLineList = document.getTargetTransactionLines();
+
+        if(transactionLineList != null && transactionLineList.size() > 0)
+            return true;
+        else
+        {
+            putFieldError(KFSConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+            return false;   
+        }
+            
     }
 }

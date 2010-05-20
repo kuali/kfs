@@ -33,5 +33,5 @@ public interface AccountCreateDocumentService {
      * This method creates a maintenance document for the cg account
      */
     
-    public void createAutomaticCGAccountMaintenanceDocument(Account account);
+    public String createAutomaticCGAccountMaintenanceDocument(Account account);
 }

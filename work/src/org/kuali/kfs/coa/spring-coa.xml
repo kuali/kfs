@@ -656,5 +656,12 @@
     </bean>
     
 	
-	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 
+	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
+	
+    <bean id="accountCreateDocumentService" class="org.kuali.kfs.coa.document.service.impl.AccountCreateDocumentServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+    </bean>	
+	 
 </beans>

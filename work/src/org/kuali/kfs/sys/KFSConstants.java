@@ -48,6 +48,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String INDICATOR_ATTRIBUTE_TRUE_VALUE = "Y";
 
         public static final String TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY = "TRANSACTION_SCRUBBER_OFFSET_GENERATION";
+        public static final String ACCOUNTING_DOCUMENT_TYPE_NAME = "ACCT";
     }
     
     // special user used in the post-processor

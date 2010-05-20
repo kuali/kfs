@@ -16,14 +16,25 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
+import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.service.AssetDecreaseDocumentService;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-        // TODO Auto-generated method stub
+        AssetDecreaseDocumentService taxLotsService = SpringContext.getBean(AssetDecreaseDocumentService.class);
+        AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDocument;
+        taxLotsService.updateTransactionLineTaxLots(isSource, assetDecreaseDocument, transLine);
 
     }
+
 
 }

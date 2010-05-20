@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -28,16 +28,14 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBase {
     private KualiInteger lineNumber;
-    private HoldingTaxLot holdingTaxLot;
-
     private String documentNumber;
     private Integer documentLineNumber;
     private String documentLineTypeCode;
     private Integer transactionHoldingLotNumber;
-    private KualiDecimal lotUnits;
-    private KualiDecimal lotHoldingCost;
-    private KualiDecimal lotLongTermGainLoss;
-    private KualiDecimal lotShortTermGainLoss;
+    private BigDecimal lotUnits;
+    private BigDecimal lotHoldingCost;
+    private BigDecimal lotLongTermGainLoss;
+    private BigDecimal lotShortTermGainLoss;
     private Date lotAcquiredDate;
 
     private EndowmentTransactionLine transactionLine;
@@ -75,24 +73,6 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.lineNumber = lineNumber;
     }
 
-    /**
-     * Gets the holdingTaxLot.
-     * 
-     * @return holdingTaxLot
-     */
-    public HoldingTaxLot getHoldingTaxLot() {
-        return holdingTaxLot;
-    }
-
-    /**
-     *Sets the holdingTaxLot.
-     * 
-     * @param holdingTaxLot
-     */
-    public void setHoldingTaxLot(HoldingTaxLot holdingTaxLot) {
-        this.holdingTaxLot = holdingTaxLot;
-    }
-
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -125,35 +105,35 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.transactionHoldingLotNumber = transactionHoldingLotNumber;
     }
 
-    public KualiDecimal getLotUnits() {
+    public BigDecimal getLotUnits() {
         return lotUnits;
     }
 
-    public void setLotUnits(KualiDecimal lotUnits) {
+    public void setLotUnits(BigDecimal lotUnits) {
         this.lotUnits = lotUnits;
     }
 
-    public KualiDecimal getLotHoldingCost() {
+    public BigDecimal getLotHoldingCost() {
         return lotHoldingCost;
     }
 
-    public void setLotHoldingCost(KualiDecimal lotHoldingCost) {
+    public void setLotHoldingCost(BigDecimal lotHoldingCost) {
         this.lotHoldingCost = lotHoldingCost;
     }
 
-    public KualiDecimal getLotLongTermGainLoss() {
+    public BigDecimal getLotLongTermGainLoss() {
         return lotLongTermGainLoss;
     }
 
-    public void setLotLongTermGainLoss(KualiDecimal lotLongTermGainLoss) {
+    public void setLotLongTermGainLoss(BigDecimal lotLongTermGainLoss) {
         this.lotLongTermGainLoss = lotLongTermGainLoss;
     }
 
-    public KualiDecimal getLotShortTermGainLoss() {
+    public BigDecimal getLotShortTermGainLoss() {
         return lotShortTermGainLoss;
     }
 
-    public void setLotShortTermGainLoss(KualiDecimal lotShortTermGainLoss) {
+    public void setLotShortTermGainLoss(BigDecimal lotShortTermGainLoss) {
         this.lotShortTermGainLoss = lotShortTermGainLoss;
     }
 

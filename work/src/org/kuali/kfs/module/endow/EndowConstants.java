@@ -127,12 +127,21 @@ public class EndowConstants extends JSTLConstants {
         public static final String KEMID_VALUE = "KEMID_VALUE";
         public static final String PARAMETER_APPLICATION_NAMESPACE_CODE = "KUALI";
         public static final String PARAMETER_KEMID_COMPONENT = "KEMID";
+
+        public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
     }
 
     public static class KemidValueOptions {
         public static final String MANUAL = "Manual";
         public static final String AUTOMATIC = "Automatic";
     }
+
+    public static class TaxLotsAccountingMethodOptions {
+        public static final String AVERAGE_BALANCE = "Average Balance";
+        public static final String FIFO = "FIFO";
+        public static final String LIFO = "LIFO";
+    }
+
 
     public final static KualiInteger ZERO = new KualiInteger(0);
     public final static KualiInteger ONE = new KualiInteger(1);

@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.service; 
+package org.kuali.kfs.module.endow.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,13 +47,11 @@ import org.kuali.rice.kns.util.KualiInteger;
  * This class...
  */
 @ConfigureContext(session = khuntley)
-public class LiabilityServiceTest extends KualiTestBase 
-{
+public class LiabilityServiceTest extends KualiTestBase {
     private SequenceAccessorService sequenceAccessorService;
     private BusinessObjectService businessObjectService;
 
-    private boolean runTests() 
-    { // change this to return false to prevent running tests
+    private boolean runTests() { // change this to return false to prevent running tests
         return false;
     }
 
@@ -60,27 +59,25 @@ public class LiabilityServiceTest extends KualiTestBase
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception 
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
     }
 
     @ConfigureContext(shouldCommitTransactions = false)
-    public void testOJBConfiguration() throws Exception 
-    {
-    
+    public void testOJBConfiguration() throws Exception {
+
         if (!runTests())
-        return;
-            
-        //Insert Transaction Document
+            return;
+
+        // Insert Transaction Document
         LiabilityIncreaseDocument tx = new LiabilityIncreaseDocument();
         tx.setDocumentNumber("4160");
         tx.setTransactionSubTypeCode("C");
         tx.setTransactionSourceTypeCode("M");
-        
-        //Saving a Trans Line
+
+        // Saving a Trans Line
         EndowmentTransactionLine tranLine = new EndowmentSourceTransactionLine();
         tranLine.setDocumentNumber("4160");
         tranLine.setTransactionLineNumber(new Integer("1"));
@@ -88,60 +85,53 @@ public class LiabilityServiceTest extends KualiTestBase
         tranLine.setEtranCode("00100");
         tranLine.setTransactionIPIndicatorCode("I");
         tranLine.setTransactionAmount(new KualiDecimal(2.3));
-        
-        //Setting the transaction line.
+
+        // Setting the transaction line.
         List tranList = new ArrayList();
         tranList.add(tranLine);
         tx.setSourceTransactionLines(tranList);
 
-        //Saving a Holding line for a Trans Line
+        // Saving a Holding line for a Trans Line
         EndowmentTransactionTaxLotLine hldg = new EndowmentTransactionTaxLotLine();
         hldg.setDocumentNumber("4160");
         hldg.setDocumentLineNumber(1);
         hldg.setDocumentLineTypeCode("F");
         hldg.setTransactionHoldingLotNumber(99);
-        hldg.setLotUnits(new KualiDecimal("22"));
-        
-        //Setting the tax lot line.
+        hldg.setLotUnits(new BigDecimal(22));
+
+        // Setting the tax lot line.
         List taxList = new ArrayList();
         taxList.add(hldg);
         tranLine.setTaxLotLines(taxList);
-        //businessObjectService.save(hldg);
-        
-        //Creating Tran Security
+        // businessObjectService.save(hldg);
+
+        // Creating Tran Security
         EndowmentTransactionSecurity tranSec = new EndowmentSourceTransactionSecurity();
         tranSec.setDocumentNumber("4160");
         tranSec.setSecurityID("9128273E0");
         tranSec.setRegistrationCode("01P");
-        
+
         List secList = new ArrayList();
         secList.add(tranSec);
-        
+
         tx.setSourceTransactionSecurity(tranSec);
-        
-        //saving Part of a Liability Transaction Document
+
+        // saving Part of a Liability Transaction Document
         businessObjectService.save(tx);
-        
-        //Retrirve Tx Doc
+
+        // Retrirve Tx Doc
         LiabilityIncreaseDocument newTx = businessObjectService.findBySinglePrimaryKey(LiabilityIncreaseDocument.class, "4160");
-        
-        assertEquals("S0urce Lines",1, newTx.getSourceTransactionLines().size());
-        assertEquals("Target Lines", 0,newTx.getTargetTransactionLines().size());
-        assertNotNull("Source Security",newTx.getSourceTransactionSecurity());
-        
+
+        assertEquals("S0urce Lines", 1, newTx.getSourceTransactionLines().size());
+        assertEquals("Target Lines", 0, newTx.getTargetTransactionLines().size());
+        assertNotNull("Source Security", newTx.getSourceTransactionSecurity());
+
         /*
-         EndowmentSourceTransactionSecurity sec = new EndowmentSourceTransactionSecurity();
-         
-        sec.setDocumentNumber("4160");
-        sec.setSecurityID("004764106");
-        sec.setRegistrationCode("01P");
-       //tx.setSourceTransactionSecurity(sec);
-        //saving Part of a Liability Transaction Document - Security 
-        //businessObjectService.save(sec);
-        */
+         * EndowmentSourceTransactionSecurity sec = new EndowmentSourceTransactionSecurity(); sec.setDocumentNumber("4160");
+         * sec.setSecurityID("004764106"); sec.setRegistrationCode("01P"); //tx.setSourceTransactionSecurity(sec); //saving Part of
+         * a Liability Transaction Document - Security //businessObjectService.save(sec);
+         */
 
 
     }
-}
-
-;
+};

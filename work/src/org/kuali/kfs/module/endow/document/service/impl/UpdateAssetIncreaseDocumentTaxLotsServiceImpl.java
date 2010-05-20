@@ -61,8 +61,8 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
 
         }
 
-        taxLotLine.setLotUnits(transLine.getTransactionUnits());
-        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount());
+        taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
+        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount().bigDecimalValue());
 
 
         EndowmentTransactionSecurity endowmentTransactionSecurity = aiDocument.getTargetTransactionSecurity();

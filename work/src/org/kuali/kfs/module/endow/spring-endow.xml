@@ -343,4 +343,20 @@
 			<ref bean="kemService" />
 		</property>	
 	</bean>
+	
+	<bean id="assetDecreaseDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.AssetDecreaseDocumentServiceImpl">
+		<property name="taxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+	</bean>
+	
 </beans>

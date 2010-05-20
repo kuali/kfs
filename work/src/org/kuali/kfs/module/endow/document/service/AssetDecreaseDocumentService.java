@@ -16,18 +16,17 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 
-public interface UpdateAssetIncreaseDocumentTaxLotsService {
-
+public interface AssetDecreaseDocumentService {
 
     /**
-     * Updates the tax lots related to the given transaction line in the Asset Increase document.
+     * Updates the tax lots related to the given transaction line in the Asset Decrease document.
      * 
      * @param isSource true if transaction line is source, false if target
-     * @param aiDocument the Asset Increase Document for which we compute the transaction line related tax lots
+     * @param assetDecreaseDocument the Asset Decrease Document for which we compute the transaction line related tax lots
      * @param transLine the transaction line for which we update the tax lots
      */
-    public void updateTransactionLineTaxLots(boolean isSource, AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine);
+    public void updateTransactionLineTaxLots(boolean isSource, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionLine transLine);
 
 }

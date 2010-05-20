@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
-import org.kuali.kfs.module.external.kc.dto.AccountDto;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 
 public interface AccountCreationService {
 
-    public void createAccount(AccountDto accountDto);
+    public void createAccount(AccountParameters accountDto);
     
 }

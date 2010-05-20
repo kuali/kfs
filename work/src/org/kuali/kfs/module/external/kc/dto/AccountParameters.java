@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AccountDto implements Serializable {
+public class AccountParameters implements Serializable {
     
     private String unit;
     private String accountumber;
@@ -36,7 +36,7 @@ public class AccountDto implements Serializable {
     
     private boolean offCampusIndicator;
     
-    public AccountDto() {}
+    public AccountParameters() {}
 
     /**
      * Gets the unit attribute. 

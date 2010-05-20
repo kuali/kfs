@@ -18,13 +18,65 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
+import org.kuali.kfs.module.endow.document.CashTransferDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
-public class CashTransferDocumentRules extends EndowmentTransactionLinesDocumentBaseRules{
+public class CashTransferDocumentRules extends CashDocumentBaseRules{
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        if (isValid) {
+            CashTransferDocument cashTransferDocument = (CashTransferDocument) document;
+
+            // Checks if Security field is not empty, security code must be valid.
+            if (!isSecurityCodeEmpty(cashTransferDocument, true)){
+                if (!validateSecurityCode(cashTransferDocument, true))
+                    return false;               
+            }
+            
+            for (int i = 0; i < cashTransferDocument.getSourceTransactionLines().size(); i++) {
+                EndowmentTransactionLine sourceTransactionLine = cashTransferDocument.getSourceTransactionLines().get(i);
+                isValid &= validateCashTransactionLine(sourceTransactionLine, i);
+            }
+            
+            for (int i = 0; i < cashTransferDocument.getTargetTransactionLines().size(); i++) {
+                EndowmentTransactionLine targetTransactionLine = cashTransferDocument.getTargetTransactionLines().get(i);
+                isValid &= validateCashTransactionLine(targetTransactionLine, i);
+            }            
+            
+        }
+
+        return isValid;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        CashTransferDocument cashTransferDocument = (CashTransferDocument) document;
+        
+        //check if the total of the transaction amount (Income plus Principal) in the From transaction lines 
+        //equals the total of the transaction amount in the To transaction lines.  
+        if(!cashTransferDocument.getTargetTotalAmount().equals(cashTransferDocument.getSourceTotalAmount())){
+            GlobalVariables.getMessageMap().putError(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+        }
+        return isValid;
+    }
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
@@ -32,38 +84,57 @@ public class CashTransferDocumentRules extends EndowmentTransactionLinesDocument
     @Override
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
 
-        CashDecreaseDocument cashDecreaseDoc = (CashDecreaseDocument) document;
-        EndowmentTransactionSecurity endowmentTransactionSecurity = cashDecreaseDoc.getTargetTransactionSecurity();
         boolean isValid = super.processAddTransactionLineRules(document, line);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+
+        if (isValid) {
+            isValid &= validateCashTransactionLine(line, -1);
+        }
+
+        return isValid;
+
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     */    
+    @Override
+    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) {
+        boolean isValid = true;
 
         if (isValid) {
             // Obtain Prefix for Error fields in UI.
-            String ERROR_PREFIX = getErrorPrefix(line, -1);    
-            
-            //Is Etran code empty
-            if(isEndowmentTransactionCodeEmpty(line,ERROR_PREFIX))
+            String ERROR_PREFIX = getErrorPrefix(line, index);
+
+            // Is Etran code empty
+            if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
                 return false;
-            
-            //Validate ETran code
-            if(!validateEndowmentTransactionCode(line,ERROR_PREFIX))
+
+            // Validate ETran code
+            if (!validateEndowmentTransactionCode(line, ERROR_PREFIX))
                 return false;
 
             // Validate ETran code as E or I
             isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
-            
-            //Validate if the chart is matched between the KEMID and EtranCode
-            isValid &= validateChartMatch(line,ERROR_PREFIX);
-            
-            if (line.getTransactionLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE)){
+
+            // Validate if the chart is matched between the KEMID and EtranCode
+            isValid &= validateChartMatch(line, ERROR_PREFIX);
+
+            // Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+
+            if (EndowConstants.TRANSACTION_LINE_TYPE_SOURCE.equalsIgnoreCase(line.getTransactionLineTypeCode())){
                 checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
                 checkWhetherHaveSufficientFundsForCashBasedTransaction(line, ERROR_PREFIX);
             }
-            
-            //Set Corpus Indicator  
+
+            // Set Corpus Indicator
             line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
         }
 
-        return isValid;
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
+
 
 }

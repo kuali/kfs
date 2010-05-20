@@ -48,7 +48,7 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            isValid &= validateCashTransactionLine((EndowmentTransactionLinesDocumentBase) document, line, -1);
+            isValid &= validateCashTransactionLine(line, -1);
         }
 
         return isValid;
@@ -59,12 +59,11 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
      * This method should be overridden by children rule classes as a hook to implement document specific business rule checks for
      * the general validating a transaction line.
      * 
-     * @param document
      * @param line
      * @param index
      * @return boolean True if the rules checks passed, false otherwise.
      */
-    protected boolean validateCashTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, int index) { 
+    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) { 
         return true;
     }
 

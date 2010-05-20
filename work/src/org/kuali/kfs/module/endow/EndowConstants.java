@@ -219,7 +219,6 @@ public class EndowConstants extends JSTLConstants {
     public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";
 
     // public static class TransactionTabErrors {
-    public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
     public static final String SECURITY_ERRORS = "securityErrors";
     // }
     public static final String TRANSACTION_LINE_TYPE_SOURCE = "F";
@@ -229,4 +228,10 @@ public class EndowConstants extends JSTLConstants {
         public static final String CASH = "C";
         public static final String NON_CASH = "N";
     }
+    
+    public static final String ENDOWMENT_TRANSACTION_LINE_ERRORS = "document.transactionLines";    
+    public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
+    public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines,newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
+    public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
+
 }

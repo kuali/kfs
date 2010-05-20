@@ -24,12 +24,14 @@
 
   <bean id="EndowmentSourceTransactionSecurity-securityID-parentBean" abstract="true" parent="Security-id">
     <property name="name" value="securityID" />
+    <property name="required" value="false" />    
   </bean>
   
    <bean id="EndowmentSourceTransactionSecurity-registrationCode" parent="EndowmentSourceTransactionSecurity-registrationCode-parentBean" />
 
   <bean id="EndowmentSourceTransactionSecurity-registrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
     <property name="name" value="registrationCode" />
+    <property name="required" value="false" />
   </bean>
   
   <bean id="EndowmentSourceTransactionSecurity-securityLineTypeCode" parent="EndowmentSourceTransactionSecurity-securityLineTypeCode-parentBean"/>

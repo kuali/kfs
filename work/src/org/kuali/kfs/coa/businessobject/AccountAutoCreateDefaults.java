@@ -44,6 +44,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private boolean accountOffCampusIndicator;
     private AccountType accountType;
     private String accountTypeCode;
+    private String accountPhysicalCampusCode;
     private SubFundGroup subFundGroup;
     private String subFundGroupCode;
     private boolean accountsFringesBnftIndicator;
@@ -329,6 +330,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountTypeCode(String accountTypeCode) {
         this.accountTypeCode = accountTypeCode;
+    }
+
+    /**
+     * Gets the accountPhysicalCampusCode attribute. 
+     * @return Returns the accountPhysicalCampusCode.
+     */
+    public String getAccountPhysicalCampusCode() {
+        return accountPhysicalCampusCode;
+    }
+
+    /**
+     * Sets the accountPhysicalCampusCode attribute value.
+     * @param accountPhysicalCampusCode The accountPhysicalCampusCode to set.
+     */
+    public void setAccountPhysicalCampusCode(String accountPhysicalCampusCode) {
+        this.accountPhysicalCampusCode = accountPhysicalCampusCode;
     }
 
     /**

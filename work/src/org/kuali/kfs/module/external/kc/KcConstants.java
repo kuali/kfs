@@ -17,11 +17,11 @@ package org.kuali.kfs.module.external.kc;
 
 public class KcConstants {
     
-    public static final String MODULE_TARGET_NAMESPACE = "";
+    public static final String MODULE_TARGET_NAMESPACE = "KFS";
     private KcConstants() {}
     
     public static class AccountCreationService {
-        public static final String WEB_SERVICE_NAME = "";
+        public static final String WEB_SERVICE_NAME = "accountCreationService";
     }
     
 }

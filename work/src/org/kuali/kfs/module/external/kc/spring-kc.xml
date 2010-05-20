@@ -68,5 +68,27 @@
     <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
-
+    <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
+        <property name="accountCreateDocumentService" ref="accountCreateDocumentService" />
+    </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsService"
+                p:service-ref="accountCreationService"
+                p:localServiceName="accountCreationService" />
+        </property>
+    </bean>
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
+        <property name="serviceDefinition">
+            <bean parent="kfsJaxWsSoapService"
+                p:service-ref="accountCreationService"
+                p:localServiceName="accountCreationServiceSOAP" />
+        </property>
+        <property name="exportIf">
+            <list>
+                <value>accountCreationServiceSOAP.expose</value>
+            </list>
+        </property>
+    </bean>
 </beans>

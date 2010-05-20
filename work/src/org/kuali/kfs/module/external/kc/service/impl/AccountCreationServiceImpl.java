@@ -15,16 +15,43 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
-    public AccountCreationStatus createAccount(AccountParameters accountParameters) 
-    {
+    private AccountCreateDocumentService accountCreateDocumentService;
+    
+    public AccountCreationStatus createAccount(AccountParameters accountParameters) {
         
-        return new AccountCreationStatus();
+        //accountCreateDocumentService
+        List<String> statusCodes = new ArrayList<String>(1);
+        statusCodes.add("SUCCESS");
+        
+        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
+        accountCreationStatus.setResultCodes(statusCodes);
+        
+        return accountCreationStatus;
     }
 
+    /**
+     * Gets the accountCreateDocumentService attribute. 
+     * @return Returns the accountCreateDocumentService.
+     */
+    public AccountCreateDocumentService getAccountCreateDocumentService() {
+        return accountCreateDocumentService;
+    }
+
+    /**
+     * Sets the accountCreateDocumentService attribute value.
+     * @param accountCreateDocumentService The accountCreateDocumentService to set.
+     */
+    public void setAccountCreateDocumentService(AccountCreateDocumentService accountCreateDocumentService) {
+        this.accountCreateDocumentService = accountCreateDocumentService;
+    }
 }

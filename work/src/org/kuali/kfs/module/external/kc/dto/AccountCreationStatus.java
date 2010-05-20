@@ -20,26 +20,28 @@ import java.util.List;
 
 public class AccountCreationStatus implements Serializable {
     
-    private List<String> resultCodes;
-    private String documentNumber;
-    private String accountNumber;
+    protected List<String> errorCodes;
+    protected String documentNumber;
+    protected String accountNumber;
+    protected String chartOfAccountsCode;
+    protected boolean success;
 
     public AccountCreationStatus() {}
 
     /**
-     * Gets the resultCodes attribute. 
-     * @return Returns the resultCodes.
+     * Gets the errorCodes attribute. 
+     * @return Returns the errorCodes.
      */
-    public List<String> getResultCodes() {
-        return resultCodes;
+    public List<String> getErrorCodes() {
+        return errorCodes;
     }
 
     /**
-     * Sets the resultCodes attribute value.
-     * @param resultCodes The resultCodes to set.
+     * Sets the errorCodes attribute value.
+     * @param errorCodes The errorCodes to set.
      */
-    public void setResultCodes(List<String> resultCodes) {
-        this.resultCodes = resultCodes;
+    public void setErrorCodes(List<String> errorCodes) {
+        this.errorCodes = errorCodes;
     }
 
     /**
@@ -73,5 +75,37 @@ public class AccountCreationStatus implements Serializable {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-    
+
+    /**
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute value.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * Gets the success attribute. 
+     * @return Returns the success.
+     */
+    public boolean isSuccess() {
+        return success;
+    }
+
+    /**
+     * Sets the success attribute value.
+     * @param success The success to set.
+     */
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
 }

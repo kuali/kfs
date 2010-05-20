@@ -34,7 +34,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         statusCodes.add("SUCCESS");
         
         AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-        accountCreationStatus.setResultCodes(statusCodes);
+        accountCreationStatus.setSuccess(true);
         
         return accountCreationStatus;
     }

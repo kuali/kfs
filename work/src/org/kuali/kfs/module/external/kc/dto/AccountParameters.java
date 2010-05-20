@@ -20,21 +20,21 @@ import java.sql.Date;
 
 public class AccountParameters implements Serializable {
     
-    private String unit;
-    private String accountNumber;
-    private String accountName;
-    private String higherEdFunctionCode;
-    private String indirectCostTypeCode;
-    private String indirectCostRate;
-    private String expenseGuidelineText;
-    private String incomeGuidelineText;
-    private String purposeText;
-    private String cfdaNumber;
+    protected String unit;
+    protected String accountNumber;
+    protected String accountName;
+    protected String higherEdFunctionCode;
+    protected String indirectCostTypeCode;
+    protected String indirectCostRate;
+    protected String expenseGuidelineText;
+    protected String incomeGuidelineText;
+    protected String purposeText;
+    protected String cfdaNumber;
     
-    private Date expirationDate;
-    private Date effectiveDate;
+    protected Date expirationDate;
+    protected Date effectiveDate;
     
-    private boolean offCampusIndicator;
+    protected boolean offCampusIndicator;
     
     public AccountParameters() {}
 

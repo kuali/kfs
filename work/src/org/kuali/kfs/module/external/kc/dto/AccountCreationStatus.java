@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class AccountCreationStatus implements Serializable {
+
+    private static final long serialVersionUID = -3058053637490790154L;
     
     protected List<String> errorCodes;
     protected String documentNumber;

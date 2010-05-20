@@ -20,6 +20,8 @@ import java.sql.Date;
 
 public class AccountParameters implements Serializable {
     
+    private static final long serialVersionUID = 8417796622708399543L;
+    
     protected String unit;
     protected String accountNumber;
     protected String accountName;

@@ -20,7 +20,7 @@ import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
-    public void createAccount(AccountParameters accountDto) 
+    public void createAccount(AccountParameters accountParameters) 
     {
         
     }

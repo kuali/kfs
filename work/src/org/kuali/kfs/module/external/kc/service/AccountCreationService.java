@@ -19,6 +19,6 @@ import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 
 public interface AccountCreationService {
 
-    public void createAccount(AccountParameters accountDto);
+    public void createAccount(AccountParameters accountParameters);
     
 }

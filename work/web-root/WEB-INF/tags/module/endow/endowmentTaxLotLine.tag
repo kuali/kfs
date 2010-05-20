@@ -26,7 +26,7 @@
 
 <c:set var="holdingTaxLotAttributes" value="${DataDictionary.HoldingTaxLot.attributes}"/>
 
-<kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${KFSConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}" tabItemCount="${KualiForm.document.taxLotLinesNumber}">
+<kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${EndowConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}" tabItemCount="${KualiForm.document.taxLotLinesNumber}">
 	<div class="tab-container" align=center>
 			<h3>Tax Lot Lines</h3>
 		<table cellpadding="0" cellspacing="0" summary="Tax Lot Lines">

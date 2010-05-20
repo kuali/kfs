@@ -30,7 +30,7 @@
 	description="This is displayed as heading in H3 title."%>
 		
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true"
-	tabErrorKey="${KFSConstants.TRANSACTION_DETAILS_ERRORS}">
+	tabErrorKey="${EndowConstants.TRANSACTION_DETAILS_ERRORS}">
 	<div class="tab-container" align=center>
 			<h3>${headingTitle}</h3>
 		<table cellpadding="0" cellspacing="0" summary="${summaryTitle}">

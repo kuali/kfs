@@ -16,9 +16,13 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * 
@@ -26,137 +30,129 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivateable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
 
-    private String KCUnit;
-    private String KCUnitName;
+    private String kcUnit;
+    private String kcUnitName;
+    private Chart chartOfAccounts;
     private String chartOfAccountsCode;
+    private String accountNumber;
+    private Organization organization;
     private String organizationCode;
-    private String accoutPostalCode;
+    private String accountPostalCode;
     private String accountCityName;
     private String accountStateCode;
     private String accountStreetAddress;
     private boolean accountOffCampusIndicator;
+    private AccountType accountType;
     private String accountTypeCode;
+    private SubFundGroup subFundGroup;
     private String subFundGroupCode;
     private boolean accountsFringesBnftIndicator;
-    private boolean accountFringeBenfit;
     protected Chart fringeBenefitsChartOfAccount;
+    private String reportsToChartOfAccountsCode;
     private String fringeBenefitAccountNumber;
+    private HigherEducationFunction financialHigherEdFunction;
     private String financialHigherEdFunctionCd;
-    private String fiscalOfficerPrincipalName;
-    private String accountSupervisorPrincipalName;
-    private String accountManagerPrincipalName;
+    private String accountFiscalOfficerSystemIdentifier;
+    private String accountsSupervisorySystemsIdentifier;
+    private String accountManagerSystemIdentifier;
+    protected Chart continuationChartOfAccount;
     private String continuationFinChrtOfAcctCd;
+    private Account continuationAccount;
     private String continuationAccountNumber;
+    private Account incomeStreamAccount;
+    protected Chart incomeStreamChartOfAccounts;
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
     private String budgetRecordingLevelCode;
+    private SufficientFundsCode sufficientFundsCode;
     private String accountSufficientFundsCode;
     private boolean pendingAcctSufficientFundsIndicator;
     private boolean extrnlFinEncumSufficntFndIndicator;
     private boolean intrnlFinEncumSufficntFndIndicator;
     private boolean finPreencumSufficientFundIndicator;
     private boolean financialObjectivePrsctrlIndicator;
+    private IndirectCostRecoveryType acctIndirectCostRcvyType;
+    private String acctIndirectCostRcvyTypeCd;
+    protected Chart indirectCostRcvyChartOfAccounts;
     private String indirectCostRcvyFinCoaCode;
+    private Account indirectCostRecoveryAcct;
     private String indirectCostRecoveryAcctNbr;
     private Integer contractsAndGrantsAccountResponsibilityId;
+    private AccountDescription accountDescription;
     private String accountExpenseGuidelineText;
     private String accountIncomeGuidelineText;
     private String accountPurposeText;
-
+    private List subAccounts;
     private boolean active;
 
-/*    private String accountFiscalOfficerSystemIdentifier;
-    private String accountsSupervisorySystemsIdentifier;
-    private String accountManagerSystemIdentifier;
-    private String accountPhysicalCampusCode;
-    private String accountRestrictedStatusCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToAccountNumber;
-    private String endowmentIncomeAcctFinCoaCd;
-    private String endowmentIncomeAccountNumber;
-    private String contractControlFinCoaCode;
-    private String contractControlAccountNumber;
-
-    private Chart chartOfAccounts;
-    private Chart endowmentIncomeChartOfAccounts;
-    private Organization organization;
-    private AccountType accountType;
-    private Campus accountPhysicalCampus;
-    private State accountState;
-    private SubFundGroup subFundGroup;
-    private HigherEducationFunction financialHigherEdFunction;
-    private RestrictedStatus accountRestrictedStatus;
-    private Account reportsToAccount;
-    private Account continuationAccount;
-    private Account endowmentIncomeAccount;
-    private Account contractControlAccount;
-    private Account incomeStreamAccount;
-    private Account indirectCostRecoveryAcct;
-    private IndirectCostRecoveryType acctIndirectCostRcvyType;
-    private BudgetRecordingLevel budgetRecordingLevel;
-    private SufficientFundsCode sufficientFundsCode;
-    private ContractsAndGrantsCfda cfda;
-
-    protected Chart continuationChartOfAccount;
-    protected Chart incomeStreamChartOfAccounts;
-    protected Chart contractControlChartOfAccounts;
-    protected Chart indirectCostRcvyChartOfAccounts;
+    //
+    private Person accountFiscalOfficerUser;
+    private Person accountSupervisoryUser;
+    private Person accountManagerUser;
     
-    // Several kinds of Dummy Attributes for dividing sections on Inquiry page
-    private String accountResponsibilitySectionBlank;
-    private String accountResponsibilitySection;
-    private String contractsAndGrantsSectionBlank;
-    private String contractsAndGrantsSection;
-    private String guidelinesAndPurposeSectionBlank;
-    private String guidelinesAndPurposeSection;
-    private String accountDescriptionSectionBlank;
-    private String accountDescriptionSection;
 
-    private Boolean forContractsAndGrants;
-
-    private AccountGuideline accountGuideline;
-    private AccountDescription accountDescription;
-
-    private List subAccounts;
-    private List<ContractsAndGrantsAccountAwardInformation> awards;
-*/ 
     /**
      * Default no-arg constructor.
      */
     public AccountAutoCreateDefaults() {
         active = true; // assume active until otherwise set
     }
-
+   
     /**
-     * Gets the kCUnit attribute. 
-     * @return Returns the kCUnit.
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    public String getKCUnit() {
-        return KCUnit;
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        return m;
     }
 
     /**
-     * Sets the kCUnit attribute value.
-     * @param kCUnit The kCUnit to set.
+     * Gets the kcUnit attribute. 
+     * @return Returns the kcUnit.
      */
-    public void setKCUnit(String kCUnit) {
-        KCUnit = kCUnit;
+    public String getKcUnit() {
+        return kcUnit;
     }
 
     /**
-     * Gets the kCUnitName attribute. 
-     * @return Returns the kCUnitName.
+     * Sets the kcUnit attribute value.
+     * @param kcUnit The kcUnit to set.
      */
-    public String getKCUnitName() {
-        return KCUnitName;
+    public void setKcUnit(String kcUnit) {
+        this.kcUnit = kcUnit;
     }
 
     /**
-     * Sets the kCUnitName attribute value.
-     * @param kCUnitName The kCUnitName to set.
+     * Gets the kcUnitName attribute. 
+     * @return Returns the kcUnitName.
      */
-    public void setKCUnitName(String kCUnitName) {
-        KCUnitName = kCUnitName;
+    public String getKcUnitName() {
+        return kcUnitName;
+    }
+
+    /**
+     * Sets the kcUnitName attribute value.
+     * @param kcUnitName The kcUnitName to set.
+     */
+    public void setKcUnitName(String kcUnitName) {
+        this.kcUnitName = kcUnitName;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute. 
+     * @return Returns the chartOfAccounts.
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute value.
+     * @param chartOfAccounts The chartOfAccounts to set.
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
     }
 
     /**
@@ -176,6 +172,38 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the organization attribute. 
+     * @return Returns the organization.
+     */
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute value.
+     * @param organization The organization to set.
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    /**
      * Gets the organizationCode attribute. 
      * @return Returns the organizationCode.
      */
@@ -192,19 +220,19 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accoutPostalCode attribute. 
-     * @return Returns the accoutPostalCode.
+     * Gets the accountPostalCode attribute. 
+     * @return Returns the accountPostalCode.
      */
-    public String getAccoutPostalCode() {
-        return accoutPostalCode;
+    public String getAccountPostalCode() {
+        return accountPostalCode;
     }
 
     /**
-     * Sets the accoutPostalCode attribute value.
-     * @param accoutPostalCode The accoutPostalCode to set.
+     * Sets the accountPostalCode attribute value.
+     * @param accountPostalCode The accountPostalCode to set.
      */
-    public void setAccoutPostalCode(String accoutPostalCode) {
-        this.accoutPostalCode = accoutPostalCode;
+    public void setAccountPostalCode(String accountPostalCode) {
+        this.accountPostalCode = accountPostalCode;
     }
 
     /**
@@ -272,6 +300,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * Gets the accountType attribute. 
+     * @return Returns the accountType.
+     */
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    /**
+     * Sets the accountType attribute value.
+     * @param accountType The accountType to set.
+     */
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    /**
      * Gets the accountTypeCode attribute. 
      * @return Returns the accountTypeCode.
      */
@@ -285,6 +329,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountTypeCode(String accountTypeCode) {
         this.accountTypeCode = accountTypeCode;
+    }
+
+    /**
+     * Gets the subFundGroup attribute. 
+     * @return Returns the subFundGroup.
+     */
+    public SubFundGroup getSubFundGroup() {
+        return subFundGroup;
+    }
+
+    /**
+     * Sets the subFundGroup attribute value.
+     * @param subFundGroup The subFundGroup to set.
+     */
+    public void setSubFundGroup(SubFundGroup subFundGroup) {
+        this.subFundGroup = subFundGroup;
     }
 
     /**
@@ -320,22 +380,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountFringeBenfit attribute. 
-     * @return Returns the accountFringeBenfit.
-     */
-    public boolean isAccountFringeBenfit() {
-        return accountFringeBenfit;
-    }
-
-    /**
-     * Sets the accountFringeBenfit attribute value.
-     * @param accountFringeBenfit The accountFringeBenfit to set.
-     */
-    public void setAccountFringeBenfit(boolean accountFringeBenfit) {
-        this.accountFringeBenfit = accountFringeBenfit;
-    }
-
-    /**
      * Gets the fringeBenefitsChartOfAccount attribute. 
      * @return Returns the fringeBenefitsChartOfAccount.
      */
@@ -349,6 +393,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setFringeBenefitsChartOfAccount(Chart fringeBenefitsChartOfAccount) {
         this.fringeBenefitsChartOfAccount = fringeBenefitsChartOfAccount;
+    }
+
+    /**
+     * Gets the reportsToChartOfAccountsCode attribute. 
+     * @return Returns the reportsToChartOfAccountsCode.
+     */
+    public String getReportsToChartOfAccountsCode() {
+        return reportsToChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the reportsToChartOfAccountsCode attribute value.
+     * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
+     */
+    public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
+        this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
     }
 
     /**
@@ -368,6 +428,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * Gets the financialHigherEdFunction attribute. 
+     * @return Returns the financialHigherEdFunction.
+     */
+    public HigherEducationFunction getFinancialHigherEdFunction() {
+        return financialHigherEdFunction;
+    }
+
+    /**
+     * Sets the financialHigherEdFunction attribute value.
+     * @param financialHigherEdFunction The financialHigherEdFunction to set.
+     */
+    public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
+        this.financialHigherEdFunction = financialHigherEdFunction;
+    }
+
+    /**
      * Gets the financialHigherEdFunctionCd attribute. 
      * @return Returns the financialHigherEdFunctionCd.
      */
@@ -384,51 +460,67 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the fiscalOfficerPrincipalName attribute. 
-     * @return Returns the fiscalOfficerPrincipalName.
+     * Gets the accountFiscalOfficerSystemIdentifier attribute. 
+     * @return Returns the accountFiscalOfficerSystemIdentifier.
      */
-    public String getFiscalOfficerPrincipalName() {
-        return fiscalOfficerPrincipalName;
+    public String getAccountFiscalOfficerSystemIdentifier() {
+        return accountFiscalOfficerSystemIdentifier;
     }
 
     /**
-     * Sets the fiscalOfficerPrincipalName attribute value.
-     * @param fiscalOfficerPrincipalName The fiscalOfficerPrincipalName to set.
+     * Sets the accountFiscalOfficerSystemIdentifier attribute value.
+     * @param accountFiscalOfficerSystemIdentifier The accountFiscalOfficerSystemIdentifier to set.
      */
-    public void setFiscalOfficerPrincipalName(String fiscalOfficerPrincipalName) {
-        this.fiscalOfficerPrincipalName = fiscalOfficerPrincipalName;
+    public void setAccountFiscalOfficerSystemIdentifier(String accountFiscalOfficerSystemIdentifier) {
+        this.accountFiscalOfficerSystemIdentifier = accountFiscalOfficerSystemIdentifier;
     }
 
     /**
-     * Gets the accountSupervisorPrincipalName attribute. 
-     * @return Returns the accountSupervisorPrincipalName.
+     * Gets the accountsSupervisorySystemsIdentifier attribute. 
+     * @return Returns the accountsSupervisorySystemsIdentifier.
      */
-    public String getAccountSupervisorPrincipalName() {
-        return accountSupervisorPrincipalName;
+    public String getAccountsSupervisorySystemsIdentifier() {
+        return accountsSupervisorySystemsIdentifier;
     }
 
     /**
-     * Sets the accountSupervisorPrincipalName attribute value.
-     * @param accountSupervisorPrincipalName The accountSupervisorPrincipalName to set.
+     * Sets the accountsSupervisorySystemsIdentifier attribute value.
+     * @param accountsSupervisorySystemsIdentifier The accountsSupervisorySystemsIdentifier to set.
      */
-    public void setAccountSupervisorPrincipalName(String accountSupervisorPrincipalName) {
-        this.accountSupervisorPrincipalName = accountSupervisorPrincipalName;
+    public void setAccountsSupervisorySystemsIdentifier(String accountsSupervisorySystemsIdentifier) {
+        this.accountsSupervisorySystemsIdentifier = accountsSupervisorySystemsIdentifier;
     }
 
     /**
-     * Gets the accountManagerPrincipalName attribute. 
-     * @return Returns the accountManagerPrincipalName.
+     * Gets the accountManagerSystemIdentifier attribute. 
+     * @return Returns the accountManagerSystemIdentifier.
      */
-    public String getAccountManagerPrincipalName() {
-        return accountManagerPrincipalName;
+    public String getAccountManagerSystemIdentifier() {
+        return accountManagerSystemIdentifier;
     }
 
     /**
-     * Sets the accountManagerPrincipalName attribute value.
-     * @param accountManagerPrincipalName The accountManagerPrincipalName to set.
+     * Sets the accountManagerSystemIdentifier attribute value.
+     * @param accountManagerSystemIdentifier The accountManagerSystemIdentifier to set.
      */
-    public void setAccountManagerPrincipalName(String accountManagerPrincipalName) {
-        this.accountManagerPrincipalName = accountManagerPrincipalName;
+    public void setAccountManagerSystemIdentifier(String accountManagerSystemIdentifier) {
+        this.accountManagerSystemIdentifier = accountManagerSystemIdentifier;
+    }
+
+    /**
+     * Gets the continuationChartOfAccount attribute. 
+     * @return Returns the continuationChartOfAccount.
+     */
+    public Chart getContinuationChartOfAccount() {
+        return continuationChartOfAccount;
+    }
+
+    /**
+     * Sets the continuationChartOfAccount attribute value.
+     * @param continuationChartOfAccount The continuationChartOfAccount to set.
+     */
+    public void setContinuationChartOfAccount(Chart continuationChartOfAccount) {
+        this.continuationChartOfAccount = continuationChartOfAccount;
     }
 
     /**
@@ -448,6 +540,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * Gets the continuationAccount attribute. 
+     * @return Returns the continuationAccount.
+     */
+    public Account getContinuationAccount() {
+        return continuationAccount;
+    }
+
+    /**
+     * Sets the continuationAccount attribute value.
+     * @param continuationAccount The continuationAccount to set.
+     */
+    public void setContinuationAccount(Account continuationAccount) {
+        this.continuationAccount = continuationAccount;
+    }
+
+    /**
      * Gets the continuationAccountNumber attribute. 
      * @return Returns the continuationAccountNumber.
      */
@@ -461,6 +569,38 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setContinuationAccountNumber(String continuationAccountNumber) {
         this.continuationAccountNumber = continuationAccountNumber;
+    }
+
+    /**
+     * Gets the incomeStreamAccount attribute. 
+     * @return Returns the incomeStreamAccount.
+     */
+    public Account getIncomeStreamAccount() {
+        return incomeStreamAccount;
+    }
+
+    /**
+     * Sets the incomeStreamAccount attribute value.
+     * @param incomeStreamAccount The incomeStreamAccount to set.
+     */
+    public void setIncomeStreamAccount(Account incomeStreamAccount) {
+        this.incomeStreamAccount = incomeStreamAccount;
+    }
+
+    /**
+     * Gets the incomeStreamChartOfAccounts attribute. 
+     * @return Returns the incomeStreamChartOfAccounts.
+     */
+    public Chart getIncomeStreamChartOfAccounts() {
+        return incomeStreamChartOfAccounts;
+    }
+
+    /**
+     * Sets the incomeStreamChartOfAccounts attribute value.
+     * @param incomeStreamChartOfAccounts The incomeStreamChartOfAccounts to set.
+     */
+    public void setIncomeStreamChartOfAccounts(Chart incomeStreamChartOfAccounts) {
+        this.incomeStreamChartOfAccounts = incomeStreamChartOfAccounts;
     }
 
     /**
@@ -509,6 +649,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
         this.budgetRecordingLevelCode = budgetRecordingLevelCode;
+    }
+
+    /**
+     * Gets the sufficientFundsCode attribute. 
+     * @return Returns the sufficientFundsCode.
+     */
+    public SufficientFundsCode getSufficientFundsCode() {
+        return sufficientFundsCode;
+    }
+
+    /**
+     * Sets the sufficientFundsCode attribute value.
+     * @param sufficientFundsCode The sufficientFundsCode to set.
+     */
+    public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
+        this.sufficientFundsCode = sufficientFundsCode;
     }
 
     /**
@@ -608,6 +764,54 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * Gets the acctIndirectCostRcvyType attribute. 
+     * @return Returns the acctIndirectCostRcvyType.
+     */
+    public IndirectCostRecoveryType getAcctIndirectCostRcvyType() {
+        return acctIndirectCostRcvyType;
+    }
+
+    /**
+     * Sets the acctIndirectCostRcvyType attribute value.
+     * @param acctIndirectCostRcvyType The acctIndirectCostRcvyType to set.
+     */
+    public void setAcctIndirectCostRcvyType(IndirectCostRecoveryType acctIndirectCostRcvyType) {
+        this.acctIndirectCostRcvyType = acctIndirectCostRcvyType;
+    }
+
+    /**
+     * Gets the acctIndirectCostRcvyTypeCd attribute. 
+     * @return Returns the acctIndirectCostRcvyTypeCd.
+     */
+    public String getAcctIndirectCostRcvyTypeCd() {
+        return acctIndirectCostRcvyTypeCd;
+    }
+
+    /**
+     * Sets the acctIndirectCostRcvyTypeCd attribute value.
+     * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
+     */
+    public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd) {
+        this.acctIndirectCostRcvyTypeCd = acctIndirectCostRcvyTypeCd;
+    }
+
+    /**
+     * Gets the indirectCostRcvyChartOfAccounts attribute. 
+     * @return Returns the indirectCostRcvyChartOfAccounts.
+     */
+    public Chart getIndirectCostRcvyChartOfAccounts() {
+        return indirectCostRcvyChartOfAccounts;
+    }
+
+    /**
+     * Sets the indirectCostRcvyChartOfAccounts attribute value.
+     * @param indirectCostRcvyChartOfAccounts The indirectCostRcvyChartOfAccounts to set.
+     */
+    public void setIndirectCostRcvyChartOfAccounts(Chart indirectCostRcvyChartOfAccounts) {
+        this.indirectCostRcvyChartOfAccounts = indirectCostRcvyChartOfAccounts;
+    }
+
+    /**
      * Gets the indirectCostRcvyFinCoaCode attribute. 
      * @return Returns the indirectCostRcvyFinCoaCode.
      */
@@ -621,6 +825,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
         this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
+    }
+
+    /**
+     * Gets the indirectCostRecoveryAcct attribute. 
+     * @return Returns the indirectCostRecoveryAcct.
+     */
+    public Account getIndirectCostRecoveryAcct() {
+        return indirectCostRecoveryAcct;
+    }
+
+    /**
+     * Sets the indirectCostRecoveryAcct attribute value.
+     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
+     */
+    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
+        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
     }
 
     /**
@@ -653,6 +873,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
+    }
+
+    /**
+     * Gets the accountDescription attribute. 
+     * @return Returns the accountDescription.
+     */
+    public AccountDescription getAccountDescription() {
+        return accountDescription;
+    }
+
+    /**
+     * Sets the accountDescription attribute value.
+     * @param accountDescription The accountDescription to set.
+     */
+    public void setAccountDescription(AccountDescription accountDescription) {
+        this.accountDescription = accountDescription;
     }
 
     /**
@@ -701,15 +937,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountPurposeText(String accountPurposeText) {
         this.accountPurposeText = accountPurposeText;
-    }    
-    
+    }
+
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * Gets the subAccounts attribute. 
+     * @return Returns the subAccounts.
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        return m;
+    public List getSubAccounts() {
+        return subAccounts;
+    }
+
+    /**
+     * Sets the subAccounts attribute value.
+     * @param subAccounts The subAccounts to set.
+     */
+    public void setSubAccounts(List subAccounts) {
+        this.subAccounts = subAccounts;
     }
 
     /**
@@ -728,5 +971,58 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.active = active;
     }
 
+    /**
+     * Gets the accountFiscalOfficerUser attribute. 
+     * @return Returns the accountFiscalOfficerUser.
+     */
+    public Person getAccountFiscalOfficerUser() {
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);        
+        return accountFiscalOfficerUser;
+    }
+
+    /**
+     * Sets the accountFiscalOfficerUser attribute value.
+     * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
+     */
+    public void setAccountFiscalOfficerUser(Person accountFiscalOfficerUser) {
+        this.accountFiscalOfficerUser = accountFiscalOfficerUser;
+    }
+
+    /**
+     * Gets the accountSupervisoryUser attribute. 
+     * @return Returns the accountSupervisoryUser.
+     */
+    public Person getAccountSupervisoryUser() {
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        return accountSupervisoryUser;
+    }
+
+    /**
+     * Sets the accountSupervisoryUser attribute value.
+     * @param accountSupervisoryUser The accountSupervisoryUser to set.
+     */
+    public void setAccountSupervisoryUser(Person accountSupervisoryUser) {
+        this.accountSupervisoryUser = accountSupervisoryUser;
+    }
+
+    /**
+     * Gets the accountManagerUser attribute. 
+     * @return Returns the accountManagerUser.
+     */
+    public Person getAccountManagerUser() {
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        return accountManagerUser;
+    }
+
+    /**
+     * Sets the accountManagerUser attribute value.
+     * @param accountManagerUser The accountManagerUser to set.
+     */
+    public void setAccountManagerUser(Person accountManagerUser) {
+        this.accountManagerUser = accountManagerUser;
+    }
+
+
+    
     
 }

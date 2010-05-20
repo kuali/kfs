@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Travis' id='5704-1-1' failOnError='true'>
+    <comment>Update Parameter Text for SENSITIVE_DATA_PATTERNS</comment>
+    <update tableName='krns_parm_t'>
+      <column name='txt' value='[0-9]{3}-[0-9]{2}-[0-9]{4};\d{4}-\d{4}-\d{4}-\d{4};\d{4}\s\d{4}\s\d{4}\s\d{4};\d{2}-\d{7};\d{9}' />
+      <where>nmspc_cd='KR-NS' AND PARM_DTL_TYP_CD='All' AND PARM_NM='SENSITIVE_DATA_PATTERNS'</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

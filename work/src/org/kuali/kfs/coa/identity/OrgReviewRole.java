@@ -469,7 +469,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public Date getActiveFromDate() {
      
         Date todaysDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
-        this.setActive(todaysDate.after(activeFromDate) && todaysDate.before(activeToDate));
+        if ((getActiveToDate() != null) && (getActiveToDate() != null))
+            this.setActive(todaysDate.after(activeFromDate) && todaysDate.before(activeToDate));
         return activeFromDate;
     }
     /**

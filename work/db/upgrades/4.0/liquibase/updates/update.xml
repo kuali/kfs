@@ -148,4 +148,6 @@
 <include file="updates/2010-05-14-5692-1-KNS_PARM_T.xml"/>
 <include file="updates/2010-05-14-5616-INGEST-ENDOW.xml"/>
 <include file="updates/2010-05-17-5693-FP_DV_DOC_T.xml"/>
+<include file="updates/2010-05-18-5692-KRNS_PARM_T.xml"/>
+<include file="updates/2010-05-18-5704-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

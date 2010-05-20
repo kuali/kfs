@@ -21,6 +21,8 @@ import java.util.List;
 public class AccountCreationStatus implements Serializable {
     
     private List<String> resultCodes;
+    private String documentNumber;
+    private String accountNumber;
 
     public AccountCreationStatus() {}
 
@@ -38,6 +40,38 @@ public class AccountCreationStatus implements Serializable {
      */
     public void setResultCodes(List<String> resultCodes) {
         this.resultCodes = resultCodes;
+    }
+
+    /**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
     
 }

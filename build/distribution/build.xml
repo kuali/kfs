@@ -55,6 +55,7 @@
 				<include name="${build.distribution.directory}/distribution.properties" />
 				<include name="build/svn*.jar" />
 				<include name="build/ganymed.jar" />
+				<include name="build/drivers/*.jar" />
 			</fileset>
 		</delete>
 	    <!-- remove foundation-only targets import from main build file -->

@@ -662,6 +662,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>		
     </bean>	
 	 
 </beans>

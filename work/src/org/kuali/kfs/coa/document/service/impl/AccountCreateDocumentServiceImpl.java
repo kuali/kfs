@@ -18,12 +18,13 @@ package org.kuali.kfs.coa.document.service.impl;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.KCAward;
 import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class is the default implementation of the AccountCreateDocumentService
@@ -31,7 +32,10 @@ import org.kuali.kfs.sys.KFSConstants;
 
 public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentService {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountCreateDocumentServiceImpl.class);
+    
     private DocumentService documentService;
+    private ParameterService parameterService;
     
     /**
      * This method will use the data from kc award and create a document with the account
@@ -56,7 +60,48 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         //set the account object in the maintenance document.
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
         
+        this.processAutomaticCGAccountMaintenanceDocument(maintenanceAccountDocument);
+        
         return maintenanceAccountDocument.getDocumentNumber();
+    }
+    
+    /**
+     * This method will check the system parameter and takes appropriate workflow routing action
+     * @param maintenanceAccountDocument
+     */
+    protected void processAutomaticCGAccountMaintenanceDocument(MaintenanceDocument maintenanceAccountDocument) {
+       
+        if (!checkIfAccountAutoCreateRouteExists()) {
+            // error message since there is no system parameter has been setup yet....
+        }
+        String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+        
+        createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRoute);
+    }
+
+    /**
+     * This method create and route automatic CG account maint. document based on system parameter
+     * @param maintenanceAccountDocument
+     * @param accountAutoCreateRoute
+     */
+    private void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute) {
+        
+        try {
+            if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
+                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().saveDocument("");
+            }
+            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().blanketApprove("");
+            }
+            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
+                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().routeDocument("");
+            }
+        }
+        catch (WorkflowException wfe) {
+            LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
+            throw new RuntimeException("WorkflowException: createRouteAutomaticDocument failed");   
+            
+        }
     }
     
     /**
@@ -69,8 +114,23 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
             return document;            
         }
         catch (WorkflowException wfe) {
-            throw new RuntimeException("WorkFlowException: createAccountDocument has failed.  Unable to get a new document");   
+            throw new RuntimeException("WorkflowException: createAccountDocument has failed.  Unable to get a new document");   
         }
+    }
+    
+    /**
+     * This method checks for the system parameter for ACCOUNT_AUTO_CREATE_ROUTE
+     * @return true if ACCOUNT_AUTO_CREATE_ROUTE exists else false
+     */
+    protected boolean checkIfAccountAutoCreateRouteExists() {
+        boolean parameterExists = true;
+        
+        // check to make sure the system parameter for run date check has already been setup...
+        if (!getParameterService().parameterExists(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE)) {
+            return false;
+        }
+        
+        return parameterExists;
     }
     
     /**
@@ -89,6 +149,24 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */    
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
     

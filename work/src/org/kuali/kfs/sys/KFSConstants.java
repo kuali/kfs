@@ -608,7 +608,11 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // Workflow constants
     public static final String WORKFLOW_FYI_REQUEST = "F";
     public static final String WORKFLOW_APPROVE_REQUEST = "A";
-
+    
+    public static final String WORKFLOW_DOCUMENT_NO_SUBMIT = "N";
+    public static final String WORKFLOW_DOCUMENT_BLANKET_APPROVE = "B";  
+    public static final String WORKFLOW_DOCUMENT_SUBMIT = "R";    
+    
     public static class DocumentStatusCodes {
         public static final String INITIATED = "?";
         public static final String CANCELLED = "X";

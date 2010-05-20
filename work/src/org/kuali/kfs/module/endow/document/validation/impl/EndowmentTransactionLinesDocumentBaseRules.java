@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
@@ -128,6 +129,16 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
         return ERROR_PREFIX;
 
+    }
+
+    // Obtain Prefix for Error fields in UI.
+    public String getSecurityIDForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    {
+        EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
+        if (line instanceof EndowmentSourceTransactionLine) 
+            return document.getSourceTransactionSecurity().getSecurityID();
+        else
+            return document.getTargetTransactionSecurity().getSecurityID();
     }
 
     /**

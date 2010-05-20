@@ -20,7 +20,7 @@ import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 
-public interface LiabilityIncreaseDocumentService extends EndowmentTransactionLinesDocumentService
+public interface LiabilityDocumentService extends EndowmentTransactionLinesDocumentService
 {
 
 
@@ -30,6 +30,14 @@ public interface LiabilityIncreaseDocumentService extends EndowmentTransactionLi
      * @param aiDocument
      * @param transLine
      */
-    public void updateTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase aiDocument, EndowmentTransactionLine transLine);
+    public void updateLiabilityIncreaseTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase aiDocument, EndowmentTransactionLine transLine);
+
+    /**
+     * This method...
+     * @param isSource
+     * @param aiDocument
+     * @param transLine
+     */
+    public void updateLiabilityDecreaseTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase aiDocument, EndowmentTransactionLine transLine);
 
 }

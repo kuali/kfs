@@ -18,11 +18,15 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
@@ -33,12 +37,22 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLine, EndowmentTransactionLine line) {
-        boolean isValid = super.processAddTransactionLineRules(transLine, line);
+    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLineDocument, EndowmentTransactionLine line) 
+    {
+        boolean isValid = true; 
+        
+        String ERROR_PREFIX = getErrorPrefix(line, -1);
+        
+        isValid = validateSecurity(isValid, (LiabilityIncreaseDocument) transLineDocument);
+        
+        isValid = validateRegistration(isValid, (LiabilityIncreaseDocument) transLineDocument);
+        
+        //TODO:Validate not null registration
+        isValid = super.processAddTransactionLineRules(transLineDocument, line);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            isValid &= validateLiabilityTransactionLine((EndowmentTransactionLinesDocumentBase) transLine, line, -1);
+            isValid &= validateLiabilityTransactionLine((EndowmentTransactionLinesDocumentBase) transLineDocument, line, -1);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -72,30 +86,9 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         if (isValid) {
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
 
-            // Checks if Security Code is empty.
-            if (isSecurityCodeEmpty(liabilityIncreaseDocument, false))
-                return false;
+            isValid = validateSecurity(isValid, liabilityIncreaseDocument);
 
-            // Validates Security Code.
-            if (!validateSecurityCode(liabilityIncreaseDocument, false))
-                return false;
-
-            // Checks if Security is Active
-            isValid &= isSecurityActive(liabilityIncreaseDocument, false);
-
-            // Validates Security class code
-            isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false, LIABILITY_CLASS_CODE);
-
-            // Checks if registration code is empty
-            if (isRegistrationCodeEmpty(liabilityIncreaseDocument, false))
-                return false;
-
-            // Validate Registration code.
-            if (!validateRegistrationCode(liabilityIncreaseDocument, false))
-                return false;
-
-            // Checks if registration code is active
-            isValid &= isRegistrationCodeActive(liabilityIncreaseDocument, false);
+            isValid = validateRegistration(isValid, liabilityIncreaseDocument);
 
             // Empty out the Source Tx Line in weird case they got entered.
             liabilityIncreaseDocument.getSourceTransactionLines().clear();
@@ -115,6 +108,38 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+
+    private boolean validateRegistration(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) {
+        // Checks if registration code is empty
+        if (isRegistrationCodeEmpty(liabilityIncreaseDocument, false))
+            return false;
+
+        // Validate Registration code.
+        if (!validateRegistrationCode(liabilityIncreaseDocument, false))
+            return false;
+
+        // Checks if registration code is active
+        isValid &= isRegistrationCodeActive(liabilityIncreaseDocument, false);
+        return isValid;
+    }
+
+    private boolean validateSecurity(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) 
+    {
+        // Checks if Security Code is empty.
+        if (isSecurityCodeEmpty(liabilityIncreaseDocument, false))
+            return false;
+
+        // Validates Security Code.
+        if (!validateSecurityCode(liabilityIncreaseDocument, false))
+            return false;
+
+        // Checks if Security is Active
+        isValid &= isSecurityActive(liabilityIncreaseDocument, false);
+
+        // Validates Security class code
+        isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false, LIABILITY_CLASS_CODE);
+        return isValid;
     }
 
     /**

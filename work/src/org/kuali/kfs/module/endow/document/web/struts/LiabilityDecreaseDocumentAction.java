@@ -25,7 +25,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
-import org.kuali.kfs.module.endow.document.service.LiabilityIncreaseDocumentService;
+import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -113,9 +113,9 @@ public class LiabilityDecreaseDocumentAction extends EndowmentTransactionLinesDo
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
 
-        LiabilityIncreaseDocumentService taxLotsService = SpringContext.getBean(LiabilityIncreaseDocumentService.class);
-        LiabilityDecreaseDocument liabilityIncreaseDocument = (LiabilityDecreaseDocument) etlDocument;
-        taxLotsService.updateTransactionLineTaxLots(isSource, liabilityIncreaseDocument, transLine);
+        LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
+        LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) etlDocument;
+        taxLotsService.updateLiabilityDecreaseTransactionLineTaxLots(isSource, liabilityDecreaseDocument, transLine);
 
     }        
 

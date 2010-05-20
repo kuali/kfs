@@ -22,8 +22,11 @@ import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
+import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -43,6 +46,11 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             isValid &= validateLiabilityTransactionLine(line, -1);
         }
 
+        LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
+        LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) transLine;
+        boolean isSource = line instanceof EndowmentSourceTransactionLine ? true : false;
+        taxLotsService.updateLiabilityDecreaseTransactionLineTaxLots(isSource, (EndowmentTaxLotLinesDocumentBase) liabilityDecreaseDocument, line);
+        
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
@@ -118,10 +126,11 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
 
             // Obtaining all the transaction lines for validations
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
-            txLines.addAll(liabilitydecreaseDocument.getTargetTransactionLines());
+            txLines.addAll(liabilitydecreaseDocument.getSourceTransactionLines());
 
-            for (int i = 0; i < liabilitydecreaseDocument.getTargetTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = liabilitydecreaseDocument.getTargetTransactionLines().get(i);
+            for (int i = 0; i < liabilitydecreaseDocument.getSourceTransactionLines().size(); i++) 
+            {
+                EndowmentTransactionLine txLine = liabilitydecreaseDocument.getSourceTransactionLines().get(i);
                 isValid &= validateLiabilityTransactionLine(txLine, i);
             }
         }

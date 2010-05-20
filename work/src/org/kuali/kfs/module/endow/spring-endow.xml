@@ -332,7 +332,7 @@
 		</property>	
 	</bean>
 
-	<bean id="liabilityIncreaseDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.LiabilityIncreaseDocumentServiceImpl">
+	<bean id="liabilityDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.LiabilityDocumentServiceImpl">
 		<property name="taxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>	

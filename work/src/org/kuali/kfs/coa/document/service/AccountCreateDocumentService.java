@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.service;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.KCAward;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 
 /**
  * An interface of services to create account document for CG
@@ -27,7 +27,7 @@ public interface AccountCreateDocumentService {
     * This method will use KC award data, merge using default kfs to create
     * an  account for the maintenance document.
     */
-    public Account createAccountForCGMaintenanceDocument(KCAward kCAward);
+    public Account createAccountForCGMaintenanceDocument(AccountParameters AccountParameters);
     
     /**
      * This method creates a maintenance document for the cg account

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.document.service.impl;
 
-import org.apache.batik.i18n.LocaleGroup;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.KCAward;
+import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -41,9 +41,70 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     /**
      * This method will use the data from kc award and create a document with the account
      */
-    public Account createAccountForCGMaintenanceDocument(KCAward kCAward) {
-       Account account = new Account();
-       
+    public Account createAccountForCGMaintenanceDocument(AccountParameters accountParams) {
+        Account account = new Account();
+        //TODO: get AccountAutoCreateDefaults using Spring
+        AccountAutoCreateDefaults defaults = null;
+        
+        account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        account.setOrganizationCode(defaults.getOrganizationCode());
+        //account.setAccountNumber(accountParams.getAccountNumber());
+        account.setAccountName(account.getAccountName());
+        //account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
+        account.setAccountExpirationDate(accountParams.getExpirationDate());
+        account.setAccountEffectiveDate(accountParams.getEffectiveDate());
+        //account.setPostalZipCode(defaults.getAccountPostalCode());
+        account.setAccountCityName(defaults.getAccountCityName());
+        account.setAccountStateCode(defaults.getAccountStateCode());
+        account.setAccountStreetAddress(defaults.getAccountStreetAddress());
+        account.setAccountOffCampusIndicator(accountParams.isOffCampusIndicator());
+        account.setAccountTypeCode(defaults.getAccountTypeCode());
+        account.setSubFundGroupCode(defaults.getSubFundGroupCode());
+        account.setAccountsFringesBnftIndicator(true);
+        account.setFringeBenefitsChartOfAccount(defaults.getFringeBenefitsChartOfAccount());
+        //defaults.getFringeBenefitAccountNumber();
+        account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
+        account.setAccountRestrictedStatusCode("R");
+        
+        //account responsibility
+        account.setAccountFiscalOfficerSystemIdentifier(defaults.getFiscalOfficerPrincipalName());
+        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisorPrincipalName());
+        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerPrincipalName());
+        //account.setContinuationChartOfAccount(continuationChartOfAccount);
+        account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
+        //account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamAccountNumber());
+        account.setIncomeStreamAccountNumber(defaults.getIncomeStreamAccountNumber());
+        account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
+        account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
+        
+
+        // contracts & grants
+        //account.setContractControlAccountNumber(defaults.getCon)
+        //contract control account number
+        //account.setAcctIndirectCostRcvyTypeCd(defaults.getAccountI);
+        //indirect cost rate
+        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
+        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
+        account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
+        
+        account.setAccountCfdaNumber(accountParams.getCfdaNumber());
+        //account.setAccountE
+        
+        accountParams.getIndirectCostRate();
+        accountParams.getIndirectCostTypeCode();
+        account.setAccountCfdaNumber(accountParams.getCfdaNumber());
+        
+        //account expense guideline text  accountParams.getExpenseGuidelineText();
+        // account income guideline text accountParams.getIncomeGuidelineText();
+        account.setGuidelinesAndPurposeSection("");
+        
+        //campus description
+        //organziation description
+        //responsibility center description
+        //building campuse code
+        //building code
+        
+        
         return account;
     }
     

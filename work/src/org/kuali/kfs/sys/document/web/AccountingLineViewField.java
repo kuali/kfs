@@ -26,6 +26,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -191,9 +192,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         List errors = renderingContext.getErrors();
         
         this.getField().setPropertyPrefix(accountingLineProperty);
-        //boolean chartSetByAccount = getName().equals(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME) && !SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
+        boolean chartSetByAccount = getName().equals(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME) && !SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
         //set chartOfAccountsCode readOnly if account can't cross charts
-        if (!renderingContext.isFieldModifyable(this.getName()) /*|| chartSetByAccount*/) {
+        if (!renderingContext.isFieldModifyable(this.getName()) || chartSetByAccount) {
             this.getField().setReadOnly(true);
         }
 

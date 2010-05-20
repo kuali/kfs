@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public class AccountParameters implements Serializable {
     
     private String unit;
-    private String accountumber;
+    private String accountNumber;
     private String accountName;
     private String higherEdFunctionCode;
     private String indirectCostTypeCode;
@@ -55,19 +55,19 @@ public class AccountParameters implements Serializable {
     }
 
     /**
-     * Gets the accountumber attribute. 
-     * @return Returns the accountumber.
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
      */
-    public String getAccountumber() {
-        return accountumber;
+    public String getaccountNumber() {
+        return accountNumber;
     }
 
     /**
-     * Sets the accountumber attribute value.
-     * @param accountumber The accountumber to set.
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
      */
-    public void setAccountumber(String accountumber) {
-        this.accountumber = accountumber;
+    public void setaccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     /**

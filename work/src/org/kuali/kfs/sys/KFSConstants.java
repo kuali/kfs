@@ -1254,9 +1254,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     /* Endowment Specific Constants, will delete them soon.*/
     public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
-    public static final String TRANSACTION_LINE_ERRORS = "newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
+    public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines,newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
-    public static final String UNITS_TOTALING_EDITING_MODE = "unitsTotaling";
     
 
 }

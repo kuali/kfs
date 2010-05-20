@@ -121,7 +121,7 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
         {
             if(holdingTaxLot.getUnits().compareTo(postiveUnitValue.bigDecimalValue()) < 0 )
             {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
                 //Empty out Tax lot lines.
                 transLine.getTaxLotLines().remove(0);
             }
@@ -129,7 +129,7 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
         else
         {
             //Object must exist
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID,"Liability");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID,"Liability");
             //Empty out Tax lot lines.
             transLine.getTaxLotLines().remove(0);
             

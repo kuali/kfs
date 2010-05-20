@@ -515,7 +515,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             return true;
         else
         {
-            putFieldError(KFSConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+            putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
             return false;   
         }
             

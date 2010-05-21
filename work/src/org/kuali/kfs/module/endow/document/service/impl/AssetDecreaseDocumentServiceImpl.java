@@ -103,7 +103,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                     try {
                         int lotUnitsInt = holdingTaxLot.getUnits().intValueExact();
                         lotUnits = holdingTaxLot.getUnits().multiply(percentage);
-                        lotUnits = lotUnits.setScale(0, RoundingMode.UP);
+                        lotUnits = lotUnits.setScale(0, BigDecimal.ROUND_HALF_UP);
                         lotUnits = lotUnits.setScale(5);
                     }
                     catch (ArithmeticException ex) {

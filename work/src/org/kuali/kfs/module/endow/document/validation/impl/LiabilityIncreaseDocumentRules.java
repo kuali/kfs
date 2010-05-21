@@ -30,7 +30,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
-    private static final String LIABILITY_CLASS_CODE = "L";
+
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
@@ -120,53 +120,7 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    /**
-     * This method is a collection if validation performed on Registration Code.
-     * The validations are not null & valid registration code
-     * 
-     * @param isValid
-     * @param liabilityIncreaseDocument
-     * @return
-     */
-    private boolean validateRegistration(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) {
-        // Checks if registration code is empty
-        if (isRegistrationCodeEmpty(liabilityIncreaseDocument, false))
-            return false;
 
-        // Validate Registration code.
-        if (!validateRegistrationCode(liabilityIncreaseDocument, false))
-            return false;
-
-        // Checks if registration code is active
-        isValid &= isRegistrationCodeActive(liabilityIncreaseDocument, false);
-        return isValid;
-    }
-
-    /**
-     * This method is a collection if validation performed on Security.
-     * The validations are not null, valid security,active & class code matches L
-     * 
-     * @param isValid
-     * @param liabilityIncreaseDocument
-     * @return
-     */
-    private boolean validateSecurity(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) 
-    {
-        // Checks if Security Code is empty.
-        if (isSecurityCodeEmpty(liabilityIncreaseDocument, false))
-            return false;
-
-        // Validates Security Code.
-        if (!validateSecurityCode(liabilityIncreaseDocument, false))
-            return false;
-
-        // Checks if Security is Active
-        isValid &= isSecurityActive(liabilityIncreaseDocument, false);
-
-        // Validates Security class code
-        isValid &= validateSecurityClassTypeCode(liabilityIncreaseDocument, false, LIABILITY_CLASS_CODE);
-        return isValid;
-    }
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)

@@ -31,6 +31,7 @@ import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
@@ -49,6 +50,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number> {
 
+    private static final String LIABILITY_CLASS_CODE = "L";
+    
     /**
      * @see org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule#processDeleteTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
@@ -544,5 +547,53 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
 
         return true;            
+    }
+    
+    /**
+     * This method is a collection if validation performed on Registration Code.
+     * The validations are not null & valid registration code
+     * 
+     * @param isValid
+     * @param liabilityIncreaseDocument
+     * @return
+     */
+    protected boolean validateRegistration(boolean isValid, EndowmentSecurityDetailsDocumentBase document) {
+        // Checks if registration code is empty
+        if (isRegistrationCodeEmpty(document, false))
+            return false;
+
+        // Validate Registration code.
+        if (!validateRegistrationCode(document, false))
+            return false;
+
+        // Checks if registration code is active
+        isValid &= isRegistrationCodeActive(document, false);
+        return isValid;
+    }
+
+    /**
+     * This method is a collection if validation performed on Security.
+     * The validations are not null, valid security,active & class code matches L
+     * 
+     * @param isValid
+     * @param document
+     * @return
+     */
+    protected boolean validateSecurity(boolean isValid, EndowmentSecurityDetailsDocumentBase document) 
+    {
+        // Checks if Security Code is empty.
+        if (isSecurityCodeEmpty(document, false))
+            return false;
+
+        // Validates Security Code.
+        if (!validateSecurityCode(document, false))
+            return false;
+
+        // Checks if Security is Active
+        isValid &= isSecurityActive(document, false);
+
+        // Validates Security class code
+        isValid &= validateSecurityClassTypeCode(document, false, LIABILITY_CLASS_CODE);
+        return isValid;
     }
 }

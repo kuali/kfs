@@ -94,43 +94,28 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            LiabilityDecreaseDocument liabilitydecreaseDocument = (LiabilityDecreaseDocument) document;
+            LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) document;
 
-            // Checks if Security Code is empty.
-            if (isSecurityCodeEmpty(liabilitydecreaseDocument, true))
+            //Validate Security
+            isValid = validateSecurity(isValid, liabilityDecreaseDocument);
+
+            //Validate Registration code.
+            isValid = validateRegistration(isValid, liabilityDecreaseDocument);
+
+            // Validate atleast one Tx was entered.
+            if (!transactionLineSizeGreaterThanZero(liabilityDecreaseDocument, false))
                 return false;
-
-            // Validates Security Code.
-            if (!validateSecurityCode(liabilitydecreaseDocument, true))
-                return false;
-
-            // Checks if Security is Active
-            isValid &= isSecurityActive(liabilitydecreaseDocument, true);
-
-            // Validates Security class code
-            isValid &= validateSecurityClassTypeCode(liabilitydecreaseDocument, true, LIABILITY_CLASS_CODE);
-
-            // Checks if registration code is empty
-            if (isRegistrationCodeEmpty(liabilitydecreaseDocument, true))
-                return false;
-
-            // Validate Registration code.
-            if (!validateRegistrationCode(liabilitydecreaseDocument, true))
-                return false;
-
-            // Checks if registration code is active
-            isValid &= isRegistrationCodeActive(liabilitydecreaseDocument, true);
-
+            
             // Empty out the Source Tx Line in weird case they got entered.
-            liabilitydecreaseDocument.getTargetTransactionLines().clear();
+            liabilityDecreaseDocument.getTargetTransactionLines().clear();
 
             // Obtaining all the transaction lines for validations
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
-            txLines.addAll(liabilitydecreaseDocument.getSourceTransactionLines());
+            txLines.addAll(liabilityDecreaseDocument.getSourceTransactionLines());
 
-            for (int i = 0; i < liabilitydecreaseDocument.getSourceTransactionLines().size(); i++) 
+            for (int i = 0; i < liabilityDecreaseDocument.getSourceTransactionLines().size(); i++) 
             {
-                EndowmentTransactionLine txLine = liabilitydecreaseDocument.getSourceTransactionLines().get(i);
+                EndowmentTransactionLine txLine = liabilityDecreaseDocument.getSourceTransactionLines().get(i);
                 isValid &= validateLiabilityTransactionLine(txLine, i);
             }
         }

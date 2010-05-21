@@ -43,9 +43,9 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         
         String ERROR_PREFIX = getErrorPrefix(line, -1);
         
-        isValid = validateSecurity(isValid, (LiabilityIncreaseDocument) transLineDocument);
+        isValid = validateSecurity(isValid, (LiabilityIncreaseDocument) transLineDocument, false);
         
-        isValid = validateRegistration(isValid, (LiabilityIncreaseDocument) transLineDocument);
+        isValid = validateRegistration(isValid, (LiabilityIncreaseDocument) transLineDocument, false);
         
         isValid = super.processAddTransactionLineRules(transLineDocument, line);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
@@ -95,10 +95,10 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
 
             //Validate Security
-            isValid = validateSecurity(isValid, liabilityIncreaseDocument);
+            isValid = validateSecurity(isValid, liabilityIncreaseDocument, false);
 
             //Validate Registration code.
-            isValid = validateRegistration(isValid, liabilityIncreaseDocument);
+            isValid = validateRegistration(isValid, liabilityIncreaseDocument, false);
 
             // Empty out the Source Tx Line in weird case they got entered.
             liabilityIncreaseDocument.getSourceTransactionLines().clear();

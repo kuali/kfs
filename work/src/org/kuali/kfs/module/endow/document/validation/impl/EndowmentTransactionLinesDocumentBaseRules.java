@@ -557,17 +557,18 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param liabilityIncreaseDocument
      * @return
      */
-    protected boolean validateRegistration(boolean isValid, EndowmentSecurityDetailsDocumentBase document) {
+    protected boolean validateRegistration(boolean isValid, EndowmentSecurityDetailsDocumentBase document, boolean isSource) 
+    {
         // Checks if registration code is empty
-        if (isRegistrationCodeEmpty(document, false))
+        if (isRegistrationCodeEmpty(document, isSource))
             return false;
 
         // Validate Registration code.
-        if (!validateRegistrationCode(document, false))
+        if (!validateRegistrationCode(document, isSource))
             return false;
 
         // Checks if registration code is active
-        isValid &= isRegistrationCodeActive(document, false);
+        isValid &= isRegistrationCodeActive(document, isSource);
         return isValid;
     }
 
@@ -579,21 +580,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param document
      * @return
      */
-    protected boolean validateSecurity(boolean isValid, EndowmentSecurityDetailsDocumentBase document) 
+    protected boolean validateSecurity(boolean isValid, EndowmentSecurityDetailsDocumentBase document, boolean isSource) 
     {
         // Checks if Security Code is empty.
-        if (isSecurityCodeEmpty(document, false))
+        if (isSecurityCodeEmpty(document, isSource))
             return false;
 
         // Validates Security Code.
-        if (!validateSecurityCode(document, false))
+        if (!validateSecurityCode(document, isSource))
             return false;
 
         // Checks if Security is Active
-        isValid &= isSecurityActive(document, false);
+        isValid &= isSecurityActive(document, isSource);
 
         // Validates Security class code
-        isValid &= validateSecurityClassTypeCode(document, false, LIABILITY_CLASS_CODE);
+        isValid &= validateSecurityClassTypeCode(document, isSource, LIABILITY_CLASS_CODE);
         return isValid;
     }
 }

@@ -60,7 +60,7 @@ public class AccountParameters implements Serializable {
      * Gets the accountNumber attribute. 
      * @return Returns the accountNumber.
      */
-    public String getaccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
@@ -68,7 +68,7 @@ public class AccountParameters implements Serializable {
      * Sets the accountNumber attribute value.
      * @param accountNumber The accountNumber to set.
      */
-    public void setaccountNumber(String accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 

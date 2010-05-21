@@ -17,10 +17,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         Not Displayed
         <ref bean="EndowmentTransactionTaxLotLine-documentNumber" />
         <ref bean="EndowmentTransactionTaxLotLine-documentLineTypeCode" />
+        -->
         <ref bean="EndowmentTransactionTaxLotLine-lotLongTermGainLoss" />
         <ref bean="EndowmentTransactionTaxLotLine-lotShortTermGainLoss" />
-        
-        -->
         <ref bean="EndowmentTransactionTaxLotLine-documentLineNumber" />
         <ref bean="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber" />
         <ref bean="EndowmentTransactionTaxLotLine-lotUnits" />
@@ -82,6 +81,22 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
+  </bean>
+  
+  <bean id="EndowmentTransactionTaxLotLine-lotLongTermGainLoss" parent="EndowmentTransactionTaxLotLine-lotLongTermGainLoss-parentBean" />
+
+  <bean id="EndowmentTransactionTaxLotLine-lotLongTermGainLoss-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="lotLongTermGainLoss" />
+    <property name="label" value="Long Term Gain/Loss" />
+    <property name="shortLabel" value="Long Term Gain/Loss" />
+  </bean>
+  
+  <bean id="EndowmentTransactionTaxLotLine-lotShortTermGainLoss" parent="EndowmentTransactionTaxLotLine-lotShortTermGainLoss-parentBean" />
+
+  <bean id="EndowmentTransactionTaxLotLine-lotShortTermGainLoss-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="lotShortTermGainLoss" />
+    <property name="label" value="Short Term Gain/Loss" />
+    <property name="shortLabel" value="Short Term Gain/Loss" />
   </bean>
   
 </beans>

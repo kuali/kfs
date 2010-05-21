@@ -22,7 +22,9 @@
 <%@ attribute name="isSource" required="true"
 	description="Display all the Taxlot lines associated with the Source Transaction for this Document."%>	
 <%@ attribute name="isTarget" required="true"
-	description="Display all the Taxlot lines associated with the Target Transaction for this Document."%>	
+	description="Display all the Taxlot lines associated with the Target Transaction for this Document."%>
+<%@ attribute name="displayGainLoss" required="true"
+	description="Display the Gain and Loss for the Tax Lot Lines."%>		
 
 <c:set var="holdingTaxLotAttributes" value="${DataDictionary.HoldingTaxLot.attributes}"/>
 
@@ -32,18 +34,24 @@
 		<table cellpadding="0" cellspacing="0" summary="Tax Lot Lines">
 		<c:if test="${isSource}">	
 			<tr>
-	            <td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+			<c:if test="${displayGainLoss}">
+				<td colspan="7" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			
+			<c:if test="${not displayGainLoss}">
+				<td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
 	        	    FROM
 	            </td>   
 	        </tr>	
 			<tr>
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${documentAttributes.transactionHoldingLotNumber}"
+					attributeEntry="${documentAttributes.documentLineNumber}"
 					useShortLabel="false"
 					/>
 
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${holdingTaxLotAttributes.lotNumber}"
+					attributeEntry="${documentAttributes.transactionHoldingLotNumber}"
 					useShortLabel="false"
 					hideRequiredAsterisk="true"
 					/>
@@ -57,6 +65,18 @@
 					attributeEntry="${documentAttributes.lotHoldingCost}"
 					useShortLabel="false"
 					/>
+					
+				<c:if test="${displayGainLoss}">
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${documentAttributes.lotShortTermGainLoss}"
+						useShortLabel="false"
+					/>
+					
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${documentAttributes.lotLongTermGainLoss}"
+						useShortLabel="false"
+					/>
+				</c:if>								
 
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${holdingTaxLotAttributes.acquiredDate}"
@@ -67,9 +87,13 @@
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>
 		                <td class="datacell">${outerctr + 1}</td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.lotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
+		                <c:if test="${displayGainLoss}">
+		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="${readOnly}"/></td>
+		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="${readOnly}"/></td>
+		                </c:if>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
 		            </tr>
 		        </logic:iterate>
@@ -78,18 +102,24 @@
 		
 		<c:if test="${isTarget}">	
 			<tr>
-	            <td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+			<c:if test="${displayGainLoss}">
+				<td colspan="7" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			
+			<c:if test="${not displayGainLoss}">
+				<td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
 	        	    TO
 	            </td>   
 	        </tr>	
 			<tr>
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${documentAttributes.transactionHoldingLotNumber}"
+					attributeEntry="${documentAttributes.documentLineNumber}"
 					useShortLabel="false"
 					/>
 
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${holdingTaxLotAttributes.lotNumber}"
+					attributeEntry="${documentAttributes.transactionHoldingLotNumber}"
 					useShortLabel="false"
 					hideRequiredAsterisk="true"
 					/>
@@ -103,6 +133,18 @@
 					attributeEntry="${documentAttributes.lotHoldingCost}"
 					useShortLabel="false"
 					/>
+					
+				<c:if test="${displayGainLoss}">
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${documentAttributes.lotShortTermGainLoss}"
+						useShortLabel="false"
+					/>
+					
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${documentAttributes.lotLongTermGainLoss}"
+						useShortLabel="false"
+					/>
+				</c:if>			
 
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${holdingTaxLotAttributes.acquiredDate}"
@@ -113,9 +155,13 @@
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>
 		                <td class="datacell">${outerctr + 1}</td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.lotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
+		                <c:if test="${displayGainLoss}">
+		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="${readOnly}"/></td>
+		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="${readOnly}"/></td>
+		                </c:if>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
 		            </tr>
 		        </logic:iterate>

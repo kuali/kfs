@@ -60,11 +60,12 @@ public class KEMCalculationRoundingHelper {
     public static BigDecimal multiply(BigDecimal multiplier1, BigDecimal multiplier2, int scale) {
 
         BigDecimal result = BigDecimal.ZERO;
-
+        
         if (multiplier1 != null && multiplier2 != null) {
             result = multiplier1.multiply(multiplier2);
         }
-        result.setScale(scale, BigDecimal.ROUND_HALF_UP);
+        
+        result = result.setScale(scale, BigDecimal.ROUND_HALF_UP);
         return result;
     }
 

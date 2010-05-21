@@ -63,6 +63,14 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
     }
 
+    /**
+     * Updates the tax lots for the transaction line in the case the accounting method is Average Balance and the transaction sub
+     * type is Cash.
+     * 
+     * @param assetDecreaseDocument
+     * @param endowmentTransactionSecurity
+     * @param transLine
+     */
     private void updateTaxLotsForAccountingMethodAverageBalanceSubTypeCash(AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
         BigDecimal transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
@@ -92,7 +100,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                     taxLotLine.setLotUnits(lotUnits);
 
                     // 4. Calculate the value received for units sold in each tax lot
-                    BigDecimal valueReceived = lotUnits.multiply(perUnitValue);
+                    BigDecimal valueReceived = KEMCalculationRoundingHelper.multiply(lotUnits, perUnitValue, 2);
 
                     // 5. Calculate original unit value for each tax lot
                     BigDecimal originalUnitValue = KEMCalculationRoundingHelper.divide(holdingTaxLot.getCost(), holdingTaxLot.getUnits(), 5);
@@ -103,6 +111,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                     // 7. Calculate Gain or loss
                     BigDecimal gainOrLoss = valueReceived.subtract(originalCost);
+                    gainOrLoss = gainOrLoss.setScale(2, BigDecimal.ROUND_HALF_UP);
 
                     // Determine if short or long term gain/loss
                     Date currentDate = kemService.getCurrentDate();
@@ -126,6 +135,30 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                     transLine.getTaxLotLines().add(taxLotLine);
 
+                }
+
+                // Adjust the number of units if the total is different from the transaction line units
+                BigDecimal totalComputedTaxLotUnits = new BigDecimal(0);
+                EndowmentTransactionTaxLotLine oldestTaxLotLine = null;
+
+                if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
+                    for (EndowmentTransactionTaxLotLine taxLotLine : transLine.getTaxLotLines()) {
+                        totalComputedTaxLotUnits = totalComputedTaxLotUnits.add(taxLotLine.getLotUnits());
+
+                        if (oldestTaxLotLine != null) {
+                            if (oldestTaxLotLine.getLotAcquiredDate().after(taxLotLine.getLotAcquiredDate())) {
+                                oldestTaxLotLine = taxLotLine;
+                            }
+                        }
+                        else {
+                            oldestTaxLotLine = taxLotLine;
+                        }
+                    }
+                }
+
+                if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue()) != 0) {
+                    BigDecimal difUnits = transLine.getTransactionUnits().bigDecimalValue().subtract(totalComputedTaxLotUnits);
+                    oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(totalComputedTaxLotUnits));
                 }
             }
         }

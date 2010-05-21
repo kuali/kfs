@@ -1,0 +1,4265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>FinancialSystemSearchableAttribute</name>
+      <className>org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute</className>
+      <label>Financial System Searchable Attribute</label>
+      <description>Financial System Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
+      <label>Financial System Document Search Result Processor Attribute</label>
+      <description>Financial System Document Search Result Processor Attribute</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
+      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
+      <label>Financial System Document Search Generator Attribute</label>
+      <description>Financial System Document Search Generator Attribute</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>NoFyiActionListAttribute</name>
+      <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
+      <label>No FYI</label>
+      <description>No FYI Action List Attribute</description>
+      <type>ActionListAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>FSLO</name>
+      <label>Financial System - Ledger Only</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>ACHD</name>
+      <parent>FSLO</parent>
+      <label>ACH Disbursement</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>CHKD</name>
+      <parent>FSLO</parent>
+      <label>Check Disbursement</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>CHKR</name>
+      <parent>FSLO</parent>
+      <label>Check Cancel &amp; Re-Issue</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>CHKC</name>
+      <parent>FSLO</parent>
+      <label>Check Cancellation</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>ACHR</name>
+      <parent>FSLO</parent>
+      <label>ACH Cancel &amp; Re-Issue</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>ACHC</name>
+      <parent>FSLO</parent>
+      <label>ACH Cancellation</label>
+      <active>true</active>
+      <routingVersion>1</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>AVAD</name>
+      <parent>FSLO</parent>
+      <label>Auxiliary Voucher - Adjustment</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>AVAE</name>
+      <parent>FSLO</parent>
+      <label>Auxiliary Voucher - Accrual Entry</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>AVRC</name>
+      <parent>FSLO</parent>
+      <label>Auxiliary Voucher - Re-code</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>DVWF</name>
+      <parent>FSLO</parent>
+      <label>Disbursement Voucher - WT/FD</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>DVCA</name>
+      <parent>FSLO</parent>
+      <label>Disbursement Voucher - Check/ACH</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>KFS</name>
+      <parent>KualiDocument</parent>
+      <label>FinancialSystemDocument</label>
+      <serviceNamespace>KFS</serviceNamespace>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <postProcessorName>org.kuali.kfs.sys.document.workflow.PostProcessor</postProcessorName>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>FinancialSystemSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LJVA</name>
+      <parent>FSLO</parent>
+      <label>Labor Journal Voucher - Accrual</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>LJVC</name>
+      <parent>FSLO</parent>
+      <label>Labor Journal Voucher - Cash</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>LJVE</name>
+      <parent>FSLO</parent>
+      <label>Labor Journal Voucher - Encumbrance</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>FSSM</name>
+      <parent>KFS</parent>
+      <label>FinancialSystemSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>KFSM</name>
+      <parent>KFS</parent>
+      <label>FinancialSystemComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>KFST</name>
+      <parent>KFS</parent>
+      <label>FinancialSystemTransactionalDocument</label>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <security>
+        <securityAttribute class="org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute" />
+      </security>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BANK</name>
+      <parent>FSSM</parent>
+      <label>Bank</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbank.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BLDG</name>
+      <parent>FSSM</parent>
+      <label>Building</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbuilding.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FFD</name>
+      <parent>FSSM</parent>
+      <label>Functional Field Description</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffunctionalfielddescription.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FSDT</name>
+      <parent>FSSM</parent>
+      <label>Financial System Document Type Code</label>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>MOTD</name>
+      <parent>FSSM</parent>
+      <label>Message Of The Day</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fmessageoftheday.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ROOM</name>
+      <parent>FSSM</parent>
+      <label>Room</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Froom.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SOPT</name>
+      <parent>FSSM</parent>
+      <label>System Options</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsystemoptions.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>TAXR</name>
+      <parent>FSSM</parent>
+      <label>Tax Region</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ftaxregion.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>TRTP</name>
+      <parent>FSSM</parent>
+      <label>Tax Region Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ftaxregiontype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>UDAT</name>
+      <parent>FSSM</parent>
+      <label>University Date</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Funiversitydate.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>COSM</name>
+      <parent>FSSM</parent>
+      <label>ChartSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>COA</name>
+      <parent>KFSM</parent>
+      <label>ChartComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FPSM</name>
+      <parent>FSSM</parent>
+      <label>FinancialProcessingSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>GL</name>
+      <parent>KFST</parent>
+      <label>GeneralLedgerTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PDSM</name>
+      <parent>FSSM</parent>
+      <label>PreDisbursementProcessorSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>VNSM</name>
+      <parent>FSSM</parent>
+      <label>VendorSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>VEND</name>
+      <parent>KFSM</parent>
+      <label>VendorComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ARSM</name>
+      <parent>FSSM</parent>
+      <label>AccountsReceivableSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ARM</name>
+      <parent>KFSM</parent>
+      <label>AccountsReceivableComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AR</name>
+      <parent>KFST</parent>
+      <label>AccountsReceivableTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCSM</name>
+      <parent>FSSM</parent>
+      <label>BudgetConstructionSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCT</name>
+      <parent>KFST</parent>
+      <label>BudgetConstructionTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CMSM</name>
+      <parent>FSSM</parent>
+      <label>CapitalAssetManagementSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CAMM</name>
+      <parent>KFSM</parent>
+      <label>CapitalAssetManagementComplexMaintenanceDocument</label>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CAM</name>
+      <parent>KFST</parent>
+      <label>CapitalAssetManagementTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CGSM</name>
+      <parent>FSSM</parent>
+      <label>ContractsAndGrantsSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CGM</name>
+      <parent>KFSM</parent>
+      <label>ContractsAndGrantsComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CG</name>
+      <parent>KFST</parent>
+      <label>ContractsAndGrantsTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ProjectManagement" />
+          <role name="ProjectManagement" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="ProjectManagement">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ECSM</name>
+      <parent>FSSM</parent>
+      <label>EffortCertificationSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>EC</name>
+      <parent>KFST</parent>
+      <label>EffortCertificationTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LDSM</name>
+      <parent>FSSM</parent>
+      <label>LaborDistributionSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LD</name>
+      <parent>KFST</parent>
+      <label>LaborDistributionTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PRSM</name>
+      <parent>FSSM</parent>
+      <label>PurchasingAccountsPayableSimpleMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PRAP</name>
+      <parent>KFST</parent>
+      <label>PurchasingAccountsPayableTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FP</name>
+      <parent>KFST</parent>
+      <label>FinancialProcessingTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CAB</name>
+      <parent>KFSM</parent>
+      <label>CapitalAssetBuilderComplexMaintenanceDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>INVR</name>
+      <parent>ARM</parent>
+      <label>Invoice Recurrence</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Finvoicerecurrence.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating" />
+          <split name="InvoiceRecurrenceIsInactivating" nextNode="InitiatedBySystemUser">
+            <branch name="True">
+              <role name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating" />
+            </branch>
+            <join name="JoinInvoiceRecurrenceIsInactivating" />
+          </split>
+          <split name="InitiatedBySystemUser">
+            <branch name="True">
+              <simple name="NoOpInitiatedBySystemUser" nextNode="JoinInitiatedBySystemUser" />
+            </branch>
+            <branch name="False">
+              <role name="Account" nextNode="Recurrence" />
+              <role name="Recurrence" nextNode="JoinInitiatedBySystemUser" />
+            </branch>
+            <join name="JoinInitiatedBySystemUser" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="InvoiceRecurrenceIsInactivating">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="RecurrenceCreator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinInvoiceRecurrenceIsInactivating" />
+        <simple name="NoOpInvoiceRecurrenceIsInactivating">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="InitiatedBySystemUser">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpInitiatedBySystemUser">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinInitiatedBySystemUser" />
+        <role name="Recurrence">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>AWRD</name>
+      <parent>CGM</parent>
+      <label>Award</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faward.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PMTY</name>
+      <parent>PRSM</parent>
+      <label>CapitalAssetSystemState</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcapitalassetsystemstate.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>GORV</name>
+      <parent>COA</parent>
+      <label>Organization Reversion Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationreversionglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>GSOB</name>
+      <parent>COA</parent>
+      <label>Sub-Object Code Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubobjectcodeglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BC</name>
+      <parent>BCT</parent>
+      <label>Budget Construction Document</label>
+      <postProcessorName>none</postProcessorName>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>GDLG</name>
+      <parent>COA</parent>
+      <label>Account Delegate Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountdelegateglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" nextNode="Account" />
+          <role name="Account" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OR</name>
+      <parent>COA</parent>
+      <label>Organization Review</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ADEL</name>
+      <parent>COA</parent>
+      <label>Account Delegate</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountdelegate.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--  <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>GDLM</name>
+      <parent>COA</parent>
+      <label>Account Delegate Model</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountdelegatemodel.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!--  <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate> -->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <!--  <ruleTemplate>KualiChartTemplate</ruleTemplate> -->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>GACC</name>
+      <parent>COA</parent>
+      <label>Account Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!-- <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>APRD</name>
+      <parent>COSM</parent>
+      <label>Accounting Period</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountingperiod.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ATYP</name>
+      <parent>COSM</parent>
+      <label>Account Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccounttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AFUN</name>
+      <parent>COSM</parent>
+      <label>AICPA Function</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faicpafunction.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BTYP</name>
+      <parent>COSM</parent>
+      <label>Balance Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbalancetype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACTY</name>
+      <parent>COSM</parent>
+      <label>Basic Accounting Category</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbasicaccountingcategory.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BAMD</name>
+      <parent>COSM</parent>
+      <label>Budget Aggregation Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetaggregationcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BRL</name>
+      <parent>COSM</parent>
+      <label>Budget Recording Level Maintenance Document</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetrecordinglevel.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>COAT</name>
+      <parent>COSM</parent>
+      <label>Chart</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fchart.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FFUN</name>
+      <parent>COSM</parent>
+      <label>Federal Function</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffederalfunction.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FFC</name>
+      <parent>COSM</parent>
+      <label>Federal Funded Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffederalfundedcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FGRP</name>
+      <parent>COSM</parent>
+      <label>Fund Group</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffundgroup.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>HEFN</name>
+      <parent>COSM</parent>
+      <label>Higher Education Function</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fhighereducationfunction.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>MTE</name>
+      <parent>COSM</parent>
+      <label>Mandatory Transfer Elimination</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fmandatorytransferelimination.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>GOBJ</name>
+      <parent>COA</parent>
+      <label>Object Code Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjectcodeglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Chart">
+          <!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OBJT</name>
+      <parent>COA</parent>
+      <label>Object Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjectcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OBJC</name>
+      <parent>COSM</parent>
+      <label>Object Consolidation</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjectconsolidation.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OBJL</name>
+      <parent>COSM</parent>
+      <label>Object Level</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjectlevel.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OSTY</name>
+      <parent>COSM</parent>
+      <label>Object Sub-Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjectsubtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OTYP</name>
+      <parent>COSM</parent>
+      <label>Object Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fobjecttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OFAC</name>
+      <parent>COSM</parent>
+      <label>Offset Account</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Foffsetaccount.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OFSD</name>
+      <parent>COSM</parent>
+      <label>Offset Definition</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Foffsetdefinition.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ORGN</name>
+      <parent>COA</parent>
+      <label>Organization</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganization.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <!--<ruleTemplate>KualiChartTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ORGC</name>
+      <parent>COSM</parent>
+      <label>Organization Reversion Category</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationreversioncategory.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ORTY</name>
+      <parent>COSM</parent>
+      <label>Organization Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ORIG</name>
+      <parent>COSM</parent>
+      <label>Origination Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Foriginationcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PROJ</name>
+      <parent>COA</parent>
+      <label>Project Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fprojectcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>RPTC</name>
+      <parent>COSM</parent>
+      <label>Financial Reporting Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffinancialreportingcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RCEN</name>
+      <parent>COSM</parent>
+      <label>Responsibility Center</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fresponsibilitycenter.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RSTA</name>
+      <parent>COSM</parent>
+      <label>Restricted Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frestrictedstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SACC</name>
+      <parent>COA</parent>
+      <label>Sub-Account</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubaccount.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>SFGR</name>
+      <parent>COSM</parent>
+      <label>Sub-Fund Group</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubfundgroup.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SFGT</name>
+      <parent>COSM</parent>
+      <label>Sub-Fund Group Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubfundgrouptype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SOBJ</name>
+      <parent>COA</parent>
+      <label>Sub-Object Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubobjectcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>SFC</name>
+      <parent>COSM</parent>
+      <label>Sufficient Funds Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsufficientfundscode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>UFUN</name>
+      <parent>COSM</parent>
+      <label>University Budget Office Function</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Funiversitybudgetofficefunction.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AD</name>
+      <parent>FP</parent>
+      <label>Advance Deposit</label>
+      <docHandler>${application.url}/financialAdvanceDeposit.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fadvancedeposit.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CDS</name>
+      <parent>FPSM</parent>
+      <label>Cash Drawer</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashdrawer.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CMD</name>
+      <parent>FP</parent>
+      <label>Cash Management</label>
+      <docHandler>${application.url}/financialCashManagement.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashmanagement.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CR</name>
+      <parent>FP</parent>
+      <label>Cash Receipt</label>
+      <docHandler>${application.url}/financialCashReceipt.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashreceipt.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CashManagement" />
+          <role name="CashManagement" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="CashManagement">
+          <!--<ruleTemplate>KualiCashReceiptVerificationWorkgroupTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CCR</name>
+      <parent>FP</parent>
+      <label>Credit Card Receipt</label>
+      <docHandler>${application.url}/financialCreditCardReceipt.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditcardreceipt.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CCTY</name>
+      <parent>FPSM</parent>
+      <label>Credit Card Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditcardtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CCVN</name>
+      <parent>FPSM</parent>
+      <label>Credit Card Vendor</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditcardvendor.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVDL</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Documentation Location</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvoucherdocumentationlocation.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BFYC</name>
+      <parent>FPSM</parent>
+      <label>Fiscal Year Function Control</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffiscalyearfunctioncontrol.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BFNC</name>
+      <parent>FPSM</parent>
+      <label>Function Control Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffunctioncontrolcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>JV</name>
+      <parent>FP</parent>
+      <label>Journal Voucher</label>
+      <docHandler>${application.url}/financialJournalVoucher.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fjournalvoucher.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>DVTX</name>
+      <parent>FPSM</parent>
+      <label>Non-Resident Alien Tax Percent</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fnonresidentalientaxpercent.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVOT</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Ownership Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fownershiptypemaintenancedocument.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVPR</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Payment Reason</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvoucherpaymentreason.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SB</name>
+      <parent>FP</parent>
+      <label>Service Billing</label>
+      <docHandler>${application.url}/financialServiceBilling.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fservicebilling.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>DVCC</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Tax Control</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ftaxcontrolcodemaintenancedocument.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVIC</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Tax Income Class</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvouchertaxincomeclass.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVTC</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Travel Company</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvouchertravelcompany.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVET</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Travel Expense Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvouchertravelexpensetype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVML</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Travel Mileage Rate</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvouchertravelmileagerate.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVPD</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Travel Per Diem</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvouchertravelperdiem.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DVWT</name>
+      <parent>FPSM</parent>
+      <label>Disbursement Voucher Wire Charge</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvoucherwirecharge.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACTC</name>
+      <parent>PDSM</parent>
+      <label>Accounting Change Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountingchangecode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ABNK</name>
+      <parent>PDSM</parent>
+      <label>ACH Bank</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fachbank.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACTR</name>
+      <parent>PDSM</parent>
+      <label>ACH Transaction Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fachtransactioncode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACHT</name>
+      <parent>PDSM</parent>
+      <label>ACH Transaction Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fachtransactiontype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CSPR</name>
+      <parent>PDSM</parent>
+      <label>Customer Profile</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomerprofile.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DBRG</name>
+      <parent>PDSM</parent>
+      <label>Disbursement Number Range</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementnumberrange.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DSTP</name>
+      <parent>PDSM</parent>
+      <label>Disbursement Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PYTP</name>
+      <parent>PDSM</parent>
+      <label>Payee Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpayeetype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMTC</name>
+      <parent>PDSM</parent>
+      <label>Payment Change Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentchange.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMTS</name>
+      <parent>PDSM</parent>
+      <label>Payment Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMTP</name>
+      <parent>PDSM</parent>
+      <label>Payment Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymenttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMAT</name>
+      <parent>VNSM</parent>
+      <label>Address Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faddresstype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCP</name>
+      <parent>VNSM</parent>
+      <label>Campus Parameter</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcampusparameter.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCC</name>
+      <parent>VNSM</parent>
+      <label>Commodity Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcommoditycode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCT</name>
+      <parent>VNSM</parent>
+      <label>Contact Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcontacttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCO</name>
+      <parent>VNSM</parent>
+      <label>Contract Manager</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcontractmanager.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMOC</name>
+      <parent>VNSM</parent>
+      <label>Ownership Type Category</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fownershiptypecategory.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMOT</name>
+      <parent>VNSM</parent>
+      <label>Ownership Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fownershiptype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMPA</name>
+      <parent>VNSM</parent>
+      <label>Payment Terms Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymenttermstype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMPT</name>
+      <parent>VNSM</parent>
+      <label>Phone Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fphonetype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCS</name>
+      <parent>VNSM</parent>
+      <label>Cost Source</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcostsource.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSP</name>
+      <parent>VNSM</parent>
+      <label>Shipping Payment Terms</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fshippingpaymentterms.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSS</name>
+      <parent>VNSM</parent>
+      <label>Shipping Special Conditions</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fshippingspecialconditions.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMST</name>
+      <parent>VNSM</parent>
+      <label>Shipping Title</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fshippingtitle.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSD</name>
+      <parent>VNSM</parent>
+      <label>Supplier Diversity</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsupplierdiversity.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMIR</name>
+      <parent>VNSM</parent>
+      <label>Vendor Inactive Reason</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendorinactivereason.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PVEN</name>
+      <parent>VEND</parent>
+      <label>Vendor</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendor3.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresApproval" />
+          <split name="RequiresApproval">
+            <branch name="True">
+              <role name="Management" nextNode="Initiator" />
+              <role name="Initiator" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Management">
+          <!--<ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Initiator">
+          <!--<ruleTemplate>KualiVendorNotificationTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="Do Nothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PMVT</name>
+      <parent>VNSM</parent>
+      <label>Vendor Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendortype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CTRL</name>
+      <parent>AR</parent>
+      <label>Cash Control</label>
+      <docHandler>${application.url}/arCashControlDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashcontrol.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Lockbox" />
+          <role name="Lockbox" nextNode="AssociatedWithElectronicPayment" />
+          <split name="AssociatedWithElectronicPayment">
+            <branch name="True">
+              <role name="ElectronicPayment" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Lockbox">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+        <split name="AssociatedWithElectronicPayment">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ElectronicPayment">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CATY</name>
+      <parent>ARSM</parent>
+      <label>Customer Address Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>IICO</name>
+      <parent>ARSM</parent>
+      <label>Customer Invoice Item Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CUS</name>
+      <parent>ARM</parent>
+      <label>Customer</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomer.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresApproval" />
+          <split name="RequiresApproval">
+            <branch name="True">
+              <role name="Management" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CTY</name>
+      <parent>ARSM</parent>
+      <label>Customer Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomertype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OADF</name>
+      <parent>ARM</parent>
+      <label>Organization Accounting Default</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationaccountingdefault.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OOPT</name>
+      <parent>ARM</parent>
+      <label>Organization Options</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationoptions.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Management" />
+          <role name="Management" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>APP</name>
+      <parent>AR</parent>
+      <label>Application</label>
+      <docHandler>${application.url}/arPaymentApplicationDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentapplication.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMED</name>
+      <parent>ARSM</parent>
+      <label>Payment Medium</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentmedium.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ARSI</name>
+      <parent>ARSM</parent>
+      <label>System Information</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsysteminformation.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCAR</name>
+      <parent>BCSM</parent>
+      <label>Account Reports</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccountreports.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DURA</name>
+      <parent>BCSM</parent>
+      <label>Appointment Funding Duration</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fappointmentfundingduration.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCRC</name>
+      <parent>BCSM</parent>
+      <label>Appointment Funding Reason Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fappointmentfundingreasoncode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCPS</name>
+      <parent>BCSM</parent>
+      <label>Budget Construction Position</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetconstructionposition.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CSFO</name>
+      <parent>BCSM</parent>
+      <label>Calculated Salary Foundation Tracker Override</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcalculatedsalaryfoundationtrackeroverride.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>IINC</name>
+      <parent>BCSM</parent>
+      <label>Intended Incumbent</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fintendedincumbent.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCOR</name>
+      <parent>BCSM</parent>
+      <label>Organization Reports</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationreports.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACQT</name>
+      <parent>CMSM</parent>
+      <label>Asset Acquisition Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetacquisitiontype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACON</name>
+      <parent>CMSM</parent>
+      <label>Asset Condition</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetcondition.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DPRC</name>
+      <parent>CMSM</parent>
+      <label>Asset Depreciation Convention</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetdepreciationconvention.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DEPR</name>
+      <parent>CAM</parent>
+      <label>Asset Depreciation</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>DPRM</name>
+      <parent>CMSM</parent>
+      <label>Asset Depreciation Method</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetdepreciationmethod.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>FR</name>
+      <parent>CAMM</parent>
+      <label>AssetFabricationMaintenanceDocument</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetfabrication.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Management" />
+          <role name="Management" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ALOC</name>
+      <parent>CAMM</parent>
+      <label>Asset Location Global</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ASLT</name>
+      <parent>CMSM</parent>
+      <label>Asset Location Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetlocationtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CASM</name>
+      <parent>CAMM</parent>
+      <label>Asset</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Feditasset.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>COBJ</name>
+      <parent>CMSM</parent>
+      <label>Asset Object Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetobjectcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>MPAY</name>
+      <parent>CAM</parent>
+      <label>Asset Payments</label>
+      <docHandler>${application.url}/camsAssetPayment.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetpayment.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PlantFund" />
+          <role name="PlantFund" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="PlantFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ARG</name>
+      <parent>CAMM</parent>
+      <label>Asset Retirement Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetretirementglobal.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="RetiredAssetTransferredExternally" />
+          <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
+            <branch name="True">
+              <role name="ExternalTransfer" nextNode="JoinRetiredAssetTransferredExternally" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally" />
+            </branch>
+            <join name="JoinRetiredAssetTransferredExternally" />
+          </split>
+          <role name="OrganizationHierarchy" nextNode="RetiredAssetSoldOrGifted" />
+          <split name="RetiredAssetSoldOrGifted">
+            <branch name="True">
+              <role name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="JoinRetiredAssetSoldOrGifted" />
+            </branch>
+            <join name="JoinRetiredAssetSoldOrGifted" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="RetiredAssetTransferredExternally">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ExternalTransfer">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinRetiredAssetTransferredExternally" />
+        <simple name="NoOpExternal">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="RetiredAssetSoldOrGifted">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Purchasing">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinRetiredAssetSoldOrGifted" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>RRSN</name>
+      <parent>CMSM</parent>
+      <label>Asset Retirement Reason</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetretirementreason.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ASTA</name>
+      <parent>CMSM</parent>
+      <label>Asset Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AT</name>
+      <parent>CAM</parent>
+      <label>Asset Transfer</label>
+      <docHandler>${application.url}/camsAssetTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ftransferasset.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ASST</name>
+      <parent>CMSM</parent>
+      <label>Asset Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassettype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ELR</name>
+      <parent>CAM</parent>
+      <label>Equipment Loan/Return</label>
+      <docHandler>${application.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fequipmentloan.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="Borrower" />
+          <role name="Borrower" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <!--<ruleTemplate>KualiAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Borrower">
+          <!--<ruleTemplate>KualiSubFundTemplate</ruleTemplate> -->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>AGCY</name>
+      <parent>CGSM</parent>
+      <label>Agency</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fagency.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AGTY</name>
+      <parent>CGSM</parent>
+      <label>Agency Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fagencytype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AWDS</name>
+      <parent>CGSM</parent>
+      <label>Award Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fawardstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>GDES</name>
+      <parent>CGSM</parent>
+      <label>Grant Description</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fgrantdescriptionmaintenancedocument.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ICRA</name>
+      <parent>CGSM</parent>
+      <label>Indirect Cost Recovery Exclusion By Account</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Findirectcostrecoveryexclusionbyaccount.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ICRE</name>
+      <parent>CGSM</parent>
+      <label>Indirect Cost Recovery Rate</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Findirectcostrecoveryrate.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ITYP</name>
+      <parent>CGSM</parent>
+      <label>Indirect Cost Recovery Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Findirectcostrecoverytype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Workflow Review" />
+          <role name="Workflow Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Workflow Review">
+          <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>LFGR</name>
+      <parent>CGSM</parent>
+      <label>Letter Of Credit Fund Group</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fletterofcreditfundgroup.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PATY</name>
+      <parent>CGSM</parent>
+      <label>Proposal Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposaltype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PRPL</name>
+      <parent>CGM</parent>
+      <label>Proposal</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposal.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="ResearchRisk" />
+          <role name="ResearchRisk" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <!--<ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="ResearchRisk">
+          <!--<ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PURP</name>
+      <parent>CGSM</parent>
+      <label>Proposal Purpose</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposalpurpose.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PRST</name>
+      <parent>CGSM</parent>
+      <label>Proposal Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposalstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RRT</name>
+      <parent>CGSM</parent>
+      <label>Research Risk Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fresearchrisktype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RTCM</name>
+      <parent>CGSM</parent>
+      <label>Research Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fresearchtypemaintenancedocument.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SUBC</name>
+      <parent>CGSM</parent>
+      <label>Sub-Contractor</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsubcontractor.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ECPS</name>
+      <parent>ECSM</parent>
+      <label>Report Period Status Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freportperiodstatuscode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ECRD</name>
+      <parent>ECSM</parent>
+      <label>Report Definition</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freportdefinition.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ECPG</name>
+      <parent>ECSM</parent>
+      <label>Report Earn Paygroup</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freportearnpaygroup.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ECRT</name>
+      <parent>ECSM</parent>
+      <label>Report Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freporttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BCAL</name>
+      <parent>LDSM</parent>
+      <label>Labor Benefits Calculation</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborbenefitscalculation.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>BENT</name>
+      <parent>LDSM</parent>
+      <label>Labor Benefits Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborbenefitstype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LOBJ</name>
+      <parent>LDSM</parent>
+      <label>Labor Object Code</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborobjectcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LOBN</name>
+      <parent>LDSM</parent>
+      <label>Labor Object Code Benefits Maintenance Document</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborobjectcodebenefitsmaintenancedocument</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>POGR</name>
+      <parent>LDSM</parent>
+      <label>Labor Position Object Group Code Maintenance Document</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborpositionobjectgroupcode.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AP</name>
+      <parent>PRAP</parent>
+      <label>AccountsPayableTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PUR</name>
+      <parent>PRAP</parent>
+      <label>PurchasingTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RCV</name>
+      <parent>PRAP</parent>
+      <label>ReceivingTransactionalDocument</label>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMAA</name>
+      <parent>PRSM</parent>
+      <label>Payment Request Auto Approve Exclusions</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentrequestautoapproveexclusions.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMBA</name>
+      <parent>PRSM</parent>
+      <label>Billing Address</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbillingaddress.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSY</name>
+      <parent>PRSM</parent>
+      <label>Capital Asset System Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcapitalassetsystemtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCA</name>
+      <parent>PRSM</parent>
+      <label>Carrier</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcarrier.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCM</name>
+      <parent>PRSM</parent>
+      <label>Credit Memo Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditmemostatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMDR</name>
+      <parent>PRSM</parent>
+      <label>Delivery Required Date Reason</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdeliveryrequireddatereason.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMFS</name>
+      <parent>PRSM</parent>
+      <label>Funding Source</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffundingsource.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>IRAD</name>
+      <parent>PRSM</parent>
+      <label>Item Reason Added</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fitemreasonadded.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMIT</name>
+      <parent>PRSM</parent>
+      <label>Item Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fitemtype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMNP</name>
+      <parent>PRSM</parent>
+      <label>Negative Payment Request Approval Limit</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fnegativepaymentrequestapprovallimit.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMOP</name>
+      <parent>PRSM</parent>
+      <label>Organization Parameter</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationparameter.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMPR</name>
+      <parent>PRSM</parent>
+      <label>Payment Request Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentrequeststatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMCL</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Contract Language</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseordercontractlanguage.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMQL</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Quote Language</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderquotelanguage.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMQT</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Quote List</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderquotelist.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMQS</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Quote Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderquotestatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMPS</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMTM</name>
+      <parent>PRSM</parent>
+      <label>Method of PO Transmission</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fmethodofpotransmission.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMVC</name>
+      <parent>PRSM</parent>
+      <label>Purchase Order Vendor Choice</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseordervendorchoice.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMRA</name>
+      <parent>PRSM</parent>
+      <label>Receiving Address</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freceivingaddress.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>THLD</name>
+      <parent>PRSM</parent>
+      <label>Receiving Threshold</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freceivingthreshold.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMRF</name>
+      <parent>PRSM</parent>
+      <label>Recurring Payment Frequency</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frecurringpaymentfrequency.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMRP</name>
+      <parent>PRSM</parent>
+      <label>Recurring Payment Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frecurringpaymenttype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSO</name>
+      <parent>PRSM</parent>
+      <label>Requisition Source</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frequisitionsource.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMRS</name>
+      <parent>PRSM</parent>
+      <label>Requisition Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frequisitionstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSN</name>
+      <parent>PRSM</parent>
+      <label>Sensitive Data</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsensitivedata.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMUM</name>
+      <parent>PRSM</parent>
+      <label>Unit Of Measure</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Funitofmeasure.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMSI</name>
+      <parent>PRSM</parent>
+      <label>Vendor Stipulation</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendorstipulation.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMTT</name>
+      <parent>PRSM</parent>
+      <label>Asset Transaction Type</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassettransactiontype.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PAAT</name>
+      <parent>PDSM</parent>
+      <label>Payee ACH Account</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpayeeachaccount.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PMLI</name>
+      <parent>PRSM</parent>
+      <label>Line Item Receiving Status</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flineitemreceivingstatus.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>AV</name>
+      <parent>FP</parent>
+      <label>Auxiliary Voucher</label>
+      <docHandler>${application.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fauxiliaryvoucher.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BA</name>
+      <parent>FP</parent>
+      <label>Budget Adjustment</label>
+      <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetadjustment.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresFullApproval" />
+          <split name="RequiresFullApproval">
+            <branch name="True">
+              <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+              <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+              <role name="SubFund" nextNode="Award" />
+              <role name="Award" nextNode="JoinRequiresFullApproval" />
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="JoinRequiresFullApproval" />
+            </branch>
+            <join name="JoinRequiresFullApproval" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresFullApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinRequiresFullApproval" />
+        <simple name="Do Nothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>DI</name>
+      <parent>FP</parent>
+      <label>Distribution Of Income And Expense</label>
+      <docHandler>${application.url}/financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdistributionofincomeandexpense.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>GEC</name>
+      <parent>FP</parent>
+      <label>General Error Correction</label>
+      <docHandler>${application.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fgeneralerrorcorrection.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ICA</name>
+      <parent>FP</parent>
+      <label>Indirect Cost Adjustment</label>
+      <docHandler>${application.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Findirectcostadjustment.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ND</name>
+      <parent>FP</parent>
+      <label>Non-Check Disbursement</label>
+      <docHandler>${application.url}/financialNonCheckDisbursement.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fnoncheckdisbursement.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PE</name>
+      <parent>FP</parent>
+      <label>Pre-Encumbrance</label>
+      <docHandler>${application.url}/financialPreEncumbrance.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpreencumbrance.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PCDO</name>
+      <parent>FP</parent>
+      <label>Procurement Card</label>
+      <docHandler>${application.url}/financialProcurementCard.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fprocurementcard.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountFullEdit" />
+          <role name="AccountFullEdit" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountFullEdit">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>TF</name>
+      <parent>FP</parent>
+      <label>Transfer Of Funds</label>
+      <docHandler>${application.url}/financialTransferOfFunds.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ftransferoffunds.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>FPYE</name>
+      <parent>FP</parent>
+      <label>FinancialProcessingYearEndTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ECD</name>
+      <parent>EC</parent>
+      <label>Effort Certification</label>
+      <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Feffortcertificationrecreate.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ProjectManagement" />
+          <role name="ProjectManagement" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="DoAwardSplit" />
+          <split name="DoAwardSplit" nextNode="DoRecreateSplit">
+            <branch name="True">
+              <role name="Award" nextNode="AwardJoin" />
+            </branch>
+            <branch name="False">
+              <simple name="AwardDoNothing" nextNode="AwardJoin" />
+            </branch>
+            <join name="AwardJoin" />
+          </split>
+          <split name="DoRecreateSplit">
+            <branch name="True">
+              <role name="Management" nextNode="RecreateJoin" />
+            </branch>
+            <branch name="False">
+              <simple name="RecreateDoNothing" nextNode="RecreateJoin" />
+            </branch>
+            <join name="RecreateJoin" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="ProjectManagement">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="DoAwardSplit">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="AwardJoin" />
+        <simple name="AwardDoNothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="DoRecreateSplit">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="RecreateJoin" />
+        <simple name="RecreateDoNothing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>LDYE</name>
+      <parent>LD</parent>
+      <label>LaborDistributionYearEndTransactionalDocument</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CLOS</name>
+      <parent>CG</parent>
+      <label>Proposal/Award Close</label>
+      <docHandler>${application.url}/cgClose.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fproposalawardclose.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Unprocessed" />
+          <role name="Unprocessed" nextNode="Management" />
+          <role name="Management" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Unprocessed">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ST</name>
+      <parent>LD</parent>
+      <label>Salary Expense Transfer</label>
+      <docHandler>${application.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsalaryexpensetransfer.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>LLJV</name>
+      <parent>LD</parent>
+      <label>Labor Journal Voucher</label>
+      <docHandler>${application.url}/laborJournalVoucher.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborjournalvoucher.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BT</name>
+      <parent>LD</parent>
+      <label>Benefit Expense Transfer</label>
+      <docHandler>${application.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbenefitexpensetransfer.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ORGR</name>
+      <parent>COSM</parent>
+      <label>Organization Reversion</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationreversion.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>CFDM</name>
+      <parent>CGSM</parent>
+      <label>Catalog of Federal Domestic Assistance</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PTAG</name>
+      <parent>CAB</parent>
+      <label>Pre-Asset Tagging</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpreassettagging.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RA</name>
+      <parent>CG</parent>
+      <label>Undefined</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>LLCP</name>
+      <parent>LD</parent>
+      <label>Labor Ledger Correction Process</label>
+      <docHandler>${application.url}/laborLedgerCorrection.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flaborledgercorrectionprocess.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="autoApproveForAsynchronousProcessing" />
+          <simple name="autoApproveForAsynchronousProcessing" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <simple name="autoApproveForAsynchronousProcessing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>GLCP</name>
+      <parent>GL</parent>
+      <label>General Ledger Correction Process</label>
+      <docHandler>${application.url}/generalLedgerCorrection.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fgeneralledgercorrectionprocess.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="autoApproveForAsynchronousProcessing" />
+          <simple name="autoApproveForAsynchronousProcessing" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <simple name="autoApproveForAsynchronousProcessing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>AA</name>
+      <parent>CAMM</parent>
+      <label>Asset Global</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetglobaladd.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresReview" />
+          <split name="RequiresReview">
+            <branch name="True">
+              <role name="Account" nextNode="OrganizationHierarchy" />
+              <role name="OrganizationHierarchy" nextNode="JoinRequiresReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresReview" nextNode="JoinRequiresReview" />
+            </branch>
+            <join name="JoinRequiresReview" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresReview" />
+        <simple name="NoOpRequiresReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>IB</name>
+      <parent>FP</parent>
+      <label>Internal Billing</label>
+      <docHandler>${application.url}/financialInternalBilling.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Finternalbilling.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>DV</name>
+      <parent>FP</parent>
+      <label>Disbursement Voucher</label>
+      <docHandler>${application.url}/financialDisbursementVoucher.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="PayeeIsPurchaseOrderVendor" />
+          <split name="PayeeIsPurchaseOrderVendor" nextNode="Account">
+            <branch name="True">
+              <role name="Purchasing" nextNode="JoinPayeeIsPurchaseOrderVendor" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpPayee" nextNode="JoinPayeeIsPurchaseOrderVendor" />
+            </branch>
+            <join name="JoinPayeeIsPurchaseOrderVendor" />
+          </split>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="RequiresTaxReview" />
+          <split name="RequiresTaxReview" nextNode="Award">
+            <branch name="True">
+              <role name="Tax" nextNode="JoinRequiresTaxReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpTaxReview" nextNode="JoinRequiresTaxReview" />
+            </branch>
+            <join name="JoinRequiresTaxReview" />
+          </split>
+          <role name="Award" nextNode="RequiresTravelReview" />
+          <split name="RequiresTravelReview" nextNode="Campus">
+            <branch name="True">
+              <role name="Travel" nextNode="JoinRequiresTravelReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpTravelReview" nextNode="JoinRequiresTravelReview" />
+            </branch>
+            <join name="JoinRequiresTravelReview" />
+          </split>
+          <role name="Campus" nextNode="PaymentMethod" />
+          <role name="PaymentMethod" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="PayeeIsPurchaseOrderVendor">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Purchasing">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinPayeeIsPurchaseOrderVendor" />
+        <simple name="NoOpPayee">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresTaxReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Tax">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresTaxReview" />
+        <simple name="NoOpTaxReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresTravelReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Travel">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresTravelReview" />
+        <simple name="NoOpTravelReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Campus">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="PaymentMethod">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>INVW</name>
+      <parent>AR</parent>
+      <label>Customer Invoice Writeoff</label>
+      <docHandler>${application.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresApproval" />
+          <split name="RequiresApproval">
+            <branch name="True">
+              <role name="Account" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresApproval">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CRM</name>
+      <parent>AR</parent>
+      <label>Customer Credit Memo</label>
+      <docHandler>${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>EIIM</name>
+      <parent>PRSM</parent>
+      <label>Electronic Invoice Item Mapping</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Felectronicinvoiceitemmapping.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACCT</name>
+      <parent>COA</parent>
+      <label>Account</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Faccount.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account" />
+          <role name="Account" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" nextNode="SubFund" />
+          <role name="SubFund" nextNode="Award" />
+          <role name="Award" nextNode="Chart" />
+          <role name="Chart" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>BCIE</name>
+      <parent>CAM</parent>
+      <label>Barcode Inventory Error</label>
+      <docHandler>${application.url}/camsBarcodeInventoryError.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbarcodeinventoryprocess.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Initiator" />
+          <role name="Initiator" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>INV</name>
+      <parent>AR</parent>
+      <label>Customer Invoice</label>
+      <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcustomerinvoice.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasReccurence" />
+          <split name="HasReccurence">
+            <branch name="True">
+              <role name="Account" nextNode="Recurrence" />
+              <role name="Recurrence" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="HasReccurence">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Recurrence">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ORR</name>
+      <parent>OR</parent>
+      <label>Organization Review Role</label>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Forganizationreview.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>ORG</name>
+      <parent>OR</parent>
+      <label>Organization Review Group</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy" />
+          <role name="OrganizationHierarchy" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.kfs.coa.document.workflow.OrganizationGroupTypeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>YEBA</name>
+      <parent>FPYE</parent>
+      <label>Year End Budget Adjustment</label>
+      <docHandler>${application.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>YEDI</name>
+      <parent>FPYE</parent>
+      <label>Year End Distribution Of Income And Expense</label>
+      <docHandler>${application.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>YEGE</name>
+      <parent>FPYE</parent>
+      <label>Year End General Error Correction</label>
+      <docHandler>${application.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>YETF</name>
+      <parent>FPYE</parent>
+      <label>Year End Transfer Of Funds</label>
+      <docHandler>${application.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RCVB</name>
+      <parent>RCV</parent>
+      <label>Bulk Receiving</label>
+      <docHandler>${application.url}/purapBulkReceiving.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbulkreceiving.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ACM</name>
+      <parent>PUR</parent>
+      <label>Contract Manager Assignment</label>
+      <docHandler>${application.url}/purapContractManagerAssignment.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcontractmanagerassignment.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>RCVC</name>
+      <parent>RCV</parent>
+      <label>Correction Receiving</label>
+      <docHandler>${application.url}/purapCorrectionReceiving.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freceivingcorrectiondocument.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RCVL</name>
+      <parent>RCV</parent>
+      <label>Line Item Receiving</label>
+      <docHandler>${application.url}/purapLineItemReceiving.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Freceiving.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions" />
+          <split name="RelatesToOutstandingTransactions">
+            <branch name="True">
+              <role name="OutstandingTransactions" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RelatesToOutstandingTransactions">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="OutstandingTransactions">
+          <!--<ruleTemplate>AwaitingPurchaseOrderOpenStatusTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>EIRT</name>
+      <parent>AP</parent>
+      <label>Electronic Invoice Reject Document</label>
+      <docHandler>${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler</docHandler>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Management" />
+          <role name="Management" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Management">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CM</name>
+      <parent>AP</parent>
+      <label>Vendor Credit Memo</label>
+      <docHandler>${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresImageAttachment" />
+          <split name="RequiresImageAttachment" nextNode="Account">
+            <branch name="True">
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" />
+            </branch>
+            <join name="JoinRequiresImageAttachment" />
+          </split>
+          <role name="Account" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresImageAttachment">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ImageAttachment">
+          <!--<ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinRequiresImageAttachment" />
+        <simple name="NoOpRequiresImageAttachment">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Account">
+          <!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>REQS</name>
+      <parent>PUR</parent>
+      <label>Requisition</label>
+      <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Frequisition.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Organization" />
+          <role name="Organization" nextNode="HasAccountingLines" />
+          <split name="HasAccountingLines" nextNode="SubAccount">
+            <branch name="True">
+              <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" />
+            </branch>
+            <branch name="False">
+              <role name="Initiator" nextNode="JoinHasAccountingLines" />
+            </branch>
+            <join name="JoinHasAccountingLines" />
+          </split>
+          <role name="SubAccount" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="Commodity" />
+          <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" />
+          <split name="AmountRequiresSeparationOfDutiesReview">
+            <branch name="True">
+              <role name="SeparationOfDuties" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="Organization">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="HasAccountingLines">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpHasAccountingLines">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinHasAccountingLines" />
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="SubAccount">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Commodity">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="AmountRequiresSeparationOfDutiesReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>YEBT</name>
+      <parent>LDYE</parent>
+      <label>Year End Benefit Expense Transfer</label>
+      <docHandler>${application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flabordistributionyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>YEST</name>
+      <parent>LDYE</parent>
+      <label>Year End Salary Expense Transfer</label>
+      <docHandler>${application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Flabordistributionyearend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PREQ</name>
+      <parent>AP</parent>
+      <label>Payment Request</label>
+      <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpaymentrequest.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresImageAttachment" />
+          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+            <branch name="True">
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" />
+            </branch>
+            <join name="JoinRequiresImageAttachment" />
+          </split>
+          <split name="PurchaseWasReceived" nextNode="SubAccount">
+            <branch name="True">
+              <role name="Receiving" nextNode="JoinReceiving" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpReceiving" nextNode="JoinReceiving" />
+            </branch>
+            <join name="JoinReceiving" />
+          </split>
+          <role name="SubAccount" nextNode="Account" />
+          <role name="Account" nextNode="AccountingOrganizationHierarchy" />
+          <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien" />
+          <split name="VendorIsEmployeeOrNonResidentAlien">
+            <branch name="True">
+              <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+            </branch>
+            <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresImageAttachment">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ImageAttachment">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinRequiresImageAttachment" />
+        <simple name="NoOpRequiresImageAttachment">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="PurchaseWasReceived">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Receiving">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinReceiving" />
+        <simple name="NoOpReceiving">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="SubAccount">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <mandatoryRoute>true</mandatoryRoute>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <split name="VendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Tax">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+        <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PO</name>
+      <parent>PUR</parent>
+      <label>Purchase Order</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorder.htm</helpDefinitionURL>
+      <docSearchHelpURL>default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm</docSearchHelpURL>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>FinancialSystemSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>NoFyiActionListAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresContractManagementReview" />
+          <split name="RequiresContractManagementReview" nextNode="Commodity">
+            <branch name="True">
+              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview" />
+            </branch>
+            <join name="JoinRequiresContractManagementReview" />
+          </split>
+          <role name="Commodity" nextNode="RequiresAwardReview" />
+          <split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+            <branch name="True">
+              <role name="Award" nextNode="JoinRequiresAwardReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" />
+            </branch>
+            <join name="JoinRequiresAwardReview" />
+          </split>
+          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+            <branch name="True">
+              <role name="Budget" nextNode="JoinRequiresBudgetReview" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" />
+            </branch>
+            <join name="JoinRequiresBudgetReview" />
+          </split>
+          <split name="VendorIsEmployeeOrNonResidentAlien">
+            <branch name="True">
+              <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+            </branch>
+            <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="RequiresContractManagementReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="ContractManagement">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresContractManagementReview" />
+        <simple name="NoOpRequiresContractManagementReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Commodity">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="RequiresAwardReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresAwardReview" />
+        <simple name="NoOpRequiresAwardReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="RequiresBudgetReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Budget">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinRequiresBudgetReview" />
+        <simple name="NoOpBudget">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <split name="VendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="Tax">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+        <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>POA</name>
+      <parent>PO</parent>
+      <label>Purchase Order Amendment</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasNewUnorderedItems" />
+          <split name="HasNewUnorderedItems" nextNode="Account">
+            <branch name="True">
+              <role name="NewUnorderedItems" nextNode="Join" />
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+          <role name="Account" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <split name="HasNewUnorderedItems">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <role name="NewUnorderedItems">
+          <!--<ruleTemplate>KualiNewUnorderedItemsTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+        <join name="Join" />
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <role name="Account">
+          <!--<ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>POC</name>
+      <parent>PO</parent>
+      <label>Purchase Order Close</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>POPH</name>
+      <parent>PO</parent>
+      <label>Purchase Order Payment Hold</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PORH</name>
+      <parent>PO</parent>
+      <label>Purchase Order Remove Payment Hold</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountsPayable" />
+          <role name="AccountsPayable" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+        <role name="AccountsPayable">
+          <!--<ruleTemplate>KualiPurchaseOrderRemoveHoldNotify</ruleTemplate>-->
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>POR</name>
+      <parent>PO</parent>
+      <label>Purchase Order Reopen</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>PORT</name>
+      <parent>PO</parent>
+      <label>Purchase Order Retransmit</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>POSP</name>
+      <parent>PO</parent>
+      <label>Purchase Order Split</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>POV</name>
+      <parent>PO</parent>
+      <label>Purchase Order Void</label>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm</helpDefinitionURL>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+

@@ -108,7 +108,13 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    // Obtain Prefix for Error fields in UI.
+    /**
+     * This method obtains Prefix for Error fields in UI.
+     * 
+     * @param line
+     * @param index
+     * @return
+     */
     public String getErrorPrefix(EndowmentTransactionLine line, int index) {
         String ERROR_PREFIX = null;
         if (line instanceof EndowmentSourceTransactionLine) {
@@ -131,7 +137,13 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
     }
 
-    // Obtain Prefix for Error fields in UI.
+    /**
+     * This method obtains security code from a document.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @return
+     */
     public String getSecurityIDForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
     {
         EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
@@ -142,7 +154,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
     /**
-     * This method...
+     * This method validates a transaction line.
      * 
      * @param line
      * @param index
@@ -176,10 +188,13 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             if (!isValid)
                 return isValid;
 
+            //This error is checked in addition save rule method since the sub type is used for determining chart code. 
             if (!isSubTypeEmpty(endowmentTransactionLinesDocumentBase))
                 return false;
 
-            if (nonCashTransaction(endowmentTransactionLinesDocumentBase)) {
+            //If non-cash transactions 
+            if (nonCashTransaction(endowmentTransactionLinesDocumentBase)) 
+            {
                 // Is Etran code empty
                 if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
                     return false;
@@ -203,15 +218,19 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             isValid &= canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX);
-            
-            
-
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase) {
+    /**
+     * This method checks if this is a non-cash transaction. 
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @return
+     */
+    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase) 
+    {
         if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode()))
             return true;
         else
@@ -324,7 +343,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @return
      */
     protected boolean validateTransactionUnitsAmountEqual(EndowmentTransactionLine line, String prefix) {
-        if (line.getTransactionUnits().compareTo(line.getTransactionAmount()) == 0)
+        if (line.getTransactionUnits() != null && line.getTransactionAmount() != null && line.getTransactionUnits().compareTo(line.getTransactionAmount()) == 0)
             return true;
         else {
             putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_AMOUNT_UNITS_EQUAL);

@@ -48,9 +48,6 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public void prepareForSave() 
     {
         super.prepareForSave();
-        //Set the fdoc # for transaction securities
-        //getSourceTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
-        //getTargetTransactionSecurity().setDocumentNumber(getDocumentHeader().getDocumentNumber());
         
         //A Hack to insert transaction securities in the securities collection.
         if( !StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID()) )
@@ -79,22 +76,30 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
         this.targetTransactionSecurities = targetTransactionSecurities;
     }
     
+    /**
+     * Here when the document is being read from the DB, the security object to be retruned must be the object from the DB and not the new object created. 
+     * 
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getSourceTransactionSecurity()
+     */
     public EndowmentTransactionSecurity getSourceTransactionSecurity() 
     {
         if(this.sourceTransactionSecurities.size() > 0)
         {
-            //setSourceTransactionSecurity(this.sourceTransactionSecurities.get(0));
             return this.sourceTransactionSecurities.get(0);
         }
         else 
             return this.sourceTransactionSecurity;
    }
 
+    /**
+     * Here when the document is being read from the DB, the security object to be retruned must be the object from the DB and not the new object created.
+     * 
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getTargetTransactionSecurity()
+     */
     public EndowmentTransactionSecurity getTargetTransactionSecurity() 
     {
         if(this.targetTransactionSecurities.size() > 0)
         {
-           // setTargetTransactionSecurity(this.targetTransactionSecurities.get(0));
             return this.targetTransactionSecurities.get(0);
         }
         else 
@@ -104,12 +109,10 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) 
     {
         this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity)sourceTransactionSecurity;
-        //this.sourceTransactionSecurities.set(0, sourceTransactionSecurity) ;
     }
     
     public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) 
     {
         this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity)targetTransactionSecurity;
-        //this.targetTransactionSecurities.set(0, targetTransactionSecurity) ;
     }
 }

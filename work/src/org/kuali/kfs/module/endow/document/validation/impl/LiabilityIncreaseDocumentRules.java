@@ -47,7 +47,6 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         
         isValid = validateRegistration(isValid, (LiabilityIncreaseDocument) transLineDocument);
         
-        //TODO:Validate not null registration
         isValid = super.processAddTransactionLineRules(transLineDocument, line);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
@@ -57,7 +56,15 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
-
+    
+    /**
+     * This method validates the Tx line but from Liability Increase perspective. 
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param index
+     * @return
+     */
     protected boolean validateLiabilityTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
@@ -86,8 +93,10 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         if (isValid) {
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
 
+            //Validate Security
             isValid = validateSecurity(isValid, liabilityIncreaseDocument);
 
+            //Validate Registration code.
             isValid = validateRegistration(isValid, liabilityIncreaseDocument);
 
             // Empty out the Source Tx Line in weird case they got entered.
@@ -110,6 +119,14 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
+    /**
+     * This method is a collection if validation performed on Registration Code.
+     * The validations are not null & valid registration code
+     * 
+     * @param isValid
+     * @param liabilityIncreaseDocument
+     * @return
+     */
     private boolean validateRegistration(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) {
         // Checks if registration code is empty
         if (isRegistrationCodeEmpty(liabilityIncreaseDocument, false))
@@ -124,6 +141,14 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         return isValid;
     }
 
+    /**
+     * This method is a collection if validation performed on Security.
+     * The validations are not null, valid security,active & class code matches L
+     * 
+     * @param isValid
+     * @param liabilityIncreaseDocument
+     * @return
+     */
     private boolean validateSecurity(boolean isValid, LiabilityIncreaseDocument liabilityIncreaseDocument) 
     {
         // Checks if Security Code is empty.
@@ -147,28 +172,6 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        super.processCustomRouteDocumentBusinessRules(document);
-
-        LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
-
-        // TODO:Remove below statement
-        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
-            List txLines = liabilityIncreaseDocument.getSourceTransactionLines();
-
-            // Ensure atleast one Tx line is entered.
-            if (txLines.size() != 0) {
-
-            }
-            else {
-                // putFieldError(EndowPropertyConstants.KEMID_CLOSE_CODE,
-                // EndowKeyConstants.KEMIDConstants.ERROR_INVALID_CLOSED_CODE);
-            }
-
-            // TODO:Remove below statement
-            return GlobalVariables.getMessageMap().getErrorCount() == 0;
-        }
-        else {
-            return false;
-        }
+        return super.processCustomRouteDocumentBusinessRules(document);
     }
 }

@@ -531,14 +531,14 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         if(isSource){
             transactionLineList = document.getSourceTransactionLines();
             if(transactionLineList == null || transactionLineList.size() == 0){
-                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                putFieldError(EndowConstants.TRANSACTION_LINE_TAB_ERROR , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT);
                 return false; 
             }
         }
         else {
             transactionLineList = document.getTargetTransactionLines();
             if(transactionLineList == null || transactionLineList.size() == 0){
-                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                putFieldError(EndowConstants.TRANSACTION_LINE_TAB_ERROR , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT);
                 return false; 
             }
         }

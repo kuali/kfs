@@ -1,3 +1,6 @@
+import groovy.swing.SwingBuilder
+import javax.swing.*
+
 class Table {
   Map attributes = [:]
   List columns = []
@@ -140,12 +143,36 @@ def checkCol(line, table)
     return false
 }
 
+def askQuestion(question) {
+    swingBuilder = new SwingBuilder()
+    lastPane = swingBuilder.optionPane()
+    choice = lastPane.showInputDialog(  null,
+          question,
+          "DATA QUESTION",
+          JOptionPane.QUESTION_MESSAGE)
+                       
+    
+}
+
 def isTable = false
 def tables =[]
 def dept = new Table(tableName:'departments')
-def writer = new FileWriter('sample2.xml')
+ // pass a directory or use the current directory
+def currentFile = args?.size() ? args[0] : "sql/infile.sql"
+def outFilePrefix = (currentFile =~ /^(.*)\.sql/)  //  <name>  <type>(<size>)
+def outFileName =  outFilePrefix[0][1] + ".xml"
+def writer = new FileWriter(outFileName)
 
-new File("infile.sql").eachLine {
+authorName = askQuestion("Enter the author")
+if (authorName == null) exit()
+jira = askQuestion("Enter the Jira")
+if (jira == null) exit()
+dateExecution = askQuestion("Enter the date of Execution")
+if (dateExecution == null) exit()
+commentary = askQuestion("Enter comments")
+
+println "JIRA=" + jira + " date=" + dateExecution + " comment=" + commentary
+new File(currentFile).eachLine {
      line ->
 
  if (isTable == true) {
@@ -166,5 +193,5 @@ new File("infile.sql").eachLine {
       }
    }
  }
-  def cct = new ChangelogCreateTable(author: "Bonnie", identifier : "2010-04-26-5615-3-", comments : " update endowment tables - create Tables")
+  def cct = new ChangelogCreateTable(author: authorName, identifier : (dateExecution + jira) , comments : commentary)
           cct.generate(writer, tables)

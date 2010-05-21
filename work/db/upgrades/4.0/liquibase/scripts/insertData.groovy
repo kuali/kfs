@@ -324,7 +324,7 @@ def checkDeletion(line, tables)
 
 def checkAlters(line,tables) 
 {
-     matcher = (line =~ /(?i)^ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+DROP CONSTRAINT[ ]+([a-zA-Z0-9_-]+).*/)
+     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+DROP CONSTRAINT[ ]+([a-zA-Z0-9_-]+).*/)
      if (matcher.matches()) {
          //println( matcher.getCount() + "occurences " + matcher[0][1])    
          println(" Drop Constraint " + matcher[0][1] + " key " + matcher[0][2])
@@ -338,21 +338,38 @@ def checkAlters(line,tables)
             
          }
 
-    matcher = (line =~ /(?i)^ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+MODIFY[ \(]*([a-zA-Z0-9_-]+)[ ]+([a-zA-Z0-9\(\)]+)\).*;/)
+    matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+MODIFY[ \(]*([a-zA-Z0-9_-]+)[ ]+([^ "']+\))[ ]*([^ '"]*).*;/)
      if (matcher.matches()) {
          println(" alter Modify " + matcher[0][1] + " key " + matcher[0][2] + " on " + matcher[0][3].toUpperCase()) 
          liquibaseTableName = matcher[0][1]        
          table = new Table(tableName: liquibaseTableName)
          tables << table
-         table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
+         println "modify " + matcher[0][4]
+         if (matcher[0][4] != null) {
+              table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4])
+         } else {
+             table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
+         }
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
          return true
      }
-     matcher = (line =~ /(?i)^ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+ADD CONSTRAINT[ ]+([a-zA-Z0-9_-]+)[ ]+(.+)/)
+     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+MODIFY[ \(]*([a-zA-Z0-9_-]+)[ ]+([^ "']+\))[ ]*DEFAULT[ '"]+([^ '"]*).*;/)
      if (matcher.matches()) {
-         //println( matcher.getCount() + "occurences " + matcher[0][1])    
-         defaultMatch = (matcher[0][3] =~ /(?i)[ ]*PRIMARY KEY[ ]+\((.+)\).+/)
+         println(" alter Modify " + matcher[0][1] + " key " + matcher[0][2] + " default " + matcher[0][4].toUpperCase()) 
+         liquibaseTableName = matcher[0][1]        
+         table = new Table(tableName: liquibaseTableName)
+         tables << table
+         table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4].toUpperCase())
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
+         return true
+     }
+
+     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+ADD CONSTRAINT[ ]+([a-zA-Z0-9_-]+)[ ]+(.+)/)
+     if (matcher.matches()) {
+         println( matcher.getCount() + "occurences " + matcher[0][1])    
+         defaultMatch = (matcher[0][3] =~ /(?i)[ ]*PRIMARY KEY[ ]+\((.+)\).*/)
          if (defaultMatch.matches()) {
              println(" alter Primary " + matcher[0][1] + " key " + matcher[0][2] + " on " + defaultMatch[0][1])
              liquibaseColumnNames = defaultMatch[0][1]
@@ -379,6 +396,17 @@ def checkAlters(line,tables)
              tables << table
              return true
          }
+    }
+    matcher = (line =~ /(?i)[ ]*ALTER TABLE ([^ ]+) ADD ([^ ]+) ([^ ;]+) NOT NULL.*/)
+    if (matcher.matches()) {
+         println "add line " + matcher[0][1] + ":" + matcher[0][2] + " NOT NULL"
+         table = new Table( tableName: matcher[0][1] )
+         table.getAddColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : 'F')
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "varchar2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
+         tables << table
+         return true              
     }
     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([^ ]+) ADD ([^ ]+) ([^ ;]+).*/)
     if (matcher.matches()) {
@@ -464,7 +492,7 @@ def tables =[]
 
 def processLine(line) 
 {
-   
+    //println "processLine " + line   
     if (checkInsertion(line, tables) == true) return
     if (checkDeletion(line, tables) == true) return
     if (checkUpdates(line, tables) == true) return
@@ -479,6 +507,7 @@ def processFile(infileName, outfileName,counter, jira, commentary, authorName)
 {
     tables =[]
     rawlines = []
+    
     def writer = new FileWriter(outfileName)
     new File(infileName).eachLine {
          line ->
@@ -486,8 +515,8 @@ def processFile(infileName, outfileName,counter, jira, commentary, authorName)
          if (line.startsWith("--")) {
          } else if (line.trim() ==~ / */) {
          } else {
-              rawlines << line.trim()
-             if (line.trim() ==~ /.*;.*/) {
+             rawlines << line.trim()
+             if (line.trim() ==~ /.*;$/) {
                  println rawlines.join(" ").trim()
                  processLine( rawlines.join(" ").trim())
                  rawlines.clear()

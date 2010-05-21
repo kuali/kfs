@@ -71,7 +71,8 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
         // Obtain Prefix for Error fields in UI.
         String ERROR_PREFIX = getErrorPrefix(line, index);
 
-        isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase, line, ERROR_PREFIX);
+        //Ensure for cash Tx do not have a Etran. 
+        isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, line, ERROR_PREFIX);
 
         // Validate Greater then Zero(thus positive) value
         isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);

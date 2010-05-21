@@ -497,21 +497,24 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return success;
     }
 
-
-    protected boolean cashEndowTranCheck(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String prefix) {
-        // For Cash based Tx the Etran code must be empty
-        if (!nonCashTransaction(endowmentTransactionLinesDocumentBase)) {
-            // If Tx is Cash based, check for Etran code and if not null display Warning message.
-            if (!StringUtils.isEmpty(line.getEtranCode())) {
-                // Blank out Etran code.
-                // line.setEtranCode(null);
-                putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                // GlobalVariables.getMessageMap().putWarning(ERROR_PREFIX +
-                // EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE,
-                // EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
-                return false;
-            }
+    /**
+     * This methods checks to ensure for cash Tx do not have a Etran.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param prefix
+     * @return
+     */
+    protected boolean checkCashTransactionEndowmentCode(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String prefix) 
+    {
+        // For Cash based Tx the Etran code must be empty,If Tx is Cash based, check for Etran code and if not null display Error message.
+        if (!nonCashTransaction(endowmentTransactionLinesDocumentBase) && (!StringUtils.isEmpty(line.getEtranCode())) ) 
+        {
+            // 
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);
+            return false;
         }
+    
         return true;
     }
     

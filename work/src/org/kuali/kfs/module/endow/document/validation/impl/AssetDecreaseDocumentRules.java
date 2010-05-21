@@ -77,7 +77,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         EndowmentSourceTransactionLine targetTransactionLine = (EndowmentSourceTransactionLine) line;
 
         if (isValid) {
-            isValid &= cashEndowTranCheck(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
 
             if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
                 // Validate Greater then Zero(thus positive) value

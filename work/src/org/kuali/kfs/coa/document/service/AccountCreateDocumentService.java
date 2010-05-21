@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.service;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
-
+import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
 /**
  * An interface of services to create account document for CG
  */

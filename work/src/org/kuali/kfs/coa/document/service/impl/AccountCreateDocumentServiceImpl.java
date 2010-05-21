@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -37,10 +38,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     
     private DocumentService documentService;
     private ParameterService parameterService;
-    
-    /**
-     * This method will use the data from kc award and create a document with the account
-     */
+    private DataDictionaryService dataDictionaryService;
     public Account createAccountForCGMaintenanceDocument(AccountParameters accountParams) {
         Account account = new Account();
         //TODO: get AccountAutoCreateDefaults using Spring
@@ -104,7 +102,6 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         //building campuse code
         //building code
         
-        
         return account;
     }
     
@@ -152,13 +149,13 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         
         try {
             if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
-                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().saveDocument("");
+                documentService.saveDocument(maintenanceAccountDocument);
             }
             else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().blanketApprove("");
+                documentService.blanketApproveDocument(maintenanceAccountDocument, "", null);                
             }
             else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
-                maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().routeDocument("");
+                documentService.approveDocument(maintenanceAccountDocument, "", null);
             }
         }
         catch (WorkflowException wfe) {
@@ -174,7 +171,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
      */
     protected Document createCGAccountMaintenanceDocument() {
         try {
-            Document document = documentService.getNewDocument(KFSConstants.DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME);
+            Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(Account.class));
             return document;            
         }
         catch (WorkflowException wfe) {
@@ -232,6 +229,12 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
-    
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

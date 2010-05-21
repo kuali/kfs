@@ -47,20 +47,5 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
         public static final String DEMERGE_DOCUMENT_TYPES = "DEMERGE_DOCUMENT_TYPES";
     }
     
-    public static class AutomaticCGAccountCreateConstants {
-        public static final String ACCOUNT_NAME = "ACCOUNT_NAME";
-        public static final String ACCOUNT_POSTAL_CODE = "ACCOUNT_POSTAL_CODE";
-        public static final String ACCOUNT_CITY_NAME = "ACCOUNT_CITY_NAME";  
-        public static final String ACCOUNT_STATE_CODE = "ACCOUNT_STATE_CODE";  
-        public static final String ACCOUNT_STREET_ADDRESS = "ACCOUNT_STREET_ADDRESS";   
-        public static final String ACCOUNT_OFF_CAMPUS_INDICATOR = "ACCOUNT_OFF_CAMPUS_INDICATOR"; 
-        public static final String ACCOUNT_FRINGE_BENEFIT = "ACCOUNT_FRINGE_BENEFIT";
-        public static final String FRINGE_BENEFIT_CHART_OF_CODE = "FRINGE_BENEFIT_CHART_OF_CODE";  
-        public static final String FRINGE_BENEFIT_ACCOUNT_NUMBER = "FRINGE_BENEFIT_ACCOUNT_NUMBER";
-        public static final String HIGHER_EDUCATION_FUNCTION_CODE = "HIGHER_EDUCATION_FUNCTION_CODE";
-        public static final String CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE = "CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE";
-        public static final String CONTRACT_CONTROL_ACCOUNT_NUMBER = "CONTRACT_CONTROL_ACCOUNT_NUMBER";
-        public static final String ACCOUNT_INDIRECT_COST_RECOVERY_TYPE_CODE = "ACCOUNT_INDIRECT_COST_RECOVERY_TYPE_CODE"; 
-        public static final String INDIRECT_COST_RATE = "INDIRECT_COST_RATE";
-    }
+ 
 }

@@ -71,10 +71,26 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
      */
     @Override
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
-
-        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+        boolean isValid = true;
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) endowmentTransactionLinesDocumentBase;
         EndowmentSourceTransactionLine targetTransactionLine = (EndowmentSourceTransactionLine) line;
+
+        if (isSecurityCodeEmpty(assetDecreaseDocument, true))
+            return false;
+        if (!validateSecurityCode(assetDecreaseDocument, true))
+            return false;
+
+        isValid &= isSecurityActive(assetDecreaseDocument, true);
+        isValid &= validateSecurityClassCodeTypeNotLiability(assetDecreaseDocument, true);
+
+        if (isRegistrationCodeEmpty(assetDecreaseDocument, true))
+            return false;
+        if (!validateRegistrationCode(assetDecreaseDocument, true))
+            return false;
+
+        isValid &= isRegistrationCodeActive(assetDecreaseDocument, true);
+        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+
 
         if (isValid) {
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
@@ -106,7 +122,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         List<HoldingTaxLot> holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
 
-        BigDecimal totalTaxLotsUnits = new BigDecimal(0);
+        BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
 
         if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
             for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {

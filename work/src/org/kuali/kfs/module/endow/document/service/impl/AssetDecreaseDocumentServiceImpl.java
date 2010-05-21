@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         // 1. Calculate per unit value
         BigDecimal perUnitValue = KEMCalculationRoundingHelper.divide(transactionAmount, transactionUnits, 5);
 
-        BigDecimal totalTaxLotsUnits = new BigDecimal(0);
+        BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
 
         if (ObjectUtils.isNotNull(security)) {
             List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLots(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
@@ -95,8 +96,20 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                     taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                     // 2. Calculate percentage each lot contains of the total units
                     BigDecimal percentage = KEMCalculationRoundingHelper.divide(holdingTaxLot.getUnits(), totalTaxLotsUnits, 5);
+
                     // 3. Calculate the number of units to be transacted in each lot
-                    BigDecimal lotUnits = KEMCalculationRoundingHelper.multiply(percentage, holdingTaxLot.getUnits(), 5);
+                    // check if percentage and tax lot units are integers
+                    BigDecimal lotUnits = BigDecimal.ZERO;
+                    try {
+                        int lotUnitsInt = holdingTaxLot.getUnits().intValueExact();
+                        lotUnits = holdingTaxLot.getUnits().multiply(percentage);
+                        lotUnits = lotUnits.setScale(0, RoundingMode.UP);
+                        lotUnits = lotUnits.setScale(5);
+                    }
+                    catch (ArithmeticException ex) {
+                        lotUnits = KEMCalculationRoundingHelper.multiply(percentage, holdingTaxLot.getUnits(), 5);
+                    }
+
                     taxLotLine.setLotUnits(lotUnits);
 
                     // 4. Calculate the value received for units sold in each tax lot
@@ -138,7 +151,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 }
 
                 // Adjust the number of units if the total is different from the transaction line units
-                BigDecimal totalComputedTaxLotUnits = new BigDecimal(0);
+                BigDecimal totalComputedTaxLotUnits = BigDecimal.ZERO;
                 EndowmentTransactionTaxLotLine oldestTaxLotLine = null;
 
                 if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {

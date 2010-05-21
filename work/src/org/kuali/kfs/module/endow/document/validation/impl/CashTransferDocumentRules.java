@@ -69,11 +69,20 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules{
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CashTransferDocument cashTransferDocument = (CashTransferDocument) document;
+        if (isValid){
+            //check if the total of the transaction amount (Income plus Principal) in the From transaction lines 
+            //equals the total of the transaction amount in the To transaction lines.  
+            if(!cashTransferDocument.getTargetTotalAmount().equals(cashTransferDocument.getSourceTotalAmount())){
+                GlobalVariables.getMessageMap().putError(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+            }
         
-        //check if the total of the transaction amount (Income plus Principal) in the From transaction lines 
-        //equals the total of the transaction amount in the To transaction lines.  
-        if(!cashTransferDocument.getTargetTotalAmount().equals(cashTransferDocument.getSourceTotalAmount())){
-            GlobalVariables.getMessageMap().putError(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+            //check must have one source tranaction line
+            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, true))
+                return false;
+        
+            //check must have one source tranaction line
+            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, false))
+                return false;
         }
         return isValid;
     }

@@ -506,18 +506,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     protected boolean transactionLineSizeGreaterThanZero (EndowmentTransactionLinesDocumentBase document,boolean isSource)
     {
         List<EndowmentTransactionLine> transactionLineList = null;
-        if(isSource)
+        if(isSource){
             transactionLineList = document.getSourceTransactionLines();
-        else
-            transactionLineList = document.getTargetTransactionLines();
-
-        if(transactionLineList != null && transactionLineList.size() > 0)
-            return true;
-        else
-        {
-            putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT);
-            return false;   
+            if(transactionLineList == null || transactionLineList.size() == 0){
+                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                return false; 
+            }
         }
-            
+        else {
+            transactionLineList = document.getTargetTransactionLines();
+            if(transactionLineList == null || transactionLineList.size() == 0){
+                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS , EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                return false; 
+            }
+        }
+
+        return true;            
     }
 }

@@ -186,8 +186,9 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_PRINCIPAL = "error.document.transactionLine.etran.chartCodeDoesNotMatchForPrincipal";
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
 
-        public static final String ERROR_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.transactionLine.count.insufficient";
-        
+        public static final String ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.from.transactionLine.count.insufficient";
+        public static final String ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.to.transactionLine.count.insufficient";
+
         public static final String ERROR_TRANSACTION_LINE_TAXLOT_INVALID = "error.document.transactionLine.taxlot.invalid";
 
         public static final String WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS = "warning.document.transactionLine.reducePermanentlyRestrictedFunds";

@@ -31,12 +31,17 @@ public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) document;
+        
+        // Validate at least one Tx was entered.
+        if (!transactionLineSizeGreaterThanZero(cashDecreaseDocument, true))
+            return false;
+        
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) document;
-            
+           
             // Checks if Security field is not empty, security code must be valid.
             if (!isSecurityCodeEmpty(cashDecreaseDocument, true)){
                 if (!validateSecurityCode(cashDecreaseDocument, true))

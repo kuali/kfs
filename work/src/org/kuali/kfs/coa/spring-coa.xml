@@ -664,7 +664,10 @@
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>		
+		</property>	
+		<property name="dataDictionaryService">
+		 	<ref bean="dataDictionaryService" />
+		</property>
     </bean>	
 	 
 </beans>

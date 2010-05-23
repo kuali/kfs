@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Winston' id='2010-05-20-1000-1' failOnError='true'>
+    <comment>KC Integration: AccountAutoCreateDefaults</comment>
+    <createTable tableName='CA_ACCT_AUTO_CREATE_DFLT_T'>
+      <column name='KC_UNIT' type='VARCHAR2(8)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+      <column name='FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCOUNT_NM' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='KC_UNIT_NAME' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_PSTL_CD' type='VARCHAR2(20)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_CITY_NM' type='VARCHAR2(25)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_STATE_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_STREET_ADDR' type='VARCHAR2(30)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_OFF_CMP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_TYP_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_PHYS_CMP_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SUB_FUND_GRP_CD' type='VARCHAR2(5)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_FRNG_BNFT_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='RPTS_TO_FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FRNG_BNFT_ACCT_NMBR' type='VARCHAR2(7)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FIN_HGH_ED_FUNC_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_FSC_OFC_UID' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_SPVSR_UNVL_ID' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_MGR_UNVL_ID' type='VARCHAR2(40)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ORG_CD' type='VARCHAR2(4)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CONT_FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CONT_ACCOUNT_NBR' type='VARCHAR2(7)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INCOME_FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='INCOME_ACCOUNT_NBR' type='VARCHAR2(7)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='BDGT_REC_LVL_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_SF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_PND_SF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FIN_EXT_ENC_SF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FIN_INT_ENC_SF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FIN_PRE_ENC_SF_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='FIN_OBJ_PRSCTRL_CD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ICR_ACCOUNT_NBR' type='VARCHAR2(7)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='CG_ACCT_RESP_ID' type='NUMBER(2,0)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_ICR_TYP_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Winston' id='2010-05-20-1000-2' failOnError='true'>
+    <comment>KC Integration: index AccountAutoCreateDefaults</comment>
+    <addPrimaryKey tableName='CA_ACCT_AUTO_CREATE_DFLT_T' constraintName='CA_ACCT_AUTO_CREATE_DFLT_PK' columnNames='KC_UNIT' />
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5475-2-1' failOnError='true'>
+    <comment>Endowment request: create Endowment related parameters in RICE tables</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name="OBJ_ID" value="SYS_GUID"/>
+      <column name="VER_NBR" valueNumeric="1"/>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='TAX_LOTS_ACCOUNTING_METHOD' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Average Balance' />
+      <column name='PARM_DESC_TXT' value='This parameter is used to identify the institutional selection for tracking security Tax Lots and transactions involving cash The possible values for this parameter are: Average Balance, FIFO First In - First Out and LIFO Last In - First Out' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

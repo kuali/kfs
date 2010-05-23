@@ -1,52 +1,118 @@
 import groovy.swing.SwingBuilder
 import javax.swing.*
 
+
 class Table {
   Map attributes = [:]
   Boolean dropTable = false
-  List columns = []
-  List deleteDatas = []
-  List updateColumns = []
-  List alterColumns = []
-  List dropConstraints = []
-  List addColumns = []
-  List primaryKeys = []
-  List foreignKeys = []
+  List changes = []
+ 
   String whereClause
   List modSqls = []
   Table(Map attribs) {
     attributes = attribs
   }
+  
+  void modification(xml) {
+      if (this.dropTable == true) {
+          dropTable( this.getAttributes() )
+      }
+              
+      if (this.changes.size() > 0) changes.get(0).modification(this, xml)
+          
+      this.getModSqls().each { modSql ->
+          if (modSql.getReplaceAttributes().size() > 0) {
+              xml.modifySql( modSql.getAttributes() ) {
+                  xml.replace( modSql.getReplaceAttributes())
+              }
+          }
+      }         
+      this.getModSqls().each { modSql ->
+          if (modSql.getAppendAttributes().size() > 0) {
+              xml.modifySql( modSql.getAttributes() ) {
+                  xml.append( modSql.getAppendAttributes())
+              }
+          }
+       }
+   }
 }
 
-class Column {
+interface LiquibaseCommonTableInterface 
+{
+   void modification(table, xml)
+}
+
+class Column implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   Column(Map attribs) {
     attributes = attribs.findAll{it.key in ['name', 'type', 'value', 'valueDate' , 'valueNumeric']}
   }
+  void modification(table, xml) {
+      xml.insert( table.getAttributes()) {
+          table.getChanges().each { change ->
+              xml.column(change.getAttributes())
+          }
+      }
+  } 
 }
 
-class UpdateColumn {
+class UpdateColumn implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   UpdateColumn( Map attribs) {
     attributes = attribs.findAll{it.key in ['name', 'type', 'value' , 'valueNumeric', 'where']}
   }
+   void modification(table, xml) {
+      xml.update( table.getAttributes()) {
+          table.getChanges().each { change ->
+              xml.column(change.getAttributes())
+          } 
+          if (table.getWhereClause() != null) xml.where(table.getWhereClause())        
+      }
+  }
 }
 
-class DeleteData {
+class DeleteData implements LiquibaseCommonTableInterface {
     String where
     DeleteData(wh) {
         where = wh.trim()
+   } 
+    void modification(table,xml) {
+       xml.delete( table.getAttributes()) {
+           if (this.where != '') xml.where(this.where )
+       } 
    }
 }
 
-class PrimaryKey {
+class PrimaryKey implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   PrimaryKey(Map attribs) {
     attributes = attribs
   }
+  void modification(table, xml) {
+      xml.addPrimaryKey( this.attributes ) 
+  }
 }
-class AlterColumn {
+
+class DropConstraints extends PrimaryKey {
+    DropConstraints(Map attribs) {
+        super(attribs)
+    }
+    
+    void modification(table, xml) {
+        xml.dropForeignKeyConstraint( this.attributes)
+    }
+}
+
+class ForeignKeys extends PrimaryKey {
+    ForeignKeys(Map attribs) {
+        super(attribs)
+    }
+     void modification(table, xml) {
+        xml.addForeignKeyConstraint(this.attributes)
+    }
+}
+
+class AlterColumn implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   Map constraintsAttributes = [:]
   AlterColumn(Map attribs) {
@@ -54,6 +120,36 @@ class AlterColumn {
     constraintsAttributes = attribs.findAll{it.key in ['nullable']}    
     //tableName = attribs.findAll{it.key in ['tableName']}
   }
+  
+  void modification(table, xml) {
+    xml.modifyColumn( table.getAttributes()) {
+        table.getChanges().each { change ->
+            xml.column(change.getAttributes() ) {
+                if (change.getConstraintsAttributes()) {
+                    xml.constraints(change.getConstraintsAttributes())
+                }
+            }
+        }
+    }
+  }
+}
+
+
+class AddColumn extends AlterColumn {
+    AddColumn(Map attribs) {
+        super(attribs)
+    }
+    void modification(table, xml) {
+        xml.addColumn( table.getAttributes()) {
+            table.getChanges().each { change ->
+                 xml.column(change.getAttributes()) {
+                     if(change.getConstraintsAttributes()) {
+                         xml.constraints(change.getConstraintsAttributes())
+                     }
+                 }
+             }
+        }
+    }
 }
 
 class ModSql {
@@ -87,100 +183,13 @@ class ChangelogCreateTable {
       tables.each { table ->
         changeSet(author: author, id : (identifier << changesetId++), failOnError : failOnErr) {
           comment(comments)
-          
-          if (table.dropTable == true) {
-              dropTable( table.getAttributes() )
-          }    
-
-          if (table.deleteDatas.size() > 0) {
-              delete( table.getAttributes() ) {
-                  table.deleteDatas.each { delData ->
-                      if (delData.where != '') where( delData.where )
-                  }  
-              }  
-          }    
-          
-            
-          if (table.alterColumns.size() > 0) {
-                 table.alterColumns.each { col ->
-                   modifyColumn( table.getAttributes() ) {
-                       column(col.getAttributes() ) {
-                           if(col.getConstraintsAttributes()) {
-                              constraints(col.getConstraintsAttributes())
-                           }
-                       }
-                   }
-                }
-           }
-           if (table.dropConstraints.size() > 0) {
-                 table.dropConstraints.each { col ->
-                   dropForeignKeyConstraint( col.getAttributes() )
-                }
-           }
-
-           if (table.foreignKeys.size() > 0) {
-                 table.foreignKeys.each { col ->
-                    addForeignKeyConstraint( col.getAttributes() )
-                }
-           }
-           
-           if (table.addColumns.size() > 0) {
-                 table.addColumns.each { col ->
-                   addColumn( table.getAttributes() ) {
-                       column(col.getAttributes() ) {
-                           if(col.getConstraintsAttributes()) {
-                              constraints(col.getConstraintsAttributes())
-                           }
-                       }
-                   }
-                }
-           }
-           if (table.primaryKeys.size() > 0) {
-                 table.primaryKeys.each { col ->
-                    addPrimaryKey( col.getAttributes() ) 
-                 }
-           }
-    
-           if (table.columns.size() > 0) {
-              insert( table.getAttributes() ) {
-                table.columns.each { col ->
-                  column(col.getAttributes() ) 
-                }
-              }
-          }
-
-          if (table.updateColumns.size() > 0) {
-              update( table.getAttributes()) {
-                  table.updateColumns.each { col ->
-                     column(col.getAttributes()) 
-                     if (table.getWhereClause() != null) where(table.getWhereClause())          
-                  }
-              }
-          }
-
-    
-          table.getModSqls().each { modSql ->
-              if (modSql.getReplaceAttributes().size() > 0) {
-                  modifySql( modSql.getAttributes() ) {
-                      replace( modSql.getReplaceAttributes())
-                  }
-              }
-          }
-          
-          table.getModSqls().each { modSql ->
-              if (modSql.getAppendAttributes().size() > 0) {
-                  modifySql( modSql.getAttributes() ) {
-                      append( modSql.getAppendAttributes())
-                 }
-              }
-          }
+          table.modification(xml)
         }
-      }
         println("total records = " + (changesetId - 1)  )
+      }
     }
   }
 }
-
 
 def checkEOL(line)
 {
@@ -212,7 +221,7 @@ def evaluateList(table, cols, vals)
                 month = (dateArray[0][1].size() == 2) ? dateArray[0][1] : "0" + dateArray[0][1]
                 day = (dateArray[0][2].size() == 2) ? dateArray[0][2] : "0" + dateArray[0][2]
                 newDate = dateArray[0][3] + '-' + month + "-" + day
-                table.getColumns() << new Column(name : tokenType, valueDate : newDate )
+                table.getChanges() << new Column(name : tokenType, valueDate : newDate )
             } else {
                 // TO_DATE('', 'mm/dd/yyyy'),
                 newDate = ""
@@ -232,7 +241,7 @@ def evaluateList(table, cols, vals)
                 hour = (dateArray[0][8] == "PM") ? (dateArray[0][4].toInteger() + 12) : dateArray[0][4]
                 newDate = year + '-' + month + "-" + day + "T" + hour + ":" + dateArray[0][5] + ":" + dateArray[0][6]
                 println "NEW DATE " + newDate
-                table.getColumns() << new Column(name : tokenType, valueDate : newDate )
+                table.getChanges() << new Column(name : tokenType, valueDate : newDate )
             } else {
                 dateArray = (token =~ /(?i)TO_TIMESTAMP[^0-9]+([0-9]+)-([a-zA-Z]+)-([0-9]+).*/)
                 if (dateArray.matches()) {
@@ -241,17 +250,17 @@ def evaluateList(table, cols, vals)
                     year = (dateArray[0][3].size() == 2) ? ("20" + dateArray[0][3]) : dateArray[0][3]
                     newDate = year + '-' + month + "-" + day
                     println "NEW DATE: " + newDate
-                    table.getColumns() << new Column(name : tokenType, valueDate : newDate )
+                    table.getChanges() << new Column(name : tokenType, valueDate : newDate )
                  }
             }
             i++
         } else if (token.toUpperCase() == ("SYS_GUID()")) {
-            table.getColumns() << new Column(name : tokenType, type: "UUID",  valueNumeric : removeQuotes( token.toUpperCase()) )
+            table.getChanges() << new Column(name : tokenType, type: "UUID",  valueNumeric : removeQuotes( token.toUpperCase()) )
         } else if (token.toUpperCase() == "NULL") {
             // do nothing
         } else if ( (token.isNumber()) || (token.startsWith("\'") == false) && (token.endsWith("\'") == false)) {
             //println "numeric " + token
-            table.getColumns() << new Column(name : tokenType, valueNumeric : removeQuotes( token))
+            table.getChanges() << new Column(name : tokenType, valueNumeric : removeQuotes( token))
         } else {
             // need to check val after if a quote follows otherwise concatenate it
              while ((i + 1) < vals.size()) {
@@ -261,7 +270,7 @@ def evaluateList(table, cols, vals)
                 token = token + "," +  vals[++i]
                 println "incrementing " + token
              }
-            table.getColumns() << new Column(name : tokenType, value : removeQuotes( token))
+            table.getChanges() << new Column(name : tokenType, value : removeQuotes( token))
         }
         
      }     
@@ -314,10 +323,10 @@ def checkDeletion(line, tables)
     matcher = (line =~ /(?i).+WHERE ([^;]+);.*/)
      if (matcher.matches()) {
         println("new deletion " + liquibaseTableName)
-        table.getDeleteDatas() << new DeleteData(matcher[0][1])
+        table.getChanges() << new DeleteData(matcher[0][1])
      } else {
          println('delete all data ' + liquibaseTableName)
-         table.getDeleteDatas() << new DeleteData('')
+         table.getChanges() << new DeleteData('')
      }
      return true;
 }
@@ -331,8 +340,8 @@ def checkAlters(line,tables)
              liquibaseTableName = matcher[0][1]
              liquibasePrimeKey = matcher[0][2]
              table = new Table()
-             pk = new PrimaryKey( baseTableName: liquibaseTableName , constraintName : liquibasePrimeKey)
-             table.dropConstraints << pk
+             pk = new DropConstraints( baseTableName: liquibaseTableName , constraintName : liquibasePrimeKey)
+             table.getChanges() << pk
              tables << table
              return true
             
@@ -346,9 +355,9 @@ def checkAlters(line,tables)
          tables << table
          println "modify " + matcher[0][4]
          if (matcher[0][4] != null) {
-              table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4])
+              table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4])
          } else {
-             table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
+             table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
          }
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
@@ -360,13 +369,13 @@ def checkAlters(line,tables)
          liquibaseTableName = matcher[0][1]        
          table = new Table(tableName: liquibaseTableName)
          tables << table
-         table.getAlterColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4].toUpperCase())
+         table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4].toUpperCase())
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
          return true
      }
 
-     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+ADD CONSTRAINT[ ]+([a-zA-Z0-9_-]+)[ ]+(.+)/)
+ matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+ADD CONSTRAINT[ ]+([a-zA-Z0-9_-]+)[ ]+(.+)/)
      if (matcher.matches()) {
          println( matcher.getCount() + "occurences " + matcher[0][1])    
          defaultMatch = (matcher[0][3] =~ /(?i)[ ]*PRIMARY KEY[ ]+\((.+)\).*/)
@@ -377,7 +386,7 @@ def checkAlters(line,tables)
              liquibasePrimeKey = matcher[0][2]
              table = new Table()
              pk = new PrimaryKey( tableName: liquibaseTableName , constraintName : liquibasePrimeKey, columnNames :liquibaseColumnNames)
-             table.primaryKeys << pk
+             table.getChanges() << pk
              tables << table
              return true
             
@@ -391,8 +400,8 @@ def checkAlters(line,tables)
              liquibaseReferenceTableName = defaultMatch[0][2]
              liquibaseReferencedColumnNames = defaultMatch[0][3]
              table = new Table()
-             pk = new PrimaryKey(constraintName: liquibaseConstraintName, baseTableName: liquibaseTableName , baseColumnNames :liquibaseBaseColumnNames, referencedTableName :liquibaseReferenceTableName, referencedColumnNames : liquibaseReferencedColumnNames )
-             table.foreignKeys << pk
+             pk = new ForeignKeys(constraintName: liquibaseConstraintName, baseTableName: liquibaseTableName , baseColumnNames :liquibaseBaseColumnNames, referencedTableName :liquibaseReferenceTableName, referencedColumnNames : liquibaseReferencedColumnNames )
+             table.getChanges() << pk
              tables << table
              return true
          }
@@ -401,7 +410,7 @@ def checkAlters(line,tables)
     if (matcher.matches()) {
          println "add line " + matcher[0][1] + ":" + matcher[0][2] + " NOT NULL"
          table = new Table( tableName: matcher[0][1] )
-         table.getAddColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : 'F')
+         table.getChanges() << new AddColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : 'F')
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "varchar2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
@@ -412,7 +421,7 @@ def checkAlters(line,tables)
     if (matcher.matches()) {
          println "add line " + matcher[0][1] + ":" + matcher[0][2] + ":"  + matcher[0][3]
          table = new Table( tableName: matcher[0][1] )
-         table.getAddColumns() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
+         table.getChanges() << new AddColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "varchar2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
@@ -440,7 +449,7 @@ def checkUpdates(line, tables)
         
          table = new Table(tableName : matcher[0][1])
          table.setWhereClause(matcher[0][4])
-         table.getUpdateColumns() << col
+         table.getChanges() << col
          tables << table
          return true
          
@@ -457,7 +466,7 @@ def checkUpdates(line, tables)
              col =  new UpdateColumn( name : matcher[0][2], value : matcher[0][3])
          }        
          table = new Table(tableName : matcher[0][1])
-          table.getUpdateColumns() << col
+          table.getChanges() << col
           tables << table
          return true
          
@@ -524,10 +533,8 @@ def processFile(infileName, outfileName,counter, jira, commentary, authorName)
          }
      }
      def cct = new ChangelogCreateTable(author: authorName, identifier : (jira + "-" + counter + "-"), comments : commentary )
-          cct.generate(writer, tables)
- }     
-          
- 
+          cct.generate(writer, tables)       
+ }
  // pass a directory or use the current directory
 def jira = "5477"
 def dateExecution

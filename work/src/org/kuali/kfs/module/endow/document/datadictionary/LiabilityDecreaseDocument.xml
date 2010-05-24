@@ -35,6 +35,7 @@
         <ref bean="LiabilityDecreaseDocument-transactionSubTypeCode"/>
         <ref bean="LiabilityDecreaseDocument-transactionSourceTypeCode"/>
         <ref bean="LiabilityDecreaseDocument-transactionPosted"/>
+        <ref bean="LiabilityDecreaseDocument-totalUnits"/>
         <ref bean="LiabilityDecreaseDocument-versionNumber"/>
       </list>
     </property>
@@ -78,5 +79,12 @@
     <property name="label" value="Transaction Posted"/>
   </bean>
 
+  <bean id="LiabilityDecreaseDocument-totalUnits" parent="LiabilityDecreaseDocument-totalUnits-parentBean"/>
+  <bean id="LiabilityDecreaseDocument-totalUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalUnits"/>
+    <property name="shortLabel" value="Total Units"/>
+    <property name="label" value="Total Units"/>
+  </bean>
+  
   <bean id="LiabilityDecreaseDocument-versionNumber" parent="GenericAttributes-versionNumber"/>
 </beans>

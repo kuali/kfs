@@ -27,7 +27,8 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
+	<endow:endowmentDocumentOverview editingMode="${KualiForm.editingMode}" 
+	                                 endowDocAttributes="${DataDictionary.LiabilityDecreaseDocument.attributes}" />
 	
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
      

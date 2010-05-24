@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable {
+public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling {
 
 
     public LiabilityDecreaseDocument() {

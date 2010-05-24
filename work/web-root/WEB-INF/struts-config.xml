@@ -239,8 +239,9 @@
 		<form-bean name="LiabilityIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityIncreaseDocumentForm" />			
 		<form-bean name="LiabilityDecreaseDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityDecreaseDocumentForm" />			
-
+			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityDecreaseDocumentForm" />
+		<form-bean name="SecurityTransferDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.SecurityTransferDocumentForm" />					
 	</form-beans>
 
 	<global-exceptions>

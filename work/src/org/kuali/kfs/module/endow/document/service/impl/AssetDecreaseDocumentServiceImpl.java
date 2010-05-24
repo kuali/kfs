@@ -68,13 +68,14 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 }
             }
 
-            if (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && security.getClassCode().isTaxLotIndicator()) {
+            if ((EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) || EndowConstants.TaxLotsAccountingMethodOptions.LIFO.equalsIgnoreCase(accountingMethod)) && security.getClassCode().isTaxLotIndicator()) {
+                boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
 
                 if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFO(true, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    // 
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
             }
         }
@@ -94,11 +95,17 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
         BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
-
+        BigDecimal transactionAmount = BigDecimal.ZERO;
+        BigDecimal perUnitValue = BigDecimal.ZERO;
         transLine.getTaxLotLines().clear();
 
         List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLots(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
         Map<KualiInteger, EndowmentTransactionTaxLotLine> decreaseHoldingTaxLots = new HashMap<KualiInteger, EndowmentTransactionTaxLotLine>();
+        if (isSubTypeCash) {
+            transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
+            // 1. Calculate per unit value
+            perUnitValue = KEMCalculationRoundingHelper.divide(transactionAmount, transactionUnits, 5);
+        }
 
         if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
             // compute the total number of units for tax lots
@@ -135,9 +142,6 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 taxLotLine.setLotHoldingCost(originalCost);
 
                 if (isSubTypeCash) {
-                    BigDecimal transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
-                    // 1. Calculate per unit value
-                    BigDecimal perUnitValue = KEMCalculationRoundingHelper.divide(transactionAmount, transactionUnits, 5);
 
                     // 4. Calculate the value received for units sold in each tax lot
                     BigDecimal valueReceived = KEMCalculationRoundingHelper.multiply(lotUnits, perUnitValue, 2);
@@ -235,25 +239,31 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         }
     }
 
+
     /**
-     * Updates the tax lots for the transaction line in the case the accounting method is FIFO.
+     * Updates the tax lots for the transaction line in the case the accounting method is FIFO or LIFO.
      * 
      * @param isSubTypeCash
+     * @param isFIFO
      * @param assetDecreaseDocument
      * @param endowmentTransactionSecurity
      * @param transLine
      */
-    private void updateTaxLotsForAccountingMethodFIFO(boolean isSubTypeCash, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+    private void updateTaxLotsForAccountingMethodFIFOorLIFO(boolean isSubTypeCash, boolean isFIFO, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
-        BigDecimal transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
+        BigDecimal transactionAmount = BigDecimal.ZERO;
+        BigDecimal perUnitVal = BigDecimal.ZERO;
 
         transLine.getTaxLotLines().clear();
 
-        List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLotsOrderByAcquiredDate(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode(), true);
+        List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLotsOrderByAcquiredDate(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode(), isFIFO);
         Map<KualiInteger, EndowmentTransactionTaxLotLine> decreaseHoldingTaxLots = new HashMap<KualiInteger, EndowmentTransactionTaxLotLine>();
 
-        // 1. Compute per unit value
-        BigDecimal perUnitVal = KEMCalculationRoundingHelper.divide(transactionAmount, transactionUnits, 5);
+        if (isSubTypeCash) {
+            transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
+            // 1. Compute per unit value
+            perUnitVal = KEMCalculationRoundingHelper.divide(transactionAmount, transactionUnits, 5);
+        }
 
         BigDecimal remainingUnits = transactionUnits;
 
@@ -276,9 +286,6 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                     remainingUnits = BigDecimal.ZERO;
                 }
 
-                // 3. Calculate the value received for the units sold and round to 2 decimals
-                BigDecimal receivedValue = KEMCalculationRoundingHelper.multiply(perUnitVal, taxLotLine.getLotUnits(), 2);
-
                 // 4. Calculate the original unit value: cost/units
                 BigDecimal originalUnitVal = KEMCalculationRoundingHelper.divide(holdingTaxLot.getCost(), holdingTaxLot.getUnits(), 5);
 
@@ -288,8 +295,13 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 // set the tax lot holding cost
                 taxLotLine.setLotHoldingCost(originalCost);
 
-                // 6. Calculate the gain or loss
-                calculateGainLoss(holdingTaxLot, taxLotLine, receivedValue, originalCost);
+                // if sub type cash then the
+                if (isSubTypeCash) {
+                    // 3. Calculate the value received for the units sold and round to 2 decimals
+                    BigDecimal receivedValue = KEMCalculationRoundingHelper.multiply(perUnitVal, taxLotLine.getLotUnits(), 2);
+                    // 6. Calculate the gain or loss
+                    calculateGainLoss(holdingTaxLot, taxLotLine, receivedValue, originalCost);
+                }
 
                 // set the lot number
                 taxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());

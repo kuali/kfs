@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
@@ -43,60 +43,5 @@ public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase 
         super.prepareForSave();
     }
     
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalIncomeAmount()
-     */
-    public KualiDecimal getTotalIncomeAmount() {
 
-        return this.getTargetIncomeTotal();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalPrincipalAmount()
-     */
-    public KualiDecimal getTotalPrincipalAmount() {
-
-        return this.getTargetPrincipalTotal();
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
-     */
-    public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal totalAmount = new KualiDecimal();
-
-        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
-        totalAmount = totalAmount.add(getTotalIncomeUnits());
-        totalAmount = totalAmount.add(getTotalPrincipalUnits());
-
-        return totalAmount;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalIncomeUnits()
-     */
-    public KualiDecimal getTotalIncomeUnits() {
-
-        return this.getTargetIncomeTotalUnits();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalPrincipalUnits()
-     */
-    public KualiDecimal getTotalPrincipalUnits() {
-
-        return this.getTargetPrincipalTotalUnits();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.UnitsTotaling#getTotalUnits()
-     */
-    public KualiDecimal getTotalUnits() {
-        KualiDecimal totalUnits = new KualiDecimal();
-        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
-        totalUnits = totalUnits.add(getTotalIncomeUnits());
-        totalUnits = totalUnits.add(getTotalPrincipalUnits());
-
-        return totalUnits;
-    }
 }

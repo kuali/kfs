@@ -60,6 +60,21 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsOrderByAcquiredDate(java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String, boolean)
+     */
+    public List<HoldingTaxLot> getAllTaxLotsOrderByAcquiredDate(String kemid, String securityId, String registrationCode, String ipIndicator, boolean sortAscending) {
+        Map<String, String> criteria = new HashMap<String, String>();
+
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, registrationCode);
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR, ipIndicator);
+
+        return (List<HoldingTaxLot>) businessObjectService.findMatchingOrderBy(HoldingTaxLot.class, criteria, EndowPropertyConstants.HOLDING_TAX_LOT_ACQUIRED_DATE, sortAscending);
+    }
+
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService

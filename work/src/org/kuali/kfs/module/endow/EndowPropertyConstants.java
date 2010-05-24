@@ -101,6 +101,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_NUMBER = "lotNumber";
     public static final String HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_TAX_LOT_BALANCE_DATE = "balanceDate";
+    public static final String HOLDING_TAX_LOT_ACQUIRED_DATE = "acquiredDate";
 
     // MonthEndDate fields
     public static final String MONTH_END_DATE_ID = "monthEndDateId";
@@ -479,43 +480,43 @@ public class EndowPropertyConstants {
     public static final String TICKLER_KEMID = "kemId";
     public static final String TICKLER_SECURITYID = "securityId";
     public static final String TICKLER_RECIPIENT_PRINCIPALID = "principalId";
-    public static final String TICKLER_LOOKUP_USER_ID_FIELD = "recipientPrincipals.contact.principalName" ; 
+    public static final String TICKLER_LOOKUP_USER_ID_FIELD = "recipientPrincipals.contact.principalName";
     public static final String TICKLER_LOOKUP_UNIVERSAL_USER_ID_FIELD = "recipientPrincipals.principalId";
     public static final String TICKLER_RECIPIENT_GROUPID = "groupId";
-    public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName" ; 
+    public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName";
     public static final String TICKLER_LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
 
-    //Transaction Line
+    // Transaction Line
     public static final String TRANSACTION_LINE_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_LINE_TYPE_CODE = "transactionLineTypeCode";
     public static final String TRANSACTION_LINE_NUMBER = "transactionLineNumber";
-    
-    //Transaction Holding Lot Line
+
+    // Transaction Holding Lot Line
     public static final String TRANSACTION_HOLDING_LOT_NUMBER = "transactionHoldingLotNumber";
-    
-    //Transaction Document
+
+    // Transaction Document
     public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";
 
     public static final String TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE = "etranCode";
-    public static final String TRANSACTION_LINE_TRANSACTION_AMOUNT = "transactionAmount"; 
+    public static final String TRANSACTION_LINE_TRANSACTION_AMOUNT = "transactionAmount";
     public static final String TRANSACTION_LINE_TRANSACTION_UNITS = "transactionUnits";
-    public static final String TRANSACTION_LINE_IP_INDICATOR_CODE ="transactionIPIndicatorCode";
+    public static final String TRANSACTION_LINE_IP_INDICATOR_CODE = "transactionIPIndicatorCode";
 
-    
+
     public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";
     public static final String SOURCE_TRANSACTION_LINE_PREFIX = "newSourceTransactionLine.";
-    
-    
+
+
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";
-    public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX  = "document.targetTransactionLines";
-    
+    public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX = "document.targetTransactionLines";
+
     public static final String TRANSACTION_SECURITY_ID = "securityID";
     public static final String TRANSACTION_REGISTRATION_ID = "registrationCode";
     public static final String TRANSACTION_IPINDICATOR = "transactionIPIndicatorCode";
-    
+
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
-    
-    
+
+
 }

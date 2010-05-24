@@ -106,7 +106,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     }
     
     /**
-     * This method will create a account automatic maintenance document and put the account object into it
+     * This method will create an account automatic maintenance document and put the account object into it
      * @return documentNumber returns the documentNumber
      * 
      * @see org.kuali.kfs.coa.document.service.CreateAccountService#createAutomaticCGAccountMaintenanceDocument()

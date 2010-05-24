@@ -133,7 +133,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      */
     public ActionForward printDisbursementVoucherCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(dvForm);
 
         // get directory of template
         String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -160,7 +159,6 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      */
     public ActionForward calculateTravelPerDiem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(dvForm);
 
         try {
             // call service to calculate per diem

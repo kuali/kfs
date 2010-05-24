@@ -98,7 +98,6 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
      */
     public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(crForm);
         
         // get directory of tempate
         String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);

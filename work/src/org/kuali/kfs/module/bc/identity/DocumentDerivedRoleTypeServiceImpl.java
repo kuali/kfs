@@ -184,4 +184,8 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         // TODO Auto-generated method stub
         return new ArrayList<KeyLabelPair>(0);
     }
+
+    public List<String> getQualifiersForExactMatch() {
+        return new ArrayList<String>(); 
+    }
 }

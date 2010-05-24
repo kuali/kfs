@@ -16,13 +16,13 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
@@ -47,7 +47,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
 
 
     @Override
-    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria) {
+    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {
         List<Column> tempColumns = new ArrayList<Column>();
         List<Column> customDisplayColumnNames = getAndSetUpCustomDisplayColumns(criteria);
         if ((!getShowAllStandardFields()) && (getOverrideSearchableAttributes())) {
@@ -56,14 +56,14 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         } else if (getShowAllStandardFields() && (getOverrideSearchableAttributes())) {
             // do standard fields and use displayColumns for searchable
             // attributes
-            this.addStandardSearchColumns(tempColumns);
+            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
             this.addAllCustomColumns(tempColumns, criteria,customDisplayColumnNames);
         } else if ((!getShowAllStandardFields()) && (!getOverrideSearchableAttributes())) {
             // do displayColumns and then do standard searchable attributes
             this.addCustomStandardCriteriaColumns(tempColumns, criteria, customDisplayColumnNames);
             this.addSearchableAttributeColumnsNoOverrides(tempColumns,criteria);
         } else if (getShowAllStandardFields() && !getOverrideSearchableAttributes()) {
-            this.addStandardSearchColumns(tempColumns);
+            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
         }
 
         List<Column> columns = new ArrayList<Column>();

@@ -79,7 +79,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public CommodityCode getCommodityCode() {
-        if (ObjectUtils.isNull(commodityCode) || (!commodityCode.getPurchasingCommodityCode().equalsIgnoreCase(getPurchasingCommodityCode())))  {
+        if (ObjectUtils.isNull(commodityCode) || !StringUtils.equalsIgnoreCase( commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode()) )  {
             refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
         }
         return commodityCode;
@@ -108,7 +108,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public UnitOfMeasure getItemUnitOfMeasure() {
-        if (ObjectUtils.isNull(itemUnitOfMeasure) || (!itemUnitOfMeasure.getItemUnitOfMeasureCode().equalsIgnoreCase(getItemUnitOfMeasureCode()))) {
+    	if (ObjectUtils.isNull(itemUnitOfMeasure) || !StringUtils.equalsIgnoreCase( itemUnitOfMeasure.getItemUnitOfMeasureCode(), getItemUnitOfMeasureCode()) ) {
             refreshReferenceObject(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE);
         }
         return itemUnitOfMeasure;

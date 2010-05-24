@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * This renders a label (and not, as I was about to write labels a render).  It's main job
@@ -163,7 +164,7 @@ public class LabelRenderer implements Renderer {
                 out.write("&nbsp;");
             }
             if (!StringUtils.isBlank(fullClassNameForHelp) && !StringUtils.isBlank(attributeEntryForHelp)) {
-                out.write("<a href=\""+SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.url")+"/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName="+fullClassNameForHelp+"&amp;attributeName="+attributeEntryForHelp);
+                out.write("<a href=\""+SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY)+"/kr/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName="+fullClassNameForHelp+"&amp;attributeName="+attributeEntryForHelp);
             }
             out.write(label);
             if (!StringUtils.isBlank(fullClassNameForHelp) && !StringUtils.isBlank(attributeEntryForHelp)) {

@@ -536,7 +536,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         LOG.debug("saveToDesktop() started");
 
         CorrectionForm correctionForm = (CorrectionForm) form;
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(correctionForm);
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
             if (correctionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && correctionForm.getInputGroupIdFromLastDocumentLoad() != null && correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) {

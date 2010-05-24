@@ -727,7 +727,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         // register that we're going to come back w/ to this form w/ a refresh methodToCall
         ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        ((KualiAccountingDocumentFormBase) form).registerNextMethodToCallIsRefresh(true);
 
         return new ActionForward(lookupUrl, true);
     }

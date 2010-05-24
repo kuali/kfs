@@ -829,6 +829,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     public String getOrganizationHierarchy() {
+        OrganizationService organizationService = SpringContext.getBean(OrganizationService.class);
         StringBuffer result = new StringBuffer();
         Set<Organization> seen = new HashSet<Organization>();
 
@@ -839,11 +840,11 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
             String rOrg = org.getReportsToOrganizationCode();
 
             seen.add(org);
-            org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(rChart, rOrg);
+            org = organizationService.getByPrimaryIdWithCaching(rChart, rOrg);
 
             result.append(rChart).append("/").append(rOrg).append(" ");
             result.append(((org == null) ? "" : org.getOrganizationName()));
-            if (org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
+            if ( org != null && org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
                 result.append(" ==> ");
             }
             result.append("\n");
@@ -876,8 +877,6 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     public boolean equals(Object obj) {
         boolean equal = false;
 
-        LOG.debug("Org equals");
-
         if (obj != null) {
 
             if (this == obj)
@@ -886,9 +885,6 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
             if (this.getClass().isAssignableFrom(obj.getClass())) {
 
                 Organization other = (Organization) obj;
-
-                LOG.debug("this: " + this);
-                LOG.debug("other: " + other);
 
                 if (StringUtils.equals(this.getChartOfAccountsCode(), other.getChartOfAccountsCode())) {
                     if (StringUtils.equals(this.getOrganizationCode(), other.getOrganizationCode())) {

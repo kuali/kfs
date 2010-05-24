@@ -41,7 +41,6 @@ public class CertificationRecreateAction extends EffortCertificationAction {
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         recreateForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        recreateForm.registerNextMethodToCallIsRefresh(true);
         
         EffortCertificationDocument effortCertificationDocument = recreateForm.getEffortCertificationDocument();
         effortCertificationDocument.getEffortCertificationDetailLines().clear();

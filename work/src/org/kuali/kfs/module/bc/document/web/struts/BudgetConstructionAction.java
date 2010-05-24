@@ -602,7 +602,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         tForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        tForm.registerNextMethodToCallIsRefresh(true);
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
@@ -667,7 +666,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
 
         PendingBudgetConstructionGeneralLedger pbglLine;
         if (isRevenue) {
@@ -788,7 +786,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
 
         if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -869,7 +866,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         budgetConstructionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        budgetConstructionForm.registerNextMethodToCallIsRefresh(true);
 
         if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -1671,7 +1667,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         tForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        tForm.registerNextMethodToCallIsRefresh(true);
 
         if (tForm.isEditAllowed() && !tForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);

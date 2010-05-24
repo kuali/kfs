@@ -991,7 +991,6 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("saveToDesktop() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(laborCorrectionForm);
 
         if (checkOriginEntryGroupSelection(laborCorrectionForm)) {
             if (laborCorrectionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() != null && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())) {
@@ -1056,7 +1055,6 @@ public class LaborCorrectionAction extends CorrectionAction {
         
         // when we return from the lookup, our next request's method to call is going to be refresh
         correctionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        correctionForm.registerNextMethodToCallIsRefresh(true);
         
         int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
 

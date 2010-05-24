@@ -198,7 +198,7 @@
         <property name="rice.kr.url" value="${rice.url}/${rice.application}"/>
         <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
         <property name="rice.kew.url" value="${rice.url}/${kew.application}"/>
-        <property name="rice.externalizable.images.url" value="${rice.kr.url}/static/images/"/>
+        <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
 		<condition property="rice.ksb.message.persistence" value="false"><isset property="is.local.build" /></condition>
 		<property name="rice.ksb.message.persistence" value="true" />
 		<condition property="rice.ksb.use.quartz.database" value="true">

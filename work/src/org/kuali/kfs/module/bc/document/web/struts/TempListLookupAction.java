@@ -503,8 +503,6 @@ public class TempListLookupAction extends KualiLookupAction {
             String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
             message = MessageFormat.format(message, lockType, lockKeyMessage);
 
-            lookupForm.registerNextMethodToCallIsRefresh(true);
-
             return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, "");
         }
         else {

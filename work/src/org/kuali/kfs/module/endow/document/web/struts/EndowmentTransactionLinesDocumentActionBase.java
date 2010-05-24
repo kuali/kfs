@@ -477,7 +477,6 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         // when we return from the lookup, our next request's method to call is going to be refresh
         etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        etlForm.registerNextMethodToCallIsRefresh(true);
 
         EndowmentTransactionLine etLine;
         if (isSource) {

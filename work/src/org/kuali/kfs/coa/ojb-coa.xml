@@ -177,12 +177,12 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" table="CA_ACCT_AUTO_CREATE_DFLT_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountName" column="ACCOUNT_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" />
+    <field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="kcUnitName" column="KC_UNIT_NAME" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountPostalCode" column="ACCT_PSTL_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountZipCode" column="ACCT_ZIP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="accountCityName" column="ACCT_CITY_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="accountStateCode" column="ACCT_STATE_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountStreetAddress" column="ACCT_STREET_ADDR" jdbc-type="VARCHAR" />
@@ -213,10 +213,12 @@
     <field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="contractsAndGrantsAccountResponsibilityId" column="CG_ACCT_RESP_ID" jdbc-type="INTEGER" />
     <field-descriptor name="acctIndirectCostRcvyTypeCd" column="ACCT_ICR_TYP_CD" jdbc-type="VARCHAR" />
-
+    <field-descriptor name="accountExpenseGuidelineText" column="ACCT_EXPNS_GUIDE_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountIncomeGuidelineText" column="ACCT_INCM_GUIDE_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountPurposeText" column="ACCT_PRPS_GUIDE_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountDescriptionCampusCode" column="ACCT_DESC_CMPS_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountDescriptionBuildingCode" column="ACCT_DESC_BLDG_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
  
     <reference-descriptor name="fringeBenefitsChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
@@ -252,7 +254,6 @@
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
 
- 
     <reference-descriptor name="incomeStreamChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
     </reference-descriptor>
@@ -278,18 +279,6 @@
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
-
-    <reference-descriptor name="accountDescription" class-ref="org.kuali.kfs.coa.businessobject.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-
-    <collection-descriptor name="subAccounts" element-class-ref="org.kuali.kfs.coa.businessobject.SubAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="subAccountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="chartOfAccountsCode" />
-        <inverse-foreignkey field-ref="accountNumber" />
-    </collection-descriptor>
-    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountType" table="CA_ACCOUNT_TYPE_T">

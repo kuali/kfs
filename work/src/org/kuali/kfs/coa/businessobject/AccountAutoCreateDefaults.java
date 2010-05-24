@@ -20,8 +20,12 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 
 /**
@@ -34,17 +38,19 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String kcUnitName;
     private Chart chartOfAccounts;
     private String chartOfAccountsCode;
-    private String accountNumber;
     private Organization organization;
     private String organizationCode;
-    private String accountPostalCode;
+    private String accountZipCode;
+    private PostalCode postalZipCode;
     private String accountCityName;
     private String accountStateCode;
+    private State accountState;
     private String accountStreetAddress;
     private boolean accountOffCampusIndicator;
     private AccountType accountType;
     private String accountTypeCode;
     private String accountPhysicalCampusCode;
+    private Campus accountPhysicalCampus;
     private SubFundGroup subFundGroup;
     private String subFundGroupCode;
     private boolean accountsFringesBnftIndicator;
@@ -79,11 +85,11 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Account indirectCostRecoveryAcct;
     private String indirectCostRecoveryAcctNbr;
     private Integer contractsAndGrantsAccountResponsibilityId;
-    private AccountDescription accountDescription;
     private String accountExpenseGuidelineText;
     private String accountIncomeGuidelineText;
     private String accountPurposeText;
-    private List subAccounts;
+    private String accountDescriptionCampusCode;
+    private String accountDescriptionBuildingCode;
     private boolean active;
 
     //
@@ -173,22 +179,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountNumber attribute. 
-     * @return Returns the accountNumber.
-     */
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    /**
-     * Sets the accountNumber attribute value.
-     * @param accountNumber The accountNumber to set.
-     */
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    /**
      * Gets the organization attribute. 
      * @return Returns the organization.
      */
@@ -221,19 +211,36 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountPostalCode attribute. 
-     * @return Returns the accountPostalCode.
+     * Gets the accountZipCode attribute. 
+     * @return Returns the accountZipCode.
      */
-    public String getAccountPostalCode() {
-        return accountPostalCode;
+    public String getAccountZipCode() {
+        return accountZipCode;
     }
 
     /**
-     * Sets the accountPostalCode attribute value.
-     * @param accountPostalCode The accountPostalCode to set.
+     * Sets the accountZipCode attribute value.
+     * @param accountZipCode The accountZipCode to set.
      */
-    public void setAccountPostalCode(String accountPostalCode) {
-        this.accountPostalCode = accountPostalCode;
+    public void setAccountZipCode(String accountZipCode) {
+        this.accountZipCode = accountZipCode;
+    }
+
+    /**
+     * Gets the postalZipCode attribute. 
+     * @return Returns the postalZipCode.
+     */
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
+        return postalZipCode;
+    }
+
+    /**
+     * Sets the postalZipCode attribute value.
+     * @param postalZipCode The postalZipCode to set.
+     */
+    public void setPostalZipCode(PostalCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
     }
 
     /**
@@ -266,6 +273,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountStateCode(String accountStateCode) {
         this.accountStateCode = accountStateCode;
+    }
+
+    /**
+     * Gets the accountState attribute. 
+     * @return Returns the accountState.
+     */
+    public State getAccountState() {
+        return accountState;
+    }
+
+    /**
+     * Sets the accountState attribute value.
+     * @param accountState The accountState to set.
+     */
+    public void setAccountState(State accountState) {
+        this.accountState = accountState;
     }
 
     /**
@@ -346,6 +369,22 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountPhysicalCampusCode(String accountPhysicalCampusCode) {
         this.accountPhysicalCampusCode = accountPhysicalCampusCode;
+    }
+
+    /**
+     * Gets the accountPhysicalCampus attribute. 
+     * @return Returns the accountPhysicalCampus.
+     */
+    public Campus getAccountPhysicalCampus() {
+        return accountPhysicalCampus;
+    }
+
+    /**
+     * Sets the accountPhysicalCampus attribute value.
+     * @param accountPhysicalCampus The accountPhysicalCampus to set.
+     */
+    public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
+        this.accountPhysicalCampus = accountPhysicalCampus;
     }
 
     /**
@@ -893,22 +932,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountDescription attribute. 
-     * @return Returns the accountDescription.
-     */
-    public AccountDescription getAccountDescription() {
-        return accountDescription;
-    }
-
-    /**
-     * Sets the accountDescription attribute value.
-     * @param accountDescription The accountDescription to set.
-     */
-    public void setAccountDescription(AccountDescription accountDescription) {
-        this.accountDescription = accountDescription;
-    }
-
-    /**
      * Gets the accountExpenseGuidelineText attribute. 
      * @return Returns the accountExpenseGuidelineText.
      */
@@ -957,19 +980,35 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the subAccounts attribute. 
-     * @return Returns the subAccounts.
+     * Gets the accountDescriptionCampusCode attribute. 
+     * @return Returns the accountDescriptionCampusCode.
      */
-    public List getSubAccounts() {
-        return subAccounts;
+    public String getAccountDescriptionCampusCode() {
+        return accountDescriptionCampusCode;
     }
 
     /**
-     * Sets the subAccounts attribute value.
-     * @param subAccounts The subAccounts to set.
+     * Sets the accountDescriptionCampusCode attribute value.
+     * @param accountDescriptionCampusCode The accountDescriptionCampusCode to set.
      */
-    public void setSubAccounts(List subAccounts) {
-        this.subAccounts = subAccounts;
+    public void setAccountDescriptionCampusCode(String accountDescriptionCampusCode) {
+        this.accountDescriptionCampusCode = accountDescriptionCampusCode;
+    }
+
+    /**
+     * Gets the accountDescriptionBuildingCode attribute. 
+     * @return Returns the accountDescriptionBuildingCode.
+     */
+    public String getAccountDescriptionBuildingCode() {
+        return accountDescriptionBuildingCode;
+    }
+
+    /**
+     * Sets the accountDescriptionBuildingCode attribute value.
+     * @param accountDescriptionBuildingCode The accountDescriptionBuildingCode to set.
+     */
+    public void setAccountDescriptionBuildingCode(String accountDescriptionBuildingCode) {
+        this.accountDescriptionBuildingCode = accountDescriptionBuildingCode;
     }
 
     /**

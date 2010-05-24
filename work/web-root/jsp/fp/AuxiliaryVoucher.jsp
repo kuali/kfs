@@ -47,7 +47,8 @@
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
 					</c:if>
                 	<c:if test="${!readOnly}">
-						<html:select property="selectedAccountingPeriod"  >
+						<html:select property="selectedAccountingPeriod"
+						 onchange ="submitForChangedType()">
 					 		<html:options property="accountingPeriodCompositeValueList" labelProperty="accountingPeriodLabelList"  />
                 	 	</html:select>
                		</c:if>

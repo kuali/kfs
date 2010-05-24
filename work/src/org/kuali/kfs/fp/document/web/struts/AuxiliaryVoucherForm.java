@@ -100,7 +100,6 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         if (getAuxiliaryVoucherDocument().getAccountingPeriod().getUniversityFiscalPeriodCode().equals(KFSConstants.MONTH13)) {
             thisMonth = cal.JULY;
         } else
-            
             thisMonth = getAuxiliaryVoucherDocument().getAccountingPeriod().getMonth();
         
         cal.set(Calendar.MONTH, (thisMonth));
@@ -122,7 +121,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     public void populateReversalDateForRendering() {
         java.sql.Date today = getAvReversalDate();
         
-        if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) && (getAuxiliaryVoucherDocument().getReversalDate() == null || getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
+        if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE)) {
             getAuxiliaryVoucherDocument().setReversalDate(today);
         }
         else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {

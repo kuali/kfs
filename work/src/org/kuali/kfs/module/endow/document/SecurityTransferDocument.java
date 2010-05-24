@@ -15,12 +15,20 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable 
+public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling 
 {
 
 
@@ -28,6 +36,13 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
         super();
         setTransactionSourceTypeCode(TransactionSourceTypeCode.MANUAL);
         setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
+        
+/*        //Fill sub type code for UI on Initial request. 
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("code", this.getTransactionSubTypeCode());
+        EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
+        setTransactionSubType(endowmentTransactionSubType);*/
     }
 
     @Override
@@ -35,60 +50,4 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
         super.prepareForSave();
     }
 
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalIncomeAmount()
-     */
-    public KualiDecimal getTotalIncomeAmount() {
-
-        return this.getTargetIncomeTotal();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalAmountTotaling#getTotalPrincipalAmount()
-     */
-    public KualiDecimal getTotalPrincipalAmount() {
-
-        return this.getTargetPrincipalTotal();
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
-     */
-    public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal totalAmount = new KualiDecimal();
-
-        // totalAmount = TotalIncomeAmount + TotalPrincipalAmount
-        totalAmount = totalAmount.add(getTotalIncomeUnits());
-        totalAmount = totalAmount.add(getTotalPrincipalUnits());
-
-        return totalAmount;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalIncomeUnits()
-     */
-    public KualiDecimal getTotalIncomeUnits() {
-
-        return this.getTargetIncomeTotalUnits();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.IncomePrincipalUnitsTotaling#getTotalPrincipalUnits()
-     */
-    public KualiDecimal getTotalPrincipalUnits() {
-
-        return this.getTargetPrincipalTotalUnits();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.UnitsTotaling#getTotalUnits()
-     */
-    public KualiDecimal getTotalUnits() {
-        KualiDecimal totalUnits = new KualiDecimal();
-        // totalUnits = TotalIncomeUnits + TotalPrincipalUnits
-        totalUnits = totalUnits.add(getTotalIncomeUnits());
-        totalUnits = totalUnits.add(getTotalPrincipalUnits());
-
-        return totalUnits;
-    }
 }

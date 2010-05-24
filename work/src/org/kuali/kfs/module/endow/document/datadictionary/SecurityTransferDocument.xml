@@ -35,6 +35,7 @@
         <ref bean="SecurityTransferDocument-transactionSubTypeCode"/>
         <ref bean="SecurityTransferDocument-transactionSourceTypeCode"/>
         <ref bean="SecurityTransferDocument-transactionPosted"/>
+        <ref bean="SecurityTransferDocument-totalUnits"/>
         <ref bean="SecurityTransferDocument-versionNumber"/>
       </list>
     </property>
@@ -47,7 +48,7 @@
     <property name="name" value="transactionSubTypeCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Sub-Type"/>
-    <property name="shortLabel" value="Sub Type1"/>
+    <property name="shortLabel" value="Sub Type"/>
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
@@ -78,5 +79,12 @@
     <property name="label" value="Transaction Posted"/>
   </bean>
 
+  <bean id="SecurityTransferDocument-totalUnits" parent="SecurityTransferDocument-totalUnits-parentBean"/>
+  <bean id="SecurityTransferDocument-totalUnits-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalUnits"/>
+    <property name="shortLabel" value="Total Units"/>
+    <property name="label" value="Total Units"/>
+  </bean>
+  
   <bean id="SecurityTransferDocument-versionNumber" parent="GenericAttributes-versionNumber"/>
 </beans>

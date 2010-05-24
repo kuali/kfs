@@ -27,14 +27,15 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
+	<endow:endowmentDocumentOverview editingMode="${KualiForm.editingMode}" 
+	                                 endowDocAttributes="${DataDictionary.SecurityTransferDocument.attributes}" />
 	
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
      
     <endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.SecurityTransferDocument.attributes}" 
          readOnly="${readOnly}" 
-         subTypeReadOnly="false"
+         subTypeReadOnly="true"
          tabTitle="Security Transfer Details"
          headingTitle="Security Transfer Details"
          summaryTitle="Security Transfer Details"
@@ -42,12 +43,12 @@
 
     <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="true" />  
                   
-	<endow:endowmentTransactionLinesSection hasSource="true" hasTarget="false" hasUnits="true"/> 
+	<endow:endowmentTransactionLinesSection hasSource="true" hasTarget="true" hasUnits="true"/> 
                    
     <endow:endowmentTaxLotLine 
     	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
     	isSource="true"
-    	isTarget="false"
+    	isTarget="true"
     	displayGainLoss="false"
     	readOnly="true"/>
 

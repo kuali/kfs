@@ -27,12 +27,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
 
-    protected static final String NON_CASH_SUB_TYPE = "N";
-    protected static final String CASH_SUB_TYPE = "C";
-    
-    protected static final String NON_MANUAL_SRC_TYPE = "?"; //Do no know the value yet 
-    protected static final String MANUAL_SRC_TYPE = "M";
-    
     private String transactionSubTypeCode;
     private String transactionSourceTypeCode;
     private boolean transactionPosted;

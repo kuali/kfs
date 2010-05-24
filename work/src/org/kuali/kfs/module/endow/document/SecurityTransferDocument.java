@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
+import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -24,8 +26,8 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
 
     public SecurityTransferDocument() {
         super();
-        setTransactionSourceTypeCode(MANUAL_SRC_TYPE);
-        setTransactionSubTypeCode(NON_CASH_SUB_TYPE);
+        setTransactionSourceTypeCode(TransactionSourceTypeCode.MANUAL);
+        setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
     }
 
     @Override

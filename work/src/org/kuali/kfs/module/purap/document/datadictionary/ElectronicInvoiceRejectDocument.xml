@@ -1554,8 +1554,8 @@
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="purapDocumentIdentifier"/>
-    					  <property name="showAttributeInSearchCriteria" value="true"/>
-                          <property name="showAttributeInResultSet" value="true"/>    					  
+    					  <property name="showAttributeInSearchCriteria" value="false"/>
+                          <property name="showAttributeInResultSet" value="false"/>    					  
     				  </bean>
     			  </property>
     			  <property name="documentValues">

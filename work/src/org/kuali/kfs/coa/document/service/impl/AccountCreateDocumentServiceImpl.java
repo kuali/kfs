@@ -49,8 +49,8 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         //account.setAccountNumber(accountParams.getAccountNumber());
         account.setAccountName(account.getAccountName());
         //account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
-        account.setAccountExpirationDate(accountParams.getExpirationDate());
-        account.setAccountEffectiveDate(accountParams.getEffectiveDate());
+        account.setAccountExpirationDate(new java.sql.Date(accountParams.getExpirationDate().getTime()));
+        account.setAccountEffectiveDate(new java.sql.Date(accountParams.getEffectiveDate().getTime()));
         //account.setPostalZipCode(defaults.getAccountPostalCode());
         account.setAccountCityName(defaults.getAccountCityName());
         account.setAccountStateCode(defaults.getAccountStateCode());

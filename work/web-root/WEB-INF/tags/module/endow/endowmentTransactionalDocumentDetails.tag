@@ -45,7 +45,9 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.transactionSubTypeCode}"
 						property="document.transactionSubTypeCode"
-						readOnly="${readOnly or subTypeReadOnly}"/>
+						extraReadOnlyProperty="document.transactionSubType.name"
+						readOnly="${readOnly or subTypeReadOnly}"
+						/>
 				</td>
 			</tr>
 			

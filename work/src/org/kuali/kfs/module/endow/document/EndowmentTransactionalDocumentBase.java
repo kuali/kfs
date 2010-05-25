@@ -41,6 +41,10 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         super();
         this.transactionPosted = false;
         this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
+        initializeSourceTypeObj();
+    }
+
+    protected void initializeSourceTypeObj() {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("code", this.getTransactionSourceTypeCode());
@@ -132,5 +136,14 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      */
     public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
         this.transactionSourceType = transactionSourceType;
+    }
+    
+    protected void initializeSubType() {
+        //Fill sub type code for UI on Initial request. 
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("code", this.getTransactionSubTypeCode());
+        EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
+        setTransactionSubType(endowmentTransactionSubType);
     }
 }

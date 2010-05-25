@@ -37,12 +37,7 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
         setTransactionSourceTypeCode(TransactionSourceTypeCode.MANUAL);
         setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
         
-/*        //Fill sub type code for UI on Initial request. 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("code", this.getTransactionSubTypeCode());
-        EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
-        setTransactionSubType(endowmentTransactionSubType);*/
+        initializeSubType();
     }
 
     @Override

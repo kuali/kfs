@@ -25,6 +25,8 @@ public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase i
         super();
         setTransactionSourceTypeCode("M");
         setTransactionSubTypeCode("C");
+        
+        initializeSubType();
     }
     
     @Override

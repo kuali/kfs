@@ -50,7 +50,8 @@
     	isSource="true"
     	isTarget="true"
     	displayGainLoss="false"
-    	readOnly="true"/>
+    	readOnly="${readOnly}"
+    	showDeleteButton="true"/>
 
  	<kul:notes /> 
 

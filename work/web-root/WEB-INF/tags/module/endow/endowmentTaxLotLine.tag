@@ -24,9 +24,17 @@
 <%@ attribute name="isTarget" required="true"
 	description="Display all the Taxlot lines associated with the Target Transaction for this Document."%>
 <%@ attribute name="displayGainLoss" required="true"
-	description="Display the Gain and Loss for the Tax Lot Lines."%>		
+	description="Display the Gain and Loss for the Tax Lot Lines."%>	
+<%@ attribute name="showDeleteButton" required="true"
+	description="Display the Delete button for the Tax Lot Lines."%>
 
 <c:set var="holdingTaxLotAttributes" value="${DataDictionary.HoldingTaxLot.attributes}"/>
+<c:if test="${isSource}" >
+  <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTaxLotLine" />
+</c:if>
+<c:if test="${not isSource}">
+  <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTaxLotLine" />
+</c:if>
 
 <kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${EndowConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}" tabItemCount="${KualiForm.document.taxLotLinesNumber}">
 	<div class="tab-container" align=center>
@@ -34,6 +42,17 @@
 		<table cellpadding="0" cellspacing="0" summary="Tax Lot Lines">
 		<c:if test="${isSource}">	
 			<tr>
+			<c:choose>
+			<c:when test="${showDeleteButton and not readOnly}">
+			<c:if test="${displayGainLoss}">
+				<td colspan="8" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			
+			<c:if test="${not displayGainLoss}">
+				<td colspan="6" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			</c:when>
+			<c:otherwise>
 			<c:if test="${displayGainLoss}">
 				<td colspan="7" class="tab-subhead" style="border-right: none;" align="left">
 			</c:if>
@@ -41,6 +60,8 @@
 			<c:if test="${not displayGainLoss}">
 				<td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
 			</c:if>
+			</c:otherwise>
+			</c:choose>
 	        	    FROM
 	            </td>   
 	        </tr>	
@@ -82,19 +103,29 @@
 					attributeEntry="${holdingTaxLotAttributes.acquiredDate}"
 					useShortLabel="false"
 					/>
+				<c:if test="${showDeleteButton and not readOnly}" >	
+					<kul:htmlAttributeHeaderCell literalLabel="Actions"/>	
+				</c:if>					
 			</tr>
 			<logic:iterate id="taxLotLinesCollection" name="KualiForm" property="document.sourceTransactionLines" indexId="outerctr">
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>
 		                <td class="datacell">${outerctr + 1}</td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="true"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="true"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="true"/></td>
 		                <c:if test="${displayGainLoss}">
-		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="${readOnly}"/></td>
-		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="${readOnly}"/></td>
+		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="true"/></td>
+		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="true"/></td>
 		                </c:if>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="true"/></td>
+		                <c:if test="${showDeleteButton and not readOnly}" >
+		                <td class="datacell">
+               				<div align="center">
+		                		<html:image property="${methodToCallDelete}.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
+		                    </div>
+                		</td>
+		                </c:if>
 		            </tr>
 		        </logic:iterate>
 		    </logic:iterate>
@@ -102,6 +133,17 @@
 		
 		<c:if test="${isTarget}">	
 			<tr>
+			<c:choose>
+			<c:when test="${showDeleteButton and not readOnly}">
+			<c:if test="${displayGainLoss}">
+				<td colspan="8" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			
+			<c:if test="${not displayGainLoss}">
+				<td colspan="6" class="tab-subhead" style="border-right: none;" align="left">
+			</c:if>
+			</c:when>
+			<c:otherwise>
 			<c:if test="${displayGainLoss}">
 				<td colspan="7" class="tab-subhead" style="border-right: none;" align="left">
 			</c:if>
@@ -109,6 +151,8 @@
 			<c:if test="${not displayGainLoss}">
 				<td colspan="5" class="tab-subhead" style="border-right: none;" align="left">
 			</c:if>
+			</c:otherwise>
+			</c:choose>
 	        	    TO
 	            </td>   
 	        </tr>	
@@ -150,19 +194,25 @@
 					attributeEntry="${holdingTaxLotAttributes.acquiredDate}"
 					useShortLabel="false"
 					/>
+				<c:if test="${showDeleteButton and not readOnly}" >	
+					<kul:htmlAttributeHeaderCell literalLabel="Actions"/>	
+				</c:if>
 			</tr>	
 			<logic:iterate id="taxLotLinesCollection" name="KualiForm" property="document.targetTransactionLines" indexId="outerctr">
 				<logic:iterate id="item" name="taxLotLinesCollection" property="taxLotLines" indexId="ctr">
 		            <tr>
 		                <td class="datacell">${outerctr + 1}</td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="${readOnly}"/></td>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="true"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="true"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="true"/></td>
 		                <c:if test="${displayGainLoss}">
-		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="${readOnly}"/></td>
-		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="${readOnly}"/></td>
+		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="true"/></td>
+		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="true"/></td>
 		                </c:if>
-		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="${readOnly}"/></td>
+		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="true"/></td>
+		                <c:if test="${showDeleteButton and not readOnly}" >
+		                	<html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
+		                </c:if>
 		            </tr>
 		        </logic:iterate>
 		    </logic:iterate>

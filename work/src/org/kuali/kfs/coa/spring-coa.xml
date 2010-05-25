@@ -311,6 +311,16 @@
 	<bean id="a21SubAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
 	
+	<bean id="accountAutoCreateDefaultsDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.AccountAutoCreateDefaultsDaoOjb">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="accountAutoCreateDefaultsService" class="org.kuali.kfs.coa.service.impl.AccountAutoCreateDefaultsServiceImpl">
+		<property name="accountAutoCreateDefaultsDao">
+			<ref bean="accountAutoCreateDefaultsDao" />
+		</property>
+	</bean>
+		
 	<bean id="accountLookupableHelperService"
 		class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />

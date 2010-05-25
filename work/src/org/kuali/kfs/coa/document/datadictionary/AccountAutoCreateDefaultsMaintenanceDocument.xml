@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument" parent="AccountAutoCreateDefaultMaintenanceDocument-parentBean"/>
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance"/>
+        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility"/>
+        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants"/>
+        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+        <list>
+        	<bean parent="ReferenceDefinition" p:attributeName="kcUnit" p:attributeToHighlightOnFail="kcUnit" /> 
+ 	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
+	    	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountManagerUser" p:attributeToHighlightOnFail="accountManagerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
+  	    </list>   
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>kcUnit</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="AACD"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowAttributes" ref="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes"/>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance" parent="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance-parentBean"/>
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="AccountAutoCreateDefault Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+      	<dd:maintField attributeName="kcUnit" required="true"/>
+      	<dd:maintField attributeName="kcUnitName"/>
+        <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+         <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="accountZipCode" required="true"/>
+        <dd:maintField attributeName="accountCityName" required="true"/>
+        <dd:maintField attributeName="accountStateCode" required="true"/>
+        <dd:maintField attributeName="accountStreetAddress" required="true"/>
+        <dd:maintField attributeName="accountOffCampusIndicator"/>
+        <dd:maintField attributeName="accountTypeCode" required="true"/>
+        <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+        <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
+        <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility" parent="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility-parentBean"/>
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="AccountAutoCreateDefault Responsibility"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountFiscalOfficerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountFiscalOfficerUser.principalName" required="true"/>
+        <dd:maintField attributeName="accountsSupervisorySystemsIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountSupervisoryUser.principalName" required="true"/>
+        <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
+
+        <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
+        <dd:maintField attributeName="continuationAccountNumber"/>
+        <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
+        <dd:maintField attributeName="incomeStreamAccountNumber"/>
+        <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
+        <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
+        <dd:maintField attributeName="intrnlFinEncumSufficntFndIndicator"/>
+        <dd:maintField attributeName="finPreencumSufficientFundIndicator"/>
+        <dd:maintField attributeName="financialObjectivePrsctrlIndicator"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants" parent="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants-parentBean"/>
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Contracts And Grants"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
+        <dd:maintField attributeName="indirectCostRecoveryAcctNbr"/>
+        <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose" parent="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
+
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Guidelines And Purpose"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountExpenseGuidelineText" required="true"/>
+        <dd:maintField attributeName="accountIncomeGuidelineText" required="true"/>
+        <dd:maintField attributeName="accountPurposeText" required="true"/>
+      </list>
+    </property>
+  </bean>
+  	<!-- workflow attributes -->
+  	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes" parent="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+  </bean>
+</beans>

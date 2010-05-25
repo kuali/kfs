@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.document.service.impl;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
+import org.kuali.kfs.coa.service.AccountAutoCreateDefaultsService;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -38,66 +39,78 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     
     private DocumentService documentService;
     private ParameterService parameterService;
+    private AccountAutoCreateDefaultsService accountAutoCreateDefaultsService;
     private DataDictionaryService dataDictionaryService;
+
     public Account createAccountForCGMaintenanceDocument(AccountParameters accountParams) {
+        
+        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParams.getUnit());
         Account account = new Account();
-        //TODO: get AccountAutoCreateDefaults using Spring
-        AccountAutoCreateDefaults defaults = null;
         
         account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
         account.setOrganizationCode(defaults.getOrganizationCode());
-        //account.setAccountNumber(accountParams.getAccountNumber());
-        account.setAccountName(account.getAccountName());
-        //account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
+        account.setAccountNumber(accountParams.getAccountNumber());
+        account.setAccountName(accountParams.getAccountName());
+        account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
         account.setAccountExpirationDate(new java.sql.Date(accountParams.getExpirationDate().getTime()));
         account.setAccountEffectiveDate(new java.sql.Date(accountParams.getEffectiveDate().getTime()));
-        //account.setPostalZipCode(defaults.getAccountPostalCode());
+        
+        account.setAccountZipCode(defaults.getAccountZipCode()); 
         account.setAccountCityName(defaults.getAccountCityName());
         account.setAccountStateCode(defaults.getAccountStateCode());
         account.setAccountStreetAddress(defaults.getAccountStreetAddress());
         account.setAccountOffCampusIndicator(accountParams.isOffCampusIndicator());
-        account.setAccountTypeCode(defaults.getAccountTypeCode());
-        account.setSubFundGroupCode(defaults.getSubFundGroupCode());
-        account.setAccountsFringesBnftIndicator(true);
-        account.setFringeBenefitsChartOfAccount(defaults.getFringeBenefitsChartOfAccount());
-        //defaults.getFringeBenefitAccountNumber();
-        account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
-        account.setAccountRestrictedStatusCode("R");
         
-        //account responsibility
-        //account.setAccountFiscalOfficerSystemIdentifier(defaults.getFiscalOfficerPrincipalName());
-        //account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisorPrincipalName());
-        //account.setAccountManagerSystemIdentifier(defaults.getAccountManagerPrincipalName());
-        //account.setContinuationChartOfAccount(continuationChartOfAccount);
+        account.setClosed(false);
+        account.setAccountTypeCode(defaults.getAccountTypeCode());        
+        account.setSubFundGroupCode(defaults.getSubFundGroupCode());
+        
+        account.setAccountsFringesBnftIndicator(true);
+        account.setFringeBenefitsChartOfAccount(defaults.getFringeBenefitsChartOfAccount());  
+        //account.set??(defaults.getFringeBenefitAccountNumber());  // fringe benefit account number
+        account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
+        
+        account.setAccountRestrictedStatusCode("R");
+        account.setAccountRestrictedStatusDate(null);
+        account.setEndowmentIncomeChartOfAccounts(null);
+        account.setEndowmentIncomeAccountNumber(null);
+        
+        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName());  // fiscal officer principal name ?
+        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());  //account supervisor principal name ?
+        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName()); // account manager principal name ?
+        account.getContinuationChartOfAccount().setChartOfAccountsCode(defaults.getContinuationChartOfAccount().getCode());
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
-        //account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamAccountNumber());
-        account.setIncomeStreamAccountNumber(defaults.getIncomeStreamAccountNumber());
+
+        account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamChartOfAccounts());
+        account.getIncomeStreamAccount().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getCode()); // income stream account code ?
+        
         account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
         account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
         
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator()); //Transaction processing sufficient funds check ?
+        
+        account.setExtrnlFinEncumSufficntFndIndicator(defaults.isExtrnlFinEncumSufficntFndIndicator());
+        account.setIntrnlFinEncumSufficntFndIndicator(defaults.isIntrnlFinEncumSufficntFndIndicator());
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator());
+        account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
+        account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  // Object presence control indicator ?
 
-        // contracts & grants
-        //account.setContractControlAccountNumber(defaults.getCon)
-        //contract control account number
-        //account.setAcctIndirectCostRcvyTypeCd(defaults.getAccountI);
-        //indirect cost rate
+        //account.setContractControlAccountNumber(); // contract control chart of accounts code
+        //account.setContractControlAccount();   // contract control account
+        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
+        account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParams.getIndirectCostRate();
+        
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         
         account.setAccountCfdaNumber(accountParams.getCfdaNumber());
-        //account.setAccountE
-        
-        accountParams.getIndirectCostRate();
-        accountParams.getIndirectCostTypeCode();
-        account.setAccountCfdaNumber(accountParams.getCfdaNumber());
-        
-        //account expense guideline text  accountParams.getExpenseGuidelineText();
-        // account income guideline text accountParams.getIncomeGuidelineText();
-        account.setGuidelinesAndPurposeSection("");
-        
-        //campus description
-        //organziation description
+        account.getAccountGuideline().setAccountExpenseGuidelineText(accountParams.getExpenseGuidelineText());
+        account.getAccountGuideline().setAccountIncomeGuidelineText(accountParams.getIncomeGuidelineText());
+        account.getAccountGuideline().setAccountPurposeText(accountParams.getPurposeText());
+       
+        // campus description
+        // organziation description
         //responsibility center description
         //building campuse code
         //building code

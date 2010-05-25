@@ -103,6 +103,8 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
 
             isValid &= validateSufficientUnits(assetDecreaseDocument, line, index);
+            
+            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocumentBase, line, getErrorPrefix(targetTransactionLine, index),true);
         }
 
         return isValid;

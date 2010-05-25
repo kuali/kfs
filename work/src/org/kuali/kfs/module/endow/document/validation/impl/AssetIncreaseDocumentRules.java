@@ -115,6 +115,8 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
             // Checks if Security is Active
             isValid &= isSecurityActive(assetIncreaseDoc, false);
+            
+            
         }
 
         return isValid;
@@ -130,12 +132,33 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) line;
 
+        AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) endowmentTransactionLinesDocumentBase;
+        
+        if (isSecurityCodeEmpty(assetIncreaseDocument, false))
+            return false;
+        if (!validateSecurityCode(assetIncreaseDocument, false))
+            return false;
+
+        isValid &= isSecurityActive(assetIncreaseDocument, false);
+        isValid &= validateSecurityClassCodeTypeNotLiability(assetIncreaseDocument, false);
+        
+        if (isRegistrationCodeEmpty(assetIncreaseDocument, false))
+            return false;
+        if (!validateRegistrationCode(assetIncreaseDocument, false))
+            return false;
+
+        isValid &= isRegistrationCodeActive(assetIncreaseDocument, false);
+        
+        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+        
         if (isValid) {
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
             // Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            
+            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocumentBase, line, getErrorPrefix(targetTransactionLine, index),false);
         }
 
         return isValid;

@@ -164,10 +164,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    public Security getSecurityForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    public Security getSecurityForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, boolean isSource) 
     {
         EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
-        if (line instanceof EndowmentSourceTransactionLine) 
+        if (isSource) 
             return document.getSourceTransactionSecurity().getSecurity();
         else
             return document.getTargetTransactionSecurity().getSecurity();
@@ -462,10 +462,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return isChartMatched;
     }
 
-    protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, String prefix) 
+    protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, String prefix,boolean isSource) 
     {
         boolean isChartMatched = true;
-        Security security = getSecurityForValidation(endowmentTransactionLinesDocumentBase,line);
+        Security security = getSecurityForValidation(endowmentTransactionLinesDocumentBase,isSource);
         String kemID = line.getKemid();
         String ipIndicatorCode = line.getTransactionIPIndicatorCode();
         if (!SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenSecurityAndETranCode(security, kemID, ipIndicatorCode)) {

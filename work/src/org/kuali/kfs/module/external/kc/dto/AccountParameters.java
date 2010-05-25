@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class AccountParameters implements Serializable {
     

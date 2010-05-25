@@ -39,5 +39,15 @@ public interface EndowmentTransactionDocumentService {
      * @return true or false
      */
     public boolean matchChartBetweenKEMIDAndETranCode(String kemid, String etranCode, String ipIndicator);
+    
+    /**
+     * Check if there is a GLLink record in the EndowmentTransactionCode that the chart code in the record matches the chart code in the GeneralLedgerAccount associated with a Security given the IP indicator info.
+     * 
+     * @param securityID
+     * @param etranCode
+     * @param ipIndicator
+     * @return
+     */
+    public boolean matchChartBetweenSecurityAndETranCode(Security security, String etranCode, String ipIndicator);
 
 }

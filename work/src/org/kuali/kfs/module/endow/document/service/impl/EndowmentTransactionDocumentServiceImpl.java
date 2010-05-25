@@ -112,6 +112,53 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
     }
     
     /**
+     * @see org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService#matchChartBetweenKEMIDAndETranCode(java.lang.String, java.lang.String, java.lang.String)
+     * 
+     * Check if the chart code matches based on the following rule:
+     * The Securities ETRAN Code used must have an appropriately identified general ledger object code record; 
+     * one that matches the Chart for the KEMID associated general ledger account.   
+     * - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I, the chart must match the chart of the active END_KEMID_GL_LNK_T record where the IP_IND_CD is equal to I.
+     * - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, the chart must match the chart of the active END_KEMID_GL_LNK_T record where the IP_IND_CD is equal to P.
+     * Assume that all inputs are valid.
+     */
+    public boolean matchChartBetweenSecurityAndETranCode(Security security, String kemid, String ipIndicator){
+        boolean matchChartIndicator = false;
+        List<KemidGeneralLedgerAccount> kemidGeneralLedgerAccounts = null;
+        List<GLLink> glLinks = null;
+        String theChartCode = null;
+        
+        //Get the chart code, it can't be null because each KEMID always have one active income KemidGeneralLedgerAccount.
+        //Each KEMID always have one active principal KemidGeneralLedgerAccount if type code --> principal restriction code is not NA
+        //This will be valid before checking if the chart codes match.
+        kemidGeneralLedgerAccounts = kemidService.getByPrimaryKey(kemid).getKemidGeneralLedgerAccounts();
+        String theIpIndicator = null;
+        boolean activeIndicatorForKemidGLAccount = false;
+        
+        for (KemidGeneralLedgerAccount kemidGeneralLedgerAccount:kemidGeneralLedgerAccounts){
+           theIpIndicator = kemidGeneralLedgerAccount.getIncomePrincipalIndicatorCode();
+           activeIndicatorForKemidGLAccount = kemidGeneralLedgerAccount.isActive();
+           if (theIpIndicator.equalsIgnoreCase(ipIndicator) && activeIndicatorForKemidGLAccount ){
+               theChartCode = kemidGeneralLedgerAccount.getChartCode();
+               break;
+           }
+        }
+        
+        //Obtain Etran code from security
+        security.refreshNonUpdateableReferences();
+        //Obtain Security GL Links
+        glLinks = endowmentTransactionCodeService.getByPrimaryKey(security.getClassCode().getSecurityEndowmentTransactionCode()).getGlLinks();
+        
+        if (theChartCode != null){
+            for (GLLink glLink:glLinks){
+                if (glLink.getChartCode().equalsIgnoreCase(theChartCode) && glLink.isActive()){
+                    matchChartIndicator = true;
+                    break;
+                }
+            }
+        }
+        return matchChartIndicator;
+    }
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService

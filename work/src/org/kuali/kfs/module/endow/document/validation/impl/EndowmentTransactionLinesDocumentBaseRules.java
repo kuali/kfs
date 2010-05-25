@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
@@ -156,6 +157,22 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             return document.getTargetTransactionSecurity().getSecurityID();
     }
 
+    /**
+     * This method obtains security from a document.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @return
+     */
+    public Security getSecurityForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    {
+        EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
+        if (line instanceof EndowmentSourceTransactionLine) 
+            return document.getSourceTransactionSecurity().getSecurity();
+        else
+            return document.getTargetTransactionSecurity().getSecurity();
+    }
+    
     /**
      * This method validates a transaction line.
      * 
@@ -445,6 +462,23 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return isChartMatched;
     }
 
+    protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, String prefix) 
+    {
+        boolean isChartMatched = true;
+        Security security = getSecurityForValidation(endowmentTransactionLinesDocumentBase,line);
+        String kemID = line.getKemid();
+        String ipIndicatorCode = line.getTransactionIPIndicatorCode();
+        if (!SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenSecurityAndETranCode(security, kemID, ipIndicatorCode)) {
+            if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode))
+                putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SECURITY_KEMID_CHART_CODE_DOES_NOT_MATCH,EndowConstants.PRINCIPAL);
+            else
+                putFieldError(prefix + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SECURITY_KEMID_CHART_CODE_DOES_NOT_MATCH,EndowConstants.INCOME);
+
+            isChartMatched = false;
+        }
+        return isChartMatched;
+    }
+    
     /**
      * For a true endowment, when the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, a warning message will be placed in the document
      * transaction line notifying the viewer that the transaction will reduce the value of the endowment at the time the transaction

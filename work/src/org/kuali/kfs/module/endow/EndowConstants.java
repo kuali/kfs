@@ -222,6 +222,9 @@ public class EndowConstants extends JSTLConstants {
         public static final String MANUAL = "M";
     }
 
+    public static final String PRINCIPAL = "Principal";
+    public static final String INCOME = "Income";
+    
     public static final String UNITS_TOTALING_EDITING_MODE = "unitsTotaling";
 
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";

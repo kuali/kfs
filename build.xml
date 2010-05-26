@@ -240,6 +240,20 @@
 		
 		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
+		
+		<!-- update the lib paths for the app server based on the tomcat version -->
+	    <if>
+	        <equals arg1="6" arg2="${tomcat.version}" trim="true" />
+	        <then>
+	            <property name="appserver.lib.dir" value="${appserver.home}/lib" />
+	            <property name="appserver.classes.dir" value="${appserver.home}/lib" />
+	        </then>
+            <else> <!-- default back to Tomcat 5 locations -->
+	            <property name="appserver.lib.dir" value="${appserver.home}/common/lib" />
+	            <property name="appserver.classes.dir" value="${appserver.home}/common/classes" />
+            </else>
+        </if>
+		
 	</target>
 
 	<target name="init-make-references" depends="init-properties">
@@ -356,7 +370,7 @@
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-		<copy file="${build.directory}/${log4j.library.file}" todir="${lib.directory}"/>
+		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">

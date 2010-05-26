@@ -11,34 +11,34 @@
 			<accessrule kind="nonaccessible" pattern="sunw/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/servlet-api.jar"/>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/jsp-api.jar"/>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-compiler-jdt.jar">
+	<classpathentry kind="lib" path="build/server-lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="build/server-lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="build/server-lib/jasper-compiler-jdt.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-compiler.jar">
+	<classpathentry kind="lib" path="build/server-lib/jasper-compiler.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/jasper-runtime.jar">
+	<classpathentry kind="lib" path="build/server-lib/jasper-runtime.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/server-lib/commons-el.jar">
+	<classpathentry kind="lib" path="build/server-lib/commons-el.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/drivers/ojdbc6.jar">
+	<classpathentry kind="lib" path="build/drivers/ojdbc6.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="false" kind="lib" path="build/drivers/mysql-connector-java-5.0.5-bin.jar">
+	<classpathentry kind="lib" path="build/drivers/mysql-connector-java-5.0.5-bin.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
@@ -90,7 +90,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.4.jar" sourcepath="/kfs-dependencies/spring-framework-2.0.4-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.8a.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/struts-1.2.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/xercesImpl-2.7.1.jar"/>
@@ -119,7 +119,11 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.14.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-logging-1.1.jar">
+		<accessrules>
+			<accessrule kind="discouraged" pattern="**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

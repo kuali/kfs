@@ -80,8 +80,11 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         // Validate Units is Greater then Zero(thus positive) value
         isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
 
-        // Validate Units is Greater then Zero(thus positive) value
+        // Validate if Sufficient Units are Avaiable
         isValid &= checkSufficientUnitsAvaiable(endowmentTransactionLinesDocumentBase,line, ERROR_PREFIX);
+        
+        //Check if value of Endowment is being reduced.
+        isValid &= checkEndowmentValueReduction(endowmentTransactionLinesDocumentBase,line, ERROR_PREFIX);
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }

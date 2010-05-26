@@ -192,6 +192,8 @@ public class EndowKeyConstants {
 
         public static final String ERROR_TRANSACTION_LINE_TAXLOT_INVALID = "error.document.transactionLine.taxlot.invalid";
 
+        public static final String WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION = "warning.transactionLine.endowment.value.reduction";
+        
         public static final String WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS = "warning.document.transactionLine.reducePermanentlyRestrictedFunds";
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";
         // Asset increase constants

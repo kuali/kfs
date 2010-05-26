@@ -649,7 +649,15 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return isValid;
     }
     
-
+    
+    /**
+     * This method validate if Sufficient Units are available.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param ERRORPREFIX
+     * @return
+     */
     protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
     {
         if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocumentBase,line),
@@ -661,5 +669,28 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             return true;
         
     }
-
+    
+    /**
+     * This method Check if value of Endowment is being reduced.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param ERRORPREFIX
+     * @return
+     */
+    protected boolean checkEndowmentValueReduction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
+    {
+        if( EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(line.getTransactionIPIndicatorCode()) )
+        {
+            line.getKemidObj().refreshNonUpdateableReferences();
+            line.getKemidObj().getType().refreshNonUpdateableReferences();
+            
+            if(line.getKemidObj().getType().getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator())
+            {
+                GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION);
+                return false;
+            }
+        }
+        return true;
+    }
 }

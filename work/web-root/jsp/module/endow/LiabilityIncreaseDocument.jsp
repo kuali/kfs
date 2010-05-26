@@ -29,9 +29,7 @@
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<sys:hiddenDocumentFields isFinancialDocument="false" />
-     
-    <endow:endowmentTransactionalDocumentDetails
+	<endow:endowmentTransactionalDocumentDetails
          documentAttributes="${DataDictionary.LiabilityIncreaseDocument.attributes}" 
          readOnly="${readOnly}" 
          subTypeReadOnly="false"
@@ -52,7 +50,7 @@
     	showDeleteButton="false"
     	readOnly="${readOnly}"/>
 
- 
+  
 	<kul:notes /> 
 
 	<kul:routeLog />

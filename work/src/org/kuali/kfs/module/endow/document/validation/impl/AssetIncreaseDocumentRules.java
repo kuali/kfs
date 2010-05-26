@@ -115,25 +115,23 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
             // Checks if Security is Active
             isValid &= isSecurityActive(assetIncreaseDoc, false);
-            
-            
         }
 
         return isValid;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
      */
     @Override
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
 
-        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
+        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) line;
 
-        AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) endowmentTransactionLinesDocumentBase;
-        
+        AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) endowmentTransactionLinesDocument;
+
         if (isSecurityCodeEmpty(assetIncreaseDocument, false))
             return false;
         if (!validateSecurityCode(assetIncreaseDocument, false))
@@ -141,24 +139,25 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         isValid &= isSecurityActive(assetIncreaseDocument, false);
         isValid &= validateSecurityClassCodeTypeNotLiability(assetIncreaseDocument, false);
-        
+
         if (isRegistrationCodeEmpty(assetIncreaseDocument, false))
             return false;
         if (!validateRegistrationCode(assetIncreaseDocument, false))
             return false;
 
         isValid &= isRegistrationCodeActive(assetIncreaseDocument, false);
-        
-        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
-        
+
+        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
+
         if (isValid) {
-            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+
+            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
             // Validate Greater then Zero(thus positive) value
             isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
-            
-            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocumentBase, line, getErrorPrefix(targetTransactionLine, index),false);
+
+            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), false);
         }
 
         return isValid;

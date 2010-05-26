@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -24,14 +25,20 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ObjectUtils;
 
-public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
+public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -39,6 +46,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) document;
+        EndowmentTransactionSecurity endowmentTransactionSecurity = assetDecreaseDocument.getSourceTransactionSecurity();
 
         // Validate at least one Tx was entered.
         if (!transactionLineSizeGreaterThanZero(assetDecreaseDocument, true))
@@ -47,53 +55,67 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
         if (isValid) {
-            if (isSecurityCodeEmpty(assetDecreaseDocument, true))
-                return false;
-            if (!validateSecurityCode(assetDecreaseDocument, true))
-                return false;
-            isValid &= isSecurityActive(assetDecreaseDocument, true);
-            isValid &= validateSecurityClassCodeTypeNotLiability(assetDecreaseDocument, true);
+            isValid &= validateSecurity(isValid, assetDecreaseDocument, true);
+            isValid &= validateRegistration(isValid, assetDecreaseDocument, true);
+        }
 
-            if (isRegistrationCodeEmpty(assetDecreaseDocument, true))
-                return false;
-            if (!validateRegistrationCode(assetDecreaseDocument, true))
-                return false;
-            isValid &= isRegistrationCodeActive(assetDecreaseDocument, true);
+        for (int i = 0; i < assetDecreaseDocument.getSourceTransactionLines().size(); i++) {
+            EndowmentTransactionLine txLine = assetDecreaseDocument.getSourceTransactionLines().get(i);
 
+            isValid &= validateAssetDecreaseTransactionLine(false, assetDecreaseDocument, txLine, i, -1);
         }
 
         return isValid;
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
         boolean isValid = true;
-        AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) endowmentTransactionLinesDocumentBase;
-        EndowmentSourceTransactionLine targetTransactionLine = (EndowmentSourceTransactionLine) line;
+        AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) document;
 
-        if (isSecurityCodeEmpty(assetDecreaseDocument, true))
-            return false;
-        if (!validateSecurityCode(assetDecreaseDocument, true))
-            return false;
-
-        isValid &= isSecurityActive(assetDecreaseDocument, true);
-        isValid &= validateSecurityClassCodeTypeNotLiability(assetDecreaseDocument, true);
-
-        if (isRegistrationCodeEmpty(assetDecreaseDocument, true))
-            return false;
-        if (!validateRegistrationCode(assetDecreaseDocument, true))
-            return false;
-
-        isValid &= isRegistrationCodeActive(assetDecreaseDocument, true);
-        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocumentBase, line, index);
-
+        isValid &= validateSecurity(isValid, assetDecreaseDocument, true);
+        isValid &= validateRegistration(isValid, assetDecreaseDocument, true);
+        isValid &= super.processAddTransactionLineRules(document, line);
 
         if (isValid) {
-            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
+            isValid &= validateAssetDecreaseTransactionLine(true, assetDecreaseDocument, line, -1, -1);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionalDocumentBaseRule#validateSecurityClassTypeCode(org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument,
+     *      boolean, java.lang.String)
+     */
+    @Override
+    protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document, boolean isSource, String classCodeType) {
+        return validateSecurityClassCodeTypeNotLiability(document, true);
+    }
+
+    /**
+     * Adds validations for the transaction line specific to the Asset decrease document.
+     * 
+     * @param isAdd
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateAssetDecreaseTransactionLine(boolean isAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index, int taxLotLineToDeleteIndex) {
+        boolean isValid = true;
+        AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) endowmentTransactionLinesDocument;
+        EndowmentSourceTransactionLine targetTransactionLine = (EndowmentSourceTransactionLine) line;
+
+        isValid &= validateSecurity(isValid, assetDecreaseDocument, true);
+        isValid &= validateRegistration(isValid, assetDecreaseDocument, true);
+
+        if (isValid) {
+            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
 
             if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
                 // Validate Greater then Zero(thus positive) value
@@ -102,9 +124,8 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
 
-            isValid &= validateSufficientUnits(assetDecreaseDocument, line, index);
-            
-            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocumentBase, line, getErrorPrefix(targetTransactionLine, index),true);
+            isValid &= validateSufficientUnits(isAdd, assetDecreaseDocument, line, index, taxLotLineToDeleteIndex);
+            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), true);
         }
 
         return isValid;
@@ -118,11 +139,30 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
      * @param index
      * @return true if valid, false otherwise
      */
-    private boolean validateSufficientUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    private boolean validateSufficientUnits(boolean isAdd, EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int transLineIndex, int taxLotIndex) {
         EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocumentBase, true);
         boolean isValid = true;
+        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
-        List<HoldingTaxLot> holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
+        if (isAdd) {
+            holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
+        }
+        else {
+            List<EndowmentTransactionTaxLotLine> existingTransactionLines = line.getTaxLotLines();
+            for (int i = 0; i < existingTransactionLines.size(); i++) {
+                // don't take into account the tax lot line we are now deleting
+                if (i != taxLotIndex) {
+
+                    EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = (EndowmentTransactionTaxLotLine) existingTransactionLines.get(i);
+                    HoldingTaxLot holdingTaxLot = SpringContext.getBean(HoldingTaxLotService.class).getByPrimaryKey(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), line.getTransactionIPIndicatorCode());
+
+                    if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                        holdingTaxLots.add(holdingTaxLot);
+                    }
+                }
+            }
+
+        }
 
         BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
 
@@ -134,7 +174,22 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         if (line.getTransactionUnits().bigDecimalValue().compareTo(totalTaxLotsUnits) == 1) {
             isValid = false;
-            putFieldError(getErrorPrefix(line, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+            putFieldError(getErrorPrefix(line, transLineIndex) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+        }
+        return isValid;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule#processDeleteTaxLotLineRules(org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
+     */
+    public boolean processDeleteTaxLotLineRules(EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine taxLotLine, EndowmentTransactionLine transactionLine, Number index, Number taxLotLineIndex) {
+        boolean isValid = true;
+        isValid &= validateTransactionLine(endowmentTaxLotLinesDocument, transactionLine, (Integer) index);
+        if (isValid) {
+            isValid &= validateAssetDecreaseTransactionLine(false, endowmentTaxLotLinesDocument, transactionLine, (Integer) index, (Integer)taxLotLineIndex);
         }
         return isValid;
     }

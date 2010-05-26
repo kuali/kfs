@@ -18,12 +18,10 @@ package org.kuali.kfs.module.endow.document;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 
 
-public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase {
+public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument{
 
     /**
-     * This method returns the number of tax lot lines on the document.
-     * 
-     * @return the number of tax lot lines number
+     * @see org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument#getTaxLotLinesNumber()
      */
     public int getTaxLotLinesNumber() {
         int taxLotLinesNbr = 0;

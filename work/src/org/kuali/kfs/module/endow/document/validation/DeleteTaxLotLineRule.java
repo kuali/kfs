@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document;
+package org.kuali.kfs.module.endow.document.validation;
 
-import java.util.List;
-
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
-public interface EndowmentTaxLotLinesDocument extends EndowmentSecurityDetailsDocument {
+public interface DeleteTaxLotLineRule<E extends EndowmentTaxLotLinesDocument, D extends EndowmentTransactionTaxLotLine, T extends EndowmentTransactionLine, I extends Number, X extends Number> extends BusinessRule {
 
-    /**
-     * This method returns the number of tax lot lines on the document.
-     * 
-     * @return the number of tax lot lines number
-     */
-    public int getTaxLotLinesNumber();
+    public boolean processDeleteTaxLotLineRules(E EndowmentTaxLotLinesDocument, D EndowmentTransactionTaxLotLine, T EndowmentTransactionLine, I Number, X numberX);
 
 }

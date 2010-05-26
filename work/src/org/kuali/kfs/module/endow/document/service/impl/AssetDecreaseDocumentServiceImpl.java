@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      *      org.kuali.kfs.module.endow.document.AssetDecreaseDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public void updateTransactionLineTaxLots(boolean isSource, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionLine transLine) {
+    public void updateTransactionLineTaxLots(boolean isUpdate, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionLine transLine) {
 
         EndowmentTransactionSecurity endowmentTransactionSecurity = assetDecreaseDocument.getSourceTransactionSecurity();
         String accountingMethod = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.TAX_LOTS_ACCOUNTING_METHOD);
@@ -61,10 +62,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         if (ObjectUtils.isNotNull(security)) {
             if (EndowConstants.TaxLotsAccountingMethodOptions.AVERAGE_BALANCE.equalsIgnoreCase(accountingMethod) || (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && !security.getClassCode().isTaxLotIndicator())) {
                 if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(true, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodAverageBalance(true,isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(false, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodAverageBalance(false,isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
             }
 
@@ -72,10 +73,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
 
                 if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(true,isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate,isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
             }
         }
@@ -91,15 +92,32 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      * @param endowmentTransactionSecurity
      * @param transLine
      */
-    private void updateTaxLotsForAccountingMethodAverageBalance(boolean isSubTypeCash, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+    private void updateTaxLotsForAccountingMethodAverageBalance(boolean isSubTypeCash, boolean isUpdate, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
 
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
         BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
         BigDecimal transactionAmount = BigDecimal.ZERO;
         BigDecimal perUnitValue = BigDecimal.ZERO;
-        transLine.getTaxLotLines().clear();
 
-        List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLots(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
+        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
+
+        if (!isUpdate) {
+            transLine.getTaxLotLines().clear();
+            holdingTaxLots = taxLotService.getAllTaxLots(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
+        }
+        else {
+            List<EndowmentTransactionTaxLotLine> existingTransactionLines = transLine.getTaxLotLines();
+            for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : existingTransactionLines) {
+                HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), transLine.getTransactionIPIndicatorCode());
+
+                if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                    holdingTaxLots.add(holdingTaxLot);
+                }
+            }
+
+            transLine.getTaxLotLines().clear();
+        }
+
         Map<KualiInteger, EndowmentTransactionTaxLotLine> decreaseHoldingTaxLots = new HashMap<KualiInteger, EndowmentTransactionTaxLotLine>();
         if (isSubTypeCash) {
             transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
@@ -249,14 +267,28 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      * @param endowmentTransactionSecurity
      * @param transLine
      */
-    private void updateTaxLotsForAccountingMethodFIFOorLIFO(boolean isSubTypeCash, boolean isFIFO, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+    private void updateTaxLotsForAccountingMethodFIFOorLIFO(boolean isSubTypeCash, boolean isUpdate, boolean isFIFO, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
         BigDecimal transactionAmount = BigDecimal.ZERO;
         BigDecimal perUnitVal = BigDecimal.ZERO;
+        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
-        transLine.getTaxLotLines().clear();
+        if (!isUpdate) {
+            transLine.getTaxLotLines().clear();
+            holdingTaxLots = taxLotService.getAllTaxLotsOrderByAcquiredDate(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode(), isFIFO);
+        }
+        else {
+            List<EndowmentTransactionTaxLotLine> existingTransactionLines = transLine.getTaxLotLines();
+            for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : existingTransactionLines) {
+                HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), transLine.getTransactionIPIndicatorCode());
 
-        List<HoldingTaxLot> holdingTaxLots = taxLotService.getAllTaxLotsOrderByAcquiredDate(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode(), isFIFO);
+                if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                    holdingTaxLots.add(holdingTaxLot);
+                }
+            }
+            transLine.getTaxLotLines().clear();
+        }
+
         Map<KualiInteger, EndowmentTransactionTaxLotLine> decreaseHoldingTaxLots = new HashMap<KualiInteger, EndowmentTransactionTaxLotLine>();
 
         if (isSubTypeCash) {

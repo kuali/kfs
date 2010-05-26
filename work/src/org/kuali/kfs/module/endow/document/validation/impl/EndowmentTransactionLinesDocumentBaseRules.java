@@ -197,7 +197,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param index
      * @return
      */
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
@@ -226,11 +226,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 return isValid;
 
             //This error is checked in addition save rule method since the sub type is used for determining chart code. 
-            if (!isSubTypeEmpty(endowmentTransactionLinesDocumentBase))
+            if (!isSubTypeEmpty(endowmentTransactionLinesDocument))
                 return false;
 
             //If non-cash transactions 
-            if (nonCashTransaction(endowmentTransactionLinesDocumentBase)) 
+            if (nonCashTransaction(endowmentTransactionLinesDocument)) 
             {
                 // Is Etran code empty
                 if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
@@ -266,9 +266,9 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param endowmentTransactionLinesDocumentBase
      * @return
      */
-    protected boolean nonCashTransaction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase) 
+    protected boolean nonCashTransaction(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) 
     {
-        if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode()))
+        if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocument.getTransactionSubTypeCode()))
             return true;
         else
             return false;
@@ -479,10 +479,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return isChartMatched;
     }
 
-    protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase,EndowmentTransactionLine line, String prefix,boolean isSource) 
+    protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument,EndowmentTransactionLine line, String prefix,boolean isSource) 
     {
         boolean isChartMatched = true;
-        Security security = getSecurityForValidation(endowmentTransactionLinesDocumentBase,isSource);
+        Security security = getSecurityForValidation(endowmentTransactionLinesDocument,isSource);
         String kemID = line.getKemid();
         String ipIndicatorCode = line.getTransactionIPIndicatorCode();
         if (!SpringContext.getBean(EndowmentTransactionDocumentService.class).matchChartBetweenSecurityAndETranCode(security, kemID, ipIndicatorCode)) {
@@ -559,10 +559,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param prefix
      * @return
      */
-    protected boolean checkCashTransactionEndowmentCode(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String prefix) 
+    protected boolean checkCashTransactionEndowmentCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix) 
     {
         // For Cash based Tx the Etran code must be empty,If Tx is Cash based, check for Etran code and if not null display Error message.
-        if (!nonCashTransaction(endowmentTransactionLinesDocumentBase) && (!StringUtils.isEmpty(line.getEtranCode())) ) 
+        if (!nonCashTransaction(endowmentTransactionLinesDocument) && (!StringUtils.isEmpty(line.getEtranCode())) ) 
         {
             // 
             putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_ETRAN_BLANK);

@@ -29,21 +29,21 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @return documentNumber
      */
     public String getDocumentNumber();
-    
+
     /**
      * Set the documentNumber
      * 
      * @param documentNumber
      */
-    public void setDocumentNumber (String documentNumber);
-    
+    public void setDocumentNumber(String documentNumber);
+
     /**
      * Gets the transactionLineTypeCode.
      * 
      * @return transactionLineTypeCode
      */
     public String getTransactionLineTypeCode();
-    
+
     /**
      *Sets the transactionLineTypeCode.
      * 
@@ -79,12 +79,12 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @return Returns the kemid object.
      */
     public KEMID getKemidObj();
-    
+
     /**
      * @param kemidObj The kemid object to set.
      */
     public void setKemidObj(KEMID kemidObj);
-    
+
     /**
      * @return Returns the endowment transaction type code.
      */
@@ -99,7 +99,7 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @return Returns the EndowmentTransactionCode object.
      */
     public EndowmentTransactionCode getEtranCodeObj();
-    
+
     /**
      * @param etranCodeObj the EndowmentTransactionCode object to set.
      */
@@ -133,7 +133,7 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
     /**
      * @param incomePrincipalIndicator The income/principal indicator to set.
      */
-    //Do we need this?
+    // Do we need this?
     public void setIncomePrincipalIndicator(IncomePrincipalIndicator incomePrincipalIndicator);
 
     /**
@@ -175,8 +175,19 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * @param linePostedIndicator The line posted indicator to set.
      */
     public void setLinePosted(boolean linePostedIndicator);
-    
+
+    /**
+     * Gets the tax lot lines.
+     * 
+     * @return returns the tax lot lines for this transaction line
+     */
     public List<EndowmentTransactionTaxLotLine> getTaxLotLines();
 
+    /**
+     * Sets the tax lot lines.
+     * 
+     * @param taxLotLines
+     */
     public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines);
+
 }

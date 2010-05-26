@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -67,16 +68,39 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
     public String[] getSourceAccountingLineFormat() {
-        return DEFAULT_FORMAT;
+        return removeChartFromFormatIfNeeded(DEFAULT_FORMAT);
     }
 
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
     public String[] getTargetAccountingLineFormat() {
-        return DEFAULT_FORMAT;
+        return removeChartFromFormatIfNeeded(DEFAULT_FORMAT);
     }
 
+    /**
+     * If accounts can cross charts, returns the given format; 
+     * otherwise returns the format with ChartOfAccountsCode field removed.
+     */
+    public String[] removeChartFromFormatIfNeeded(String[] format) {
+        if (SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            return format;
+        }
+        
+        // if accounts can't cross charts, exclude ChartOfAccountsCode field from the format
+        String[] formatNoChart = new String[format.length-1];
+        int idx = 0;
+        for (int i=0; i<format.length; i++) {
+            if (format[i].equals(CHART_OF_ACCOUNTS_CODE)) 
+                continue;
+            else {
+                formatNoChart[idx] = format[i];
+                idx++;
+            }
+        }
+        return formatNoChart;
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getExpectedAccountingLineFormatAsString(java.lang.Class)
      */
@@ -134,7 +158,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * populates a source/target line with values
+     * Populates a source/target line with values
      * 
      * @param transactionalDocument
      * @param accountingLineClass
@@ -152,6 +176,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
 
         try {
             accountingLine = (AccountingLine) accountingLineClass.newInstance();
+            
             // perform custom line population
             if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
                 performCustomSourceAccountingLinePopulation(attributeValueMap, (SourceAccountingLine) accountingLine, accountingLineAsString);
@@ -162,6 +187,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
             else {
                 throw new IllegalArgumentException("invalid (unknown) accounting line type: " + accountingLineClass);
             }
+            
             for (Entry<String, String> entry : attributeValueMap.entrySet()) {
                 try {
                     try {
@@ -180,9 +206,11 @@ public class AccountingLineParserBase implements AccountingLineParser {
                     // KULLAB-408
                     GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
                     throw new AccountingLineParserException("invalid '" + entry.getKey() + "=" + entry.getValue() + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-
                 }
             }
+            
+            // override chart code if accounts can't cross charts
+            SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(accountingLine);            
         }
         catch (SecurityException e) {
             throw new InfrastructureException("unable to complete accounting line population.", e);
@@ -200,17 +228,15 @@ public class AccountingLineParserBase implements AccountingLineParser {
             throw new InfrastructureException("unable to complete accounting line population.", e);
         }
 
-
         // force input to uppercase
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(accountingLine);
         accountingLine.refresh();
 
         return accountingLine;
-
     }
 
     /**
-     * places fields common to both source/target accounting lines in the attribute map
+     * Places fields common to both source/target accounting lines in the attribute map
      * 
      * @param attributeValueMap
      * @param document
@@ -223,7 +249,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * parses the csv line
+     * Parses the csv line
      * 
      * @param accountingLineClass
      * @param lineToParse
@@ -246,7 +272,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * should be voerriden by documents to perform any additional <code>SourceAccountingLine</code> population
+     * Should be voerriden by documents to perform any additional <code>SourceAccountingLine</code> population
      * 
      * @param attributeValueMap
      * @param sourceAccountingLine
@@ -256,7 +282,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * should be overridden by documents to perform any additional <code>TargetAccountingLine</code> attribute population
+     * Should be overridden by documents to perform any additional <code>TargetAccountingLine</code> attribute population
      * 
      * @param attributeValueMap
      * @param targetAccountingLine
@@ -266,7 +292,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * calls the appropriate parseAccountingLine method
+     * Calls the appropriate parseAccountingLine method
      * 
      * @param stream
      * @param transactionalDocument
@@ -274,8 +300,6 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @return List
      */
     protected List<AccountingLine> importAccountingLines(String fileName, InputStream stream, AccountingDocument transactionalDocument, boolean isSource) {
-
-
         List<AccountingLine> importedAccountingLines = new ArrayList<AccountingLine>();
         this.fileName = fileName;
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));

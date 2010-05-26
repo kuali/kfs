@@ -34,6 +34,24 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.kfs.sys.KFSPropertyConstants.POSITION_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.PROJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE;
+
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.HRMS_COMPANY;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.EARN_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_GROUP;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.GRADE; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.RUN_IDENTIFIER; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAY_PERIOD_END_DATE; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.TRANSACTION_TOTAL_HOURS; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE; 
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.module.ld.LaborPropertyConstants.SET_ID;
 
 import java.util.Map;
 
@@ -50,8 +68,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LaborJournalVoucherAccountingLineParser extends AccountingLineParserBase {
     private String balanceTypeCode;
-    protected static final String[] LABOR_LINE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, LaborPropertyConstants.EARN_CODE, LaborPropertyConstants.PAY_GROUP, LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN, LaborPropertyConstants.GRADE, LaborPropertyConstants.RUN_IDENTIFIER, LaborPropertyConstants.PAY_PERIOD_END_DATE, LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, LaborPropertyConstants.TRANSACTION_TOTAL_HOURS, LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER, LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE,
-            LaborPropertyConstants.HRMS_COMPANY, KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE, LaborPropertyConstants.SET_ID, DEBIT, CREDIT };
+    protected static final String[] LABOR_JV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, 
+        OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, POSITION_NUMBER, EMPLID, EMPLOYEE_RECORD, 
+        EARN_CODE, PAY_GROUP, SALARY_ADMINISTRATION_PLAN, GRADE, RUN_IDENTIFIER, PAY_PERIOD_END_DATE, PAYROLL_END_DATE_FISCAL_YEAR, 
+        PAYROLL_END_DATE_FISCAL_PERIOD_CODE, TRANSACTION_TOTAL_HOURS, LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE, LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER,
+        LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER, LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE, LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE,
+        HRMS_COMPANY, ENCUMBRANCE_UPDATE_CODE, SET_ID, DEBIT, CREDIT };
 
     /**
      * Constructs a JournalVoucherAccountingLineParser.java.
@@ -120,7 +142,7 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return selectFormat();
+        return removeChartFromFormatIfNeeded(selectFormat());
     }
 
     /**
@@ -129,6 +151,6 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
      * @return String []
      */
     private String[] selectFormat() {
-        return LABOR_LINE_FORMAT;
+        return LABOR_JV_FORMAT;
     }
 }

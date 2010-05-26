@@ -36,14 +36,14 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
  * @see org.kuali.kfs.fp.document.NonCheckDisbursementDocument
  */
 public class NonCheckDisbursementDocumentAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };
+    protected static final String[] NCD_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };
 
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return FORMAT;
+        return removeChartFromFormatIfNeeded(NCD_FORMAT);
     }
 
     /**
@@ -51,7 +51,7 @@ public class NonCheckDisbursementDocumentAccountingLineParser extends Accounting
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
-        return FORMAT;
+        return removeChartFromFormatIfNeeded(NCD_FORMAT);
     }
 
 }

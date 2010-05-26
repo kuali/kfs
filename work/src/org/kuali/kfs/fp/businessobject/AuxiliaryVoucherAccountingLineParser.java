@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is used to parse an <code>AuxiliaryVocherDocument</code> accounting line.
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
+    protected static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
 
     /**
      * Constructs a AuxiliaryVoucherAccountingLineParser.java.
@@ -103,6 +103,6 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return AV_FORMAT;
+        return removeChartFromFormatIfNeeded(AV_FORMAT);
     }
 }

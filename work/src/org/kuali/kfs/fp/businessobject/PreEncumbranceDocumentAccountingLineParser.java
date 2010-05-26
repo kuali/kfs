@@ -35,15 +35,15 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
  * @see org.kuali.kfs.fp.document.PreEncumbranceDocument
  */
 public class PreEncumbranceDocumentAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] SOURCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
-    private static final String[] TARGET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, AMOUNT };
+    protected static final String[] PE_SOURCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
+    protected static final String[] PE_TARGET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, AMOUNT };
 
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return SOURCE_FORMAT;
+        return removeChartFromFormatIfNeeded(PE_SOURCE_FORMAT);
     }
 
     /**
@@ -51,7 +51,7 @@ public class PreEncumbranceDocumentAccountingLineParser extends AccountingLinePa
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
-        return TARGET_FORMAT;
+        return removeChartFromFormatIfNeeded(PE_TARGET_FORMAT);
     }
 
 }

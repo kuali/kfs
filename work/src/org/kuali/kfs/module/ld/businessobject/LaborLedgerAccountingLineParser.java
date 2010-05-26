@@ -43,7 +43,6 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * Constructs a LaborLedgerAccountingLineParser.java.
      */
     public LaborLedgerAccountingLineParser() {
-
     }
 
     /**
@@ -52,8 +51,9 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * @return Returns the LABOR_LEDGER_FORMAT.
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
+    @Override
     public String[] getSourceAccountingLineFormat() {
-        return LABOR_LEDGER_FORMAT;
+        return removeChartFromFormatIfNeeded(LABOR_LEDGER_FORMAT);
     }
 
     /**
@@ -62,28 +62,9 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * @return Returns the LABOR_LEDGER_FORMAT.
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
+    @Override
     public String[] getTargetAccountingLineFormat() {
-        return LABOR_LEDGER_FORMAT;
+        return removeChartFromFormatIfNeeded(LABOR_LEDGER_FORMAT);
     }
 
-    /**
-     * Will return the format determing if the line is Source or Target.
-     * 
-     * @param accountingLineClass
-     * @return Returns The format.
-     */
-    protected String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
-        String[] format = null;
-        if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
-            format = getSourceAccountingLineFormat();
-        }
-        else if (TargetAccountingLine.class.isAssignableFrom(accountingLineClass)) {
-            format = getTargetAccountingLineFormat();
-        }
-        else {
-            throw new IllegalStateException("unknow accounting line class: " + accountingLineClass);
-        }
-
-        return format;
-    }
 }

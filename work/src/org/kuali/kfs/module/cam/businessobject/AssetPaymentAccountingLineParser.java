@@ -35,9 +35,9 @@ import static org.kuali.kfs.module.cam.CamsPropertyConstants.AssetPaymentDetail.
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 
 public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {    
-    protected static final String[] LINE_FORMAT = 
+    protected static final String[] AP_FORMAT = 
     { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT,
-      PURCHASE_ORDER,
+        PURCHASE_ORDER,
         REQUISITION_NUMBER,
         ORIGINATION_CODE,        
         DOCUMENT_NUMBER,
@@ -55,6 +55,6 @@ public class AssetPaymentAccountingLineParser extends AccountingLineParserBase {
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return LINE_FORMAT;
+        return removeChartFromFormatIfNeeded(AP_FORMAT);
     }
 }

@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
  * This class is used to parse an PurApItem accounting line.
  */
 public class PurApAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] PURAP_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, PERCENT };
+    protected static final String[] PURAP_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, PERCENT };
 
     /**
      * Constructs a AuxiliaryVoucherAccountingLineParser.java.
@@ -47,7 +47,7 @@ public class PurApAccountingLineParser extends AccountingLineParserBase {
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return PURAP_FORMAT;
+        return removeChartFromFormatIfNeeded(PURAP_FORMAT);
     }
     
     /**

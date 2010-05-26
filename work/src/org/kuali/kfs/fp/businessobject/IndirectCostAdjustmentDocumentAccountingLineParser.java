@@ -40,14 +40,14 @@ import org.kuali.rice.kns.service.ParameterService;
  * @see org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument
  */
 public class IndirectCostAdjustmentDocumentAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
+    protected static final String[] ICA_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
 
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return FORMAT;
+        return removeChartFromFormatIfNeeded(ICA_FORMAT);
     }
 
     /**
@@ -55,7 +55,7 @@ public class IndirectCostAdjustmentDocumentAccountingLineParser extends Accounti
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
-        return FORMAT;
+        return removeChartFromFormatIfNeeded(ICA_FORMAT);
     }
 
     /**

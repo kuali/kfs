@@ -32,14 +32,14 @@ import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
  * This class represents a line parser used for basic format with line descriptions
  */
 public class BasicFormatWithLineDescriptionAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] BASIC_WITH_LINE_DESCRIPTION = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };
+    private static final String[] BASIC_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };
 
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParserBase#getSourceAccountingLineFormat()
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return BASIC_WITH_LINE_DESCRIPTION;
+        return removeChartFromFormatIfNeeded(BASIC_FORMAT);
     }
 
     /**
@@ -47,7 +47,7 @@ public class BasicFormatWithLineDescriptionAccountingLineParser extends Accounti
      */
     @Override
     public String[] getTargetAccountingLineFormat() {
-        return BASIC_WITH_LINE_DESCRIPTION;
+        return removeChartFromFormatIfNeeded(BASIC_FORMAT);
     }
 
 }

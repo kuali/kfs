@@ -128,9 +128,15 @@
 
   	<bean id="TypeRestrictionCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Type Restriction Code Lookup" />    
-    	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
-    	</property>
+		<property name="defaultSort" >
+      		<bean parent="SortDefinition">
+        		<property name="attributeNames" >
+          			<list>
+            			<value>code</value>
+          			</list>
+        		</property>
+      		</bean>
+    	</property>    
     	<property name="lookupFields">
       		<list>
 		        <bean parent="FieldDefinition" 

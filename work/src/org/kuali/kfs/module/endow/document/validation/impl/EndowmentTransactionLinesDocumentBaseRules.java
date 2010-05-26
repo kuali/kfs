@@ -37,6 +37,7 @@ import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeServi
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
+import org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.RefreshTransactionLineRule;
@@ -157,6 +158,22 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             return document.getTargetTransactionSecurity().getSecurityID();
     }
 
+    /**
+     * This method obtains Registration code from a document.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @return
+     */
+    public String getRegistrationForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    {
+        EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
+        if (line instanceof EndowmentSourceTransactionLine) 
+            return document.getSourceTransactionSecurity().getRegistrationCode();
+        else
+            return document.getTargetTransactionSecurity().getRegistrationCode();
+    }
+    
     /**
      * This method obtains security from a document.
      * 
@@ -631,4 +648,18 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         isValid &= validateSecurityClassTypeCode(document, isSource, LIABILITY_CLASS_CODE);
         return isValid;
     }
+    
+
+    protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
+    {
+        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocumentBase,line),
+                getRegistrationForValidation(endowmentTransactionLinesDocumentBase, line), line.getTransactionIPIndicatorCode(),line.getTransactionUnits()))
+        {
+            return false;
+        }
+        else
+            return true;
+        
+    }
+
 }

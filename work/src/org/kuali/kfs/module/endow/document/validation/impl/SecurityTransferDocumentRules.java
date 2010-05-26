@@ -80,8 +80,8 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         // Validate Units is Greater then Zero(thus positive) value
         isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
 
-        // Validates Units & Amount are equal.
-        isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
+        // Validate Units is Greater then Zero(thus positive) value
+        isValid &= checkSufficientUnitsAvaiable(endowmentTransactionLinesDocumentBase,line, ERROR_PREFIX);
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
@@ -99,9 +99,6 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
 
             //Validate Registration code.
             isValid = validateRegistration(isValid, liabilityIncreaseDocument, true);
-
-            // Empty out the Source Tx Line in weird case they got entered.
-            liabilityIncreaseDocument.getTargetTransactionLines().clear();
 
             // Validate atleast one Tx was entered.
             if (!transactionLineSizeGreaterThanZero(liabilityIncreaseDocument, true))

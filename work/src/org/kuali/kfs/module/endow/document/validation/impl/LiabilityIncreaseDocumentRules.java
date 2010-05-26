@@ -95,10 +95,10 @@ public class LiabilityIncreaseDocumentRules extends EndowmentTransactionLinesDoc
             LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) document;
 
             //Validate Security
-            isValid = validateSecurity(isValid, liabilityIncreaseDocument, false);
+            isValid &= validateSecurity(isValid, liabilityIncreaseDocument, false);
 
             //Validate Registration code.
-            isValid = validateRegistration(isValid, liabilityIncreaseDocument, false);
+            isValid &= validateRegistration(isValid, liabilityIncreaseDocument, false);
 
             // Empty out the Source Tx Line in weird case they got entered.
             liabilityIncreaseDocument.getSourceTransactionLines().clear();

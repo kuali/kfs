@@ -107,10 +107,10 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) document;
 
             //Validate Security
-            isValid = validateSecurity(isValid, liabilityDecreaseDocument, true);
+            isValid &= validateSecurity(isValid, liabilityDecreaseDocument, true);
 
             //Validate Registration code.
-            isValid = validateRegistration(isValid, liabilityDecreaseDocument, true);
+            isValid &= validateRegistration(isValid, liabilityDecreaseDocument, true);
 
             // Empty out the Target Tx Line in weird case they got entered.
             liabilityDecreaseDocument.getTargetTransactionLines().clear();

@@ -142,4 +142,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
         this.balanceInquiryReturnAnchor = balanceInquiryReturnAnchor;
     }
 
+    public boolean getShowFromTransactionLine() 
+    {
+        return true;
+    }
 }

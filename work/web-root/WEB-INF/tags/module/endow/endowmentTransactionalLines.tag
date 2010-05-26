@@ -130,7 +130,13 @@
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
-                <td class="infoline"><div align="center"><html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/></div></td>
+                <td class="infoline">
+                  	<c:if test="${KualiForm.showFromTransactionLine}">
+	                	<div align="center">
+	                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+	                	</div>
+                	</c:if>
+                </td>
             </tr>
         </c:if>
       

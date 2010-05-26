@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 
 
@@ -23,7 +24,6 @@ public class SecurityTransferDocumentForm extends EndowmentTransactionLinesDocum
     public SecurityTransferDocumentForm() 
     {
         super();
-        
     }
 
     @Override
@@ -40,5 +40,12 @@ public class SecurityTransferDocumentForm extends EndowmentTransactionLinesDocum
         return (SecurityTransferDocument) getDocument();
     }
 
-
+    public boolean getShowFromTransactionLine() 
+    {
+        SecurityTransferDocument document = getSecurityTransferDocument();
+        if(document.getSourceTransactionLines() != null && document.getSourceTransactionLines().size() > 0)
+            return false;
+        else
+            return true;
+    }
 }

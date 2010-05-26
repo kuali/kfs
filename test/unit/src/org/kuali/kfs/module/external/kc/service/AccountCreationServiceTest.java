@@ -15,8 +15,57 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
-import org.kuali.kfs.sys.context.KualiTestBase;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-public class AccountCreationServiceTest extends KualiTestBase {
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
+import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+
+@ConfigureContext(session = khuntley)
+public class AccountCreationServiceTest extends KualiTestBase 
+{
+    private AccountCreationService creationService;
+    private AccountParameters accountParameters;
+    
+    /**
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception 
+    {
+        // Initialize service objects.
+        AccountCreationService creationService = 
+            SpringContext.getBean(AccountCreationService.class);
+        
+        // Initialize objects.
+        accountParameters = new AccountParameters();
+        accountParameters.setAccountName("accountName");
+        accountParameters.setAccountNumber("accountNumber");
+        
+        super.setUp();
+    }
+    
+    /**
+     * 
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception 
+    {
+        super.tearDown();
+    }
+    
+    /**
+     * TODO
+     * This method...
+     */
+    public void testCreateAccount() 
+    {   AccountCreationStatus creationStatus =
+            creationService.createAccount(accountParameters);
+    
+        assert(creationStatus.isSuccess());
+    }
 
 }

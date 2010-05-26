@@ -95,31 +95,33 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            SecurityTransferDocument liabilityIncreaseDocument = (SecurityTransferDocument) document;
+            SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) document;
 
             //Validate Security
-            isValid = validateSecurity(isValid, liabilityIncreaseDocument, true);
+            isValid &= validateSecurity(isValid, securityTransferDocument, true);
 
             //Validate Registration code.
-            isValid = validateRegistration(isValid, liabilityIncreaseDocument, true);
+            isValid &= validateRegistration(isValid, securityTransferDocument, true);
 
             // Validate atleast one Tx was entered.
-            if (!transactionLineSizeGreaterThanZero(liabilityIncreaseDocument, true))
+            if (!transactionLineSizeGreaterThanZero(securityTransferDocument, true))
                 return false;
 
             // Obtaining all the transaction lines for validations
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
-            txLines.addAll(liabilityIncreaseDocument.getTargetTransactionLines());
+            txLines.addAll(securityTransferDocument.getTargetTransactionLines());
 
-            for (int i = 0; i < liabilityIncreaseDocument.getTargetTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = liabilityIncreaseDocument.getTargetTransactionLines().get(i);
-                isValid &= validateLiabilityTransactionLine(liabilityIncreaseDocument, txLine, i);
+            for (int i = 0; i < securityTransferDocument.getTargetTransactionLines().size(); i++) {
+                EndowmentTransactionLine txLine = securityTransferDocument.getTargetTransactionLines().get(i);
+                isValid &= validateLiabilityTransactionLine(securityTransferDocument, txLine, i);
             }
+            
+            //Validate the source & target units are equal.
+            isValid &= validateSourceTargetUnitsEqual(securityTransferDocument);
         }
-
+            
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
-
 
 
     /**

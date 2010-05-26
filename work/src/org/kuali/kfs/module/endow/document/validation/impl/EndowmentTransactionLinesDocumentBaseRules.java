@@ -33,6 +33,7 @@ import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
+import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
@@ -149,10 +150,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    public String getSecurityIDForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    public String getSecurityIDForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, boolean isSource)  
     {
         EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
-        if (line instanceof EndowmentSourceTransactionLine) 
+        if (isSource) 
             return document.getSourceTransactionSecurity().getSecurityID();
         else
             return document.getTargetTransactionSecurity().getSecurityID();
@@ -165,10 +166,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    public String getRegistrationForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line) 
+    public String getRegistrationForValidation(EndowmentTransactionLinesDocument endowmentTransactionLinesDocumentBase, boolean isSource) 
     {
         EndowmentSecurityDetailsDocumentBase document = (EndowmentSecurityDetailsDocumentBase) endowmentTransactionLinesDocumentBase;
-        if (line instanceof EndowmentSourceTransactionLine) 
+        if (isSource) 
             return document.getSourceTransactionSecurity().getRegistrationCode();
         else
             return document.getTargetTransactionSecurity().getRegistrationCode();
@@ -660,11 +661,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
     {
-        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocumentBase,line),
-                getRegistrationForValidation(endowmentTransactionLinesDocumentBase, line), line.getTransactionIPIndicatorCode(),line.getTransactionUnits()))
+        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocumentBase,true),
+                getRegistrationForValidation(endowmentTransactionLinesDocumentBase, true), line.getTransactionIPIndicatorCode(),line.getTransactionUnits()))
         {
             return false;
-        }
+        } 
         else
             return true;
         
@@ -691,6 +692,23 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 return false;
             }
         }
+        return true;
+    }
+    
+    /**
+     * This method validates if the source & target units are equal.
+     * 
+     * @param securityTransferDocument
+     * @return
+     */
+    protected boolean validateSourceTargetUnitsEqual(SecurityTransferDocument securityTransferDocument) 
+    {
+        if( !securityTransferDocument.getTargetTotalUnits().equals(securityTransferDocument.getSourceTotalUnits()) )
+        {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL);            
+            return false;
+        }
+        
         return true;
     }
 }

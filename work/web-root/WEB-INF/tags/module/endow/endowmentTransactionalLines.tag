@@ -131,7 +131,12 @@
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
                 <td class="infoline">
-                  	<c:if test="${KualiForm.showFromTransactionLine}">
+                  	<c:if test="${isSource && KualiForm.showFromTransactionLine}">
+	                	<div align="center">
+	                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+	                	</div>
+                	</c:if>
+                	<c:if test="${not isSource}">
 	                	<div align="center">
 	                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
 	                	</div>

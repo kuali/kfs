@@ -89,6 +89,20 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processRefreshTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
+     */
+    @Override
+    public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {
+
+        boolean isValid = super.processRefreshTransactionLineRules(endowmentTransactionLinesDocument, endowmentTransactionLine, index);
+        if (isValid) {
+            isValid &= validateAssetDecreaseTransactionLine(false, endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index, -1);
+        }
+        return isValid;
+    }
+
+    /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionalDocumentBaseRule#validateSecurityClassTypeCode(org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument,
      *      boolean, java.lang.String)
      */
@@ -124,8 +138,10 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
             isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
 
-            isValid &= validateSufficientUnits(isAdd, assetDecreaseDocument, line, index, taxLotLineToDeleteIndex);
-            isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), true);
+            if (isValid) {
+                isValid &= validateSufficientUnits(isAdd, assetDecreaseDocument, line, index, taxLotLineToDeleteIndex);
+                isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), true);
+            }
         }
 
         return isValid;
@@ -189,7 +205,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         boolean isValid = true;
         isValid &= validateTransactionLine(endowmentTaxLotLinesDocument, transactionLine, (Integer) index);
         if (isValid) {
-            isValid &= validateAssetDecreaseTransactionLine(false, endowmentTaxLotLinesDocument, transactionLine, (Integer) index, (Integer)taxLotLineIndex);
+            isValid &= validateAssetDecreaseTransactionLine(false, endowmentTaxLotLinesDocument, transactionLine, (Integer) index, (Integer) taxLotLineIndex);
         }
         return isValid;
     }

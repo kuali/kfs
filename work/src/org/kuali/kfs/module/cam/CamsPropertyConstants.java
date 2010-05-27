@@ -370,6 +370,7 @@ public class CamsPropertyConstants {
     }
 
     public static class BarcodeInventory {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
         public static String ASSET_TAG_NUMBER = "assetTagNumber";
         public static String UPLOAD_SCAN_INDICATOR = "uploadScanIndicator";
         public static String INVENTORY_DATE = "uploadScanTimestamp";

@@ -163,6 +163,7 @@ public class CamsKeyConstants {
         public static final String ERROR_RECORDS_NO_SELECTED = "error.document.records_no_selected";
         public static final String ERROR_CHECKBOX_MUST_BE_CHECKED = "error.checkbox.must.be.checked";
         public static final String ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA = "error.global.replace.empty.fields";
+        public static final String ERROR_VALIDATE_ITEMS_BEFORE_APPROVE = "error.validate.items.before.approval";
     }
 
     public static class EquipmentLoanOrReturn {

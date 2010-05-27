@@ -64,7 +64,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return super.sendAdHocRequests(mapping, bcieForm, request, response);
     }
 
-    /**
+    /** why does this just send false to rules.....
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -72,7 +72,12 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
-
+        //prevent approval before save if barcode inventory item list not validated
+        if(!document.isDocumentCorrected()){
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.BarcodeInventory.DOCUMENT_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_VALIDATE_ITEMS_BEFORE_APPROVE, document.getDocumentNumber());
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
 
         if (this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {

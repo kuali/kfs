@@ -258,8 +258,14 @@
 
 	<target name="init-make-references" depends="init-properties">
 		<path id="compile.source.classpath">
-			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
+			<fileset dir="${build.server.lib.directory}" includes="*-api.jar" />
 			<fileset dir="${lib.directory}" includes="*.jar" />
+			<fileset dir="${build.appserver.directory}" includes="*.jar" /> <!-- should not be needed but commons logging is here -->	
+			<pathelement location="${build.directory}/${log4j.library.file}" />
+		</path>
+		<path id="run.server.classpath">
+			<path refid="compile.source.classpath" />
+			<fileset dir="${drivers.directory}" includes="*.jar" />
 		</path>
 		<path id="compile.tests.classpath">
 			<path refid="compile.source.classpath" />
@@ -518,8 +524,7 @@
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
 		<javac destdir="${war.classes.directory}" srcdir="${source.directory}"
-			   source="1.5" target="1.5"
-			   debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />
 		</javac>
 		<copy todir="${war.classes.directory}">
@@ -530,7 +535,7 @@
 	<target name="make-additional-source" if="additional.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
         <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
-               debug="true" nowarn="true" optimize="true" fork="true" 
+               debug="true" fork="true" 
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
@@ -709,6 +714,34 @@
 		</java>
 	</target>
 
+    <target name="import-workflow-xml" depends="make-source,filter-local">
+        <if>
+            <not>
+                <isset property="workflow.dir" />
+            </not>
+            <then>
+                <echo>
+you must use -Dworkflow.dir=(path)
+It must be set to the path of a directory which contains the pending/failed/completed subdirectories used by workflow.  
+The workflow files you want to run must exist in the pending subdirectory and will be executed in alphabetical order. 
+                </echo>
+                <fail />
+            </then>
+        </if>
+        <java classname="org.kuali.kfs.sys.WorkflowImporter" fork="true">
+            <jvmarg value="-Xms512m" />
+            <jvmarg value="-Xmx1g" />
+            <jvmarg value="-XX:MaxPermSize=256m" />
+            <arg value="${workflow.dir}" />
+            <classpath>
+                <pathelement location="${war.classes.directory}" />
+                <path refid="run.server.classpath" />
+            </classpath>
+        </java>
+        
+    </target>
+	
+	
 	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 

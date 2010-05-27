@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 @ConfigureContext(session = khuntley)
 public class AccountCreationServiceTest extends KualiTestBase 
 {
-    private AccountCreationService creationService;
+    private AccountCreationService accountCreationService;
     private AccountParameters accountParameters;
     
     /**
@@ -36,7 +36,7 @@ public class AccountCreationServiceTest extends KualiTestBase
     protected void setUp() throws Exception 
     {
         // Initialize service objects.
-        AccountCreationService creationService = 
+        accountCreationService = 
             SpringContext.getBean(AccountCreationService.class);
         
         // Initialize objects.
@@ -63,7 +63,7 @@ public class AccountCreationServiceTest extends KualiTestBase
      */
     public void testCreateAccount() 
     {   AccountCreationStatus creationStatus =
-            creationService.createAccount(accountParameters);
+            accountCreationService.createAccount(accountParameters);
     
         assert(creationStatus.isSuccess());
     }

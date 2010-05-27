@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.coa.document.service.impl;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
 import org.kuali.kfs.coa.service.AccountAutoCreateDefaultsService;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -41,25 +44,52 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
     private ParameterService parameterService;
     private AccountAutoCreateDefaultsService accountAutoCreateDefaultsService;
     private DataDictionaryService dataDictionaryService;
+    
+    private AccountAutoCreateDefaults defaults;
+    private List<String> errorCodes;
 
-    public Account createAccountForCGMaintenanceDocument(AccountParameters accountParams) {
+    public AccountCreationStatus createAccountForCGMaintenanceDocument(AccountParameters accountParameters) {
         
-        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParams.getUnit());
+        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
+        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
+    
+        // create a account
+        String documentNumber = createAutomaticCGAccountMaintenanceDocument(createAccount(accountParameters));
+        
+        // build AccountCreationStatus to be returned
+        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+        accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        accountCreationStatus.setDocumentNumber(documentNumber);
+        //TODO: figure out how to return error codes better 
+        accountCreationStatus.setErrorCodes(errorCodes);
+        accountCreationStatus.setSuccess(true);
+        
+        return accountCreationStatus;
+    }
+    
+    /**
+     * 
+     * This method creates an account to be used for automatic maintenance document
+     * @param accountParameters
+     * @return Account
+     */
+    private Account createAccount(AccountParameters accountParameters) {
+                
         Account account = new Account();
         
         account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
         account.setOrganizationCode(defaults.getOrganizationCode());
-        account.setAccountNumber(accountParams.getAccountNumber());
-        account.setAccountName(accountParams.getAccountName());
+        account.setAccountNumber(accountParameters.getAccountNumber());
+        account.setAccountName(accountParameters.getAccountName());
         account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
-        account.setAccountExpirationDate(new java.sql.Date(accountParams.getExpirationDate().getTime()));
-        account.setAccountEffectiveDate(new java.sql.Date(accountParams.getEffectiveDate().getTime()));
+        account.setAccountExpirationDate(new java.sql.Date(accountParameters.getExpirationDate().getTime()));
+        account.setAccountEffectiveDate(new java.sql.Date(accountParameters.getEffectiveDate().getTime()));
         
         account.setAccountZipCode(defaults.getAccountZipCode()); 
         account.setAccountCityName(defaults.getAccountCityName());
         account.setAccountStateCode(defaults.getAccountStateCode());
         account.setAccountStreetAddress(defaults.getAccountStreetAddress());
-        account.setAccountOffCampusIndicator(accountParams.isOffCampusIndicator());
+        account.setAccountOffCampusIndicator(accountParameters.isOffCampusIndicator());
         
         account.setClosed(false);
         account.setAccountTypeCode(defaults.getAccountTypeCode());        
@@ -98,16 +128,16 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         //account.setContractControlAccountNumber(); // contract control chart of accounts code
         //account.setContractControlAccount();   // contract control account
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
-        account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParams.getIndirectCostRate();
+        account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         
-        account.setAccountCfdaNumber(accountParams.getCfdaNumber());
-        account.getAccountGuideline().setAccountExpenseGuidelineText(accountParams.getExpenseGuidelineText());
-        account.getAccountGuideline().setAccountIncomeGuidelineText(accountParams.getIncomeGuidelineText());
-        account.getAccountGuideline().setAccountPurposeText(accountParams.getPurposeText());
+        account.setAccountCfdaNumber(accountParameters.getCfdaNumber());
+        account.getAccountGuideline().setAccountExpenseGuidelineText(accountParameters.getExpenseGuidelineText());
+        account.getAccountGuideline().setAccountIncomeGuidelineText(accountParameters.getIncomeGuidelineText());
+        account.getAccountGuideline().setAccountPurposeText(accountParameters.getPurposeText());
        
         // campus description
         // organziation description
@@ -124,7 +154,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
      * 
      * @see org.kuali.kfs.coa.document.service.CreateAccountService#createAutomaticCGAccountMaintenanceDocument()
      */
-    public String createAutomaticCGAccountMaintenanceDocument(Account account) {
+    private String createAutomaticCGAccountMaintenanceDocument(Account account) {
 
         //create a new maintenance document
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument();

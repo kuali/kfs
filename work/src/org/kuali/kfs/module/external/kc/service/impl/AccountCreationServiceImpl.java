@@ -30,13 +30,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     public AccountCreationStatus createAccount(AccountParameters accountParameters) {
         
         //accountCreateDocumentService
-        List<String> statusCodes = new ArrayList<String>(1);
-        statusCodes.add("SUCCESS");
+        //List<String> statusCodes = new ArrayList<String>(1);
+        //statusCodes.add("SUCCESS");
+
+        //AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
+        //accountCreationStatus.setSuccess(true);
         
-        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-        accountCreationStatus.setSuccess(true);
-        
-        return accountCreationStatus;
+        return accountCreateDocumentService.createAccountForCGMaintenanceDocument(accountParameters);        
     }
 
     /**

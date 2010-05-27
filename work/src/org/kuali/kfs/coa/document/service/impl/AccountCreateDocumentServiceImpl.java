@@ -50,18 +50,17 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
 
     public AccountCreationStatus createAccountForCGMaintenanceDocument(AccountParameters accountParameters) {
         
-        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
-        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-    
+        defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
+            
         // create a account
         String documentNumber = createAutomaticCGAccountMaintenanceDocument(createAccount(accountParameters));
         
-        // build AccountCreationStatus to be returned
+        // create AccountCreationStatus to be returned
+        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
         accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
         accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
-        accountCreationStatus.setDocumentNumber(documentNumber);
-        //TODO: figure out how to return error codes better 
-        accountCreationStatus.setErrorCodes(errorCodes);
+        accountCreationStatus.setDocumentNumber(documentNumber);         
+        accountCreationStatus.setErrorCodes(errorCodes);  //TODO: figure out how to return error codes better
         accountCreationStatus.setSuccess(true);
         
         return accountCreationStatus;
@@ -125,25 +124,26 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
         account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  // Object presence control indicator ?
 
-        //account.setContractControlAccountNumber(); // contract control chart of accounts code
-        //account.setContractControlAccount();   // contract control account
+        account.getContractControlChartOfAccounts().setChartOfAccountsCode(""); // contract control chart of accounts code
+        account.setContractControlAccountNumber("");   // contract control account number
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
-        account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
+        //account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         
         account.setAccountCfdaNumber(accountParameters.getCfdaNumber());
+        
         account.getAccountGuideline().setAccountExpenseGuidelineText(accountParameters.getExpenseGuidelineText());
         account.getAccountGuideline().setAccountIncomeGuidelineText(accountParameters.getIncomeGuidelineText());
         account.getAccountGuideline().setAccountPurposeText(accountParameters.getPurposeText());
        
-        // campus description
-        // organziation description
-        //responsibility center description
-        //building campuse code
-        //building code
+        account.getAccountDescription().setCampusDescription(null);
+        account.getAccountDescription().setOrganizationDescription(null);
+        account.getAccountDescription().setResponsibilityCenterDescription(null);
+        account.getAccountDescription().getBuilding().setCampusCode(null);
+        account.getAccountDescription().setBuildingCode(null);
         
         return account;
     }

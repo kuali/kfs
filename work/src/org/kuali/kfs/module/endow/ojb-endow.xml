@@ -2081,15 +2081,15 @@
     </collection-descriptor>
 	 
 	
-	<!--  
+	  
     <collection-descriptor name="targetTransactionLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLineNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 		 		<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-						<attribute attribute-name="transactionLineTypeCode" attribute-value="F" />
+						<attribute attribute-name="transactionLineTypeCode" attribute-value="T" />
 				</query-customizer>
     </collection-descriptor>
-	-->
+	
       
     <collection-descriptor name="sourceTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="securityID" sort="ASC" />
@@ -2099,7 +2099,7 @@
 				</query-customizer>
     </collection-descriptor>
 	
-	<!--  
+	<!--    
     <collection-descriptor name="targetTransactionSecurities" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="securityID" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />

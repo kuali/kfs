@@ -659,10 +659,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param ERRORPREFIX
      * @return
      */
-    protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
+    protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String ERRORPREFIX) 
     {
-        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocumentBase,true),
-                getRegistrationForValidation(endowmentTransactionLinesDocumentBase, true), line.getTransactionIPIndicatorCode(),line.getTransactionUnits()))
+        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocument,true),
+                getRegistrationForValidation(endowmentTransactionLinesDocument, true), line.getTransactionIPIndicatorCode(),line.getTransactionUnits()))
         {
             return false;
         } 
@@ -679,7 +679,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param ERRORPREFIX
      * @return
      */
-    protected boolean checkEndowmentValueReduction(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, String ERRORPREFIX) 
+    protected boolean checkEndowmentValueReduction(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String ERRORPREFIX) 
     {
         if( EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(line.getTransactionIPIndicatorCode()) )
         {

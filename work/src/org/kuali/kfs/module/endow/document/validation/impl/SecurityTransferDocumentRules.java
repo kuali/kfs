@@ -47,11 +47,9 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         
         isValid = validateRegistration(isValid, (SecurityTransferDocument) transLineDocument, true);
         
-        isValid = super.processAddTransactionLineRules(transLineDocument, line);
-        isValid &= !GlobalVariables.getMessageMap().hasErrors();
-
-        if (isValid) {
-            isValid &= validateLiabilityTransactionLine((EndowmentTransactionLinesDocumentBase) transLineDocument, line, -1);
+        if (isValid) 
+        {
+            isValid = super.processAddTransactionLineRules(transLineDocument, line);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -65,27 +63,32 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
      * @param index
      * @return
      */
-    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
-        boolean isValid = true;
-
-        // Obtain Prefix for Error fields in UI.
-        String ERROR_PREFIX = getErrorPrefix(line, index);
-
-        //Ensure for cash Tx do not have a Etran. 
-        isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, line, ERROR_PREFIX);
-
-        // Validate Greater then Zero(thus positive) value
-        isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
-
-        // Validate Units is Greater then Zero(thus positive) value
-        isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
-
-        // Validate if Sufficient Units are Avaiable
-        isValid &= checkSufficientUnitsAvaiable(endowmentTransactionLinesDocumentBase,line, ERROR_PREFIX);
+    @Override
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) 
+    {
+        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
         
-        //Check if value of Endowment is being reduced.
-        isValid &= checkEndowmentValueReduction(endowmentTransactionLinesDocumentBase,line, ERROR_PREFIX);
-
+        if (isValid)  
+        {
+            // Obtain Prefix for Error fields in UI.
+            String ERROR_PREFIX = getErrorPrefix(line, index); 
+    
+            //Ensure for cash Tx do not have a Etran. 
+            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
+    
+            // Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+    
+            // Validate Units is Greater then Zero(thus positive) value
+            isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+    
+            // Validate if Sufficient Units are Avaiable
+            isValid &= checkSufficientUnitsAvaiable(endowmentTransactionLinesDocument,line, ERROR_PREFIX);
+            
+            //Check if value of Endowment is being reduced.
+            isValid &= checkEndowmentValueReduction(endowmentTransactionLinesDocument,line, ERROR_PREFIX);
+        }
+        
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
@@ -94,7 +97,8 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
-        if (isValid) {
+        if (isValid) 
+        {
             SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) document;
 
             //Validate Security
@@ -103,17 +107,24 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             //Validate Registration code.
             isValid &= validateRegistration(isValid, securityTransferDocument, true);
 
-            // Validate atleast one Tx was entered.
+            // Validate atleast one Source Tx was entered.
             if (!transactionLineSizeGreaterThanZero(securityTransferDocument, true))
                 return false;
 
+            // Validate atleast one Target Tx was entered.
+            if (!transactionLineSizeGreaterThanZero(securityTransferDocument, false))
+                return false;
+            
             // Obtaining all the transaction lines for validations
             List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
+            txLines.addAll(securityTransferDocument.getSourceTransactionLines());
             txLines.addAll(securityTransferDocument.getTargetTransactionLines());
 
-            for (int i = 0; i < securityTransferDocument.getTargetTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = securityTransferDocument.getTargetTransactionLines().get(i);
-                isValid &= validateLiabilityTransactionLine(securityTransferDocument, txLine, i);
+            // Validate All the Transaction Lines.
+            for (int i = 0; i < txLines.size(); i++) 
+            {
+                EndowmentTransactionLine txLine = txLines.get(i);
+                isValid &= validateTransactionLine(securityTransferDocument, txLine, i);
             }
             
             //Validate the source & target units are equal.

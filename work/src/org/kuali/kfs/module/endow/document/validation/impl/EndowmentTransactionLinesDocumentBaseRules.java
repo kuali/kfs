@@ -711,4 +711,22 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         
         return true;
     }
+    
+    /**
+     * This method validates if the source & target units are equal.
+     * 
+     * @param securityTransferDocument
+     * @return
+     */
+    protected boolean validateSourceTargetAmountEqual(SecurityTransferDocument securityTransferDocument) 
+    {
+        if( !securityTransferDocument.getTargetTotalAmount().equals(securityTransferDocument.getSourceTotalAmount()) )
+        {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_AMOUNT_EQUAL);            
+            return false;
+        }
+        
+        return true;
+    }
+
 }

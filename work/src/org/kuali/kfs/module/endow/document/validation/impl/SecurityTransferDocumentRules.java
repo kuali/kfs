@@ -129,6 +129,10 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             
             //Validate the source & target units are equal.
             isValid &= validateSourceTargetUnitsEqual(securityTransferDocument);
+            
+            //Validate the source & target amounts are equal.
+            isValid &= validateSourceTargetAmountEqual(securityTransferDocument);
+
         }
             
         return GlobalVariables.getMessageMap().getErrorCount() == 0;

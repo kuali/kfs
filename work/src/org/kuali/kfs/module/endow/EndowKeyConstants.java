@@ -195,6 +195,7 @@ public class EndowKeyConstants {
         public static final String WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION = "warning.transactionLine.endowment.value.reduction";
         
         public static final String ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL = "error.transactionLine.source.target.unit.equal";
+        public static final String ERROR_TRANSACTION_LINE_SOURCE_TARGET_AMOUNT_EQUAL = "error.transactionLine.source.target.amount.equal";
         
         public static final String WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS = "warning.document.transactionLine.reducePermanentlyRestrictedFunds";
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";

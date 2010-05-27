@@ -176,11 +176,12 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         if (!checkIfAccountAutoCreateRouteExists()) {
             // error message since there is no system parameter has been setup yet....
             LOG.warn("ParseException: System Parameter ACCOUNTING_DOCUMENT_TYPE_NAME can not be determined.");
-            throw new RuntimeException("System Parameter Exception: ACCOUNTING_DOCUMENT_TYPE_NAME system parameter does not exist");   
+            errorCodes.add("System Parameter Exception: ACCOUNTING_DOCUMENT_TYPE_NAME system parameter does not exist");
         }
-        String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
-        
-        createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRoute);
+        else {
+            String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+            createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRoute);
+        }
     }
 
     /**
@@ -203,8 +204,7 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
         }
         catch (WorkflowException wfe) {
             LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
-            throw new RuntimeException("WorkflowException: createRouteAutomaticDocument failed");   
-            
+            errorCodes.add("WorkflowException: createRouteAutomaticDocument failed");
         }
     }
     
@@ -214,12 +214,13 @@ public class AccountCreateDocumentServiceImpl implements AccountCreateDocumentSe
      */
     protected Document createCGAccountMaintenanceDocument() {
         try {
-            Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(Account.class));
-            return document;            
+             Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(Account.class));
+             return document;            
         }
-        catch (WorkflowException wfe) {
-            throw new RuntimeException("WorkflowException: createAccountDocument has failed.  Unable to get a new document");   
+        catch (Exception excp) {
+            errorCodes.add("WorkflowException: createAccountDocument has failed.  Unable to get a new document");
         }
+        return null;
     }
     
     /**

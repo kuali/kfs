@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service;
+package org.kuali.kfs.module.external.kc.service;
 
 import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.coa.dataaccess.AccountAutoCreateDefaultsDao;
+import org.kuali.kfs.module.external.kc.dataaccess.AccountAutoCreateDefaultsDao;
 
 public interface AccountAutoCreateDefaultsService {
 

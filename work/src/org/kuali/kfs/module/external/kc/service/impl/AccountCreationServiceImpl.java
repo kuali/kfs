@@ -18,40 +18,284 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.document.service.AccountCreateDocumentService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.service.AccountAutoCreateDefaultsService;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
-    private AccountCreateDocumentService accountCreateDocumentService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountCreationServiceImpl.class);
     
+    private DocumentService documentService;
+    private ParameterService parameterService;
+    private AccountAutoCreateDefaultsService accountAutoCreateDefaultsService;
+    private DataDictionaryService dataDictionaryService;
+       
     public AccountCreationStatus createAccount(AccountParameters accountParameters) {
         
-        //accountCreateDocumentService
-        //List<String> statusCodes = new ArrayList<String>(1);
-        //statusCodes.add("SUCCESS");
-
-        //AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-        //accountCreationStatus.setSuccess(true);
+        List<String> errorMessages = new ArrayList<String>();
         
-        return accountCreateDocumentService.createAccountForCGMaintenanceDocument(accountParameters);        
+        //TODO: need to check the hierarchy if unit is null and to see if defaults is null
+        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
+            
+        // create an account object        
+        Account account = createAccountObject(accountParameters, defaults, errorMessages);
+        
+        // create an account automatic maintenance document 
+        String documentNumber = createAutomaticCGAccountMaintenanceDocument(account, errorMessages);
+        
+        // create AccountCreationStatus to be returned
+        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
+        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+        accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        accountCreationStatus.setDocumentNumber(documentNumber);         
+        accountCreationStatus.setErrorMessages(errorMessages); 
+        accountCreationStatus.setSuccess(errorMessages.size() < 1 ? true : false);
+          
+        return accountCreationStatus;
+    }
+    
+    /**
+     * 
+     * This method creates an account to be used for automatic maintenance document
+     * @param accountParameters
+     * @return Account
+     */
+    protected Account createAccountObject(AccountParameters accountParameters, AccountAutoCreateDefaults defaults, List<String> errorMessage) {
+                
+        Account account = new Account();
+        
+        account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        account.setOrganizationCode(defaults.getOrganizationCode());
+        account.setAccountNumber(accountParameters.getAccountNumber());
+        account.setAccountName(accountParameters.getAccountName());
+        account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
+        account.setAccountExpirationDate(new java.sql.Date(accountParameters.getExpirationDate().getTime()));
+        account.setAccountEffectiveDate(new java.sql.Date(accountParameters.getEffectiveDate().getTime()));
+        
+        account.setAccountZipCode(defaults.getAccountZipCode()); 
+        account.setAccountCityName(defaults.getAccountCityName());
+        account.setAccountStateCode(defaults.getAccountStateCode());
+        account.setAccountStreetAddress(defaults.getAccountStreetAddress());
+        account.setAccountOffCampusIndicator(accountParameters.isOffCampusIndicator());
+        
+        account.setClosed(false);
+        account.setAccountTypeCode(defaults.getAccountTypeCode());        
+        account.setSubFundGroupCode(defaults.getSubFundGroupCode());
+        
+        account.setAccountsFringesBnftIndicator(true);
+        account.setFringeBenefitsChartOfAccount(defaults.getFringeBenefitsChartOfAccount());  
+        //account.set??(defaults.getFringeBenefitAccountNumber());  // fringe benefit account number
+        account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
+        
+        account.setAccountRestrictedStatusCode("R");
+        account.setAccountRestrictedStatusDate(null);
+        account.setEndowmentIncomeChartOfAccounts(null);
+        account.setEndowmentIncomeAccountNumber(null);
+        
+        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName());  // fiscal officer principal name ?
+        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());  //account supervisor principal name ?
+        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName()); // account manager principal name ?
+        account.getContinuationChartOfAccount().setChartOfAccountsCode(defaults.getContinuationChartOfAccount().getCode());
+        account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
+
+        account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamChartOfAccounts());
+        account.getIncomeStreamAccount().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getCode()); // income stream account code ?
+        
+        account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
+        account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
+        
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator()); //Transaction processing sufficient funds check ?
+        
+        account.setExtrnlFinEncumSufficntFndIndicator(defaults.isExtrnlFinEncumSufficntFndIndicator());
+        account.setIntrnlFinEncumSufficntFndIndicator(defaults.isIntrnlFinEncumSufficntFndIndicator());
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator());
+        account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
+        account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  // Object presence control indicator ?
+
+        account.getContractControlChartOfAccounts().setChartOfAccountsCode(""); // contract control chart of accounts code
+        account.setContractControlAccountNumber("");   // contract control account number
+        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
+        //account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
+        
+        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
+        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
+        account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
+        
+        account.setAccountCfdaNumber(accountParameters.getCfdaNumber());
+        
+        account.getAccountGuideline().setAccountExpenseGuidelineText(accountParameters.getExpenseGuidelineText());
+        account.getAccountGuideline().setAccountIncomeGuidelineText(accountParameters.getIncomeGuidelineText());
+        account.getAccountGuideline().setAccountPurposeText(accountParameters.getPurposeText());
+       
+        account.getAccountDescription().setCampusDescription(null);
+        account.getAccountDescription().setOrganizationDescription(null);
+        account.getAccountDescription().setResponsibilityCenterDescription(null);
+        account.getAccountDescription().getBuilding().setCampusCode(null);
+        account.getAccountDescription().setBuildingCode(null);
+        
+        return account;
+    }
+    
+    /**
+     * This method will create an account automatic maintenance document and put the account object into it
+     * @return documentNumber returns the documentNumber
+     * 
+     * @see org.kuali.kfs.coa.document.service.CreateAccountService#createAutomaticCGAccountMaintenanceDocument()
+     */
+    protected String createAutomaticCGAccountMaintenanceDocument(Account account, List<String> errorMessages) {
+
+        //create a new maintenance document
+        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument(errorMessages);
+        
+        //set the account object in the maintenance document.
+        maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
+        
+        this.processAutomaticCGAccountMaintenanceDocument(maintenanceAccountDocument, errorMessages);
+        
+        return maintenanceAccountDocument.getDocumentNumber();
+    }
+    
+    /**
+     * This method will check the system parameter and takes appropriate workflow routing action
+     * @param maintenanceAccountDocument
+     */
+    protected void processAutomaticCGAccountMaintenanceDocument(MaintenanceDocument maintenanceAccountDocument, List<String> errorMessages) {
+       
+        if (!checkIfAccountAutoCreateRouteExists()) {
+            // error message since there is no system parameter has been setup yet....
+            LOG.warn("ParseException: System Parameter ACCOUNTING_DOCUMENT_TYPE_NAME can not be determined.");
+            errorMessages.add("System Parameter Exception: ACCOUNTING_DOCUMENT_TYPE_NAME system parameter does not exist");
+        }
+        else {
+            String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+            createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRoute, errorMessages);
+        }
     }
 
     /**
-     * Gets the accountCreateDocumentService attribute. 
-     * @return Returns the accountCreateDocumentService.
+     * This method create and route automatic CG account maintenance document based on system parameter
+     * @param maintenanceAccountDocument
+     * @param accountAutoCreateRoute
      */
-    public AccountCreateDocumentService getAccountCreateDocumentService() {
-        return accountCreateDocumentService;
+    private void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute, List<String> errorMessages) {
+        
+        try {
+            if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
+                documentService.saveDocument(maintenanceAccountDocument);
+            }
+            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+                documentService.blanketApproveDocument(maintenanceAccountDocument, "", null);                
+            }
+            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
+                documentService.approveDocument(maintenanceAccountDocument, "", null);
+            }
+        }
+        catch (WorkflowException wfe) {
+            LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
+            errorMessages.add("WorkflowException: createRouteAutomaticDocument failed");
+        }
+    }
+    
+    /**
+     * This method will use the DocumentService to create a new document....
+     * @return document  returns a new document for the account document type
+     */
+    protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
+        try {
+             Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(Account.class));
+             return document;            
+        }
+        catch (Exception excp) {
+            errorMessages.add("WorkflowException: createAccountDocument has failed.  Unable to get a new document");
+        }
+        return null;
+    }
+    
+    /**
+     * This method checks for the system parameter for ACCOUNT_AUTO_CREATE_ROUTE
+     * @return true if ACCOUNT_AUTO_CREATE_ROUTE exists else false
+     */
+    protected boolean checkIfAccountAutoCreateRouteExists() {
+        boolean parameterExists = true;
+        
+        // check to make sure the system parameter for run date check has already been setup...
+        if (!getParameterService().parameterExists(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE)) {
+            return false;
+        }
+        
+        return parameterExists;
+    }
+    
+    /**
+     * Gets the documentService attribute.
+     * 
+     * @return Current value of documentService.
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
     }
 
     /**
-     * Sets the accountCreateDocumentService attribute value.
-     * @param accountCreateDocumentService The accountCreateDocumentService to set.
+     * Sets the documentService attribute value.
+     * 
+     * @param documentService
      */
-    public void setAccountCreateDocumentService(AccountCreateDocumentService accountCreateDocumentService) {
-        this.accountCreateDocumentService = accountCreateDocumentService;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
+    
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */    
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the accountAutoCreateDefaultsService attribute. 
+     * @return Returns the accountAutoCreateDefaultsService.
+     */
+    public AccountAutoCreateDefaultsService getAccountAutoCreateDefaultsService() {
+        return accountAutoCreateDefaultsService;
+    }
+
+    /**
+     * Sets the accountAutoCreateDefaultsService attribute value.
+     * @param accountAutoCreateDefaultsService The accountAutoCreateDefaultsService to set.
+     */
+    public void setAccountAutoCreateDefaultsService(AccountAutoCreateDefaultsService accountAutoCreateDefaultsService) {
+        this.accountAutoCreateDefaultsService = accountAutoCreateDefaultsService;
+    }
+
 }

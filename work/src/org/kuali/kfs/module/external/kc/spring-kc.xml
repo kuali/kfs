@@ -25,8 +25,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-
-
+		
     <bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean">
         <property name="packagePrefixes">
             <list merge="true">
@@ -68,9 +67,7 @@
     <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
-    <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
-        <property name="accountCreateDocumentService" ref="accountCreateDocumentService" />
-    </bean>
+
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService"
@@ -91,4 +88,22 @@
             </list>
         </property>
     </bean>
+            
+    <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="accountAutoCreateDefaultsService" ref="accountAutoCreateDefaultsService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+	<bean id="accountAutoCreateDefaultsDao" parent="platformAwareDao" class="org.kuali.kfs.module.external.kc.dataaccess.impl.AccountAutoCreateDefaultsDaoOjb">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="accountAutoCreateDefaultsService" class="org.kuali.kfs.module.external.kc.service.impl.AccountAutoCreateDefaultsServiceImpl">
+		<property name="accountAutoCreateDefaultsDao">
+			<ref bean="accountAutoCreateDefaultsDao" />
+		</property>
+	</bean>
+	    
 </beans>

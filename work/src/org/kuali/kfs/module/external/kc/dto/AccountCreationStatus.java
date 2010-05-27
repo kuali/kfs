@@ -22,7 +22,7 @@ public class AccountCreationStatus implements Serializable {
 
     private static final long serialVersionUID = -3058053637490790154L;
     
-    protected List<String> errorCodes;
+    protected List<String> errorMessages;
     protected String documentNumber;
     protected String accountNumber;
     protected String chartOfAccountsCode;
@@ -34,16 +34,16 @@ public class AccountCreationStatus implements Serializable {
      * Gets the errorCodes attribute. 
      * @return Returns the errorCodes.
      */
-    public List<String> getErrorCodes() {
-        return errorCodes;
+    public List<String> getErrorMessages() {
+        return errorMessages;
     }
 
     /**
      * Sets the errorCodes attribute value.
      * @param errorCodes The errorCodes to set.
      */
-    public void setErrorCodes(List<String> errorCodes) {
-        this.errorCodes = errorCodes;
+    public void setErrorMessages(List<String> errorMessages) {
+        this.errorMessages = errorMessages;
     }
 
     /**

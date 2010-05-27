@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service.impl;
+package org.kuali.kfs.module.external.kc.service.impl;
 
 import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.coa.dataaccess.AccountAutoCreateDefaultsDao;
-import org.kuali.kfs.coa.service.AccountAutoCreateDefaultsService;
+import org.kuali.kfs.module.external.kc.dataaccess.AccountAutoCreateDefaultsDao;
+import org.kuali.kfs.module.external.kc.service.AccountAutoCreateDefaultsService;
 
 public class AccountAutoCreateDefaultsServiceImpl implements AccountAutoCreateDefaultsService {
     
     private AccountAutoCreateDefaultsDao accountAutoCreateDefaultsDao;
     
     public AccountAutoCreateDefaults getByUnit(String unit) {
+        
+        //TODO: check unit against the hierarchy
+        
         return accountAutoCreateDefaultsDao.getByUnit(unit);
     }
 

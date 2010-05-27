@@ -17,7 +17,7 @@
 
   <bean id="AccountAutoCreateDefaultMaintenanceDocument" parent="AccountAutoCreateDefaultMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" >
     <property name="maintainableSections">
       <list>
         <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance"/>
@@ -33,6 +33,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
+<!--
 	    	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
@@ -40,6 +41,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountManagerUser" p:attributeToHighlightOnFail="accountManagerUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
+-->
   	    </list>   
     </property>
     <property name="lockingKeys">
@@ -101,7 +103,7 @@
         <dd:maintField attributeName="continuationAccountNumber"/>
         <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
         <dd:maintField attributeName="incomeStreamAccountNumber"/>
-        <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
+        <dd:maintField attributeName="accountSufficientFundsCode"/>
         <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
         <dd:maintField attributeName="intrnlFinEncumSufficntFndIndicator"/>
         <dd:maintField attributeName="finPreencumSufficientFundIndicator"/>
@@ -135,6 +137,135 @@
   </bean>
   	<!-- workflow attributes -->
   	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes" parent="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean"/>
+  
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-  </bean>
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="AccountAutoCreateDefaults" value-ref="AccountAutoCreateDefaultsMaintenanceDocument-RoutingType-AccountAutoCreateDefaults"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="AccountSupervisor" value-ref="AccountAutoCreateDefaultsMaintenanceDocument-RoutingType-AccountAutoCreateDefaults"/>
+    			<entry key="Award" value-ref="AccountAutoCreateDefaultsMaintenanceDocument-RoutingType-Award"/>
+    			<entry key="SubFund" value-ref="RoutingType-MaintenanceDocument-SubFund"/>
+    		</map>
+		</property>
+		
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults"/>
+    						<property name="attributeName" value="organizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults"/>
+    						<property name="attributeName" value="accountFiscalOfficerSystemIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountFiscalOfficerUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults"/>
+    						<property name="attributeName" value="accountsSupervisorySystemsIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountSupervisoryUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults"/>
+    						<property name="attributeName" value="accountManagerSystemIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountManagerUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountFiscalOfficerSystemIdentifier"/>
+	</bean>
+	
+	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountsSupervisorySystemsIdentifier"/>
+	</bean>
+	
+	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId"/>
+	</bean>
+	
+   	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.accountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	 <bean id="AccountAutoCreateDefaultsMaintenanceDocument-DocumentValuePathGroup-Award" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.contractsAndGrantsAccountResponsibilityId</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+	<bean id="AccountAutoCreateDefaultsMaintenanceDocument-RoutingType-AccountAutoCreateDefaults" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier"/>
+		        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountAutoCreateDefaultsMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount"/>
+    		</list>
+    	</property>
+    </bean>
+  
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-RoutingType-Award" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-RoutingAttribute-Award"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountAutoCreateDefaultsMaintenanceDocument-DocumentValuePathGroup-Award"/>
+    		</list>
+    	</property>
+    </bean>
+ 
 </beans>

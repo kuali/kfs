@@ -524,6 +524,20 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
+     * @return Returns the accountFiscalOfficerSystemIdentifier.
+     */
+    public String getAccountFiscalOfficerSystemIdentifierForSearching() {
+        return getAccountFiscalOfficerSystemIdentifier();
+    }
+
+    /**
+     * @return Returns the accountsSupervisorySystemsIdentifier.
+     */
+    public String getAccountsSupervisorySystemsIdentifierForSearching() {
+        return accountsSupervisorySystemsIdentifier;
+    }
+
+    /**
      * Sets the accountFiscalOfficerSystemIdentifier attribute value.
      * @param accountFiscalOfficerSystemIdentifier The accountFiscalOfficerSystemIdentifier to set.
      */
@@ -554,7 +568,14 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public String getAccountManagerSystemIdentifier() {
         return accountManagerSystemIdentifier;
     }
+    /**
+     * @return Returns the accountManagerSystemIdentifier.
+     */
+    public String getAccountManagerSystemIdentifierForSearching() {
+        return getAccountManagerSystemIdentifier();
+    }
 
+    
     /**
      * Sets the accountManagerSystemIdentifier attribute value.
      * @param accountManagerSystemIdentifier The accountManagerSystemIdentifier to set.

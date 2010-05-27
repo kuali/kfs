@@ -19,6 +19,39 @@
     <documentType>
       <name>AACD</name>
       <parent>COA</parent>
+     <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountAutoCreateDefaults"/>
+          <requests name="AccountAutoCreateDefaults" nextNode="OrganizationHierarchy"/>
+          <requests name="OrganizationHierarchy" nextNode="SubFund"/>
+          <requests name="SubFund" nextNode="Award"/>
+          <requests name="Award" nextNode="Chart"/>
+          <requests name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountAutoCreateDefaults">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

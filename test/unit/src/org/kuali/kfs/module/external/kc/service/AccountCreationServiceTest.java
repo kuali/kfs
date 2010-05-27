@@ -65,7 +65,7 @@ public class AccountCreationServiceTest extends KualiTestBase
     {   AccountCreationStatus creationStatus =
             accountCreationService.createAccount(accountParameters);
     
-        assert(creationStatus.isSuccess());
+        assertTrue(creationStatus.isSuccess());
     }
 
 }

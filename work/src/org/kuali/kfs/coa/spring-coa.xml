@@ -310,16 +310,6 @@
 
 	<bean id="a21SubAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
-	
-	<bean id="accountAutoCreateDefaultsDao" parent="platformAwareDao" class="org.kuali.kfs.coa.dataaccess.impl.AccountAutoCreateDefaultsDaoOjb">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
-	<bean id="accountAutoCreateDefaultsService" class="org.kuali.kfs.coa.service.impl.AccountAutoCreateDefaultsServiceImpl">
-		<property name="accountAutoCreateDefaultsDao">
-			<ref bean="accountAutoCreateDefaultsDao" />
-		</property>
-	</bean>
 		
 	<bean id="accountLookupableHelperService"
 		class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl"
@@ -664,20 +654,7 @@
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    
-	
+    	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
-	
-    <bean id="accountCreateDocumentService" class="org.kuali.kfs.coa.document.service.impl.AccountCreateDocumentServiceImpl">
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>	
-		<property name="dataDictionaryService">
-		 	<ref bean="dataDictionaryService" />
-		</property>
-    </bean>	
 	 
 </beans>

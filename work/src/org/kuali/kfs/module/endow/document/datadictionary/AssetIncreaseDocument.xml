@@ -18,13 +18,13 @@
   <bean id="AssetIncreaseDocument" parent="AssetIncreaseDocument-parentBean"/>
 
   <bean id="AssetIncreaseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="allowsCopy" value="true"/>
     <property name="documentTypeName" value="EAI"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.AssetIncreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetIncreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetIncreaseDocumentPresentationController"/>
-    <property name="allowsErrorCorrection" value="true"/>
     <property name="defaultExistenceChecks">
       <list>
       </list>

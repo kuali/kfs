@@ -46,25 +46,22 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
         
         String ERROR_PREFIX = getErrorPrefix(line, -1);
         
-        isValid = validateSecurity(isValid, (LiabilityDecreaseDocument) transLineDocument, true);
+        isValid &= validateSecurity(isValid, (LiabilityDecreaseDocument) transLineDocument, true);
         
-        isValid = validateRegistration(isValid, (LiabilityDecreaseDocument) transLineDocument, true);
+        isValid &= validateRegistration(isValid, (LiabilityDecreaseDocument) transLineDocument, true);
         
-        isValid = super.processAddTransactionLineRules(transLineDocument, line);
-        isValid &= !GlobalVariables.getMessageMap().hasErrors();
-
         if (isValid) 
         {
-            isValid &= validateLiabilityTransactionLine((EndowmentTransactionLinesDocumentBase) transLineDocument, line, -1);
-            
-            if(!isValid)
-                return isValid;
-            
-            LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
-            LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) transLineDocument;
-            boolean isSource = line instanceof EndowmentSourceTransactionLine ? true : false;
-            taxLotsService.updateLiabilityDecreaseTransactionLineTaxLots(isSource, (EndowmentTaxLotLinesDocumentBase) liabilityDecreaseDocument, line);
+            isValid &= super.processAddTransactionLineRules(transLineDocument, line);
         }
+        
+        if(!isValid)
+            return isValid;
+
+        LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
+        LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) transLineDocument;
+        boolean isSource = line instanceof EndowmentSourceTransactionLine ? true : false;
+        taxLotsService.updateLiabilityDecreaseTransactionLineTaxLots(isSource, (EndowmentTaxLotLinesDocumentBase) liabilityDecreaseDocument, line);
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
@@ -77,56 +74,61 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
      * @param index
      * @return
      */
-    protected boolean validateLiabilityTransactionLine(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int index) {
+    @Override
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index)
+    {
         boolean isValid = true;
 
-        // Obtain Prefix for Error fields in UI.
-        String ERROR_PREFIX = getErrorPrefix(line, index);
+        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
+        
+        if(isValid)
+        {
+            // Obtain Prefix for Error fields in UI.
+            String ERROR_PREFIX = getErrorPrefix(line, index);
 
-        //Ensure for cash Tx do not have a Etran. 
-        isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocumentBase, line, ERROR_PREFIX);
+            //Ensure for cash Tx do not have a Etran. 
+            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
 
-        // Validate Greater then Zero(thus positive) value
-        isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+            // Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
 
-        // Validate Units is Greater then Zero(thus positive) value
-        isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+            // Validate Units is Greater then Zero(thus positive) value
+            isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
 
-        // Validates Units & Amount are equal.
-        isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
+            // Validates Units & Amount are equal.
+            isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
+        }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) 
+    {
+        boolean isValid = true; 
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
-        if (isValid) {
-            LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) document;
-
+        LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) document;
+        
+        if (isValid) 
+        {
             //Validate Security
             isValid &= validateSecurity(isValid, liabilityDecreaseDocument, true);
 
             //Validate Registration code.
             isValid &= validateRegistration(isValid, liabilityDecreaseDocument, true);
 
+            if(!isValid)
+                return isValid;
+            
             // Empty out the Target Tx Line in weird case they got entered.
             liabilityDecreaseDocument.getTargetTransactionLines().clear();
-
+            
             // Validate atleast one Tx was entered.
             if (!transactionLineSizeGreaterThanZero(liabilityDecreaseDocument, true))
                 return false;
 
-            // Obtaining all the transaction lines for validations
-            List<EndowmentTransactionLine> txLines = new ArrayList<EndowmentTransactionLine>();
-            txLines.addAll(liabilityDecreaseDocument.getSourceTransactionLines());
-
-            for (int i = 0; i < liabilityDecreaseDocument.getSourceTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = liabilityDecreaseDocument.getSourceTransactionLines().get(i);
-                isValid &= validateLiabilityTransactionLine(liabilityDecreaseDocument, txLine, i);
-            }
+            isValid &= super.processCustomSaveDocumentBusinessRules(document);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;

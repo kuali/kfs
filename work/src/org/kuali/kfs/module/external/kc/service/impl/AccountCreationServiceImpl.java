@@ -32,6 +32,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
@@ -52,7 +53,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // create an account object        
         Account account = createAccountObject(accountParameters, defaults, errorMessages);
         
-        // create an account automatic maintenance document 
+        // create an account automatic maintenance document
+        //should check for empty string for documentNumber if failed to create a document in the calling method...
         String documentNumber = createAutomaticCGAccountMaintenanceDocument(account, errorMessages);
         
         // create AccountCreationStatus to be returned
@@ -159,6 +161,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         //create a new maintenance document
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument(errorMessages);
         
+        if (ObjectUtils.isNull(maintenanceAccountDocument)) {
+            return (KFSConstants.EMPTY_STRING);
+        }
+        
         //set the account object in the maintenance document.
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
         
@@ -211,7 +217,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     /**
      * This method will use the DocumentService to create a new document....
      * @param errorMessages
-     * @return document  returns a new document for the account document type
+     * @return document  returns a new document for the account document type or null if there is an exception thrown.
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
         try {
@@ -219,9 +225,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
              return document;            
         }
         catch (Exception excp) {
-            errorMessages.add("WorkflowException: createAccountDocument has failed.  Unable to get a new document");
+            errorMessages.add("WorkflowException: createCGAccountMaintenanceDocument has failed.  Unable to get a new document" + excp.getMessage());
+            return null;
         }
-        return null;
     }
     
     /**

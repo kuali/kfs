@@ -44,7 +44,7 @@
       <column name='ACCT_PHYS_CMP_CD' type='VARCHAR2(2)'>
         <constraints nullable='true' />
       </column>
-      <column name='SUB_FUND_GRP_CD' type='VARCHAR2(5)'>
+      <column name='SUB_FUND_GRP_CD' type='VARCHAR2(6)'>
         <constraints nullable='true' />
       </column>
       <column name='ACCT_FRNG_BNFT_CD' type='VARCHAR2(1)'>

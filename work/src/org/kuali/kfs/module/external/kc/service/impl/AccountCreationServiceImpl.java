@@ -99,7 +99,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         //account.set??(defaults.getFringeBenefitAccountNumber());  // fringe benefit account number
         account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
         
-        account.setAccountRestrictedStatusCode("R");
+        account.setAccountRestrictedStatusCode(KFSConstants.ACCOUNT_RESTRICTED_STATUS_CODE);
         account.setAccountRestrictedStatusDate(null);
         account.setEndowmentIncomeChartOfAccounts(null);
         account.setEndowmentIncomeAccountNumber(null);
@@ -124,8 +124,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
         account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  // Object presence control indicator ?
 
-        account.getContractControlChartOfAccounts().setChartOfAccountsCode(""); // contract control chart of accounts code
-        account.setContractControlAccountNumber("");   // contract control account number
+        account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); // contract control chart of accounts code
+        account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);   // contract control account number
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
         //account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
         
@@ -189,7 +189,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param maintenanceAccountDocument
      * @param accountAutoCreateRoute
      */
-    private void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute, List<String> errorMessages) {
+    protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute, List<String> errorMessages) {
         
         try {
             if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
@@ -224,7 +224,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }
     
     /**
-     * This method checks for the system parameter for ACCOUNT_AUTO_CREATE_ROUTE
+     * This method checks for the system parameter ACCOUNT_AUTO_CREATE_ROUTE
      * @return true if ACCOUNT_AUTO_CREATE_ROUTE exists else false
      */
     protected boolean checkIfAccountAutoCreateRouteExists() {

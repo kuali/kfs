@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -63,6 +64,9 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             EndowmentTransactionLine txLine = assetDecreaseDocument.getSourceTransactionLines().get(i);
 
             isValid &= validateAssetDecreaseTransactionLine(false, assetDecreaseDocument, txLine, i, -1);
+            if (isValid) {
+                isValid &= validateTotalAmountAndUnits(assetDecreaseDocument, txLine, i);
+            }
         }
 
         return isValid;
@@ -177,7 +181,6 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
                     }
                 }
             }
-
         }
 
         BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
@@ -207,6 +210,74 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (isValid) {
             isValid &= validateAssetDecreaseTransactionLine(false, endowmentTaxLotLinesDocument, transactionLine, (Integer) index, (Integer) taxLotLineIndex);
         }
+        return isValid;
+    }
+
+    /**
+     * Validates the the amount and units in the transaction line match the total cost and units in the associated tax lot lines.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @return true if valid, false otherwise
+     */
+    private boolean validateTotalAmountAndUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine transactionLine, int index) {
+        boolean isValid = true;
+
+        if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode())) {
+
+            List<EndowmentTransactionTaxLotLine> taxLots = transactionLine.getTaxLotLines();
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal totalUnits = BigDecimal.ZERO;
+
+            if (taxLots != null && taxLots.size() > 0) {
+                for (EndowmentTransactionTaxLotLine taxLotLine : taxLots) {
+                    totalAmount = totalAmount.add(taxLotLine.getLotHoldingCost());
+                    totalUnits = totalUnits.add(taxLotLine.getLotUnits());
+                }
+            }
+
+            if (transactionLine.getTransactionAmount().bigDecimalValue().compareTo(totalAmount.negate()) != 0) {
+                isValid = false;
+                putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH);
+            }
+            if (transactionLine.getTransactionUnits().bigDecimalValue().compareTo(totalUnits.negate()) != 0) {
+                isValid = false;
+                putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH);
+            }
+        }
+
+        if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode())) {
+
+            List<EndowmentTransactionTaxLotLine> taxLots = transactionLine.getTaxLotLines();
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal totalUnits = BigDecimal.ZERO;
+
+            if (taxLots != null && taxLots.size() > 0) {
+                for (EndowmentTransactionTaxLotLine taxLotLine : taxLots) {
+                    totalAmount = totalAmount.add(taxLotLine.getLotHoldingCost().negate());
+
+                    if (taxLotLine.getLotLongTermGainLoss() != null) {
+                        totalAmount = totalAmount.add(taxLotLine.getLotLongTermGainLoss());
+                    }
+
+                    if (taxLotLine.getLotShortTermGainLoss() != null) {
+                        totalAmount = totalAmount.add(taxLotLine.getLotShortTermGainLoss());
+                    }
+
+                    totalUnits = totalUnits.add(taxLotLine.getLotUnits());
+                }
+            }
+
+            if (transactionLine.getTransactionAmount().bigDecimalValue().compareTo(totalAmount) != 0) {
+                isValid = false;
+                putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH);
+            }
+            if (transactionLine.getTransactionUnits().bigDecimalValue().compareTo(totalUnits.negate()) != 0) {
+                isValid = false;
+                putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH);
+            }
+        }
+
         return isValid;
     }
 

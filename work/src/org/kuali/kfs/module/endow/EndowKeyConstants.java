@@ -203,7 +203,8 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
         // Asset decrease constants
         public static final String ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS = "error.assetDecreaseDocument.insufficientUnits";
-
+        public static final String ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH = "error.assetDecreaseDocument.totalAmountDoesNotMatch";
+        public static final String ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH = "error.assetDecreaseDocument.totalUnitsDoNotMatch";
     }
 
     public static class TransactionalDocuments {

@@ -103,6 +103,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         BigDecimal perUnitValue = BigDecimal.ZERO;
 
         List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
+        Map<Integer, HoldingTaxLot> lotsMap = new HashMap<Integer, HoldingTaxLot>();
 
         if (!isUpdate) {
             transLine.getTaxLotLines().clear();
@@ -177,10 +178,11 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                 // add the new tax lot line to the transaction line tax lots
                 addTaxLotLine(transLine, taxLotLine);
+                lotsMap.put(taxLotLine.getTransactionHoldingLotNumber(), holdingTaxLot);
             }
 
             // Adjust the number of units if the total is different from the transaction line units
-            adjustUnitsNumberForAverageBalance(transLine, keepIntegers);
+            adjustUnitsNumberForAverageBalance(lotsMap, transLine, keepIntegers, isSubTypeCash, perUnitValue);
 
         }
     }
@@ -221,14 +223,14 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      * @param transLine
      * @param keepIntegers
      */
-    private void adjustUnitsNumberForAverageBalance(EndowmentTransactionLine transLine, boolean keepIntegers) {
+    private void adjustUnitsNumberForAverageBalance(Map<Integer, HoldingTaxLot> lotsMap, EndowmentTransactionLine transLine, boolean keepIntegers, boolean isSubTypeCash, BigDecimal perUnitValue) {
         // Adjust the number of units if the total is different from the transaction line units
         BigDecimal totalComputedTaxLotUnits = BigDecimal.ZERO;
         EndowmentTransactionTaxLotLine oldestTaxLotLine = null;
 
         if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
             for (EndowmentTransactionTaxLotLine taxLotLine : transLine.getTaxLotLines()) {
-                BigDecimal lotUnits = taxLotLine.getLotUnits();
+                BigDecimal lotUnits = taxLotLine.getLotUnits().negate();
 
                 // IF all original units per lot are integers (no decimal values), the result is rounded to the nearest
                 // integer and stored with the five decimals as zero. If the original units are not all integers, then the
@@ -236,6 +238,21 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 if (keepIntegers) {
                     lotUnits = lotUnits.setScale(0, BigDecimal.ROUND_HALF_UP);
                     lotUnits = lotUnits.setScale(5);
+                    taxLotLine.setLotUnits(lotUnits);
+
+                    HoldingTaxLot holdingTaxLot = lotsMap.get(taxLotLine.getTransactionHoldingLotNumber());
+                    BigDecimal originalUnitValue = KEMCalculationRoundingHelper.divide(holdingTaxLot.getCost(), holdingTaxLot.getUnits(), 5);
+                    BigDecimal originalCost = KEMCalculationRoundingHelper.multiply(lotUnits, originalUnitValue, 2);
+                    taxLotLine.setLotHoldingCost(originalCost);
+
+                    if (isSubTypeCash) {
+
+                        // 4. Calculate the value received for units sold in each tax lot
+                        BigDecimal valueReceived = KEMCalculationRoundingHelper.multiply(lotUnits, perUnitValue, 2);
+
+                        // 7. Calculate Gain or loss
+                        calculateGainLoss(holdingTaxLot, taxLotLine, valueReceived, originalCost);
+                    }
                 }
 
                 // calculate the total number of units to be decreased
@@ -251,14 +268,39 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 else {
                     oldestTaxLotLine = taxLotLine;
                 }
+                
+                taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
+                taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
             }
+            
+            
         }
 
         // compare with the negated number of units on the transaction line because the units on the tax lots have been negated
-        if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue().negate()) == -1) {
+        if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue().negate()) != 0) {
             BigDecimal difUnits = transLine.getTransactionUnits().bigDecimalValue().subtract(totalComputedTaxLotUnits);
-            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(difUnits));
+            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(difUnits.negate()));
+            
+            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
+            
+            HoldingTaxLot holdingTaxLot = lotsMap.get(oldestTaxLotLine.getTransactionHoldingLotNumber());
+            BigDecimal originalUnitValue = KEMCalculationRoundingHelper.divide(holdingTaxLot.getCost(), holdingTaxLot.getUnits(), 5);
+            BigDecimal originalCost = KEMCalculationRoundingHelper.multiply(oldestTaxLotLine.getLotUnits(), originalUnitValue, 2);
+            oldestTaxLotLine.setLotHoldingCost(originalCost);
+
+            if (isSubTypeCash) {
+
+                // 4. Calculate the value received for units sold in each tax lot
+                BigDecimal valueReceived = KEMCalculationRoundingHelper.multiply(oldestTaxLotLine.getLotUnits(), perUnitValue, 2);
+
+                // 7. Calculate Gain or loss
+                calculateGainLoss(holdingTaxLot, oldestTaxLotLine, valueReceived, originalCost);
+            }
+            
+            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
+            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
         }
+        
     }
 
 

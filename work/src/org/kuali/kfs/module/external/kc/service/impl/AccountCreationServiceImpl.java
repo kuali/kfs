@@ -169,14 +169,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     
     /**
      * This method will check the system parameter and takes appropriate workflow routing action
-     * @param maintenanceAccountDocument
+     * @param maintenanceAccountDocument, errorMessages
      */
     protected void processAutomaticCGAccountMaintenanceDocument(MaintenanceDocument maintenanceAccountDocument, List<String> errorMessages) {
        
         if (!checkIfAccountAutoCreateRouteExists()) {
             // error message since there is no system parameter has been setup yet....
-            LOG.warn("ParseException: System Parameter ACCOUNTING_DOCUMENT_TYPE_NAME can not be determined.");
-            errorMessages.add("System Parameter Exception: ACCOUNTING_DOCUMENT_TYPE_NAME system parameter does not exist");
+            LOG.warn("ParseException: System Parameter ACCOUNT_AUTO_CREATE_ROUTE can not be determined.");
+            errorMessages.add("System Parameter Exception: ACCOUNT_AUTO_CREATE_ROUTE system parameter does not exist");
         }
         else {
             String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
@@ -186,7 +186,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
     /**
      * This method create and route automatic CG account maintenance document based on system parameter
-     * @param maintenanceAccountDocument
+     * @param maintenanceAccountDocument, maintenanceAccountDocument, errorMessages
      * @param accountAutoCreateRoute
      */
     protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute, List<String> errorMessages) {
@@ -204,12 +204,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         }
         catch (WorkflowException wfe) {
             LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
-            errorMessages.add("WorkflowException: createRouteAutomaticDocument failed");
+            errorMessages.add("WorkflowException: createRouteAutomaticDocument failed" +  wfe.getMessage());
         }
     }
     
     /**
      * This method will use the DocumentService to create a new document....
+     * @param errorMessages
      * @return document  returns a new document for the account document type
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
@@ -297,5 +298,4 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     public void setAccountAutoCreateDefaultsService(AccountAutoCreateDefaultsService accountAutoCreateDefaultsService) {
         this.accountAutoCreateDefaultsService = accountAutoCreateDefaultsService;
     }
-
 }

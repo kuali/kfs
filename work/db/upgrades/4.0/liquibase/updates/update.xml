@@ -151,4 +151,7 @@
 <include file="updates/2010-05-18-5692-KRNS_PARM_T.xml"/>
 <include file="updates/2010-05-18-5704-KRNS_PARM_T.xml"/>
 <include file="updates/2010-05-21-5475-KRNS_PARM_T.xml"/>
+<include file="updates/2010-05-20-1000-AccountAutoCreateDefaults.xml"/>
+<include file="updates/2010-05-26-5477-a2-Endow.xml"/>
+<include file="updates/2010-05-26-5578b-1-END_TRAN_SEC_T.xml"/>
 </databaseChangeLog>

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+<changeSet author='Winston' id='2010-05-20-1000-0' failOnError='false'>
+    <comment>test</comment>
+    <dropTable tableName='CA_ACCT_AUTO_CREATE_DFLT_T' />
+  </changeSet>
+
   <changeSet author='Winston' id='2010-05-20-1000-1' failOnError='true'>
-    <comment>KC Integration: AccountAutoCreateDefaults</comment>
+    <comment>KC Integration</comment>
     <createTable tableName='CA_ACCT_AUTO_CREATE_DFLT_T'>
       <column name='KC_UNIT' type='VARCHAR2(8)'>
         <constraints nullable='true' />
@@ -15,13 +20,10 @@
       <column name='FIN_COA_CD' type='VARCHAR2(2)'>
         <constraints nullable='true' />
       </column>
-      <column name='ACCOUNT_NM' type='VARCHAR2(40)'>
-        <constraints nullable='true' />
-      </column>
       <column name='KC_UNIT_NAME' type='VARCHAR2(40)'>
         <constraints nullable='true' />
       </column>
-      <column name='ACCT_PSTL_CD' type='VARCHAR2(20)'>
+      <column name='ACCT_ZIP_CD' type='VARCHAR2(20)'>
         <constraints nullable='true' />
       </column>
       <column name='ACCT_CITY_NM' type='VARCHAR2(25)'>
@@ -114,6 +116,24 @@
       <column name='ACCT_ICR_TYP_CD' type='VARCHAR2(2)'>
         <constraints nullable='true' />
       </column>
+      <column name='ACCT_EXPNS_GUIDE_TXT' type='VARCHAR2(400)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_INCM_GUIDE_TXT' type='VARCHAR2(400)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_PRPS_GUIDE_TXT' type='VARCHAR2(400)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_DESC_CMPS_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_DESC_BLDG_CD' type='VARCHAR2(10)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='ACCT_CLOSED_IND' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
     </createTable>
     <modifySql dbms='mysql'>
       <replace replace='VARCHAR2' with='VARCHAR' />
@@ -122,8 +142,8 @@
       <replace replace='NUMBER' with='DECIMAL' />
     </modifySql>
   </changeSet>
-  <changeSet author='Winston' id='2010-05-20-1000-2' failOnError='true'>
-    <comment>KC Integration: index AccountAutoCreateDefaults</comment>
+   <changeSet author='Winston' id='2010-05-20-1000-2' failOnError='true'>
+    <comment>test</comment>
     <addPrimaryKey tableName='CA_ACCT_AUTO_CREATE_DFLT_T' constraintName='CA_ACCT_AUTO_CREATE_DFLT_PK' columnNames='KC_UNIT' />
   </changeSet>
 </databaseChangeLog>

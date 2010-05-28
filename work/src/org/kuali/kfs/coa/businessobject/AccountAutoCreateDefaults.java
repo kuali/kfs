@@ -35,6 +35,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
 
     private String kcUnit;
+    //private KCUnit kcUnit;
     private String kcUnitName;
     private Chart chartOfAccounts;
     private String chartOfAccountsCode;
@@ -1098,8 +1099,5 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public void setAccountManagerUser(Person accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
     }
-
-
-    
     
 }

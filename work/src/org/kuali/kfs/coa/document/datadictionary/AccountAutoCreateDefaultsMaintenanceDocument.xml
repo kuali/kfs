@@ -17,7 +17,7 @@
 
   <bean id="AccountAutoCreateDefaultMaintenanceDocument" parent="AccountAutoCreateDefaultMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
+  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance"/>
@@ -28,7 +28,7 @@
     </property>
     <property name="defaultExistenceChecks">
         <list>
-        	<bean parent="ReferenceDefinition" p:attributeName="kcUnit" p:attributeToHighlightOnFail="kcUnit" /> 
+        	<!-- <bean parent="ReferenceDefinition" p:attributeName="kcUnit" p:attributeToHighlightOnFail="kcUnit" />  -->
  	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 

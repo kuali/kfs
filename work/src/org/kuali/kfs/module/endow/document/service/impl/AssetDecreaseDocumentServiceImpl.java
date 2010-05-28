@@ -62,10 +62,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         if (ObjectUtils.isNotNull(security)) {
             if (EndowConstants.TaxLotsAccountingMethodOptions.AVERAGE_BALANCE.equalsIgnoreCase(accountingMethod) || (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && !security.getClassCode().isTaxLotIndicator())) {
                 if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(true,isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodAverageBalance(true, isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(false,isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
             }
 
@@ -73,10 +73,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
 
                 if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(true,isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate,isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
                 }
             }
         }
@@ -173,7 +173,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
 
                 // add the new tax lot line to the transaction line tax lots
-                transLine.getTaxLotLines().add(taxLotLine);
+                addTaxLotLine(transLine, taxLotLine);
             }
 
             // Adjust the number of units if the total is different from the transaction line units
@@ -251,7 +251,8 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
             }
         }
 
-        if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue()) == -1) {
+        // compare with the negated number of units on the transaction line because the units on the tax lots have been negated
+        if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue().negate()) == -1) {
             BigDecimal difUnits = transLine.getTransactionUnits().bigDecimalValue().subtract(totalComputedTaxLotUnits);
             oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(difUnits));
         }
@@ -340,13 +341,28 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 // set the lot acquired date
                 taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
 
-                transLine.getTaxLotLines().add(taxLotLine);
+                addTaxLotLine(transLine, taxLotLine);
 
                 if (remainingUnits.compareTo(BigDecimal.ZERO) == 0) {
                     break;
                 }
             }
         }
+    }
+
+    /**
+     * Adds a tax lot line to a transaction line but first it negates the units and cost.
+     * 
+     * @param transactionLine
+     * @param taxLotLine
+     */
+    private void addTaxLotLine(EndowmentTransactionLine transactionLine, EndowmentTransactionTaxLotLine taxLotLine) {
+        // negate units and cost
+        taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
+        taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
+
+        // add the tax lot line to the transaction line
+        transactionLine.getTaxLotLines().add(taxLotLine);
     }
 
     /**

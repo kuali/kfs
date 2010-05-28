@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 
@@ -22,6 +25,24 @@ public class AssetDecreaseDocument extends EndowmentTaxLotLinesDocumentBase impl
 
     public AssetDecreaseDocument() {
         super();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+
+        for (EndowmentTransactionLine endowmentTransactionLine : getTargetTransactionLines()) {
+            managedList.add(endowmentTransactionLine.getTaxLotLines());
+        }
+
+        for (EndowmentTransactionLine endowmentTransactionLine : getSourceTransactionLines()) {
+            managedList.add(endowmentTransactionLine.getTaxLotLines());
+        }
+
+        return managedList;
     }
 
 }

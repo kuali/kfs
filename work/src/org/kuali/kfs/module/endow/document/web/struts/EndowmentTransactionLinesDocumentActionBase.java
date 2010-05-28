@@ -36,9 +36,11 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
@@ -633,7 +635,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-        updateTaxLots(endowmentDocument);
+
+        if (!(endowmentDocument instanceof AssetDecreaseDocument) && !(endowmentDocument instanceof SecurityTransferDocument)) {
+            updateTaxLots(endowmentDocument);
+        }
 
         return super.save(mapping, form, request, response);
     }
@@ -647,7 +652,9 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-        updateTaxLots(endowmentDocument);
+        if (!(endowmentDocument instanceof AssetDecreaseDocument) && !(endowmentDocument instanceof SecurityTransferDocument)) {
+            updateTaxLots(endowmentDocument);
+        }
 
         return super.route(mapping, form, request, response);
     }

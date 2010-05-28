@@ -22,14 +22,12 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument 
-{
-    private static final String SOURCE_TAX_LOT_LINE = "F"; 
+public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
+    private static final String SOURCE_TAX_LOT_LINE = "F";
     private static final String TARGET_TAX_LOT_LINE = "T";
 
     protected Integer nextSourceLineNumber;
@@ -49,12 +47,11 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
     }
 
     @Override
-    public void prepareForSave() 
-    {
+    public void prepareForSave() {
         super.prepareForSave();
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLines()
      */
@@ -413,7 +410,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
 
         return totalUnits;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

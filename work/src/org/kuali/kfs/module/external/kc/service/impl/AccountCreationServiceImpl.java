@@ -80,7 +80,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
         account.setOrganizationCode(defaults.getOrganizationCode());
-        account.setAccountNumber(accountParameters.getAccountNumber());
+        account.setAccountNumber(accountParameters.getAccountNumber());  // what if account number is null? 
         account.setAccountName(accountParameters.getAccountName());
         account.setAccountPhysicalCampusCode(defaults.getAccountPhysicalCampusCode());
         account.setAccountExpirationDate(new java.sql.Date(accountParameters.getExpirationDate().getTime()));
@@ -92,13 +92,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountStreetAddress(defaults.getAccountStreetAddress());
         account.setAccountOffCampusIndicator(accountParameters.isOffCampusIndicator());
         
-        account.setClosed(false);
+        account.setClosed(false); // null?
         account.setAccountTypeCode(defaults.getAccountTypeCode());        
         account.setSubFundGroupCode(defaults.getSubFundGroupCode());
         
-        account.setAccountsFringesBnftIndicator(true);
-        account.setFringeBenefitsChartOfAccount(defaults.getFringeBenefitsChartOfAccount());  
-        //account.set??(defaults.getFringeBenefitAccountNumber());  // fringe benefit account number
+        account.setAccountsFringesBnftIndicator(true);  // TODO: check the value from CGAD
+        account.getFringeBenefitsChartOfAccount().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccount().getChartOfAccountsCode());  // according to the indicator
+        //account.set??(defaults.getFringeBenefitAccountNumber());  // TODO: fringe benefit account number does not exist in account ***
+
         account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
         
         account.setAccountRestrictedStatusCode(KFSConstants.ACCOUNT_RESTRICTED_STATUS_CODE);
@@ -106,30 +107,29 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setEndowmentIncomeChartOfAccounts(null);
         account.setEndowmentIncomeAccountNumber(null);
         
-        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName());  // fiscal officer principal name ?
-        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());  //account supervisor principal name ?
-        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName()); // account manager principal name ?
+        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName()); //TODO: fiscal officer principal name ***
+        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());   //TODO: account supervisor principal name ***
+        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName());             //TODO: account manager principal name ***
         account.getContinuationChartOfAccount().setChartOfAccountsCode(defaults.getContinuationChartOfAccount().getCode());
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
-        account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamChartOfAccounts());
-        account.getIncomeStreamAccount().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getCode()); // income stream account code ?
+        account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getChartOfAccountsCode());  // not object, but code ?
+        account.getIncomeStreamAccount().setAccountNumber(defaults.getIncomeStreamAccountNumber()); // income stream account code or number ?
         
         account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
         account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
         
-        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator()); //Transaction processing sufficient funds check ?
-        
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator()); //TODO: transaction processing sufficient funds indicator is missing *** ?        
         account.setExtrnlFinEncumSufficntFndIndicator(defaults.isExtrnlFinEncumSufficntFndIndicator());
         account.setIntrnlFinEncumSufficntFndIndicator(defaults.isIntrnlFinEncumSufficntFndIndicator());
         account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator());
         account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
-        account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  // Object presence control indicator ?
+        account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  
 
-        account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); // contract control chart of accounts code
-        account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);   // contract control account number
+        account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); //TODO: contract control chart of accounts code ?
+        account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);                            //TODO: contract control account number ?
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
-        //account.getIndirectCostRecoveryAcct();   // indirect cost rate - accountParameters.getIndirectCostRate();
+        //account.getIndirectCostRecoveryAcct();   // TODO: indirect cost rate - accountParameters.getIndirectCostRate(); *** 
         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());

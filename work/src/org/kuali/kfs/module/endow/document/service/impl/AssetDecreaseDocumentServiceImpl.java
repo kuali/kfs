@@ -37,6 +37,7 @@ import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -66,6 +67,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
                     updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    setTransactionLineTotal(transLine);
                 }
             }
 
@@ -77,6 +79,7 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 }
                 if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
                     updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                    setTransactionLineTotal(transLine);
                 }
             }
         }
@@ -363,6 +366,26 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
         // add the tax lot line to the transaction line
         transactionLine.getTaxLotLines().add(taxLotLine);
+    }
+
+    /**
+     * Sets the transaction line amount to be the total amount of all tax lot lines times negative 1. This is applied in case the
+     * transaction sub type is non-cash.
+     * 
+     * @param transactionLine
+     */
+    private void setTransactionLineTotal(EndowmentTransactionLine transactionLine) {
+        List<EndowmentTransactionTaxLotLine> taxLots = transactionLine.getTaxLotLines();
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        if (taxLots != null && taxLots.size() > 0) {
+            for (EndowmentTransactionTaxLotLine taxLot : taxLots) {
+                totalAmount = totalAmount.add(taxLot.getLotHoldingCost());
+            }
+        }
+
+        totalAmount = totalAmount.negate();
+
+        transactionLine.setTransactionAmount(new KualiDecimal(totalAmount));
     }
 
     /**

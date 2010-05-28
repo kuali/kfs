@@ -550,6 +550,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         if (rulePassed) {
             updateTransactionLineTaxLots(false, endowmentDocument, transLine);
         }
+
+        if (endowmentDocument instanceof AmountTotaling)
+            ((FinancialSystemDocumentHeader) documentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) endowmentDocument).getTotalDollarAmount());
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -576,6 +580,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         if (rulePassed) {
             updateTransactionLineTaxLots(true, endowmentDocument, transLine);
         }
+
+        if (endowmentDocument instanceof AmountTotaling)
+            ((FinancialSystemDocumentHeader) documentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) endowmentDocument).getTotalDollarAmount());
+
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

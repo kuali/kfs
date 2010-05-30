@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2008 The Kuali Foundation
  
@@ -24,49 +25,47 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
- <bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
-    <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
-     	<property name="initializeDataDictionary" value="true" />
+		
+    <bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean">
         <property name="packagePrefixes">
             <list merge="true">
                 <value>org.kuali.kfs.module.external.kc</value>
             </list>
         </property>
- 
+        <!-- 
 		<property name="dataDictionaryPackages">
 			<list>
-                <value>org/kuali/kfs/module/external/kc/businessobject/datadictionary</value>
-                <value>org/kuali/kfs/module/external/kc/document/datadictionary</value>
+                <value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/cg/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/external/kc/ojb-kc.xml</value>
+				<value>org/kuali/kfs/module/cg/ojb-cg.xml</value>
 			</list>
 		</property>
-	       <!-- 
 		<property name="scriptConfigurationFilePaths">
 			<list>
-				<value>org/kuali/kfs/module/external/kc/dwr-kc.xml</value>
+				<value>org/kuali/kfs/module/cg/dwr-cg.xml</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsCfda" value="org.kuali.kfs.module.kc.businessobject.CFDA" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.kc.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAward" value="org.kuali.kfs.module.kc.businessobject.Award" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.kc.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.kc.ContractAndGrantsProposal" value="org.kuali.kfs.module.kc.businessobject.Proposal" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAgency" value="org.kuali.kfs.module.kc.businessobject.Agency" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.CFDA" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
             </map>
         </property>
 		 -->
 	</bean>
 
-    <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
+    <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
 
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
-		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

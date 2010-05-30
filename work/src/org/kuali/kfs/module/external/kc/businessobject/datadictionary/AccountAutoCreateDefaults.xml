@@ -16,7 +16,7 @@
 -->
 
   <bean id="AccountAutoCreateDefaults" parent="Account">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults"/>
     <property name="inquiryDefinition" ref="AccountAutoCreateDefaults-inquiryDefinition"/>
     <property name="lookupDefinition" ref="AccountAutoCreateDefaults-lookupDefinition"/>
     <property name="titleAttribute" value="CG Account Default"/>

@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.businessobject;
+package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountType;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.HigherEducationFunction;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;

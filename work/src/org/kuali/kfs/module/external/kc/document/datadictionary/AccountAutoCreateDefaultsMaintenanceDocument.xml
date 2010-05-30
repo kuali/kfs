@@ -15,20 +15,19 @@
  limitations under the License.
 -->
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument" parent="AccountAutoCreateDefaultMaintenanceDocument-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument" parent="AccountAutoCreateDefaultsMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
     <property name="maintainableSections">
       <list>
-        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance"/>
-        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility"/>
-        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants"/>
-        <ref bean="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose"/>
+        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance"/>
+        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountResponsibility"/>
+        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants"/>
+        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-GuidelinesAndPurpose"/>
       </list>
     </property>
     <property name="defaultExistenceChecks">
         <list>
-        	<!-- <bean parent="ReferenceDefinition" p:attributeName="kcUnit" p:attributeToHighlightOnFail="kcUnit" />  -->
  	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
@@ -50,21 +49,15 @@
     
     <property name="documentTypeName" value="AACD"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="webScriptFiles">
-      <list>
-        <value>../dwr/interface/SubFundGroupService.js</value>
-        <value>../scripts/coa/accountDocument.js</value>
-      </list>
-    </property>
     <property name="workflowAttributes" ref="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance" parent="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance" parent="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="AccountAutoCreateDefault Maintenance"/>
     <property name="maintainableItems">
       <list>
@@ -78,15 +71,15 @@
         <dd:maintField attributeName="accountStreetAddress" required="true"/>
         <dd:maintField attributeName="accountOffCampusIndicator"/>
         <dd:maintField attributeName="accountTypeCode" required="true"/>
-        <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+        <dd:maintField attributeName="subFundGroupCode" required="true"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
       </list>
     </property>
   </bean>
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility" parent="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-AccountResponsibility" parent="AccountAutoCreateDefaultsMaintenanceDocument-AccountResponsibility-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="AccountAutoCreateDefault Responsibility"/>
     <property name="maintainableItems">
       <list>
@@ -109,9 +102,9 @@
       </list>
     </property>
   </bean>
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants" parent="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants" parent="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Contracts And Grants"/>
     <property name="maintainableItems">
       <list>
@@ -121,9 +114,9 @@
       </list>
     </property>
   </bean>
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose" parent="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-GuidelinesAndPurpose" parent="AccountAutoCreateDefaultsMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Guidelines And Purpose"/>
     <property name="maintainableItems">
       <list>

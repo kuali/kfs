@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.module.external.kc.service.AccountAutoCreateDefaultsService;

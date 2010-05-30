@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.dataaccess;
 
-import org.kuali.kfs.coa.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 
 public interface AccountAutoCreateDefaultsDao {
 

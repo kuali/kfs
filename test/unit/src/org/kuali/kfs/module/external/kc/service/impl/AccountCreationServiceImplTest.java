@@ -102,14 +102,17 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
     }
     
     /**
-     * This method will test the creation of a CgDocument and try to route it based on system parameters...
+     * This method will test the creation of a CgDocument and try to route it based on system parameter value...
      */
     public void NoRun_testCreateRouteAutomaticCGAccountDocument() {
         List<String> errorMessages = new ArrayList();
         
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
+        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
+
         maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
         
+        //create accountparameters and defaults and then use these two to create account object
         AccountParameters accountParameters = this.getAccountParameters();
         AccountAutoCreateDefaults defaults = this.getAccountAutoCreateDefaults();
         Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);

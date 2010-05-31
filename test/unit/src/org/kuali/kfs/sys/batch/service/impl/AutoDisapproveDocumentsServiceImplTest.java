@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
@@ -31,13 +32,10 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.aop.support.AopUtils;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 @ConfigureContext(session = kfs)
 public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {

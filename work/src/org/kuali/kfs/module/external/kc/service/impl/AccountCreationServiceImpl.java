@@ -33,6 +33,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kfs.coa.document.KualiAccountMaintainableImpl;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
@@ -165,9 +166,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             return (KFSConstants.EMPTY_STRING);
         }
         
+        // set document header description...
+        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
+        
         //set the account object in the maintenance document.
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
         
+        // the maintenance document will now be routed based on the system parameter value for routing.
         this.processAutomaticCGAccountMaintenanceDocument(maintenanceAccountDocument, errorMessages);
         
         return maintenanceAccountDocument.getDocumentNumber();
@@ -185,8 +190,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             errorMessages.add("System Parameter Exception: ACCOUNT_AUTO_CREATE_ROUTE system parameter does not exist");
         }
         else {
-            String accountAutoCreateRoute = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
-            createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRoute, errorMessages);
+            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+            createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRouteValue, errorMessages);
         }
     }
 
@@ -195,16 +200,16 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param maintenanceAccountDocument, maintenanceAccountDocument, errorMessages
      * @param accountAutoCreateRoute
      */
-    protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRoute, List<String> errorMessages) {
+    protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRouteValue, List<String> errorMessages) {
         
         try {
-            if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
+            if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
                 documentService.saveDocument(maintenanceAccountDocument);
             }
-            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
                 documentService.blanketApproveDocument(maintenanceAccountDocument, "", null);                
             }
-            else if (accountAutoCreateRoute.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
+            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
                 documentService.approveDocument(maintenanceAccountDocument, "", null);
             }
         }
@@ -221,7 +226,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
         try {
-             Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(Account.class));
+          //  Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(KualiAccountMaintainableImpl.class));         
+             Document document = documentService.getNewDocument(KFSConstants.DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME);
+             
              return document;            
         }
         catch (Exception excp) {

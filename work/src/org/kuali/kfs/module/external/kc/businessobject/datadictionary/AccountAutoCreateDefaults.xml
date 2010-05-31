@@ -296,7 +296,6 @@
 
   <bean id="AccountAutoCreateDefaults-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CG Account Default Lookup"/>
-    <property name="lookupableID" value="accountLookupable"/>
     
     <property name="defaultSort">
       <bean parent="SortDefinition">

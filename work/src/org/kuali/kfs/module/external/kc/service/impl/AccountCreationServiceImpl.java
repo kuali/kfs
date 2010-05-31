@@ -191,7 +191,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         }
         else {
             String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
-            createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRouteValue, errorMessages);
+            if (!createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRouteValue, errorMessages)) {
+                errorMessages.add("Unable to process routing of the document: " + maintenanceAccountDocument.getDocumentNumber());
+            }
         }
     }
 
@@ -200,22 +202,30 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param maintenanceAccountDocument, maintenanceAccountDocument, errorMessages
      * @param accountAutoCreateRoute
      */
-    protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRouteValue, List<String> errorMessages) {
+    protected boolean createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRouteValue, List<String> errorMessages) {
+        boolean success = true;
         
         try {
             if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
                 documentService.saveDocument(maintenanceAccountDocument);
+                return success;
             }
             else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                documentService.blanketApproveDocument(maintenanceAccountDocument, "", null);                
+                documentService.blanketApproveDocument(maintenanceAccountDocument, "", null); 
+                return success;
             }
             else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
                 documentService.approveDocument(maintenanceAccountDocument, "", null);
+                return success;
+            }
+            else {
+                return false;
             }
         }
         catch (WorkflowException wfe) {
             LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
             errorMessages.add("WorkflowException: createRouteAutomaticDocument failed" +  wfe.getMessage());
+            return false;
         }
     }
     

@@ -121,17 +121,18 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         
         String systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT;
         // the document should be saved....
-        accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages);
-        assertTrue(maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages);
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
         
         systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_SUBMIT;
         // the document should be submitted....
-        accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages);
-        assertTrue(maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().stateIsProcessed());
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
         
         systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE;
         // the document should be blanket approved....
-        accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages);
-        assertTrue(maintenanceAccountDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
+
+        //we want to test for failure of the routing by using routing value not defined for the system parameter...
+        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, "I", errorMessages));        
     }
 }

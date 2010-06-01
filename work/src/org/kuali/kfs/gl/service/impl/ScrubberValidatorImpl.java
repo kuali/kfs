@@ -394,7 +394,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
                     workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                    return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                    // FSKD-310 : need to check the account is closed for building message. if not, it is expired.
+                    if (!originEntryAccount.isActive()){
+                        return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                    } else {
+                        return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_EXPIRED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                    }
+                        
+                    
                 }
                 else {
                     // the account does have an expiration date.
@@ -418,7 +425,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                         // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
                         workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                        return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                        // FSKD-310 : need to check the account is closed for building message. if not, it is expired.
+                        if (!originEntryAccount.isActive()){
+                            return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                        } else {
+                            return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_EXPIRED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
+                        }
                     }
                 }
             }
@@ -628,10 +640,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     protected Message validateTransactionDate(OriginEntryInformation originEntry, OriginEntryInformation workingEntry, UniversityDate universityRunDate, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateTransactionDate() started");
-
+        Date transactionDate = new Date(universityRunDate.getUniversityDate().getTime());
         if (originEntry.getTransactionDate() == null) {
-            Date transactionDate = new Date(universityRunDate.getUniversityDate().getTime());
-
             // Set the transaction date to the run date.
             originEntry.setTransactionDate(transactionDate);
             workingEntry.setTransactionDate(transactionDate);
@@ -642,7 +652,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Next, we have to validate the transaction date against the university date table.
         if (accountingCycleCachingService.getUniversityDate(originEntry.getTransactionDate()) == null) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_TRANSACTION_DATE_INVALID, originEntry.getTransactionDate().toString(), Message.TYPE_FATAL);
+            //FSKD-193, KFSMI-5441
+            //return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_TRANSACTION_DATE_INVALID, originEntry.getTransactionDate().toString(), Message.TYPE_FATAL);
+            originEntry.setTransactionDate(transactionDate);
+            workingEntry.setTransactionDate(transactionDate);
         }
         return null;
     }

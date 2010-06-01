@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterBalancingStep;
 import org.kuali.kfs.gl.batch.service.BalancingService;
+import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.AccountBalanceHistory;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -64,7 +65,13 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     
     protected File posterInputFile = null;
     protected File posterErrorOutputFile = null;
-    
+
+    protected File reversalInputFile = null;
+    protected File reversalErrorOutputFile = null;
+
+    protected File icrInputFile = null;
+    protected File icrErrorOutputFile = null;
+
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFile()
      */
@@ -73,17 +80,9 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         if (posterInputFile != null) {
             return posterInputFile;
         }
-        
-        FilenameFilter filenameFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return (name.startsWith(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE) &&
-                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
-            }
-        };
-        
-        posterInputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
-        
-        return posterInputFile;
+        return posterInputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
     }
 
     /**
@@ -94,17 +93,66 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         if (posterErrorOutputFile != null) {
             return posterErrorOutputFile;
         }
-        
+        return posterErrorOutputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getReversalInputFile()
+     */
+    public File getReversalInputFile(){
+        if (reversalInputFile != null) {
+            return reversalInputFile;
+        }
+        return reversalInputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getReversalErrorOutputFile()
+     */
+    public File getReversalErrorOutputFile(){
+        if (reversalErrorOutputFile != null) {
+            return reversalErrorOutputFile;
+        }
+        return reversalErrorOutputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getICRInputFile()
+     */
+    public File getICRInputFile(){
+        if (icrInputFile != null) {
+            return icrInputFile;
+        }
+        return icrInputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getICRErrorOutputFile()
+     */
+    public File getICRErrorOutputFile(){
+        if (icrErrorOutputFile != null) {
+            return icrErrorOutputFile;
+        }
+        return icrErrorOutputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE, 
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+    
+    public File getFile(final String fileName, final String fileExtension){
         FilenameFilter filenameFilter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
-                return (name.startsWith(GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE) &&
-                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+                return (name.startsWith(fileName) && name.endsWith(fileExtension));
             }
         };
-        
-        posterErrorOutputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
-        
-        return posterErrorOutputFile;
+        return FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
     }
     
     /**
@@ -153,7 +201,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @see org.kuali.kfs.gl.batch.service.BalancingService#updateEntryHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.gl.batch.service.impl.PostEntry#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateEntryHistory(OriginEntryInformation originEntry) {
+    public void updateEntryHistory(Integer postMode, OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         EntryHistory entryHistory = new EntryHistory(originEntry);
 
@@ -171,7 +219,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @see org.kuali.kfs.gl.batch.service.BalancingService#updateBalanceHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.gl.batch.service.impl.PostBalance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateBalanceHistory(OriginEntryInformation originEntry) {
+    public void updateBalanceHistory(Integer postMode, OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         BalanceHistory balanceHistory = new BalanceHistory(originEntryFull);
@@ -247,7 +295,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#updateCustomHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      */
     @Override
-    protected void updateCustomHistory(OriginEntryInformation originEntry) {
+    protected void updateCustomHistory(Integer postMode, OriginEntryInformation originEntry) {
         this.updateAccountBalanceHistory(originEntry);
         this.updateEncumbranceHistory(originEntry);
     }

@@ -845,10 +845,8 @@ public class LaborCorrectionAction extends CorrectionAction {
         }
 
         List<LaborOriginEntry> laborSearchResults = laborCorrectionDocumentService.retrievePersistedOutputOriginEntries(document, recordCountFunctionalityLimit);
-        List<OriginEntryFull> searchResults = new ArrayList();
-        searchResults.addAll(laborSearchResults);
 
-        if (searchResults == null) {
+        if (laborSearchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
             laborCorrectionForm.setRestrictedFunctionalityMode(true);
 
@@ -864,6 +862,8 @@ public class LaborCorrectionAction extends CorrectionAction {
             // else we defer to the values already in the doc, and just don't touch the values
         }
         else {
+            List<OriginEntryFull> searchResults = new ArrayList();
+            searchResults.addAll(laborSearchResults);
             laborCorrectionForm.setAllEntries(searchResults);
             laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(searchResults));
 

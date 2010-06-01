@@ -21,21 +21,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -48,11 +43,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.springframework.util.StringUtils;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);
@@ -128,7 +121,17 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     String recordType = extractRecordType(preprocessedLine);
                     if ("HD".equals(recordType)) {  // this is a header line
                         ensurePreviousBatchTerminated(currentBatch, lineNumber);
-                        currentBatch = createCollectorBatch(preprocessedLine, batchList);
+                        try {
+                            currentBatch = createCollectorBatch(preprocessedLine, batchList);
+                        }
+                        catch (RuntimeException e) {
+                            if (currentBatch == null){
+                                currentBatch = new CollectorBatch();
+                                batchList.add(currentBatch);
+                            }
+                            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
+                        }
+                        
                     }
                     else if ("DT".equals(recordType)) {  //ID billing detail
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
@@ -164,12 +167,11 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             }
             // in case we come across a batch that didn't have a trailer record
             ensurePreviousBatchTerminated(currentBatch, lineNumber);
+        } catch (Exception e) {
+            LOG.error(e.getMessage() + " happend in CollectorFlatFileInputType.parse.", e);
+            throw new ParseException(e.getMessage() + " happend in CollectorFlatFileInputType.parse.", e);
         }
-        catch (IOException e) {
-            // probably won't happen since we're reading from a byte array, but just in case
-            LOG.error("Error encountered reading from file content", e);
-            throw new ParseException("Error encountered reading from file content", e);
-        }
+
         
         for (CollectorBatch batch : batchList) {
             OriginEntryTotals totals = new OriginEntryTotals();
@@ -243,7 +245,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         }
         return amount;
     }
-    
+        
     protected CollectorBatch createCollectorBatch(String headerLine, List<CollectorBatch> batchList) {
         CollectorBatch newBatch = new CollectorBatch();
         newBatch.setFromTextFileForCollectorBatch(headerLine);
@@ -265,32 +267,36 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     
     protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         OriginEntryFull originEntry = new OriginEntryFull();
-        
-        List<Message> originEntryErrorMessages = originEntry.setFromTextFileForBatch(fileLine, lineNumber);
+        try{        
+            List<Message> originEntryErrorMessages = originEntry.setFromTextFileForBatch(fileLine, lineNumber);
 
-        if (ObjectUtils.isNull(originEntry.getTransactionDate())) {
-            originEntry.setTransactionDate(curDate);
-        }
-        
-        if (ObjectUtils.isNull(originEntry.getUniversityFiscalPeriodCode())) {
-            originEntry.setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-        }
-        
-        if (ObjectUtils.isNull(originEntry.getTransactionLedgerEntrySequenceNumber())) {
-            originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
-        }
+            if (null == originEntry.getTransactionDate()) {
+                originEntry.setTransactionDate(curDate);
+            }
             
-        if (originEntry.getSubAccountNumber() == null || originEntry.getSubAccountNumber().equals("")) {
-            originEntry.setSubAccountNumber(" ");
-        }
-        if (originEntry.getFinancialSubObjectCode() == null || originEntry.getFinancialSubObjectCode().equals("")) {
-            originEntry.setFinancialSubObjectCode(" ");
-        }
+            if (StringUtils.isBlank(originEntry.getUniversityFiscalPeriodCode())) {
+                originEntry.setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
+            }
+            
+            if ( null == originEntry.getTransactionLedgerEntrySequenceNumber() ) {
+                originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
+            }
+                
+            if (StringUtils.isBlank(originEntry.getSubAccountNumber())) {
+                originEntry.setSubAccountNumber(" ");
+            }
+            if (StringUtils.isBlank(originEntry.getFinancialSubObjectCode())) {
+                originEntry.setFinancialSubObjectCode(" ");
+            }
+            
+            for (Message orginEntryError : originEntryErrorMessages) {
+               messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, orginEntryError.getMessage()); 
+            }
         
-        for (Message orginEntryError : originEntryErrorMessages) {
-           messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, orginEntryError.getMessage()); 
+        } catch (Exception e){
+            throw new RuntimeException(e + " occurred in CollectorFlatFileInputType.createOriginEntry()",e);
         }
-        
+
         originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(originEntry.getTransactionLedgerEntryAmount().toString()));
 
         return originEntry;

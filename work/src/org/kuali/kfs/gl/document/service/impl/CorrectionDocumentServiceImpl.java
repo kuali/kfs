@@ -32,9 +32,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -1047,7 +1049,27 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String filePrefix = documentNumber + "_" + temporaryReportFilenameComponent;
         FileFilter filter = FileFilterUtils.andFileFilter(
                 new PrefixFileFilter(filePrefix), new SuffixFileFilter(temporaryReportFilenameSuffix));
-        return Arrays.asList(inputDirectory.listFiles(filter));
+        
+        // FSKD-244, KFSMI-5424 sort with filename, just in case 
+        List<File> fileList = Arrays.asList(inputDirectory.listFiles(filter));
+        
+        Comparator fileNameComparator = new Comparator() {
+            public int compare(Object obj1, Object obj2) {
+                if (obj1 == null) {
+                    return -1;
+                }
+                if (obj2 == null) {
+                    return 1;
+                }
+                File file1 = (File) obj1;
+                File file2 = (File) obj2;
+                
+                return ((Comparable) file1.getName()).compareTo(file2.getName());
+            }
+        };
+        
+        Collections.sort(fileList, fileNameComparator);
+        return fileList ;
     }
 
     /**

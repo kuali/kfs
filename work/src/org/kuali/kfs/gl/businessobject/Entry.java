@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -130,6 +129,9 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
         setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
         setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdateCode());
+        
+        Timestamp now = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
+        setTransactionDateTimeStamp(now);
     }
 
     public Entry(Transaction t, java.util.Date postDate) {

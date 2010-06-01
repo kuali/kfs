@@ -210,11 +210,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return true if the given transaction is posted into ledger tables; otherwise, return false
      */
     protected boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, Map<String, Integer> reportSummary, Date runDate, String line) {
-        // reject the entry that is not postable
-        if (!isPostableEntry(originEntry)) {
-            return false;
-        }
-
         // reject the invalid entry so that it can be available for error correction
         List<Message> errors = new ArrayList<Message>();
         try {
@@ -237,22 +232,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         String operationOnLedgerBalance = updateLedgerBalance(originEntry, runDate);
         updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance);
 
-        return true;
-    }
-
-    /**
-     * determine if the given origin entry need to be posted
-     * 
-     * @param originEntry the given origin entry, a transcation
-     * @return true if the transaction is eligible for poster process; otherwise; return false
-     */
-    protected boolean isPostableEntry(LaborOriginEntry originEntry) {
-        if (TransactionFieldValidator.checkZeroTotalAmount(originEntry) != null) {
-            return false;
-        }
-        else if (TransactionFieldValidator.checkPostableObjectCode(originEntry, this.getObjectsNotProcessed()) != null) {
-            return false;
-        }
         return true;
     }
 
@@ -424,15 +403,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public List<String> getBalanceTypesNotProcessed() {
         return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
-    }
-
-    /**
-     * Get a set of the object codes that are bypassed by Labor Poster
-     * 
-     * @return a set of the object codes that are bypassed by Labor Poster
-     */
-    public List<String> getObjectsNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.OBJECT_CODES_NOT_PROCESSED);
     }
 
     /**

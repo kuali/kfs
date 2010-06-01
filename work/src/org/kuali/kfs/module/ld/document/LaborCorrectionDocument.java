@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -46,12 +47,11 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
 
     /**
      * @param change
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        //super.doRouteLevelChange(change);
-        if (StringUtils.equals(change.getNewNodeName(), AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             String docId = getDocumentHeader().getDocumentNumber();
             // this code is performed asynchronously
             // First, save the origin entries to the origin entry table

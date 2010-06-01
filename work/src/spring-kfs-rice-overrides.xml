@@ -276,4 +276,10 @@
 			<value>${encryption.key}</value>
 		</property>
 	</bean>
+	
+	<bean id="ksbJavaSecurityManagementService" class="org.kuali.rice.ksb.security.admin.service.impl.JavaSecurityManagementServiceImpl" lazy-init="true" >
+		<property name="moduleKeyStoreAlias" value="${keystore.alias}" />
+		<property name="moduleKeyStorePassword" value="${keystore.password}" />
+	</bean>	
+	
 </beans>

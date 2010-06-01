@@ -20,22 +20,20 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.CollectorDetailFieldUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * CollectorDetail Business Object.
@@ -540,14 +538,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     protected String getValue(String headerLine, int s, int e) {
         return org.springframework.util.StringUtils.trimTrailingWhitespace(StringUtils.substring(headerLine, s, e));
     }
-    
-    protected String addDecimalPoint (String amount) {
-        if (!amount.contains(".")) {  //have to add decimal point if it's missing
-            int length = amount.length();
-            amount = amount.substring(0, length - 2) + "." + amount.substring(length - 2, length);
-        }
-        return amount;
-    }
         
     /**
      * @return the static instance of the CollectorBatchrFieldUtil
@@ -560,63 +550,69 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     }
     
     public void setFromFileForCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
-        final Map<String, Integer> pMap = getCollectorDetailFieldUtil().getFieldBeginningPositionMap();
-        
-        detailLine = org.apache.commons.lang.StringUtils.rightPad(detailLine, GeneralLedgerConstants.getSpaceAllCollectorDetailFields().length(), ' ');
 
-        setCreateDate(curDate);
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)))) {
-            try {
-                setUniversityFiscalYear(new Integer(getValue(detailLine, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))));
+        try{
+            
+            final Map<String, Integer> pMap = getCollectorDetailFieldUtil().getFieldBeginningPositionMap();
+            
+            detailLine = org.apache.commons.lang.StringUtils.rightPad(detailLine, GeneralLedgerConstants.getSpaceAllCollectorDetailFields().length(), ' ');
+
+            setCreateDate(curDate);
+            if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)))) {
+                try {
+                    setUniversityFiscalYear(new Integer(getValue(detailLine, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))));
+                }
+                catch (NumberFormatException e) {
+                    messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector detail university fiscal year " + lineNumber + " string " + detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)));
+                    setUniversityFiscalYear(null);
+                }
             }
-            catch (NumberFormatException e) {
-                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector detail university fiscal year " + lineNumber + " string " + detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)));
+            else {
                 setUniversityFiscalYear(null);
             }
-        }
-        else {
-            setUniversityFiscalYear(null);
-        }
-        
-        if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))))
-            setChartOfAccountsCode(getValue(detailLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
-        else
-            setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
-        
-        setAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
-        setSubAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
-        setFinancialObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
-        setFinancialSubObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
-        // We are in Collector Detail for ID Billing Details because the value from file positions 25, 26 = DT.  We don not want to set
-        // Financial Balance Type Code = DT.  Sterling stated for now we can set it to "AC". 
-        // setFinancialBalanceTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
-        setFinancialBalanceTypeCode(GeneralLedgerConstants.FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD);
-        setFinancialObjectTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER)));
-        setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-        setCollectorDetailSequenceNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
-        setFinancialDocumentTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
-        setFinancialSystemOriginationCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
-        setDocumentNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT)));
-        try {
-            setCollectorDetailItemAmount(addDecimalPoint(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_GL_CREDIT_CODE))));
-        }
-        catch (NumberFormatException e) {
-            setCollectorDetailItemAmount(KualiDecimal.ZERO);
-            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector detail amount cannot be parsed on line " + lineNumber + " amount string " + detailLine.substring(pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT), pMap.get(KFSPropertyConstants.GL_CREDIT_CODE)));
-        }
-        if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_GL_CREDIT_CODE), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_NOTE_TEXT)))) {
-            setCollectorDetailItemAmount(getCollectorDetailItemAmount().negated());
-        }
-        setCollectorDetailNoteText(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_NOTE_TEXT), GeneralLedgerConstants.getSpaceAllCollectorDetailFields().length()));
-        
-        if (org.apache.commons.lang.StringUtils.isEmpty(getSubAccountNumber())) {
-            setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        }
-        if (org.apache.commons.lang.StringUtils.isEmpty(getFinancialSubObjectCode())) {
-            setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-        }
-        if (org.apache.commons.lang.StringUtils.isEmpty(getCollectorDetailSequenceNumber())) {
-            setCollectorDetailSequenceNumber(" ");
+            
+            if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))))
+                setChartOfAccountsCode(getValue(detailLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
+            else
+                setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
+            
+            setAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+            setSubAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
+            setFinancialObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
+            setFinancialSubObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
+            // We are in Collector Detail for ID Billing Details because the value from file positions 25, 26 = DT.  We don not want to set
+            // Financial Balance Type Code = DT.  Sterling stated for now we can set it to "AC". 
+            // setFinancialBalanceTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
+            setFinancialBalanceTypeCode(GeneralLedgerConstants.FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD);
+            setFinancialObjectTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER)));
+            setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
+            setCollectorDetailSequenceNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
+            setFinancialDocumentTypeCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
+            setFinancialSystemOriginationCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
+            setDocumentNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT)));
+            try {
+                setCollectorDetailItemAmount(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_GL_CREDIT_CODE)));
+            }
+            catch (NumberFormatException e) {
+                setCollectorDetailItemAmount(KualiDecimal.ZERO);
+                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector detail amount cannot be parsed on line " + lineNumber + " amount string " + detailLine.substring(pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_AMOUNT), pMap.get(KFSPropertyConstants.GL_CREDIT_CODE)));
+            }
+            if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_GL_CREDIT_CODE), pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_NOTE_TEXT)))) {
+                setCollectorDetailItemAmount(getCollectorDetailItemAmount().negated());
+            }
+            setCollectorDetailNoteText(getValue(detailLine, pMap.get(KFSPropertyConstants.COLLECTOR_DETAIL_NOTE_TEXT), GeneralLedgerConstants.getSpaceAllCollectorDetailFields().length()));
+            
+            if (org.apache.commons.lang.StringUtils.isEmpty(getSubAccountNumber())) {
+                setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            }
+            if (org.apache.commons.lang.StringUtils.isEmpty(getFinancialSubObjectCode())) {
+                setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+            }
+            if (org.apache.commons.lang.StringUtils.isEmpty(getCollectorDetailSequenceNumber())) {
+                setCollectorDetailSequenceNumber(" ");
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e + " occurred in CollectorDetail.setFromFileForCollectorDetail()");
         }
     }
 }

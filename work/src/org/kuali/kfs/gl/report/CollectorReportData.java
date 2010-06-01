@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.report;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +36,6 @@ import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.MessageMap;
 
 /**
@@ -67,6 +68,7 @@ public class CollectorReportData {
     private int numNotPersistedBatches;
     private int numNotPersistedOriginEntryRecords;
     private int numNotPersistedCollectorDetailRecords;
+    private Collection<String> loadedfileNames;
 
     public CollectorReportData() {
         emailSendingStatus = new HashMap<String, String>();
@@ -89,6 +91,7 @@ public class CollectorReportData {
         numPersistedBatches = 0;
         numNotPersistedBatches = 0;
         numNotPersistedOriginEntryRecords = 0;
+        loadedfileNames = new ArrayList<String>();
     }
 
     /**
@@ -380,5 +383,9 @@ public class CollectorReportData {
             messageMapForFileName.put(fileName, messageMap);
         }
         return messageMap;
+    }
+    
+    public Collection<String> getLoadedfileNames() {
+        return loadedfileNames;
     }
 }

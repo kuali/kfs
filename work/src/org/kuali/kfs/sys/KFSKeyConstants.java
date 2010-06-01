@@ -483,7 +483,8 @@ public class KFSKeyConstants {
     public static final String MSG_CLOSE_ENTRY_TO_FUND_BALANCE = "message.gl.ClosingEntryToFB";
     public static final String MSG_AUTO_FORWARD = "message.gl.AutoForward";
     public static final String MSG_ACCOUNT_CLOSED_TO = "message.gl.AccountClosedTo";
-
+    public static final String MSG_ACCOUNT_EXPIRED_TO = "message.gl.AccountExpiredTo";
+    
     public static final String ERROR_FISCAL_YEAR_CANNOT_BE_NULL_BALANCE_TYPE_A2 = "error.gl.FiscalYearCannotBeNullForBalanceTypeA2";
     public static final String ERROR_FISCAL_PERIOD_CANNOT_BE_NULL_BALANCE_TYPE_A2 = "error.gl.FiscalPeriodCannotBeNullForBalanceTypeA2";
     public static final String ERROR_REFERENCE_ORIGIN_CODE_NOT_FOUND = "error.gl.ReferenceOriginCodeNotFound";
@@ -560,6 +561,7 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR = "message.batchUpload.title.collector";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR_FLAT_FILE = "message.batchUpload.title.collector,flat.file";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_ENTERPRISE_FEEDER = "message.batchUpload.title.enterprise.feeder";
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_LABOR_ENTERPRISE_FEEDER = "message.batchUpload.title.labor.enterprise.feeder";
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL = "message.batchUpload.saveSuccessful";
     public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_ALREADY_PROCESSED = "error.batchUpload.deleteFailed.fileAlreadyProcessed";
     public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_ALREADY_PROCESSED = "error.batchUpload.deleteFailed.fileSetAlreadyProcessed";

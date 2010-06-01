@@ -41,6 +41,26 @@ public interface BalancingService {
      * @return output poster error file. Returns null if no file found.
      */
     public abstract File getPosterErrorOutputFile();
+
+    /**
+     * @return input reversal file. Returns null if no file found.
+     */
+    public abstract File getReversalInputFile();
+
+    /**
+     * @return output reversal error file. Returns null if no file found.
+     */
+    public abstract File getReversalErrorOutputFile();
+    
+    /**
+     * @return input ICR file. Returns null if no file found.
+     */
+    public abstract File getICRInputFile();
+
+    /**
+     * @return output ICR error file. Returns null if no file found.
+     */
+    public abstract File getICRErrorOutputFile();
     
     /**
      * @return system parameter for NUMBER_OF_PAST_FISCAL_YEARS_TO_CONSIDER
@@ -70,15 +90,16 @@ public interface BalancingService {
     
     /**
      * Update the entry history table
+     * @param mode of post, e.g. MODE_REVERSAL
      * @param originEntry representing the update details
      */
-    public abstract void updateEntryHistory(OriginEntryInformation originEntry);
+    public abstract void updateEntryHistory(Integer postMode, OriginEntryInformation originEntry);
     
     /**
      * Updates the balance history table
      * @param originEntry representing the update details
      */
-    public abstract void updateBalanceHistory(OriginEntryInformation originEntry);
+    public abstract void updateBalanceHistory(Integer postMode, OriginEntryInformation originEntry);
     
     /**
      * Returns a Balance object for the parameters of the passed in LedgerBalanceHistory. Necessary for generic amount comparision since

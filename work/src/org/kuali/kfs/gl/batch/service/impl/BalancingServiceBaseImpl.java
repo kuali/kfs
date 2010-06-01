@@ -17,16 +17,21 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.lang.reflect.ParameterizedType;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.dataaccess.LedgerEntryBalanceCachingDao;
 import org.kuali.kfs.gl.batch.service.BalancingService;
+import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
@@ -132,7 +137,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         int updateRecordsIgnored = 0;
         if (!historyTablesPopulated) {
             LOG.debug("Getting postable records and save them to history tables.");
-            updateRecordsIgnored = this.updateHistoriesHelper(startUniversityFiscalYear);            
+            updateRecordsIgnored = this.updateHistoriesHelper(PosterService.MODE_ENTRIES, startUniversityFiscalYear, this.getPosterInputFile(), this.getPosterErrorOutputFile());
+            updateRecordsIgnored += this.updateHistoriesHelper(PosterService.MODE_REVERSAL, startUniversityFiscalYear, this.getReversalInputFile(), this.getReversalErrorOutputFile());
+            updateRecordsIgnored += this.updateHistoriesHelper(PosterService.MODE_ICR, startUniversityFiscalYear, this.getICRInputFile(), this.getICRErrorOutputFile());
         }
 
         LOG.debug("Comparing entry history table with the PRD counterpart.");
@@ -220,14 +227,14 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      * @param startUniversityFiscalYear fiscal year for which to accept the earlier parsed lines from the input file
      * @return indicated whether records where ignored due to being older then startUniversityFiscalYear
      */
-    protected int updateHistoriesHelper(Integer startUniversityFiscalYear) {
+    protected int updateHistoriesHelper(Integer postMode, Integer startUniversityFiscalYear, File inputFile, File errorFile) {
         int ignoredRecordsFound = 0;
         int lineNumber = 0;
 
         try {
-            FileReader posterInputFileReader = new FileReader(this.getPosterInputFile());
+            FileReader posterInputFileReader = new FileReader(inputFile);
             BufferedReader posterInputBufferedReader = new BufferedReader(posterInputFileReader);
-            FileReader posterErrorFileReader = new FileReader(this.getPosterErrorOutputFile());
+            FileReader posterErrorFileReader = new FileReader(errorFile);
             BufferedReader posterErrorBufferedReader = new BufferedReader(posterErrorFileReader);
             
             // Reading input and error lines in tandem. Eliminating input lines if they were a line in error.
@@ -248,9 +255,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                         
                         if (originEntry.getUniversityFiscalYear() >= startUniversityFiscalYear) {
                             // Line is in acceptable FY range, update history tables
-                            this.updateEntryHistory(originEntry);
-                            this.updateBalanceHistory(originEntry);
-                            this.updateCustomHistory(originEntry);
+                            this.updateEntryHistory(postMode, originEntry);
+                            this.updateBalanceHistory(postMode, originEntry);
+                            this.updateCustomHistory(postMode, originEntry);
                         } else {
                             // Outside of trackable FY range. Log as being a failed line
                             ignoredRecordsFound++;
@@ -274,7 +281,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         
         return ignoredRecordsFound;
     }
-    
+
     abstract protected Integer compareBalanceHistory();
     abstract protected Integer compareEntryHistory();
    
@@ -309,7 +316,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      * Possible override if sub class has additional history tables. Updates history data for custom table(s).
      * @param originEntry representing the update details
      */
-    protected void updateCustomHistory(OriginEntryInformation originEntry) {
+    protected void updateCustomHistory(Integer postMode, OriginEntryInformation originEntry) {
         return;
     }
     

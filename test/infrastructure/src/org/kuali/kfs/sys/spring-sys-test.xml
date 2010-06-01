@@ -16,8 +16,6 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
-    <bean id="mailService" class="org.kuali.kfs.sys.service.impl.TestMailService">
-    </bean>
 
     <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
     

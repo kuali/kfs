@@ -38,10 +38,10 @@
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 		<if>
-			<isset property="additional.lib.directory" />
+			<isset property="institution.lib.directory" />
 			<then>
-				<copy todir="${lib.directory}">
-					<fileset dir="${additional.lib.directory}" includes="*.jar" />
+				<copy todir="${lib.directory}" overwrite="true">
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
 				</copy>
 			</then>
 		</if>
@@ -80,9 +80,9 @@
 		<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
 		<property file="${user.home}/${ant.project.name}-build.properties" />
 		<if>
-			<available file="${shared.external.build.properties}" />
+			<available file="${institution.build.properties.file}" />
 			<then>
-				<echo message="Reading Properties: ${shared.external.build.properties}" />
+				<echo message="Reading Properties: ${institution.build.properties.file}" />
 				<property file="${shared.external.build.properties}" />
 			</then>
 		</if>
@@ -178,6 +178,10 @@
 		</condition>
 		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
 
+		<condition property="real.notifications.enabled" value="true" else="false" >
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
@@ -219,10 +223,10 @@
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
 	        <not>
-	            <equals arg1="" arg2="${institutional.configuration.file}" trim="true" />
+	            <equals arg1="" arg2="${institution.configuration.properties.file}" trim="true" />
 	        </not>
 	        <then>
-	            <loadfile property="institutional.configuration" srcfile="${institutional.configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
+	            <loadfile property="institutional.configuration" srcfile="${institution.configuration.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
             </then>
         </if>
 		<!-- tokenize and write out the files to the file system -->
@@ -237,6 +241,14 @@
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
+	    <if>
+	        <not>
+	            <equals arg1="" arg2="${institution.security.properties.file}" trim="true" />
+	        </not>
+	        <then>
+	            <loadfile property="institutional.security" srcfile="${institution.security.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
+            </then>
+        </if>
 		
 		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
@@ -450,16 +462,16 @@
 	
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
-		
-		<echo file="${source.directory}/${ojb.properties.file}" message="${ojb-prop}" />
-		<echo file="${source.directory}/${ojb.logging.file}" message="${ojb-logging}" />
-		<echo file="${source.directory}/${ojb.repository.file}" message="${ojb-repo}" />
 	    <if>
 	        <isset property="institutional.configuration" />
 	        <then>
 	            <echo append="true" file="${source.directory}/${configuration.file}" message="${institutional.configuration}" />
             </then>
         </if>
+		
+		<echo file="${source.directory}/${ojb.properties.file}" message="${ojb-prop}" />
+		<echo file="${source.directory}/${ojb.logging.file}" message="${ojb-logging}" />
+		<echo file="${source.directory}/${ojb.repository.file}" message="${ojb-repo}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
@@ -504,18 +516,49 @@
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${drivers.directory}" />
 		</copy>
+		<if>
+			<isset property="institution.appserver.directory" />
+			<then>
+				<copy todir="${appserver.lib.dir}" overwrite="true">
+					<fileset dir="${institution.appserver.directory}" />
+				</copy>
+			</then>
+		</if>
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
+		<if>
+			<isset property="institution.settings.directory" />
+			<then>
+				<copy todir="${settings.directory}" overwrite="true">
+					<fileset dir="${institution.settings.directory}" />
+				</copy>
+			</then>
+		</if>
 		<mkdir dir="${security.directory}" />
 		<echo file="${security.property.file}" message="${security}"  />
-		<mkdir dir="${logs.directory}" />
+	    <if>
+	        <isset property="institutional.security" />
+	        <then>
+	            <echo append="true" file="${security.property.file}" message="${institutional.security}" />
+            </then>
+        </if>
+
 		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.file}"/>
+		<if>
+			<isset property="institution.security.directory" />
+			<then>
+				<copy todir="${security.directory}" overwrite="true">
+					<fileset dir="${institution.security.directory}" />
+				</copy>
+			</then>
+		</if>
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
 			<filterset>
 				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
 			</filterset>
 		</copy>
+		<mkdir dir="${logs.directory}" />
 	</target>
 
 	<target name="make-source" unless="dont.make.source" depends="make-foundation-source,make-additional-source" />
@@ -532,22 +575,22 @@
 		</copy>
 	</target>
 	
-	<target name="make-additional-source" if="additional.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
-        <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
-        <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
+	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
+        <echo message="Compiling Source from ${institution.source.directory} into ${war.classes.directory}" />
+        <javac destdir="${war.classes.directory}" srcdir="${institution.source.directory}"
                debug="true" fork="true" 
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
                 <pathelement location="${war.classes.directory}"/>
                 <path refid="compile.source.classpath" />
-                <fileset dir="${additional.lib.directory}">
+                <fileset dir="${institution.lib.directory}">
                     <include name="*.jar"/>
                 </fileset>
             </classpath>
         </javac>
         <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
-            <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+            <fileset dir="${institution.source.directory}" includes="${non.java.resources}" />
         </copy>
 	</target>
 
@@ -587,29 +630,29 @@
 		</copy>
 	</target>
 
-	<target name="make-additional-tests" depends="init-make-references,filter-project" if="additional.test.source.directory">
-        <echo message="Compiling Test Source from ${additional.test.source.directory} into ${test.classes.directory}" />
+	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
+        <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
         <javac destdir="${test.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-            <src path="${additional.source.directory}" />
-            <src path="${additional.test.source.directory}" />
+            <src path="${institution.source.directory}" />
+            <src path="${institution.test.source.directory}" />
             <classpath>
                 <pathelement location="${test.classes.directory}"/>
                 <path refid="compile.tests.classpath" />
-                <fileset dir="${additional.lib.directory}">
+                <fileset dir="${institution.lib.directory}">
                     <include name="*.jar"/>
                 </fileset>
-                <fileset dir="${additional.test.lib.directory}">
+                <fileset dir="${institution.test.lib.directory}">
                     <include name="*.jar" />
                 </fileset>
             </classpath>
         </javac>
-        <echo message="Copying Non-Java files from ${additional.test.source.directory} into ${test.classes.directory}" />
-        <copy todir="${test.classes.directory}">
-            <fileset dir="${additional.test.source.directory}" includes="${non.java.resources}" />
+        <echo message="Copying Non-Java files from ${institution.test.source.directory} into ${test.classes.directory}" />
+        <copy todir="${test.classes.directory}" overwrite="true">
+            <fileset dir="${institution.test.source.directory}" includes="${non.java.resources}" />
         </copy>
-        <echo message="Copying Non-Java files from ${additional.source.directory} into ${test.classes.directory}" />
-        <copy todir="${test.classes.directory}">
-            <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+        <echo message="Copying Non-Java files from ${institution.source.directory} into ${test.classes.directory}" />
+        <copy todir="${test.classes.directory}" overwrite="true">
+            <fileset dir="${institution.source.directory}" includes="${non.java.resources}" />
         </copy>
 	</target>
 	
@@ -666,11 +709,38 @@
 	</target>
 
 	<target name="dist-external" depends="init-properties">
-		<echo file="${log4j.file}" message="${log4j}" />
-		<echo file="${security.file}" message="${security}"  />
-		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.filename}"/>
-		<zip destfile="${deploy.working.directory}/settings.zip" basedir="${basedir}" includes="${log4j.file}" />
-		<zip destfile="${deploy.working.directory}/security.zip" basedir="${basedir}" includes="${security.file},${keystore.filename}" />
+		<mkdir dir="temp"/>
+		<echo file="temp/${log4j.file}" message="${log4j}" />
+		<if>
+			<isset property="institution.settings.directory" />
+			<then>
+				<copy todir="temp" overwrite="true">
+					<fileset dir="${institution.settings.directory}" />
+				</copy>
+			</then>
+		</if>
+		<zip destfile="${deploy.working.directory}/settings.zip" basedir="temp" />
+		<delete dir="temp"/>
+		<mkdir dir="temp"/>
+		<echo file="temp/${security.file}" message="${security}"  />
+	    <if>
+	        <isset property="institutional.security" />
+	        <then>
+	            <echo append="true" file="temp/${security.file}" message="${institutional.security}" />
+            </then>
+        </if>
+
+		<copy file="${build.external.directory}/${keystore.filename}" tofile="temp/${keystore.filename}"/>
+		<if>
+			<isset property="institution.security.directory" />
+			<then>
+				<copy todir="temp" overwrite="true">
+					<fileset dir="${institution.security.directory}" />
+				</copy>
+			</then>
+		</if>
+		<zip destfile="${deploy.working.directory}/security.zip" basedir="temp" />
+		<delete dir="temp"/>
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 	
@@ -679,19 +749,19 @@
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
 		<if>
-			<isset property="additional.lib.directory" />
+			<isset property="institution.lib.directory" />
 			<then>
-				<copy todir="${war.directory}/WEB-INF/lib">
-					<fileset dir="${additional.lib.directory}" includes="*.jar" />
+				<copy todir="${war.directory}/WEB-INF/lib" overwrite="true">
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
 				</copy>
 			</then>
 		</if>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-    <target name="overlay-additional-web-content" depends="init-property-files" if="additional.web.content.directory">
+    <target name="overlay-additional-web-content" depends="init-property-files" if="institution.web.content.directory">
         <copy todir="${webroot.directory}" preservelastmodified="true" overwrite="true">
-            <fileset dir="${additional.web.content.directory}">
+            <fileset dir="${institution.web.content.directory}">
                 <include name="**/*" />
             </fileset>
         </copy>

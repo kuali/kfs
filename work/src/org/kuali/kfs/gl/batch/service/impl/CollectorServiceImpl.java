@@ -88,41 +88,26 @@ public class CollectorServiceImpl implements CollectorService {
             throw new RuntimeException("writing all collector result files to output file process Stopped: " + e.getMessage(), e);
         }
 
-        try {
-            for (BatchInputFileType collectorInputFileType : collectorInputFileTypes) {
-                List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
-                for (String inputFileName : fileNamesToLoad) {
-                    boolean processSuccess = false;
-                    try {
-                        LOG.info("Collecting file: " + inputFileName);
-                        processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType, collectorFinalOutputFilePs);
-                    }
-                    catch (RuntimeException e) {
-                        LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
-                    }
-                    processedFiles.add(inputFileName);
-                    
-                    if (processSuccess) {
-                        //create done file    
-                        String doneFileName = collectorFinalOutputFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-                        File doneFile = new File (doneFileName);
-                        if (!doneFile.exists()){
-                            try {
-                                doneFile.createNewFile();
-                            } catch (IOException e) {
-                                throw new RuntimeException("Error creating collector done file", e);
-                            }
-                        }
-                    }
+        for (BatchInputFileType collectorInputFileType : collectorInputFileTypes) {
+            List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
+            for (String inputFileName : fileNamesToLoad) {
+                boolean processSuccess = false;
+                
+                LOG.info("Collecting file: " + inputFileName);
+                processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType, collectorFinalOutputFilePs);
+                processedFiles.add(inputFileName);
+                if (processSuccess) {
+                    renameCollectorScrubberFiles();
                 }
-                updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
+                collectorReportData.getLoadedfileNames().add(inputFileName);
+                
             }
+            updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
         }
-        finally {
-            collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
-            removeDoneFiles(processedFiles);
-            collectorFinalOutputFilePs.close();
-        }
+
+        collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
+        collectorFinalOutputFilePs.close();
+            
         return collectorReportData;
     }
 
@@ -138,6 +123,44 @@ public class CollectorServiceImpl implements CollectorService {
             }
         }
     }
+    
+    protected void renameCollectorScrubberFiles() {
+        String filePath = batchFileDirectoryName + File.separator;
+        List<String> fileNameList = new ArrayList<String>();
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_SORTED_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE);
+        fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE);
+        
+        for (String fileName : fileNameList){
+            File file = new File(filePath + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            if (file.exists()) {
+                String changedFileName = filePath + fileName + "." + getDateTimeService().toDateTimeStringForFilename(dateTimeService.getCurrentDate());
+                file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+            }
+        }
+    }
+    
+    public void finalizeCollector(CollectorReportData collectorReportData){
+        // remove all done files for processed files
+        removeDoneFiles( (List) collectorReportData.getLoadedfileNames());
+        
+        // create a done file for collector gl output
+        String collectorFinalOutputDoneFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
+        File doneFile = new File (collectorFinalOutputDoneFileName);
+        if (!doneFile.exists()){
+            try {
+                doneFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException("Error creating collector done file", e);
+            }
+        }
+    }
+    
 
     public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
         this.collectorHelperService = collectorHelperService;

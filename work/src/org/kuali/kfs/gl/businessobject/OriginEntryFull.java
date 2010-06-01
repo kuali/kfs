@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +47,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -242,12 +242,12 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         setTransactionDebitCreditCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_DATE)));
 
         if (!getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)).equals(GeneralLedgerConstants.EMPTY_CODE)){
+            // FSKD-193, KFSMI-5441
             try {
                 setTransactionDate(parseDate(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)), false));
             }
             catch (ParseException e) {
-                setTransactionDate(null);
-                returnList.add(new Message("Transaction Date '" + line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)) + "' contains an invalid value." , Message.TYPE_FATAL));
+                setTransactionDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             }
         } else {
             setTransactionDate(null);

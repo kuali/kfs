@@ -134,8 +134,8 @@ public class LedgerEntryBalanceCachingDaoJdbc extends PlatformAwareDaoBaseJdbc i
         queryBuilder.append("select eh.*  ");
         queryBuilder.append("from "+historyTable+" eh ");
         queryBuilder.append("left join  ( ");
-        queryBuilder.append("select UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT from "+historyTable+" ) e on ");
-        queryBuilder.append("eh.UNIV_FISCAL_YR = e.UNIV_FISCAL_YR and eh.FIN_COA_CD = e.FIN_COA_CD and eh.ACCOUNT_NBR = e.ACCOUNT_NBR and eh.FIN_OBJECT_CD = e.FIN_OBJECT_CD and eh.FIN_SUB_OBJ_CD = e.FIN_SUB_OBJ_CD and eh.FIN_BALANCE_TYP_CD = e.FIN_BALANCE_TYP_CD and eh.FDOC_TYP_CD = e.FDOC_TYP_CD and eh.FS_ORIGIN_CD = e.FS_ORIGIN_CD and eh.FDOC_NBR = e.FDOC_NBR ");
+        queryBuilder.append("select UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT from "+encumbranceTable+" ) e on ");
+        queryBuilder.append("eh.UNIV_FISCAL_YR = e.UNIV_FISCAL_YR and eh.FIN_COA_CD = e.FIN_COA_CD and eh.ACCOUNT_NBR = e.ACCOUNT_NBR and eh.SUB_ACCT_NBR = e.SUB_ACCT_NBR and eh.FIN_OBJECT_CD = e.FIN_OBJECT_CD and eh.FIN_SUB_OBJ_CD = e.FIN_SUB_OBJ_CD and eh.FIN_BALANCE_TYP_CD = e.FIN_BALANCE_TYP_CD and eh.FDOC_TYP_CD = e.FDOC_TYP_CD and eh.FS_ORIGIN_CD = e.FS_ORIGIN_CD and eh.FDOC_NBR = e.FDOC_NBR ");
         queryBuilder.append("where e.UNIV_FISCAL_YR >= "+fiscalYear+" and (eh.ACLN_ENCUM_AMT <> e.ACLN_ENCUM_AMT or eh.ACLN_ENCUM_CLS_AMT <> e.ACLN_ENCUM_CLS_AMT) ");
         
         data = getSimpleJdbcTemplate().queryForList(queryBuilder.toString());

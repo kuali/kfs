@@ -37,7 +37,6 @@ public class LaborKeyConstants {
     public static final String ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM = "error.labor.tranferAmountExceedMaximum";
     public static final String ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT = "error.labor.transferAmountNotBalancedByObject";
     public static final String ERROR_UNPOSTABLE_BALANCE_TYPE = "error.labor.unpostableBalanceTypeCode";
-    public static final String ERROR_UNPOSTABLE_OBJECT_CODE = "error.labor.unpostableObjectCode";
     public static final String ERROR_UNPOSTABLE_PERIOD_CODE = "error.labor.unpostablePerioCodes";
     public static final String ERROR_ZERO_TOTAL_AMOUNT = "error.labor.zeroTotalAmount";
     public static final String ERROR_NON_FRINGE_ACCOUNT_ALTERNATIVE_NOT_FOUND = "error.labor.nonFringeAccountAlternativeNotFound";

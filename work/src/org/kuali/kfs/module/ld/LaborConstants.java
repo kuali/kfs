@@ -92,7 +92,6 @@ public class LaborConstants {
 
     public static class Poster {
         public static final String BALANCE_TYPES_NOT_PROCESSED = "SENT_TO_GL_BALANCE_TYPES";
-        public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_POSTER_OBJECT_CODES";
         public static final String PERIOD_CODES_NOT_PROCESSED = "SENT_TO_GL_PERIOD_CODES";
     }
 
@@ -125,6 +124,9 @@ public class LaborConstants {
     }
 
     public static class BatchFileSystem {
+        static final public String EXTENSION = ".data";
+        static final public String DONE_FILE_EXTENSION = ".done"; 
+
         static final public String NIGHTLY_OUT_FILE = "ld_labentry_kfs";
         static final public String BACKUP_FILE = "ld_ldbackup";
         static final public String PRE_SCRUBBER_FILE = "ld_prescrub";
@@ -144,6 +146,7 @@ public class LaborConstants {
 
         static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
         static final public String BALANCE_FORWARDS_FILE = "ld_balance_forwards";
+        static final public String LABOR_ENTERPRISE_FEED = "ld_ldentry_entp";
     }
 
     public static class TransactionGeneratorNames {
@@ -166,7 +169,7 @@ public class LaborConstants {
         public static final String PURGE_LEDGER_BALANCE_YEAR = "PRIOR_TO_YEAR";
         public static final String PURGE_LEDGER_ENTRY_YEAR = "PRIOR_TO_YEAR";
     }
-
+    
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
 
     public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "laborCalculatedSalaryFoundationTrackerLookupableHelperService";

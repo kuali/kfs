@@ -923,6 +923,10 @@ public class PosterServiceImpl implements PosterService {
      */
     protected void addReporting(Map reporting, String destination, String operation) {
         String key = destination + "," + operation;
+        //TODO: remove this if block. Added to troubleshoot FSKD-194.
+        if("GL_EXPEND_TRN_T".equals(destination)){
+            LOG.info("Counting GLEX operation: "+operation);
+        }
         if (reporting.containsKey(key)) {
             Integer c = (Integer) reporting.get(key);
             reporting.put(key, new Integer(c.intValue() + 1));

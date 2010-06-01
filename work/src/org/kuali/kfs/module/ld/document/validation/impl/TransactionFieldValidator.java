@@ -364,21 +364,6 @@ public class TransactionFieldValidator {
     }
 
     /**
-     * Checks if the given transaction contains the posteable object code
-     * 
-     * @param transaction the given transaction
-     * @param unpostableObjectCodes the list of unpostable object codes
-     * @return null if the object code of the transaction is not in unpostableObjectCodes; otherwise, return error message
-     */
-    public static Message checkPostableObjectCode(LaborTransaction transaction, List<String> unpostableObjectCodes) {
-        String objectCode = transaction.getFinancialObjectCode();
-        if (unpostableObjectCodes.contains(objectCode)) {
-            return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_UNPOSTABLE_OBJECT_CODE, objectCode, Message.TYPE_FATAL);
-        }
-        return null;
-    }
-
-    /**
      * Checks if the given transaction contains the valid employee id
      * 
      * @param transaction the given transaction

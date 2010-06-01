@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -69,9 +70,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
     protected List<CorrectionChangeGroup> correctionChangeGroup;
 
-    public static final String AUTO_APPROVE_ROUTE_LEVEL_NAME = "autoApproveForAsynchronousProcessing";
-
-    public GeneralLedgerCorrectionProcessDocument() {
+       public GeneralLedgerCorrectionProcessDocument() {
         super();
         correctionChangeGroupNextLineNumber = new Integer(0);
 
@@ -170,27 +169,20 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
         return ccg;
     }
-
-    /**
-     * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a
-     * newly created origin entry group, then scrubbing those entries
-     * 
-     * @param cahnge a representation of the route level changed that just occurred
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
-     */
-    @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        super.doRouteLevelChange(change);
-        if (StringUtils.equals(change.getNewNodeName(), AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
+    
+    
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("GLCP Route Level Change: " + change);
+                LOG.debug("GLCP Route ststus Change: " + statusChangeEvent);
             }
             CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
             OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
             String docId = getDocumentHeader().getDocumentNumber();
             GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
-
+            
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
 
@@ -224,7 +216,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
                 correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
                 correctionStep.setDocumentId(null);
-                
+
                 correctionDocumentService.generateCorrectionReport(this);
                 correctionDocumentService.aggregateCorrectionDocumentReports(this);
             }
@@ -232,6 +224,19 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
+    }
+    
+
+    /**
+     * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a
+     * newly created origin entry group, then scrubbing those entries
+     * 
+     * @param cahnge a representation of the route level changed that just occurred
+     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     */
+    @Override
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+        super.doRouteLevelChange(change);
     }
 
     /**

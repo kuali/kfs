@@ -15,15 +15,12 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.io.IOUtils;
@@ -65,15 +61,14 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The base implementation of CollectorHelperService
@@ -233,7 +228,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
         }
         catch (ParseException e1) {
-            LOG.error("errors parsing xml " + e1.getMessage(), e1);
+            LOG.error("errors parsing file " + e1.getMessage(), e1);
             collectorReportData.markUnparsableFileNames(fileName);
             messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
@@ -257,7 +252,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             Iterator<Object> originEntryAndDetailIterator = IteratorUtils.chainedIterator(collectorBatch.getOriginEntries().iterator(), collectorBatch.getCollectorDetails().iterator());
             while (originEntryAndDetailIterator.hasNext()) {
                 Object originEntryOrDetail = originEntryAndDetailIterator.next();
-                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(extractChartOfAccountsCode(originEntryOrDetail))) {
+                if (StringUtils.isBlank(extractChartOfAccountsCode(originEntryOrDetail))) {
                     String accountNumber = extractAccountNumber(originEntryOrDetail);
                     
                     boolean nonExistent = false;
@@ -600,7 +595,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the key as a String
      */
     protected String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
-        return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
+        return StringUtils.join(new String[] { ObjectUtils.isNull(entry.getUniversityFiscalYear()) ? "" : entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     /**
@@ -611,7 +606,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the key as a String
      */
     protected String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
-        return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
+        return StringUtils.join(new String[] { ObjectUtils.isNull(collectorDetail.getUniversityFiscalYear()) ? "" : collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     /**

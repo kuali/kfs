@@ -298,7 +298,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         String returnCode = GeneralLedgerConstants.UPDATE_CODE;
         ExpenditureTransaction et = accountingCycleCachingService.getExpenditureTransaction(t);
         if (et == null) {
-            LOG.warn("Posting expenditure transation");
+            LOG.debug("Posting expenditure transation");
             et = new ExpenditureTransaction(t);
             returnCode = GeneralLedgerConstants.INSERT_CODE;
         }
@@ -315,8 +315,12 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         }
 
         if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
+            //TODO: remove this log statement. Added to troubleshoot FSKD-194.
+            LOG.info("Inserting a GLEX record. Transaction:"+t);
             accountingCycleCachingService.insertExpenditureTransaction(et);
         } else {
+            //TODO: remove this log statement. Added to troubleshoot FSKD-194.
+            LOG.info("Updating a GLEX record. Transaction:"+t);
             accountingCycleCachingService.updateExpenditureTransaction(et);
         }
 

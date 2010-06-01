@@ -521,6 +521,15 @@
 			<forward name="basic"
 				path="/jsp/module/ld/LongRowTableInquiry.jsp" />
 		</action>
+		
+ 		<action path="/laborBatchUploadFileSet"
+			name="KualiBatchInputFileSetForm" scope="request"
+			attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/sys/KualiBatchInputFileSet.jsp" />
+		</action>
 
 		<action path="/budget*" name="{1}Form"
 			input="/jsp/module/bc/{1}.jsp"

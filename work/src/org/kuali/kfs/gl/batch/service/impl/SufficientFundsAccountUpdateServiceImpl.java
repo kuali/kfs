@@ -26,6 +26,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.SufficientFundsAccountUpdateStep;
 import org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
@@ -42,7 +43,6 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -101,7 +101,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @return the fiscal year
      */
     protected Integer getFiscalYear() {
-        String val = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+        String val = SpringContext.getBean(ParameterService.class).getParameterValue(SufficientFundsAccountUpdateStep.class, GeneralLedgerConstants.FISCAL_YEAR_PARM);
         return Integer.parseInt(val);
     }
 
@@ -257,7 +257,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             ++sfrbRecordsDeletedCount;
              sfblDeletedCount += sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
-            if ((!sfrbAccount.isPendingAcctSufficientFundsIndicator()) || (KFSConstants.SF_TYPE_NO_CHECKING.equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()))) {
+            if (KFSConstants.SF_TYPE_NO_CHECKING.equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
                 // nothing to do here, no errors either, just return
                 return;
             }

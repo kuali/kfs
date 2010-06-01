@@ -191,6 +191,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String prescrubOutput = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        this.ledgerSummaryReport = new LedgerSummaryReport();
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         
         PreScrubberReportData preScrubberReportData = null;
@@ -218,7 +219,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 ((WrappingBatchService)preScrubberReportWriterService).destroy();
             }
         }
-        BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new ScrubberSortComparator());
+        BatchSortUtil.sortTextFileWithFields(prescrubOutput, inputFile, new ScrubberSortComparator());
         
         scrubEntries(true, documentNumber);
         
@@ -370,7 +371,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
         demergerReport = new DemergerReportData();
         
-        //shawn - set runDate here again, because demerger is calling outside from scrubber
+        // set runDate here again, because demerger is calling outside from scrubber
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);

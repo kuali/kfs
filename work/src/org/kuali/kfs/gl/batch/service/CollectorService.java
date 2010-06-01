@@ -27,4 +27,6 @@ public interface CollectorService {
      * @return status information related to the collection execution
      */
     public CollectorReportData performCollection();
+    
+    public void finalizeCollector(CollectorReportData collectorReportData);
 }

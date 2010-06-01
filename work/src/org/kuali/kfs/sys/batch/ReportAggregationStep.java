@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.batch;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +58,12 @@ public class ReportAggregationStep extends AbstractStep {
         }
         FileFilter filter = FileFilterUtils.andFileFilter(
                 new PrefixFileFilter(inputFilePrefix), new SuffixFileFilter(inputFileSuffix));
-        return Arrays.asList(inputDirectory.listFiles(filter));
+        
+        List<File> fileList = Arrays.asList(inputDirectory.listFiles(filter));
+        
+        Collections.sort(fileList);
+        
+        return fileList;
     }
     
     /**

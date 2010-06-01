@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch.service.impl;
+package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -26,15 +26,14 @@ import java.util.List;
 
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederNotificationService;
-import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
-import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.batch.service.impl.RequiredFilesMissingStatus;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.service.EnterpriseFeederService;
+import org.kuali.kfs.module.ld.batch.service.FileEnterpriseFeederHelperService;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -48,7 +47,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
 
     private String directoryName;
-    private String glOriginEntryDirectoryName;
+    private String laborOriginEntryDirectoryName;
 
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -74,8 +73,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             FileFilter doneFileFilter = new SuffixFileFilter(DONE_FILE_SUFFIX);
 
             File enterpriseFeedFile = null;
-            String enterpriseFeedFileName = GeneralLedgerConstants.BatchFileSystem.ENTERPRISE_FEED + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-            enterpriseFeedFile = new File(glOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
+            String enterpriseFeedFileName = LaborConstants.BatchFileSystem.LABOR_ENTERPRISE_FEED + LaborConstants.BatchFileSystem.EXTENSION; 
+            enterpriseFeedFile = new File(laborOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
             
             PrintStream enterpriseFeedPs = null;
             try {
@@ -108,23 +107,24 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                 EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors = new EnterpriseFeederStatusAndErrorMessagesWrapper();
                 statusAndErrors.setErrorMessages(new ArrayList<Message>());
 
-                try {                
-                    dataFile = getDataFile(doneFile);
-                    reconFile = getReconFile(doneFile);
+                
+                dataFile = getDataFile(doneFile);
+                reconFile = getReconFile(doneFile);
 
-                    statusAndErrors.setFileNames(dataFile, reconFile, doneFile);
+                statusAndErrors.setFileNames(dataFile, reconFile, doneFile);
 
-                    if (dataFile == null) {
-                        LOG.error("Unable to find data file for done file: " + doneFile.getAbsolutePath());
-                        statusAndErrors.getErrorMessages().add(new Message("Unable to find data file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
-                        statusAndErrors.setStatus(new RequiredFilesMissingStatus());
-                    }
-                    if (reconFile == null) {
-                        LOG.error("Unable to find recon file for done file: " + doneFile.getAbsolutePath());
-                        statusAndErrors.getErrorMessages().add(new Message("Unable to find recon file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
-                        statusAndErrors.setStatus(new RequiredFilesMissingStatus());
-                    }
-
+                if (dataFile == null) {
+                    LOG.error("Unable to find data file for done file: " + doneFile.getAbsolutePath());
+                    statusAndErrors.getErrorMessages().add(new Message("Unable to find data file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
+                    statusAndErrors.setStatus(new RequiredFilesMissingStatus());
+                }
+                if (reconFile == null) {
+                    LOG.error("Unable to find recon file for done file: " + doneFile.getAbsolutePath());
+                    statusAndErrors.getErrorMessages().add(new Message("Unable to find recon file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
+                    statusAndErrors.setStatus(new RequiredFilesMissingStatus());
+                }
+                    
+                try {
                     if (dataFile != null && reconFile != null) {
                         LOG.info("Data file: " + dataFile.getAbsolutePath());
                         LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
@@ -149,10 +149,10 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             }
             
             enterpriseFeedPs.close();
-            generateReport(statusAndErrorsList, ledgerSummaryReport, glOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
+            generateReport(statusAndErrorsList, ledgerSummaryReport, laborOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
             
-            String enterpriseFeedDoneFileName = enterpriseFeedFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-            File enterpriseFeedDoneFile = new File (glOriginEntryDirectoryName + File.separator + enterpriseFeedDoneFileName);
+            String enterpriseFeedDoneFileName = enterpriseFeedFileName.replace(LaborConstants.BatchFileSystem.EXTENSION, LaborConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+            File enterpriseFeedDoneFile = new File (laborOriginEntryDirectoryName + File.separator + enterpriseFeedDoneFileName);
             if (!enterpriseFeedDoneFile.exists()){
                 try {
                     enterpriseFeedDoneFile.createNewFile();
@@ -163,6 +163,14 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             }
             
         }
+    }
+
+    /**
+     * Sets the laborOriginEntryDirectoryName attribute value.
+     * @param laborOriginEntryDirectoryName The laborOriginEntryDirectoryName to set.
+     */
+    public void setLaborOriginEntryDirectoryName(String laborOriginEntryDirectoryName) {
+        this.laborOriginEntryDirectoryName = laborOriginEntryDirectoryName;
     }
 
     /**
@@ -326,10 +334,6 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
         this.reconciliationTableId = reconciliationTableId;
     }
 
-    public void setGlOriginEntryDirectoryName(String glOriginEntryDirectoryName) {
-        this.glOriginEntryDirectoryName = glOriginEntryDirectoryName;
-    }
-    
     protected void generateReport(List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList, LedgerSummaryReport report, String outputFileName) {
         reportWriterService.writeFormattedMessageLine("Output File Name:        %s", outputFileName);
         reportWriterService.writeNewLines(1);

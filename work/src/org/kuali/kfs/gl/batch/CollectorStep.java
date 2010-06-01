@@ -44,6 +44,8 @@ public class CollectorStep extends AbstractWrappedBatchStep {
                 CollectorReportData collectorReportData = collectorService.performCollection();
                 collectorReportService.sendEmails(collectorReportData);
                 collectorReportService.generateCollectorRunReports(collectorReportData);
+                // remove done files and create done file for collector output
+                collectorService.finalizeCollector(collectorReportData);
                 return true;
             }
         };

@@ -47,6 +47,7 @@
 		
 		<property name="jobNames">
 			<list>
+				<value>laborEnterpriseFeedJob</value>
 				<value>laborNightlyOutJob</value>
 				<value>laborScrubberJob</value>
 				<value>laborPosterJob</value>
@@ -805,10 +806,20 @@
 		</property>
 		<property name="dependencies">
 			<map>
+				<entry key="laborEnterpriseFeedJob" value="hardDependency"/>
 				<entry key="laborNightlyOutJob" value="hardDependency"/>
 			</map>
 		</property>
 	</bean>	
+	
+	
+	<bean id="laborEnterpriseFeedJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborEnterpriseFeedStep" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="laborDemergerStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
@@ -1617,4 +1628,81 @@
     <bean id="llcpPreScrubberReportWriterService" parent="laborPreScrubberReportWriterService">
 		<property name="fileNamePrefix" value="llcpScrubberReports-02-preScrubber"/>
     </bean>	            
+
+	<bean id="laborReconciliationService" class="org.kuali.kfs.module.ld.batch.service.impl.ReconciliationServiceImpl">
+		<property name="reconciliationDao">
+			<ref bean="glReconciliationDao"/>
+		</property>
+		<property name="originEntryClass" value="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry"/>
+	</bean>
+
+	<bean id="laborOriginEntryEnterpriseFeederService" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService"/>
+		</property>
+		<property name="fileEnterpriseFeederHelperService">
+			<ref bean="laborOriginEntryEnterpriseFeederHelperService"/>
+		</property>
+		<property name="enterpriseFeederNotificationService">
+			<ref bean="laborOriginEntryEnterpriseFeederNotificationService"/>
+		</property>
+		<property name="directoryName" value="${staging.directory}/ld/enterpriseFeed"/>
+		<property name="laborOriginEntryDirectoryName" value="${staging.directory}/ld/originEntry"/>
+		<property name="reconciliationTableId" value="ld_ldgr_entr_t"/>
+		<property name="reportWriterService" ref="laborEnterpriseFeedReportWriterService"/>
+	</bean>
+
+	<bean id="laborEnterpriseFeedStep" class="org.kuali.kfs.module.ld.batch.EnterpriseFeedStep" parent="wrappedStep">
+	    <property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborEnterpriseFeedReportWriterService" />
+			</list>
+		</property>
+		<property name="enterpriseFeederService">
+			<ref bean="laborOriginEntryEnterpriseFeederService" />
+		</property>
+	</bean>
+	
+	<bean id="laborOriginEntryEnterpriseFeederNotificationService" class="org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederNotificationServiceImpl">
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
+		<property name="mailService">
+			<ref bean="mailService"/>
+		</property>
+	</bean>
+	
+    <bean id="laborEnterpriseFeedReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_enterprise_feed_"/>
+        <property name="title" value="Labor Enterprise Feed Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>
+	    
+	<bean id="laborOriginEntryEnterpriseFeederHelperService" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederHelperServiceImpl">
+		<property name="originEntryService">
+			<ref bean="originEntryService"/>
+		</property>
+		<property name="reconciliationParserService">
+			<ref bean="glReconciliationParserService"/>
+		</property>
+		<property name="reconciliationService">
+			<ref bean="laborReconciliationService"/>
+		</property>
+	</bean>
+	
+	<bean id="laborEnterpriseFeederFileSetType" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeederFileSetType"></bean>	
+	
 </beans>

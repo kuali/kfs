@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
-import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -45,6 +43,7 @@ import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -54,8 +53,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.kfs.gl.batch.CollectorBatchHeaderFieldUtil;
-import org.kuali.kfs.gl.batch.CollectorBatchTrailerRecordFieldUtil;
 
 /**
  * Object representation of collector xml input.
@@ -673,34 +670,38 @@ public class CollectorBatch extends PersistableBusinessObjectBase {
     }
     
     public void setFromTextFileForCollectorBatch(String headerLine) {
-        final Map<String, Integer> pMap = getCollectorBatchHeaderFieldUtil().getFieldBeginningPositionMap();
-        
-        headerLine = org.apache.commons.lang.StringUtils.rightPad(headerLine, GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length(), ' ');
-        
-        setChartOfAccountsCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ORGANIZATION_CODE)));
-        setOrganizationCode(getValue(headerLine, pMap.get(KFSPropertyConstants.ORGANIZATION_CODE), pMap.get(KFSPropertyConstants.TRANSMISSION_DATE)));
+        try{
+            final Map<String, Integer> pMap = getCollectorBatchHeaderFieldUtil().getFieldBeginningPositionMap();
+            
+            headerLine = org.apache.commons.lang.StringUtils.rightPad(headerLine, GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length(), ' ');
+            
+            setChartOfAccountsCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ORGANIZATION_CODE)));
+            setOrganizationCode(getValue(headerLine, pMap.get(KFSPropertyConstants.ORGANIZATION_CODE), pMap.get(KFSPropertyConstants.TRANSMISSION_DATE)));
 
-        String transmissionDate = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.TRANSMISSION_DATE), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_RECORD_TYPE)));
-        try {
-            setTransmissionDate(parseSqlDate(transmissionDate));
+            String transmissionDate = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.TRANSMISSION_DATE), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_RECORD_TYPE)));
+            try {
+                setTransmissionDate(parseSqlDate(transmissionDate));
+            }
+            catch (ParseException e) {
+                getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_BAD_TRANSMISSION_DATE_FORMAT, transmissionDate);
+                setTransmissionDate(null);
+            }
+            String batchNumber = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.BATCH_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.EMAIL_ADDRESS)));
+            
+            if (ObjectUtil.isInteger(batchNumber)) { 
+                setBatchSequenceNumber(new Integer(batchNumber));
+            } else {
+                setBatchSequenceNumber(0);
+            }
+            setEmailAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.EMAIL_ADDRESS), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID)));
+            setPersonUserID(getValue(headerLine, pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID), pMap.get(KFSPropertyConstants.DEPARTMENT_NAME)));
+            setDepartmentName(getValue(headerLine, pMap.get(KFSPropertyConstants.DEPARTMENT_NAME), pMap.get(KFSPropertyConstants.MAILING_ADDRESS)));
+            setMailingAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.MAILING_ADDRESS), pMap.get(KFSPropertyConstants.CAMPUS_CODE)));
+            setCampusCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CAMPUS_CODE), pMap.get(KFSPropertyConstants.PHONE_NUMBER)));
+            setPhoneNumber(org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.PHONE_NUMBER), GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length())));
+        } catch (Exception e){
+            throw new RuntimeException(e + " occurred in CollectorBatch.setFromTextFileForCollectorBatch()");
         }
-        catch (ParseException e) {
-            getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_BAD_TRANSMISSION_DATE_FORMAT, transmissionDate);
-            setTransmissionDate(null);
-        }
-        String batchNumber = org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.BATCH_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.EMAIL_ADDRESS)));
-        
-        if (Character.isDigit(batchNumber.charAt(0))) {
-            setBatchSequenceNumber(new Integer(batchNumber));
-        } else {
-            setBatchSequenceNumber(0);
-        }
-        setEmailAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.EMAIL_ADDRESS), pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID)));
-        setPersonUserID(getValue(headerLine, pMap.get(KFSPropertyConstants.COLLECTOR_BATCH_PERSON_USER_ID), pMap.get(KFSPropertyConstants.DEPARTMENT_NAME)));
-        setDepartmentName(getValue(headerLine, pMap.get(KFSPropertyConstants.DEPARTMENT_NAME), pMap.get(KFSPropertyConstants.MAILING_ADDRESS)));
-        setMailingAddress(getValue(headerLine, pMap.get(KFSPropertyConstants.MAILING_ADDRESS), pMap.get(KFSPropertyConstants.CAMPUS_CODE)));
-        setCampusCode(getValue(headerLine, pMap.get(KFSPropertyConstants.CAMPUS_CODE), pMap.get(KFSPropertyConstants.PHONE_NUMBER)));
-        setPhoneNumber(org.apache.commons.lang.StringUtils.trim(getValue(headerLine, pMap.get(KFSPropertyConstants.PHONE_NUMBER), GeneralLedgerConstants.getSpaceAllCollectorBatchHeaderFields().length())));
     }
     
     /**
@@ -713,14 +714,6 @@ public class CollectorBatch extends PersistableBusinessObjectBase {
         return collectorBatchTrailerRecordFieldUtil;
     }
     
-    protected String addDecimalPoint (String amount) {
-        if (!amount.contains(".")) {  //have to add decimal point if it's missing
-            int length = amount.length();
-            amount = amount.substring(0, length - 2) + "." + amount.substring(length - 2, length);
-        }
-        return amount;
-    }
-    
     public void setFromTextFileForCollectorBatchTrailerRecord(String trailerLine, int lineNumber) {
         final Map<String, Integer> pMap = getCollectorBatchTrailerRecordFieldUtil().getFieldBeginningPositionMap();
 
@@ -730,7 +723,7 @@ public class CollectorBatch extends PersistableBusinessObjectBase {
         String trailerAmount = org.apache.commons.lang.StringUtils.trim(getValue(trailerLine, pMap.get(KFSPropertyConstants.TOTAL_AMOUNT), GeneralLedgerConstants.getSpaceAllCollectorBatchTrailerFields().length()));
         
         try {
-            setTotalAmount(addDecimalPoint(trailerAmount));
+            setTotalAmount(trailerAmount);
         }
         catch (NumberFormatException e) {
             setTotalAmount(KualiDecimal.ZERO);

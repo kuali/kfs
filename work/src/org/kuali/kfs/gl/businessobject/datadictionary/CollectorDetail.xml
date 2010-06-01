@@ -177,7 +177,6 @@
   <bean id="CollectorDetail-collectorDetailItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="collectorDetailItemAmount"/>
     <property name="label" value="Collector Item Amount"/>
-    <property name="maxLength" value="20"/>
     <property name="shortLabel" value="ClctrItemAmt"/>
     <property name="maxLength" value="20"/>
     <property name="control">

@@ -47,7 +47,7 @@ public class AccountCreationServiceTest extends KualiTestBase
         // Initialize objects.
         accountParameters = new AccountParameters();
         accountParameters.setAccountName("accountName");
-        accountParameters.setAccountNumber("accountNumber");
+        accountParameters.setAccountNumber("123456");
         
         super.setUp();
     }

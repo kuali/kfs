@@ -54,7 +54,6 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_KEY = "accountKey";
     public static final String ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT = "accountLineActualsBalanceAmount";
     public static final String ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT = "accountLineAnnualBalanceAmount";
-    public static final String ACCOUNT_LINE_INVOICE_ITEM_DESCRIPTION = "invoiceItemDescription";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_AMOUNT = "accountLineEncumbranceAmount";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT = "accountLineEncumbranceBalanceAmount";
     public static final String ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT = "accountLineEncumbranceClosedAmount";

@@ -64,4 +64,9 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      */
     public void setTransactionPosted(boolean transactionPosted);
 
+    /**
+     * This method return true if the document is error corrected.
+     * @return
+     */
+    public boolean isErrorCorrectedDocument();
 }

@@ -359,6 +359,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
     /**
+     * This method checks is the Transaction amount entered is greater than Zero.
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean validateTransactionAmountLessThanZero(EndowmentTransactionLine line, String prefix) {
+        if (line.getTransactionAmount() != null && line.getTransactionAmount().isLessThan(AbstractKualiDecimal.ZERO))
+            return true;
+        else {
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_AMOUNT_LESS_THAN_ZERO);
+            return false;
+        }
+    }
+    
+    /**
      * This method checks is the Transaction Units entered is greater than Zero.
      * 
      * @param line
@@ -373,6 +388,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
     }
 
+    /**
+     * This method checks is the Transaction Units entered is greater than Zero.
+     * 
+     * @param line
+     * @return
+     */
+    protected boolean validateTransactionUnitsLessThanZero(EndowmentTransactionLine line, String prefix) {
+        if (line.getTransactionUnits() != null && line.getTransactionUnits().isLessThan(AbstractKualiDecimal.ZERO))
+            return true;
+        else {
+            putFieldError(prefix + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_UNITS_LESS_THAN_ZERO);
+            return false;
+        }
+    }
+    
     /**
      * This method checks is the Transaction Units & Amount entered are equal.
      * 

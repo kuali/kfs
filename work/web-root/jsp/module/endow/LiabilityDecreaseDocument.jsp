@@ -17,7 +17,8 @@
 
 <c:set var="readOnly"
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	
+
+ 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="LiabilityDecreaseDocument"
 	htmlFormAction="endowLiabilityDecreaseDocument" renderMultipart="true" 
@@ -60,6 +61,6 @@
 
 	<kul:panelFooter />
 
-	<sys:documentControls transactionalDocument="true" />
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
 
 </kul:documentPage>

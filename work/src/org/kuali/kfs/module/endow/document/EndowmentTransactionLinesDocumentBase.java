@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -23,6 +24,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -424,4 +426,24 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         return managedList;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
+    {
+        super.toErrorCorrection();
+        
+        //Negate the Tx lines
+        List<EndowmentTransactionLine> lines = new  ArrayList<EndowmentTransactionLine>();
+        lines.addAll(sourceTransactionLines);
+        lines.addAll(targetTransactionLines);
+        
+        for(EndowmentTransactionLine line : lines)
+        {
+            line.setTransactionAmount(line.getTransactionAmount().negated());
+            if( null != line.getTransactionUnits() && !line.getTransactionUnits().isZero() )
+                line.setTransactionUnits(line.getTransactionUnits().negated());
+        }
+    }
 }

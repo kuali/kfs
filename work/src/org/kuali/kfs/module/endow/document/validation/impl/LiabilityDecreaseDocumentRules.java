@@ -89,12 +89,23 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             //Ensure for cash Tx do not have a Etran. 
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
 
-            // Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
-
-            // Validate Units is Greater then Zero(thus positive) value
-            isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
-
+            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
+            {
+                // Validate Amount is Less than Zero.
+                isValid &= validateTransactionAmountLessThanZero(line, ERROR_PREFIX);
+    
+                // Validate Units is Less than Zero.
+                isValid &= validateTransactionUnitsLessThanZero(line, ERROR_PREFIX);
+            }
+            else
+            {
+                // Validate Values is Greater than Zero.
+                isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+    
+                // Validate Units is Greater than Zero.
+                isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+            }
+            
             // Validates Units & Amount are equal.
             isValid &= validateTransactionUnitsAmountEqual(line, ERROR_PREFIX);
         }

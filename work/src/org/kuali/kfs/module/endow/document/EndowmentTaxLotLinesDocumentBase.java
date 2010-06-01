@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 
 public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument{
@@ -39,4 +44,32 @@ public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurity
         return taxLotLinesNbr;
     }
 
+
+    /**
+     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
+    {
+        super.toErrorCorrection();
+        
+        //Negate the Taxlot lines Amount, Units, Short term gain & long term gain values.  
+        List<EndowmentTransactionLine> lines = new  ArrayList<EndowmentTransactionLine>();
+        lines.addAll(sourceTransactionLines);
+        lines.addAll(targetTransactionLines);
+        
+        for(EndowmentTransactionLine line : lines)
+        {
+            for(EndowmentTransactionTaxLotLine taxLotLine: line.getTaxLotLines())
+            {
+                taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
+                taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
+                if( null != taxLotLine.getLotLongTermGainLoss() && 0 != taxLotLine.getLotLongTermGainLoss().intValue() )
+                    taxLotLine.setLotLongTermGainLoss(taxLotLine.getLotLongTermGainLoss().negate());  
+                if(null != taxLotLine.getLotShortTermGainLoss()  && 0 != taxLotLine.getLotShortTermGainLoss().intValue() )
+                    taxLotLine.setLotShortTermGainLoss(taxLotLine.getLotShortTermGainLoss().negate());      
+            }
+        }
+    }
+    
 }

@@ -18,12 +18,16 @@ package org.kuali.kfs.module.endow.document;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
 
@@ -145,5 +149,37 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         primaryKeys.put("code", this.getTransactionSubTypeCode());
         EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
         setTransactionSubType(endowmentTransactionSubType);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
+     */
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
+    {
+        super.toErrorCorrection();
+        
+        //Reset All the Version numbers to 1
+        try 
+        {
+            ObjectUtils.setObjectPropertyDeep(this, KNSPropertyConstants.VERSION_NUMBER, versionNumber.getClass(), 0L);
+        }
+        catch (Exception e) 
+        {
+            LOG.error("Unable to set version number property in copied document " + e.getMessage());
+            throw new RuntimeException("Unable to set version number property in copied document " + e.getMessage());
+        }
+    }
+    
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    public boolean isErrorCorrectedDocument()
+    {
+        if( StringUtils.isEmpty(getDocumentHeader().getFinancialDocumentInErrorNumber()) )
+            return false;
+        else
+            return true;
     }
 }

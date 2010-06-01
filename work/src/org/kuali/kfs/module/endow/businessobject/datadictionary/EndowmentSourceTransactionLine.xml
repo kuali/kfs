@@ -142,6 +142,7 @@
     <property name="name" value="transactionAmount"/>
     <property name="label" value="Transaction Amount"/>
     <property name="shortLabel" value="Transaction Amount"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-corpusIndicator" parent="EndowmentSourceTransactionLine-corpusIndicator-parentBean"/>
 
@@ -155,7 +156,7 @@
     <property name="name" value="transactionUnits"/>
     <property name="label" value="Transaction Units"/>
     <property name="shortLabel" value="Transaction Units"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentSourceTransactionLine-linePosted" parent="EndowmentSourceTransactionLine-linePosted-parentBean"/>
 

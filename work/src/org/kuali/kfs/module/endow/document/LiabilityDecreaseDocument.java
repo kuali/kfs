@@ -27,9 +27,11 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling {
+public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Copyable, Correctable, UnitsTotaling, AmountTotaling {
 
 
     public LiabilityDecreaseDocument() {
@@ -43,5 +45,13 @@ public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase 
         super.prepareForSave();
     }
     
+     /**
+     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
+    {
+        super.toErrorCorrection();
+    }
 
 }

@@ -247,14 +247,17 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                 // calculate the total number of units to be decreased
                 totalComputedTaxLotUnits = totalComputedTaxLotUnits.add(lotUnits);
-                totalComputedCost = totalComputedCost.add(taxLotLine.getLotHoldingCost().negate());
 
-                if (taxLotLine.getLotShortTermGainLoss() != null) {
-                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotShortTermGainLoss());
-                }
+                if (isSubTypeCash) {
+                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotHoldingCost().negate());
 
-                if (taxLotLine.getLotLongTermGainLoss() != null) {
-                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotLongTermGainLoss());
+                    if (taxLotLine.getLotShortTermGainLoss() != null) {
+                        totalComputedCost = totalComputedCost.add(taxLotLine.getLotShortTermGainLoss());
+                    }
+
+                    if (taxLotLine.getLotLongTermGainLoss() != null) {
+                        totalComputedCost = totalComputedCost.add(taxLotLine.getLotLongTermGainLoss());
+                    }
                 }
 
                 // keep the tax lot with the oldest acquired date so that we can adjust the units for that one in case the
@@ -299,29 +302,30 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                 // 7. Calculate Gain or loss
                 calculateGainLoss(holdingTaxLot, oldestTaxLotLine, valueReceived, originalCost);
+
+                // update totalComputedCost
+                totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotHoldingCost());
+                if (oldestTaxLotLine.getLotShortTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotShortTermGainLoss());
+                }
+
+                if (oldestTaxLotLine.getLotLongTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotLongTermGainLoss());
+                }
+
+                oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
+                oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
             }
 
-            // update totalComputedCost
-            totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotHoldingCost());
-            if (oldestTaxLotLine.getLotShortTermGainLoss() != null) {
-                totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotShortTermGainLoss());
-            }
+            // compare total computed cost with the transaction line amount
+            if (totalComputedCost.compareTo(transLine.getTransactionUnits().bigDecimalValue()) != 0) {
+                BigDecimal difAmount = transLine.getTransactionAmount().bigDecimalValue().subtract(totalComputedCost);
+                oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate().add(difAmount));
 
-            if (oldestTaxLotLine.getLotLongTermGainLoss() != null) {
-                totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotLongTermGainLoss());
+                oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
             }
-
-            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
-            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
         }
 
-        // compare total computed cost with the transaction line amount
-        if (totalComputedCost.compareTo(transLine.getTransactionUnits().bigDecimalValue()) != 0) {
-            BigDecimal difAmount = transLine.getTransactionAmount().bigDecimalValue().subtract(totalComputedCost);
-            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate().add(difAmount));
-
-            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
-        }
 
     }
 

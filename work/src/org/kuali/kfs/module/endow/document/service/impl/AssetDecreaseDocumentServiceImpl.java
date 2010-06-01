@@ -247,17 +247,14 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
 
                 // calculate the total number of units to be decreased
                 totalComputedTaxLotUnits = totalComputedTaxLotUnits.add(lotUnits);
+                totalComputedCost = totalComputedCost.add(taxLotLine.getLotHoldingCost().negate());
 
-                if (isSubTypeCash) {
-                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotHoldingCost().negate());
+                if (taxLotLine.getLotShortTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotShortTermGainLoss());
+                }
 
-                    if (taxLotLine.getLotShortTermGainLoss() != null) {
-                        totalComputedCost = totalComputedCost.add(taxLotLine.getLotShortTermGainLoss());
-                    }
-
-                    if (taxLotLine.getLotLongTermGainLoss() != null) {
-                        totalComputedCost = totalComputedCost.add(taxLotLine.getLotLongTermGainLoss());
-                    }
+                if (taxLotLine.getLotLongTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotLongTermGainLoss());
                 }
 
                 // keep the tax lot with the oldest acquired date so that we can adjust the units for that one in case the
@@ -277,17 +274,18 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
         if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue().negate()) != 0) {
             BigDecimal difUnits = transLine.getTransactionUnits().bigDecimalValue().subtract(totalComputedTaxLotUnits);
             oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(difUnits.negate()));
-
             oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
 
-            // update totalComputedCost
-            totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotHoldingCost().negate());
-            if (oldestTaxLotLine.getLotShortTermGainLoss() != null) {
-                totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotShortTermGainLoss());
-            }
+            if (isSubTypeCash) {
+                // update totalComputedCost
+                totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotHoldingCost().negate());
+                if (oldestTaxLotLine.getLotShortTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotShortTermGainLoss());
+                }
 
-            if (oldestTaxLotLine.getLotLongTermGainLoss() != null) {
-                totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotLongTermGainLoss());
+                if (oldestTaxLotLine.getLotLongTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.subtract(oldestTaxLotLine.getLotLongTermGainLoss());
+                }
             }
 
             HoldingTaxLot holdingTaxLot = lotsMap.get(oldestTaxLotLine.getTransactionHoldingLotNumber());
@@ -296,13 +294,11 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
             oldestTaxLotLine.setLotHoldingCost(originalCost);
 
             if (isSubTypeCash) {
-
                 // 4. Calculate the value received for units sold in each tax lot
                 BigDecimal valueReceived = KEMCalculationRoundingHelper.multiply(oldestTaxLotLine.getLotUnits(), perUnitValue, 2);
 
                 // 7. Calculate Gain or loss
                 calculateGainLoss(holdingTaxLot, oldestTaxLotLine, valueReceived, originalCost);
-
                 // update totalComputedCost
                 totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotHoldingCost());
                 if (oldestTaxLotLine.getLotShortTermGainLoss() != null) {
@@ -312,11 +308,13 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 if (oldestTaxLotLine.getLotLongTermGainLoss() != null) {
                     totalComputedCost = totalComputedCost.add(oldestTaxLotLine.getLotLongTermGainLoss());
                 }
-
-                oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
-                oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
             }
+            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
+            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().negate());
 
+        }
+
+        if (isSubTypeCash) {
             // compare total computed cost with the transaction line amount
             if (totalComputedCost.compareTo(transLine.getTransactionUnits().bigDecimalValue()) != 0) {
                 BigDecimal difAmount = transLine.getTransactionAmount().bigDecimalValue().subtract(totalComputedCost);
@@ -325,7 +323,6 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
                 oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().negate());
             }
         }
-
 
     }
 

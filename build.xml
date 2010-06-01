@@ -222,9 +222,12 @@
 
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
-	        <not>
-	            <equals arg1="" arg2="${institution.configuration.properties.file}" trim="true" />
-	        </not>
+	    	<and>
+	    		<isset property="institution.configuration.properties.file" />
+		        <not>	        	
+		            <equals arg1="" arg2="${institution.configuration.properties.file}" trim="true" />
+		        </not>
+	    	</and>
 	        <then>
 	            <loadfile property="institutional.configuration" srcfile="${institution.configuration.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
             </then>
@@ -242,9 +245,12 @@
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
-	        <not>
-	            <equals arg1="" arg2="${institution.security.properties.file}" trim="true" />
-	        </not>
+	    	<and>
+	    		<isset property="institution.security.properties.file" />
+		        <not>
+		            <equals arg1="" arg2="${institution.security.properties.file}" trim="true" />
+		        </not>
+	    	</and>
 	        <then>
 	            <loadfile property="institutional.security" srcfile="${institution.security.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
             </then>

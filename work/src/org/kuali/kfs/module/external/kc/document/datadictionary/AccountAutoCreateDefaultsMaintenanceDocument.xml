@@ -50,6 +50,12 @@
     <property name="documentTypeName" value="AACD"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes" ref="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../scripts/kc/accountAutoCreateDefaultsDocument.js</value>
+      </list>
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -71,7 +77,7 @@
         <dd:maintField attributeName="accountStreetAddress" required="true"/>
         <dd:maintField attributeName="accountOffCampusIndicator"/>
         <dd:maintField attributeName="accountTypeCode" required="true"/>
-        <dd:maintField attributeName="subFundGroupCode" required="true"/>
+        <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
       </list>

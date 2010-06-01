@@ -17,6 +17,11 @@ package org.kuali.kfs.module.external.kc.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -68,4 +73,27 @@ public class AccountCreationServiceTest extends KualiTestBase
         assertTrue(creationStatus.isSuccess());
     }
 
+    /**
+     * TODO
+     * This method...
+     */
+    public void testCreateAccountWsClient() 
+    {   
+        try {
+            URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
+            QName qName = new QName("KFS", "accountCreationServiceSOAP");
+            
+            Service service = Service.create(url, qName);
+            AccountCreationService accountService = (AccountCreationService)service.getPort(AccountCreationService.class);
+                    
+            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);
+        
+            System.out.println(creationStatus.getAccountNumber());
+            
+            assertTrue(creationStatus.isSuccess());
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

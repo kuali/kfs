@@ -835,6 +835,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="transactionRestrictionCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="close" p:defaultValue="N" />              
       </list>
     </property>
@@ -850,6 +852,8 @@
               p:attributeName="purposeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="responsibleAdminCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionRestrictionCode" />
         <bean parent="FieldDefinition"
               p:attributeName="close" />                  
       </list>

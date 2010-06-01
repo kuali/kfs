@@ -46,7 +46,8 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         super.setUp();
 
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        accountCreationServiceImpl = (AccountCreationServiceImpl) SpringContext.getService("kcMockAccountCreationService");
+   //     accountCreationServiceImpl = (AccountCreationServiceImpl) SpringContext.getService("kcMockAccountCreationService");
+        accountCreationServiceImpl = (AccountCreationServiceImpl) SpringContext.getService("accountCreationService");        
     }
     
     /**

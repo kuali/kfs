@@ -23,10 +23,12 @@ public interface UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService {
     /**
      * Updates the tax lots related to the given transaction line based on the accounting method and the transaction sub-type.
      * 
-     * @param isSource true if transaction line is source, false if target
-     * @param endowmentTaxLotLinesDocument the Endowment tax lot lines Document for which we compute the transaction line related tax lots
+     * @param isUpdate true if the method will update the tax lots for the transaction line, false if the transaction line is just
+     *        added and the tax lots are computed for the first time
+     * @param endowmentTaxLotLinesDocument the Endowment tax lot lines Document for which we compute the transaction line related
+     *        tax lots
      * @param transLine the transaction line for which we update the tax lots
      */
-    public void updateTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionLine transLine);
+    public void updateTransactionLineTaxLots(boolean isUpdate, EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionLine transLine);
 
 }

@@ -160,6 +160,7 @@
 
   <bean id="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Accounts Receivable Document Header Inquiry"/>
+    
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
@@ -187,6 +188,7 @@
 
   <bean id="AccountsReceivableDocumentHeader-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Accounts Receivable Document Header Lookup"/>
+    <property name="lookupableID" value="accountsReceivablesDocumentHeaderLookupable"/>
     
     <property name="defaultSort">
       <bean parent="SortDefinition">

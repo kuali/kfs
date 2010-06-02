@@ -309,7 +309,6 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="InvoiceRecurrence-lookupDefinition" parent="InvoiceRecurrence-lookupDefinition-parentBean"/>
 
   <bean id="InvoiceRecurrence-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">

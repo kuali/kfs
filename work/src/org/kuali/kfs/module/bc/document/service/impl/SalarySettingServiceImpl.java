@@ -137,24 +137,19 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         if (currentHourlyPayRate != null && !currentHourlyPayRate.equals(BigDecimal.ZERO)) {
             KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
             appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
-        }
+        } else {
 
-        KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
-        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
-            BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
-        }
+            KualiInteger currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+            if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
+                BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
+                appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
+            }
 
-        currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
-        if (currentHourlyPayRate != null) {
-            KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
-        }
-
-        currentAnnualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
-        if (currentAnnualPayAmount != null && currentAnnualPayAmount.isNonZero()) {
-            BigDecimal hourlyPayRate = this.calculateHourlyPayRate(appointmentFunding);
-            appointmentFunding.setAppointmentRequestedPayRate(hourlyPayRate);
+            currentHourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
+            if (currentHourlyPayRate != null) {
+                KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
+                appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+            }
         }
     }
 

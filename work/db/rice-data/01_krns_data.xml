@@ -28,6 +28,38 @@
 			</delete>
 		</rollback>
     </changeSet>
+	<changeSet author="Jonathan Keller" id="KFS_LOAD_KRNS_PARM_T">
+		<loadData tableName="KRNS_PARM_T" file="data/krns_parm_t.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="PARM_DTL_TYP_CD" type="string" />
+			<column header="PARM_NM" type="string" />
+			<column header="PARM_TYP_CD" type="string" />
+			<column header="TXT" type="string" />
+			<column header="PARM_DESC_TXT" type="string" />
+			<column header="CONS_CD" type="string" />
+			<column header="APPL_NMSPC_CD" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRNS_PARM_T">
+				<where>APPL_NMSPC_CD = 'KFS'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KFS_LOAD_KR_POSTAL_CODE_T">
+		<loadData tableName="KR_POSTAL_CODE_T" file="data/kr_postal_code_t.csv">
+			<column header="POSTAL_CD" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="POSTAL_CNTRY_CD" type="string" />
+			<column header="POSTAL_STATE_CD" type="string" />
+			<column header="COUNTY_CD" type="string" />
+			<column header="POSTAL_CITY_NM" type="string" />
+			<column header="ACTV_IND" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KR_POSTAL_CODE_T" />
+		</rollback>
+    </changeSet>
 
 </databaseChangeLog>   
       

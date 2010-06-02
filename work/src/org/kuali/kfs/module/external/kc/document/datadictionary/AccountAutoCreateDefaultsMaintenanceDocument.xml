@@ -48,6 +48,7 @@
     </property>
     
     <property name="documentTypeName" value="AACD"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.external.kc.document.validation.impl.AccountAutoCreateDefaultsRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes" ref="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes"/>
     <property name="webScriptFiles">

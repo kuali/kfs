@@ -511,7 +511,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * When acquisition type code is Capital (Gifts, Transfer-in, State excess, and Found), payment document type code will be
-     * assigned to “AA” for Add Asset Document.
+     * assigned to AA for Add Asset Document.
      * 
      * @param documentTypeCode
      * @return

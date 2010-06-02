@@ -67,7 +67,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      */
     public String sendPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
         /*
-         * IMPORTANT DESIGN NOTE: We need the contract manager's name, phone number, and e-mail address. B2B orders that don’t
+         * IMPORTANT DESIGN NOTE: We need the contract manager's name, phone number, and e-mail address. B2B orders that don't
          * qualify to become APO's will have contract managers on the PO, and the ones that DO become APO's will not. We decided to
          * always get the contract manager from the B2B contract associated with the order, and for B2B orders to ignore the
          * contract manager field on the PO. We pull the name and phone number from the contract manager table and get the e-mail

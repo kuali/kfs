@@ -60,7 +60,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Labor Ledger Year End – Inception to Date Beginning Balance process moves the Year-to-Date Total plus the Contracts and Grants
+ * Labor Ledger Year End Inception to Date Beginning Balance process moves the Year-to-Date Total plus the Contracts and Grants
  * Beginning Balances to the Contracts and Grants Beginning Balances of the new fiscal year for a designated group of accounts (to
  * be identified by fund group and sub fund group).
  */

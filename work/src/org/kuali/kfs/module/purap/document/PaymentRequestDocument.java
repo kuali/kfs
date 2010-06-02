@@ -1227,7 +1227,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 KualiDecimal poQuantityReceived = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();
                 KualiDecimal poQuantityInvoiced = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
 
-                // receiving has NOT been met if preqQtyInvoiced is greater than (poQtyReceived – (poQtyInvoiced – preqQtyInvoiced))
+                // receiving has NOT been met if preqQtyInvoiced is greater than (poQtyReceived & (poQtyInvoiced & preqQtyInvoiced))
                 if (preqQuantityInvoiced.compareTo(poQuantityReceived.subtract(poQuantityInvoiced.subtract(preqQuantityInvoiced))) > 0) {
                     return false;
                 }

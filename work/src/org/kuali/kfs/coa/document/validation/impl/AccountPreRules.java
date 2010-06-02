@@ -123,34 +123,34 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         }
 
         if (StringUtils.isNotBlank(newAccount.getEndowmentIncomeAccountNumber())) {
-            Account account = checkForContinuationAccount("Endowment Account", newAccount.getEndowmentIncomeAcctFinCoaCd(), newAccount.getEndowmentIncomeAccountNumber(), "");
+            Account account = checkForContinuationAccount("Endowment Account", newAccount.getEndowmentIncomeChartOfAccountsCode(), newAccount.getEndowmentIncomeAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
                 newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
-                newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
+                newAccount.setEndowmentIncomeChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
 
         if (StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber())) {
-            Account account = checkForContinuationAccount("Income Stream Account", newAccount.getIncomeStreamFinancialCoaCode(), newAccount.getIncomeStreamAccountNumber(), "");
+            Account account = checkForContinuationAccount("Income Stream Account", newAccount.getIncomeStreamChartOfAccountsCode(), newAccount.getIncomeStreamAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
                 newAccount.setIncomeStreamAccountNumber(account.getAccountNumber());
-                newAccount.setIncomeStreamFinancialCoaCode(account.getChartOfAccountsCode());
+                newAccount.setIncomeStreamChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
 
         if (StringUtils.isNotBlank(newAccount.getContractControlAccountNumber())) {
-            Account account = checkForContinuationAccount("Contract Control Account", newAccount.getContractControlFinCoaCode(), newAccount.getContractControlAccountNumber(), "");
+            Account account = checkForContinuationAccount("Contract Control Account", newAccount.getContractControlChartOfAccountsCode(), newAccount.getContractControlAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
                 newAccount.setContractControlAccountNumber(account.getAccountNumber());
-                newAccount.setContractControlFinCoaCode(account.getChartOfAccountsCode());
+                newAccount.setContractControlChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
 
-        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAcctNbr())) {
-            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(), newAccount.getIndirectCostRecoveryAcctNbr(), "");
+        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAccountNumber())) {
+            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRecoveryChartOfAccountsCode(), newAccount.getIndirectCostRecoveryAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setIndirectCostRecoveryAcctNbr(account.getAccountNumber());
-                newAccount.setIndirectCostRcvyFinCoaCode(account.getChartOfAccountsCode());
+                newAccount.setIndirectCostRecoveryAccountNumber(account.getAccountNumber());
+                newAccount.setIndirectCostRecoveryChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
 

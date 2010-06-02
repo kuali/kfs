@@ -39,7 +39,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="endowmentIncomeAccount" p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAcct" p:attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAccount" p:attributeToHighlightOnFail="indirectCostRecoveryAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
@@ -60,10 +60,12 @@
     <property name="documentTypeName" value="ACCT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountRelatedMaintenanceDocumentPresentationControllerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
@@ -97,13 +99,13 @@
         <dd:maintField attributeName="accountTypeCode" required="true"/>
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
-        <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
-        <dd:maintField attributeName="reportsToAccountNumber"/>
+        <dd:maintField attributeName="reportsToChartOfAccountsCode" javascriptLeaveFieldFunction="onblur_accountNumber"/>
+        <dd:maintField attributeName="reportsToAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
         <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountRestrictedStatusDate"/>
-        <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
-        <dd:maintField attributeName="endowmentIncomeAccountNumber"/>
+        <dd:maintField attributeName="endowmentIncomeChartOfAccountsCode"/>
+        <dd:maintField attributeName="endowmentIncomeAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
       </list>
     </property>
   </bean>
@@ -120,10 +122,10 @@
         <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
 
-        <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
-        <dd:maintField attributeName="continuationAccountNumber"/>
-        <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
-        <dd:maintField attributeName="incomeStreamAccountNumber"/>
+        <dd:maintField attributeName="continuationChartOfAccountsCode"/>
+        <dd:maintField attributeName="continuationAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
+        <dd:maintField attributeName="incomeStreamChartOfAccountsCode"/>
+        <dd:maintField attributeName="incomeStreamAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="budgetRecordingLevelCode" required="true"/>
         <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
         <dd:maintField attributeName="pendingAcctSufficientFundsIndicator"/>
@@ -140,12 +142,12 @@
     <property name="title" value="Contracts And Grants"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="contractControlFinCoaCode"/>
-        <dd:maintField attributeName="contractControlAccountNumber"/>
+        <dd:maintField attributeName="contractControlChartOfAccountsCode"/>
+        <dd:maintField attributeName="contractControlAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
-        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
-        <dd:maintField attributeName="indirectCostRecoveryAcctNbr"/>
+        <dd:maintField attributeName="indirectCostRecoveryChartOfAccountsCode"/>
+        <dd:maintField attributeName="indirectCostRecoveryAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="accountCfdaNumber"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>

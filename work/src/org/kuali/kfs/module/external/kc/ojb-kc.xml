@@ -37,9 +37,9 @@
     <field-descriptor name="accountsSupervisorySystemsIdentifier" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="accountManagerSystemIdentifier" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="continuationChartOfAccountsCode" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="incomeStreamFinancialCoaCode" column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="incomeStreamChartOfAccountsCode" column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="incomeStreamAccountNumber" column="INCOME_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="budgetRecordingLevelCode" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR" />
@@ -48,8 +48,8 @@
     <field-descriptor name="intrnlFinEncumSufficntFndIndicator" column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="finPreencumSufficientFundIndicator" column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="financialObjectivePrsctrlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <field-descriptor name="indirectCostRcvyFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="indirectCostRecoveryChartOfAccountsCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="contractsAndGrantsAccountResponsibilityId" column="CG_ACCT_RESP_ID" jdbc-type="INTEGER" />
     <field-descriptor name="acctIndirectCostRcvyTypeCd" column="ACCT_ICR_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountExpenseGuidelineText" column="ACCT_EXPNS_GUIDE_TXT" jdbc-type="VARCHAR" />
@@ -59,7 +59,7 @@
     <field-descriptor name="accountDescriptionBuildingCode" column="ACCT_DESC_BLDG_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
  
-    <reference-descriptor name="fringeBenefitsChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="fringeBenefitsChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
  
@@ -84,21 +84,21 @@
         <foreignkey field-ref="financialHigherEdFunctionCd" />
     </reference-descriptor>
 
-     <reference-descriptor name="continuationChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
+     <reference-descriptor name="continuationChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="continuationChartOfAccountsCode" />
     </reference-descriptor>
     
     <reference-descriptor name="continuationAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
+        <foreignkey field-ref="continuationChartOfAccountsCode" />
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
 
     <reference-descriptor name="incomeStreamChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="incomeStreamFinancialCoaCode" />
+        <foreignkey field-ref="incomeStreamChartOfAccountsCode" />
     </reference-descriptor>
     
     <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="incomeStreamFinancialCoaCode" />
+        <foreignkey field-ref="incomeStreamChartOfAccountsCode" />
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
 
@@ -107,12 +107,12 @@
     </reference-descriptor>
 
     <reference-descriptor name="indirectCostRcvyChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
+        <foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
-        <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
+    <reference-descriptor name="indirectCostRecoveryAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
+        <foreignkey field-ref="indirectCostRecoveryAccountNumber" />
     </reference-descriptor>
 
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

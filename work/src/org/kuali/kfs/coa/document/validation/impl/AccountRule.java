@@ -165,7 +165,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * This method checks the basic rules for empty values in an account and associated objects with this account If guidelines are
      * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
      * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
-     * contractControlAccount indirectCostRecoveryAcct
+     * contractControlAccount indirectCostRecoveryAccount
      * 
      * @param maintenanceDocument
      * @return false if any of these are empty
@@ -194,7 +194,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkForPartiallyFilledOutReferenceForeignKeys("endowmentIncomeAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAccount");
 
         return success;
     }
@@ -389,7 +389,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         boolean result = false;
 
-        String chartCode = newAccount.getContinuationFinChrtOfAcctCd();
+        String chartCode = newAccount.getContinuationChartOfAccountsCode();
         String accountNumber = newAccount.getContinuationAccountNumber();
 
         // if either chartCode or accountNumber is not entered, then we
@@ -544,8 +544,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
-        if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
-            putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        if (StringUtils.isBlank(newAccount.getContinuationChartOfAccountsCode())) {
+            putFieldError("continuationChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
 
@@ -657,8 +657,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         boolean valid = true;
         if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, fundGroupCode).evaluationSucceeds()) {
             if (getParameterService().getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, subFundGroupCode).evaluationSucceeds()) {
-                if (StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
-                    putFieldError(KFSPropertyConstants.INCOME_STREAM_FINANCIAL_COA_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
+                if (StringUtils.isBlank(newAccount.getIncomeStreamChartOfAccountsCode())) {
+                    putFieldError(KFSPropertyConstants.INCOME_STREAM_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
                     valid = false;
                 } 
                 if (StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
@@ -667,10 +667,10 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                 }
             }
         }
-        if (valid && (StringUtils.isNotBlank(newAccount.getIncomeStreamFinancialCoaCode()) || StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber()))) {
-            if(!(newAccount.getIncomeStreamAccountNumber().equals(newAccount.getAccountNumber()) && newAccount.getIncomeStreamFinancialCoaCode().equals(newAccount.getChartOfAccountsCode()))) {
+        if (valid && (StringUtils.isNotBlank(newAccount.getIncomeStreamChartOfAccountsCode()) || StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber()))) {
+            if(!(newAccount.getIncomeStreamAccountNumber().equals(newAccount.getAccountNumber()) && newAccount.getIncomeStreamChartOfAccountsCode().equals(newAccount.getChartOfAccountsCode()))) {
                 if (!super.getDictionaryValidationService().validateReferenceExists(newAccount, KFSPropertyConstants.INCOME_STREAM_ACCOUNT)) {
-                    putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, new StringBuffer(getDdService().getAttributeLabel(SubFundGroup.class, KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER)).append(": ").append(newAccount.getIncomeStreamFinancialCoaCode()).append("-").append(newAccount.getIncomeStreamAccountNumber()).toString());
+                    putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, new StringBuffer(getDdService().getAttributeLabel(SubFundGroup.class, KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER)).append(": ").append(newAccount.getIncomeStreamChartOfAccountsCode()).append("-").append(newAccount.getIncomeStreamAccountNumber()).toString());
                     valid = false;
                 }
             }   
@@ -720,16 +720,16 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                     }
                 }
 
-                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
+                result &= checkEmptyBOField("indirectCostRecoveryChartOfAccountsCode", newAccount.getIndirectCostRecoveryChartOfAccountsCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
+                result &= checkEmptyBOField("indirectCostRecoveryAccountNumber", newAccount.getIndirectCostRecoveryAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
             }
             else {
                 // this is not a C&G fund group. So users should not fill in any fields in the C&G tab.
                 result &= checkCGFieldNotFilledIn(newAccount, "acctIndirectCostRcvyTypeCd");
                 result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
-                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
-                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
+                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryChartOfAccountsCode");
+                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAccountNumber");
             }
         }
         return result;
@@ -763,13 +763,13 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // Contract Control account must either exist or be the same as account being maintained
 
-        if (ObjectUtils.isNull(newAccount.getContractControlFinCoaCode())) {
+        if (ObjectUtils.isNull(newAccount.getContractControlChartOfAccountsCode())) {
             return result;
         }
         if (ObjectUtils.isNull(newAccount.getContractControlAccountNumber())) {
             return result;
         }
-        if ((newAccount.getContractControlFinCoaCode().equals(newAccount.getChartOfAccountsCode())) && (newAccount.getContractControlAccountNumber().equals(newAccount.getAccountNumber()))) {
+        if ((newAccount.getContractControlChartOfAccountsCode().equals(newAccount.getChartOfAccountsCode())) && (newAccount.getContractControlAccountNumber().equals(newAccount.getAccountNumber()))) {
             return result;
         }
 
@@ -777,7 +777,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         DictionaryValidationService dvService = super.getDictionaryValidationService();
         boolean referenceExists = dvService.validateReferenceExists(newAccount, "contractControlAccount");
         if (!referenceExists) {
-            putFieldError("contractControlAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Contract Control Account: " + newAccount.getContractControlFinCoaCode() + "-" + newAccount.getContractControlAccountNumber());
+            putFieldError("contractControlAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Contract Control Account: " + newAccount.getContractControlChartOfAccountsCode() + "-" + newAccount.getContractControlAccountNumber());
             result &= false;
         }
 
@@ -814,8 +814,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
                 putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
             }
-            if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
-                putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
+            if (StringUtils.isBlank(newAccount.getContinuationChartOfAccountsCode())) {
+                putFieldError("continuationChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
                 // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
             }

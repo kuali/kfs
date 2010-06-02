@@ -54,3 +54,44 @@ function checkRestrictedStatusCode_Callback( data ) {
 		}
 	}
 }
+
+function onblur_accountNumber( accountNumberField ) {
+    var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
+    var accountNumber = getElementValue( accountNumberField.name );	
+	alert ("accountNumberField name = " + accountNumberField.name + ", coaCodeFieldName = " + coaCodeFieldName + ", accountNumber = " + accountNumber);
+	
+	if (accountNumber != "") {
+	    var dwrReply = {
+	        callback: function (param) {
+				if ( typeof param == 'boolean' && param == false) {	
+					loadChartCode(accountNumber, coaCodeFieldName);
+				}
+			},	
+			errorHandler:function( errorMessage ) { 
+	        	window.status = errorMessage;
+			}
+		};
+        AccountService.accountsCanCrossCharts(dwrReply);	
+	}
+}
+
+function loadChartCode( accountNumber, coaCodeFieldName ) {
+	var dwrReply = {
+		callback: function (data) {
+			alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode);
+			if ( data != null && typeof data == 'object' ) {    
+				setElementValue( coaCodeFieldName, data.chartOfAccountsCode );
+			}
+		},
+		errorHandler:function( errorMessage ) { 
+        	window.status = errorMessage;
+		}
+	};
+	AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
+}
+
+function findCoaFieldName( accountNumberFieldName ) {
+	var index = accountNumberFieldName.indexOf("AccountNumber");    
+	var coaCodeFieldName = accountNumberFieldName.substring(0, index) + "ChartOfAccountsCode";
+	return coaCodeFieldName;
+}    

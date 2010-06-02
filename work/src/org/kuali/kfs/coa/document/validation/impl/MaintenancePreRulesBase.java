@@ -130,7 +130,7 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
 
             useContinuationAccount = askOrAnalyzeYesNoQuestion("ContinuationAccount" + accName + accountNumber, buildContinuationConfirmationQuestion(accName, accountNumber, continuationAccountNumber));
             if (useContinuationAccount) {
-                String continuationChart = account.getContinuationFinChrtOfAcctCd();
+                String continuationChart = account.getContinuationChartOfAccountsCode();
                 account = accountService.getByPrimaryId(continuationChart, continuationAccountNumber);
 
                 if (ObjectUtils.isNotNull(account)) {

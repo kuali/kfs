@@ -40,7 +40,7 @@ public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
         if (isValid && accountingLine.isSourceAccountingLine()) {
             accountingLine.refreshReferenceObject("account");
             if (!ObjectUtils.isNull(accountingLine.getAccount())) {
-                String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
+                String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAccountNumber();
                 isValid &= StringUtils.isNotBlank(icrAccount);
                 if (!isValid) {
                     reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());

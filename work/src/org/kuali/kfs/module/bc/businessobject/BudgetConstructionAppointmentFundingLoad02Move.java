@@ -29,7 +29,7 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
 
     private String chartOfAccountsCode;
     private String accountNumber;
-    private String continuationFinChrtOfAcctCd;
+    private String continuationChartOfAccountsCode;
     private String continuationAccountNumber;
 
     private Chart chartOfAccounts;
@@ -78,17 +78,17 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     }
 
     /**
-     * @return Returns the continuationFinChrtOfAcctCd.
+     * @return Returns the continuationChartOfAccountsCode.
      */
-    public String getContinuationFinChrtOfAcctCd() {
-        return continuationFinChrtOfAcctCd;
+    public String getContinuationChartOfAccountsCode() {
+        return continuationChartOfAccountsCode;
     }
 
     /**
-     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
+     * @param continuationChartOfAccountsCode The continuationChartOfAccountsCode to set.
      */
-    public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
-        this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
+    public void setContinuationChartOfAccountsCode(String continuationChartOfAccountsCode) {
+        this.continuationChartOfAccountsCode = continuationChartOfAccountsCode;
     }
 
     /**

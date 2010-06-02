@@ -80,9 +80,9 @@
         <bean parent="MaintainableFieldDefinition" p:name="accountCityName"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountStateCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountStreetAddress"/>
-        <bean parent="MaintainableFieldDefinition" p:name="continuationFinChrtOfAcctCd"/>
+        <bean parent="MaintainableFieldDefinition" p:name="continuationChartOfAccountsCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamFinancialCoaCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamChartOfAccountsCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountCfdaNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialHigherEdFunctionCd"/>

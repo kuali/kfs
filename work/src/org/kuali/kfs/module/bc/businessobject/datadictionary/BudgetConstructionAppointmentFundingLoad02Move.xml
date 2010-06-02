@@ -31,7 +31,7 @@
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-accountNumber"/>
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-chartOfAccountsCode"/>
         <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationAccountNumber"/>
-        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd"/>
+        <ref bean="BudgetConstructionAppointmentFundingLoad02Move-continuationChartOfAccountsCode"/>
       </list>
     </property>
   </bean>
@@ -56,9 +56,9 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd" parent="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="ChartAttribute-TextControl">
-    <property name="name" value="continuationFinChrtOfAcctCd"/>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationChartOfAccountsCode" parent="BudgetConstructionAppointmentFundingLoad02Move-continuationChartOfAccountsCode-parentBean"/>
+  <bean id="BudgetConstructionAppointmentFundingLoad02Move-continuationChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+    <property name="name" value="continuationChartOfAccountsCode"/>
     <property name="label" value="Continuation Fin Chrt Of Acct Cd"/>
     <property name="required" value="false"/>
   </bean>
@@ -78,7 +78,7 @@
               <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
               <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
+              <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
             </list>
           </property>
         </bean>
@@ -103,7 +103,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
+        <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
       </list>
     </property>
     <property name="resultFields">
@@ -111,7 +111,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
+        <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
       </list>
     </property>
   </bean>

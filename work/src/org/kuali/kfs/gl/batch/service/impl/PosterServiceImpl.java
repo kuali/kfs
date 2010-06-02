@@ -834,9 +834,9 @@ public class PosterServiceImpl implements PosterService {
         
         metadata.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
         metadata.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
-        metadata.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRcvyFinCoaCode());
-        metadata.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAcctNbr());
-        metadata.setIndirectCostRecoveryAccount(account.getIndirectCostRecoveryAcct());
+        metadata.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRecoveryChartOfAccountsCode());
+        metadata.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAccountNumber());
+        metadata.setIndirectCostRecoveryAccount(account.getIndirectCostRecoveryAccount());
 
         return metadata;
     }

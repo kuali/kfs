@@ -98,7 +98,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setSubFundGroupCode(defaults.getSubFundGroupCode());
         
         account.setAccountsFringesBnftIndicator(true);  // TODO: check the value from CGAD
-        account.getFringeBenefitsChartOfAccount().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccount().getChartOfAccountsCode());  // according to the indicator
+        account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccounts().getChartOfAccountsCode());  // according to the indicator
         //account.set??(defaults.getFringeBenefitAccountNumber());  // TODO: fringe benefit account number does not exist in account ***
 
         account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
@@ -111,7 +111,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName()); //TODO: fiscal officer principal name ***
         account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());   //TODO: account supervisor principal name ***
         account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName());             //TODO: account manager principal name ***
-        account.getContinuationChartOfAccount().setChartOfAccountsCode(defaults.getContinuationChartOfAccount().getCode());
+        account.getContinuationChartOfAccounts().setChartOfAccountsCode(defaults.getContinuationChartOfAccounts().getCode());
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
         account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getChartOfAccountsCode());  // not object, but code ?
@@ -129,11 +129,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
         account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); //TODO: contract control chart of accounts code ?
         account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);                            //TODO: contract control account number ?
-        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
-        //account.getIndirectCostRecoveryAcct();   // TODO: indirect cost rate - accountParameters.getIndirectCostRate(); *** 
+        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRecoveryChartOfAccountsCode());
+        //account.getIndirectCostRecoveryAccount();   // TODO: indirect cost rate - accountParameters.getIndirectCostRate(); *** 
         
-        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
-        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
+        account.setIndirectCostRecoveryChartOfAccountsCode(defaults.getIndirectCostRecoveryChartOfAccountsCode());
+        account.setIndirectCostRecoveryAccountNumber(defaults.getIndirectCostRecoveryAccountNumber());
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         
         account.setAccountCfdaNumber(accountParameters.getCfdaNumber());

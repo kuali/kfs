@@ -63,7 +63,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private SubFundGroup subFundGroup;
     private String subFundGroupCode;
     private boolean accountsFringesBnftIndicator;
-    protected Chart fringeBenefitsChartOfAccount;
+    protected Chart fringeBenefitsChartOfAccounts;
     private String reportsToChartOfAccountsCode;
     private String fringeBenefitAccountNumber;
     private HigherEducationFunction financialHigherEdFunction;
@@ -71,13 +71,13 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
     private String accountManagerSystemIdentifier;
-    protected Chart continuationChartOfAccount;
-    private String continuationFinChrtOfAcctCd;
+    protected Chart continuationChartOfAccounts;
+    private String continuationChartOfAccountsCode;
     private Account continuationAccount;
     private String continuationAccountNumber;
     private Account incomeStreamAccount;
     protected Chart incomeStreamChartOfAccounts;
-    private String incomeStreamFinancialCoaCode;
+    private String incomeStreamChartOfAccountsCode;
     private String incomeStreamAccountNumber;
     private String budgetRecordingLevelCode;
     private SufficientFundsCode sufficientFundsCode;
@@ -90,9 +90,9 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private IndirectCostRecoveryType acctIndirectCostRcvyType;
     private String acctIndirectCostRcvyTypeCd;
     protected Chart indirectCostRcvyChartOfAccounts;
-    private String indirectCostRcvyFinCoaCode;
-    private Account indirectCostRecoveryAcct;
-    private String indirectCostRecoveryAcctNbr;
+    private String indirectCostRecoveryChartOfAccountsCode;
+    private Account indirectCostRecoveryAccount;
+    private String indirectCostRecoveryAccountNumber;
     private Integer contractsAndGrantsAccountResponsibilityId;
     private String accountExpenseGuidelineText;
     private String accountIncomeGuidelineText;
@@ -445,19 +445,19 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the fringeBenefitsChartOfAccount attribute. 
-     * @return Returns the fringeBenefitsChartOfAccount.
+     * Gets the fringeBenefitsChartOfAccounts attribute. 
+     * @return Returns the fringeBenefitsChartOfAccounts.
      */
-    public Chart getFringeBenefitsChartOfAccount() {
-        return fringeBenefitsChartOfAccount;
+    public Chart getFringeBenefitsChartOfAccounts() {
+        return fringeBenefitsChartOfAccounts;
     }
 
     /**
-     * Sets the fringeBenefitsChartOfAccount attribute value.
-     * @param fringeBenefitsChartOfAccount The fringeBenefitsChartOfAccount to set.
+     * Sets the fringeBenefitsChartOfAccounts attribute value.
+     * @param fringeBenefitsChartOfAccounts The fringeBenefitsChartOfAccounts to set.
      */
-    public void setFringeBenefitsChartOfAccount(Chart fringeBenefitsChartOfAccount) {
-        this.fringeBenefitsChartOfAccount = fringeBenefitsChartOfAccount;
+    public void setFringeBenefitsChartOfAccounts(Chart fringeBenefitsChartOfAccounts) {
+        this.fringeBenefitsChartOfAccounts = fringeBenefitsChartOfAccounts;
     }
 
     /**
@@ -594,35 +594,35 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the continuationChartOfAccount attribute. 
-     * @return Returns the continuationChartOfAccount.
+     * Gets the continuationChartOfAccounts attribute. 
+     * @return Returns the continuationChartOfAccounts.
      */
-    public Chart getContinuationChartOfAccount() {
-        return continuationChartOfAccount;
+    public Chart getContinuationChartOfAccounts() {
+        return continuationChartOfAccounts;
     }
 
     /**
-     * Sets the continuationChartOfAccount attribute value.
-     * @param continuationChartOfAccount The continuationChartOfAccount to set.
+     * Sets the continuationChartOfAccounts attribute value.
+     * @param continuationChartOfAccounts The continuationChartOfAccounts to set.
      */
-    public void setContinuationChartOfAccount(Chart continuationChartOfAccount) {
-        this.continuationChartOfAccount = continuationChartOfAccount;
+    public void setContinuationChartOfAccounts(Chart continuationChartOfAccounts) {
+        this.continuationChartOfAccounts = continuationChartOfAccounts;
     }
 
     /**
-     * Gets the continuationFinChrtOfAcctCd attribute. 
-     * @return Returns the continuationFinChrtOfAcctCd.
+     * Gets the continuationChartOfAccountsCode attribute. 
+     * @return Returns the continuationChartOfAccountsCode.
      */
-    public String getContinuationFinChrtOfAcctCd() {
-        return continuationFinChrtOfAcctCd;
+    public String getContinuationChartOfAccountsCode() {
+        return continuationChartOfAccountsCode;
     }
 
     /**
-     * Sets the continuationFinChrtOfAcctCd attribute value.
-     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
+     * Sets the continuationChartOfAccountsCode attribute value.
+     * @param continuationChartOfAccountsCode The continuationChartOfAccountsCode to set.
      */
-    public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
-        this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
+    public void setContinuationChartOfAccountsCode(String continuationChartOfAccountsCode) {
+        this.continuationChartOfAccountsCode = continuationChartOfAccountsCode;
     }
 
     /**
@@ -690,19 +690,19 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the incomeStreamFinancialCoaCode attribute. 
-     * @return Returns the incomeStreamFinancialCoaCode.
+     * Gets the incomeStreamChartOfAccountsCode attribute. 
+     * @return Returns the incomeStreamChartOfAccountsCode.
      */
-    public String getIncomeStreamFinancialCoaCode() {
-        return incomeStreamFinancialCoaCode;
+    public String getIncomeStreamChartOfAccountsCode() {
+        return incomeStreamChartOfAccountsCode;
     }
 
     /**
-     * Sets the incomeStreamFinancialCoaCode attribute value.
-     * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
+     * Sets the incomeStreamChartOfAccountsCode attribute value.
+     * @param incomeStreamChartOfAccountsCode The incomeStreamChartOfAccountsCode to set.
      */
-    public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
-        this.incomeStreamFinancialCoaCode = incomeStreamFinancialCoaCode;
+    public void setIncomeStreamChartOfAccountsCode(String incomeStreamChartOfAccountsCode) {
+        this.incomeStreamChartOfAccountsCode = incomeStreamChartOfAccountsCode;
     }
 
     /**
@@ -898,51 +898,51 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the indirectCostRcvyFinCoaCode attribute. 
-     * @return Returns the indirectCostRcvyFinCoaCode.
+     * Gets the indirectCostRecoveryChartOfAccountsCode attribute. 
+     * @return Returns the indirectCostRecoveryChartOfAccountsCode.
      */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
+    public String getIndirectCostRecoveryChartOfAccountsCode() {
+        return indirectCostRecoveryChartOfAccountsCode;
     }
 
     /**
-     * Sets the indirectCostRcvyFinCoaCode attribute value.
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
+     * Sets the indirectCostRecoveryChartOfAccountsCode attribute value.
+     * @param indirectCostRecoveryChartOfAccountsCode The indirectCostRecoveryChartOfAccountsCode to set.
      */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
+    public void setIndirectCostRecoveryChartOfAccountsCode(String indirectCostRecoveryChartOfAccountsCode) {
+        this.indirectCostRecoveryChartOfAccountsCode = indirectCostRecoveryChartOfAccountsCode;
     }
 
     /**
-     * Gets the indirectCostRecoveryAcct attribute. 
-     * @return Returns the indirectCostRecoveryAcct.
+     * Gets the indirectCostRecoveryAccount attribute. 
+     * @return Returns the indirectCostRecoveryAccount.
      */
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
+    public Account getIndirectCostRecoveryAccount() {
+        return indirectCostRecoveryAccount;
     }
 
     /**
-     * Sets the indirectCostRecoveryAcct attribute value.
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
+     * Sets the indirectCostRecoveryAccount attribute value.
+     * @param indirectCostRecoveryAccount The indirectCostRecoveryAccount to set.
      */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
+    public void setIndirectCostRecoveryAccount(Account indirectCostRecoveryAccount) {
+        this.indirectCostRecoveryAccount = indirectCostRecoveryAccount;
     }
 
     /**
-     * Gets the indirectCostRecoveryAcctNbr attribute. 
-     * @return Returns the indirectCostRecoveryAcctNbr.
+     * Gets the indirectCostRecoveryAccountNumber attribute. 
+     * @return Returns the indirectCostRecoveryAccountNumber.
      */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
+    public String getIndirectCostRecoveryAccountNumber() {
+        return indirectCostRecoveryAccountNumber;
     }
 
     /**
-     * Sets the indirectCostRecoveryAcctNbr attribute value.
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
+     * Sets the indirectCostRecoveryAccountNumber attribute value.
+     * @param indirectCostRecoveryAccountNumber The indirectCostRecoveryAccountNumber to set.
      */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
+    public void setIndirectCostRecoveryAccountNumber(String indirectCostRecoveryAccountNumber) {
+        this.indirectCostRecoveryAccountNumber = indirectCostRecoveryAccountNumber;
     }
 
     /**

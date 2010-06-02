@@ -175,7 +175,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     protected Account getUnexpiredContinuationAccountOrNull(Account account) {
         int count = 0;
         while (count++ < 10) { // prevents infinite loops
-            String continuationChartCode = account.getContinuationFinChrtOfAcctCd();
+            String continuationChartCode = account.getContinuationChartOfAccountsCode();
             String continuationAccountNumber = account.getContinuationAccountNumber();
             // todo: does AccountService already handle blank keys this way?
             if (StringUtils.isBlank(continuationChartCode) || StringUtils.isBlank(continuationAccountNumber)) {

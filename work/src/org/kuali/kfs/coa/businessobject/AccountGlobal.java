@@ -55,9 +55,9 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private String accountStreetAddress;
     private String accountZipCode;
     private Date accountExpirationDate;
-    private String continuationFinChrtOfAcctCd;
+    private String continuationChartOfAccountsCode;
     private String continuationAccountNumber;
-    private String incomeStreamFinancialCoaCode;
+    private String incomeStreamChartOfAccountsCode;
     private String incomeStreamAccountNumber;
     private String accountCfdaNumber;
     private String financialHigherEdFunctionCd;
@@ -169,8 +169,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
                 }
 
                 // CONTINUATION CHART OF ACCOUNTS CODE
-                if (StringUtils.isNotBlank(continuationFinChrtOfAcctCd)) {
-                    account.setContinuationFinChrtOfAcctCd(continuationFinChrtOfAcctCd);
+                if (StringUtils.isNotBlank(continuationChartOfAccountsCode)) {
+                    account.setContinuationChartOfAccountsCode(continuationChartOfAccountsCode);
                 }
 
                 // CONTINUATION ACCOUNT NUMBER
@@ -179,8 +179,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
                 }
 
                 // INCOME STREAM CHART OF ACCOUNTS CODE
-                if (StringUtils.isNotBlank(incomeStreamFinancialCoaCode)) {
-                    account.setIncomeStreamFinancialCoaCode(incomeStreamFinancialCoaCode);
+                if (StringUtils.isNotBlank(incomeStreamChartOfAccountsCode)) {
+                    account.setIncomeStreamChartOfAccountsCode(incomeStreamChartOfAccountsCode);
                 }
 
                 // INCOME STREAM ACCOUNT NUMBER
@@ -383,21 +383,21 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
 
     /**
-     * Gets the continuationFinChrtOfAcctCd attribute.
+     * Gets the continuationChartOfAccountsCode attribute.
      * 
-     * @return Returns the continuationFinChrtOfAcctCd
+     * @return Returns the continuationChartOfAccountsCode
      */
-    public String getContinuationFinChrtOfAcctCd() {
-        return continuationFinChrtOfAcctCd;
+    public String getContinuationChartOfAccountsCode() {
+        return continuationChartOfAccountsCode;
     }
 
     /**
-     * Sets the continuationFinChrtOfAcctCd attribute.
+     * Sets the continuationChartOfAccountsCode attribute.
      * 
-     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
+     * @param continuationChartOfAccountsCode The continuationChartOfAccountsCode to set.
      */
-    public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
-        this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
+    public void setContinuationChartOfAccountsCode(String continuationChartOfAccountsCode) {
+        this.continuationChartOfAccountsCode = continuationChartOfAccountsCode;
     }
 
 
@@ -420,21 +420,21 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * Gets the incomeStreamFinancialCoaCode attribute.
+     * Gets the incomeStreamChartOfAccountsCode attribute.
      * 
-     * @return Returns the incomeStreamFinancialCoaCode
+     * @return Returns the incomeStreamChartOfAccountsCode
      */
-    public String getIncomeStreamFinancialCoaCode() {
-        return incomeStreamFinancialCoaCode;
+    public String getIncomeStreamChartOfAccountsCode() {
+        return incomeStreamChartOfAccountsCode;
     }
 
     /**
-     * Sets the incomeStreamFinancialCoaCode attribute.
+     * Sets the incomeStreamChartOfAccountsCode attribute.
      * 
-     * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
+     * @param incomeStreamChartOfAccountsCode The incomeStreamChartOfAccountsCode to set.
      */
-    public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
-        this.incomeStreamFinancialCoaCode = incomeStreamFinancialCoaCode;
+    public void setIncomeStreamChartOfAccountsCode(String incomeStreamChartOfAccountsCode) {
+        this.incomeStreamChartOfAccountsCode = incomeStreamChartOfAccountsCode;
     }
 
 

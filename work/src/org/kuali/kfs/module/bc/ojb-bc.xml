@@ -1609,7 +1609,7 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="continuationChartOfAccountsCode" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -1619,10 +1619,10 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
     <reference-descriptor name="continuationChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
+        <foreignkey field-ref="continuationChartOfAccountsCode" />
     </reference-descriptor>
     <reference-descriptor name="continuationAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
+        <foreignkey field-ref="continuationChartOfAccountsCode" />
         <foreignkey field-ref="continuationAccountNumber" />
     </reference-descriptor>
 </class-descriptor>

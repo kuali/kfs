@@ -106,11 +106,11 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     public void testHasRequiredOverrides_expiredContinuationsClosedAndExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationChartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredContinuationExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationChartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredNoContinuation() {

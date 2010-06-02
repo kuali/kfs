@@ -646,7 +646,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // continuation chartCode is missing
-        newAccount.setContinuationFinChrtOfAcctCd(null);
+        newAccount.setContinuationChartOfAccountsCode(null);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.isContinuationAccountExpired(newAccount);
         assertEquals("Missing continuation chartCode should return false.", false, result);
@@ -661,7 +661,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // continuation accountNumber is missing
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContinuationAccountNumber(null);
         result = rule.isContinuationAccountExpired(newAccount);
         assertEquals("Missing continuation accountNumber should return false.", false, result);
@@ -676,7 +676,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // bad continuation chart/account
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.BAD1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.BAD1);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.isContinuationAccountExpired(newAccount);
         assertEquals("Bad continuation chartCode/Account should return false.", false, result);
@@ -691,7 +691,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // non-expired continuation account
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.isContinuationAccountExpired(newAccount);
         assertEquals("Good and non-expired continuation account should return false.", false, result);
@@ -706,7 +706,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
 
         // EXPIRED continuation account
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.EXPIRED1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.EXPIRED1);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.EXPIRED1);
         result = rule.isContinuationAccountExpired(newAccount);
         assertEquals("A valid, expired account should return true.", true, result);
@@ -821,11 +821,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
-        newAccount.setContinuationFinChrtOfAcctCd(null);
+        newAccount.setContinuationChartOfAccountsCode(null);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation coa code should fail with one error.", false, result);
-        assertFieldErrorExists("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertFieldErrorExists("continuationChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
         assertGlobalErrorMapSize(1);
 
     }
@@ -846,7 +846,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContinuationAccountNumber(null);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation account number should fail with one error.", false, result);
@@ -869,7 +869,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
 
         // continuation coa code null
-        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Valid continuation account info should not fail.", true, result);
@@ -900,12 +900,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure all the required fields are missing
-        newAccount.setContractControlFinCoaCode(null);
+        newAccount.setContractControlChartOfAccountsCode(null);
         newAccount.setContractControlAccountNumber(null);
         newAccount.setAcctIndirectCostRcvyTypeCd(null);
         newAccount.setFinancialIcrSeriesIdentifier(null);
-        newAccount.setIndirectCostRcvyFinCoaCode(null);
-        newAccount.setIndirectCostRecoveryAcctNbr(null);
+        newAccount.setIndirectCostRecoveryChartOfAccountsCode(null);
+        newAccount.setIndirectCostRecoveryAccountNumber(null);
         newAccount.setAccountCfdaNumber(null);
 
         // run the rule
@@ -914,8 +914,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertGlobalErrorMapSize(4);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRecoveryChartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRecoveryAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
 
     }
 
@@ -938,12 +938,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure all the required fields are missing
-        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setContractControlChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setIndirectCostRecoveryChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
@@ -974,20 +974,20 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure all the required fields are present, so the rule creates validation errors for all of them
-        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setContractControlChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setIndirectCostRecoveryChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRecoveryChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRecoveryAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false", result);
     }
 
@@ -1018,12 +1018,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountNumber(Accounts.AccountNumber.BAD1);
 
         // make sure all the required fields are present
-        newAccount.setContractControlFinCoaCode(newAccount.getChartOfAccountsCode());
+        newAccount.setContractControlChartOfAccountsCode(newAccount.getChartOfAccountsCode());
         newAccount.setContractControlAccountNumber(newAccount.getAccountNumber());
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setIndirectCostRecoveryChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
@@ -1055,12 +1055,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure all the required fields exist...we don't really want to test for that
-        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.BAD1);
+        newAccount.setContractControlChartOfAccountsCode(Accounts.ChartCode.BAD1);
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.BAD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setIndirectCostRecoveryChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
@@ -1086,7 +1086,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure the income stream fields are blank
-        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamChartOfAccountsCode(null);
         newAccount.setIncomeStreamAccountNumber(null);
         newAccount.setIncomeStreamAccount(null);
 
@@ -1117,7 +1117,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure the income stream fields are blank
-        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamChartOfAccountsCode(null);
         newAccount.setIncomeStreamAccountNumber(null);
         newAccount.setIncomeStreamAccount(null);
 
@@ -1148,14 +1148,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure the income stream fields are blank
-        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamChartOfAccountsCode(null);
         newAccount.setIncomeStreamAccountNumber(null);
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
         result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("CG Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
+        assertFieldErrorExists("incomeStreamChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
         assertGlobalErrorMapSize(2);
 
@@ -1183,7 +1183,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure the income stream fields are blank
-        newAccount.setIncomeStreamFinancialCoaCode(Accounts.ChartCode.BAD1);
+        newAccount.setIncomeStreamChartOfAccountsCode(Accounts.ChartCode.BAD1);
         newAccount.setIncomeStreamAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setIncomeStreamAccount(null);
 
@@ -1215,14 +1215,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setSubFundGroup(subFundGroup);
 
         // make sure the income stream fields are blank
-        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamChartOfAccountsCode(null);
         newAccount.setIncomeStreamAccountNumber(null);
         newAccount.setIncomeStreamAccount(null);
 
         // run the rule
         result = rule.checkIncomeStreamValid(newAccount);
         assertEquals("GF Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
+        assertFieldErrorExists("incomeStreamChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY);
         assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY);
         assertGlobalErrorMapSize(2);
 

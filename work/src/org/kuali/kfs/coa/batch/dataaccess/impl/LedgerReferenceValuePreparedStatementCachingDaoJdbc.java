@@ -108,7 +108,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 account.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(2)) ? false : true);
                 account.setSubFundGroupCode(resultSet.getString(3));
                 account.setOrganizationCode(resultSet.getString(4));
-                account.setContinuationFinChrtOfAcctCd(resultSet.getString(5));
+                account.setContinuationChartOfAccountsCode(resultSet.getString(5));
                 account.setContinuationAccountNumber(resultSet.getString(6));
                 account.setFinancialIcrSeriesIdentifier(resultSet.getString(7));
                 account.setAcctIndirectCostRcvyTypeCd(resultSet.getString(8));

@@ -1041,8 +1041,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<PurApAccountingLine> distributedAccounts = null;                        
             List<SourceAccountingLine> summaryAccounts = null;           
-            Set excludedItemTypeCodes = null;
-            excludedItemTypeCodes = new HashSet();
+            Set excludedItemTypeCodes = new HashSet();
             excludedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
             
             // skip above the line
@@ -1052,14 +1051,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
             if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
                 if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, item.getItemType().getItemTypeCode())) && (paymentRequestDocument.getGrandTotal() != null) && ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
-                    totalAmount = paymentRequestDocument.getGrandTotalExcludingDiscount();                    
                     
-                    summaryAccounts = purapAccountingService.generateSummaryExcludeItemTypes(paymentRequestDocument.getItems(), excludedItemTypeCodes);
+                    // No discount is applied to other item types other than item line
+                    // See KFSMI-5210 for details
                     
-                    //prorate accounts
+                    // total amount should be the line item total, not the grand total
+                    totalAmount = paymentRequestDocument.getLineItemTotal();
+                    
+                    // prorate item line accounts only 
+                    Set includedItemTypeCodes = new HashSet();
+                    includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);                                        
+                    summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
                     distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
                                                             
-                    //update amounts on distributed accounts
+                    // update amounts on distributed accounts
                     purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());                    
                 }
                 else {

@@ -344,7 +344,7 @@
 		</property>	
 	</bean>
 	
-	<bean id="assetDecreaseDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.AssetDecreaseDocumentServiceImpl">
+	<bean id="updateTaxLotsBasedOnAccMethodAndTransSubtypeService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl">
 		<property name="taxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>	

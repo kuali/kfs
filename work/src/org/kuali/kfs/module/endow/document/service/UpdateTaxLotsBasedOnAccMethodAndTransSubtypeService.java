@@ -16,17 +16,17 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 
-public interface AssetDecreaseDocumentService {
+public interface UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService {
 
     /**
-     * Updates the tax lots related to the given transaction line in the Asset Decrease document.
+     * Updates the tax lots related to the given transaction line based on the accounting method and the transaction sub-type.
      * 
      * @param isSource true if transaction line is source, false if target
-     * @param assetDecreaseDocument the Asset Decrease Document for which we compute the transaction line related tax lots
+     * @param endowmentTaxLotLinesDocument the Endowment tax lot lines Document for which we compute the transaction line related tax lots
      * @param transLine the transaction line for which we update the tax lots
      */
-    public void updateTransactionLineTaxLots(boolean isSource, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionLine transLine);
+    public void updateTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionLine transLine);
 
 }

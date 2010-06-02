@@ -29,11 +29,11 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
-import org.kuali.kfs.module.endow.document.service.AssetDecreaseDocumentService;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
@@ -41,32 +41,31 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentService {
+public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService {
 
     private HoldingTaxLotService taxLotService;
     private SecurityService securityService;
     private KEMService kemService;
     private ParameterService parameterService;
 
-
     /**
-     * @see org.kuali.kfs.module.endow.document.service.AssetDecreaseDocumentService#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.AssetDecreaseDocument,
+     * @see org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService#updateTransactionLineTaxLots(boolean,
+     *      org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public void updateTransactionLineTaxLots(boolean isUpdate, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionLine transLine) {
+    public void updateTransactionLineTaxLots(boolean isUpdate, EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionLine transLine) {
 
-        EndowmentTransactionSecurity endowmentTransactionSecurity = assetDecreaseDocument.getSourceTransactionSecurity();
+        EndowmentTransactionSecurity endowmentTransactionSecurity = endowmentTaxLotLinesDocument.getSourceTransactionSecurity();
         String accountingMethod = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.TAX_LOTS_ACCOUNTING_METHOD);
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
         if (ObjectUtils.isNotNull(security)) {
             if (EndowConstants.TaxLotsAccountingMethodOptions.AVERAGE_BALANCE.equalsIgnoreCase(accountingMethod) || (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && !security.getClassCode().isTaxLotIndicator())) {
-                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(true, isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                    updateTaxLotsForAccountingMethodAverageBalance(true, isUpdate, endowmentTransactionSecurity, transLine);
                 }
-                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                    updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, endowmentTransactionSecurity, transLine);
                     setTransactionLineTotal(transLine);
                 }
             }
@@ -74,11 +73,11 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
             if ((EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) || EndowConstants.TaxLotsAccountingMethodOptions.LIFO.equalsIgnoreCase(accountingMethod)) && security.getClassCode().isTaxLotIndicator()) {
                 boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
 
-                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
                 }
-                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, assetDecreaseDocument, endowmentTransactionSecurity, transLine);
+                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
                     setTransactionLineTotal(transLine);
                 }
             }
@@ -91,11 +90,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      * Updates the tax lots for the transaction line in the case the accounting method is Average Balance.
      * 
      * @param isSubTypeCash
-     * @param assetDecreaseDocument
      * @param endowmentTransactionSecurity
      * @param transLine
      */
-    private void updateTaxLotsForAccountingMethodAverageBalance(boolean isSubTypeCash, boolean isUpdate, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+    private void updateTaxLotsForAccountingMethodAverageBalance(boolean isSubTypeCash, boolean isUpdate, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
 
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
         BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
@@ -332,11 +330,10 @@ public class AssetDecreaseDocumentServiceImpl implements AssetDecreaseDocumentSe
      * 
      * @param isSubTypeCash
      * @param isFIFO
-     * @param assetDecreaseDocument
      * @param endowmentTransactionSecurity
      * @param transLine
      */
-    private void updateTaxLotsForAccountingMethodFIFOorLIFO(boolean isSubTypeCash, boolean isUpdate, boolean isFIFO, AssetDecreaseDocument assetDecreaseDocument, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+    private void updateTaxLotsForAccountingMethodFIFOorLIFO(boolean isSubTypeCash, boolean isUpdate, boolean isFIFO, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
         BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
         BigDecimal transactionAmount = BigDecimal.ZERO;
         BigDecimal perUnitVal = BigDecimal.ZERO;

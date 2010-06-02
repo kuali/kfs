@@ -27,7 +27,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.service.AssetDecreaseDocumentService;
+import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteTaxLotLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,7 +43,7 @@ public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocume
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-        AssetDecreaseDocumentService taxLotsService = SpringContext.getBean(AssetDecreaseDocumentService.class);
+        UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDocument;
         taxLotsService.updateTransactionLineTaxLots(false, assetDecreaseDocument, transLine);
 
@@ -72,7 +72,7 @@ public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocume
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteTaxLot(true, etlForm, transLineindex, taxLotIndex);
-            AssetDecreaseDocumentService taxLotsService = SpringContext.getBean(AssetDecreaseDocumentService.class);
+            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
             AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDoc;
             taxLotsService.updateTransactionLineTaxLots(true, assetDecreaseDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().get(transLineindex));
         }
@@ -103,7 +103,7 @@ public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocume
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteTaxLot(false, etlForm, transLineindex, taxLotIndex);
-            AssetDecreaseDocumentService taxLotsService = SpringContext.getBean(AssetDecreaseDocumentService.class);
+            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
             AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDoc;
             taxLotsService.updateTransactionLineTaxLots(true, assetDecreaseDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines().get(transLineindex));
         }

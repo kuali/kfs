@@ -83,7 +83,7 @@
 			<available file="${institution.build.properties.file}" />
 			<then>
 				<echo message="Reading Properties: ${institution.build.properties.file}" />
-				<property file="${shared.external.build.properties}" />
+				<property file="${institution.build.properties.file}" />
 			</then>
 		</if>
     	<property name="build.environment" value="dev"/>

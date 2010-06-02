@@ -57,6 +57,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // or in an external system such as LDAP if implemented
     public static final String SYSTEM_USER = "kfs";
 
+    public static final String ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY = "AccountMaintenanceDocument";
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";

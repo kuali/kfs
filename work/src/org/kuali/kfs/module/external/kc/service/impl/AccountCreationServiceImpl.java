@@ -236,9 +236,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
         try {
-          //  Document document = documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(KualiAccountMaintainableImpl.class));         
-             Document document = documentService.getNewDocument(KFSConstants.DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME);
-             
+             Document document = documentService.getNewDocument(dataDictionaryService.getDataDictionary().getDocumentEntry(KFSConstants.ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY).getDocumentTypeName());     
              return document;            
         }
         catch (Exception excp) {

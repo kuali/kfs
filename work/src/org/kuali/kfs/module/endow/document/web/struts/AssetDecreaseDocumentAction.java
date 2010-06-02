@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 
-public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+public class AssetDecreaseDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
@@ -47,102 +47,6 @@ public class AssetDecreaseDocumentAction extends EndowmentTransactionLinesDocume
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDocument;
         taxLotsService.updateTransactionLineTaxLots(false, assetDecreaseDocument, transLine);
 
-    }
-
-    /**
-     * Deletes a source tax lot line.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteSourceTaxLotLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
-        EndowmentTaxLotLinesDocument etlDoc = (EndowmentTaxLotLinesDocument) etlForm.getEndowmentTransactionLinesDocumentBase();
-
-        int transLineindex = getLineToDelete(request);
-        int taxLotIndex = getTaxLotToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME + "[" + transLineindex + "]";
-        EndowmentTransactionLine transLine = (EndowmentTransactionLine) etlDoc.getSourceTransactionLines().get(transLineindex);
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTaxLotLineEvent(errorPath, etlDoc, transLine.getTaxLotLines().get(taxLotIndex), transLine, transLineindex, taxLotIndex));
-
-        // if the rule evaluation passed, let's delete it
-        if (rulePassed) {
-            deleteTaxLot(true, etlForm, transLineindex, taxLotIndex);
-            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
-            AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDoc;
-            taxLotsService.updateTransactionLineTaxLots(true, assetDecreaseDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().get(transLineindex));
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Deletes a target tax lot line
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteTargetTaxLotLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
-        EndowmentTaxLotLinesDocument etlDoc = (EndowmentTaxLotLinesDocument) etlForm.getEndowmentTransactionLinesDocumentBase();
-
-        int transLineindex = getLineToDelete(request);
-        int taxLotIndex = getTaxLotToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME + "[" + transLineindex + "]";
-        EndowmentTransactionLine transLine = (EndowmentTransactionLine) etlDoc.getTargetTransactionLines().get(transLineindex);
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTaxLotLineEvent(errorPath, etlDoc, transLine.getTaxLotLines().get(taxLotIndex), transLine, transLineindex, taxLotIndex));
-
-        // if the rule evaluation passed, let's delete it
-        if (rulePassed) {
-            deleteTaxLot(false, etlForm, transLineindex, taxLotIndex);
-            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
-            AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDoc;
-            taxLotsService.updateTransactionLineTaxLots(true, assetDecreaseDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines().get(transLineindex));
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Deletes a tax lot.
-     * 
-     * @param isSource
-     * @param etlDocumentForm
-     * @param transLineindex
-     * @param taxLotIndex
-     */
-    private void deleteTaxLot(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, int transLineindex, int taxLotIndex) {
-        if (isSource) {
-            etlDocumentForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().get(transLineindex).getTaxLotLines().remove(taxLotIndex);
-        }
-        else {
-            etlDocumentForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines().get(transLineindex).getTaxLotLines().remove(taxLotIndex);
-        }
-    }
-
-    /**
-     * Gets the index of the tax lot line to be deleted.
-     * 
-     * @param request
-     * @return the index of the tax lot line to be deleted
-     */
-    protected int getTaxLotToDelete(HttpServletRequest request) {
-        int selectedTaxLot = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String lotNumber = StringUtils.substringBetween(parameterName, ".taxLot", ".");
-            selectedTaxLot = Integer.parseInt(lotNumber);
-        }
-
-        return selectedTaxLot;
     }
 
 }

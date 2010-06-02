@@ -202,7 +202,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
             if (messageWrapper.getParams().length == 0 ) message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
             else {
                 String temp = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageWrapper.getMessageKey());
-                message = MessageFormat.format(temp, messageWrapper.getParams());
+                message = MessageFormat.format(temp, (Object[])messageWrapper.getParams());
             }
             document.add(new Paragraph(message));
         }

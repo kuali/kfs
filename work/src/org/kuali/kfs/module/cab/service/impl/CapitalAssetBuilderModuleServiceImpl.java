@@ -708,7 +708,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 String methodToInvoke = "get" + (mappedNameStr.substring(0, 1)).toUpperCase() + mappedNameStr.substring(1, mappedNameStr.length() - 1) + "Class";
                 Class offendingClass;
                 try {
-                    offendingClass = (Class) bean.getClass().getMethod(methodToInvoke, null).invoke(bean, null);
+                    offendingClass = (Class) bean.getClass().getMethod(methodToInvoke, (Class[])null).invoke(bean, (Object[])null);
                 }
                 catch (Exception ex) {
                     throw new RuntimeException(ex);

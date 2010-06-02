@@ -1142,7 +1142,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[])null);
         }
         else {
             CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
@@ -1160,7 +1160,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[])null);
         }
         else {
             PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));

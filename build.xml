@@ -305,7 +305,7 @@
 		</javadoc>
 	</target>
 
-	<target name="clean-help" if="do.filter.project.help" depends="init-property-files">
+	<target name="clean-help" if="do.filter.project.help" depends="init-properties">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${help.directory}/**" />
@@ -313,7 +313,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-property-files">
+	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-properties">
 		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
@@ -332,12 +332,12 @@
 		</delete>
 	</target>
 	
-	<target name="clean-spring-ide" unless="dont.filter.project.spring.ide" depends="init-property-files">
+	<target name="clean-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" />
 		<delete file="${spring.ide.support.file}" failonerror="false" />
 	</target>
 
-	<target name="clean-project" depends="init-property-files,clean-help,clean-rice,clean-spring-ide">
+	<target name="clean-project" depends="init-properties,clean-help,clean-rice,clean-spring-ide">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
@@ -356,7 +356,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-property-files">
+	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-properties">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
 			<fileset dir="${appserver.work.dir}" includes="${cas.context.name}/**" />
@@ -371,7 +371,7 @@
 			<fileset dir="${base.work.directory}" includes="**/${ant.project.name}/"/>
 			<fileset dir="${base.deploy.directory}" includes="**/${ant.project.name}/"/>
 		</delete>
-		<delete failonerror="false">
+		<delete failonerror="false" verbose="true">
 			<fileset dir="${appserver.lib.dir}">
 				<or>
 					<present targetdir="${build.directory}" />
@@ -394,11 +394,23 @@
 	</target>
 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+	    <if> <!-- we can only copy this file to the app server IF we are running a local build.  Otherwise, we need to assume that it is
+	    already there. -->
+	        <isset property="is.local.build" />
+	        <then>
+        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+            </then>
+        </if>
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
-		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+	    <if> <!-- we can only copy this file to the app server IF we are running a local build.  Otherwise, we need to assume that it is
+	    already there. -->
+	        <isset property="is.local.build" />
+	        <then>
+        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+            </then>
+        </if>
 	</target>
 	
 	<target name="filter-project-help" if="do.filter.project.help" depends="init-properties">
@@ -765,7 +777,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-    <target name="overlay-additional-web-content" depends="init-property-files" if="institution.web.content.directory">
+    <target name="overlay-additional-web-content" depends="init-properties" if="institution.web.content.directory">
         <copy todir="${webroot.directory}" preservelastmodified="true" overwrite="true">
             <fileset dir="${institution.web.content.directory}">
                 <include name="**/*" />

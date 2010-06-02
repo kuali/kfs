@@ -46,6 +46,19 @@
 			</delete>
 		</rollback>
     </changeSet>
+	<changeSet author="Jonathan Keller" id="KFS_LOAD_KR_COUNTY_T">
+		<loadData tableName="KR_COUNTY_T" file="data/kr_county_t.csv">
+			<column header="COUNTY_CD" type="string" />
+			<column header="STATE_CD" type="string" />
+			<column header="POSTAL_CNTRY_CD" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="COUNTY_NM" type="string" />
+			<column header="ACTV_IND" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KR_COUNTY_T" />
+		</rollback>
+    </changeSet>
 	<changeSet author="Jonathan Keller" id="KFS_LOAD_KR_POSTAL_CODE_T">
 		<loadData tableName="KR_POSTAL_CODE_T" file="data/kr_postal_code_t.csv">
 			<column header="POSTAL_CD" type="string" />

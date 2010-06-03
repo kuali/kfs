@@ -25,6 +25,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.LiabilityIncreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.LiabilityIncreaseDocumentPresentationController"/>
     <property name="allowsErrorCorrection" value="true"/>
+	<property name="allowsCopy" value="true"/>
     <property name="defaultExistenceChecks">
       <list>
         <!--<bean parent="ReferenceDefinition" p:attributeName="customerPaymentMedium" p:attributeToHighlightOnFail="customerPaymentMediumCode"/> !-->

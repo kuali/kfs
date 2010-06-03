@@ -47,25 +47,29 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     public AccountCreationStatus createAccount(AccountParameters accountParameters) {
         
         List<String> errorMessages = new ArrayList<String>();
-        
-        //TODO: need to check the hierarchy if unit is null and to see if defaults is null
-        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
-            
-        // create an account object        
-        Account account = createAccountObject(accountParameters, defaults, errorMessages);
-        
-        // create an account automatic maintenance document
-        //should check for empty string for documentNumber if failed to create a document in the calling method...
-        String documentNumber = createAutomaticCGAccountMaintenanceDocument(account, errorMessages);
-        
-        // create AccountCreationStatus to be returned
         AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
-        accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
-        accountCreationStatus.setDocumentNumber(documentNumber);         
-        accountCreationStatus.setErrorMessages(errorMessages); 
-        accountCreationStatus.setSuccess(errorMessages.size() < 1 ? true : false);
-          
+        
+        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
+        
+        if (defaults == null) {
+            errorMessages.add("Unit code is not found");
+            accountCreationStatus.setErrorMessages(errorMessages); 
+        } else {        
+            // create an account object        
+            Account account = createAccountObject(accountParameters, defaults, errorMessages);
+            
+            // create an account automatic maintenance document
+            String documentNumber = createAutomaticCGAccountMaintenanceDocument(account, errorMessages);
+            
+            // create AccountCreationStatus to be returned            
+            accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+            accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+            accountCreationStatus.setDocumentNumber(documentNumber);         
+            accountCreationStatus.setErrorMessages(errorMessages); 
+        }
+
+        accountCreationStatus.setSuccess(errorMessages.isEmpty() ? true : false);
+
         return accountCreationStatus;
     }
     

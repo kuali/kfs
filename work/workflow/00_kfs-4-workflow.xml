@@ -4260,6 +4260,43 @@
         <start name="AdHoc" />
       </routeNodes>
     </documentType>
+	<documentType>
+		<name>ET</name>
+		<label>EndowmentTransactionalDocument</label>
+		<parent>KFST</parent>
+	</documentType>
+    <documentType>
+      <name>ELI</name>
+      <parent>ET</parent>
+      <docHandler> ${application.url}/endowLiabilityIncrease.do?methodToCall=docHandler </docHandler>
+    </documentType>
+    <documentType>
+      <name>EAI</name>
+      <parent>ET</parent>
+      <docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>
+	<documentType>
+		<name>ECI</name>
+		<label>Endowment Cash Increase</label>
+		<parent>ET</parent>
+     		<docHandler> ${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>
+	<documentType>
+		<name>ECDD</name>
+		<label>Endowment Cash Decrease</label>
+		<parent>ET</parent>
+    	<docHandler> ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>
+    <documentType>
+      <name>BCBB</name>
+      <parent>FSLO</parent>
+    </documentType>
+    <documentType>
+      <name>BC</name>
+      <parent>BCT</parent>
+      <postProcessorName />
+      <routePaths />
+    </documentType>
   </documentTypes>
 </data>
 

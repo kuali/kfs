@@ -243,6 +243,10 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
                 // Validate ETran code as E or I
                 isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+                
+                // Validate if a KEMID can have a principal transaction when IP indicator is P
+                if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))
+                    return false;
 
                 // Validate if the chart is matched between the KEMID and EtranCode
                 isValid &= validateChartMatch(line, ERROR_PREFIX);
@@ -254,8 +258,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             // Refresh all references for the given KemId
             // line.getKemidObj().refreshNonUpdateableReferences();
 
-            // Validate if a KEMID can have a principal transaction when IP indicator is P
-            isValid &= canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX);
+
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;

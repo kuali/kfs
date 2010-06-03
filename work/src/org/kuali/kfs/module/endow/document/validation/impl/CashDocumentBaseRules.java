@@ -21,6 +21,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -63,8 +65,39 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
      * @param index
      * @return boolean True if the rules checks passed, false otherwise.
      */
-    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) { 
-        return true;
+    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) {
+        boolean isValid = true;
+
+        if (isValid) {
+            // Obtain Prefix for Error fields in UI.
+            String ERROR_PREFIX = getErrorPrefix(line, index);
+
+            // Is Etran code empty
+            if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
+                return false;
+
+            // Validate ETran code
+            if (!validateEndowmentTransactionCode(line, ERROR_PREFIX))
+                return false;
+
+            // Validate ETran code as E or I
+            isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+
+            // Validate if a KEMID can have a principal transaction when IP indicator is P
+            if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))
+                return false;
+
+            // Validate if the chart is matched between the KEMID and EtranCode
+            isValid &= validateChartMatch(line, ERROR_PREFIX);
+
+            // Validate Greater then Zero(thus positive) value
+            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+
+            // Set Corpus Indicator
+            line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
+        }
+
+        return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
 }

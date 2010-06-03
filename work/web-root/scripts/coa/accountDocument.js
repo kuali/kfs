@@ -59,35 +59,39 @@ function onblur_accountNumber( accountNumberField ) {
     var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
     var accountNumber = getElementValue( accountNumberField.name );	
 	alert ("accountNumberField name = " + accountNumberField.name + ", coaCodeFieldName = " + coaCodeFieldName + ", accountNumber = " + accountNumber);
-	
-	if (accountNumber != "") {
-	    var dwrReply = {
-	        callback: function (param) {
-				if ( typeof param == 'boolean' && param == false) {	
-					loadChartCode(accountNumber, coaCodeFieldName);
-				}
-			},	
-			errorHandler:function( errorMessage ) { 
-	        	window.status = errorMessage;
+
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == 'boolean' && param == false) {	
+				loadChartCode(accountNumber, coaCodeFieldName);
 			}
-		};
-        AccountService.accountsCanCrossCharts(dwrReply);	
-	}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);	
 }
 
 function loadChartCode( accountNumber, coaCodeFieldName ) {
-	var dwrReply = {
-		callback: function (data) {
-			alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode);
-			if ( data != null && typeof data == 'object' ) {    
-				setElementValue( coaCodeFieldName, data.chartOfAccountsCode );
+	if (accountNumber == "") {
+		clearRecipients(coaCodeFieldName);    		
+	}
+	else {
+		var dwrReply = {
+				callback: function (data) {
+				alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode + ", typeof data="+typeof data);
+				if ( data != null && typeof data == 'object' ) {   
+					var coaValue = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
+					setRecipientValue( coaCodeFieldName, coaValue );
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
 			}
-		},
-		errorHandler:function( errorMessage ) { 
-        	window.status = errorMessage;
-		}
-	};
-	AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
+		};
+		AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
+	}
 }
 
 function findCoaFieldName( accountNumberFieldName ) {

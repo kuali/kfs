@@ -60,7 +60,7 @@
     <property name="documentTypeName" value="ACCT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountRelatedMaintenanceDocumentPresentationControllerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountMaintenanceDocumentPresentationControllerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.AccountPreRules"/>
     <property name="webScriptFiles">
       <list>
@@ -99,7 +99,7 @@
         <dd:maintField attributeName="accountTypeCode" required="true"/>
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
-        <dd:maintField attributeName="reportsToChartOfAccountsCode" javascriptLeaveFieldFunction="onblur_accountNumber"/>
+        <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
         <dd:maintField attributeName="reportsToAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
         <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>

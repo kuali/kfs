@@ -38,7 +38,7 @@
         <ref bean="SubAccount-financialReportingCode"/>
         <ref bean="SubAccount-active"/>
         <ref bean="SubAccount-a21SubAccount.subAccountTypeCode"/>
-        <ref bean="SubAccount-a21SubAccount.costShareChartOfAccountCode"/>
+        <ref bean="SubAccount-a21SubAccount.costShareSourceChartOfAccountsCode"/>
         <ref bean="SubAccount-a21SubAccount.costShareSourceAccountNumber"/>
         <ref bean="SubAccount-a21SubAccount.costShareSourceSubAccountNumber"/>
         <ref bean="SubAccount-a21SubAccount.financialIcrSeriesIdentifier"/>
@@ -121,9 +121,9 @@
     </property>
   </bean>
 
-  <bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode" parent="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean"/>
-  <bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="a21SubAccount.costShareChartOfAccountCode"/>
+  <bean id="SubAccount-a21SubAccount.costShareSourceChartOfAccountsCode" parent="SubAccount-a21SubAccount.costShareSourceChartOfAccountsCode-parentBean"/>
+  <bean id="SubAccount-a21SubAccount.costShareSourceChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="a21SubAccount.costShareSourceChartOfAccountsCode"/>
     <property name="label" value="Cost Sharing Chart of Accounts Code"/>
     <property name="shortLabel" value="CostShareCOACode"/>
     <property name="required" value="false"/>
@@ -248,7 +248,7 @@
               <bean parent="FieldDefinition" p:attributeName="financialReportingCode"/>
               <bean parent="FieldDefinition" p:attributeName="cgCostSharingSectionBlank"/>
               <bean parent="FieldDefinition" p:attributeName="cgCostSharingSection"/>
-              <bean parent="FieldDefinition" p:attributeName="a21SubAccount.costShareChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="a21SubAccount.costShareSourceChartOfAccountsCode"/>
               <bean parent="FieldDefinition" p:attributeName="a21SubAccount.costShareSourceAccountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="a21SubAccount.costShareSourceSubAccountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="cgICRSectionBlank"/>

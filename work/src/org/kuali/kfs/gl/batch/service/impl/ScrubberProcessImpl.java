@@ -1000,7 +1000,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             description.append(offsetString);
             costShareSourceAccountEntry.setTransactionLedgerEntryDescription(description.toString());
 
-            costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareChartOfAccountCode());
+            costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareSourceChartOfAccountsCode());
             costShareSourceAccountEntry.setAccountNumber(scrubbedEntryA21SubAccount.getCostShareSourceAccountNumber());
 
             setCostShareObjectCode(costShareSourceAccountEntry, scrubbedEntry);
@@ -1552,7 +1552,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
             SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
 
-            costShareEncumbranceEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareChartOfAccountCode());
+            costShareEncumbranceEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareSourceChartOfAccountsCode());
             costShareEncumbranceEntry.setAccountNumber(scrubbedEntryA21SubAccount.getCostShareSourceAccountNumber());
             costShareEncumbranceEntry.setSubAccountNumber(scrubbedEntryA21SubAccount.getCostShareSourceSubAccountNumber());
 

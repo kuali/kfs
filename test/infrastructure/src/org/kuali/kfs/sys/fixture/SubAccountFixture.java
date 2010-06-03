@@ -92,10 +92,10 @@ public enum SubAccountFixture {
      * @param icrAccountNumber
      * @param offCampusCode
      * @param costShareChartCode
-     * @param costShareAccountNumber
+     * @param costShareSourceAccountNumber
      * @param costShareSubAccountNumber
      */
-    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean active, String finReportChartCode, String finReportOrgCode, String finReportingCode, String subAccountTypeCode, String icrTypeCode, String finSeriesId, String icrChartCode, String icrAccountNumber, boolean offCampusCode, String costShareChartCode, String costShareAccountNumber, String costShareSubAccountNumber) {
+    private SubAccountFixture(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean active, String finReportChartCode, String finReportOrgCode, String finReportingCode, String subAccountTypeCode, String icrTypeCode, String finSeriesId, String icrChartCode, String icrAccountNumber, boolean offCampusCode, String costShareChartCode, String costShareSourceAccountNumber, String costShareSubAccountNumber) {
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
         this.subAccountNumber = subAccountNumber;
@@ -114,8 +114,8 @@ public enum SubAccountFixture {
         a21.setIndirectCostRecoveryChartOfAccountsCode(icrChartCode);
         a21.setIndirectCostRecoveryAccountNumber(icrAccountNumber);
         a21.setOffCampusCode(offCampusCode);
-        a21.setCostShareChartOfAccountCode(costShareChartCode);
-        a21.setCostShareSourceAccountNumber(costShareAccountNumber);
+        a21.setCostShareSourceChartOfAccountsCode(costShareChartCode);
+        a21.setCostShareSourceAccountNumber(costShareSourceAccountNumber);
         a21.setCostShareSourceSubAccountNumber(costShareSubAccountNumber);
 
     }

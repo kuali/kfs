@@ -36,14 +36,14 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private String indirectCostRecoveryChartOfAccountsCode;
     private String indirectCostRecoveryAccountNumber;
     private boolean offCampusCode;
-    private String costShareChartOfAccountCode;
+    private String costShareSourceChartOfAccountsCode;
     private String costShareSourceAccountNumber;
     private String costShareSourceSubAccountNumber;
 
     private Chart indirectCostRecoveryChartOfAccounts;
     private Account indirectCostRecoveryAccount;
-    private Chart costShareChartOfAccount;
-    private Account costShareAccount;
+    private Chart costShareSourceChartOfAccounts;
+    private Account costShareSourceAccount;
     private SubAccount costShareSourceSubAccount;
     private IndirectCostRecoveryType indirectCostRecoveryType;
     private Chart chartOfAccounts;
@@ -246,57 +246,57 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the costShareAccount attribute.
+     * Gets the costShareSourceAccount attribute.
      * 
-     * @return Returns the costShareAccount.
+     * @return Returns the costShareSourceAccount.
      */
-    public Account getCostShareAccount() {
-        return costShareAccount;
+    public Account getCostShareSourceAccount() {
+        return costShareSourceAccount;
     }
 
     /**
-     * Sets the costShareAccount attribute value.
+     * Sets the costShareSourceAccount attribute value.
      * 
-     * @param costShareAccount The costShareAccount to set.
+     * @param costShareSourceAccount The costShareSourceAccount to set.
      */
-    public void setCostShareAccount(Account costShareAccount) {
-        this.costShareAccount = costShareAccount;
+    public void setCostShareSourceAccount(Account costShareSourceAccount) {
+        this.costShareSourceAccount = costShareSourceAccount;
     }
 
     /**
-     * Gets the costShareChartOfAccount attribute.
+     * Gets the costShareSourceChartOfAccounts attribute.
      * 
-     * @return Returns the costShareChartOfAccount.
+     * @return Returns the costShareSourceChartOfAccounts.
      */
-    public Chart getCostShareChartOfAccount() {
-        return costShareChartOfAccount;
+    public Chart getCostShareSourceChartOfAccounts() {
+        return costShareSourceChartOfAccounts;
     }
 
     /**
-     * Sets the costShareChartOfAccount attribute value.
+     * Sets the costShareSourceChartOfAccounts attribute value.
      * 
-     * @param costShareChartOfAccount The costShareChartOfAccount to set.
+     * @param costShareSourceChartOfAccounts The costShareSourceChartOfAccounts to set.
      */
-    public void setCostShareChartOfAccount(Chart costShareChartOfAccount) {
-        this.costShareChartOfAccount = costShareChartOfAccount;
+    public void setCostShareSourceChartOfAccounts(Chart costShareSourceChartOfAccounts) {
+        this.costShareSourceChartOfAccounts = costShareSourceChartOfAccounts;
     }
 
     /**
-     * Gets the costShareChartOfAccountCode attribute.
+     * Gets the costShareSourceChartOfAccountsCode attribute.
      * 
-     * @return Returns the costShareChartOfAccountCode.
+     * @return Returns the costShareSourceChartOfAccountsCode.
      */
-    public String getCostShareChartOfAccountCode() {
-        return costShareChartOfAccountCode;
+    public String getCostShareSourceChartOfAccountsCode() {
+        return costShareSourceChartOfAccountsCode;
     }
 
     /**
-     * Sets the costShareChartOfAccountCode attribute value.
+     * Sets the costShareSourceChartOfAccountsCode attribute value.
      * 
-     * @param costShareChartOfAccountCode The costShareChartOfAccountCode to set.
+     * @param costShareSourceChartOfAccountsCode The costShareSourceChartOfAccountsCode to set.
      */
-    public void setCostShareChartOfAccountCode(String costShareChartOfAccountCode) {
-        this.costShareChartOfAccountCode = costShareChartOfAccountCode;
+    public void setCostShareSourceChartOfAccountsCode(String costShareSourceChartOfAccountsCode) {
+        this.costShareSourceChartOfAccountsCode = costShareSourceChartOfAccountsCode;
     }
 
     /**

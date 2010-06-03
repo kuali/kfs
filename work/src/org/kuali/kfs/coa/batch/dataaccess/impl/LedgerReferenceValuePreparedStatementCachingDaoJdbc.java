@@ -80,7 +80,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 a21SubAccount.setAccountNumber(accountNumber);
                 a21SubAccount.setSubAccountNumber(subAccountNumber);
                 a21SubAccount.setSubAccountTypeCode(resultSet.getString(1));
-                a21SubAccount.setCostShareChartOfAccountCode(resultSet.getString(2));
+                a21SubAccount.setCostShareSourceChartOfAccountsCode(resultSet.getString(2));
                 a21SubAccount.setCostShareSourceAccountNumber(resultSet.getString(3));
                 a21SubAccount.setCostShareSourceSubAccountNumber(resultSet.getString(4));
                 a21SubAccount.setIndirectCostRecoveryTypeCode(resultSet.getString(5));

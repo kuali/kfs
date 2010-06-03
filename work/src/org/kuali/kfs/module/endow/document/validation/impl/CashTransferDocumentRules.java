@@ -86,23 +86,6 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules{
         }
         return isValid;
     }
-    /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
-     */
-    @Override
-    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line) {
-
-        boolean isValid = super.processAddTransactionLineRules(document, line);
-        isValid &= !GlobalVariables.getMessageMap().hasErrors();
-
-        if (isValid) {
-            isValid &= validateCashTransactionLine(line, -1);
-        }
-
-        return isValid;
-
-    }
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,
@@ -110,39 +93,21 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules{
      */    
     @Override
     protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) {
-        boolean isValid = true;
+        
+        boolean isValid = super.validateCashTransactionLine(line, index);
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
             // Obtain Prefix for Error fields in UI.
             String ERROR_PREFIX = getErrorPrefix(line, index);
-
-            // Is Etran code empty
-            if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
-                return false;
-
-            // Validate ETran code
-            if (!validateEndowmentTransactionCode(line, ERROR_PREFIX))
-                return false;
-
-            // Validate ETran code as E or I
-            isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
-
-            // Validate if the chart is matched between the KEMID and EtranCode
-            isValid &= validateChartMatch(line, ERROR_PREFIX);
-
-            // Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
-
+            
             if (EndowConstants.TRANSACTION_LINE_TYPE_SOURCE.equalsIgnoreCase(line.getTransactionLineTypeCode())){
                 checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
                 checkWhetherHaveSufficientFundsForCashBasedTransaction(line, ERROR_PREFIX);
             }
-
-            // Set Corpus Indicator
-            line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
-        }
-
+         }
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    
     }
 
 

@@ -50,7 +50,7 @@ public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
                
             for (int i = 0; i < cashDecreaseDocument.getSourceTransactionLines().size(); i++) {
                 EndowmentTransactionLine txLine = cashDecreaseDocument.getSourceTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(txLine, i);
+                isValid &= validateCashTransactionLine(cashDecreaseDocument,txLine, i);
             }
         }
 
@@ -58,12 +58,13 @@ public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#
+(
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */    
     @Override
-    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) {
-        boolean isValid = super.validateCashTransactionLine(line, index);
+    protected boolean validateCashTransactionLine(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line, int index) {
+        boolean isValid = super.validateCashTransactionLine(document,line, index);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {

@@ -99,7 +99,7 @@ public class LiabilityDecreaseDocumentRules extends EndowmentTransactionLinesDoc
             }
             else
             {
-                // Validate Values is Greater than Zero.
+                // Validate Amount is Greater than Zero.
                 isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
     
                 // Validate Units is Greater than Zero.

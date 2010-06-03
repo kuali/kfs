@@ -50,7 +50,7 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-            isValid &= validateCashTransactionLine(line, -1);
+            isValid &= validateCashTransactionLine(document,line, -1);
         }
 
         return isValid;
@@ -65,7 +65,7 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
      * @param index
      * @return boolean True if the rules checks passed, false otherwise.
      */
-    protected boolean validateCashTransactionLine(EndowmentTransactionLine line, int index) {
+    protected boolean validateCashTransactionLine(EndowmentTransactionLinesDocument document, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
         if (isValid) {
@@ -90,9 +90,18 @@ public class CashDocumentBaseRules  extends EndowmentTransactionLinesDocumentBas
             // Validate if the chart is matched between the KEMID and EtranCode
             isValid &= validateChartMatch(line, ERROR_PREFIX);
 
-            // Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
-
+            if(document.isErrorCorrectedDocument())
+            {
+                // Validate Amount is Less than Zero.
+                isValid &= validateTransactionAmountLessThanZero(line, ERROR_PREFIX);
+            }
+            else
+            {
+             // Validate Amount is Greater than Zero.
+                isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+            }
+                
+                
             // Set Corpus Indicator
             line.setCorpusIndicator(SpringContext.getBean(EndowmentTransactionLinesDocumentService.class).getCorpusIndicatorValueforAnEndowmentTransactionLine(line.getKemid(), line.getEtranCode(), line.getTransactionIPIndicatorCode()));
         }

@@ -50,7 +50,7 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
             
             for (int i = 0; i < cashIncreaseDocument.getTargetTransactionLines().size(); i++) {
                 EndowmentTransactionLine txLine = cashIncreaseDocument.getTargetTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(txLine, i);
+                isValid &= validateCashTransactionLine(cashIncreaseDocument,txLine, i);
             }
         }
 

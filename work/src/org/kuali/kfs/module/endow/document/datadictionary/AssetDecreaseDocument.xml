@@ -25,6 +25,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentPresentationController"/>
     <property name="allowsErrorCorrection" value="true"/>
+    <property name="allowsCopy" value="true"/>
     <property name="defaultExistenceChecks">
       <list>
       </list>

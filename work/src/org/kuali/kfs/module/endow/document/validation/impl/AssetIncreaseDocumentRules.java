@@ -152,11 +152,24 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (isValid) {
 
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
-            // Validate Greater then Zero(thus positive) value
-            isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
-
-            isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
-
+            
+            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
+            {
+                // Validate Amount is Less than Zero.
+                isValid &= validateTransactionAmountLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
+    
+                // Validate Units is Less than Zero.
+                isValid &= validateTransactionUnitsLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            }
+            else
+            {
+                //Validate Greater then Zero(thus positive) value
+                isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+    
+                //Validate Units is Greater than Zero.
+                isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            }
+            
             isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), false);
         }
 

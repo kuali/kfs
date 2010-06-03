@@ -135,12 +135,29 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (isValid) {
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
 
-            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
-                // Validate Greater then Zero(thus positive) value
-                isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) 
+            {
+                if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
+                {
+                    // Validate Amount is Less than Zero.
+                    isValid &= validateTransactionAmountLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
+                }
+                else
+                {
+                    // Validate Greater then Zero(thus positive) value
+                    isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+                }
             }
 
-            isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
+            {
+                // Validate Units is Less than Zero.
+                isValid &= validateTransactionUnitsLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            }
+            else
+            {
+                isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
+            }
 
             if (isValid) {
                 isValid &= validateSufficientUnits(isAdd, assetDecreaseDocument, line, index, taxLotLineToDeleteIndex);
@@ -191,7 +208,13 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             }
         }
 
-        if (line.getTransactionUnits().bigDecimalValue().compareTo(totalTaxLotsUnits) == 1) {
+        BigDecimal lineUnits = null;
+        if(endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
+            lineUnits = line.getTransactionUnits().bigDecimalValue().negate();
+        else
+            lineUnits = line.getTransactionUnits().bigDecimalValue();
+        
+        if (lineUnits.compareTo(totalTaxLotsUnits) == 1) {
             isValid = false;
             putFieldError(getErrorPrefix(line, transLineIndex) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
         }
@@ -223,6 +246,19 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
     private boolean validateTotalAmountAndUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine transactionLine, int index) {
         boolean isValid = true;
 
+        BigDecimal lineUnits = null;
+        BigDecimal lineAmount = null;
+        if(endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
+        {
+            lineUnits = transactionLine.getTransactionUnits().bigDecimalValue().negate();
+            lineAmount= transactionLine.getTransactionAmount().bigDecimalValue().negate();
+        }
+        else
+        {
+            lineUnits = transactionLine.getTransactionUnits().bigDecimalValue();
+            lineAmount= transactionLine.getTransactionAmount().bigDecimalValue().negate();
+        }
+        
         if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode())) {
 
             List<EndowmentTransactionTaxLotLine> taxLots = transactionLine.getTaxLotLines();
@@ -236,11 +272,11 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
                 }
             }
 
-            if (transactionLine.getTransactionAmount().bigDecimalValue().compareTo(totalAmount.negate()) != 0) {
+            if (lineAmount.compareTo(totalAmount.negate()) != 0) {
                 isValid = false;
                 putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH);
             }
-            if (transactionLine.getTransactionUnits().bigDecimalValue().compareTo(totalUnits.negate()) != 0) {
+            if (lineUnits.compareTo(totalUnits.negate()) != 0) {
                 isValid = false;
                 putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH);
             }
@@ -268,11 +304,11 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
                 }
             }
 
-            if (transactionLine.getTransactionAmount().bigDecimalValue().compareTo(totalAmount) != 0) {
+            if (lineAmount.compareTo(totalAmount) != 0) {
                 isValid = false;
                 putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH);
             }
-            if (transactionLine.getTransactionUnits().bigDecimalValue().compareTo(totalUnits.negate()) != 0) {
+            if (lineUnits.compareTo(totalUnits.negate()) != 0) {
                 isValid = false;
                 putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH);
             }

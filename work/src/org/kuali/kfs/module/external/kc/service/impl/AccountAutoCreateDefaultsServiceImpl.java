@@ -25,7 +25,7 @@ public class AccountAutoCreateDefaultsServiceImpl implements AccountAutoCreateDe
     
     public AccountAutoCreateDefaults getByUnit(String unit) {
         
-        //TODO: check unit against the hierarchy
+        //TODO: check unit in the hierarchy if unit is not found
         
         return accountAutoCreateDefaultsDao.getByUnit(unit);
     }

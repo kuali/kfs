@@ -16,24 +16,25 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
-import org.kuali.kfs.module.external.kc.service.AccountAutoCreateDefaultsService;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.kfs.coa.document.KualiAccountMaintainableImpl;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
@@ -41,15 +42,28 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     
     private DocumentService documentService;
     private ParameterService parameterService;
-    private AccountAutoCreateDefaultsService accountAutoCreateDefaultsService;
     private DataDictionaryService dataDictionaryService;
+    private BusinessObjectService businessObjectService;
        
+    /**
+     * This is the web service method exposed to KC. 
+     * 1. Creates an account object using the parameters from KC and the default Account table
+     * 2. Create an account automatic maintenance document and put the account object into it
+     * 3. Returns the status object
+     * 
+     * @param accountParameters
+     * @return AccountCreationStatus
+     */
     public AccountCreationStatus createAccount(AccountParameters accountParameters) {
         
         List<String> errorMessages = new ArrayList<String>();
         AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
-        
-        AccountAutoCreateDefaults defaults = accountAutoCreateDefaultsService.getByUnit(accountParameters.getUnit());
+                
+        // get the CGAD using unit code
+        //TODO: check unit in the hierarchy if unit is not found        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("kcUnit", accountParameters.getUnit());   
+        AccountAutoCreateDefaults defaults = (AccountAutoCreateDefaults) businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
         
         if (defaults == null) {
             errorMessages.add("Unit code is not found");
@@ -97,13 +111,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountStreetAddress(defaults.getAccountStreetAddress());
         account.setAccountOffCampusIndicator(accountParameters.isOffCampusIndicator());
         
-        account.setClosed(false); // null?
+        account.setClosed(false);
         account.setAccountTypeCode(defaults.getAccountTypeCode());        
         account.setSubFundGroupCode(defaults.getSubFundGroupCode());
         
-        account.setAccountsFringesBnftIndicator(true);  // TODO: check the value from CGAD
-        account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccounts().getChartOfAccountsCode());  // according to the indicator
-        //account.set??(defaults.getFringeBenefitAccountNumber());  // TODO: fringe benefit account number does not exist in account ***
+        if (defaults.isAccountsFringesBnftIndicator()) {
+            account.setAccountsFringesBnftIndicator(true);   
+            account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccounts().getChartOfAccountsCode());
+            account.setReportsToAccountNumber(defaults.getFringeBenefitAccountNumber());    // fringe benefit account number
+        } else {
+            account.setAccountsFringesBnftIndicator(false);   
+            account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(null);  
+            account.setReportsToAccountNumber(null);
+        }
 
         account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
         
@@ -112,19 +132,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setEndowmentIncomeChartOfAccounts(null);
         account.setEndowmentIncomeAccountNumber(null);
         
-        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerUser().getName()); //TODO: fiscal officer principal name ***
-        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountSupervisoryUser().getName());   //TODO: account supervisor principal name ***
-        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerUser().getName());             //TODO: account manager principal name ***
+        account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerSystemIdentifier()); 
+        account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountsSupervisorySystemsIdentifier());
+        account.setAccountManagerSystemIdentifier(defaults.getAccountManagerSystemIdentifier());
         account.getContinuationChartOfAccounts().setChartOfAccountsCode(defaults.getContinuationChartOfAccounts().getCode());
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
-        account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getChartOfAccountsCode());  // not object, but code ?
-        account.getIncomeStreamAccount().setAccountNumber(defaults.getIncomeStreamAccountNumber()); // income stream account code or number ?
+        account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getIncomeStreamChartOfAccounts().getChartOfAccountsCode());  
+        account.getIncomeStreamAccount().setAccountNumber(defaults.getIncomeStreamAccountNumber()); 
         
         account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
         account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
         
-        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator()); //TODO: transaction processing sufficient funds indicator is missing *** ?        
+        account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator());         
         account.setExtrnlFinEncumSufficntFndIndicator(defaults.isExtrnlFinEncumSufficntFndIndicator());
         account.setIntrnlFinEncumSufficntFndIndicator(defaults.isIntrnlFinEncumSufficntFndIndicator());
         account.setPendingAcctSufficientFundsIndicator(defaults.isPendingAcctSufficientFundsIndicator());
@@ -134,7 +154,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); //TODO: contract control chart of accounts code ?
         account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);                            //TODO: contract control account number ?
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRecoveryChartOfAccountsCode());
-        //account.getIndirectCostRecoveryAccount();   // TODO: indirect cost rate - accountParameters.getIndirectCostRate(); *** 
+        //account.setFinancialIcrSeriesIdentifier();  // indirect cost rate
         
         account.setIndirectCostRecoveryChartOfAccountsCode(defaults.getIndirectCostRecoveryChartOfAccountsCode());
         account.setIndirectCostRecoveryAccountNumber(defaults.getIndirectCostRecoveryAccountNumber());
@@ -269,7 +289,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * 
      * @return Current value of documentService.
      */
-    public DocumentService getDocumentService() {
+    protected DocumentService getDocumentService() {
         return documentService;
     }
 
@@ -300,7 +320,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         this.parameterService = parameterService;
     }
 
-    public DataDictionaryService getDataDictionaryService() {
+    protected DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
 
@@ -309,18 +329,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }
 
     /**
-     * Gets the accountAutoCreateDefaultsService attribute. 
-     * @return Returns the accountAutoCreateDefaultsService.
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
      */
-    public AccountAutoCreateDefaultsService getAccountAutoCreateDefaultsService() {
-        return accountAutoCreateDefaultsService;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /**
-     * Sets the accountAutoCreateDefaultsService attribute value.
-     * @param accountAutoCreateDefaultsService The accountAutoCreateDefaultsService to set.
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
      */
-    public void setAccountAutoCreateDefaultsService(AccountAutoCreateDefaultsService accountAutoCreateDefaultsService) {
-        this.accountAutoCreateDefaultsService = accountAutoCreateDefaultsService;
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
+    
 }

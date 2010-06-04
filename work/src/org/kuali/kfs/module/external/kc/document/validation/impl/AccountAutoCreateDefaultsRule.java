@@ -15,42 +15,21 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.FundGroup;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
-import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.module.external.kc.KcKeyConstants;
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
-import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -141,7 +120,6 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkContractsAndGrants(document);
-        success &= checkIncomeStreamAccountRule();
         return success;
     }
 
@@ -221,24 +199,24 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
 
         boolean result = true;
 
-        // if this account is selected as a Fringe Benefit Account, then we have nothing
-        // to test, so exit
+        // When the Account Fringe Benefit is selected, do not allow the entry of Fringe Benefit
+        // Chart of Account Code and Account Number
         if (newAccountAutoCreateDefaults.isAccountsFringesBnftIndicator()) {
-            return true;
-        }
+            if ((! StringUtils.isEmpty(newAccountAutoCreateDefaults.getChartOfAccountsCode())) ||
+                    (!StringUtils.isEmpty(newAccountAutoCreateDefaults.getReportsToAccountNumber()))) {
+                 putFieldError("reportsToAccountNumber", KcKeyConstants.AccountAutoCreateDefaults.ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_TRUE);            
+                result &=false;
+            }
+        } else {
 
-   
-        // fringe benefit chart of accounts code is required
-        if (StringUtils.isBlank(newAccountAutoCreateDefaults.getReportsToChartOfAccountsCode())) {
-            putFieldError("reportsToChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-            result &= false;
+            //When the Account Fringe Benefit is not selected, require Fringe Benefit Chart of Account Code and Fringe Benefit Account Number
+            // fringe benefit chart of accounts code is required
+            if ((StringUtils.isEmpty(newAccountAutoCreateDefaults.getChartOfAccountsCode())) ||
+                        (StringUtils.isEmpty(newAccountAutoCreateDefaults.getReportsToAccountNumber()))) {
+                     putFieldError("reportsToAccountNumber", KcKeyConstants.AccountAutoCreateDefaults.ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_FALSE);
+                result &= false;
+            }
         }
-
-        // if either of the fringe benefit account fields are not present, then we're done
-        if (result == false) {
-            return result;
-        }
-
         return result;
     }
 
@@ -276,7 +254,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         if (ObjectUtils.isNotNull(newAccountAutoCreateDefaults.getSubFundGroup())) {
             if (getSubFundGroupService().isForContractsAndGrants(newAccountAutoCreateDefaults.getSubFundGroup())) {
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccountAutoCreateDefaults.getAcctIndirectCostRcvyTypeCd(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccountAutoCreateDefaults.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
+                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccountAutoCreateDefaults.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccountAutoCreateDefaults.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
              }
             else {
@@ -286,29 +264,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         return result;
     }
 
-    /**
-     * the income stream account is required if account's sub fund group code's fund group code is either GF or CG.
-     * 
-     * @param newAccount
-     * @return true if fund group code (obtained through sub fund group) is in the system parameter INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS (values GF;CG)
-     * else return false.
-     */
-    protected boolean checkIncomeStreamAccountRule() {
-
-        boolean result = true;
-        // KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
-        String fundGroupCode = newAccountAutoCreateDefaults.getSubFundGroup().getFundGroupCode();
-        String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(AccountAutoCreateDefaults.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
-        if (StringUtils.containsIgnoreCase(fundGroupCode, incomeStreamRequiringFundGroupCode)) {
-            if (ObjectUtils.isNull(newAccountAutoCreateDefaults.getIncomeStreamAccount())) {
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, newAccountAutoCreateDefaults.getIncomeStreamAccountNumber());
-                result = false;
-            }
-        }
-
-        return result;
-    }
-    
+   
     /**
      * This method is a helper method that replaces error tokens with values for contracts and grants labels
      * 

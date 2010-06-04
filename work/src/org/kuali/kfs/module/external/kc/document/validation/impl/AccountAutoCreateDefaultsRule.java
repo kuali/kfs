@@ -149,7 +149,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
      * This method checks the basic rules for empty values in an account and associated objects with this account If guidelines are
      * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
      * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
-     * contractControlAccount indirectCostRecoveryAccount
+     * contractControlAccount indirectCostRecoveryAcct
      * 
      * @param maintenanceDocument
      * @return false if any of these are empty
@@ -165,7 +165,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         // object), must either be none filled out, or all filled out.
         success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
 
         return success;
     }
@@ -276,8 +276,8 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         if (ObjectUtils.isNotNull(newAccountAutoCreateDefaults.getSubFundGroup())) {
             if (getSubFundGroupService().isForContractsAndGrants(newAccountAutoCreateDefaults.getSubFundGroup())) {
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccountAutoCreateDefaults.getAcctIndirectCostRcvyTypeCd(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("indirectCostRecoveryChartOfAccountsCode", newAccountAutoCreateDefaults.getIndirectCostRecoveryChartOfAccountsCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("indirectCostRecoveryAccountNumber", newAccountAutoCreateDefaults.getIndirectCostRecoveryAccountNumber(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
+                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccountAutoCreateDefaults.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
+                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccountAutoCreateDefaults.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
              }
             else {
                 // this is not a C&G fund group. So users should not fill in any fields in the C&G tab.

@@ -97,9 +97,9 @@
         <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
 
-        <dd:maintField attributeName="continuationChartOfAccountsCode"/>
+        <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
         <dd:maintField attributeName="continuationAccountNumber"/>
-        <dd:maintField attributeName="incomeStreamChartOfAccountsCode"/>
+        <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
         <dd:maintField attributeName="incomeStreamAccountNumber"/>
         <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
         <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
@@ -115,8 +115,8 @@
     <property name="title" value="Contracts And Grants"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-        <dd:maintField attributeName="indirectCostRecoveryAccountNumber"/>
+        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
+        <dd:maintField attributeName="indirectCostRecoveryAcctNbr"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>
     </property>

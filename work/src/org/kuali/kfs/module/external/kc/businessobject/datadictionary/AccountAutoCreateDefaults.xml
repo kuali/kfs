@@ -43,14 +43,14 @@
         <bean parent="Account-accountZipCode"/>
         <bean parent="Account-postalZipCode.postalCode"/>
         <bean parent="Account-reportsToChartOfAccountsCode"/>
-        <bean parent="Account-continuationChartOfAccountsCode"/>
+        <bean parent="Account-continuationFinChrtOfAcctCd"/>
         <bean parent="Account-continuationAccountNumber"/>
-        <bean parent="Account-incomeStreamChartOfAccountsCode"/>
+        <bean parent="Account-incomeStreamFinancialCoaCode"/>
         <bean parent="Account-incomeStreamAccountNumber"/>
         <bean parent="Account-acctIndirectCostRcvyTypeCd"/>
         <bean parent="Account-acctIndirectCostRcvyType.codeAndDescription"/>
-        <bean parent="Account-indirectCostRecoveryChartOfAccountsCode"/>
-        <bean parent="Account-indirectCostRecoveryAccountNumber"/>
+        <bean parent="Account-indirectCostRcvyFinCoaCode"/>
+        <bean parent="Account-indirectCostRecoveryAcctNbr"/>
         <bean parent="Account-accountSufficientFundsCode"/>
         <bean parent="Account-pendingAcctSufficientFundsIndicator"/>
         <bean parent="Account-extrnlFinEncumSufficntFndIndicator"/>
@@ -226,9 +226,9 @@
               <bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName"/>
               <bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName"/>
               <bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
               <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="incomeStreamChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode"/>
               <bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="budgetRecordingLevelCode"/>
               <bean parent="FieldDefinition" p:attributeName="accountSufficientFundsCode"/>
@@ -244,8 +244,8 @@
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
+              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
               <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
             </list>
           </property>

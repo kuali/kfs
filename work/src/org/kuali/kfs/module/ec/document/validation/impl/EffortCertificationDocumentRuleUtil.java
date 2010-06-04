@@ -421,7 +421,7 @@ public class EffortCertificationDocumentRuleUtil {
         A21SubAccount a21SubAccount = detailLine.getSubAccount().getA21SubAccount();
 
         if (ObjectUtils.isNotNull(a21SubAccount)) {
-            detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareSourceChartOfAccountsCode());
+            detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
             detailLine.setSourceAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
             detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         }

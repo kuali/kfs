@@ -975,7 +975,7 @@
     <field-descriptor name="indirectCostRcvyFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="offCampusCode" column="OFF_CMP_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <field-descriptor name="costShareSourceChartOfAccountsCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="costShareChartOfAccountCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="costShareSourceAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
 
@@ -992,17 +992,17 @@
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareSourceChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="costShareSourceChartOfAccountsCode" />
+    <reference-descriptor name="costShareChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="costShareChartOfAccountCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="costShareSourceAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="costShareSourceChartOfAccountsCode" />
+    <reference-descriptor name="costShareAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="costShareChartOfAccountCode" />
         <foreignkey field-ref="costShareSourceAccountNumber" />
     </reference-descriptor>
 
     <reference-descriptor name="costShareSourceSubAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="costShareSourceChartOfAccountsCode" />
+        <foreignkey field-ref="costShareChartOfAccountCode" />
         <foreignkey field-ref="costShareSourceAccountNumber" />
         <foreignkey field-ref="costShareSourceSubAccountNumber" />
     </reference-descriptor>

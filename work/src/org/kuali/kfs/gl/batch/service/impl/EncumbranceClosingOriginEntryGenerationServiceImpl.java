@@ -112,7 +112,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         A21SubAccount a21SubAccount = getA21SubAccountService().getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
         entry.setUniversityFiscalYear(new Integer(encumbrance.getUniversityFiscalYear().intValue() + 1));
-        entry.setChartOfAccountsCode(a21SubAccount.getCostShareSourceChartOfAccountsCode());
+        entry.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
         entry.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         entry.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
 
@@ -195,7 +195,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         offset.setTransactionLedgerEntryDescription(GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
 
         offset.setUniversityFiscalYear(new Integer(encumbrance.getUniversityFiscalYear().intValue() + 1));
-        offset.setChartOfAccountsCode(a21SubAccount.getCostShareSourceChartOfAccountsCode());
+        offset.setChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
         offset.setAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         offset.setSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         if (offset.getSubAccountNumber() == null || KFSConstants.EMPTY_STRING.equals(offset.getSubAccountNumber().trim())) {

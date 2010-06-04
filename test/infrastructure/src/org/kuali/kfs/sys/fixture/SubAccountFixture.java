@@ -114,7 +114,7 @@ public enum SubAccountFixture {
         a21.setIndirectCostRcvyFinCoaCode(icrChartCode);
         a21.setIndirectCostRecoveryAcctNbr(icrAccountNumber);
         a21.setOffCampusCode(offCampusCode);
-        a21.setCostShareSourceChartOfAccountsCode(costShareChartCode);
+        a21.setCostShareChartOfAccountCode(costShareChartCode);
         a21.setCostShareSourceAccountNumber(costShareSourceAccountNumber);
         a21.setCostShareSourceSubAccountNumber(costShareSubAccountNumber);
 

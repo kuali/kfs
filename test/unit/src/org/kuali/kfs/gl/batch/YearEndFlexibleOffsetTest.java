@@ -428,12 +428,12 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         // 2. when flexible offsets are turned on, encumbrance forward cost share entries do not get flexible offsets
-        assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareSourceChartOfAccountsCode(), a21SubAccount.getCostShareSourceAccountNumber());
+        assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
         
         // 3. when flexible offsets are turned on, encumbrance forward cost share offsets that should not get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_NO_FLEXIBLE_ENCUMBRANCE_CHART, CS_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
-        assertChartAndAccount(entryPair.getOffset(), a21SubAccount.getCostShareSourceChartOfAccountsCode(), a21SubAccount.getCostShareSourceAccountNumber());
+        assertChartAndAccount(entryPair.getOffset(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
     
     /**
@@ -452,7 +452,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         // 1. when flexible offsets are turned off, encumbrance forward cost share offsets that should get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
-        assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareSourceChartOfAccountsCode(), a21SubAccount.getCostShareSourceAccountNumber());
+        assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
     
     /**

@@ -98,7 +98,7 @@
     <property name="title" value="Edit CG Cost Sharing"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareChartOfAccountCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceSubAccountNumber"/>
       </list>

@@ -32,7 +32,7 @@
         <ref bean="A21SubAccount-indirectCostRcvyFinCoaCode"/>
         <ref bean="A21SubAccount-indirectCostRecoveryAcctNbr"/>
         <ref bean="A21SubAccount-offCampusCode"/>
-        <ref bean="A21SubAccount-costShareSourceChartOfAccountsCode"/>
+        <ref bean="A21SubAccount-costShareChartOfAccountCode"/>
         <ref bean="A21SubAccount-costShareSourceAccountNumber"/>
         <ref bean="A21SubAccount-costShareSourceSubAccountNumber"/>
       </list>
@@ -98,9 +98,9 @@
     <property name="shortLabel" value="Off Campus"/>
   </bean>
 
-  <bean id="A21SubAccount-costShareSourceChartOfAccountsCode" parent="A21SubAccount-costShareSourceChartOfAccountsCode-parentBean"/>
-  <bean id="A21SubAccount-costShareSourceChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="costShareSourceChartOfAccountsCode"/>
+  <bean id="A21SubAccount-costShareChartOfAccountCode" parent="A21SubAccount-costShareChartOfAccountCode-parentBean"/>
+  <bean id="A21SubAccount-costShareChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="costShareChartOfAccountCode"/>
     <property name="label" value="Cost Sharing Chart of Accounts Code"/>
     <property name="shortLabel" value="Cost Sharting Chart Code"/>
   </bean>

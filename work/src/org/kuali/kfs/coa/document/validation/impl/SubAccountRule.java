@@ -193,7 +193,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
                     // KULCOA-1116 - Check if CG CS and CG ICR are empty, if not throw an error
                     if (checkCgCostSharingIsEmpty() == false) {
-                        putFieldError("a21SubAccount.costShareSourceChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
+                        putFieldError("a21SubAccount.costShareChartOfAccountCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
                         success = false;
                     }
 
@@ -270,17 +270,17 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         A21SubAccount a21 = newSubAccount.getA21SubAccount();
 
         // check to see if all required fields are set
-        if (StringUtils.isNotEmpty(a21.getCostShareSourceChartOfAccountsCode()) && StringUtils.isNotEmpty(a21.getCostShareSourceAccountNumber())) {
+        if (StringUtils.isNotEmpty(a21.getCostShareChartOfAccountCode()) && StringUtils.isNotEmpty(a21.getCostShareSourceAccountNumber())) {
             allFieldsSet = true;
         }
 
         // Cost Sharing COA Code and Cost Sharing Account Number are required
-        success &= checkEmptyBOField("a21SubAccount.costShareSourceChartOfAccountsCode", a21.getCostShareSourceChartOfAccountsCode(), "Cost Share Chart of Accounts Code");
+        success &= checkEmptyBOField("a21SubAccount.costShareChartOfAccountCode", a21.getCostShareChartOfAccountCode(), "Cost Share Chart of Accounts Code");
         success &= checkEmptyBOField("a21SubAccount.costShareSourceAccountNumber", a21.getCostShareSourceAccountNumber(), "Cost Share AccountNumber");
 
         // existence test on Cost Share Account
         if (allFieldsSet) {
-            if (ObjectUtils.isNull(a21.getCostShareSourceAccount())) {
+            if (ObjectUtils.isNull(a21.getCostShareAccount())) {
                 putFieldError("a21SubAccount.costShareSourceAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, getDisplayName("a21SubAccount.costShareSourceAccountNumber"));
                 success &= false;
             }
@@ -295,9 +295,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // Cost Sharing Account may not be for contracts and grants
-        if (ObjectUtils.isNotNull(a21.getCostShareSourceAccount())) {
-            if (ObjectUtils.isNotNull(a21.getCostShareSourceAccount().getSubFundGroup())) {
-                if (a21.getCostShareSourceAccount().isForContractsAndGrants()) {
+        if (ObjectUtils.isNotNull(a21.getCostShareAccount())) {
+            if (ObjectUtils.isNotNull(a21.getCostShareAccount().getSubFundGroup())) {
+                if (a21.getCostShareAccount().isForContractsAndGrants()) {
                     putFieldError("a21SubAccount.costShareSourceAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_ACCOUNT_MAY_NOT_BE_CG_FUNDGROUP, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
                     success &= false;
                 }
@@ -372,7 +372,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         // The cost sharing fields must be empty if the sub-account type code is for ICR
         if (checkCgCostSharingIsEmpty() == false) {
-            putFieldError("a21SubAccount.costShareSourceChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_SECTION_INVALID, a21.getSubAccountTypeCode());
+            putFieldError("a21SubAccount.costShareChartOfAccountCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_SECTION_INVALID, a21.getSubAccountTypeCode());
 
             success &= false;
         }
@@ -390,7 +390,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
         if (ObjectUtils.isNotNull(newA21SubAccount)) {
-            success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceChartOfAccountsCode());
+            success &= StringUtils.isEmpty(newA21SubAccount.getCostShareChartOfAccountCode());
             success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceAccountNumber());
             success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceSubAccountNumber());
         }

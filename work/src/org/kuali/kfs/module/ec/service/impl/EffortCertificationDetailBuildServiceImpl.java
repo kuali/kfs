@@ -90,7 +90,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         }
         else if (costShareSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
-            detailLine.setSourceChartOfAccountsCode(A21SubAccount.getCostShareSourceChartOfAccountsCode());
+            detailLine.setSourceChartOfAccountsCode(A21SubAccount.getCostShareChartOfAccountCode());
             detailLine.setSourceAccountNumber(A21SubAccount.getCostShareSourceAccountNumber());
             detailLine.setCostShareSourceSubAccountNumber(A21SubAccount.getCostShareSourceSubAccountNumber());
         }

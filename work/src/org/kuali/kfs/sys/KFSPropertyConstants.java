@@ -340,9 +340,9 @@ public class KFSPropertyConstants {
     public static final String CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT = "contractsGrantsBeginningBalanceAmount";
     public static final String CORRECTED_BY_DOCUMENT_ID = "correctedByDocumentId";
     public static final String CORRECTION_GROUPS = "correctionGroups";
-    public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS = "costShareSourceChartOfAccounts";
-    public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE = "costShareSourceChartOfAccountsCode";
-    public static final String COST_SHARE_SOURCE_ACCOUNT = "costShareSourceAccount";
+    public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS = "costShareChartOfAccount";
+    public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE = "costShareChartOfAccountCode";
+    public static final String COST_SHARE_SOURCE_ACCOUNT = "costShareAccount";
     public static final String COST_SHARE_SOURCE_ACCOUNT_NUMBER = "costShareSourceAccountNumber";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT = "costShareSourceSubAccount";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER = "costShareSourceSubAccountNumber";

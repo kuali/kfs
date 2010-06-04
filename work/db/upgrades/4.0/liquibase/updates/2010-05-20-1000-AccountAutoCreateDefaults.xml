@@ -53,7 +53,7 @@
       <column name='RPTS_TO_FIN_COA_CD' type='VARCHAR2(2)'>
         <constraints nullable='true' />
       </column>
-      <column name='FRNG_BNFT_ACCT_NMBR' type='VARCHAR2(7)'>
+      <column name='RPTS_TO_ACCT_NBR' type='VARCHAR2(7)'>
         <constraints nullable='true' />
       </column>
       <column name='FIN_HGH_ED_FUNC_CD' type='VARCHAR2(4)'>

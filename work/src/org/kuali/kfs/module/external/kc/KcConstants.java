@@ -22,6 +22,8 @@ public class KcConstants {
     
     public static class AccountCreationService {
         public static final String WEB_SERVICE_NAME = "accountCreationService";
-    }
+    
+        public static final String ERROR_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.account.params.unit.notfound";
+    }    
     
 }

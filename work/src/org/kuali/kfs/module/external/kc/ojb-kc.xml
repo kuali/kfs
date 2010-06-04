@@ -31,7 +31,7 @@
     <field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountsFringesBnftIndicator" column="ACCT_FRNG_BNFT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="reportsToChartOfAccountsCode" column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="fringeBenefitAccountNumber" column="FRNG_BNFT_ACCT_NMBR" jdbc-type="VARCHAR"/>
+   	<field-descriptor name="reportsToAccountNumber" column="RPTS_TO_ACCT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="financialHigherEdFunctionCd" column="FIN_HGH_ED_FUNC_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountFiscalOfficerSystemIdentifier" column="ACCT_FSC_OFC_UID" jdbc-type="VARCHAR" />
     <field-descriptor name="accountsSupervisorySystemsIdentifier" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" />
@@ -62,7 +62,13 @@
     <reference-descriptor name="fringeBenefitsChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
     </reference-descriptor>
- 
+
+    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="reportsToChartOfAccountsCode" />
+        <foreignkey field-ref="reportsToAccountNumber" />
+    </reference-descriptor>
+
+    
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>

@@ -65,12 +65,13 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private boolean accountsFringesBnftIndicator;
     protected Chart fringeBenefitsChartOfAccount;
     private String reportsToChartOfAccountsCode;
-    private String fringeBenefitAccountNumber;
+    private String reportsToAccountNumber;
     private HigherEducationFunction financialHigherEdFunction;
     private String financialHigherEdFunctionCd;
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
     private String accountManagerSystemIdentifier;
+    private Account reportsToAccount;
     protected Chart continuationChartOfAccount;
     private String continuationFinChrtOfAcctCd;
     private Account continuationAccount;
@@ -476,20 +477,19 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
     }
 
+   
     /**
-     * Gets the fringeBenefitAccountNumber attribute. 
-     * @return Returns the fringeBenefitAccountNumber.
+     * @return Returns the reportsToAccountNumber.
      */
-    public String getFringeBenefitAccountNumber() {
-        return fringeBenefitAccountNumber;
+    public String getReportsToAccountNumber() {
+        return reportsToAccountNumber;
     }
 
     /**
-     * Sets the fringeBenefitAccountNumber attribute value.
-     * @param fringeBenefitAccountNumber The fringeBenefitAccountNumber to set.
+     * @param reportsToAccountNumber The reportsToAccountNumber to set.
      */
-    public void setFringeBenefitAccountNumber(String fringeBenefitAccountNumber) {
-        this.fringeBenefitAccountNumber = fringeBenefitAccountNumber;
+    public void setReportsToAccountNumber(String reportsToAccountNumber) {
+        this.reportsToAccountNumber = reportsToAccountNumber;
     }
 
     /**
@@ -522,6 +522,24 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
         this.financialHigherEdFunctionCd = financialHigherEdFunctionCd;
+    }
+    /**
+     * Gets the reportsToAccount attribute.
+     * 
+     * @return Returns the reportsToAccount
+     */
+    public Account getReportsToAccount() {
+        return reportsToAccount;
+    }
+
+    /**
+     * Sets the reportsToAccount attribute.
+     * 
+     * @param reportsToAccount The reportsToAccount to set.
+     * @deprecated
+     */
+    public void setReportsToAccount(Account reportsToAccount) {
+        this.reportsToAccount = reportsToAccount;
     }
 
     /**
@@ -912,7 +930,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
         this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
     }
-
+   
     /**
      * Gets the indirectCostRecoveryAcct attribute. 
      * @return Returns the indirectCostRecoveryAcct.
@@ -941,8 +959,8 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * Sets the indirectCostRecoveryAcctNbr attribute value.
      * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
      */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
+    public void setIndirectCostRecoveryAccountNumber(String indirectCostRecoveryAccountNumber) {
+        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAccountNumber;
     }
 
     /**

@@ -43,6 +43,7 @@
         <bean parent="Account-accountZipCode"/>
         <bean parent="Account-postalZipCode.postalCode"/>
         <bean parent="Account-reportsToChartOfAccountsCode"/>
+        <bean parent="Account-reportsToAccountNumber"/>
         <bean parent="Account-continuationFinChrtOfAcctCd"/>
         <bean parent="Account-continuationAccountNumber"/>
         <bean parent="Account-incomeStreamFinancialCoaCode"/>

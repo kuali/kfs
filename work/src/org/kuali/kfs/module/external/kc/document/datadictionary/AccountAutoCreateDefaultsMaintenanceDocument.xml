@@ -32,6 +32,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> 
 	    	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
@@ -80,6 +81,8 @@
         <dd:maintField attributeName="accountTypeCode" required="true"/>
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
+        <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
+        <dd:maintField attributeName="reportsToAccountNumber"/>
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
       </list>
     </property>

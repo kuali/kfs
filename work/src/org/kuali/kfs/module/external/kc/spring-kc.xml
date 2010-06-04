@@ -93,18 +93,8 @@
     <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="accountAutoCreateDefaultsService" ref="accountAutoCreateDefaultsService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-
-	<bean id="accountAutoCreateDefaultsDao" parent="platformAwareDao" class="org.kuali.kfs.module.external.kc.dataaccess.impl.AccountAutoCreateDefaultsDaoOjb">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
-	<bean id="accountAutoCreateDefaultsService" class="org.kuali.kfs.module.external.kc.service.impl.AccountAutoCreateDefaultsServiceImpl">
-		<property name="accountAutoCreateDefaultsDao">
-			<ref bean="accountAutoCreateDefaultsDao" />
-		</property>
-	</bean>
 	    
 </beans>

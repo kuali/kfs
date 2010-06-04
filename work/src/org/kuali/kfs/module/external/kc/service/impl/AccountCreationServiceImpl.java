@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
@@ -46,9 +47,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     private BusinessObjectService businessObjectService;
        
     /**
-     * This is the web service method exposed to KC. 
+     * This is the web service method that creates a new account  
      * 1. Creates an account object using the parameters from KC and the default Account table
-     * 2. Create an account automatic maintenance document and put the account object into it
+     * 2. Creates an account automatic maintenance document and puts the account object into it
      * 3. Returns the status object
      * 
      * @param accountParameters
@@ -60,13 +61,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
                 
         // get the CGAD using unit code
-        //TODO: check unit in the hierarchy if unit is not found        
+        //TODO: check the units in the hierarchy if unit is not found        
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("kcUnit", accountParameters.getUnit());   
         AccountAutoCreateDefaults defaults = (AccountAutoCreateDefaults) businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
         
         if (defaults == null) {
-            errorMessages.add("Unit code is not found");
+            errorMessages.add(KcConstants.AccountCreationService.ERROR_ACCOUNT_PARAMS_UNIT_NOTFOUND);
             accountCreationStatus.setErrorMessages(errorMessages); 
         } else {        
             // create an account object        

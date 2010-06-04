@@ -20,9 +20,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 public class IndirectCostRecoveryGenerationMetadata {
     private String indirectCostRecoveryTypeCode;
     private String financialIcrSeriesIdentifier;
-    private String indirectCostRecoveryChartOfAccountsCode;
-    private String indirectCostRecoveryAccountNumber;
-    private Account indirectCostRecoveryAccount;
+    private String indirectCostRcvyFinCoaCode;
+    private String indirectCostRecoveryAcctNbr;
+    private Account indirectCostRecoveryAcct;
     
     public String getIndirectCostRecoveryTypeCode() {
         return indirectCostRecoveryTypeCode;
@@ -36,22 +36,22 @@ public class IndirectCostRecoveryGenerationMetadata {
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
         this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
     }
-    public String getIndirectCostRecoveryChartOfAccountsCode() {
-        return indirectCostRecoveryChartOfAccountsCode;
+    public String getIndirectCostRcvyFinCoaCode() {
+        return indirectCostRcvyFinCoaCode;
     }
-    public void setIndirectCostRecoveryChartOfAccountsCode(String indirectCostRecoveryChartOfAccountsCode) {
-        this.indirectCostRecoveryChartOfAccountsCode = indirectCostRecoveryChartOfAccountsCode;
+    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
+        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
     }
-    public String getIndirectCostRecoveryAccountNumber() {
-        return indirectCostRecoveryAccountNumber;
+    public String getIndirectCostRecoveryAcctNbr() {
+        return indirectCostRecoveryAcctNbr;
     }
-    public void setIndirectCostRecoveryAccountNumber(String indirectCostRecoveryAccountNumber) {
-        this.indirectCostRecoveryAccountNumber = indirectCostRecoveryAccountNumber;
+    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
+        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
     }
-    public Account getIndirectCostRecoveryAccount() {
-        return indirectCostRecoveryAccount;
+    public Account getIndirectCostRecoveryAcct() {
+        return indirectCostRecoveryAcct;
     }
-    public void setIndirectCostRecoveryAccount(Account indirectCostRecoveryAccount) {
-        this.indirectCostRecoveryAccount = indirectCostRecoveryAccount;
+    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
+        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
     }
 }

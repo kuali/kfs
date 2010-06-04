@@ -105,7 +105,7 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
         public AccountContinuation(Account account) {
             this.accountFinancialChartOfAccountsCode = account.getChartOfAccountsCode();
             this.accountAccountNumber = account.getAccountNumber();
-            this.replacementFinancialChartOfAccountsCode = account.getContinuationChartOfAccountsCode();
+            this.replacementFinancialChartOfAccountsCode = account.getContinuationFinChrtOfAcctCd();
             this.replacementAccountNumber = account.getContinuationAccountNumber();
         }
 

@@ -362,9 +362,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // existence check for ICR Account
-        if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryChartOfAccountsCode()) && StringUtils.isNotEmpty(a21.getIndirectCostRecoveryAccountNumber())) {
-            if (ObjectUtils.isNull(a21.getIndirectCostRecoveryAccount())) {
-                putFieldError("a21SubAccount.indirectCostRecoveryAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + a21.getIndirectCostRecoveryChartOfAccountsCode() + "-" + a21.getIndirectCostRecoveryAccountNumber());
+        if (StringUtils.isNotEmpty(a21.getIndirectCostRcvyFinCoaCode()) && StringUtils.isNotEmpty(a21.getIndirectCostRecoveryAcctNbr())) {
+            if (ObjectUtils.isNull(a21.getIndirectCostRecoveryAcct())) {
+                putFieldError("a21SubAccount.indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + a21.getIndirectCostRcvyFinCoaCode() + "-" + a21.getIndirectCostRecoveryAcctNbr());
                 
                 success = false;
             }
@@ -409,8 +409,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
         if (ObjectUtils.isNotNull(newA21SubAccount)) {
             success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
-            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
-            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAccountNumber());
+            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRcvyFinCoaCode());
+            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAcctNbr());
             success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());
             // this is a boolean, so create any value if set to true, meaning a user checked the box, otherwise assume it's empty
             success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode() ? "1" : "");

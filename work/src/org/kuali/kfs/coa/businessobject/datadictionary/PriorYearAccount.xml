@@ -55,11 +55,11 @@
         <ref bean="PriorYearAccount-accountCfdaNumber"/>
         <ref bean="PriorYearAccount-chartOfAccountsCode"/>
         <ref bean="PriorYearAccount-continuationAccountNumber"/>
-        <ref bean="PriorYearAccount-continuationChartOfAccountsCode"/>
+        <ref bean="PriorYearAccount-continuationFinChrtOfAcctCd"/>
         <ref bean="PriorYearAccount-contractControlAccountNumber"/>
-        <ref bean="PriorYearAccount-contractControlChartOfAccountsCode"/>
+        <ref bean="PriorYearAccount-contractControlFinCoaCode"/>
         <ref bean="PriorYearAccount-endowmentIncomeAccountNumber"/>
-        <ref bean="PriorYearAccount-endowmentIncomeChartOfAccountsCode"/>
+        <ref bean="PriorYearAccount-endowmentIncomeAcctFinCoaCd"/>
         <ref bean="PriorYearAccount-expired"/>
         <ref bean="PriorYearAccount-extrnlFinEncumSufficntFndIndicator"/>
         <ref bean="PriorYearAccount-finPreencumSufficientFundIndicator"/>
@@ -68,9 +68,9 @@
         <ref bean="PriorYearAccount-financialObjectivePrsctrlIndicator"/>
         <ref bean="PriorYearAccount-forContractsAndGrants"/>
         <ref bean="PriorYearAccount-incomeStreamAccountNumber"/>
-        <ref bean="PriorYearAccount-incomeStreamChartOfAccountsCode"/>
-        <ref bean="PriorYearAccount-indirectCostRecoveryChartOfAccountsCode"/>
-        <ref bean="PriorYearAccount-indirectCostRecoveryAccountNumber"/>
+        <ref bean="PriorYearAccount-incomeStreamFinancialCoaCode"/>
+        <ref bean="PriorYearAccount-indirectCostRcvyFinCoaCode"/>
+        <ref bean="PriorYearAccount-indirectCostRecoveryAcctNbr"/>
         <ref bean="PriorYearAccount-intrnlFinEncumSufficntFndIndicator"/>
         <ref bean="PriorYearAccount-organizationCode"/>
         <ref bean="PriorYearAccount-pendingAcctSufficientFundsIndicator"/>
@@ -280,8 +280,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-continuationChartOfAccountsCode" parent="PriorYearAccount-continuationChartOfAccountsCode-parentBean"/>
-  <bean id="PriorYearAccount-continuationChartOfAccountsCode-parentBean" abstract="true" parent="Account-continuationChartOfAccountsCode">
+  <bean id="PriorYearAccount-continuationFinChrtOfAcctCd" parent="PriorYearAccount-continuationFinChrtOfAcctCd-parentBean"/>
+  <bean id="PriorYearAccount-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="Account-continuationFinChrtOfAcctCd">
     <property name="required" value="false"/>
   </bean>
   
@@ -290,8 +290,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-contractControlChartOfAccountsCode" parent="PriorYearAccount-contractControlChartOfAccountsCode-parentBean"/>
-  <bean id="PriorYearAccount-contractControlChartOfAccountsCode-parentBean" abstract="true" parent="Account-contractControlChartOfAccountsCode">
+  <bean id="PriorYearAccount-contractControlFinCoaCode" parent="PriorYearAccount-contractControlFinCoaCode-parentBean"/>
+  <bean id="PriorYearAccount-contractControlFinCoaCode-parentBean" abstract="true" parent="Account-contractControlFinCoaCode">
     <property name="required" value="false"/>
   </bean>
 
@@ -300,8 +300,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-endowmentIncomeChartOfAccountsCode" parent="PriorYearAccount-endowmentIncomeChartOfAccountsCode-parentBean"/>
-  <bean id="PriorYearAccount-endowmentIncomeChartOfAccountsCode-parentBean" abstract="true" parent="Account-endowmentIncomeChartOfAccountsCode">
+  <bean id="PriorYearAccount-endowmentIncomeAcctFinCoaCd" parent="PriorYearAccount-endowmentIncomeAcctFinCoaCd-parentBean"/>
+  <bean id="PriorYearAccount-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="Account-endowmentIncomeAcctFinCoaCd">
     <property name="required" value="false"/>
   </bean>
 
@@ -360,18 +360,18 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-incomeStreamChartOfAccountsCode" parent="PriorYearAccount-incomeStreamChartOfAccountsCode-parentBean"/>
-  <bean id="PriorYearAccount-incomeStreamChartOfAccountsCode-parentBean" abstract="true" parent="Account-incomeStreamChartOfAccountsCode">
+  <bean id="PriorYearAccount-incomeStreamFinancialCoaCode" parent="PriorYearAccount-incomeStreamFinancialCoaCode-parentBean"/>
+  <bean id="PriorYearAccount-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="Account-incomeStreamFinancialCoaCode">
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-indirectCostRecoveryChartOfAccountsCode" parent="PriorYearAccount-indirectCostRecoveryChartOfAccountsCode-parentBean"/>
-  <bean id="PriorYearAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="Account-indirectCostRecoveryChartOfAccountsCode">
+  <bean id="PriorYearAccount-indirectCostRcvyFinCoaCode" parent="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean"/>
+  <bean id="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="Account-indirectCostRcvyFinCoaCode">
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="PriorYearAccount-indirectCostRecoveryAccountNumber" parent="PriorYearAccount-indirectCostRecoveryAccountNumber-parentBean"/>
-  <bean id="PriorYearAccount-indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-indirectCostRecoveryAccountNumber">
+  <bean id="PriorYearAccount-indirectCostRecoveryAcctNbr" parent="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean"/>
+  <bean id="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="Account-indirectCostRecoveryAcctNbr">
     <property name="required" value="false"/>
   </bean>
 
@@ -448,11 +448,11 @@
               <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>
               <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
               <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
               <bean parent="FieldDefinition" p:attributeName="contractControlAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="contractControlChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>
               <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="endowmentIncomeChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAcctFinCoaCd"/>
               <bean parent="FieldDefinition" p:attributeName="expired"/>
               <bean parent="FieldDefinition" p:attributeName="extrnlFinEncumSufficntFndIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="finPreencumSufficientFundIndicator"/>
@@ -461,9 +461,9 @@
               <bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="forContractsAndGrants"/>
               <bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="incomeStreamChartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode"/>
+              <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
+              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
               <bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
               <bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator"/>
@@ -521,11 +521,11 @@
         <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
         <bean parent="FieldDefinition" p:attributeName="contractControlAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="contractControlChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>
         <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="endowmentIncomeChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAcctFinCoaCd"/>
         <bean parent="FieldDefinition" p:attributeName="expired"/>
         <bean parent="FieldDefinition" p:attributeName="extrnlFinEncumSufficntFndIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="finPreencumSufficientFundIndicator"/>
@@ -534,9 +534,9 @@
         <bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="forContractsAndGrants"/>
         <bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="incomeStreamChartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode"/>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
         <bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
         <bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator"/>
@@ -577,11 +577,11 @@
         <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="continuationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
         <bean parent="FieldDefinition" p:attributeName="contractControlAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="contractControlChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>
         <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="endowmentIncomeChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAcctFinCoaCd"/>
         <bean parent="FieldDefinition" p:attributeName="expired"/>
         <bean parent="FieldDefinition" p:attributeName="extrnlFinEncumSufficntFndIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="finPreencumSufficientFundIndicator"/>
@@ -590,9 +590,9 @@
         <bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="forContractsAndGrants"/>
         <bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="incomeStreamChartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode"/>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
         <bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator"/>
         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
         <bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator"/>

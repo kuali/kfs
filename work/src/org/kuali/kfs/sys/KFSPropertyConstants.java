@@ -332,10 +332,10 @@ public class KFSPropertyConstants {
     public static final String CONSOLIDATION_OPTION = "consolidationOption";
     public static final String CONTINUATION_ACCOUNT = "continuationAccount";
     public static final String CONTINUATION_ACCOUNT_NUMBER = "continuationAccountNumber";
-    public static final String CONTINUATION_CHART_OF_ACCOUNTS_CODE = "continuationChartOfAccountsCode";
+    public static final String CONTINUATION_CHART_OF_ACCOUNTS_CODE = "continuationFinChrtOfAcctCd";
     public static final String CONTRACT_CONTROL_ACCOUNT = "contractControlAccount";
     public static final String CONTRACT_CONTROL_ACCOUNT_NUMBER = "contractControlAccountNumber";
-    public static final String CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE = "contractControlChartOfAccountsCode";
+    public static final String CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE = "contractControlFinCoaCode";
     public static final String CONTRACTS_AND_GRANTS_FRINGE_RATE_AMOUNT = "contractsAndGrantsFringeRateAmount";
     public static final String CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT = "contractsGrantsBeginningBalanceAmount";
     public static final String CORRECTED_BY_DOCUMENT_ID = "correctedByDocumentId";
@@ -522,7 +522,7 @@ public class KFSPropertyConstants {
     public static final String ENCUMBRANCE_UPDATE_CODE = "encumbranceUpdateCode";
     public static final String ENDOWMENT_INCOME_ACCOUNT = "endowmentIncomeAccount";
     public static final String ENDOWMENT_INCOME_ACCOUNT_NUMBER = "endowmentIncomeAccountNumber";
-    public static final String ENDOWMENT_INCOME_CHART_OF_ACCOUNTS_CODE = "endowmentIncomeChartOfAccountsCode";
+    public static final String ENDOWMENT_INCOME_CHART_OF_ACCOUNTS_CODE = "endowmentIncomeAcctFinCoaCd";
     public static final String ENTRY_GROUP_ID = "entryGroupId";
     public static final String ENTRY_ID = "entryId";
     public static final String EXCEPTION_INDICATOR = "exceptionIndicator";
@@ -737,7 +737,7 @@ public class KFSPropertyConstants {
     public static final String INCOME_FINANCIAL_OBJECT_CODE = "incomeFinancialObjectCode";
     public static final String INCOME_STREAM_ACCOUNT = "incomeStreamAccount";
     public static final String INCOME_STREAM_ACCOUNT_NUMBER = "incomeStreamAccountNumber";
-    public static final String INCOME_STREAM_CHART_OF_ACCOUNTS_CODE = "incomeStreamChartOfAccountsCode";
+    public static final String INCOME_STREAM_CHART_OF_ACCOUNTS_CODE = "incomeStreamFinancialCoaCode";
     public static final String INCOME_TAX_GROSS_UP_CODE = "incomeTaxGrossUpCode";
     public static final String INCOME_TAX_PERCENT = "incomeTaxPercent";
     public static final String INCOME_TAX_TREATY_EXEMPT_CODE = "incomeTaxTreatyExemptCode";
@@ -745,10 +745,10 @@ public class KFSPropertyConstants {
     public static final String INCREMENTS = "increments";
     public static final String INDIRECT_AMOUNT = "indirectAmount";
     public static final String INDIRECT_COST = "indirectCost";
-    public static final String INDIRECT_COST_RECOVERY_ACCOUNT = "indirectCostRecoveryAccount";
-    public static final String INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER = "indirectCostRecoveryAccountNumber";
+    public static final String INDIRECT_COST_RECOVERY_ACCOUNT = "indirectCostRecoveryAcct";
+    public static final String INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER = "indirectCostRecoveryAcctNbr";
     public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";
-    public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE = "indirectCostRecoveryChartOfAccountsCode";
+    public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE = "indirectCostRcvyFinCoaCode";
     public static final String INDIRECT_COST_RECOVERY_TYPE = "indirectCostRecoveryType";
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
     public static final String INITIATOR_NETWORK_ID = KNSPropertyConstants.INITIATOR_NETWORK_ID;

@@ -959,8 +959,8 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * Sets the indirectCostRecoveryAcctNbr attribute value.
      * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
      */
-    public void setIndirectCostRecoveryAccountNumber(String indirectCostRecoveryAccountNumber) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAccountNumber;
+    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
+        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
     }
 
     /**

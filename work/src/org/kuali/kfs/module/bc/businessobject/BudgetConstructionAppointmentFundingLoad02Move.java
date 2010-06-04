@@ -29,12 +29,12 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
 
     private String chartOfAccountsCode;
     private String accountNumber;
-    private String continuationChartOfAccountsCode;
+    private String continuationFinChrtOfAcctCd;
     private String continuationAccountNumber;
 
     private Chart chartOfAccounts;
     private Account account;
-    private Chart continuationChartOfAccounts;
+    private Chart continuationChartOfAccount;
     private Account continuationAccount;
 
     /**
@@ -78,17 +78,17 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     }
 
     /**
-     * @return Returns the continuationChartOfAccountsCode.
+     * @return Returns the continuationFinChrtOfAcctCd.
      */
-    public String getContinuationChartOfAccountsCode() {
-        return continuationChartOfAccountsCode;
+    public String getContinuationFinChrtOfAcctCd() {
+        return continuationFinChrtOfAcctCd;
     }
 
     /**
-     * @param continuationChartOfAccountsCode The continuationChartOfAccountsCode to set.
+     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
      */
-    public void setContinuationChartOfAccountsCode(String continuationChartOfAccountsCode) {
-        this.continuationChartOfAccountsCode = continuationChartOfAccountsCode;
+    public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
+        this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
     }
 
     /**
@@ -144,22 +144,22 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     }
 
     /**
-     * Gets the continuationChartOfAccounts attribute.
+     * Gets the continuationChartOfAccount attribute.
      * 
-     * @return Returns the continuationChartOfAccounts.
+     * @return Returns the continuationChartOfAccount.
      */
-    public Chart getContinuationChartOfAccounts() {
-        return continuationChartOfAccounts;
+    public Chart getContinuationChartOfAccount() {
+        return continuationChartOfAccount;
     }
 
     /**
-     * Sets the continuationChartOfAccounts attribute value.
+     * Sets the continuationChartOfAccount attribute value.
      * 
-     * @param continuationChartOfAccounts The continuationChartOfAccounts to set.
+     * @param continuationChartOfAccount The continuationChartOfAccount to set.
      * @deprecated
      */
-    public void setContinuationChartOfAccounts(Chart continuationChartOfAccounts) {
-        this.continuationChartOfAccounts = continuationChartOfAccounts;
+    public void setContinuationChartOfAccount(Chart continuationChartOfAccount) {
+        this.continuationChartOfAccount = continuationChartOfAccount;
     }
 
     /**

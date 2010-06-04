@@ -556,7 +556,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         boolean result = false;
 
-        String chartCode = accountGlobals.getContinuationChartOfAccountsCode();
+        String chartCode = accountGlobals.getContinuationFinChrtOfAcctCd();
         String accountNumber = accountGlobals.getContinuationAccountNumber();
 
         // if either chartCode or accountNumber is not entered, then we
@@ -642,7 +642,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         // make sure both coaCode and accountNumber are filled out
         result &= checkEmptyBOField("incomeStreamAccountNumber", accountGlobals.getIncomeStreamAccountNumber(), "When Fund Group is CG or GF, Income Stream Account Number");
-        result &= checkEmptyBOField("incomeStreamChartOfAccountsCode", accountGlobals.getIncomeStreamChartOfAccountsCode(), "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
+        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", accountGlobals.getIncomeStreamFinancialCoaCode(), "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
 
         // if both fields arent present, then we're done
         if (result == false) {
@@ -653,7 +653,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         DictionaryValidationService dvService = super.getDictionaryValidationService();
         boolean referenceExists = dvService.validateReferenceExists(accountGlobals, "incomeStreamAccount");
         if (!referenceExists) {
-            putFieldError("incomeStreamAccount", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + accountGlobals.getIncomeStreamChartOfAccountsCode() + "-" + accountGlobals.getIncomeStreamAccountNumber());
+            putFieldError("incomeStreamAccount", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + accountGlobals.getIncomeStreamFinancialCoaCode() + "-" + accountGlobals.getIncomeStreamAccountNumber());
             result &= false;
         }
 
@@ -697,19 +697,19 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                 putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 continuationAccountIsValid = false;
             }
-            if (!checkEmptyValue(newAccountGlobal.getContinuationChartOfAccountsCode())) {
-                putFieldError("continuationChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
+            if (!checkEmptyValue(newAccountGlobal.getContinuationFinChrtOfAcctCd())) {
+                putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
                 continuationAccountIsValid = false;
             }
         }
 
         // if both fields aren't present, then we're done
-        if (continuationAccountIsValid && ObjectUtils.isNotNull(newAccountGlobal.getContinuationAccountNumber()) && ObjectUtils.isNotNull(newAccountGlobal.getContinuationChartOfAccountsCode())) {
+        if (continuationAccountIsValid && ObjectUtils.isNotNull(newAccountGlobal.getContinuationAccountNumber()) && ObjectUtils.isNotNull(newAccountGlobal.getContinuationFinChrtOfAcctCd())) {
             // do an existence/active test
             DictionaryValidationService dvService = super.getDictionaryValidationService();
             boolean referenceExists = dvService.validateReferenceExists(newAccountGlobal, "continuationAccount");
             if (!referenceExists) {
-                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Continuation Account: " + newAccountGlobal.getContinuationChartOfAccountsCode() + "-" + newAccountGlobal.getContinuationAccountNumber());
+                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Continuation Account: " + newAccountGlobal.getContinuationFinChrtOfAcctCd() + "-" + newAccountGlobal.getContinuationAccountNumber());
                 continuationAccountIsValid = false;
             }
         }
@@ -722,7 +722,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             for (AccountGlobalDetail detail : gAcctDetails) {
                 if (null != detail.getAccountNumber() && null != newAccountGlobal.getContinuationAccountNumber()) {
                     result &= detail.getAccountNumber().equals(newAccountGlobal.getContinuationAccountNumber());
-                    result &= detail.getChartOfAccountsCode().equals(newAccountGlobal.getContinuationChartOfAccountsCode());
+                    result &= detail.getChartOfAccountsCode().equals(newAccountGlobal.getContinuationFinChrtOfAcctCd());
                 }
             }
         }

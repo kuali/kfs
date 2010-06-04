@@ -39,7 +39,7 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="endowmentIncomeAccount" p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAccount" p:attributeToHighlightOnFail="indirectCostRecoveryAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAcct" p:attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
@@ -104,7 +104,7 @@
         <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>
         <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountRestrictedStatusDate"/>
-        <dd:maintField attributeName="endowmentIncomeChartOfAccountsCode"/>
+        <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
         <dd:maintField attributeName="endowmentIncomeAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
       </list>
     </property>
@@ -122,9 +122,9 @@
         <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
 
-        <dd:maintField attributeName="continuationChartOfAccountsCode"/>
+        <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
         <dd:maintField attributeName="continuationAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
-        <dd:maintField attributeName="incomeStreamChartOfAccountsCode"/>
+        <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
         <dd:maintField attributeName="incomeStreamAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="budgetRecordingLevelCode" required="true"/>
         <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
@@ -142,12 +142,12 @@
     <property name="title" value="Contracts And Grants"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="contractControlChartOfAccountsCode"/>
+        <dd:maintField attributeName="contractControlFinCoaCode"/>
         <dd:maintField attributeName="contractControlAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
-        <dd:maintField attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-        <dd:maintField attributeName="indirectCostRecoveryAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
+        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
+        <dd:maintField attributeName="indirectCostRecoveryAcctNbr" javascriptLeaveFieldFunction="onblur_accountNumber"/>
         <dd:maintField attributeName="accountCfdaNumber"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>

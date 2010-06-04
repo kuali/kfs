@@ -112,8 +112,8 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:a21SubAccount.financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRcvyFinCoaCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.offCampusCode" p:defaultValue="false"/>
       </list>

@@ -111,8 +111,8 @@ public enum SubAccountFixture {
         a21.setSubAccountTypeCode(subAccountTypeCode);
         a21.setIndirectCostRecoveryTypeCode(icrTypeCode);
         a21.setFinancialIcrSeriesIdentifier(finSeriesId);
-        a21.setIndirectCostRecoveryChartOfAccountsCode(icrChartCode);
-        a21.setIndirectCostRecoveryAccountNumber(icrAccountNumber);
+        a21.setIndirectCostRcvyFinCoaCode(icrChartCode);
+        a21.setIndirectCostRecoveryAcctNbr(icrAccountNumber);
         a21.setOffCampusCode(offCampusCode);
         a21.setCostShareSourceChartOfAccountsCode(costShareChartCode);
         a21.setCostShareSourceAccountNumber(costShareSourceAccountNumber);

@@ -51,20 +51,20 @@
         <ref bean="Account-accountCreateDate"/>
         <ref bean="Account-accountEffectiveDate"/>
         <ref bean="Account-accountExpirationDate"/>
-        <ref bean="Account-continuationChartOfAccountsCode"/>
+        <ref bean="Account-continuationFinChrtOfAcctCd"/>
         <ref bean="Account-continuationAccountNumber"/>
-        <ref bean="Account-endowmentIncomeChartOfAccountsCode"/>
+        <ref bean="Account-endowmentIncomeAcctFinCoaCd"/>
         <ref bean="Account-endowmentIncomeAccountNumber"/>
-        <ref bean="Account-contractControlChartOfAccountsCode"/>
+        <ref bean="Account-contractControlFinCoaCode"/>
         <ref bean="Account-contractControlAccountNumber"/>
-        <ref bean="Account-incomeStreamChartOfAccountsCode"/>
+        <ref bean="Account-incomeStreamFinancialCoaCode"/>
         <ref bean="Account-incomeStreamAccountNumber"/>
         <ref bean="Account-acctIndirectCostRcvyTypeCd"/>
         <ref bean="Account-acctIndirectCostRcvyType.codeAndDescription"/>
         <ref bean="Account-acctCustomIndCstRcvyExclCd"/>
         <ref bean="Account-financialIcrSeriesIdentifier"/>
-        <ref bean="Account-indirectCostRecoveryChartOfAccountsCode"/>
-        <ref bean="Account-indirectCostRecoveryAccountNumber"/>
+        <ref bean="Account-indirectCostRcvyFinCoaCode"/>
+        <ref bean="Account-indirectCostRecoveryAcctNbr"/>
         <ref bean="Account-accountInFinancialProcessingIndicator"/>
         <ref bean="Account-budgetRecordingLevelCode"/>
         <ref bean="Account-accountSufficientFundsCode"/>
@@ -337,10 +337,10 @@
     <property name="label" value="Account Expiration Date"/>
     <property name="shortLabel" value="ExpDate"/>
   </bean>
-  <bean id="Account-continuationChartOfAccountsCode" parent="Account-continuationChartOfAccountsCode-parentBean"/>
+  <bean id="Account-continuationFinChrtOfAcctCd" parent="Account-continuationFinChrtOfAcctCd-parentBean"/>
 
-  <bean id="Account-continuationChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="continuationChartOfAccountsCode"/>
+  <bean id="Account-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="continuationFinChrtOfAcctCd"/>
     <property name="label" value="Continuation Chart Of Accounts Code"/>
     <property name="shortLabel" value="ContChartCd"/>
     <property name="required" value="false"/>
@@ -354,10 +354,10 @@
     <property name="required" value="false"/>
   </bean>
   
-  <bean id="Account-endowmentIncomeChartOfAccountsCode" parent="Account-endowmentIncomeChartOfAccountsCode-parentBean"/>
+  <bean id="Account-endowmentIncomeAcctFinCoaCd" parent="Account-endowmentIncomeAcctFinCoaCd-parentBean"/>
 
-  <bean id="Account-endowmentIncomeChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="endowmentIncomeChartOfAccountsCode"/>
+  <bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="endowmentIncomeAcctFinCoaCd"/>
     <property name="label" value="Endowment Chart Of Accounts Code"/>
     <property name="shortLabel" value="EndowChart"/>
     <property name="required" value="false"/>
@@ -370,10 +370,10 @@
     <property name="shortLabel" value="EndowAcct"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="Account-contractControlChartOfAccountsCode" parent="Account-contractControlChartOfAccountsCode-parentBean"/>
+  <bean id="Account-contractControlFinCoaCode" parent="Account-contractControlFinCoaCode-parentBean"/>
 
-  <bean id="Account-contractControlChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="contractControlChartOfAccountsCode"/>
+  <bean id="Account-contractControlFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="contractControlFinCoaCode"/>
     <property name="label" value="Contract Control Chart of Accounts Code"/>
     <property name="shortLabel" value="CntrctChart"/>
     <property name="required" value="false"/>
@@ -386,10 +386,10 @@
     <property name="shortLabel" value="CntrctAcct"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="Account-incomeStreamChartOfAccountsCode" parent="Account-incomeStreamChartOfAccountsCode-parentBean"/>
+  <bean id="Account-incomeStreamFinancialCoaCode" parent="Account-incomeStreamFinancialCoaCode-parentBean"/>
 
-  <bean id="Account-incomeStreamChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="incomeStreamChartOfAccountsCode"/>
+  <bean id="Account-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="incomeStreamFinancialCoaCode"/>
     <property name="label" value="Income Stream Chart Of Accounts Code"/>
     <property name="shortLabel" value="IncStrChart"/>
     <property name="required" value="false"/>
@@ -444,18 +444,18 @@
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="Account-indirectCostRecoveryChartOfAccountsCode" parent="Account-indirectCostRecoveryChartOfAccountsCode-parentBean"/>
+  <bean id="Account-indirectCostRcvyFinCoaCode" parent="Account-indirectCostRcvyFinCoaCode-parentBean"/>
 
-  <bean id="Account-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="indirectCostRecoveryChartOfAccountsCode"/>
+  <bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="indirectCostRcvyFinCoaCode"/>
     <property name="label" value="Indirect Cost Recovery Chart Of Accounts Code"/>
     <property name="shortLabel" value="IndCstChart"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="Account-indirectCostRecoveryAccountNumber" parent="Account-indirectCostRecoveryAccountNumber-parentBean"/>
+  <bean id="Account-indirectCostRecoveryAcctNbr" parent="Account-indirectCostRecoveryAcctNbr-parentBean"/>
 
-  <bean id="Account-indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="indirectCostRecoveryAccountNumber"/>
+  <bean id="Account-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="indirectCostRecoveryAcctNbr"/>
     <property name="label" value="Indirect Cost Recovery Account Number"/>
     <property name="shortLabel" value="IndCstAcct"/>
     <property name="required" value="false"/>
@@ -783,9 +783,9 @@
               <dd:field attributeName="accountFiscalOfficerUser.principalName"/>
               <dd:field attributeName="accountSupervisoryUser.principalName"/>
               <dd:field attributeName="accountManagerUser.principalName"/>
-              <dd:field attributeName="continuationChartOfAccountsCode"/>
+              <dd:field attributeName="continuationFinChrtOfAcctCd"/>
               <dd:field attributeName="continuationAccountNumber"/>
-              <dd:field attributeName="incomeStreamChartOfAccountsCode"/>
+              <dd:field attributeName="incomeStreamFinancialCoaCode"/>
               <dd:field attributeName="incomeStreamAccountNumber"/>
               <dd:field attributeName="budgetRecordingLevelCode"/>
               <dd:field attributeName="accountSufficientFundsCode"/>
@@ -800,12 +800,12 @@
         <bean parent="InquirySectionDefinition" p:title="Contracts and Grants">
           <property name="inquiryFields">
             <list>
-              <dd:field attributeName="contractControlChartOfAccountsCode"/>
+              <dd:field attributeName="contractControlFinCoaCode"/>
               <dd:field attributeName="contractControlAccountNumber"/>
               <dd:field attributeName="acctIndirectCostRcvyTypeCd"/>
               <dd:field attributeName="financialIcrSeriesIdentifier"/>
-              <dd:field attributeName="indirectCostRecoveryChartOfAccountsCode"/>
-              <dd:field attributeName="indirectCostRecoveryAccountNumber"/>
+              <dd:field attributeName="indirectCostRcvyFinCoaCode"/>
+              <dd:field attributeName="indirectCostRecoveryAcctNbr"/>
               <dd:field attributeName="accountCfdaNumber"/>
               <dd:field attributeName="contractsAndGrantsAccountResponsibilityId"/>
             </list>

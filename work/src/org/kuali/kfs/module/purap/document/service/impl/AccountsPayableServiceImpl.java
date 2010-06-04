@@ -269,7 +269,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 if (!account.isActive()) {
 
                     // 1. if the account is closed, get the continuation account and add it to the list
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationChartOfAccountsCode(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
 
                     if (continuationAccount == null) {
                         replaceAcct = new ExpiredOrClosedAccount();
@@ -293,7 +293,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     // account and add it to the list
                 }
                 else if (account.isExpired()) {
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationChartOfAccountsCode(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
                     String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                     int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
@@ -356,7 +356,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 if (!account.isActive()) {
 
                     // 1. if the account is closed, get the continuation account and add it to the list
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationChartOfAccountsCode(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
 
                     if (continuationAccount == null) {
                         replaceAcct = new ExpiredOrClosedAccount();
@@ -380,7 +380,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     // account and add it to the list
                 }
                 else if (account.isExpired()) {
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationChartOfAccountsCode(), account.getContinuationAccountNumber());
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
                     String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                     int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 

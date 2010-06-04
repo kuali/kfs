@@ -629,8 +629,8 @@ public class PosterServiceImpl implements PosterService {
             e.setSubAccountNumber(et.getSubAccountNumber());
         }
         else if (GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(icrRateDetail.getAccountNumber())) {
-            e.setAccountNumber(icrGenerationMetadata.getIndirectCostRecoveryAccountNumber());
-            e.setChartOfAccountsCode(icrGenerationMetadata.getIndirectCostRecoveryChartOfAccountsCode());
+            e.setAccountNumber(icrGenerationMetadata.getIndirectCostRecoveryAcctNbr());
+            e.setChartOfAccountsCode(icrGenerationMetadata.getIndirectCostRcvyFinCoaCode());
             e.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         else {
@@ -766,13 +766,13 @@ public class PosterServiceImpl implements PosterService {
 
         if (ObjectUtils.isNotNull(subAccount) && ObjectUtils.isNotNull(subAccount.getA21SubAccount())) {
             A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
-            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) && StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber())) {
+            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) && StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRcvyFinCoaCode()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAcctNbr())) {
                 // all ICR fields were blank, therefore, this sub account was not set up for ICR
                 return null;
             }
             // refresh the indirect cost recovery account, accounting cycle style!
             if (!StringUtils.isBlank(a21SubAccount.getChartOfAccountsCode()) && !StringUtils.isBlank(a21SubAccount.getAccountNumber())) {
-                a21SubAccount.setIndirectCostRecoveryAccount(accountingCycleCachingService.getAccount(a21SubAccount.getChartOfAccountsCode(), a21SubAccount.getAccountNumber()));
+                a21SubAccount.setIndirectCostRecoveryAcct(accountingCycleCachingService.getAccount(a21SubAccount.getChartOfAccountsCode(), a21SubAccount.getAccountNumber()));
             }
 
             // these fields will be used to construct warning messages
@@ -806,7 +806,7 @@ public class PosterServiceImpl implements PosterService {
                 }
             }
 
-            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) || StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber()) || ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryAccount())) {
+            if (StringUtils.isBlank(a21SubAccount.getIndirectCostRcvyFinCoaCode()) || StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAcctNbr()) || ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryAcct())) {
                 String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE) + "/" + dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER);
                 String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
                 reportWriterService.writeError(et, new Message(warningMessage, Message.TYPE_WARNING));
@@ -817,9 +817,9 @@ public class PosterServiceImpl implements PosterService {
                 IndirectCostRecoveryGenerationMetadata metadata = new IndirectCostRecoveryGenerationMetadata();
                 metadata.setFinancialIcrSeriesIdentifier(a21SubAccount.getFinancialIcrSeriesIdentifier());
                 metadata.setIndirectCostRecoveryTypeCode(a21SubAccount.getIndirectCostRecoveryTypeCode());
-                metadata.setIndirectCostRecoveryChartOfAccountsCode(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
-                metadata.setIndirectCostRecoveryAccountNumber(a21SubAccount.getIndirectCostRecoveryAccountNumber());
-                metadata.setIndirectCostRecoveryAccount(a21SubAccount.getIndirectCostRecoveryAccount());
+                metadata.setIndirectCostRcvyFinCoaCode(a21SubAccount.getIndirectCostRcvyFinCoaCode());
+                metadata.setIndirectCostRecoveryAcctNbr(a21SubAccount.getIndirectCostRecoveryAcctNbr());
+                metadata.setIndirectCostRecoveryAcct(a21SubAccount.getIndirectCostRecoveryAcct());
                 return metadata;
             }
         }
@@ -834,9 +834,9 @@ public class PosterServiceImpl implements PosterService {
         
         metadata.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
         metadata.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
-        metadata.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRecoveryChartOfAccountsCode());
-        metadata.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAccountNumber());
-        metadata.setIndirectCostRecoveryAccount(account.getIndirectCostRecoveryAccount());
+        metadata.setIndirectCostRcvyFinCoaCode(account.getIndirectCostRcvyFinCoaCode());
+        metadata.setIndirectCostRecoveryAcctNbr(account.getIndirectCostRecoveryAcctNbr());
+        metadata.setIndirectCostRecoveryAcct(account.getIndirectCostRecoveryAcct());
 
         return metadata;
     }

@@ -39,7 +39,7 @@ public class SubAccountServiceTest extends KualiTestBase {
         assertTrue("expect to find this sub account: " + subAccount.getChartOfAccountsCode() + "/" + subAccount.getAccountNumber() + "/" + subAccount.getSubAccountNumber(), ObjectUtils.isNotNull(sa));
         A21SubAccount a21 = sa.getA21SubAccount();
         assertTrue("expect this to have a21subaccount", ObjectUtils.isNotNull(a21));
-        a21.getIndirectCostRecoveryAccount();
+        a21.getIndirectCostRecoveryAcct();
     }
 
     public void testGetByPrimaryId() throws Exception {

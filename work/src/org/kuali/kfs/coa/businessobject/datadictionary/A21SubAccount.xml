@@ -29,8 +29,8 @@
         <ref bean="A21SubAccount-subAccountTypeCode"/>
         <ref bean="A21SubAccount-indirectCostRecoveryTypeCode"/>
         <ref bean="A21SubAccount-financialIcrSeriesIdentifier"/>
-        <ref bean="A21SubAccount-indirectCostRecoveryChartOfAccountsCode"/>
-        <ref bean="A21SubAccount-indirectCostRecoveryAccountNumber"/>
+        <ref bean="A21SubAccount-indirectCostRcvyFinCoaCode"/>
+        <ref bean="A21SubAccount-indirectCostRecoveryAcctNbr"/>
         <ref bean="A21SubAccount-offCampusCode"/>
         <ref bean="A21SubAccount-costShareSourceChartOfAccountsCode"/>
         <ref bean="A21SubAccount-costShareSourceAccountNumber"/>
@@ -77,16 +77,16 @@
     <property name="label" value="Indirect Cost Rate Id"/>
   </bean>
   
-  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" parent="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean"/>
-  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="indirectCostRecoveryChartOfAccountsCode"/>
+  <bean id="A21SubAccount-indirectCostRcvyFinCoaCode" parent="A21SubAccount-indirectCostRcvyFinCoaCode-parentBean"/>
+  <bean id="A21SubAccount-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+    <property name="name" value="indirectCostRcvyFinCoaCode"/>
     <property name="label" value="ICR Chart"/>
     <property name="shortLabel" value="ICR Chart"/>
   </bean>
   
-  <bean id="A21SubAccount-indirectCostRecoveryAccountNumber" parent="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean"/>
-  <bean id="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="indirectCostRecoveryAccountNumber"/>    
+  <bean id="A21SubAccount-indirectCostRecoveryAcctNbr" parent="A21SubAccount-indirectCostRecoveryAcctNbr-parentBean"/>
+  <bean id="A21SubAccount-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="indirectCostRecoveryAcctNbr"/>    
     <property name="label" value="ICR Account"/>
     <property name="shortLabel" value="ICR Account"/>
   </bean>

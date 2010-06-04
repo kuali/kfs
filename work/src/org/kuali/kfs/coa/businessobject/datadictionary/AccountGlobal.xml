@@ -33,10 +33,10 @@
         <ref bean="AccountGlobal-accountSufficientFundsCode"/>
         <ref bean="AccountGlobal-accountCfdaNumber"/>
         <ref bean="AccountGlobal-continuationAccountNumber"/>
-        <ref bean="AccountGlobal-continuationChartOfAccountsCode"/>
+        <ref bean="AccountGlobal-continuationFinChrtOfAcctCd"/>
         <ref bean="AccountGlobal-financialHigherEdFunctionCd"/>
         <ref bean="AccountGlobal-incomeStreamAccountNumber"/>
-        <ref bean="AccountGlobal-incomeStreamChartOfAccountsCode"/>
+        <ref bean="AccountGlobal-incomeStreamFinancialCoaCode"/>
         <ref bean="AccountGlobal-pendingAcctSufficientFundsIndicator"/>
         <ref bean="AccountGlobal-accountFiscalOfficerSystemIdentifier"/>
         <ref bean="AccountGlobal-accountFiscalOfficerUser.principalName"/>
@@ -171,8 +171,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="AccountGlobal-continuationChartOfAccountsCode" parent="AccountGlobal-continuationChartOfAccountsCode-parentBean"/>
-  <bean id="AccountGlobal-continuationChartOfAccountsCode-parentBean" abstract="true" parent="Account-continuationChartOfAccountsCode">
+  <bean id="AccountGlobal-continuationFinChrtOfAcctCd" parent="AccountGlobal-continuationFinChrtOfAcctCd-parentBean"/>
+  <bean id="AccountGlobal-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="Account-continuationFinChrtOfAcctCd">
     <property name="required" value="false"/>
   </bean>
 
@@ -186,8 +186,8 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="AccountGlobal-incomeStreamChartOfAccountsCode" parent="AccountGlobal-incomeStreamChartOfAccountsCode-parentBean"/>
-  <bean id="AccountGlobal-incomeStreamChartOfAccountsCode-parentBean" abstract="true" parent="Account-incomeStreamChartOfAccountsCode">
+  <bean id="AccountGlobal-incomeStreamFinancialCoaCode" parent="AccountGlobal-incomeStreamFinancialCoaCode-parentBean"/>
+  <bean id="AccountGlobal-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="Account-incomeStreamFinancialCoaCode">
     <property name="required" value="false"/>
   </bean>
 

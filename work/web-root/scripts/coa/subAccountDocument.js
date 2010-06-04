@@ -54,15 +54,15 @@ function updateCgIcrAccount_Callback( data ) {
 	var prefix = "document.newMaintainableObject.a21SubAccount";
 	if (data != null) {
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-		setElementValue( prefix + ".indirectCostRecoveryChartOfAccountsCode", data.indirectCostRecoveryChartOfAccountsCode );
-		setElementValue( prefix + ".indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAccountNumber );
+		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", data.indirectCostRcvyFinCoaCode );
+		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", data.indirectCostRecoveryAcctNbr );
 		setElementValue( prefix + ".offCampusCode", data.offCampusCode );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", data.indirectCostRecoveryTypeCode );
 	}
 	else{
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", "" );
-		setElementValue( prefix + ".indirectCostRecoveryChartOfAccountsCode", "" );
-		setElementValue( prefix + ".indirectCostRecoveryAccountNumber", "" );
+		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
+		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
 		setElementValue( prefix + ".offCampusCode", "" );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
 	}

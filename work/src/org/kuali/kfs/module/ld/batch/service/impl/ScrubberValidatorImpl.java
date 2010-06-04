@@ -329,7 +329,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * Loops through continuation accounts for 10 tries or until it finds an account that is not expired.
      */
     protected Message continuationAccountLogic(Account expiredClosedAccount, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
-        String chartCode = expiredClosedAccount.getContinuationChartOfAccountsCode();
+        String chartCode = expiredClosedAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = expiredClosedAccount.getContinuationAccountNumber();
 
         List<String> checkedAccountNumbers = new ArrayList<String>();
@@ -354,7 +354,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // check account expiration
             long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
             if (ObjectUtils.isNotNull(account.getAccountExpirationDate()) && isAccountExpired(account, universityRunDate)) {
-                chartCode = account.getContinuationChartOfAccountsCode();
+                chartCode = account.getContinuationFinChrtOfAcctCd();
                 accountNumber = account.getContinuationAccountNumber();
             }
             else {

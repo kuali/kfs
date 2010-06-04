@@ -361,7 +361,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         Account continuationAccount = null;
         Account originEntryAccount = accountingCycleCachingService.getAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
 
-        String chartCode = originEntryAccount.getContinuationChartOfAccountsCode();
+        String chartCode = originEntryAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = originEntryAccount.getContinuationAccountNumber();
 
         for (int i = 0; i < 10; ++i) {
@@ -412,7 +412,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     // Check that the account has not expired.
                     // If the account has expired go around for another iteration.
                     if (isAccountExpired(continuationAccount, universityRunDate)) {
-                        chartCode = continuationAccount.getContinuationChartOfAccountsCode();
+                        chartCode = continuationAccount.getContinuationFinChrtOfAcctCd();
                         accountNumber = continuationAccount.getContinuationAccountNumber();
                     }
                     else {

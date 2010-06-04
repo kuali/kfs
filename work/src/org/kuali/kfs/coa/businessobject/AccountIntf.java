@@ -599,19 +599,19 @@ public interface AccountIntf {
     public void setIncomeStreamAccount(Account incomeStreamAccount);
 
     /**
-     * Gets the indirectCostRecoveryAccount attribute.
+     * Gets the indirectCostRecoveryAcct attribute.
      * 
-     * @return Returns the indirectCostRecoveryAccount
+     * @return Returns the indirectCostRecoveryAcct
      */
-    public Account getIndirectCostRecoveryAccount();
+    public Account getIndirectCostRecoveryAcct();
 
     /**
-     * Sets the indirectCostRecoveryAccount attribute.
+     * Sets the indirectCostRecoveryAcct attribute.
      * 
-     * @param indirectCostRecoveryAccount The indirectCostRecoveryAccount to set.
+     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
      * @deprecated
      */
-    public void setIndirectCostRecoveryAccount(Account indirectCostRecoveryAccount);
+    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct);
 
     /**
      * @return Returns the accountFiscalOfficerUser.
@@ -774,14 +774,14 @@ public interface AccountIntf {
     public void setContinuationAccountNumber(String continuationAccountNumber);
 
     /**
-     * @return Returns the continuationChartOfAccountsCode.
+     * @return Returns the continuationFinChrtOfAcctCd.
      */
-    public String getContinuationChartOfAccountsCode();
+    public String getContinuationFinChrtOfAcctCd();
 
     /**
-     * @param continuationChartOfAccountsCode The continuationChartOfAccountsCode to set.
+     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
      */
-    public void setContinuationChartOfAccountsCode(String continuationChartOfAccountsCode);
+    public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd);
 
     /**
      * @return Returns the contractControlAccountNumber.
@@ -794,14 +794,14 @@ public interface AccountIntf {
     public void setContractControlAccountNumber(String contractControlAccountNumber);
 
     /**
-     * @return Returns the contractControlChartOfAccountsCode.
+     * @return Returns the contractControlFinCoaCode.
      */
-    public String getContractControlChartOfAccountsCode();
+    public String getContractControlFinCoaCode();
 
     /**
-     * @param contractControlChartOfAccountsCode The contractControlChartOfAccountsCode to set.
+     * @param contractControlFinCoaCode The contractControlFinCoaCode to set.
      */
-    public void setContractControlChartOfAccountsCode(String contractControlChartOfAccountsCode);
+    public void setContractControlFinCoaCode(String contractControlFinCoaCode);
 
     /**
      * @return Returns the endowmentIncomeAccountNumber.
@@ -814,14 +814,14 @@ public interface AccountIntf {
     public void setEndowmentIncomeAccountNumber(String endowmentIncomeAccountNumber);
 
     /**
-     * @return Returns the endowmentIncomeChartOfAccountsCode.
+     * @return Returns the endowmentIncomeAcctFinCoaCd.
      */
-    public String getEndowmentIncomeChartOfAccountsCode();
+    public String getEndowmentIncomeAcctFinCoaCd();
 
     /**
-     * @param endowmentIncomeChartOfAccountsCode The endowmentIncomeChartOfAccountsCode to set.
+     * @param endowmentIncomeAcctFinCoaCd The endowmentIncomeAcctFinCoaCd to set.
      */
-    public void setEndowmentIncomeChartOfAccountsCode(String endowmentIncomeChartOfAccountsCode);
+    public void setEndowmentIncomeAcctFinCoaCd(String endowmentIncomeAcctFinCoaCd);
 
     /**
      * @return Returns the financialHigherEdFunctionCd.
@@ -844,34 +844,34 @@ public interface AccountIntf {
     public void setIncomeStreamAccountNumber(String incomeStreamAccountNumber);
 
     /**
-     * @return Returns the incomeStreamChartOfAccountsCode.
+     * @return Returns the incomeStreamFinancialCoaCode.
      */
-    public String getIncomeStreamChartOfAccountsCode();
+    public String getIncomeStreamFinancialCoaCode();
 
     /**
-     * @param incomeStreamChartOfAccountsCode The incomeStreamChartOfAccountsCode to set.
+     * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
      */
-    public void setIncomeStreamChartOfAccountsCode(String incomeStreamChartOfAccountsCode);
+    public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode);
 
     /**
-     * @return Returns the indirectCostRecoveryChartOfAccountsCode.
+     * @return Returns the indirectCostRcvyFinCoaCode.
      */
-    public String getIndirectCostRecoveryChartOfAccountsCode();
+    public String getIndirectCostRcvyFinCoaCode();
 
     /**
-     * @param indirectCostRecoveryChartOfAccountsCode The indirectCostRecoveryChartOfAccountsCode to set.
+     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
      */
-    public void setIndirectCostRecoveryChartOfAccountsCode(String indirectCostRecoveryChartOfAccountsCode);
+    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode);
 
     /**
-     * @return Returns the indirectCostRecoveryAccountNumber.
+     * @return Returns the indirectCostRecoveryAcctNbr.
      */
-    public String getIndirectCostRecoveryAccountNumber();
+    public String getIndirectCostRecoveryAcctNbr();
 
     /**
-     * @param indirectCostRecoveryAccountNumber The indirectCostRecoveryAccountNumber to set.
+     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
      */
-    public void setIndirectCostRecoveryAccountNumber(String indirectCostRecoveryAccountNumber);
+    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr);
 
     /**
      * @return Returns the organizationCode.

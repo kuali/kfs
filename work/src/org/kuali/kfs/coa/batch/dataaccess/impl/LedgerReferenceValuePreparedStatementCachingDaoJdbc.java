@@ -85,8 +85,8 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 a21SubAccount.setCostShareSourceSubAccountNumber(resultSet.getString(4));
                 a21SubAccount.setIndirectCostRecoveryTypeCode(resultSet.getString(5));
                 a21SubAccount.setFinancialIcrSeriesIdentifier(resultSet.getString(6));
-                a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode(resultSet.getString(7));
-                a21SubAccount.setIndirectCostRecoveryAccountNumber(resultSet.getString(8));
+                a21SubAccount.setIndirectCostRcvyFinCoaCode(resultSet.getString(7));
+                a21SubAccount.setIndirectCostRecoveryAcctNbr(resultSet.getString(8));
                 return a21SubAccount;
             }
         }.get(A21SubAccount.class);
@@ -108,7 +108,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 account.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(2)) ? false : true);
                 account.setSubFundGroupCode(resultSet.getString(3));
                 account.setOrganizationCode(resultSet.getString(4));
-                account.setContinuationChartOfAccountsCode(resultSet.getString(5));
+                account.setContinuationFinChrtOfAcctCd(resultSet.getString(5));
                 account.setContinuationAccountNumber(resultSet.getString(6));
                 account.setFinancialIcrSeriesIdentifier(resultSet.getString(7));
                 account.setAcctIndirectCostRcvyTypeCd(resultSet.getString(8));

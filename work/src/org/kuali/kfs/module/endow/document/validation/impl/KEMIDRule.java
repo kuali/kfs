@@ -879,14 +879,14 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                 return false;
             }
 
-            if (newKemid.getType().getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasPrincipalGL) {
+            if (newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasPrincipalGL) {
                 if (hasActivePrincipalGL) {
                     putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_IS_NA);
                     return false;
                 }
             }
 
-            if (!newKemid.getType().getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasPrincipalGL) {
+            if (!newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasPrincipalGL) {
                 putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_NOT_NA);
                 return false;
             }
@@ -1044,7 +1044,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validatePercentageOfFeeChargedToPrincipal(KemidFee fee, int index) {
         boolean valid = true;
-        if (ObjectUtils.isNotNull(newKemid.getType()) && EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE.equalsIgnoreCase(newKemid.getType().getPrincipalRestrictionCode())) {
+        if (ObjectUtils.isNotNull(newKemid.getType()) && EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE.equalsIgnoreCase(newKemid.getPrincipalRestrictionCode())) {
             if (fee.getPercentOfFeeChargedToPrincipal().isGreaterThan(KualiDecimal.ZERO)) {
                 valid = false;
                 if (index >= 0) {

@@ -31,6 +31,10 @@
         <ref bean="KEMID-typeCode" />
         <ref bean="KEMID-type.name" />
         <ref bean="KEMID-type.codeAndDescription" />
+        <ref bean="KEMID-incomeRestrictionCode" />
+        <ref bean="KEMID-principalRestrictionCode" />
+        <ref bean="KEMID-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />
+        <ref bean="KEMID-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
         <ref bean="KEMID-incomeCAECode" />
         <ref bean="KEMID-incomeCAE.description" />
         <ref bean="KEMID-incomeCAE.codeAndDescription" />
@@ -253,6 +257,40 @@
     <property name="name" value="type.codeAndDescription" />
     <property name="label" value="Type" />
   </bean> 
+  <bean id="KEMID-incomeRestrictionCode" parent="KEMID-incomeRestrictionCode-parentBean" />
+
+  <bean id="KEMID-incomeRestrictionCode-parentBean" abstract="true" parent="TypeRestrictionCode-code">
+    <property name="name" value="incomeRestrictionCode" />
+    <property name="label" value="Income Restriction" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TypeRestrictionCodeWithoutPermanentlyRestrictedValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>    
+  </bean>
+  <bean id="KEMID-principalRestrictionCode" parent="KEMID-principalRestrictionCode-parentBean" />
+
+  <bean id="KEMID-principalRestrictionCode-parentBean" abstract="true" parent="TypeRestrictionCode-code">
+    <property name="name" value="principalRestrictionCode" />
+    <property name="label" value="Principal Restriction" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TypeRestrictionCodeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="KEMID-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" parent="KEMID-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription-parentBean" />
+  
+  <bean id="KEMID-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription-parentBean" abstract="true" parent="TypeRestrictionCode-codeAndDescription" >
+  	<property name="name" value="typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />
+    <property name="label" value="Income Restriction" />
+  </bean>
+  <bean id="KEMID-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" parent="KEMID-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription-parentBean" />
+  
+  <bean id="KEMID-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription-parentBean" abstract="true" parent="TypeRestrictionCode-codeAndDescription" >
+  	<property name="name" value="typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
+    <property name="label" value="Principal Restriction" />
+  </bean>  
   <bean id="KEMID-incomeCAECode" parent="KEMID-incomeCAECode-parentBean" />
 
   <bean id="KEMID-incomeCAECode-parentBean" abstract="true" parent="CAECode-code">
@@ -447,7 +485,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dateEstablished" />
               <bean parent="FieldDefinition"
-                    p:attributeName="type.codeAndDescription" />                    
+                    p:attributeName="type.codeAndDescription" />    
+		      <bean parent="FieldDefinition"
+		            p:attributeName="typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />  
+		      <bean parent="FieldDefinition"
+		            p:attributeName="typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="purpose.codeAndDescription" />
               <bean parent="FieldDefinition"

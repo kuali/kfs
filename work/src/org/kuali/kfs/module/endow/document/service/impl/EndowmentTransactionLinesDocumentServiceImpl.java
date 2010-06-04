@@ -68,7 +68,7 @@ public class EndowmentTransactionLinesDocumentServiceImpl extends EndowmentTrans
         KEMID theKemidObj = null;
         if (ipIndicator.equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)){
             theKemidObj = kemidService.getByPrimaryKey(kemid);
-            if (theKemidObj.getType().getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE)){
+            if (theKemidObj.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE)){
                 canHaveAPrincipalActivity = false;
             }
         }

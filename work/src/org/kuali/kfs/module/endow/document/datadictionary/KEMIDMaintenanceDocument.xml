@@ -34,6 +34,12 @@
               p:attributeName="type"
               p:attributeToHighlightOnFail="typeCode" />
         <bean parent="ReferenceDefinition"
+              p:attributeName="typeRestrictionCodeForIncomeRestrictionCode"
+              p:attributeToHighlightOnFail="incomeRestrictionCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="typeRestrictionCodeForPrincipalRestrictionCode"
+              p:attributeToHighlightOnFail="principalRestrictionCode" />              
+        <bean parent="ReferenceDefinition"
               p:attributeName="purpose"
               p:attributeToHighlightOnFail="purposeCode" />  
         <bean parent="ReferenceDefinition"
@@ -208,7 +214,13 @@
               p:lookupReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="type.name"
-              p:unconditionallyReadOnly="true" />                
+              p:unconditionallyReadOnly="true" />  
+        <bean parent="MaintainableFieldDefinition"
+              p:name="incomeRestrictionCode"
+              p:required="true" p:noLookup="true" />   
+        <bean parent="MaintainableFieldDefinition"
+              p:name="principalRestrictionCode"
+              p:required="true" />                             
         <bean parent="MaintainableFieldDefinition"
               p:name="purposeCode"
               p:required="true" 

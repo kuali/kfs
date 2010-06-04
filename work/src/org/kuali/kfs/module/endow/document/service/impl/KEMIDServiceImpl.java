@@ -48,7 +48,7 @@ public class KEMIDServiceImpl implements KEMIDService {
     public boolean isTrueEndowment(String kemid){
         boolean isTrueEndowment = false;
         KEMID theKemidObj = getByPrimaryKey(kemid);
-        if (theKemidObj.getType().getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator()){
+        if (theKemidObj.getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator()){
             isTrueEndowment = true;
         }
         return isTrueEndowment;

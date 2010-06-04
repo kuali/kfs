@@ -707,6 +707,8 @@
 	<field-descriptor name="dateOpened" column="OPND_DT" jdbc-type="DATE"/>
 	<field-descriptor name="dateEstablished" column="ESTBL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeRestrictionCode" column="TYP_INC_RESTR_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="principalRestrictionCode" column="TYP_PRIN_RESTR_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="incomeCAECode" column="INC_CAE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="principalCAECode" column="PRIN_CAE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="responsibleAdminCode" column="RESP_ADMIN_CD" jdbc-type="VARCHAR"/>
@@ -728,6 +730,12 @@
 	</reference-descriptor>
 	<reference-descriptor name="type" class-ref="org.kuali.kfs.module.endow.businessobject.TypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="typeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="typeRestrictionCodeForIncomeRestrictionCode" class-ref="org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="incomeRestrictionCode"/>
+	</reference-descriptor>
+	<reference-descriptor name="typeRestrictionCodeForPrincipalRestrictionCode" class-ref="org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="principalRestrictionCode"/>
 	</reference-descriptor>
     <reference-descriptor name="transactionRestriction" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionRestrictionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transactionRestrictionCode" />

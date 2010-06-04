@@ -48,6 +48,8 @@ public class KEMID extends PersistableBusinessObjectBase {
     private Date dateOpened;
     private Date dateEstablished;
     private String typeCode;
+    private String incomeRestrictionCode;
+    private String principalRestrictionCode;
     private String incomeCAECode;
     private String principalCAECode;
     private String responsibleAdminCode;
@@ -67,6 +69,8 @@ public class KEMID extends PersistableBusinessObjectBase {
     private PurposeCode purpose;
     private CloseCode reasonClosed;
     private TypeCode type;
+    private TypeRestrictionCode typeRestrictionCodeForIncomeRestrictionCode;
+    private TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode;    
     private CAECode incomeCAE;
     private CAECode principalCAE;
     private ResponsibleAdministrationCode responsibleAdministration;
@@ -188,6 +192,42 @@ public class KEMID extends PersistableBusinessObjectBase {
      */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
+    }
+    
+    /**
+     * This method gets incomeRestrictionCode
+     * 
+     * @return incomeRestrictionCode
+     */
+    public String getIncomeRestrictionCode() {
+        return incomeRestrictionCode;
+    }
+
+    /**
+     * This method sets incomeRestrictionCode.
+     * 
+     * @param incomeRestrictionCode
+     */
+    public void setIncomeRestrictionCode(String incomeRestrictionCode) {
+        this.incomeRestrictionCode = incomeRestrictionCode;
+    }
+
+    /**
+     * This method gets the principalRestrictionCode.
+     * 
+     * @return principalRestrictionCode
+     */
+    public String getPrincipalRestrictionCode() {
+        return principalRestrictionCode;
+    }
+
+    /**
+     * This method sets the principalRestrictionCode.
+     * 
+     * @param principalRestrictionCode
+     */
+    public void setPrincipalRestrictionCode(String principalRestrictionCode) {
+        this.principalRestrictionCode = principalRestrictionCode;
     }
 
     /**
@@ -550,6 +590,42 @@ public class KEMID extends PersistableBusinessObjectBase {
      */
     public void setType(TypeCode type) {
         this.type = type;
+    }
+
+    /**
+     * This method gets the typeRestrictionCodeForIncomeRestrictionCode.
+     * 
+     * @return typeRestrictionCodeForIncomeRestrictionCode
+     */
+    public TypeRestrictionCode getTypeRestrictionCodeForPrincipalRestrictionCode() {
+        return typeRestrictionCodeForPrincipalRestrictionCode;
+    }
+
+    /**
+     * This method sets the typeRestrictionCodeForPrincipalRestrictionCode.
+     * 
+     * @param typeRestrictionCodeForPrincipalRestrictionCode
+     */
+    public void setTypeRestrictionCodeForPrincipalRestrictionCode(TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode) {
+        this.typeRestrictionCodeForPrincipalRestrictionCode = typeRestrictionCodeForPrincipalRestrictionCode;
+    }
+
+    /**
+     * This method gets the typeRestrictionCodeForIncomeRestrictionCode.
+     * 
+     * @return typeRestrictionCodeForIncomeRestrictionCode
+     */
+    public TypeRestrictionCode getTypeRestrictionCodeForIncomeRestrictionCode() {
+        return typeRestrictionCodeForIncomeRestrictionCode;
+    }
+
+    /**
+     * This method sets the typeRestrictionCodeForIncomeRestrictionCode.
+     * 
+     * @param typeRestrictionCodeForIncomeRestrictionCode
+     */
+    public void setTypeRestrictionCodeForIncomeRestrictionCode(TypeRestrictionCode typeRestrictionCodeForIncomeRestrictionCode) {
+        this.typeRestrictionCodeForIncomeRestrictionCode = typeRestrictionCodeForIncomeRestrictionCode;
     }
 
     /**

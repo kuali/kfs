@@ -301,7 +301,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
 
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(customerInvoiceDetail);
+        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(customerInvoiceDetail);
         
         // make sure amount is up to date before rules
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);

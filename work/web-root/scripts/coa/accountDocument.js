@@ -58,7 +58,7 @@ function checkRestrictedStatusCode_Callback( data ) {
 function onblur_accountNumber( accountNumberField ) {
     var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
     var accountNumber = getElementValue( accountNumberField.name );	
-	alert ("accountNumberField name = " + accountNumberField.name + ", coaCodeFieldName = " + coaCodeFieldName + ", accountNumber = " + accountNumber);
+	//alert ("accountNumberField name = " + accountNumberField.name + ", coaCodeFieldName = " + coaCodeFieldName + ", accountNumber = " + accountNumber);
 
 	var dwrReply = {
 		callback: function (param) {
@@ -80,13 +80,17 @@ function loadChartCode( accountNumber, coaCodeFieldName ) {
 	else {
 		var dwrReply = {
 				callback: function (data) {
-				alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode + ", typeof data="+typeof data);
+				alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode);
 				if ( data != null && typeof data == 'object' ) {   
 					var coaValue = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
 					setRecipientValue( coaCodeFieldName, coaValue );
 				}
+				else {
+					clearRecipients(coaCodeFieldName); 
+				}
 			},
 			errorHandler:function( errorMessage ) { 
+				clearRecipients(coaCodeFieldName); 
 				window.status = errorMessage;
 			}
 		};

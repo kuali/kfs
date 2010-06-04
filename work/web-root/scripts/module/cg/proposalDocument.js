@@ -175,6 +175,96 @@ function onblur_awardIndirectCostAmount( indirectAmountField ) {
     updateTotalAmount( findElPrefix( indirectAmountField.name ) + ".awardDirectCostAmount", indirectAmountField.name, "awardTotalAmount" );
 }
 
+function onblur_chartCode( chartCodeField ) {
+    var accountNameFieldName = findAccountNameFieldName(chartCodeField.name);
+    var chartCode = getElementValue(chartCodeField.name);    
+    var accountNumber = getElementValue(accountNumberFieldName);    
+
+    // no need to check accounts_can_cross_charts since if that's false the onblur function won't be called
+    alert ("accountNameFieldName = " + accountNameFieldName + ",\n chartCode = " + chartCode + ", accountNumber = " + accountNumber);
+	lookupAccountName(chartCode, accountNumber, accountNameFieldName);
+}
+
+function onblur_accountNumber( accountNumberField ) {
+    var chartCodeFieldName = findChartCodeFieldName(accountNumberField.name);
+    var accountNameFieldName = findAccountNameFieldName(accountNumberField.name);
+    var accountNumber = getElementValue(accountNumberField.name);    
+	alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNameFieldName = " + accountNameFieldName);
+
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == 'boolean' && param == true) {	
+			    var chartCode = getElementValue(chartCodeFieldName);
+				lookupAccountName(chartCode, accountNumber, accountNameFieldName);
+			}
+			else {
+				loadChartAccount(accountNumber, chartCodeFieldName, accountNumberField.name, accountNameFieldName);
+			}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);	
+}
+
+function loadChartAccount( accountNumber, chartCodeFieldName, accountNumberFieldName, accountNameFieldName ) {
+	if (accountNumber == "") {
+		clearRecipients(chartCodeFieldName);    
+		clearRecipients(accountNameFieldName);
+	}
+	else {
+		var dwrReply = {
+			callback: function (data) {
+				alert ("accountNumber = " + accountNumber + ", chartCode = " + data.chartOfAccountsCode + ", accountName = " + data.accountName);
+				if ( data != null && typeof data == 'object' ) {   
+					var chart = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
+					setRecipientValue(chartCodeFieldName, chart);
+					setRecipientValue(accountNameFieldName, data.accountName);
+				}
+				else {
+					clearRecipients(chartCodeFieldName); 
+					setRecipientValue(accountNameFieldName, wrapError( "account not found" ), true);
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				clearRecipients(chartCodeFieldName); 
+	            setRecipientValue(accountNameFieldName, wrapError( "account not found" ), true);
+				window.status = errorMessage;
+			}
+		};
+		AccountService.getUniqueAccountForAccountNumber(accountNumber, dwrReply);	    
+	}
+}
+
+function lookupAccountName( chartCode, accountNumber, accountNameFieldName ) {
+    if (chartCode == "" || accountNumber == "") {
+        clearRecipients(accountNameFieldName);
+    } else {
+        var dwrReply = makeDwrSingleReply("account", "accountName", accountNameFieldName);
+        AccountService.getByPrimaryIdWithCaching(chartCode, accountNumber, dwrReply);
+    }
+}
+
+function findChartCodeFieldName( accountNumberFieldName ) {
+    var elPrefix = findElPrefix(accountNumberFieldName);  
+	var chartCodeFieldName = elPrefix + ".chartOfAccountsCode";
+	return chartCodeFieldName;
+}    
+
+function findAccountNumberFieldName( chartCodeFieldName ) {
+	var elPrefix = findElPrefix(chartCodeFieldName);     
+	var accountNumberFieldName = elPrefix + ".accountNumber";
+	return accountNumberFieldName;
+}    
+
+function findAccountNameFieldName( accountFieldName ) {
+    var elPrefix = findElPrefix(accountFieldName);
+	var accountNameFieldName = elPrefix + ".account.accountName";
+	return accountNameFieldName;
+}    
+
+/*
 function accountNameLookup( anyFieldOnAwardAccount ) {
     var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
     var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
@@ -187,4 +277,4 @@ function accountNameLookup( anyFieldOnAwardAccount ) {
         AccountService.getByPrimaryIdWithCaching( chartOfAccountsCode, accountNumber, dwrReply);
     }
 }
-
+*/

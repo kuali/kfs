@@ -33,6 +33,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -465,6 +466,8 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+        // if accounts can't cross charts, set chart code whenever account number is set
+        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(this);
     }
 
     /**

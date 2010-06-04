@@ -451,7 +451,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         TargetAccountingLine line = financialDocumentForm.getNewTargetLine();
         
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
         
         boolean rulePassed = true;
         // before we check the regular rules we need to check the sales tax rules
@@ -492,7 +492,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         SourceAccountingLine line = financialDocumentForm.getNewSourceLine();
         
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
         
         boolean rulePassed = true;
         // before we check the regular rules we need to check the sales tax rules

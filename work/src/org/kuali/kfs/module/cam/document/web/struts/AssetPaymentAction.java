@@ -184,7 +184,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         SourceAccountingLine line = assetPaymentForm.getNewSourceLine();
 
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
 
         boolean rulePassed = true;
         // Check any business rules. We separate general accounting line validation into AssetPaymentManuallyAddAccountingLineEvent,

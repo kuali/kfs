@@ -292,9 +292,11 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
      */
     public void populateAccountingLineChartIfNeeded(AccountingLine line) {
-        if (!accountsCanCrossCharts() && line.getChartOfAccountsCode() == null) {
+        if (!accountsCanCrossCharts() /*&& line.getChartOfAccountsCode() == null*/) {
             Account account = getUniqueAccountForAccountNumber(line.getAccountNumber());
-            line.setChartOfAccountsCode(account.getChartOfAccountsCode());
+            if (account != null) {
+                line.setChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
         }
     }
     

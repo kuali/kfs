@@ -23,12 +23,18 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class AccountMaintenanceDocumentPresentationControllerBase extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-
+    public static final String NEW_COLLECTION_RECORD = "add";
+    
     public static String[] coaPropertyNames = {
+        // Account
         KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ENDOWMENT_INCOME_CHART_OF_ACCOUNTS_CODE,
         KFSPropertyConstants.CONTINUATION_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.INCOME_STREAM_CHART_OF_ACCOUNTS_CODE,
         KFSPropertyConstants.CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
-        KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE
+        // Sub-Account
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE, 
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
+        // Award
+        NEW_COLLECTION_RECORD + "." + KFSPropertyConstants.AWARD_ACCOUNTS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE 
     };
 
     /**

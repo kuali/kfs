@@ -83,7 +83,7 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
         
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
 
         ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(newTargetIndex);
         line.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());

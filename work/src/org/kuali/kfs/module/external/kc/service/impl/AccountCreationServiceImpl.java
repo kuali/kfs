@@ -119,7 +119,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         if (defaults.isAccountsFringesBnftIndicator()) {
             account.setAccountsFringesBnftIndicator(true);   
             account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccount().getChartOfAccountsCode());
-            account.setReportsToAccountNumber(defaults.getFringeBenefitAccountNumber());    // fringe benefit account number
+            account.setReportsToAccountNumber(defaults.getReportsToAccountNumber());    // fringe benefit account number
         } else {
             account.setAccountsFringesBnftIndicator(false);   
             account.getFringeBenefitsChartOfAccounts().setChartOfAccountsCode(null);  

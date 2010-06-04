@@ -154,7 +154,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.getContractControlChartOfAccounts().setChartOfAccountsCode(KFSConstants.EMPTY_STRING); //TODO: contract control chart of accounts code ?
         account.setContractControlAccountNumber(KFSConstants.EMPTY_STRING);                            //TODO: contract control account number ?
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRecoveryChartOfAccountsCode());
-        //account.setFinancialIcrSeriesIdentifier();  // indirect cost rate
+        //account.setFinancialIcrSeriesIdentifier();  // TODO: indirect cost rate
         
         account.setIndirectCostRecoveryChartOfAccountsCode(defaults.getIndirectCostRecoveryChartOfAccountsCode());
         account.setIndirectCostRecoveryAccountNumber(defaults.getIndirectCostRecoveryAccountNumber());
@@ -187,6 +187,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument(errorMessages);
         
         if (ObjectUtils.isNull(maintenanceAccountDocument)) {
+            //TODO: put the error message
+            errorMessages.add("some error message here");
             return (KFSConstants.EMPTY_STRING);
         }
         

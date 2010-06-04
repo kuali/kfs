@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
@@ -22,11 +23,8 @@ import org.kuali.rice.kns.document.Copyable;
 public class CashDecreaseDocument extends EndowmentSecurityDetailsDocumentBase implements Copyable, Correctable, AmountTotaling {
 
     public CashDecreaseDocument() {
-        super();
-        setTransactionSourceTypeCode("M");
-        setTransactionSubTypeCode("C");
-        
-        
+        super();        
+        setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);  
         initializeSubType();
     }
     

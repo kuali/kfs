@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
@@ -24,9 +25,7 @@ public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase i
 
     public CashIncreaseDocument() {
         super();
-        setTransactionSourceTypeCode("M");
-        setTransactionSubTypeCode("C");
-        
+        setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
         initializeSubType();
     }
     

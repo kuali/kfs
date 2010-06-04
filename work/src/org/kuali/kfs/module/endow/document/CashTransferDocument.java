@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
 public class CashTransferDocument extends EndowmentSecurityDetailsDocumentBase implements AmountTotaling{
 
     public CashTransferDocument() {
         super();
-        setTransactionSourceTypeCode("M");
-        setTransactionSubTypeCode("C");
+        setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
+        initializeSubType();
     }
     
     @Override

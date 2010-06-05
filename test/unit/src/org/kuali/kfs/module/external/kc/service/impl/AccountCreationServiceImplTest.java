@@ -27,9 +27,11 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 
 @ConfigureContext(session = khuntley)
 public class AccountCreationServiceImplTest extends KualiTestBase {
@@ -119,21 +121,25 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);
         
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-        
-        String systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT;
+        //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
         // the document should be saved....
-        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages);
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
+        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages);
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
         
-        systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_SUBMIT;
+        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
         // the document should be submitted....
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
         
-        systemParameterRouteValue = KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE;
+        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
         // the document should be blanket approved....
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, systemParameterRouteValue, errorMessages));
+        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
 
+        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, "I");
         //we want to test for failure of the routing by using routing value not defined for the system parameter...
-        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, "I", errorMessages));        
+        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));        
     }
 }

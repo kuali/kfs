@@ -610,9 +610,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String WORKFLOW_FYI_REQUEST = "F";
     public static final String WORKFLOW_APPROVE_REQUEST = "A";
     
-    public static final String WORKFLOW_DOCUMENT_NO_SUBMIT = "N";
-    public static final String WORKFLOW_DOCUMENT_BLANKET_APPROVE = "B";  
-    public static final String WORKFLOW_DOCUMENT_SUBMIT = "R";    
+    public static final String WORKFLOW_DOCUMENT_SAVE = "Save";
+    public static final String WORKFLOW_DOCUMENT_BLANKET_APPROVE = "BlanketApprove";  
+    public static final String WORKFLOW_DOCUMENT_ROUTE = "Route";    
     public static final String ACCOUNT_RESTRICTED_STATUS_CODE = "R";
     
     public static class DocumentStatusCodes {

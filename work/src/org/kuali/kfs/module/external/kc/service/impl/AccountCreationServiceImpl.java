@@ -27,6 +27,7 @@ import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
@@ -177,24 +178,25 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }
     
     /**
-     * This method will create an account automatic maintenance document and put the account object into it
+     * This method will create a maintenance document for CG account create, set its description and then sets the 
+     * account business object in it.  The document will then be tried to route, save or blanket approve automatically 
+     * based on the system parameter.  If successful, the method returns the newly created document number to
+     * the caller.
      * @return documentNumber returns the documentNumber
-     * 
      * @see org.kuali.kfs.coa.document.service.CreateAccountService#createAutomaticCGAccountMaintenanceDocument()
      */
     protected String createAutomaticCGAccountMaintenanceDocument(Account account, List<String> errorMessages) {
-
         //create a new maintenance document
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument(errorMessages);
         
         if (ObjectUtils.isNull(maintenanceAccountDocument)) {
-            //TODO: put the error message
-            errorMessages.add("some error message here");
+            // if unable to get the document, put an error message and return an empty string
+            errorMessages.add("AutomaticCGAccountMaintenanceDocument creation failed.  Unable to get the document.");
             return (KFSConstants.EMPTY_STRING);
         }
         
         // set document header description...
-        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
+        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription(KcConstants.AccountCreationService.AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION);
         
         //set the account object in the maintenance document.
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
@@ -206,43 +208,40 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }
     
     /**
-     * This method will check the system parameter and takes appropriate workflow routing action
+     * This method will call routing process method to either save, route or blanket approve the document.
+     * If the routing process fails, then adds an error message for the calling service.
      * @param maintenanceAccountDocument, errorMessages
      */
     protected void processAutomaticCGAccountMaintenanceDocument(MaintenanceDocument maintenanceAccountDocument, List<String> errorMessages) {
-       
-        if (!checkIfAccountAutoCreateRouteExists()) {
-            // error message since there is no system parameter has been setup yet....
-            LOG.warn("ParseException: System Parameter ACCOUNT_AUTO_CREATE_ROUTE can not be determined.");
-            errorMessages.add("System Parameter Exception: ACCOUNT_AUTO_CREATE_ROUTE system parameter does not exist");
-        }
-        else {
-            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
-            if (!createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountAutoCreateRouteValue, errorMessages)) {
+            if (!createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages)) {
                 errorMessages.add("Unable to process routing of the document: " + maintenanceAccountDocument.getDocumentNumber());
             }
-        }
     }
 
     /**
-     * This method create and route automatic CG account maintenance document based on system parameter
-     * @param maintenanceAccountDocument, maintenanceAccountDocument, errorMessages
-     * @param accountAutoCreateRoute
+     * This method processes the workflow document actions like save, route and blanket approve depending on the 
+     * ACCOUNT_AUTO_CREATE_ROUTE system parameter value.
+     * Throws an document WorkflowException if the specific document action fails to perform.
+     * 
+     * @param maintenanceAccountDocument, errorMessages
+     * @return success returns true if the workflow document action is successful else return false.
      */
-    protected boolean createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, String accountAutoCreateRouteValue, List<String> errorMessages) {
+    protected boolean createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, List<String> errorMessages) {
         boolean success = true;
         
         try {
-            if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_NO_SUBMIT)) {
-                documentService.saveDocument(maintenanceAccountDocument);
+            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+            
+            if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
+                getDocumentService().saveDocument(maintenanceAccountDocument);
                 return success;
             }
             else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                documentService.blanketApproveDocument(maintenanceAccountDocument, "", null); 
+                getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null); 
                 return success;
             }
-            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_SUBMIT)) {
-                documentService.approveDocument(maintenanceAccountDocument, "", null);
+            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
+                getDocumentService().approveDocument(maintenanceAccountDocument, "", null);
                 return success;
             }
             else {
@@ -257,13 +256,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }
     
     /**
-     * This method will use the DocumentService to create a new document....
+     * This method will use the DocumentService to create a new document.  The documentTypeName is gathered by
+     * using dataDictionaryService
      * @param errorMessages
      * @return document  returns a new document for the account document type or null if there is an exception thrown.
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
         try {
-             Document document = documentService.getNewDocument(dataDictionaryService.getDataDictionary().getDocumentEntry(KFSConstants.ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY).getDocumentTypeName());     
+             Document document = getDocumentService().getNewDocument(getDataDictionaryService().getDataDictionary().getDocumentEntry(KFSConstants.ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY).getDocumentTypeName());     
              return document;            
         }
         catch (Exception excp) {

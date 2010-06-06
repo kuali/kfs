@@ -27,14 +27,15 @@ import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -257,14 +258,16 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     
     /**
      * This method will use the DocumentService to create a new document.  The documentTypeName is gathered by
-     * using dataDictionaryService
-     * @param errorMessages
+     * using MaintenanceDocumentDictionaryService which uses Account class to get the document type name.
+     * 
+     * @param errorMessages list of error messages
      * @return document  returns a new document for the account document type or null if there is an exception thrown.
      */
     protected Document createCGAccountMaintenanceDocument(List<String> errorMessages) {
         try {
-             Document document = getDocumentService().getNewDocument(getDataDictionaryService().getDataDictionary().getDocumentEntry(KFSConstants.ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY).getDocumentTypeName());     
-             return document;            
+            Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class)); 
+            
+            return document;            
         }
         catch (Exception excp) {
             errorMessages.add("WorkflowException: createCGAccountMaintenanceDocument has failed.  Unable to get a new document" + excp.getMessage());

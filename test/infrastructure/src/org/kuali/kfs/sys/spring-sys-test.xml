@@ -64,5 +64,4 @@
 		</property>
 	</bean>
     
-	<bean id="kcMockAccountCreationService" parent="accountCreationService"/>    
 </beans>

@@ -371,10 +371,10 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     }
 
     /**
-     * put the valid payement reason codes along with their description together
+     * put the valid payment reason codes along with their description together
      * 
-     * @param validPaymentReasonCodes the given valid payement reason codes
-     * @return the valid payement reason codes along with their description as a string
+     * @param validPaymentReasonCodes the given valid payment reason codes
+     * @return the valid payment reason codes along with their description as a string
      */
     protected String getValidPaymentReasonsAsString(List<String> validPaymentReasonCodes) {
         List<String> payementReasonString = new ArrayList<String>();

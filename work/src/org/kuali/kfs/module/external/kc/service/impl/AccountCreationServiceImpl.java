@@ -192,7 +192,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         if (ObjectUtils.isNull(maintenanceAccountDocument)) {
             // if unable to get the document, put an error message and return an empty string
-            errorMessages.add("AutomaticCGAccountMaintenanceDocument creation failed.  Unable to get the document.");
+            errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
             return (KFSConstants.EMPTY_STRING);
         }
         
@@ -215,7 +215,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected void processAutomaticCGAccountMaintenanceDocument(MaintenanceDocument maintenanceAccountDocument, List<String> errorMessages) {
             if (!createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages)) {
-                errorMessages.add("Unable to process routing of the document: " + maintenanceAccountDocument.getDocumentNumber());
+                errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_UNABLE_TO_PROCESS_ROUTING  + maintenanceAccountDocument.getDocumentNumber());
             }
     }
 
@@ -250,8 +250,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             }
         }
         catch (WorkflowException wfe) {
-            LOG.error("Account Auto Create Route process failed - " +  wfe.getMessage()); 
-            errorMessages.add("WorkflowException: createRouteAutomaticDocument failed" +  wfe.getMessage());
+            LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
+            errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
             return false;
         }
     }
@@ -270,26 +270,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             return document;            
         }
         catch (Exception excp) {
-            errorMessages.add("WorkflowException: createCGAccountMaintenanceDocument has failed.  Unable to get a new document" + excp.getMessage());
+            errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + excp.getMessage());
             return null;
         }
     }
-    
-    /**
-     * This method checks for the system parameter ACCOUNT_AUTO_CREATE_ROUTE
-     * @return true if ACCOUNT_AUTO_CREATE_ROUTE exists else false
-     */
-    protected boolean checkIfAccountAutoCreateRouteExists() {
-        boolean parameterExists = true;
-        
-        // check to make sure the system parameter for run date check has already been setup...
-        if (!getParameterService().parameterExists(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE)) {
-            return false;
-        }
-        
-        return parameterExists;
-    }
-    
+       
     /**
      * Gets the documentService attribute.
      * 

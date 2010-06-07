@@ -24,6 +24,11 @@ public class KcConstants {
         public static final String WEB_SERVICE_NAME = "accountCreationService";
     
         public static final String ERROR_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.account.params.unit.notfound";
+        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";
+        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_PROCESS_ROUTING = "error.kc.document.unableToProcessRouting";
+        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "error.kc.document.workflowException.document.actions";
+        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT = "error.kc.document.workflowException.unableToCreateDocument";        
+        
         public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Account Document Creation";
     }    
     

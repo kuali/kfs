@@ -712,14 +712,14 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param ERRORPREFIX
      * @return
      */
-    protected boolean checkEndowmentValueReduction(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String ERRORPREFIX) 
+/*    protected boolean checkEndowmentValueReduction(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String ERRORPREFIX) 
     {
         if( EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(line.getTransactionIPIndicatorCode()) )
         {
             line.getKemidObj().refreshNonUpdateableReferences();
             line.getKemidObj().getType().refreshNonUpdateableReferences();
             
-            if(line.getKemidObj().getType().getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator())
+            if(line.getKemidObj().getTypeRestrictionCodeForPrincipalRestrictionCode().getPermanentIndicator())
             {
                 GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION);
                 return false;
@@ -727,6 +727,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         }
         return true;
     }
+*/
     
     /**
      * This method validates if the source & target units are equal.

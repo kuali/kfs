@@ -21,12 +21,6 @@
     <property name="defaultExistenceChecks" >
       <list>
         <bean parent="ReferenceDefinition"
-              p:attributeName="typeRestrictionCodeForIncomeRestrictionCode"
-              p:attributeToHighlightOnFail="incomeRestrictionCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="typeRestrictionCodeForPrincipalRestrictionCode"
-              p:attributeToHighlightOnFail="principalRestrictionCode" />
-        <bean parent="ReferenceDefinition"
               p:attributeName="cashSweepModel"
               p:attributeToHighlightOnFail="cashSweepModelId" />
         <bean parent="ReferenceDefinition"
@@ -82,12 +76,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="name"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="incomeRestrictionCode"
-              p:required="true" p:noLookup="true" />   
-        <bean parent="MaintainableFieldDefinition"
-              p:name="principalRestrictionCode"
-              p:required="true" /> 
         <bean parent="MaintainableFieldDefinition"
               p:name="cashSweepModelId"
               p:webUILeaveFieldFunction="loadCashSweepModelIDDesc" />

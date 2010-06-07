@@ -981,4 +981,32 @@ public class KEMID extends PersistableBusinessObjectBase {
         String kemIdLabel = kemID + " - " + shortTitle;
         return kemIdLabel;
     }
+    
+    /**
+     * Gets the typeRestrictionCodeForIncomeRestrictionCode description.
+     * 
+     * @return typeRestrictionCodeForIncomeRestrictionCode description
+     */
+    public String getTypeRestrictionCodeForIncomeRestrictionCodeDesc() {
+
+        if (typeRestrictionCodeForIncomeRestrictionCode != null) {
+            return typeRestrictionCodeForIncomeRestrictionCode.getCodeAndDescription();
+        }
+        else
+            return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Gets the typeRestrictionCodeForPrincipalRestrictionCode description.
+     * 
+     * @return typeRestrictionCodeForPrincipalRestrictionCode description
+     */
+    public String getTypeRestrictionCodeForPrincipalRestrictionCodeDesc() {
+
+        if (typeRestrictionCodeForPrincipalRestrictionCode != null) {
+            return typeRestrictionCodeForPrincipalRestrictionCode.getCodeAndDescription();
+        }
+        else
+            return KFSConstants.EMPTY_STRING;
+    }
 }

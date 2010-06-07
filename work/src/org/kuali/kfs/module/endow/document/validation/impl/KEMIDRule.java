@@ -38,6 +38,7 @@ import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.businessobject.KemidSourceOfFunds;
 import org.kuali.kfs.module.endow.businessobject.KemidSpecialInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
+import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.KemidHoldingTaxLotOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.ValidateDateBasedOnFrequencyCodeService;
@@ -45,6 +46,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -94,6 +96,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             isValid &= checkCloseCode();
             isValid &= checkIfKemidHasCurrentCashOpenRecordsIfClosed();
             isValid &= checkIfKemidHasHoldingTaxLotOpenRecordsIfClosed();
+            isValid &= validateIncomeRestrictionCode(document);
             isValid &= validateAgreements();
             isValid &= validateUseTransactionRestrictionFromAgreement();
             isValid &= validateSourceOfFunds();
@@ -187,6 +190,28 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
         success &= super.processAddCollectionLineBusinessRules(document, collectionName, bo);
         return success;
     }
+    
+    /**
+     * This method will validate if income restriction code is "P" (Permanently Restricted)
+     * Rule: Type_inc_restr_cd cannot be P (Permanently Restricted).
+     * 
+     * @param document
+     * @return true if Income Restriction code is not "P" else return false
+     */
+    private boolean validateIncomeRestrictionCode(Document document) {
+        boolean rulesPassed = true;
+        
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
+        KEMID kemid = (KEMID) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        
+        if (EndowConstants.TypeRestrictionPresetValueCodes.PERMANENT_TYPE_RESTRICTION_CODE.equalsIgnoreCase(kemid.getIncomeRestrictionCode())) {
+            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.TYPE_INC_RESTR_CD, EndowKeyConstants.TypeRestrictionCodeConstants.ERROR_PERMANENT_INDICATOR_CANNOT_BE_USED_FOR_TYPE_RESTRICTION_CODE);
+            return false;
+            
+        }
+        return rulesPassed;
+    }
+
 
     /**
      * Checks that the agreement type and agreement status exist.

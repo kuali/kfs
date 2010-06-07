@@ -52,9 +52,7 @@ public class TypeCodeRule extends MaintenanceDocumentRuleBase {
        if (!isValid) {
            return isValid;
        }
-       
-       isValid &= validateIncomeRestrictionCode(document);
-       
+    
        return isValid;
     }
     
@@ -73,30 +71,10 @@ public class TypeCodeRule extends MaintenanceDocumentRuleBase {
         }
         
         Document document = (Document) approveEvent.getDocument();
-        isValid &= validateIncomeRestrictionCode(document);
         isValid &= validateIncomeACIModelID(document);
         
         return isValid;
-    }
-    
-    /**
-     * This method will validate if income restriction code
-     * @param document
-     * @return true if Income Restriction code is not "P" else return false
-     */
-    private boolean validateIncomeRestrictionCode(Document document) {
-        boolean rulesPassed = true;
-        
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
-        TypeCode typeCode = (TypeCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        
-        if (EndowConstants.TypeRestrictionPresetValueCodes.PERMANENT_TYPE_RESTRICTION_CODE.equalsIgnoreCase(typeCode.getIncomeRestrictionCode())) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.TYPE_INC_RESTR_CD, EndowKeyConstants.TypeRestrictionCodeConstants.ERROR_PERMANENT_INDICATOR_CANNOT_BE_USED_FOR_TYPE_RESTRICTION_CODE);
-            return false;
-            
-        }
-        return rulesPassed;
-    }
+    }    
 
     /**
      * This method will validate if default income ACI model ID

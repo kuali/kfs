@@ -165,18 +165,10 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="incomeRestrictionCode" column="TYP_INC_RESTR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="principalRestrictionCode" column="TYP_PRIN_RESTR_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashSweepModelId" column="TYP_CSH_SWEEP_MDL_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="incomeACIModelId" column="TYP_INC_ACI_MDL_ID" jdbc-type="INTEGER"/>	
 	<field-descriptor name="principalACIModelId" column="TYP_PRIN_ACI_MDL_ID" jdbc-type="INTEGER"/>	
 		
-	<reference-descriptor name="typeRestrictionCodeForIncomeRestrictionCode" class-ref="org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="incomeRestrictionCode"/>
-	</reference-descriptor>
-	<reference-descriptor name="typeRestrictionCodeForPrincipalRestrictionCode" class-ref="org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="principalRestrictionCode"/>
-	</reference-descriptor>
 	<reference-descriptor name="cashSweepModel" class-ref="org.kuali.kfs.module.endow.businessobject.CashSweepModel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="cashSweepModelId"/>
 	</reference-descriptor>	

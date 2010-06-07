@@ -20,8 +20,6 @@
       <list>
         <ref bean="TypeCode-code" />
         <ref bean="TypeCode-name" />
-        <ref bean="TypeCode-incomeRestrictionCode" />
-        <ref bean="TypeCode-principalRestrictionCode" />
         <ref bean="TypeCode-cashSweepModelId" />
         <ref bean="TypeCode-cashSweepModel.cashSweepModelName" />
         <ref bean="TypeCode-incomeACIModelId" />
@@ -32,8 +30,6 @@
         <ref bean="TypeCode-typeFeeMethods.active" />
         <ref bean="TypeCode-codeAndDescription" />
         <ref bean="TypeCode-active" />
-        <ref bean="TypeCode-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />
-        <ref bean="TypeCode-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
         <ref bean="TypeCode-cashSweepModel.codeAndDescription" />
         <ref bean="TypeCode-automatedCashInvestmentModelForIncomeACIModelId.codeAndDescription" />
         <ref bean="TypeCode-automatedCashInvestmentModelForPrincipalACIModelId.codeAndDescription" />
@@ -85,28 +81,6 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="102" />
-    </property>
-  </bean>
-  <bean id="TypeCode-incomeRestrictionCode" parent="TypeCode-incomeRestrictionCode-parentBean" />
-
-  <bean id="TypeCode-incomeRestrictionCode-parentBean" abstract="true" parent="TypeRestrictionCode-code">
-    <property name="name" value="incomeRestrictionCode" />
-    <property name="label" value="Income Restriction" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TypeRestrictionCodeWithoutPermanentlyRestrictedValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>    
-  </bean>
-  <bean id="TypeCode-principalRestrictionCode" parent="TypeCode-principalRestrictionCode-parentBean" />
-
-  <bean id="TypeCode-principalRestrictionCode-parentBean" abstract="true" parent="TypeRestrictionCode-code">
-    <property name="name" value="principalRestrictionCode" />
-    <property name="label" value="Principal Restriction" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TypeRestrictionCodeValuesFinder"
-            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="TypeCode-cashSweepModelId" parent="TypeCode-cashSweepModelId-parentBean" />
@@ -204,18 +178,6 @@
   <bean id="TypeCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="TypeCode-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" parent="TypeCode-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription-parentBean" />
-  
-  <bean id="TypeCode-typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription-parentBean" abstract="true" parent="TypeRestrictionCode-codeAndDescription" >
-  	<property name="name" value="typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />
-    <property name="label" value="Income Restriction" />
-  </bean>
-  <bean id="TypeCode-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" parent="TypeCode-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription-parentBean" />
-  
-  <bean id="TypeCode-typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription-parentBean" abstract="true" parent="TypeRestrictionCode-codeAndDescription" >
-  	<property name="name" value="typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
-    <property name="label" value="Principal Restriction" />
-  </bean>  
   <bean id="TypeCode-cashSweepModel.codeAndDescription" parent="TypeCode-cashSweepModel.codeAndDescription-parentBean" />
   
   <bean id="TypeCode-cashSweepModel.codeAndDescription-parentBean" abstract="true" parent="CashSweepModel-cashSweepModelIDAndDescription" >
@@ -252,10 +214,6 @@
 		              p:attributeName="code" />
 		        <bean parent="FieldDefinition"
 		              p:attributeName="name" />
-		        <bean parent="FieldDefinition"
-		              p:attributeName="typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />  
-		        <bean parent="FieldDefinition"
-		              p:attributeName="typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />
 		        <bean parent="FieldDefinition"
 		              p:attributeName="cashSweepModel.codeAndDescription" />  
 		        <bean parent="FieldDefinition"
@@ -326,10 +284,6 @@
               p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="typeRestrictionCodeForIncomeRestrictionCode.codeAndDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="typeRestrictionCodeForPrincipalRestrictionCode.codeAndDescription" />              
         <bean parent="FieldDefinition"
               p:attributeName="active" />                                                                         
       </list>

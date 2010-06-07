@@ -36,14 +36,10 @@ import org.kuali.kfs.sys.KFSConstants;
 public class TypeCode extends KualiCodeBase {
     private static final Logger LOG = Logger.getLogger(TypeCode.class);
 
-    private String incomeRestrictionCode;
-    private String principalRestrictionCode;
     private Integer cashSweepModelId;
     private Integer incomeACIModelId;
     private Integer principalACIModelId;
 
-    private TypeRestrictionCode typeRestrictionCodeForIncomeRestrictionCode;
-    private TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode;
     private CashSweepModel cashSweepModel;
     private AutomatedCashInvestmentModel automatedCashInvestmentModelForPrincipalACIModelId;
     private AutomatedCashInvestmentModel automatedCashInvestmentModelForIncomeACIModelId;
@@ -66,42 +62,6 @@ public class TypeCode extends KualiCodeBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(EndowPropertyConstants.TYPE_CODE, super.code);
         return m;
-    }
-
-    /**
-     * This method gets incomeRestrictionCode
-     * 
-     * @return incomeRestrictionCode
-     */
-    public String getIncomeRestrictionCode() {
-        return incomeRestrictionCode;
-    }
-
-    /**
-     * This method sets incomeRestrictionCode.
-     * 
-     * @param incomeRestrictionCode
-     */
-    public void setIncomeRestrictionCode(String incomeRestrictionCode) {
-        this.incomeRestrictionCode = incomeRestrictionCode;
-    }
-
-    /**
-     * This method gets the principalRestrictionCode.
-     * 
-     * @return principalRestrictionCode
-     */
-    public String getPrincipalRestrictionCode() {
-        return principalRestrictionCode;
-    }
-
-    /**
-     * This method sets the principalRestrictionCode.
-     * 
-     * @param principalRestrictionCode
-     */
-    public void setPrincipalRestrictionCode(String principalRestrictionCode) {
-        this.principalRestrictionCode = principalRestrictionCode;
     }
 
     /**
@@ -159,42 +119,6 @@ public class TypeCode extends KualiCodeBase {
     }
 
     /**
-     * This method gets the typeRestrictionCodeForIncomeRestrictionCode.
-     * 
-     * @return typeRestrictionCodeForIncomeRestrictionCode
-     */
-    public TypeRestrictionCode getTypeRestrictionCodeForPrincipalRestrictionCode() {
-        return typeRestrictionCodeForPrincipalRestrictionCode;
-    }
-
-    /**
-     * This method sets the typeRestrictionCodeForPrincipalRestrictionCode.
-     * 
-     * @param typeRestrictionCodeForPrincipalRestrictionCode
-     */
-    public void setTypeRestrictionCodeForPrincipalRestrictionCode(TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode) {
-        this.typeRestrictionCodeForPrincipalRestrictionCode = typeRestrictionCodeForPrincipalRestrictionCode;
-    }
-
-    /**
-     * This method gets the typeRestrictionCodeForIncomeRestrictionCode.
-     * 
-     * @return typeRestrictionCodeForIncomeRestrictionCode
-     */
-    public TypeRestrictionCode getTypeRestrictionCodeForIncomeRestrictionCode() {
-        return typeRestrictionCodeForIncomeRestrictionCode;
-    }
-
-    /**
-     * This method sets the typeRestrictionCodeForIncomeRestrictionCode.
-     * 
-     * @param typeRestrictionCodeForIncomeRestrictionCode
-     */
-    public void setTypeRestrictionCodeForIncomeRestrictionCode(TypeRestrictionCode typeRestrictionCodeForIncomeRestrictionCode) {
-        this.typeRestrictionCodeForIncomeRestrictionCode = typeRestrictionCodeForIncomeRestrictionCode;
-    }
-
-    /**
      * This method returns the cashSweepModel.
      * 
      * @return cashSweepModel
@@ -246,34 +170,6 @@ public class TypeCode extends KualiCodeBase {
      */
     public void setAutomatedCashInvestmentModelForPrincipalACIModelId(AutomatedCashInvestmentModel automatedCashInvestmentModelForPrincipalACIModelId) {
         this.automatedCashInvestmentModelForPrincipalACIModelId = automatedCashInvestmentModelForPrincipalACIModelId;
-    }
-
-    /**
-     * Gets the typeRestrictionCodeForIncomeRestrictionCode description.
-     * 
-     * @return typeRestrictionCodeForIncomeRestrictionCode description
-     */
-    public String getTypeRestrictionCodeForIncomeRestrictionCodeDesc() {
-
-        if (typeRestrictionCodeForIncomeRestrictionCode != null) {
-            return typeRestrictionCodeForIncomeRestrictionCode.getCodeAndDescription();
-        }
-        else
-            return KFSConstants.EMPTY_STRING;
-    }
-
-    /**
-     * Gets the typeRestrictionCodeForPrincipalRestrictionCode description.
-     * 
-     * @return typeRestrictionCodeForPrincipalRestrictionCode description
-     */
-    public String getTypeRestrictionCodeForPrincipalRestrictionCodeDesc() {
-
-        if (typeRestrictionCodeForPrincipalRestrictionCode != null) {
-            return typeRestrictionCodeForPrincipalRestrictionCode.getCodeAndDescription();
-        }
-        else
-            return KFSConstants.EMPTY_STRING;
     }
 
     /**

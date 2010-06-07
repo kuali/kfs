@@ -86,7 +86,7 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             isValid &= checkSufficientUnitsAvaiable(endowmentTransactionLinesDocument,line, ERROR_PREFIX);
             
             //Check if value of Endowment is being reduced.
-            isValid &= checkEndowmentValueReduction(endowmentTransactionLinesDocument,line, ERROR_PREFIX);
+            checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
         }
         
         return GlobalVariables.getMessageMap().getErrorCount() == 0;

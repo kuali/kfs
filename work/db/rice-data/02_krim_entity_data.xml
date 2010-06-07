@@ -1,0 +1,33 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+		
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_T">
+		<loadData tableName="KRIM_ENTITY_T" file="data/krim_entity_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_PRNCPL_T">
+		<loadData tableName="KRIM_PRNCPL_T" file="data/krim_prncpl_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_ENT_TYP_T">
+		<loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="data/krim_entity_ent_typ_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_AFLTN_T">
+		<loadData tableName="KRIM_ENTITY_AFLTN_T" file="data/krim_entity_afltn_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_EMAIL_T">
+		<loadData tableName="KRIM_ENTITY_EMAIL_T" file="data/krim_entity_email_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_EMP_INFO_T">
+		<loadData tableName="KRIM_ENTITY_EMP_INFO_T" file="data/krim_entity_emp_info_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_EXT_ID_T">
+		<loadData tableName="KRIM_ENTITY_EXT_ID_T" file="data/krim_entity_ext_id_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_NM_T">
+		<loadData tableName="KRIM_ENTITY_NM_T" file="data/krim_entity_nm_t.csv" />
+    </changeSet>
+	<changeSet author="Jonathan Keller" id="KRIM_ENTITY_PRIV_PREF_T">
+		<loadData tableName="KRIM_ENTITY_PRIV_PREF_T" file="data/krim_entity_priv_pref_t.csv" />
+    </changeSet>
+</databaseChangeLog>   
+      

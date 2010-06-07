@@ -457,7 +457,7 @@
 				<exclude name="**/conversion/**"/>
 			</patternset>
 			<fileset dir="${lib.directory}">
-				<include name="${rice.name}-*-${rice.version}.jar" />
+				<include name="${rice.name}-*-*.jar" />
 			</fileset>
 		</unjar>
 		<path id="rice.datadictionary.files"><fileset dir="${rice.datadictionary.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>

@@ -185,8 +185,8 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/opencsv-1.8.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/cxf-2.1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxb-impl-2.1.9.jar">

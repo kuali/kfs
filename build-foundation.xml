@@ -100,7 +100,11 @@ are intended for use only by Kuali Foundation developers.
     	<delete verbose="true">
       		<fileset dir="${basedir}" includes="${lib.directory}/rice-*.jar" />
     	</delete>
-    	<copy todir="${lib.directory}" flatten="true" verbose="true">
+    	<copy todir="${lib.directory}" verbose="true" overwrite="true">
+      		<chainedmapper>
+        		<flattenmapper />
+      			<mapper type="glob" from="*${rice.version}.jar" to="*${kfs.rice.version}.jar" />
+      		</chainedmapper>
       		<fileset dir="${rice.project.directory}">
       			<include name="${rice.api.module.name}/target/${rice.name}-${rice.api.module.name}-${rice.version}.jar" />
       			<include name="${rice.impl.module.name}/target/${rice.name}-${rice.impl.module.name}-${rice.version}.jar" />
@@ -116,8 +120,8 @@ are intended for use only by Kuali Foundation developers.
             </then>
         </if>
         <maven goals="package" modulePath="/${rice.web.module.name}" />
-        <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.server.war.file.name}" 
-        	  todir="${build.appserver.directory}" />
+        <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.war.file.name}" 
+        	  tofile="${build.appserver.directory}/${rice.server.war.file.name}" verbose="true" overwrite="true" />
     </target>
     
 	<target name="update-rice-extended" depends="init-property-files,init-additional-properties,update-rice-kfs-dependencies,update-rice-licenses" />
@@ -141,7 +145,7 @@ are intended for use only by Kuali Foundation developers.
       		</fileset>
       		<chainedmapper>
         		<flattenmapper />
-        		<globmapper from="*.jar" to="*.zip" />
+      			<mapper type="glob" from="*${rice.version}.jar" to="*${kfs.rice.version}.zip" />
       		</chainedmapper>
     	</copy>
 	</target>
@@ -151,7 +155,7 @@ are intended for use only by Kuali Foundation developers.
       		<fileset dir="${build.project.directory}" 
       				 includes="${rice.name}*${rice.output.licenses.suffix}" />
     	</delete>
-    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" 
+    	<zip destfile="${build.project.directory}/${rice.name}-${kfs.rice.version}-licenses.zip" 
     		 basedir="${rice.project.directory}/${licenses.directory}" />
   	</target>
 		

@@ -86,8 +86,8 @@
 	
 	<target name="unpack-and-remove-rice-licenses" depends="init-properties,init-additional-properties">
 		<unzip dest="${all.temp.directory}/kfs/${build.distribution.licenses.directory}/${rice.name}" 
-			   src="${all.temp.directory}/kfs/${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
-		<delete file="${all.temp.directory}/kfs/${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+			   src="${all.temp.directory}/kfs/${build.project.directory}/${rice.name}-${kfs.rice.version}${rice.output.licenses.suffix}" />
+		<delete file="${all.temp.directory}/kfs/${build.project.directory}/${rice.name}-${kfs.rice.version}${rice.output.licenses.suffix}" />
 	</target>
 	
 	<target name="add-doc-files" depends="init-properties,init-additional-properties">

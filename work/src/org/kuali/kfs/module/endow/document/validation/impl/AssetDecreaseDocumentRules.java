@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -135,27 +134,22 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (isValid) {
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
 
-            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) 
-            {
-                if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
-                {
+            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(assetDecreaseDocument.getTransactionSubTypeCode())) {
+                if (endowmentTransactionLinesDocument.isErrorCorrectedDocument()) {
                     // Validate Amount is Less than Zero.
                     isValid &= validateTransactionAmountLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
                 }
-                else
-                {
+                else {
                     // Validate Greater then Zero(thus positive) value
                     isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
                 }
             }
 
-            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
-            {
+            if (endowmentTransactionLinesDocument.isErrorCorrectedDocument()) {
                 // Validate Units is Less than Zero.
                 isValid &= validateTransactionUnitsLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
             }
-            else
-            {
+            else {
                 isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
             }
 
@@ -209,11 +203,11 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         }
 
         BigDecimal lineUnits = null;
-        if(endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
+        if (endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
             lineUnits = line.getTransactionUnits().bigDecimalValue().negate();
         else
             lineUnits = line.getTransactionUnits().bigDecimalValue();
-        
+
         if (lineUnits.compareTo(totalTaxLotsUnits) == 1) {
             isValid = false;
             putFieldError(getErrorPrefix(line, transLineIndex) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
@@ -248,17 +242,10 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         BigDecimal lineUnits = null;
         BigDecimal lineAmount = null;
-        if(endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
-        {
-            lineUnits = transactionLine.getTransactionUnits().bigDecimalValue().negate();
-            lineAmount= transactionLine.getTransactionAmount().bigDecimalValue().negate();
-        }
-        else
-        {
-            lineUnits = transactionLine.getTransactionUnits().bigDecimalValue();
-            lineAmount= transactionLine.getTransactionAmount().bigDecimalValue().negate();
-        }
-        
+
+        lineUnits = transactionLine.getTransactionUnits().bigDecimalValue();
+        lineAmount = transactionLine.getTransactionAmount().bigDecimalValue();
+
         if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTransactionLinesDocumentBase.getTransactionSubTypeCode())) {
 
             List<EndowmentTransactionTaxLotLine> taxLots = transactionLine.getTaxLotLines();

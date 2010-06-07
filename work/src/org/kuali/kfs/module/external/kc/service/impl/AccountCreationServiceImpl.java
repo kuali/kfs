@@ -222,6 +222,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     /**
      * This method processes the workflow document actions like save, route and blanket approve depending on the 
      * ACCOUNT_AUTO_CREATE_ROUTE system parameter value.
+     * If the system parameter value is not of save or submit or blanketapprove, put an error message and quit.
      * Throws an document WorkflowException if the specific document action fails to perform.
      * 
      * @param maintenanceAccountDocument, errorMessages
@@ -232,22 +233,25 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         try {
             String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
-            
-            if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
-                getDocumentService().saveDocument(maintenanceAccountDocument);
-                return success;
-            }
-            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null); 
-                return success;
-            }
-            else if (accountAutoCreateRouteValue.equals(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
-                getDocumentService().approveDocument(maintenanceAccountDocument, "", null);
-                return success;
-            }
-            else {
+
+            // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
+            if (!accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) || 
+                    !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) ||
+                    !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+                errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
                 return false;
             }
+            
+            if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
+                getDocumentService().saveDocument(maintenanceAccountDocument);
+            }
+            else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+                getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null); 
+            }
+            else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
+                getDocumentService().approveDocument(maintenanceAccountDocument, "", null);
+            }
+            return success;
         }
         catch (WorkflowException wfe) {
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 

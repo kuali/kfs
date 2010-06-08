@@ -26,6 +26,7 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
  <bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
     <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+     	<property name="namespaceCode" value="KFS-KC" />
      	<property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
             <list merge="true">

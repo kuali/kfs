@@ -232,7 +232,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         boolean success = true;
         
         try {
-            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE);
+            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
 
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && 

@@ -121,23 +121,23 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         
         maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
         // the document should be saved....
         boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages);
         assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
         
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
         // the document should be submitted....
         assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
         
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
         // the document should be blanket approved....
         assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
 
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.ACCOUNT_AUTO_CREATE_ROUTE, "I");
+        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, "I");
         //we want to test for failure of the routing by using routing value not defined for the system parameter...
         assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));        
     }

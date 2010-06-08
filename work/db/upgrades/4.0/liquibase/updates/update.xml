@@ -154,4 +154,6 @@
 <include file="updates/2010-05-20-1000-AccountAutoCreateDefaults.xml"/>
 <include file="updates/2010-05-26-5477-a2-Endow.xml"/>
 <include file="updates/2010-05-26-5578b-1-END_TRAN_SEC_T.xml"/>
+<include file="updates/2010-06-04-5754-1-END_KEMID_T.xml"/>
+<include file="updates/2010-06-07-5754-1-END_TYPE_T.xml"/>
 </databaseChangeLog>

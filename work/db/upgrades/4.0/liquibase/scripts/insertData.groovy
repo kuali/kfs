@@ -1,10 +1,10 @@
 import groovy.swing.SwingBuilder
 import javax.swing.*
 
-
+//-----------------------------------------------------------------------------------------
 class Table {
   Map attributes = [:]
-  Boolean dropTable = false
+  Boolean failOnErr = true
   List changes = []
  
   String whereClause
@@ -14,10 +14,6 @@ class Table {
   }
   
   void modification(xml) {
-      if (this.dropTable == true) {
-          dropTable( this.getAttributes() )
-      }
-              
       if (this.changes.size() > 0) changes.get(0).modification(this, xml)
           
       this.getModSqls().each { modSql ->
@@ -37,6 +33,7 @@ class Table {
    }
 }
 
+//-----------------------------------------------------------------------------------------
 interface LiquibaseCommonTableInterface 
 {
    void modification(table, xml)
@@ -55,6 +52,36 @@ class Column implements LiquibaseCommonTableInterface {
       }
   } 
 }
+
+//-----------------------------------------------------------------------------------------
+class DropTable implements LiquibaseCommonTableInterface {
+    void modification( table, xml ) {
+         xml.dropTable( table.getAttributes() )
+    }
+}
+
+class CreateTable implements LiquibaseCommonTableInterface {
+  Map attributes = [:]
+  Map constraintsAttributes = [:]
+
+ CreateTable(Map attribs) {
+    attributes = attribs.findAll{it.key in ['name', 'type', 'defaultValue']}
+    constraintsAttributes = attribs.findAll{it.key in ['nullable', 'primaryKey']}
+  }
+  void modification(table, xml) {
+      xml.createTable( table.getAttributes() ) {
+          table.getChanges().each { change ->
+              xml.column(change.getAttributes() ) {
+                  if(change.getConstraintsAttributes()) {
+                      xml.constraints(change.getConstraintsAttributes())
+                  }
+              }
+          }
+      }  
+  }
+      
+}
+
 
 class UpdateColumn implements LiquibaseCommonTableInterface {
   Map attributes = [:]
@@ -134,6 +161,15 @@ class AlterColumn implements LiquibaseCommonTableInterface {
   }
 }
 
+class DropColumn implements LiquibaseCommonTableInterface {
+    Map attributes = [:]
+    DropColumn(Map attribs) {
+        attributes = attribs
+    }
+    void modification( table, xml) {
+        xml.dropColumn( this.getAttributes())
+    }
+}
 
 class AddColumn extends AlterColumn {
     AddColumn(Map attribs) {
@@ -152,6 +188,37 @@ class AddColumn extends AlterColumn {
     }
 }
 
+class SequenceCreate  implements LiquibaseCommonTableInterface {
+  Map attributes = [:]
+  Map constraintsAttributes = [:]
+  SequenceCreate(Map attribs) {
+    attributes = attribs.findAll{it.key in ['incrementBy', 'minValue', 'maxValue', 'ordered','startValue']}
+    constraintsAttributes = attribs.findAll{it.key in ['nullable']}
+  }
+
+  void modification(table, xml) {
+      if (table.getAttributes().find("dbms") == "oracle") {
+        xml.createSequence(table.attributes['sequenceName'] ) {
+            table.getChanges().each { change ->
+                 xml.column(change.getAttributes()) {
+                     if(change.getConstraintsAttributes()) {
+                         xml.constraints(change.getConstraintsAttributes())
+                     }
+                 }
+             }
+        }
+    } else {
+        xml.createTable( tableName :  table.attributes['sequenceName'] ) {
+            xml.column(name : "id", type :"bigint(19)", autoIncrement : true) {
+                xml.constraints(primaryKey : true, primaryKeyName: "id", nullable : false)
+            }
+        }
+        xml.sql("ALTER TABLE " +  table.attributes['sequenceName'] + " auto_increment=" + this.attributes['incrementBy'] )
+    }
+  }
+}
+
+
 class ModSql {
   Map attributes = [:]
   Map appendAttributes = [:]
@@ -163,6 +230,9 @@ class ModSql {
   }
 }
 
+//-----------------------------------------------------------------------------------------
+//     def cct = new ChangelogCreateTable(author: authorName, identifier : (jira + "-" + counter + "-"), comments : commentary )
+
 class ChangelogCreateTable {
   String author
   String identifier
@@ -170,6 +240,7 @@ class ChangelogCreateTable {
   String failOnErr = "true"
   String contextContents =  "kuldba"
   def changesetId = 1
+  
   def generate(writer, tables) {
     // MarkupBuilder cannot output an XML declaration, so this is a workaround
     def eol = System.properties.'line.separator'
@@ -180,17 +251,24 @@ class ChangelogCreateTable {
                          , "xmlns:xsi" : "http://www.w3.org/2001/XMLSchema-instance"
                          , "xsi:schemaLocation" : "http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"
                          ) {
-      tables.each { table ->
-        changeSet(author: author, id : (identifier << changesetId++), failOnError : failOnErr) {
-          comment(comments)
-          table.modification(xml)
+        tables.each { table ->
+            if (table.getAttributes().find{"dbms"} != null) {
+                changeSet(author: author, id : (identifier << changesetId++), failOnError : table.getFailOnErr(), dbms : table.attributes["dbms"]) {              
+                    comment(comments)           
+                    table.modification(xml)
+                }
+            } else {
+                changeSet(author: author, id : (identifier << changesetId++), failOnError : table.getFailOnErr()) {              
+                    comment(comments)           
+                    table.modification(xml)
+                }
+            }
+            println("total records = " + (changesetId - 1)  )
         }
-        println("total records = " + (changesetId - 1)  )
-      }
     }
   }
 }
-
+//-----------------------------------------------------------------------------------------
 def checkEOL(line)
 {
     if (line ==~ /;/) {
@@ -346,7 +424,37 @@ def checkAlters(line,tables)
              return true
             
          }
-
+         
+     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+DROP COLUMN[ ]+([a-zA-Z0-9_-]+).*/)
+     if (matcher.matches()) {
+         //println( matcher.getCount() + "occurences " + matcher[0][1])    
+         println(" Drop Column " + matcher[0][1] + "  " + matcher[0][2])
+         table = new Table()
+         table.setFailOnErr(false)
+         table.getChanges() << new DropColumn(tableName: matcher[0][1], columnName : matcher[0][2])
+         tables << table
+         return true
+     }
+         
+         
+     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+MODIFY[ \(]*([a-zA-Z0-9_-]+)[ ]+([^ "']+\))[ ]*NOT NULL.*;/)
+     if (matcher.matches()) {
+         println(" alter Modify " + matcher[0][1] + " key " + matcher[0][2] + " on " + matcher[0][3].toUpperCase()) 
+         liquibaseTableName = matcher[0][1]        
+         table = new Table(tableName: liquibaseTableName)
+         tables << table
+         println "modify " + matcher[0][4]
+         if (matcher[0][4] != null) {
+              table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4],  nullable : false)
+         } else {
+             table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(),  nullable : false)
+         }
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
+         return true
+     }
+     
+     
     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([a-zA-Z1-9_-]+)[ ]+MODIFY[ \(]*([a-zA-Z0-9_-]+)[ ]+([^ "']+\))[ ]*([^ '"]*).*;/)
      if (matcher.matches()) {
          println(" alter Modify " + matcher[0][1] + " key " + matcher[0][2] + " on " + matcher[0][3].toUpperCase()) 
@@ -410,7 +518,7 @@ def checkAlters(line,tables)
     if (matcher.matches()) {
          println "add line " + matcher[0][1] + ":" + matcher[0][2] + " NOT NULL"
          table = new Table( tableName: matcher[0][1] )
-         table.getChanges() << new AddColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : 'F')
+         table.getChanges() << new AddColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : false)
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql", replace : "varchar2", with : "VARCHAR")
          table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
@@ -435,31 +543,37 @@ def checkAlters(line,tables)
     
 def checkUpdates(line, tables)
 {
-    matcher = (line =~ /(?i).*UPDATE ([^ ]+) SET[ ]+([^ ]+)[= ]+\'(.+)\' +where (.+\').*/)
+    matcher = (line =~ /(?i).*UPDATE ([^ ]+) SET[ ]+(.+)[ ]+where (.+\').*/)
      if (matcher.matches()) {
-         println( matcher.getCount() + "cols " + matcher[0][1])
-         println( matcher.getCount() + "vals " + matcher[0][2])
-         println( matcher.getCount() + "cols " + matcher[0][3])
-         println( matcher.getCount() + "vals " + matcher[0][4])
-         if (matcher[0][3].isNumber()) {
-             col =  new UpdateColumn( name : matcher[0][2], valueNumeric : matcher[0][3])
-         } else {
-             col =  new UpdateColumn( name : matcher[0][2], value : matcher[0][3])
-         }
-        
+         println( matcher.getCount() + "table " + matcher[0][1])
+         println( matcher.getCount() + "cols " + matcher[0][2])
+         println( matcher.getCount() + "where " + matcher[0][3])
          table = new Table(tableName : matcher[0][1])
-         table.setWhereClause(matcher[0][4])
-         table.getChanges() << col
+         table.setWhereClause(matcher[0][3])
+         List columnPairs = matcher[0][2].tokenize(',')     
+         columnPairs.each { columnPair ->
+             columnMatch = (columnPair=~/(?i)([^= ]+)[= ]+\'(.+)\'.*/)
+             if (columnMatch.matches()) {
+                 if (columnMatch[0][2].isNumber()) {
+                     col = new UpdateColumn(name : columnMatch[0][1], valueNumeric : columnMatch[0][2])
+                 } else {
+                     col = new UpdateColumn(name : columnMatch[0][1], value : columnMatch[0][2])
+                 }
+                 table.getChanges() << col
+             } else {
+                 println "*** Invalid column match " + columnPair
+             }
+         }
+          
          tables << table
          return true
          
      }
      matcher = (line =~ /(?i).*UPDATE ([^ ]+) SET[ ]+([^ ]+)[= ]+\'(.+)\'.*/)
      if (matcher.matches()) {
-         println( matcher.getCount() + "cols " + matcher[0][1])
-         println( matcher.getCount() + "vals " + matcher[0][2])
-         println( matcher.getCount() + "cols " + matcher[0][3])
-         println( matcher.getCount() + "vals " + matcher[0][4])
+         println( matcher.getCount() + "table " + matcher[0][1])
+         println( matcher.getCount() + "col " + matcher[0][2])
+         println( matcher.getCount() + "val " + matcher[0][3])
          if (matcher[0][3].isNumber()) {
              col =  new UpdateColumn( name : matcher[0][2], valueNumeric : matcher[0][3])
          } else {
@@ -479,7 +593,8 @@ def checkDropTable(line, tables)
     matcher = (line =~ /(?i)^DROP TABLE ([a-zA-Z1-9_-]+).*/)
      if (matcher.matches()) {
         table = new Table( tableName : matcher[0][1])
-        table.dropTable = true
+        table.setFailOnErr(false)
+        table.getChanges() << new DropTable()
         tables << table
         println (" Drop table " + matcher[0][1])
         return true
@@ -487,6 +602,119 @@ def checkDropTable(line, tables)
     return false;
 }
 
+def checkCreateTableLines(line, table)
+{
+        matcher = (line =~ /(?i)^CREATE TABLE ([a-zA-Z1-9_-]+).*/)
+        if (matcher.matches() == true) return
+     
+        matcher = (line =~ /^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ ]+([^ ]+\(.+\))(.*)/)  //  <name>  <type>(<size>)
+        if (matcher.matches()) {
+            // println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
+             liquibaseColumnName = matcher[0][1]
+             liquibaseColumnType = matcher[0][2]
+             liquibaseColumnNotNull = !(matcher[0][3] ==~ /(?i).*NOT NULL.*/)
+             liquibaseDefaultVal = false
+             defaultMatch = (matcher[0][3] =~ /(?i).*DEFAULT[ ']+([^ ']*).*/)
+             if (defaultMatch.matches()) {
+                 liquibaseDefaultValue = defaultMatch[0][1]
+                 println "default " + defaultMatch[0][1]
+                 table.changes << new CreateTable(name: liquibaseColumnName, type: liquibaseColumnType, defaultValue : liquibaseDefaultValue, nullable: liquibaseColumnNotNull )
+             } else {
+                 table.changes << new CreateTable(name: liquibaseColumnName, type: liquibaseColumnType, nullable: liquibaseColumnNotNull )
+             }
+             return
+    
+        }
+        matcher = (line =~ /^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ ]+([^ ,]+)(.*)/)  
+        if (matcher.matches()) {
+            // println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
+             liquibaseColumnName = matcher[0][1]
+             liquibaseColumnType = matcher[0][2]
+             liquibaseColumnNotNull = !(matcher[0][3] ==~ /(?i).*NOT NULL.*/)
+             liquibaseDefaultVal = false
+             defaultMatch = (matcher[0][3] =~ /(?i).*DEFAULT[ ']+([^ ']*).*/)
+         
+             if (defaultMatch.matches()) {
+                 liquibaseDefaultValue = defaultMatch[0][1]
+                 println "default " + defaultMatch[0][1]
+                 table.changes << new CreateTable(name: liquibaseColumnName, type: liquibaseColumnType, defaultValue : liquibaseDefaultValue, nullable: liquibaseColumnNotNull )
+             } else {
+                 table.changes << new CreateTable(name: liquibaseColumnName, type: liquibaseColumnType, nullable: liquibaseColumnNotNull )
+             }
+             return
+         }
+}
+
+def checkCreateTable(rawlines, tables)
+{
+    matcher = (rawlines[0] =~ /(?i)^CREATE TABLE ([a-zA-Z1-9_-]+).*/)
+     if (matcher.matches() == false) return false
+     
+     println "create table " + matcher[0][1]
+     table = new Table( tableName : matcher[0][1])
+     tables << table
+     rawlines.each() { line ->
+         matcher = (line =~ /(?i)[^a-zA-Z]*PRIMARY KEY[ ]+\((.+)\).*/)
+        if (matcher.matches()) {       
+            table.changes.each() { change ->
+                if (matcher[0][1].find(change.attributes["name"]) != null) {
+                    println "primary key match " + matcher[0][1]
+                    change.getConstraintsAttributes().put("primaryKey" , true) // <<  [primaryKey  : matcher[0][1]]
+                }
+           }  
+        } else {
+            checkCreateTableLines(line, table)
+        }
+    }
+    table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
+    table.getModSqls() << new ModSql(dbms: "mysql", replace : "NUMBER", with : "DECIMAL")
+    return true
+}
+
+
+def checkSequence(rawlines, tables)
+{
+    matcher = (rawlines[0] =~ /^[ ]*CREATE[ ]+SEQUENCE[ ]+([a-zA-Z1-9_-]+).*/)
+    if (matcher.matches() == false) return false
+     println "create Sequence " + matcher[0][1]
+     table = new Table( sequenceName : matcher[0][1], dbms: oracle)
+     tables << table
+     sequenceCreate = new SequenceCreate()
+     table.changes << sequenceCreate
+     rawlines.each() { line ->
+         checkSequenceColumns( line, sequenceCreate)
+     }
+
+     table = new Table( sequenceName : matcher[0][1], dbms: mysql)
+     tables << table
+     sequenceCreate = new SequenceCreate()
+     table.changes << sequenceCreate
+     rawlines.each() { line ->
+        checkSequenceColumns( line, sequenceCreate)        
+     }
+}
+
+def checkSequenceColumns(line, sequenceCreate)
+{
+    line = line.replaceFirst( /;/,"")
+    tokens = line.tokenize()
+     if (tokens[0] == "MINVALUE") {
+       sequenceCreate.getAttributes().put( "minValue" ,tokens[1])
+    } else if (tokens[0] == "START") {
+       sequenceCreate.getAttributes().put( "startValue" , tokens[2])
+    } else if (tokens[0] == "INCREMENT") {
+         sequenceCreate.getAttributes().put( "incrementBy" , tokens[2])
+    } else if (tokens[0] == "NOCACHE") {
+       // return new Column(nocache : "")
+    } else if (tokens[0] == "ORDER") {
+        if (tokens[1] == "NOCYCLE" ) {
+             sequenceCreate.getAttributes().put("ordered" , "true")
+        } else {
+             sequenceCreate.getAttributes().put( "ordered" , "false")
+        }
+    }
+}
+//-----------------------------------------------------------------------------------------
 def createOutName(String infilename,String datePrefix, counter)
 {
   outfilename = infilename.replaceAll(".sql", ".xml")  // Groovy extension to String. 
@@ -499,15 +727,17 @@ def createOutName(String infilename,String datePrefix, counter)
 
 def tables =[]
 
-def processLine(line) 
+def processLine(rawlines) 
 {
     //println "processLine " + line   
-    if (checkInsertion(line, tables) == true) return
-    if (checkDeletion(line, tables) == true) return
-    if (checkUpdates(line, tables) == true) return
-    if (checkAlters(line,tables) == true) return
-    if (checkDropTable(line, tables) == true) return
-     println "***Invalid line " + line
+    if (checkInsertion(rawlines.join(" "), tables) == true) return
+    if (checkDeletion(rawlines.join(" "), tables) == true) return
+    if (checkUpdates(rawlines.join(" "), tables) == true) return
+    if (checkAlters(rawlines.join(" "),tables) == true) return
+    if (checkDropTable(rawlines.join(" "), tables) == true) return
+    if (checkCreateTable(rawlines, tables) == true) return
+    if (checkSequence(rawlines, tables) == true) return
+     println "***Invalid line " + rawlines.join(" ")
     
 }
 
@@ -526,8 +756,8 @@ def processFile(infileName, outfileName,counter, jira, commentary, authorName)
          } else {
              rawlines << line.trim()
              if (line.trim() ==~ /.*;$/) {
-                 println rawlines.join(" ").trim()
-                 processLine( rawlines.join(" ").trim())
+                 println rawlines.join(" ")
+                 processLine( rawlines)
                  rawlines.clear()
              }
          }

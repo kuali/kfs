@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5754-2-1' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <addColumn tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' type='VARCHAR2(3)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-2' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <addColumn tableName='END_KEMID_T'>
+      <column name='TYP_PRIN_RESTR_CD' type='VARCHAR2(3)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-3' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR11' baseTableName='END_KEMID_T' baseColumnNames='TYP_INC_RESTR_CD' referencedTableName='END_TYP_RESTR_CD_T' referencedColumnNames='TYP_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-4' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <addForeignKeyConstraint constraintName='END_KEMID_TR12' baseTableName='END_KEMID_T' baseColumnNames='TYP_PRIN_RESTR_CD' referencedTableName='END_TYP_RESTR_CD_T' referencedColumnNames='TYP_RESTR_CD' />
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-5' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='OBS' />
+      <column name='TYP_PRIN_RESTR_CD' value='OBS' />
+      <where>KEMID LIKE '099%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-6' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='OBS' />
+      <column name='TYP_PRIN_RESTR_CD' value='OBS' />
+      <where>KEMID LIKE '909%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-7' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='TRU' />
+      <column name='TYP_PRIN_RESTR_CD' value='TRU' />
+      <where>KEMID LIKE '032%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-8' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='TRU' />
+      <column name='TYP_PRIN_RESTR_CD' value='TRU' />
+      <where>KEMID LIKE '038%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-9' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='TRU' />
+      <column name='TYP_PRIN_RESTR_CD' value='TRU' />
+      <where>KEMID LIKE '046%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-10' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <update tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' value='TRU' />
+      <column name='TYP_PRIN_RESTR_CD' value='PRU' />
+      <where>KEMID LIKE '037%'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-11' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <modifyColumn tableName='END_KEMID_T'>
+      <column name='TYP_INC_RESTR_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5754-2-12' failOnError='true'>
+    <comment> Endowment RFC: Move Income &amp; Principal Restriction Code out of Type Cod and put them into KEMID</comment>
+    <modifyColumn tableName='END_KEMID_T'>
+      <column name='TYP_PRIN_RESTR_CD' type='VARCHAR2(3)'>
+        <constraints nullable='false' />
+      </column>
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

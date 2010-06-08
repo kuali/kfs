@@ -606,7 +606,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isPlantAuthorized(Person user) {
         String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
 
         AttributeSet roleQualifiers = new AttributeSet();
@@ -627,7 +627,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
         if (!isAuthorized) {
             LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");
-            return true;
+            return false;
         }
 
         LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");

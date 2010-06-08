@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -40,6 +41,20 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  */
 public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDocumentAuthorizer.class);
+    
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+
+        Organization org = null;
+        if (businessObject instanceof MaintenanceDocument) {
+            org = (Organization) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        }
+        else {
+            org = (Organization) businessObject;
+        }
+        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
+    }
 
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {

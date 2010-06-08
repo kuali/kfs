@@ -37,7 +37,6 @@ import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -85,16 +84,16 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * Forces the processing of rules when saving.
      * 
-     * @param document MaintenanceDocument 
-     * @return boolean true when valid; Namely we need to enforce foreign key constraints else processCustomSaveDocumentBusinessRules 
-     *      does not force user back to the document for error correction.
+     * @param document MaintenanceDocument
+     * @return boolean true when valid; Namely we need to enforce foreign key constraints else
+     *         processCustomSaveDocumentBusinessRules does not force user back to the document for error correction.
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean valid = super.isDocumentValidForSave(document);
 
-        if(valid){
+        if (valid) {
             AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
             setupConvenienceObjects();
@@ -103,8 +102,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
-    
-    
+
+
     /**
      * Processes rules when saving this global.
      * 
@@ -136,7 +135,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        
+
         // add doc header description if retirement reason is "MERGED"
         if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
             if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION.toLowerCase())) {

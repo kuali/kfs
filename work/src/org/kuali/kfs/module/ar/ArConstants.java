@@ -150,4 +150,7 @@ public class ArConstants {
     public static final String ACTUALS_BALANCE_TYPE_CODE = "AC";
     public static final String PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE = "APP";
     
+    // Section Ids
+    public static final String  ORGANIZATION_OPTIONS_EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
+    
 }

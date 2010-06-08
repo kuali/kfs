@@ -69,7 +69,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         AccountAutoCreateDefaults defaults = (AccountAutoCreateDefaults) businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
         
         if (defaults == null) {
-            errorMessages.add(KcConstants.AccountCreationService.ERROR_ACCOUNT_PARAMS_UNIT_NOTFOUND);
+            errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND);
             accountCreationStatus.setErrorMessages(errorMessages); 
         } else {        
             // create an account object        

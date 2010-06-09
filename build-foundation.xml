@@ -120,6 +120,7 @@ are intended for use only by Kuali Foundation developers.
             </then>
         </if>
         <maven goals="package" modulePath="/${rice.web.module.name}" />
+    	<delete dir="${build.appserver.directory}" includes="${rice.server.war.file.name.prefix}*.war" />
         <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.war.file.name}" 
         	  tofile="${build.appserver.directory}/${rice.server.war.file.name}" verbose="true" overwrite="true" />
     </target>

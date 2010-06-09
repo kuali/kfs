@@ -26,9 +26,4 @@ public class CashTransferDocument extends EndowmentSecurityDetailsDocumentBase i
         initializeSubType();
     }
     
-    @Override
-    public void prepareForSave() 
-    {
-        super.prepareForSave();
-    } 
 }

@@ -27,12 +27,6 @@ public class CashIncreaseDocument extends EndowmentSecurityDetailsDocumentBase i
         super();
         setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
         initializeSubType();
-    }
-    
-    @Override
-    public void prepareForSave() 
-    {
-        super.prepareForSave();
     }    
 
 }

@@ -39,19 +39,4 @@ public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase 
         setTransactionSourceTypeCode("M");
     }
 
-    @Override
-    public void prepareForSave() 
-    {
-        super.prepareForSave();
-    }
-    
-     /**
-     * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
-     */
-    @Override
-    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
-    {
-        super.toErrorCorrection();
-    }
-
 }

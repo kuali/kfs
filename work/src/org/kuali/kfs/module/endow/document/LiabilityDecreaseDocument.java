@@ -35,8 +35,7 @@ public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase 
 
 
     public LiabilityDecreaseDocument() {
-        super();
-        setTransactionSourceTypeCode("M");
+        super();        
     }
 
 }

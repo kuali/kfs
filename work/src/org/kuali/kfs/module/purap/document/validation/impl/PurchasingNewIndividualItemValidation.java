@@ -57,11 +57,11 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         }
         unitOfMeasureValidation.setItemForValidation(getItemForValidation());
         valid &= unitOfMeasureValidation.validate(event);
-
-        itemUnitPriceValidation.setItemForValidation(getItemForValidation());
-        valid &= itemUnitPriceValidation.validate(event);                     
         
         if (getItemForValidation().getItemType().isLineItemIndicator()) {
+            itemUnitPriceValidation.setItemForValidation(getItemForValidation());
+            valid &= itemUnitPriceValidation.validate(event);  
+            
             itemDescriptionValidation.setItemForValidation(getItemForValidation());
             valid &= itemDescriptionValidation.validate(event);
                         

@@ -69,9 +69,6 @@ public class PurchasingAccountsPayableBelowTheLineValuesValidation extends Gener
             }
             if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(itemForValidation.getItemDescription())) {
                 if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION) && parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
-                    // if
-                    // (parameterService.getIndicatorParameter(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)),
-                    // PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION)) {
                     valid = false;
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + itemForValidation.getItemType().getItemTypeDescription(), "empty");
                 }

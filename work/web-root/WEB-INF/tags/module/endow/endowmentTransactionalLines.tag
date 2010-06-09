@@ -201,6 +201,7 @@
 				</td>
 			</c:if>
 		</tr>
+		<c:if test="${hasUnits}">
         <tr>
 			<td class="total-line" colspan="5">
 				&nbsp;
@@ -219,3 +220,4 @@
 				</td>
 			</c:if>
 		</tr>
+		</c:if>

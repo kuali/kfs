@@ -421,7 +421,8 @@
   				<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
   				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
   				<bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" />
-  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />  				
+  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
+                <bean parent="PaymentRequest-lineItemQuantityNotZero" scope="prototype" />  				
   			</list>
   		</property>										
 	</bean>

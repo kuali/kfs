@@ -31,7 +31,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     private EndowmentTransactionLine newTargetTransactionLine;
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     private EndowmentTargetTransactionSecurity targetTransactionSecurity;
-    
+
     private String balanceInquiryReturnAnchor;
 
     /**
@@ -123,7 +123,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setTransactionLineImportFile(FormFile transactionLineImportFile) {
         this.transactionLineImportFile = transactionLineImportFile;
     }
-    
+
     /**
      * Gets the balanceInquiryReturnAnchor attribute.
      * 
@@ -142,8 +142,14 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
         this.balanceInquiryReturnAnchor = balanceInquiryReturnAnchor;
     }
 
-    public boolean getShowFromTransactionLine() 
-    {
+    /**
+     * Tells whether the source transaction lines add transaction line section should be displayed. By default this returns true for
+     * all documents. If a document needs to handle this in a more special way than this method should be overridden in the document
+     * Form class.
+     * 
+     * @return true
+     */
+    public boolean getShowFromTransactionLine() {
         return true;
     }
 }

@@ -195,18 +195,23 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_TAXLOT_INVALID = "error.document.transactionLine.taxlot.invalid";
 
         public static final String WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION = "warning.transactionLine.endowment.value.reduction";
-        
+
         public static final String ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL = "error.transactionLine.source.target.unit.equal";
         public static final String ERROR_TRANSACTION_LINE_SOURCE_TARGET_AMOUNT_EQUAL = "error.transactionLine.source.target.amount.equal";
-        
+
         public static final String WARNING_REDUCE_PERMANENTLY_RESTRICTED_FUNDS = "warning.document.transactionLine.reducePermanentlyRestrictedFunds";
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";
+
         // Asset increase constants
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
+
         // Asset decrease constants
         public static final String ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS = "error.assetDecreaseDocument.insufficientUnits";
         public static final String ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH = "error.assetDecreaseDocument.totalAmountDoesNotMatch";
         public static final String ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH = "error.assetDecreaseDocument.totalUnitsDoNotMatch";
+
+        // Security Transfer constants
+        public static final String ERROR_SECURITY_TRANSFER_ONE_AND_ONLY_ONE_SOURCE_TRANS_LINE = "error.document.securityTransfer.oneAndOnlyOneTransactionLine";
     }
 
     public static class TransactionalDocuments {

@@ -15,24 +15,17 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
-import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
-import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
+
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-public class SecurityTransferDocumentAction extends EndowmentTransactionLinesDocumentActionBase 
-{
+public class SecurityTransferDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
@@ -41,11 +34,17 @@ public class SecurityTransferDocumentAction extends EndowmentTransactionLinesDoc
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-
-        LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
         SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) etlDocument;
-        taxLotsService.updateLiabilityIncreaseTransactionLineTaxLots(isSource, securityTransferDocument, transLine);
+        if (transLine instanceof EndowmentSourceTransactionLine) {
+            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
+            taxLotsService.updateTransactionLineTaxLots(false, securityTransferDocument, transLine);
+        }
 
-    }        
+        if (transLine instanceof EndowmentTargetTransactionLine) {
+            // UpdateTaxLotsService taxLotsService = SpringContext.getBean(UpdateTaxLotsService.class);
+            // taxLotsService.updateTransactionLineTaxLots( securityTransferDocument, transLine);
+        }
+
+    }
 
 }

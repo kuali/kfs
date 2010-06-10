@@ -15,31 +15,27 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
-public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling 
-{
+public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling {
 
-
+    /**
+     * Constructs a SecurityTransferDocument.java.
+     */
     public SecurityTransferDocument() {
         super();
         setTransactionSourceTypeCode(TransactionSourceTypeCode.MANUAL);
         setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
-        
+
         initializeSubType();
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase#prepareForSave()
+     */
     @Override
     public void prepareForSave() {
         super.prepareForSave();

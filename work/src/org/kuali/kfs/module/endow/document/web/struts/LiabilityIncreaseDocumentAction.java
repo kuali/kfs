@@ -15,24 +15,14 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
-import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase 
-{
+public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
@@ -46,6 +36,6 @@ public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDo
         LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) etlDocument;
         taxLotsService.updateLiabilityIncreaseTransactionLineTaxLots(isSource, liabilityIncreaseDocument, transLine);
 
-    }        
+    }
 
 }

@@ -40,6 +40,9 @@ public class SecurityTransferDocumentForm extends EndowmentTransactionLinesDocum
         return (SecurityTransferDocument) getDocument();
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentFormBase#getShowFromTransactionLine()
+     */
     public boolean getShowFromTransactionLine() 
     {
         SecurityTransferDocument document = getSecurityTransferDocument();

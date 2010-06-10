@@ -20,21 +20,13 @@ import java.math.BigDecimal;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService;
-import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -49,17 +41,17 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
     private KEMService kemService;
 
 
-    public boolean checkSufficientUnitsAvaiable(String kemid, String securityID, String registrationCode, String transactionIPIndicatorCode, KualiDecimal units) 
-    {
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService#checkSufficientUnitsAvaiable(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     */
+    public boolean checkSufficientUnitsAvaiable(String kemid, String securityID, String registrationCode, String transactionIPIndicatorCode, KualiDecimal units) {
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(kemid, securityID, registrationCode, 1, transactionIPIndicatorCode);
-        
-        if(ObjectUtils.isNull(holdingTaxLot))
-        {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID,"Security");
+
+        if (ObjectUtils.isNull(holdingTaxLot)) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Security");
             return false;
         }
-        else if(holdingTaxLot.getUnits().compareTo(units.bigDecimalValue()) < 0)
-        {
+        else if (holdingTaxLot.getUnits().compareTo(units.bigDecimalValue()) < 0) {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
             return false;
         }
@@ -91,8 +83,7 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
 
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
 
-        if (ObjectUtils.isNotNull(holdingTaxLot)) 
-        {
+        if (ObjectUtils.isNotNull(holdingTaxLot)) {
             if (holdingTaxLot.getUnits().equals(KualiDecimal.ZERO) && holdingTaxLot.getCost().equals(KualiDecimal.ZERO)) {
                 taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
             }
@@ -129,18 +120,16 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
         }
 
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
-        if(ObjectUtils.isNotNull(holdingTaxLot))
-        {
-            if(holdingTaxLot.getUnits().compareTo(postiveUnitValue) < 0 )
-            {
+        if (ObjectUtils.isNotNull(holdingTaxLot)) {
+            if (holdingTaxLot.getUnits().compareTo(postiveUnitValue) < 0) {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
-   // Empty out Tax lot lines.
+                // Empty out Tax lot lines.
                 transLine.getTaxLotLines().remove(0);
             }
         }
         else {
             // Object must exist
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID,"Liability");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Liability");
             // Empty out Tax lot lines.
             transLine.getTaxLotLines().remove(0);
 
@@ -209,10 +198,20 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
         this.securityService = securityService;
     }
 
+    /**
+     * Gets the kemService.
+     * 
+     * @return kemService
+     */
     public KEMService getKemService() {
         return kemService;
     }
 
+    /**
+     * Sets the kemService.
+     * 
+     * @param kemService
+     */
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }

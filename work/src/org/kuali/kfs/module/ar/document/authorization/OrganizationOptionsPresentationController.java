@@ -68,12 +68,11 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * 
      * @param readOnlyPropertyNames
      */
-    protected void setRemitToNameEditable(Set<String> readOnlySectionIds) {
+    protected void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
         String nameEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
         if ("N".equalsIgnoreCase(nameEditable)) {
-            //readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
-            readOnlySectionIds.add(ArConstants.OrganizationOptionsSections.EDIT_ORGANIZATION_INVOICE_INFORMATION);
+            readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
     }
     

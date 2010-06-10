@@ -153,7 +153,6 @@ public class ArConstants {
     // Organization Options Section Ids
     public static class OrganizationOptionsSections {
         public static final String  EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
-        public static final String  EDIT_ORGANIZATION_INVOICE_INFORMATION = "Edit Organization Invoice Information";
     }
     
 }

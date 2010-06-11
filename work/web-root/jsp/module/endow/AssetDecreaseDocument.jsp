@@ -49,7 +49,8 @@
     	isSource="true"
     	isTarget="false"
     	displayGainLoss="true"
-    	showDeleteButton="true"
+    	showSourceDeleteButton="true"
+    	showTargetDeleteButton="false"
     	readOnly="${readOnly}"/>            
         
 	<kul:notes /> 

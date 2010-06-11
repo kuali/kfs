@@ -20,12 +20,11 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
+import org.kuali.kfs.module.endow.document.service.UpdateSecurityTransferTargetTaxLotsService;
 import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
-
 import org.kuali.kfs.sys.context.SpringContext;
 
-
-public class SecurityTransferDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
@@ -35,14 +34,15 @@ public class SecurityTransferDocumentAction extends EndowmentTransactionLinesDoc
     @Override
     protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
         SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) etlDocument;
+
         if (transLine instanceof EndowmentSourceTransactionLine) {
             UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
             taxLotsService.updateTransactionLineTaxLots(false, securityTransferDocument, transLine);
         }
 
         if (transLine instanceof EndowmentTargetTransactionLine) {
-            // UpdateTaxLotsService taxLotsService = SpringContext.getBean(UpdateTaxLotsService.class);
-            // taxLotsService.updateTransactionLineTaxLots( securityTransferDocument, transLine);
+            UpdateSecurityTransferTargetTaxLotsService taxLotsService = SpringContext.getBean(UpdateSecurityTransferTargetTaxLotsService.class);
+            taxLotsService.updateTransactionLineTaxLots(securityTransferDocument, transLine);
         }
 
     }

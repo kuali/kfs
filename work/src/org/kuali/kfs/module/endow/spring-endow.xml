@@ -331,6 +331,18 @@
 			<ref bean="kemService" />
 		</property>	
 	</bean>
+	
+	<bean id="updateSecurityTransferTargetTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateSecurityTransferTargetTaxLotsServiceImpl">
+		<property name="taxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+	</bean>
 
 	<bean id="liabilityDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.LiabilityDocumentServiceImpl">
 		<property name="taxLotService">

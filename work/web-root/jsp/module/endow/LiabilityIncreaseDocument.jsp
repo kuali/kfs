@@ -47,7 +47,8 @@
     	isSource="false"
     	isTarget="true"
     	displayGainLoss="false"
-    	showDeleteButton="false"
+    	showSourceDeleteButton="false"
+    	showTargetDeleteButton="false"
     	readOnly="${readOnly}"/>
 
   

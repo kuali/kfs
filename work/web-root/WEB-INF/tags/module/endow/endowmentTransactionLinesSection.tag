@@ -19,6 +19,7 @@
 <%@ attribute name="hasSource" required="true" %>
 <%@ attribute name="hasTarget" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
+
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tab tabTitle="Transaction Lines" defaultOpen="true" tabErrorKey="${EndowConstants.TRANSACTION_LINE_ERRORS}">

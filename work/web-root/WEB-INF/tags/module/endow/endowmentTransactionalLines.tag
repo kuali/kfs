@@ -18,6 +18,15 @@
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="isSource" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
+
+<c:set var="sourceGroupLabel" value="${KualiForm.sourceGroupLabelName}" />
+<c:set var="targetGroupLabel" value="${KualiForm.targetGroupLabelName}" />
+<c:set var="showIncomeTotalAmount" value="${KualiForm.showIncomeTotalAmount}" />
+<c:set var="showPrincipalTotalAmount" value="${KualiForm.showPrincipalTotalAmount}" />
+<c:set var="showIncomeTotalUnits" value="${KualiForm.showIncomeTotalUnits}" />
+<c:set var="showPrincipalTotalUnits" value="${KualiForm.showPrincipalTotalUnits}" />
+<c:set var="setFieldValueToPrincipal" value="${KualiForm.fieldValueToPrincipal}" />
+
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <c:if test="${isSource}" >
@@ -50,8 +59,8 @@
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
 	    <tr>
 	            <td colspan="1" class="tab-subhead" style="border-right: none;" align="left">
-	            <c:if test="${isSource}">FROM</c:if>
-	            <c:if test="${not isSource}">TO</c:if>
+	            <c:if test="${isSource}">${sourceGroupLabel}</c:if>
+	            <c:if test="${not isSource}">${targetGroupLabel}</c:if>
 	            </td>    
 	            <td colspan="5" class="tab-subhead" style="border-right: none;border-left: none;" >
 	            &nbsp;
@@ -125,7 +134,13 @@
 				                
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${newTransactionLine}.transactionLineDescription" /></td>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" /></td>
+
+				<c:if test="${setFieldValueToPrincipal}">
+                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" readOnly="true"/><strong>P-Principal</strong></td>
+				</c:if>
+				<c:if test="${not setFieldValueToPrincipal}">
+                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
+				</c:if>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right"/></td>
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
@@ -163,11 +178,18 @@
 				    </c:if>
                 </td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
-                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
+				
+				<c:if test="${setFieldValueToPrincipal}">
+	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="true"/><strong>P-Principal</strong></td>					
+				</c:if>
+				<c:if test="${not setFieldValueToPrincipal}">
+	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
+				</c:if>
+				
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly}" styleClass="right"/></td>
                 
                 <c:if test="${hasUnits}">
-                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
+	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>
                 <td class="datacell">
                 <div align="center">
@@ -187,14 +209,21 @@
 			<td class="total-line" colspan="5">
 				&nbsp;
 			</td>
-			<td class="total-line">
-				<strong>Total Income Amount:
-					${totalIncomeAmount}</strong>
-			</td>
-			<td class="total-line">
-			    <strong>Total Principal Amount:
-					${totalPrincipalAmount}</strong>
-			</td>
+			
+			<c:if test="${showIncomeTotalAmount}">
+				<td class="total-line">
+					<strong>Total Income Amount:
+						${totalIncomeAmount}</strong>
+				</td>
+			</c:if>
+			
+			<c:if test="${showPrincipalTotalAmount}">
+				<td class="total-line">
+				    <strong>Total Principal Amount:
+						${totalPrincipalAmount}</strong>
+				</td>
+			</c:if>	
+				
 			<c:if test="${!readOnly}">
 				<td class="total-line">
 					&nbsp;
@@ -206,14 +235,21 @@
 			<td class="total-line" colspan="5">
 				&nbsp;
 			</td>
-			<td class="total-line">
-				<strong>Total Income Units:
-					${totalIncomeUnits}</strong>
-			</td>
-			<td class="total-line">
-			    <strong>Total Principal Units:
-					${totalPrincipalUnits}</strong>
-			</td>
+			
+			<c:if test="${showIncomeTotalUnits}">
+				<td class="total-line">
+					<strong>Total Income Units:
+						${totalIncomeUnits}</strong>
+				</td>
+			</c:if>
+			
+			<c:if test="${showPrincipalTotalUnits}">			
+				<td class="total-line">
+				    <strong>Total Principal Units:
+						${totalPrincipalUnits}</strong>
+				</td>
+			</c:if>
+			
 			<c:if test="${!readOnly}">
 				<td class="total-line">
 					&nbsp;

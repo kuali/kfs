@@ -23,6 +23,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.module.endow.EndowConstants;
 
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
@@ -34,6 +35,22 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     private String balanceInquiryReturnAnchor;
 
+    //labels that appear on the transaction lines as group headers.
+    protected String sourceGroupLabelName = EndowConstants.SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME;
+    protected String targetGroupLabelName = EndowConstants.TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME;
+
+    //these properties control if the total amount and units show on the summary lines.
+    //the default is set to true to show the values on the document.
+    protected boolean showIncomeTotalAmount = true;
+    protected boolean showPrincipalTotalAmount = true;
+    
+    protected boolean showIncomeTotalUnits = true;
+    protected boolean showPrincipalTotalUnits = true;
+    
+    //the income or principal box value will be set on tag file using the property.
+    //if set to true, income or principal drop-down box will be readonly with value set to P-Principal
+    protected boolean fieldValueToPrincipal = false;
+    
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -151,5 +168,131 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public boolean getShowFromTransactionLine() {
         return true;
+    }
+    
+    /**
+     * Gets the sourceGroupLabelName attribute.
+     * 
+     * @return Returns the sourceGroupLabelName.
+     */
+    public String getSourceGroupLabelName() {
+        return sourceGroupLabelName;
+    }
+
+    /**
+     * Sets the sourceGroupLabelName attribute value.
+     * 
+     * @param sourceGroupLabelName The sourceGroupLabelName to set.
+     */
+    public void setSourceGroupLabelName(String sourceGroupLabelName) {
+        this.sourceGroupLabelName = sourceGroupLabelName;
+    }
+
+    /**
+     * Gets the targetGroupLabelName attribute.
+     * 
+     * @return Returns the targetGroupLabelName.
+     */
+    public String getTargetGroupLabelName() {
+        return targetGroupLabelName;
+    }
+
+    /**
+     * Sets the targetGroupLabelName attribute value.
+     * 
+     * @param targetGroupLabelName The targetGroupLabelName to set.
+     */
+    public void setTargetGroupLabelName(String targetGroupLabelName) {
+        this.targetGroupLabelName = targetGroupLabelName;
+    }
+    
+    /**
+     * Gets the showIncomeTotalAmount attribute.
+     * 
+     * @return Returns the showIncomeTotalAmount.
+     */
+    public boolean isShowIncomeTotalAmount() {
+        return showIncomeTotalAmount;
+    }
+
+    /**
+     * Sets the showIncomeTotalAmount attribute value.
+     * 
+     * @param showIncomeTotalAmount The showIncomeTotalAmount to set.
+     */
+    public void setShowIncomeTotalAmount(boolean showIncomeTotalAmount) {
+        this.showIncomeTotalAmount = showIncomeTotalAmount;
+    }
+
+    /**
+     * Gets the showIncomeTotalAmount attribute.
+     * 
+     * @return Returns the showIncomeTotalAmount.
+     */
+    public boolean isShowPrincipalTotalAmount() {
+        return showPrincipalTotalAmount;
+    }
+
+    /**
+     * Sets the showPrincipalTotalAmount attribute value.
+     * 
+     * @param showPrincipalTotalAmount The showPrincipalTotalAmount to set.
+     */
+    public void setShowPrincipalTotalAmount(boolean showPrincipalTotalAmount) {
+        this.showPrincipalTotalAmount = showPrincipalTotalAmount;
+    }
+
+    /**
+     * Gets the showIncomeTotalUnits attribute.
+     * 
+     * @return Returns the showIncomeTotalUnits.
+     */
+    public boolean isShowIncomeTotalUnits() {
+        return showIncomeTotalUnits;
+    }
+
+    /**
+     * Sets the showIncomeTotalUnits attribute value.
+     * 
+     * @param showIncomeTotalUnits The showIncomeTotalUnits to set.
+     */
+    public void setShowIncomeTotalUnits(boolean showIncomeTotalUnits) {
+        this.showIncomeTotalUnits = showIncomeTotalUnits;
+    }
+
+    /**
+     * Gets the showPrincipalTotalUnits attribute.
+     * 
+     * @return Returns the showPrincipalTotalUnits.
+     */
+    public boolean isShowPrincipalTotalUnits() {
+        return showPrincipalTotalUnits;
+    }
+
+    /**
+     * Sets the showIncomeTotalUnits attribute value.
+     * 
+     * @param showIncomeTotalUnits The showIncomeTotalUnits to set.
+     */
+    public void setShowPrincipalTotalUnits(boolean showPrincipalTotalUnits) {
+        this.showPrincipalTotalUnits = showPrincipalTotalUnits;
+    }
+    
+    /**
+     * Gets the fieldValueToPrincipal attribute.
+     * 
+     * @return Returns the fieldValueToPrincipal.
+     */
+    public boolean isFieldValueToPrincipal() {
+        return fieldValueToPrincipal;
+    }
+
+    /**
+     * Sets the fieldValueToPrincipal attribute value.
+     * 
+     * @param fieldValueToPrincipal The fieldValueToPrincipal to set.
+     */
+    public void setFeildValueToPrincipal(boolean fieldValueToPrincipal) {
+        this.fieldValueToPrincipal = fieldValueToPrincipal;
     }
 }

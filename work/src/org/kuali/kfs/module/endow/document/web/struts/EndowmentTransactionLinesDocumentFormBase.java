@@ -51,6 +51,9 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     //if set to true, income or principal drop-down box will be readonly with value set to P-Principal
     protected boolean fieldValueToPrincipal = false;
     
+    //show the etran code on the document...
+    protected boolean showETranCode = true;
+    
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -295,4 +298,22 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setFeildValueToPrincipal(boolean fieldValueToPrincipal) {
         this.fieldValueToPrincipal = fieldValueToPrincipal;
     }
+    
+    /**
+     * Gets the showETranCode attribute.
+     * 
+     * @return Returns the showETranCode.
+     */
+    public boolean isShowETranCode() {
+        return showETranCode;
+    }
+
+    /**
+     * Sets the showETranCode attribute value.
+     * 
+     * @param showETranCode The showETranCode to set.
+     */
+    public void setShowETranCode(boolean showETranCode) {
+        this.showETranCode = showETranCode;
+    }    
 }

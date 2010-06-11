@@ -31,6 +31,7 @@ public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocum
         this.setShowIncomeTotalUnits(false);
         this.setShowPrincipalTotalUnits(false);
         this.setFeildValueToPrincipal(true);
+        this.setShowETranCode(false);
     }
 
     @Override

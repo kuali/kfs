@@ -26,6 +26,7 @@
 <c:set var="showIncomeTotalUnits" value="${KualiForm.showIncomeTotalUnits}" />
 <c:set var="showPrincipalTotalUnits" value="${KualiForm.showPrincipalTotalUnits}" />
 <c:set var="setFieldValueToPrincipal" value="${KualiForm.fieldValueToPrincipal}" />
+<c:set var="showETranCode" value="${KualiForm.showETranCode}" />
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -100,7 +101,9 @@
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.kemid}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.etranCode}"/>
+            <c:if test="${showETranCode}">
+	            <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.etranCode}"/>
+            </c:if>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionLineDescription}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionIPIndicatorCode}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
@@ -124,15 +127,17 @@
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
             		</div>					                
 				</td>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCode" />
-                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
-				                fieldConversions="code:${newTransactionLine}.etranCode" />
-				    <br/>
-					<div id="${newTransactionLine}.div" class="fineprint">
-            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCodeObj.name" readOnly="true" />
-            		</div>						                
-				                
-                </td>
+				<c:if test="${showETranCode}">				
+	                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCode" />
+	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
+					                fieldConversions="code:${newTransactionLine}.etranCode" />
+					    <br/>
+						<div id="${newTransactionLine}.div" class="fineprint">
+	            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCodeObj.name" readOnly="true" />
+	            		</div>						                
+					                
+	                </td>
+	            </c:if> 
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${newTransactionLine}.transactionLineDescription" /></td>
 
 				<c:if test="${setFieldValueToPrincipal}">
@@ -170,13 +175,15 @@
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
                     </c:if>				                
                 </td>
-                <td class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCode" readOnly="${readOnly}"/>
-                	<c:if test="${not readOnly}">
-                		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
-				                    fieldConversions="code:${transLines}[${ctr}].etranCode" />
-				    </c:if>
-                </td>
+				<c:if test="${showETranCode}">                
+	                <td class="datacell">
+	                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCode" readOnly="${readOnly}"/>
+	                	<c:if test="${not readOnly}">
+	                		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
+					                    fieldConversions="code:${transLines}[${ctr}].etranCode" />
+					    </c:if>
+	                </td>
+	            </c:if>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
 				
 				<c:if test="${setFieldValueToPrincipal}">

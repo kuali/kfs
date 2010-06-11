@@ -209,6 +209,11 @@ public class EndowKeyConstants {
         public static final String ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS = "error.assetDecreaseDocument.insufficientUnits";
         public static final String ERROR_ASSET_DECREASE_TOTAL_AMOUNT_DOES_NOT_MATCH = "error.assetDecreaseDocument.totalAmountDoesNotMatch";
         public static final String ERROR_ASSET_DECREASE_TOTAL_UNITS_DO_NOT_MATCH = "error.assetDecreaseDocument.totalUnitsDoNotMatch";
+        
+        //Parser Errors
+        public static final String ERROR_LINEPARSER_INVALID_PROPERTY_VALUE = "error.lineParser.invalidPropertyValue";
+        public static final String ERROR_TRANSACTION_LINE_PARSE_INVALID = "error.transactionLineParser.line.invalid";
+        public static final String ERROR_LINEPARSER_WRONG_PROPERTY_NUMBER = "error.lineParser.wrongPropertyNumber";
 
         // Security Transfer constants
         public static final String ERROR_SECURITY_TRANSFER_ONE_AND_ONLY_ONE_SOURCE_TRANS_LINE = "error.document.securityTransfer.oneAndOnlyOneTransactionLine";

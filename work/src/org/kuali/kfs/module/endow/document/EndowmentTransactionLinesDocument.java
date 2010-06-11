@@ -21,6 +21,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
+import org.kuali.kfs.module.endow.util.LineParser;
+import org.kuali.kfs.module.endow.util.LineParserBase;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -212,4 +215,7 @@ public interface EndowmentTransactionLinesDocument extends EndowmentTransactiona
      */
     public EndowmentTargetTransactionLine getTargetTransactionLine(int index);
 
+    public Class getTranLineClass(boolean isSource); 
+    
+    public LineParser getLineParser();
 }

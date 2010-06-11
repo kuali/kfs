@@ -932,4 +932,6 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";
     
     public static final String ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.accountingdocument.accountinglineimport.general";
+    
+    public static final String ERROR_LINEPARSER_INVALID_FILE_FORMAT = "error.lineparser.invalid.file.format";
 }

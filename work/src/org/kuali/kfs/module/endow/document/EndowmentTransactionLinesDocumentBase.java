@@ -23,6 +23,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
+import org.kuali.kfs.module.endow.util.LineParser;
+import org.kuali.kfs.module.endow.util.LineParserBase;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -445,5 +448,18 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
             if( null != line.getTransactionUnits() && !line.getTransactionUnits().isZero() )
                 line.setTransactionUnits(line.getTransactionUnits().negated());
         }
+    }
+    
+    public Class getTranLineClass(boolean isSource) 
+    {
+        if(isSource)
+            return EndowmentSourceTransactionLine.class;
+        else
+            return EndowmentTargetTransactionLine.class;
+    }
+    
+    public LineParser getLineParser()
+    {
+        return new LineParserBase(); 
     }
 }

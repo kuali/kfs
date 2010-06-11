@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.endow.EndowConstants;
+import static org.kuali.kfs.module.endow.EndowConstants.*;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
@@ -49,6 +51,17 @@ import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteTransactionLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.RefreshTransactionLineEvent;
+import org.kuali.kfs.module.endow.exception.LineParserException;
+import org.kuali.kfs.module.endow.util.LineParser;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingActionBase;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
+import org.kuali.kfs.module.purap.exception.ItemParserException;
+import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -68,7 +81,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     private static final String REGISTRATION_SOURCE_REFRESH = "document.sourceTransactionSecurity.registrationCode";
     private static final String REGISTRATION_TARGET_REFRESH = "document.targetTransactionSecurity.registrationCode";
 
-
+    protected static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EndowmentTransactionLinesDocumentActionBase.class);
+    
     /**
      * @param mapping
      * @param form
@@ -77,9 +91,110 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward importTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    public ActionForward importSourceTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
+    {
+        importTransactionLines(true,form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward importTargetTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        importTransactionLines(false,form);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public void importTransactionLines(boolean isSource, ActionForm form) throws Exception 
+    {
+        log.info("Importing item lines");
+
+        EndowmentTransactionLinesDocumentFormBase tranLineForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument tranLineDocument = (EndowmentTransactionLinesDocument) tranLineForm.getDocument();
+        String documentNumber = tranLineDocument.getDocumentNumber();
+        
+        FormFile lineFile = tranLineForm.getTransactionLineImportFile();
+        Class lineClass = tranLineDocument.getTranLineClass(isSource);
+        List<EndowmentTransactionLine> importedTransactionLines = null;
+        
+        String errorPath = TRANSACTION_LINE_TAB_ERROR; 
+        LineParser lineParser = tranLineDocument.getLineParser(); 
+        
+        //Starting position of the imported items, equals the # of existing above-the-line items.
+        int itemLinePosition = 0;
+        int transactionLineSize=0;
+        if(isSource)
+        {
+            itemLinePosition = tranLineDocument.getNextSourceLineNumber();
+            transactionLineSize = tranLineDocument.getSourceTransactionLines().size();
+        }
+        else
+        {
+            itemLinePosition = tranLineDocument.getNextTargetLineNumber();
+            transactionLineSize = tranLineDocument.getTargetTransactionLines().size();
+        }
+        
+        try 
+        {
+            importedTransactionLines = lineParser.importLines(lineFile, lineClass, documentNumber);
+            
+            //Validate imported items
+            boolean rulePassed = true;
+            int lineNumber = 1;
+            for (EndowmentTransactionLine line : importedTransactionLines) 
+            {
+                /* 
+                  Before the validation, set the item line number to the same as the line number in the import file (starting from 
+                   1) So that the error message will use the correct line number if there're errors for the current item line.
+                */   
+
+                
+                //line.setTransactionLineNumber(++lineNumber);
+                
+                // check any business rules
+                //rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line, lineNumber ));
+
+                lineNumber++;
+            }
+            
+            if (rulePassed) 
+            {
+/*                if(isSource) 
+                {
+                    // add it to the document
+                    tranLineDocument.addSourceTransactionLine((EndowmentSourceTransactionLine) line);
+                }
+                else 
+                {
+                    // add it to the document
+                    tranLineDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
+                }*/
+                    
+                //Add the lines to the collection 1 by one.
+                for (EndowmentTransactionLine line : importedTransactionLines) 
+                {
+                    insertTransactionLine(isSource, tranLineForm, line); 
+                }
+            }
+        }
+        catch (LineParserException e) 
+        {
+            GlobalVariables.getMessageMap().putError(errorPath, e.getErrorKey(), e.getErrorParameters());
+        }
     }
 
     /**
@@ -102,7 +217,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
 
         if (rulePassed) {
             // add accountingLine
@@ -137,7 +252,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
 
         if (rulePassed) {
             // add accountingLine
@@ -192,7 +307,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         EndowmentTransactionLinesDocument etlDoc = etlForm.getEndowmentTransactionLinesDocumentBase();
 
         int deleteIndex = getLineToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTransactionLineEvent(errorPath, etlDoc, etlDoc.getSourceTransactionLine(deleteIndex)));
 
         // if the rule evaluation passed, let's delete it
@@ -222,7 +337,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         EndowmentTransactionLinesDocument etlDoc = etlForm.getEndowmentTransactionLinesDocumentBase();
 
         int deleteIndex = getLineToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteTransactionLineEvent(errorPath, etlDoc, etlDoc.getTargetTransactionLine(deleteIndex)));
 
         // if the rule evaluation passed, let's delete it
@@ -545,7 +660,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
 
         if (rulePassed) {
             updateTransactionLineTaxLots(false, endowmentDocument, transLine);
@@ -575,7 +690,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
 
         if (rulePassed) {
             updateTransactionLineTaxLots(true, endowmentDocument, transLine);
@@ -611,7 +726,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
                 EndowmentTransactionLine endowmentTransactionLine = (EndowmentTransactionLine) etlDocument.getSourceTransactionLines().get(i);
                 boolean rulePassed = true;
                 // check any business rules
-                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
 
                 if (rulePassed) {
                     updateTransactionLineTaxLots(true, etlDocument, endowmentTransactionLine);
@@ -625,7 +740,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
                 EndowmentTransactionLine endowmentTransactionLine = (EndowmentTransactionLine) etlDocument.getTargetTransactionLines().get(i);
                 boolean rulePassed = true;
                 // check any business rules
-                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, etlDocument, endowmentTransactionLine, i));
 
                 if (rulePassed) {
                     updateTransactionLineTaxLots(false, etlDocument, endowmentTransactionLine);

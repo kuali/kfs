@@ -42,6 +42,7 @@
   <c:set var="totalPrincipalAmount" value="${KualiForm.document.sourcePrincipalTotal}"/>
   <c:set var="totalIncomeUnits" value="${KualiForm.document.sourceIncomeTotalUnits}"/>
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.sourcePrincipalTotalUnits}"/>
+  <c:set var="importLineAction" value="importSourceTransactionLines"/>
 </c:if>
 <c:if test="${not isSource}">
   <c:set var="lineAttributes" value="${DataDictionary.EndowmentTargetTransactionLine.attributes}" />
@@ -55,6 +56,7 @@
   <c:set var="totalPrincipalAmount" value="${KualiForm.document.targetPrincipalTotal}"/>
   <c:set var="totalIncomeUnits" value="${KualiForm.document.targetIncomeTotalUnits}"/>
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.targetPrincipalTotalUnits}"/>
+  <c:set var="importLineAction" value="importTargetTransactionLines"/>
 </c:if>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
@@ -84,7 +86,7 @@
                     		'<\/a>' +
                     		'<div id="uploadDiv" style="display:none;" >' +
                       		'<html:file size="30" property="transactionLineImportFile" />' +
-                      		'<html:image property="methodToCall.importTransactionLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                      		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
                       		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
@@ -94,7 +96,7 @@
 					<NOSCRIPT>
 						Import lines
 						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
-						<html:image property="methodToCall.importTransactionLines" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</td>
 	    </tr>

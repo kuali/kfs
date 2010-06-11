@@ -28,8 +28,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
     protected FormFile transactionLineImportFile;
-    private EndowmentTransactionLine newSourceTransactionLine;
-    private EndowmentTransactionLine newTargetTransactionLine;
+    protected EndowmentTransactionLine newSourceTransactionLine;
+    protected EndowmentTransactionLine newTargetTransactionLine;
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     private EndowmentTargetTransactionSecurity targetTransactionSecurity;
 

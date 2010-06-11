@@ -386,7 +386,6 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-LD","LaborBalancingStep","NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE","KFS380","1","CONFG","1","Number of fiscal years to subtract from current fiscal year to represent what the start range on the balancing batch job is. This is used for laborBalancingStep.","A","KFS"
 "KFS-LD","LaborPosterStep","SENT_TO_GL_BALANCE_TYPES","KFS381","1","CONFG","A2","Restricted balance type code(s) for posting into the Labor GL entry table during the Labor Poster process.","D","KFS"
 "KFS-LD","LaborPosterStep","SENT_TO_GL_PERIOD_CODES","KFS382","1","CONFG","CB","Restricted fiscal period code(s) for posting into the Labor GL entry table during the Labor Poster process.","D","KFS"
-"KFS-LD","LaborPosterStep","SENT_TO_POSTER_OBJECT_CODES","KFS383","1","CONFG","","The accouting lines with the object codes are not posted","D","KFS"
 "KFS-LD","LaborPurgeBalanceStep","PRIOR_TO_YEAR","KFS384","1","CONFG","2001","Purge data from Labor Balance table before this year","A","KFS"
 "KFS-LD","LaborPurgeEntryStep","PRIOR_TO_YEAR","KFS385","1","CONFG","2004","Purge data from Labor Entry table before this year","A","KFS"
 "KFS-LD","LaborScrubberStep","ACCOUNTS_NOT_ACCEPTING_FRINGES_IND","KFS386","1","CONFG","N","Part of the Accounts Not Accepting Benefits Exclusion Logic used by the Labor Ledger Scrubber. If yes (Y), the Labor Ledger Scrubber will check for associated benefit accounts. If no (N), the scrubber will proceed with account supplied on transaction.","A","KFS"

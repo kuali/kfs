@@ -21,6 +21,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 
 /**
@@ -44,7 +45,7 @@ public class CorpusAdjustmentDocument extends EndowmentTransactionLinesDocumentB
         List<EndowmentTransactionLine> endowmentTransactionLines = this.getSourceTransactionLines();
         
         for (EndowmentTransactionLine endowmentTransactionLine : endowmentTransactionLines) {
-            endowmentTransactionLine.getIncomePrincipalIndicator().setCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+            endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
         }
     }
 
@@ -55,9 +56,7 @@ public class CorpusAdjustmentDocument extends EndowmentTransactionLinesDocumentB
         List<EndowmentTransactionLine> endowmentTransactionLines = this.getTargetTransactionLines();
         
         for (EndowmentTransactionLine endowmentTransactionLine : endowmentTransactionLines) {
-            endowmentTransactionLine.getIncomePrincipalIndicator().setCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+            endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);            
         }
     }
-
-
 }

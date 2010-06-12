@@ -40,12 +40,12 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
     }
     
     /**
-     * This method validates the Tx line but from Liability Increase perspective. 
+     * This method validates the Tx line but from Corpus Adjustment document. 
      * 
      * @param endowmentTransactionLinesDocumentBase
      * @param line
      * @param index
-     * @return
+     * @return true if validation successful else false.
      */
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index)
     {

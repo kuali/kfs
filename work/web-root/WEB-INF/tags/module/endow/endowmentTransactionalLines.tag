@@ -101,7 +101,13 @@
 				</td>
 	    </tr>
 		<tr>
-            <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
+		    <c:if test="${showIncomeTotalAmount}">
+        	    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
+		    </c:if>
+		    
+		    <c:if test="${!showIncomeTotalAmount}">
+            	<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="2"/>
+		    </c:if>		    
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.kemid}"/>
             <c:if test="${showETranCode}">
 	            <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.etranCode}"/>
@@ -119,7 +125,12 @@
       
         <c:if test="${not readOnly}">
             <tr>
+		    <c:if test="${showIncomeTotalAmount}">            
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
+            </c:if>
+		    <c:if test="${!showIncomeTotalAmount}">            
+                <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row" colspan="2"/>
+            </c:if>            
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemid" />
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
@@ -143,7 +154,7 @@
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${newTransactionLine}.transactionLineDescription" /></td>
 
 				<c:if test="${setFieldValueToPrincipal}">
-                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" readOnly="true"/><strong>P-Principal</strong></td>
+                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" readOnly="true"/></td>
 				</c:if>
 				<c:if test="${not setFieldValueToPrincipal}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
@@ -152,18 +163,19 @@
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
-                <td class="infoline">
-                  	<c:if test="${isSource && KualiForm.showFromTransactionLine}">
-	                	<div align="center">
-	                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
-	                	</div>
-                	</c:if>
-                	<c:if test="${not isSource}">
-	                	<div align="center">
-	                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
-	                	</div>
-                	</c:if>
-                </td>
+                
+	                <td class="infoline">
+	                  	<c:if test="${isSource && KualiForm.showFromTransactionLine}">
+		                	<div align="center">
+		                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+		                	</div>
+	                	</c:if>
+	                	<c:if test="${not isSource}">
+		                	<div align="center">
+		                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+		                	</div>
+	                	</c:if>
+	                </td>
             </tr>
         </c:if>
       
@@ -189,14 +201,12 @@
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
 				
 				<c:if test="${setFieldValueToPrincipal}">
-	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="true"/><strong>P-Principal</strong></td>					
+	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="true"/></td>					
 				</c:if>
 				<c:if test="${not setFieldValueToPrincipal}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
 				</c:if>
-				
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly}" styleClass="right"/></td>
-                
                 <c:if test="${hasUnits}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>
@@ -215,10 +225,10 @@
         </logic:iterate>
         
         <tr>
-			<td class="total-line" colspan="5">
-				&nbsp;
-			</td>
-			
+				<td class="total-line" colspan="5">
+					&nbsp;
+				</td>
+        
 			<c:if test="${showIncomeTotalAmount}">
 				<td class="total-line">
 					<strong>Total Income Amount:
@@ -232,12 +242,11 @@
 						${totalPrincipalAmount}</strong>
 				</td>
 			</c:if>	
-				
-			<c:if test="${!readOnly}">
-				<td class="total-line">
-					&nbsp;
-				</td>
-			</c:if>
+				<c:if test="${!readOnly}">
+					<td class="total-line">
+						&nbsp;
+					</td>
+				</c:if>
 		</tr>
 		<c:if test="${hasUnits}">
         <tr>

@@ -24,14 +24,22 @@ public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocum
 
     public CorpusAdjustmentDocumentForm() {
         super();
-        this.setSourceGroupLabelName(EndowConstants.CORPUS_ADJUSTMENT_SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME);
-        this.setTargetGroupLabelName(EndowConstants.CORPUS_ADJUSTMENT_TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME);
+        
+        setSourceGroupLabelName(EndowConstants.CORPUS_ADJUSTMENT_SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME);
+        setTargetGroupLabelName(EndowConstants.CORPUS_ADJUSTMENT_TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME);
+        
         // don't show these values on the edoc.
-        this.setShowIncomeTotalAmount(false);
-        this.setShowIncomeTotalUnits(false);
-        this.setShowPrincipalTotalUnits(false);
-        this.setFeildValueToPrincipal(true);
-        this.setShowETranCode(false);
+        setShowIncomeTotalAmount(false);
+        setShowIncomeTotalUnits(false);
+        setShowPrincipalTotalUnits(false);
+        
+        //set the drop-down value to P-Principal and make the field readonly
+        newSourceTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        newTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        setFeildValueToPrincipal(true);
+        
+        //do not show the etran code on the UI screen
+        setShowETranCode(false);
     }
 
     @Override

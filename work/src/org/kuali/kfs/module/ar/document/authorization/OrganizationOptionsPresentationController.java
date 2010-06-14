@@ -15,19 +15,35 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class OrganizationOptionsPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
+    protected static final String ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME = "Accounts Receivable Manager";
+    
     @Override
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
@@ -41,6 +57,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         setRemitToNameEditable(readOnlyPropertyNames);
         setOrgPostalZipCodeEditable(readOnlyPropertyNames);
         setBillingOrgFieldsEditable(readOnlyPropertyNames, document);
+        setProcessingOrgFieldsEditable(readOnlyPropertyNames, document);
         return readOnlyPropertyNames;
     }
 
@@ -58,6 +75,32 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         if (document.isEdit()) {
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE);
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE);
+        }
+    }
+    
+    /**
+     * Sets the processing Char/Org editable
+     * 
+     * @param readOnlyPropertyNames
+     * @param document
+     */
+    protected void setProcessingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
+        
+        if (document.isEdit()) {
+            
+            RoleManagementService rms = KIMServiceLocator.getRoleManagementService();
+            
+            Person user = GlobalVariables.getUserSession().getPerson();
+            String principalId = user.getPrincipalId();
+            
+            List<String> roleIds = new ArrayList<String>();
+            roleIds.add(rms.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
+            
+            // editable only for the AR Manager role
+            if (!rms.principalHasRole(principalId, roleIds, null)) {
+                readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
+                readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
+            } 
         }
     }
     

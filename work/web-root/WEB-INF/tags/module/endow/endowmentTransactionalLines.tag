@@ -181,7 +181,14 @@
       
         <logic:iterate id="item" name="KualiForm" property="${transLines}" indexId="ctr">
             <tr>
+            
+		    <c:if test="${showIncomeTotalAmount}">            
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row" ></kul:htmlAttributeHeaderCell>
+            </c:if>
+		    <c:if test="${!showIncomeTotalAmount}">            
+                <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row" colspan="2"></kul:htmlAttributeHeaderCell>
+            </c:if>     
+                   
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid" readOnly="${readOnly}"/>
                 	<c:if test="${not readOnly}">
@@ -199,7 +206,6 @@
 	                </td>
 	            </c:if>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>
-				
 				<c:if test="${setFieldValueToPrincipal}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="true"/></td>					
 				</c:if>

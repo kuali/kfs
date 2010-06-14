@@ -163,6 +163,7 @@ public class EndowKeyConstants {
     }
 
     public static class EndowmentTransactionDocumentConstants {
+        public static final String ERROR_DOCUMENT_CORPUS_ADJUSTMENT_TRANSACTION_LINES_COUNT_GREATER_THAN_ONE = "error.document.corpusAdjustment.transactionLines.atleatOneShouldExist";
         public static final String ERROR_TRANSACTION_LINE_KEMID_REQUIRED = "error.document.transactionLine.kemid.required";
         public static final String ERROR_TRANSACTION_LINE_KEMID_INVALID = "error.document.transactionLine.kemid.invalid";
         public static final String ERROR_TRANSACTION_LINE_KEMID_INACTIVE = "error.document.transactionLine.kemid.inactive";

@@ -15,10 +15,17 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
@@ -30,13 +37,7 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
     @Override
     public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLineDocument, EndowmentTransactionLine line) 
     {
-        boolean isValid = true; 
-        
-        String ERROR_PREFIX = getErrorPrefix(line, -1);
-        
-        isValid &= super.processAddTransactionLineRules(transLineDocument, line);
-        
-        return isValid;
+        return validateTransactionLine((EndowmentTransactionLinesDocumentBase) transLineDocument, line, -1);
     }
     
     /**
@@ -47,29 +48,45 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
      * @param index
      * @return true if validation successful else false.
      */
-    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index)
-    {
+    protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
+        isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
-        isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
+        String ERROR_PREFIX = getErrorPrefix(line, index);
 
-        if(isValid)
-        {
-            // Obtain Prefix for Error fields in UI.
-            String ERROR_PREFIX = getErrorPrefix(line, index);
-    
-            //Ensure for cash Tx do not have a Etran. 
-            isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
-    
-            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
-            {
-                // Validate Amount is Less than Zero.
-                isValid &= validateTransactionAmountLessThanZero(line, ERROR_PREFIX);
-            }
-            else
-            {
-                // Validate Amount is Greater than Zero.
-                isValid &= validateTransactionAmountGreaterThanZero(line, ERROR_PREFIX);
+        if (isValid) {
+            GlobalVariables.getMessageMap().clearErrorPath();
+
+            // General not null validation for KemID
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(), "kemid", line.getKemid(), false, ERROR_PREFIX + EndowPropertyConstants.KEMID);
+
+            // Validate KemID
+            if (!validateKemId(line, ERROR_PREFIX))
+                return false;
+
+            // Active Kemid
+            isValid &= isActiveKemId(line, ERROR_PREFIX);
+
+            // Validate no restriction transaction restriction
+            isValid &= validateNoTransactionRestriction(line, ERROR_PREFIX);
+
+            // Validate Income/Principal DropDown
+            SpringContext.getBean(DictionaryValidationService.class).validateAttributeRequired(line.getClass().getName(), "transactionIPIndicatorCode", line.getTransactionIPIndicatorCode(), false, ERROR_PREFIX + EndowPropertyConstants.TRANSACTION_IPINDICATOR);
+            isValid &= GlobalVariables.getMessageMap().getErrorCount() == 0 ? true : false;
+            if (!isValid)
+                return isValid;
+
+            // This error is checked in addition save rule method since the sub type is used for determining chart code.
+            if (!isSubTypeEmpty(endowmentTransactionLinesDocument))
+                return false;
+
+            // If non-cash transactions
+            if (nonCashTransaction(endowmentTransactionLinesDocument)) {
+                // Validate if a KEMID can have a principal transaction when IP indicator is P
+                if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))
+                    return false;
+                // Set Corpus Indicator
+                line.setCorpusIndicator(true);
             }
         }
 
@@ -79,35 +96,22 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) 
     {
-        boolean isValid = !GlobalVariables.getMessageMap().hasErrors();
-        
-        CorpusAdjustmentDocument corpusAdjustmentDocument = (CorpusAdjustmentDocument) document;
-        
-        if (isValid) 
-        {
-            if(!isValid)
-                return isValid;
-
-            // Empty out the Source Tx Line in weird case they got entered.
-            corpusAdjustmentDocument.getSourceTransactionLines().clear();
-
-            // Validate at least one Tx was entered.
-            if (!transactionLineSizeGreaterThanZero(corpusAdjustmentDocument, false))
-                return false;
-
-            isValid &= super.processCustomSaveDocumentBusinessRules(document);
-        }
-
-        return GlobalVariables.getMessageMap().getErrorCount() == 0;
+        return super.processCustomSaveDocumentBusinessRules(document);
     }
-
-
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        return super.processCustomRouteDocumentBusinessRules(document);
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+
+        if (isValid) {
+            CorpusAdjustmentDocument corpusAdjustmentDocument = (CorpusAdjustmentDocument) document;
+            if (corpusAdjustmentDocument.getSourceTransactionLines().isEmpty() && corpusAdjustmentDocument.getTargetTransactionLines().isEmpty()) {
+                putFieldError(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DOCUMENT_CORPUS_ADJUSTMENT_TRANSACTION_LINES_COUNT_GREATER_THAN_ONE);
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 }

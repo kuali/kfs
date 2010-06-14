@@ -34,8 +34,9 @@ public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocum
         setShowPrincipalTotalUnits(false);
         
         //set the drop-down value to P-Principal and make the field readonly
-        newSourceTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
-        newTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        getNewSourceTransactionLine().setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        getNewTargetTransactionLine().setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+
         setFeildValueToPrincipal(true);
         
         //do not show the etran code on the UI screen

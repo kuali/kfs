@@ -79,7 +79,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
     }
     
     /**
-     * Sets the processing Char/Org editable
+     * Sets the processing Chart/Org code editable
      * 
      * @param readOnlyPropertyNames
      * @param document

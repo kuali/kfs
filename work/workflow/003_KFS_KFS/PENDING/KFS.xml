@@ -1,0 +1,83 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        FSSM
+      </name>
+      <parent>
+        KFS
+      </parent>
+      <label>
+        FinancialSystemSimpleMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        KFSM
+      </name>
+      <parent>
+        KFS
+      </parent>
+      <label>
+        FinancialSystemComplexMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        KFST
+      </name>
+      <parent>
+        KFS
+      </parent>
+      <label>
+        FinancialSystemTransactionalDocument
+      </label>
+      <docSearchHelpURL>
+        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <security>
+        <securityAttribute class="org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute"/>
+      </security>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

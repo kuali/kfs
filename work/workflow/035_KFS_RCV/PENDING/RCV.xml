@@ -1,0 +1,106 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        RCVB
+      </name>
+      <parent>
+        RCV
+      </parent>
+      <label>
+        Bulk Receiving
+      </label>
+      <docHandler>
+        ${application.url}/purapBulkReceiving.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fbulkreceiving.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        RCVC
+      </name>
+      <parent>
+        RCV
+      </parent>
+      <label>
+        Correction Receiving
+      </label>
+      <docHandler>
+        ${application.url}/purapCorrectionReceiving.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freceivingcorrectiondocument.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        RCVL
+      </name>
+      <parent>
+        RCV
+      </parent>
+      <label>
+        Line Item Receiving
+      </label>
+      <docHandler>
+        ${application.url}/purapLineItemReceiving.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freceiving.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RelatesToOutstandingTransactions"/>
+          <split name="RelatesToOutstandingTransactions">
+            <branch name="True">
+              <role name="OutstandingTransactions" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="RelatesToOutstandingTransactions">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="OutstandingTransactions">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="Join"/>
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

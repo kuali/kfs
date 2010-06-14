@@ -1,0 +1,84 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        ECPS
+      </name>
+      <parent>
+        ECSM
+      </parent>
+      <label>
+        Report Period Status Code
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freportperiodstatuscode.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        ECRD
+      </name>
+      <parent>
+        ECSM
+      </parent>
+      <label>
+        Report Definition
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freportdefinition.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        ECPG
+      </name>
+      <parent>
+        ECSM
+      </parent>
+      <label>
+        Report Earn Paygroup
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freportearnpaygroup.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        ECRT
+      </name>
+      <parent>
+        ECSM
+      </parent>
+      <label>
+        Report Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Freporttype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

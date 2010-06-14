@@ -1,0 +1,242 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        FR
+      </name>
+      <parent>
+        CAMM
+      </parent>
+      <label>
+        AssetFabricationMaintenanceDocument
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fassetfabrication.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Management"/>
+          <role name="Management"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Management">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        ALOC
+      </name>
+      <parent>
+        CAMM
+      </parent>
+      <label>
+        Asset Location Global
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        CASM
+      </name>
+      <parent>
+        CAMM
+      </parent>
+      <label>
+        Asset
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Feditasset.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        ARG
+      </name>
+      <parent>
+        CAMM
+      </parent>
+      <label>
+        Asset Retirement Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fassetretirementglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="RetiredAssetTransferredExternally"/>
+          <split name="RetiredAssetTransferredExternally" nextNode="OrganizationHierarchy">
+            <branch name="True">
+              <role name="ExternalTransfer" nextNode="JoinRetiredAssetTransferredExternally"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpExternal" nextNode="JoinRetiredAssetTransferredExternally"/>
+            </branch>
+            <join name="JoinRetiredAssetTransferredExternally"/>
+          </split>
+          <role name="OrganizationHierarchy" nextNode="RetiredAssetSoldOrGifted"/>
+          <split name="RetiredAssetSoldOrGifted">
+            <branch name="True">
+              <role name="Purchasing" nextNode="JoinRetiredAssetSoldOrGifted"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="JoinRetiredAssetSoldOrGifted"/>
+            </branch>
+            <join name="JoinRetiredAssetSoldOrGifted"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <split name="RetiredAssetTransferredExternally">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="ExternalTransfer">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="JoinRetiredAssetTransferredExternally"/>
+        <simple name="NoOpExternal">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <split name="RetiredAssetSoldOrGifted">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Purchasing">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="JoinRetiredAssetSoldOrGifted"/>
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        AA
+      </name>
+      <parent>
+        CAMM
+      </parent>
+      <label>
+        Asset Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fassetglobaladd.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresReview"/>
+          <split name="RequiresReview">
+            <branch name="True">
+              <role name="Account" nextNode="OrganizationHierarchy"/>
+              <role name="OrganizationHierarchy" nextNode="JoinRequiresReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresReview" nextNode="JoinRequiresReview"/>
+            </branch>
+            <join name="JoinRequiresReview"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="RequiresReview">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="JoinRequiresReview"/>
+        <simple name="NoOpRequiresReview">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

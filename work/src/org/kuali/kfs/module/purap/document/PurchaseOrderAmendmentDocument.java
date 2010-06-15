@@ -53,20 +53,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         super();
     }
 
-    /**
-     * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
-     * processed. Overriding this method so that entries are not created yet.
-     * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
-     */
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-        LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
-        setSourceAccountingLines(new ArrayList());
-        setGeneralLedgerPendingEntries(new ArrayList());
-        customPrepareForSave(event);
-    }
-
+    
     @Override
     public List<Long> getWorkflowEngineDocumentIdsToLock() {
         return super.getWorkflowEngineDocumentIdsToLock();

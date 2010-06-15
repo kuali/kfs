@@ -157,4 +157,5 @@
 <include file="updates/2010-06-04-5754-1-END_KEMID_T.xml"/>
 <include file="updates/2010-06-07-5754-1-END_TYPE_T.xml"/>
 <include file="updates/2010-06-08-5616-INGEST-ENDOW.xml"/>
+<include file="updates/2010-06-14-1-KRIM_PERM_T.xml"/>
 </databaseChangeLog>

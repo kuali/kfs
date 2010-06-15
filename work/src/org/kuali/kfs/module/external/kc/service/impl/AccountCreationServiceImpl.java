@@ -85,7 +85,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             accountCreationStatus.setErrorMessages(errorMessages); 
         }
 
-        accountCreationStatus.setSuccess(errorMessages.isEmpty() ? true : false);
+        accountCreationStatus.setSuccess(errorMessages.isEmpty() ? true : false); 
 
         return accountCreationStatus;
     }
@@ -242,7 +242,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 return false;
             }
             
-            if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
+            if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
                 getDocumentService().saveDocument(maintenanceAccountDocument);
             }
             else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
@@ -256,6 +256,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         catch (WorkflowException wfe) {
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
             errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            try {
+                // save it even though it fails to route or blanket approve the document
+                //TODO: need to save the KC user as well
+                getDocumentService().saveDocument(maintenanceAccountDocument);
+            } catch (WorkflowException we) {
+                LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  we.getMessage()); 
+                errorMessages.add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  we.getMessage());
+            }
             return false;
         }
     }

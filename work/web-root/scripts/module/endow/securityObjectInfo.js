@@ -48,11 +48,11 @@ function loadSecurityInfo( securityIdFieldName)
 			} 
 			else 
 			{
-				setRecipientValue( classCodeField, wrapError( "Security not found" ), true );			
+				setRecipientValue( securityCodeField, wrapError( "Security description not found" ), true );			
 			} },
 			errorHandler:function( errorMessage ) 
 			{ 
-				setRecipientValue( classCodeField, wrapError( "Security not found" ), true );
+				setRecipientValue( securityCodeField, wrapError( "Security description not found" ), true );
 			}
 		};
 		EndowmentTransactionDocumentService.getSecurity( securityId, dwrReply );

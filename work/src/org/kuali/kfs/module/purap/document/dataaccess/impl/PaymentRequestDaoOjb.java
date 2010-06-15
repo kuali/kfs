@@ -130,7 +130,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             c1.addLessOrEqualThan("paymentRequestPayDate", onOrBeforePaymentRequestPayDate);
 
             Criteria c2 = new Criteria();
-            c2.addEqualTo("immediatePaymentIndicator", Boolean.FALSE);
+            c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
             c1.addOrCriteria(c2);
             criteria.addAndCriteria(c1);

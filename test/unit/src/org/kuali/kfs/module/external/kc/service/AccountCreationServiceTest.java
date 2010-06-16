@@ -27,6 +27,7 @@ import org.kuali.kfs.module.external.kc.dto.AccountParameters;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 
 @ConfigureContext(session = khuntley)
 public class AccountCreationServiceTest extends KualiTestBase 
@@ -63,37 +64,35 @@ public class AccountCreationServiceTest extends KualiTestBase
     }
     
     /**
-     * TODO
-     * This method...
+     * This method tests the service locally
      */
-    public void testCreateAccount() 
-    {   AccountCreationStatus creationStatus =
+    public void testCreateAccountLocally() 
+    {   
+        AccountCreationStatus creationStatus =
             accountCreationService.createAccount(accountParameters);
     
+        System.out.println("account number: " + creationStatus.getAccountNumber()); 
+        
         assertTrue(creationStatus.isSuccess());
     }
 
+    
     /**
-     * TODO
-     * This method...
+     * This method tests the service using KSB, but locally 
      */
-    public void testCreateAccountWsClient() 
-    {   
-        try {
-            URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
-            QName qName = new QName("KFS", "accountCreationServiceSOAP");
-            
-            Service service = Service.create(url, qName);
-            AccountCreationService accountService = (AccountCreationService)service.getPort(AccountCreationService.class);
-                    
-            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);
+    public void testCreateAccountServiceWithKSB() {
         
-            System.out.println(creationStatus.getAccountNumber());
+        try {                        
+            AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceSOAP"));  
+            //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceSOAP"); // error
             
+            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);        
+            System.out.println("account number: " + creationStatus.getAccountNumber());        
             assertTrue(creationStatus.isSuccess());
             
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error: " + e.getMessage());
         }
     }
+
 }

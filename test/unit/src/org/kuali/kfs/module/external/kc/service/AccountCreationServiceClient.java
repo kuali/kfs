@@ -24,6 +24,10 @@ import junit.framework.TestCase;
 
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
 import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.ksb.service.KSBServiceLocator;
 
 public class AccountCreationServiceClient extends TestCase
 {
@@ -53,10 +57,9 @@ public class AccountCreationServiceClient extends TestCase
     }
     
     /**
-     * TODO
-     * This method...
+     * This method tests the remote Service without using KSB
      */
-    public void testCreateAccount() 
+    public void testCreateAccountServiceSoap() 
     {   
         try {
             URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
@@ -65,14 +68,31 @@ public class AccountCreationServiceClient extends TestCase
             Service service = Service.create(url, qName);
             AccountCreationService accountService = (AccountCreationService)service.getPort(AccountCreationService.class);
                     
-            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);
-        
-            System.out.println(creationStatus.getAccountNumber());
-            
+            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);      
+            System.out.println("account number: " + creationStatus.getAccountNumber());            
             assertTrue(creationStatus.isSuccess());
             
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * This method tests the remote Service using KSB
+     * Works with the kuali environment (KSB should be up), but not here
+     */
+    public void testCreateAccountServiceNoSoap() {
+        
+        try {                        
+            //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceLocal"));
+            AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceLocal");
+            
+            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);        
+            System.out.println("account number: " + creationStatus.getAccountNumber());        
+            assertTrue(creationStatus.isSuccess());
+            
+        } catch (Exception e) {
+            System.out.println("error: " + e.getMessage());
         }
     }
 

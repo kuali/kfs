@@ -19,12 +19,11 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -93,4 +92,16 @@ public interface AssetRetirementService {
      * @return
      */
     ObjectCode getOffsetFinancialObject(String chartOfAccountsCode);
+
+    /**
+     * This method generates the calculatedTotal amount based on salePrice + handlingFeeAmount + preventiveMaintenanceAmount.
+     * 
+     * @param salePrice
+     * @param handlingFeeAmount
+     * @param preventiveMaintenanceAmount
+     * @return
+     */
+//    String generateCalculatedTotal(KualiDecimal salePrice, KualiDecimal handlingFeeAmount, KualiDecimal preventiveMaintenanceAmount);
+    String generateCalculatedTotal(String salePrice, String handlingFeeAmount, String preventiveMaintenanceAmount);
+    
 }

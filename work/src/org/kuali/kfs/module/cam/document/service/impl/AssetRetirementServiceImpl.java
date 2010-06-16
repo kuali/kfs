@@ -414,4 +414,57 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
         return plantFundAccount;
     }
+    
+    /**
+     * This method generates the calculatedTotal amount based on salePrice + handlingFeeAmount + preventiveMaintenanceAmount.
+     * 
+     * @param salePrice
+     * @param handlingFeeAmount
+     * @param preventiveMaintenanceAmount
+     * @return
+     */
+    public String generateCalculatedTotal(String salePrice, String handlingFeeAmount, String preventiveMaintenanceAmount) {
+        KualiDecimal calculatedTotal = KualiDecimal.ZERO;
+
+        if (!salePrice.isEmpty()) {
+            KualiDecimal testAmount = toKualiDecimal(salePrice);
+            if(testAmount.isZero()){
+              return "Please enter Sale Price in 1234567.00 Format";
+            }
+            calculatedTotal = calculatedTotal.add(testAmount);
+        }
+        if (!handlingFeeAmount.isEmpty()) {
+            KualiDecimal testAmount = toKualiDecimal(handlingFeeAmount);
+            if(testAmount.isZero()){
+               return "Please enter Handling Fee Amount in 1234567.00 Format";
+            }
+            calculatedTotal = calculatedTotal.add(testAmount);
+        }
+        if (!preventiveMaintenanceAmount.isEmpty()) {
+            KualiDecimal testAmount = toKualiDecimal(preventiveMaintenanceAmount);
+            if(testAmount.isZero()){
+              return "Please enter Preventive Maintenance Amount in 1234567.00 Format";
+            }
+            calculatedTotal = calculatedTotal.add(testAmount);
+        }
+
+        return calculatedTotal.toString();
+    }
+
+    /**
+     * This method converts a String to a KualiDecimal via Double. Or else returns a Zero to invoke proper error message and to avoid breaking DWR call
+     * 
+     * @param amount
+     * @return
+     */
+    protected KualiDecimal toKualiDecimal(String amount) {
+        KualiDecimal newAmount;
+        try{
+            newAmount = new KualiDecimal(java.lang.Double.parseDouble(amount));
+        }catch(NumberFormatException e){
+            return KualiDecimal.ZERO;
+        }
+        return newAmount;
+    }
+
 }

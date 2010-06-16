@@ -48,6 +48,12 @@
     <property name="workflowAttributes">
       <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowAttributes"/>
     </property>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AssetRetirementService.js</value>
+        <value>../scripts/module/cams/assetRetirementGlobalMaintenanceDocument.js</value>
+      </list>
+    </property>
     <property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>
   </bean>
 
@@ -121,11 +127,11 @@
     <property name="title" value="Auction or Sold"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="buyerDescription"/>
-        <bean parent="MaintainableFieldDefinition" p:name="salePrice"/>
-        <bean parent="MaintainableFieldDefinition" p:name="estimatedSellingPrice"/>
-        <bean parent="MaintainableFieldDefinition" p:name="handlingFeeAmount"/>
-        <bean parent="MaintainableFieldDefinition" p:name="preventiveMaintenanceAmount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buyerDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="salePrice" p:required="true" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
+        <!-- <bean parent="MaintainableFieldDefinition" p:name="estimatedSellingPrice"/> -->
+        <bean parent="MaintainableFieldDefinition" p:name="handlingFeeAmount" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
+        <bean parent="MaintainableFieldDefinition" p:name="preventiveMaintenanceAmount" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
         <bean parent="MaintainableFieldDefinition" p:name="calculatedTotal" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="cashReceiptFinancialDocumentNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementChartOfAccountsCode"/>

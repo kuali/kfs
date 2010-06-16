@@ -869,8 +869,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         if (this.preventiveMaintenanceAmount != null) {
             this.calculatedTotal = calculatedTotal.add(this.preventiveMaintenanceAmount);
         }
-        if (this.estimatedSellingPrice != null) {
-            this.calculatedTotal = calculatedTotal.add(this.estimatedSellingPrice);
+        if (this.salePrice != null) {
+            this.calculatedTotal = calculatedTotal.add(this.salePrice);
         }
         return calculatedTotal;
     }

@@ -27,5 +27,12 @@
 	    	<param name="beanName" value="accountingPeriodService" />
 	    	<include method="getByStringDate" />
 	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.cam.businessobject.AssetRetirementGlobal">
+	   		<param name="include" value="calculatedTotal,salePrice,handlingFeeAmount,preventiveMaintenanceAmount" />
+	   	</convert>
+	    <create creator="spring" javascript="AssetRetirementService">
+	    	<param name="beanName" value="assetRetirementService" />
+	    	<include method="generateCalculatedTotal" />
+	    </create>
 	</allow>
 </dwr>

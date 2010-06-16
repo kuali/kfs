@@ -360,10 +360,7 @@
 	
 <!-- END of Asset Bar Code inventory batch job -->
 	
-<!-- 	<bean id="accountingPeriodService" class="org.kuali.kfs.coa.service.impl.AccountingPeriodServiceImpl">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    </bean>
- --> 
+	 
  	<bean id="assetGlobalService" class="org.kuali.kfs.module.cam.document.service.impl.AssetGlobalServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />
     	<property name="assetService" ref="assetService"/>

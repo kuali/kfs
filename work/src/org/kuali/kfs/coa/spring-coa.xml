@@ -88,6 +88,12 @@
 		</property>
 	</bean>
 
+	<bean id="AccountPersistenceStructureService" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl">
+		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
+    	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
+    	<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+	</bean>
+
 	<bean id="projectCodeService" class="org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl">
 		<property name="projectCodeDao">
 			<ref bean="projectCodeDao" />

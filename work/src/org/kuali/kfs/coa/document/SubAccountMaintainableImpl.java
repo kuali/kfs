@@ -18,13 +18,18 @@ package org.kuali.kfs.coa.document;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -34,6 +39,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class...
  */
 public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
+    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintainable.class);
+
+    // account fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.
+    public static final String[] COA_CODE_NAMES = {        
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE, 
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
+    };
+    public static final String[] ACCOUNT_NUMBER_NAMES = {        
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_ACCOUNT_NUMBER, 
+        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER,
+    };
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
@@ -65,4 +81,36 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
             a21SubAccountService.populateCgIcrAccount(a21SubAccount, chartOfAccountsCode, accountNumber);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
+     * 
+     * Special treatment is needed to populate chart code fields from account number fields 
+     * in nested reference accounts a21SubAccount.costShareAccount and a21SubAccount.indirectCostRecoveryAcct
+     * when accounts can't cross charts.
+     */
+    @Override
+    protected void populateChartOfAccountsCodeFields() {
+        super.populateChartOfAccountsCodeFields();
+        PersistableBusinessObject bo = getBusinessObject();        
+        AccountService acctService = SpringContext.getBean(AccountService.class);
+
+        for (int i=0; i<COA_CODE_NAMES.length; i++) {
+            String coaCodeName = COA_CODE_NAMES[i];            
+            String acctNumName = ACCOUNT_NUMBER_NAMES[i];        
+            String accountNumber = (String)ObjectUtils.getPropertyValue(bo, acctNumName);
+            String coaCode = null;
+            Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+            if (account != null) {
+                coaCode = account.getChartOfAccountsCode();
+            }
+            try {
+                ObjectUtils.setObjectProperty(bo, coaCodeName, coaCode); 
+            }
+            catch (Exception e) {
+                LOG.error("Error in setting property value for " + coaCodeName);
+            } 
+        }
+    }
+    
 }

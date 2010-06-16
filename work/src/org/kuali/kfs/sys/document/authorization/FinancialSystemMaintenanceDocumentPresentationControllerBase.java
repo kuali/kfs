@@ -15,12 +15,45 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 
 public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
+    
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
+        Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
+
+        // if accounts can't cross charts, then all chartOfAccountsCode fields shall be displayed readOnly
+        if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            AccountPersistenceStructureService apsService = SpringContext.getBean(AccountPersistenceStructureService.class);
+            PersistableBusinessObject bo = document.getNewMaintainableObject().getBusinessObject();      
+            
+            // non-collection reference accounts 
+            Set<String> coaCodeNames = apsService.listChartOfAccountsCodeNames(bo);            
+            readOnlyPropertyNames.addAll(coaCodeNames);
+
+            // collection reference accounts   
+            coaCodeNames = apsService.listCollectionChartOfAccountsCodeNames(bo); 
+            readOnlyPropertyNames.addAll(coaCodeNames);
+        }
+        
+        return readOnlyPropertyNames;                
+    }
+    
 }

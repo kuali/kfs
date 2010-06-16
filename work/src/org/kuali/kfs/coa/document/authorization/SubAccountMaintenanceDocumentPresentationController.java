@@ -13,43 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.authorization;
+
+package org.kuali.kfs.coa.document.authorization;
 
 import java.util.Set;
 
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
-public class AccountMaintenanceDocumentPresentationControllerBase extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-    public static final String NEW_COLLECTION_RECORD = "add";
+
+//This class can be shared by all account-involved maintenance documents which have special nested reference accounts.
+public class SubAccountMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     
-    public static String[] coaPropertyNames = {
-        // Account
-        KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ENDOWMENT_INCOME_CHART_OF_ACCOUNTS_CODE,
-        KFSPropertyConstants.CONTINUATION_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.INCOME_STREAM_CHART_OF_ACCOUNTS_CODE,
-        KFSPropertyConstants.CONTRACT_CONTROL_CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
-        // Sub-Account
+    // COA code fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.
+    public static final String[] COA_CODE_NAMES = {        
         KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE, 
         KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
-        // Award
-        NEW_COLLECTION_RECORD + "." + KFSPropertyConstants.AWARD_ACCOUNTS + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE 
     };
 
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * 
+     * This methods adds the extra COA code fields that are PKs of nested reference accounts but don't exist in the BO as FKs
+     * to the readOnlyPropertyNames set when accounts can't cross charts. 
+     * Since these fields aren't included in AccountPersistenceStructureService.listChartOfAccountsCodeNames as 
+     * in super.getConditionallyReadOnlyPropertyNames, they need to be added individually for such special cases.
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
+        // if accounts can't cross charts, then add the extra chartOfAccountsCode fields to be displayed readOnly
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
-            for (int i=0; i<coaPropertyNames.length; i++) {
-                readOnlyPropertyNames.add(coaPropertyNames[i]);
+            for (int i=0; i<COA_CODE_NAMES.length; i++) {
+                readOnlyPropertyNames.add(COA_CODE_NAMES[i]);
             }
         }
         
         return readOnlyPropertyNames;                
     }
+    
 }

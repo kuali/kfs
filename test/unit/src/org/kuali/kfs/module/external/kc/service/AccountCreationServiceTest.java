@@ -66,7 +66,7 @@ public class AccountCreationServiceTest extends KualiTestBase
     /**
      * This method tests the service locally
      */
-    public void testCreateAccountLocally() 
+    public void testCreateAccountServiceLocally() 
     {   
         AccountCreationStatus creationStatus =
             accountCreationService.createAccount(accountParameters);

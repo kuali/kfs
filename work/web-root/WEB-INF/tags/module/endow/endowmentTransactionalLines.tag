@@ -211,11 +211,17 @@
                 </td>
 				<c:if test="${showETranCode}">                
 	                <td class="datacell">
-	                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCode" readOnly="${readOnly}"/>
+	                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCode"
+	                		onblur="loadEndowmentTransactionName('${transLines}[${ctr}].etranCode, 'document.${transLines}[${ctr}].etranCodeObj.name.div');"
+	                		readOnly="${readOnly}"/>&nbsp;
 	                	<c:if test="${not readOnly}">
 	                		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
 					                    fieldConversions="code:${transLines}[${ctr}].etranCode" />
 					    </c:if>
+				    <br/>
+					<div id="document.${transLines}[${ctr}].etranCodeObj.name.div">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCodeObj.name" readOnly="true" />
+            		</div>					                
 	                </td>
 	            </c:if>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionLineDescription}" property="${transLines}[${ctr}].transactionLineDescription" readOnly="${readOnly}"/></td>

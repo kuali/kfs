@@ -15,6 +15,11 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type='text/javascript' src="dwr/interface/KEMIDService.js"></script>
+<script type='text/javascript' src="dwr/interface/EndowmentTransactionCodeService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/endow/endowmentTransactionCode.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/endow/kemIdForTransactionLines.js"></script>
+
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="isSource" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
@@ -122,7 +127,6 @@
                 <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
             </c:if>
 		</tr>
-      
         <c:if test="${not readOnly}">
             <tr>
 		    <c:if test="${showIncomeTotalAmount}">            
@@ -130,22 +134,26 @@
             </c:if>
 		    <c:if test="${!showIncomeTotalAmount}">            
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row" colspan="2"/>
-            </c:if>            
+            </c:if>   
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemid" />
-                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
-				                fieldConversions="kemid:${newTransactionLine}.kemid" />
+                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" 
+                		property="${newTransactionLine}.kemid"
+                		onblur="loadTransactionLineKEMIDShortTitle('${newTransactionLine}.kemid', '${newTransactionLine}.kemidObj.ShortTitle.div');"
+	            		readOnly="${readOnly}"/>&nbsp;
+	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
+					                fieldConversions="kemid:${newTransactionLine}.kemid" />
 				    <br/>
-					<div id="${newTransactionLine}.div" class="fineprint"">
+					<div id="${newTransactionLine}.kemidObj.ShortTitle.div">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
             		</div>					                
 				</td>
 				<c:if test="${showETranCode}">				
-	                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCode" />
+	                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}"
+	                	 property="${newTransactionLine}.etranCode" onblur="loadEndowmentTransactionName('${newTransactionLine}.etranCode', '${newTransactionLine}.etranCodeObj.name.div');" readOnly="${readOnly}"/>&nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
-					                fieldConversions="code:${newTransactionLine}.etranCode" />
+					                fieldConversions="code:${newTransactionLine}.etranCode" />&nbsp;
 					    <br/>
-						<div id="${newTransactionLine}.div" class="fineprint">
+						<div id="${newTransactionLine}.etranCodeObj.name.div">
 	            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCodeObj.name" readOnly="true" />
 	            		</div>						                
 					                
@@ -190,11 +198,12 @@
             </c:if>     
                    
                 <td class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid" readOnly="${readOnly}"/>
+                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid"
+                	 />
                 	<c:if test="${not readOnly}">
                 		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
-                    </c:if>				                
+                    </c:if>	
                 </td>
 				<c:if test="${showETranCode}">                
 	                <td class="datacell">

@@ -27,7 +27,7 @@
 	var errorMessage = "Endowment Transaction code description not found";	
  	setFeeEndowmentCodeDescription(feeEndowmentCodeFieldName, feeEndowmentCodeDescriptionFieldName, errorMessage);
  }
-  
+ 
  function setFeeEndowmentCodeDescription(feeEndowmentCodeFieldName, feeEndowmentCodeDescriptionFieldName, errorMessage){
  
 	var feeEndowmentCode = DWRUtil.getValue(feeEndowmentCodeFieldName);

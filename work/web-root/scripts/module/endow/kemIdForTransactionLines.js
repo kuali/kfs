@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function loadKEMIDShortTitle(){
-	var elPrefix = findElPrefix(kemidFieldName.name);
-	var kemidShortTitleFieldName = elPrefix + ".kemidObj.shortTitle";
- 	setKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName);
- }
- 
-function setKEMIDShortTitle( kemidFieldName, kemidShortTitleFieldName ){
+function loadTransactionLineKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName){
 	var kemid = DWRUtil.getValue( kemidFieldName );
-    
+
 	if (kemid =='') {
-		clearRecipients(kemidShortTitleFieldName, "");
+		setRecipientValue(kemidShortTitleFieldName, "");
 	} else {
 		kemid = kemid.toUpperCase();
+		
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( kemidShortTitleFieldName, data.shortTitle );
+				setRecipientValue( kemidShortTitleFieldName, data.shortTitle );				
 			} else {
 				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );			
 			} },
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );
+				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );				
 			}
 		};
+		
 		KEMIDService.getByPrimaryKey( kemid, dwrReply );
 	}
-}
+ }

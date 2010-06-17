@@ -29,7 +29,6 @@ function loadSecurityInfo( securityIdFieldName)
     var transactionCodeField = "document." + securityType + "TransactionSecurity.security.classCode.securityEndowmentTransactionCode";
     var taxLotIndicatorField = "document." + securityType + "TransactionSecurity.security.classCode.taxLotIndicator";
     
-
 	clearRecipients(securityCodeField, "");
 	clearRecipients(classCodeField, "-");
 	clearRecipients(transactionCodeField, "-");

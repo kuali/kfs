@@ -189,7 +189,6 @@
       
         <logic:iterate id="item" name="KualiForm" property="${transLines}" indexId="ctr">
             <tr>
-            
 		    <c:if test="${showIncomeTotalAmount}">            
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row" ></kul:htmlAttributeHeaderCell>
             </c:if>
@@ -199,11 +198,16 @@
                    
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid"
-                	 />
+						onblur="loadTransactionLineKEMIDShortTitle('document.${property}', '${transLines}[${ctr}].kemidObj.ShortTitle.div');"                	
+                	 />&nbsp;
                 	<c:if test="${not readOnly}">
                 		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
                     </c:if>	
+				    <br/>
+					<div id="document.${transLines}[${ctr}].kemidObj.ShortTitle.div">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemidObj.shortTitle" readOnly="true" />
+            		</div>					                
                 </td>
 				<c:if test="${showETranCode}">                
 	                <td class="datacell">

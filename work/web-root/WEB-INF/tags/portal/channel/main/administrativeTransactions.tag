@@ -53,10 +53,14 @@
 				title="Labor Ledger Correction Process"
 				url="laborLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=LLCP" />
 		</li>
-    </ul>
+    </ul>    
 	<strong>System</strong>
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Electronic Fund Transfer" url="electronicFundTransfer.do?methodToCall=start" /></li>
-	</ul>
+	</ul>	   
+    <strong>Endowment</strong><br />
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Corpus Adjustment" url="endowCorpusAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECA" /></li>
+     </ul>
 </div>
 <channel:portalChannelBottom />

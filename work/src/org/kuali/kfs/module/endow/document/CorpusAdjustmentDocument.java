@@ -28,7 +28,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
  * This is the transactional document that is used to record a modification to the 
  * corpus value of the true endowment
  */
-public class CorpusAdjustmentDocument extends EndowmentTransactionLinesDocumentBase implements Copyable, Correctable, AmountTotaling {
+public class CorpusAdjustmentDocument extends EndowmentTransactionLinesDocumentBase implements Copyable, Correctable{
 
     public CorpusAdjustmentDocument() {
         super();

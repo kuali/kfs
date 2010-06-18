@@ -61,6 +61,16 @@ public class WorkflowImporter {
             Arrays.sort(dirs);
             
             for ( File dir : dirs ) {
+                LOG.info( "Processing Directory: " + dir.getAbsolutePath() );
+                File[] xmlFiles = dir.listFiles( new FileFilter() {
+                    public boolean accept(File pathname) {
+                        return pathname.isFile() && pathname.getName().endsWith( ".xml" );
+                    }
+                });
+                if ( xmlFiles.length == 0 ) {
+                    LOG.info( "Directory was empty - skipping." );
+                    continue;
+                }
                 File pendingDir = new File( dir, "pending" );
                 if ( !pendingDir.exists() ) {
                     pendingDir.mkdir();
@@ -74,11 +84,6 @@ public class WorkflowImporter {
                     failedDir.mkdir();
                 }
                 
-                File[] xmlFiles = dir.listFiles( new FileFilter() {
-                    public boolean accept(File pathname) {
-                        return pathname.isFile() && pathname.getName().endsWith( ".xml" );
-                    }
-                });
                 
                 Arrays.sort( xmlFiles );
 
@@ -93,7 +98,7 @@ public class WorkflowImporter {
 
                 LOG.info( "Reading XML files from     : " + pendingDir.getAbsolutePath() );
                 LOG.info( "Completed Files will go to : " + completedDir.getAbsolutePath() );
-                LOG.info( "Failed files wil go to     : " + failedDir.getAbsolutePath() );
+                LOG.info( "Failed files will go to    : " + failedDir.getAbsolutePath() );
 
                 parser.run();
             }            

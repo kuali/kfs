@@ -16,6 +16,12 @@
 package org.kuali.kfs.sys;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
 
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.rice.kew.batch.XmlPollerServiceImpl;
@@ -29,30 +35,68 @@ public class WorkflowImporter {
             System.exit(-1);
         }
         try {
-            File pendingDir = new File( args[0], "pending" );
-            if ( !pendingDir.exists() ) {
-            	throw new IllegalArgumentException( "Pending directory does not exist! - " + pendingDir.getAbsolutePath() );
-            }
-            File completedDir = new File( args[0], "completed" );
-            if ( !completedDir.exists() ) {
-            	completedDir.mkdir();
-            }
-            File failedDir = new File( args[0], "failed" );
-            if ( !failedDir.exists() ) {
-            	failedDir.mkdir();
-            }
+//            File pendingDir = new File( args[0], "pending" );
+//            if ( !pendingDir.exists() ) {
+//            	throw new IllegalArgumentException( "Pending directory does not exist! - " + pendingDir.getAbsolutePath() );
+//            }
+//            File completedDir = new File( args[0], "completed" );
+//            if ( !completedDir.exists() ) {
+//            	completedDir.mkdir();
+//            }
+//            File failedDir = new File( args[0], "failed" );
+//            if ( !failedDir.exists() ) {
+//            	failedDir.mkdir();
+//            }
             Log4jConfigurer.configureLogging(false);
-            LOG.info( "Reading XML files from     : " + pendingDir.getAbsolutePath() );
-            LOG.info( "Completed Files will go to : " + completedDir.getAbsolutePath() );
-            LOG.info( "Failed files wil go to     : " + failedDir.getAbsolutePath() );
             SpringContextForWorkflowImporter.initializeApplicationContext();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
-            parser.setXmlPendingLocation( pendingDir.getAbsolutePath() );
-            parser.setXmlCompletedLocation( completedDir.getAbsolutePath() );
-            parser.setXmlProblemLocation( failedDir.getAbsolutePath() );
+            
+            File baseDir = new File( args[0] );
+            File[] dirs = baseDir.listFiles( new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isDirectory() && !pathname.getName().startsWith(".");
+                }
+            });     
+            Arrays.sort(dirs);
+            
+            for ( File dir : dirs ) {
+                File pendingDir = new File( dir, "pending" );
+                if ( !pendingDir.exists() ) {
+                    pendingDir.mkdir();
+                }
+                File completedDir = new File( dir, "completed" );
+                if ( !completedDir.exists() ) {
+                    completedDir.mkdir();
+                }
+                File failedDir = new File( dir, "problem" );
+                if ( !failedDir.exists() ) {
+                    failedDir.mkdir();
+                }
+                
+                File[] xmlFiles = dir.listFiles( new FileFilter() {
+                    public boolean accept(File pathname) {
+                        return pathname.isFile() && pathname.getName().endsWith( ".xml" );
+                    }
+                });
+                
+                Arrays.sort( xmlFiles );
 
-            parser.run();
+                for ( File xmlFile : xmlFiles ) {
+                    LOG.info("Copying to pending: " + xmlFile.getName());
+                    copyFile( xmlFile, new File( pendingDir, xmlFile.getName() ) );
+                }
+                
+                parser.setXmlPendingLocation( pendingDir.getAbsolutePath() );
+                parser.setXmlCompletedLocation( completedDir.getAbsolutePath() );
+                parser.setXmlProblemLocation( failedDir.getAbsolutePath() );
+
+                LOG.info( "Reading XML files from     : " + pendingDir.getAbsolutePath() );
+                LOG.info( "Completed Files will go to : " + completedDir.getAbsolutePath() );
+                LOG.info( "Failed files wil go to     : " + failedDir.getAbsolutePath() );
+
+                parser.run();
+            }            
             
             SpringContextForWorkflowImporter.close();
             System.exit(0);
@@ -62,5 +106,19 @@ public class WorkflowImporter {
             t.printStackTrace(System.err);
             System.exit(-1);
         }
+    }
+
+    private static void copyFile(File sourceFile, File destFile) throws Exception{
+        InputStream in = new FileInputStream(sourceFile);
+
+        OutputStream out = new FileOutputStream(destFile);
+
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 }

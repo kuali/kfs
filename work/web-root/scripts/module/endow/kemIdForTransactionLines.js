@@ -15,24 +15,23 @@
  */
 function loadTransactionLineKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName){
 	var kemid = DWRUtil.getValue( kemidFieldName );
-
+	
 	if (kemid =='') {
 		setRecipientValue(kemidShortTitleFieldName, "");
 	} else {
-		kemid = kemid.toUpperCase();
-		
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( kemidShortTitleFieldName, data.shortTitle );				
+				setRecipientValue(kemidFieldName, data.kemid);
+				setRecipientValue(kemidShortTitleFieldName, data.shortTitle);
 			} else {
-				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );			
+				setRecipientValue(kemidShortTitleFieldName, wrapError( "kemid not found"), true);			
 			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );				
+			errorHandler:function(errorMessage ) { 
+				setRecipientValue(kemidShortTitleFieldName, wrapError( "kemid not found"), true);				
 			}
 		};
 		
-		KEMIDService.getByPrimaryKey( kemid, dwrReply );
+		KEMIDService.getByPrimaryKey(kemid, dwrReply);
 	}
  }

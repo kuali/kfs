@@ -20,10 +20,10 @@
 		if (endowmentCode =='') {
 			setRecipientValue(endowmentCodeDescriptionFieldName, "");
 		} else {
-			endowmentCode = endowmentCode.toUpperCase();
 			var dwrReply = {
 				callback:function(data) {
 				if ( data != null && typeof data == 'object' ) {
+					setRecipientValue(endowmentCodeFieldName, data.code );					
 					setRecipientValue(endowmentCodeDescriptionFieldName, data.name );				
 				} else {
 					setRecipientValue(endowmentCodeDescriptionFieldName, wrapError("ETran code description not found"), true);			

@@ -59,11 +59,13 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
         if(null == tranCode)
             return null;
                
-        String returnArray[] = new String[4];
+        String returnArray[] = new String[5];
         returnArray[0] = security.getDescription(); 
         returnArray[1] = security.getSecurityClassCode() + " - " + classCode.getName();
         returnArray[2] = tranCode.getCode() + " - " + classCode.getName();
         returnArray[3] = new Boolean( security.getClassCode().isTaxLotIndicator()).toString();
+        returnArray[4] = security.getId();
+        
         
         return returnArray;
     }

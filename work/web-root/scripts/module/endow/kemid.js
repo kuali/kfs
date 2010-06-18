@@ -25,10 +25,10 @@ function setKEMIDShortTitle( kemidFieldName, kemidShortTitleFieldName ){
 	if (kemid =='') {
 		clearRecipients(kemidShortTitleFieldName, "");
 	} else {
-		kemid = kemid.toUpperCase();
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue(kemidFieldName, data.kemid);				
 				setRecipientValue( kemidShortTitleFieldName, data.shortTitle );
 			} else {
 				setRecipientValue( kemidShortTitleFieldName, wrapError( "kemid not found" ), true );			

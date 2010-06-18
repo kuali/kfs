@@ -19,9 +19,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class is the service implementation for the EndowmentTransactionCodeService. This is the default, Kuali provided implementation.
@@ -32,11 +35,17 @@ public class EndowmentTransactionCodeServiceImpl implements EndowmentTransaction
     /**
      * @see org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService#getByPrimaryKey(java.lang.String)
      */
-    public EndowmentTransactionCode getByPrimaryKey(String endowmentTransactionCodeString) {
+    public EndowmentTransactionCode getByPrimaryKey(String eTranCode) {
         EndowmentTransactionCode endowmentTransactionCode = null;
-        if (StringUtils.isNotBlank(endowmentTransactionCodeString)) {
+        
+        if (StringUtils.isNotBlank(eTranCode)) {
             Map criteria = new HashMap();
-            criteria.put("code", endowmentTransactionCodeString);
+
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(EndowmentTransactionCode.class, EndowPropertyConstants.KUALICODEBASE_CODE)) {
+                eTranCode = eTranCode.toUpperCase();
+            }
+            
+            criteria.put("code", eTranCode);
 
             endowmentTransactionCode = (EndowmentTransactionCode) businessObjectService.findByPrimaryKey(EndowmentTransactionCode.class, criteria);
         }

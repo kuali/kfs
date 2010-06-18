@@ -22,7 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class KEMIDServiceImpl implements KEMIDService {
 
@@ -33,12 +35,18 @@ public class KEMIDServiceImpl implements KEMIDService {
      */
     public KEMID getByPrimaryKey(String kemid) {
         KEMID theKemidObj = null;
+        
         if (StringUtils.isNotBlank(kemid)) {
             Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(KEMID.class, EndowPropertyConstants.KEMID)) {
+                kemid = kemid.toUpperCase();
+            }
+            
             criteria.put(EndowPropertyConstants.KEMID, kemid);
-
             theKemidObj = (KEMID) businessObjectService.findByPrimaryKey(KEMID.class, criteria);
         }
+        
         return theKemidObj;
     }
     

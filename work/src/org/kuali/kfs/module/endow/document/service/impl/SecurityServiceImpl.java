@@ -22,12 +22,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -45,6 +48,11 @@ public class SecurityServiceImpl implements SecurityService {
         Security security = null;
         if (StringUtils.isNotBlank(id)) {
             Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(Security.class, EndowPropertyConstants.SECURITY_ID)) {
+                id = id.toUpperCase();
+            }
+            
             criteria.put("id", id);
 
             security = (Security) businessObjectService.findByPrimaryKey(Security.class, criteria);

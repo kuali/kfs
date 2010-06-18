@@ -19,9 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class RegistrationCodeServiceImpl implements RegistrationCodeService {
 
@@ -32,8 +36,14 @@ public class RegistrationCodeServiceImpl implements RegistrationCodeService {
      */
     public RegistrationCode getByPrimaryKey(String code) {
         RegistrationCode registrationCode = null;
+        
         if (StringUtils.isNotBlank(code)) {
             Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(RegistrationCode.class, EndowPropertyConstants.KUALICODEBASE_CODE)) {
+                code = code.toUpperCase();
+            }
+            
             criteria.put("code", code);
             registrationCode = (RegistrationCode) businessObjectService.findByPrimaryKey(RegistrationCode.class, criteria);
 

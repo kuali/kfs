@@ -27,6 +27,7 @@ function loadRegistrationInfo( registrationCodeFieldName )
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) 
 			{
+				setRecipientValue( registrationCodeFieldName, data.code);				
 				setRecipientValue( registrationCodeField, data.name);
 			} 
 			else 

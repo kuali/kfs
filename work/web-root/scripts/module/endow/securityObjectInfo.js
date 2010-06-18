@@ -40,6 +40,7 @@ function loadSecurityInfo( securityIdFieldName)
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) 
 			{
+				setRecipientValue( securityIdFieldName, data[4]);				
 				setRecipientValue( securityCodeField, data[0]);
 				setRecipientValue( classCodeField, data[1]);
 				setRecipientValue( transactionCodeField, data[2] );

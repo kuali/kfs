@@ -15,41 +15,22 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.AssetTransferDocument;
-import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
-import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
-import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
-import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;

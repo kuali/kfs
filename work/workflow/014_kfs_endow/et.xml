@@ -1,0 +1,54 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>
+        ELI
+      </name>
+      <parent>
+        ET
+      </parent>
+      <docHandler>
+        ${application.url}/endowLiabilityIncrease.do?methodToCall=docHandler
+      </docHandler>
+    </documentType>
+    <documentType>
+      <name>
+        EAI
+      </name>
+      <parent>
+        ET
+      </parent>
+      <docHandler>
+        ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler
+      </docHandler>
+    </documentType>
+    <documentType>
+      <name>
+        ECI
+      </name>
+      <label>
+        Endowment Cash Increase
+      </label>
+      <parent>
+        ET
+      </parent>
+      <docHandler>
+        ${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler
+      </docHandler>
+    </documentType>
+    <documentType>
+      <name>
+        ECDD
+      </name>
+      <label>
+        Endowment Cash Decrease
+      </label>
+      <parent>
+        ET
+      </parent>
+      <docHandler>
+        ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler
+      </docHandler>
+    </documentType>
+  </documentTypes>
+</data>

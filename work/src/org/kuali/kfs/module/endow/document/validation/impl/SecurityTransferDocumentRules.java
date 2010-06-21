@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.rice.kns.document.Document;
@@ -172,5 +173,13 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         return super.processCustomRouteDocumentBusinessRules(document);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionalDocumentBaseRule#validateSecurityClassTypeCode(org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument, boolean, java.lang.String)
+     */
+    @Override
+    protected boolean validateSecurityClassTypeCode(EndowmentSecurityDetailsDocument document, boolean isSource, String classCodeType) {
+        return true;
     }
 }

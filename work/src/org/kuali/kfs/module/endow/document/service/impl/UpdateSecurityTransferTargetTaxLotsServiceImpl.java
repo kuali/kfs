@@ -53,7 +53,9 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             BigDecimal unitValue = sourceAmount.divide(sourceUnits);
 
             BigDecimal targetAmount = transLine.getTransactionUnits().bigDecimalValue().multiply(unitValue);
-
+            // set transaction line target amount
+            transLine.setTransactionAmount(new KualiDecimal(targetAmount));
+            
             EndowmentTransactionTaxLotLine taxLotLine = null;
             boolean newLine = false;
 
@@ -72,7 +74,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             }
 
             taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
-            taxLotLine.setLotHoldingCost(transLine.getTransactionAmount().bigDecimalValue());
+            taxLotLine.setLotHoldingCost(targetAmount);
 
 
             EndowmentTransactionSecurity endowmentTransactionSecurity = document.getTargetTransactionSecurity();

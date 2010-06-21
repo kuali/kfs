@@ -143,7 +143,7 @@
 	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 					                fieldConversions="kemid:${newTransactionLine}.kemid" />
 				    <br/>
-					<div id="${newTransactionLine}.kemidObj.ShortTitle.div">
+					<div id="${newTransactionLine}.kemidObj.ShortTitle.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
             		</div>					                
 				</td>
@@ -153,7 +153,7 @@
 	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode"
 					                fieldConversions="code:${newTransactionLine}.etranCode" />&nbsp;
 					    <br/>
-						<div id="${newTransactionLine}.etranCodeObj.name.div">
+						<div id="${newTransactionLine}.etranCodeObj.name.div" class="fineprint">
 	            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${newTransactionLine}.etranCodeObj.name" readOnly="true" />
 	            		</div>						                
 					                
@@ -205,7 +205,7 @@
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
                     </c:if>	
 				    <br/>
-					<div id="document.${transLines}[${ctr}].kemidObj.ShortTitle.div">
+					<div id="document.${transLines}[${ctr}].kemidObj.ShortTitle.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemidObj.shortTitle" readOnly="true" />
             		</div>					                
                 </td>
@@ -219,7 +219,7 @@
 					                    fieldConversions="code:${transLines}[${ctr}].etranCode" />
 					    </c:if>
 				    <br/>
-					<div id="document.${transLines}[${ctr}].etranCodeObj.name.div">
+					<div id="document.${transLines}[${ctr}].etranCodeObj.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}" property="${transLines}[${ctr}].etranCodeObj.name" readOnly="true" />
             		</div>					                
 	                </td>

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,9 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -36,6 +41,7 @@ import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
+import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
@@ -48,6 +54,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number> {
 
@@ -687,6 +694,56 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         else
             return true;
 
+    }
+
+    /**
+     * Validates that the KEMID has sufficient units in the tax lots to perform the transaction.
+     * 
+     * @param endowmentTransactionLinesDocumentBase
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    public boolean validateSufficientUnits(boolean isAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int transLineIndex, int taxLotIndex) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocument, true);
+        boolean isValid = true;
+        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
+
+        if (isAdd) {
+            holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
+        }
+        else {
+            List<EndowmentTransactionTaxLotLine> existingTransactionLines = line.getTaxLotLines();
+            for (int i = 0; i < existingTransactionLines.size(); i++) {
+                // don't take into account the tax lot line we are now deleting
+                if (i != taxLotIndex) {
+
+                    EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = (EndowmentTransactionTaxLotLine) existingTransactionLines.get(i);
+                    HoldingTaxLot holdingTaxLot = SpringContext.getBean(HoldingTaxLotService.class).getByPrimaryKey(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), line.getTransactionIPIndicatorCode());
+
+                    if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                        holdingTaxLots.add(holdingTaxLot);
+                    }
+                }
+            }
+        }
+
+        BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
+
+        if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
+            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+                totalTaxLotsUnits = totalTaxLotsUnits.add(holdingTaxLot.getUnits());
+            }
+        }
+
+        BigDecimal lineUnits = null;
+        lineUnits = line.getTransactionUnits().bigDecimalValue();
+
+        if (lineUnits.compareTo(totalTaxLotsUnits) == 1) {
+            isValid = false;
+            putFieldError(getErrorPrefix(line, transLineIndex) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+        }
+        return isValid;
     }
 
     /**

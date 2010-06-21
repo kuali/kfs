@@ -23,6 +23,7 @@
 <%@ attribute name="editingMode" required="false" description="used to decide if items may be edited" type="java.util.Map"%>
 <%@ attribute name="isSource" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
+<%@ attribute name="isTransAmntReadOnly" required="true" %>
 
 <c:set var="sourceGroupLabel" value="${KualiForm.sourceGroupLabelName}" />
 <c:set var="targetGroupLabel" value="${KualiForm.targetGroupLabelName}" />
@@ -167,7 +168,7 @@
 				<c:if test="${not setFieldValueToPrincipal}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
 				</c:if>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right"/></td>
+                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right" readOnly="${isTransAmntReadOnly}"/></td>
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
@@ -231,7 +232,7 @@
 				<c:if test="${not setFieldValueToPrincipal}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
 				</c:if>
-                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly}" styleClass="right"/></td>
+                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
                 <c:if test="${hasUnits}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -26,17 +25,13 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
 
@@ -159,59 +154,6 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             }
         }
 
-        return isValid;
-    }
-
-    /**
-     * Validates that the KEMID has sufficient units in the tax lots to perform the transaction.
-     * 
-     * @param endowmentTransactionLinesDocumentBase
-     * @param line
-     * @param index
-     * @return true if valid, false otherwise
-     */
-    private boolean validateSufficientUnits(boolean isAdd, EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine line, int transLineIndex, int taxLotIndex) {
-        EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocumentBase, true);
-        boolean isValid = true;
-        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
-
-        if (isAdd) {
-            holdingTaxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLots(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), line.getTransactionIPIndicatorCode());
-        }
-        else {
-            List<EndowmentTransactionTaxLotLine> existingTransactionLines = line.getTaxLotLines();
-            for (int i = 0; i < existingTransactionLines.size(); i++) {
-                // don't take into account the tax lot line we are now deleting
-                if (i != taxLotIndex) {
-
-                    EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = (EndowmentTransactionTaxLotLine) existingTransactionLines.get(i);
-                    HoldingTaxLot holdingTaxLot = SpringContext.getBean(HoldingTaxLotService.class).getByPrimaryKey(line.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), line.getTransactionIPIndicatorCode());
-
-                    if (ObjectUtils.isNotNull(holdingTaxLot)) {
-                        holdingTaxLots.add(holdingTaxLot);
-                    }
-                }
-            }
-        }
-
-        BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
-
-        if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
-            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
-                totalTaxLotsUnits = totalTaxLotsUnits.add(holdingTaxLot.getUnits());
-            }
-        }
-
-        BigDecimal lineUnits = null;
-        if (endowmentTransactionLinesDocumentBase.isErrorCorrectedDocument())
-            lineUnits = line.getTransactionUnits().bigDecimalValue().negate();
-        else
-            lineUnits = line.getTransactionUnits().bigDecimalValue();
-
-        if (lineUnits.compareTo(totalTaxLotsUnits) == 1) {
-            isValid = false;
-            putFieldError(getErrorPrefix(line, transLineIndex) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
-        }
         return isValid;
     }
 

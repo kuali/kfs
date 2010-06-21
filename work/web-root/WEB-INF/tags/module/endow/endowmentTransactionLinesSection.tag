@@ -19,6 +19,7 @@
 <%@ attribute name="hasSource" required="true" %>
 <%@ attribute name="hasTarget" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
+<%@ attribute name="isTransAmntReadOnly" required="true" %>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -27,10 +28,10 @@
  <div class="tab-container" align=center>
 	<h3>Transaction Lines</h3>
 	<c:if test="${hasSource}" >
-		<endow:endowmentTransactionalLines isSource="true" hasUnits="${hasUnits}"/>
+		<endow:endowmentTransactionalLines isSource="true" hasUnits="${hasUnits}" isTransAmntReadOnly="${isTransAmntReadOnly}"/>
 	</c:if>
 	<c:if test="${hasTarget}" >
-		<endow:endowmentTransactionalLines isSource="false" hasUnits="${hasUnits}"/>
+		<endow:endowmentTransactionalLines isSource="false" hasUnits="${hasUnits}" isTransAmntReadOnly="${isTransAmntReadOnly}"/>
 	</c:if>
         
 	</table>

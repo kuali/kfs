@@ -40,7 +40,7 @@
 
     <endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false" showRegistrationCode="true" openTabByDefault="true" />  
                   
-	<endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="true"/> 
+	<endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="true" isTransAmntReadOnly="false"/> 
                    
     <endow:endowmentTaxLotLine 
     	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 

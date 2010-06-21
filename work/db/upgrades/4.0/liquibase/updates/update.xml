@@ -161,4 +161,5 @@
 <include file="updates/2010-06-15-5759-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-06-16-5432-INGEST.xml"/>
 <include file="updates/2010-06-17-5813-1-krim_role_perm_t.xml"/>
+<include file="updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml"/>
 </databaseChangeLog>

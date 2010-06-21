@@ -607,9 +607,9 @@ def checkCreateTableLines(line, table)
         matcher = (line =~ /(?i)^CREATE TABLE ([a-zA-Z1-9_-]+).*/)
         if (matcher.matches() == true) return
      
-        matcher = (line =~ /^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ ]+([^ ]+\(.+\))(.*)/)  //  <name>  <type>(<size>)
+        matcher = (line =~ /(?i)^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ \t]+([^ ]+\(.+\))(.*)/)  //  <name>  <type>(<size>)
         if (matcher.matches()) {
-            // println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
+             println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
              liquibaseColumnName = matcher[0][1]
              liquibaseColumnType = matcher[0][2]
              liquibaseColumnNotNull = !(matcher[0][3] ==~ /(?i).*NOT NULL.*/)
@@ -625,9 +625,9 @@ def checkCreateTableLines(line, table)
              return
     
         }
-        matcher = (line =~ /^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ ]+([^ ,]+)(.*)/)  
+        matcher = (line =~ /(?i)^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ \t]+([^ ,]+)(.*)/)  
         if (matcher.matches()) {
-            // println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
+            println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
              liquibaseColumnName = matcher[0][1]
              liquibaseColumnType = matcher[0][2]
              liquibaseColumnNotNull = !(matcher[0][3] ==~ /(?i).*NOT NULL.*/)
@@ -643,6 +643,7 @@ def checkCreateTableLines(line, table)
              }
              return
          }
+         println "*** cannot decode " + line
 }
 
 def checkCreateTable(rawlines, tables)

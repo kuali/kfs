@@ -1,0 +1,45 @@
+-- *********************************************************************
+-- Update Database Script
+-- *********************************************************************
+-- Change Log: ./updates/update.xml
+-- Ran at: 6/21/10 12:44 PM
+-- Against: kuldemo@jdbc:mysql://localhost:3306/kuldemo
+-- LiquiBase version: 1.9.5
+-- *********************************************************************
+
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-1::Muddu::(MD5Sum: 8f8c9f25fb4c8b1db555ae9f03bbd35)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+CREATE TABLE `END_HIST_VAL_ADJ_DOC_T` (`FDOC_NBR` VARCHAR(14) NOT NULL, `TRAN_TYP_CD` VARCHAR(5) NOT NULL, `SEC_ID` VARCHAR(9) NOT NULL, `SEC_CLS_CD` VARCHAR(3), `SEC_VLTN_MTHD` VARCHAR(1), `HLDG_ME_DT_ID` DECIMAL(3, 0) NOT NULL, `SEC_UNIT_VAL` DECIMAL(19 , 5) DEFAULT '0.00000' NOT NULL, `SEC_MVAL` DECIMAL(19 , 2) DEFAULT '0.00' NOT NULL, `TRAN_PSTD` VARCHAR(1) DEFAULT 'N' NOT NULL, `OBJ_ID` VARCHAR(36) NOT NULL, `VER_NBR` DECIMAL(8, 0) DEFAULT '1' NOT NULL);
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-2::Muddu::(MD5Sum: 27dcbc5ffa3cf3bfb2361d1f8efee6ca)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+ALTER TABLE `END_HIST_VAL_ADJ_DOC_T` ADD PRIMARY KEY (`FDOC_NBR`);
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-3::Muddu::(MD5Sum: 59d9fd54411a62f2ea5c39cdbe3886a)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+ALTER TABLE `END_HIST_VAL_ADJ_DOC_T` ADD CONSTRAINT `END_HIST_VAL_ADJ_DOC_TR1` FOREIGN KEY (`FDOC_NBR`) REFERENCES `KRNS_DOC_HDR_T`(`DOC_HDR_ID`);
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-4::Muddu::(MD5Sum: 3a60c29a8a7137866cc4fc601ea5d9)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+ALTER TABLE `END_HIST_VAL_ADJ_DOC_T` ADD CONSTRAINT `END_HIST_VAL_ADJ_DOC_TR2` FOREIGN KEY (`TRAN_TYP_CD`) REFERENCES `END_TRAN_TYP_CD_T`(`TRAN_TYP_CD`);
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-5::Muddu::(MD5Sum: eca1b222fa37b64e7b75bb96158794fc)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+ALTER TABLE `END_HIST_VAL_ADJ_DOC_T` ADD CONSTRAINT `END_HIST_VAL_ADJ_DOC_TR3` FOREIGN KEY (`SEC_ID`) REFERENCES `END_SEC_T`(`SEC_ID`);
+
+
+-- Changeset updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml::5817-1-6::Muddu::(MD5Sum: d39f2f69b1bcffa9815d8078d6f2163c)
+-- create the table END_HIST_VAL_ADJ_DOC_T.
+ALTER TABLE `END_HIST_VAL_ADJ_DOC_T` ADD CONSTRAINT `END_HIST_VAL_ADJ_DOC_TR4` FOREIGN KEY (`HLDG_ME_DT_ID`) REFERENCES `END_ME_DT_T`(`ME_DT_ID`);
+
+
+-- Release Database Lock
+
+-- Release Database Lock
+

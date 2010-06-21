@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Muddu' id='5817-1-1' failOnError='true' dbms=''>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <createTable tableName='END_HIST_VAL_ADJ_DOC_T'>
+      <column name='FDOC_NBR' type='VARCHAR2(14)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_TYP_CD' type='VARCHAR2(5)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_CLS_CD' type='VARCHAR2(3)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='SEC_VLTN_MTHD' type='VARCHAR2(1)'>
+        <constraints nullable='true' />
+      </column>
+      <column name='HLDG_ME_DT_ID' type='NUMBER(3, 0)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_UNIT_VAL' type='NUMBER(19 , 5)' defaultValue='0.00000'>
+        <constraints nullable='false' />
+      </column>
+      <column name='SEC_MVAL' type='NUMBER(19 , 2)' defaultValue='0.00'>
+        <constraints nullable='false' />
+      </column>
+      <column name='TRAN_PSTD' type='VARCHAR2(1)' defaultValue='N'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8, 0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5817-1-2' failOnError='true'>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <addPrimaryKey tableName='END_HIST_VAL_ADJ_DOC_T' constraintName='END_HIST_VAL_ADJ_DOC__PK' columnNames='FDOC_NBR' />
+  </changeSet>
+  <changeSet author='Muddu' id='5817-1-3' failOnError='true'>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <addForeignKeyConstraint constraintName='END_HIST_VAL_ADJ_DOC_TR1' baseTableName='END_HIST_VAL_ADJ_DOC_T' baseColumnNames='FDOC_NBR' referencedTableName='KRNS_DOC_HDR_T' referencedColumnNames='DOC_HDR_ID' />
+  </changeSet>
+  <changeSet author='Muddu' id='5817-1-4' failOnError='true'>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <addForeignKeyConstraint constraintName='END_HIST_VAL_ADJ_DOC_TR2' baseTableName='END_HIST_VAL_ADJ_DOC_T' baseColumnNames='TRAN_TYP_CD' referencedTableName='END_TRAN_TYP_CD_T' referencedColumnNames='TRAN_TYP_CD' />
+  </changeSet>
+  <changeSet author='Muddu' id='5817-1-5' failOnError='true'>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <addForeignKeyConstraint constraintName='END_HIST_VAL_ADJ_DOC_TR3' baseTableName='END_HIST_VAL_ADJ_DOC_T' baseColumnNames='SEC_ID' referencedTableName='END_SEC_T' referencedColumnNames='SEC_ID' />
+  </changeSet>
+  <changeSet author='Muddu' id='5817-1-6' failOnError='true'>
+    <comment>create the table END_HIST_VAL_ADJ_DOC_T. </comment>
+    <addForeignKeyConstraint constraintName='END_HIST_VAL_ADJ_DOC_TR4' baseTableName='END_HIST_VAL_ADJ_DOC_T' baseColumnNames='HLDG_ME_DT_ID' referencedTableName='END_ME_DT_T' referencedColumnNames='ME_DT_ID' />
+  </changeSet>
+</databaseChangeLog>

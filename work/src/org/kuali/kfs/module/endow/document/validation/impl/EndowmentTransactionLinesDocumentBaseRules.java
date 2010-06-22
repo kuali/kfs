@@ -43,7 +43,6 @@ import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentS
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
-import org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService;
 import org.kuali.kfs.module.endow.document.validation.AddTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule;
 import org.kuali.kfs.module.endow.document.validation.RefreshTransactionLineRule;
@@ -676,24 +675,6 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         // Validates Security class code
         isValid &= validateSecurityClassTypeCode(document, isSource, LIABILITY_CLASS_CODE);
         return isValid;
-    }
-
-
-    /**
-     * This method validate if Sufficient Units are available.
-     * 
-     * @param endowmentTransactionLinesDocumentBase
-     * @param line
-     * @param ERRORPREFIX
-     * @return
-     */
-    protected boolean checkSufficientUnitsAvaiable(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String ERRORPREFIX) {
-        if (!SpringContext.getBean(SecurityTransferDocumentService.class).checkSufficientUnitsAvaiable(line.getKemid(), getSecurityIDForValidation(endowmentTransactionLinesDocument, true), getRegistrationForValidation(endowmentTransactionLinesDocument, true), line.getTransactionIPIndicatorCode(), line.getTransactionUnits())) {
-            return false;
-        }
-        else
-            return true;
-
     }
 
     /**

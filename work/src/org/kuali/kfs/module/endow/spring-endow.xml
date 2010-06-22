@@ -370,18 +370,5 @@
 			<ref bean="parameterService" />
 		</property>	
 	</bean>
-
-	<bean id="securityTransferDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.SecurityTransferDocumentServiceImpl">
-		<property name="taxLotService">
-			<ref bean="holdingTaxLotService" />
-		</property>	
-		<property name="securityService">
-			<ref bean="securityService" />
-		</property>	
-		<property name="kemService">
-			<ref bean="kemService" />
-		</property>	
-	</bean>
-	
 	
 </beans>

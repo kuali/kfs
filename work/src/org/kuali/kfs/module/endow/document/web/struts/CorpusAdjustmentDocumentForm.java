@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.kfs.module.endow.EndowConstants;
 
 public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
 
@@ -48,7 +51,13 @@ public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocum
         //use the DataDictionaryService service to get the document type name...
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CorpusAdjustmentDocument.class);
     }
-
+    
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getCorpusAdjustmentDocument());
+    }
+    
     /**
      * This method gets the Corpus Adjustment document
      * 

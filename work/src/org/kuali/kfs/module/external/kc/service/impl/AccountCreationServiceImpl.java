@@ -23,8 +23,8 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
+import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -57,10 +57,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param accountParameters
      * @return AccountCreationStatus
      */
-    public AccountCreationStatus createAccount(AccountParameters accountParameters) {
+    public AccountCreationStatusDTO createAccount(AccountParametersDTO accountParameters) {
         
         List<String> errorMessages = new ArrayList<String>();
-        AccountCreationStatus accountCreationStatus = new AccountCreationStatus();
+        AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
                 
         // get the CGAD using unit code
         //TODO: check the units in the hierarchy if unit is not found        
@@ -96,7 +96,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param accountParameters
      * @return Account
      */
-    protected Account createAccountObject(AccountParameters accountParameters, AccountAutoCreateDefaults defaults, List<String> errorMessage) {
+    protected Account createAccountObject(AccountParametersDTO accountParameters, AccountAutoCreateDefaults defaults, List<String> errorMessage) {
                 
         Account account = new Account();
         

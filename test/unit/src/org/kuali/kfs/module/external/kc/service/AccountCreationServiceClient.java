@@ -22,8 +22,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.TestCase;
 
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
+import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
@@ -31,7 +31,7 @@ import org.kuali.rice.ksb.service.KSBServiceLocator;
 
 public class AccountCreationServiceClient extends TestCase
 {
-    private AccountParameters accountParameters;
+    private AccountParametersDTO accountParameters;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -40,7 +40,7 @@ public class AccountCreationServiceClient extends TestCase
     protected void setUp() throws Exception 
     {
         // Initialize objects.
-        accountParameters = new AccountParameters();
+        accountParameters = new AccountParametersDTO();
         accountParameters.setAccountNumber("123456");
         
         super.setUp();
@@ -68,7 +68,7 @@ public class AccountCreationServiceClient extends TestCase
             Service service = Service.create(url, qName);
             AccountCreationService accountService = (AccountCreationService)service.getPort(AccountCreationService.class);
                     
-            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);      
+            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);      
             System.out.println("account number: " + creationStatus.getAccountNumber());            
             assertTrue(creationStatus.isSuccess());
             
@@ -87,7 +87,7 @@ public class AccountCreationServiceClient extends TestCase
             //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceLocal"));
             AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceLocal");
             
-            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);        
+            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);        
             System.out.println("account number: " + creationStatus.getAccountNumber());        
             assertTrue(creationStatus.isSuccess());
             

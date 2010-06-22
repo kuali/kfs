@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AccountParameters implements Serializable {
+public class AccountParametersDTO implements Serializable {
     
     private static final long serialVersionUID = 8417796622708399543L;
     
@@ -33,12 +33,27 @@ public class AccountParameters implements Serializable {
     protected String purposeText;
     protected String cfdaNumber;
     
+    protected String defaultAddressCityName;
+    protected String defaultAddressStateCode;
+    protected String defaultAddressStreetAddress;
+    protected String defaultAddressZipCode;
+    
+    protected String adminContactAddressCityName;
+    protected String adminContactAddressStateCode;
+    protected String adminContactAddressStreetAddress;
+    protected String adminContactAddressZipCode;
+    
+    protected String paymentAddressCityName;
+    protected String paymentAddressStateCode;
+    protected String paymentAddressStreetAddress;
+    protected String paymentAddressZipCode;
+    
     protected Date expirationDate;
     protected Date effectiveDate;
     
     protected boolean offCampusIndicator;
     
-    public AccountParameters() {}
+    public AccountParametersDTO() {}
 
     /**
      * Gets the unit attribute. 
@@ -247,5 +262,103 @@ public class AccountParameters implements Serializable {
     public void setOffCampusIndicator(boolean offCampusIndicator) {
         this.offCampusIndicator = offCampusIndicator;
     }
+
+    public String getDefaultAddressCityName() {
+        return defaultAddressCityName;
+    }
+
+    public void setDefaultAddressCityName(String defaultAddressCityName) {
+        this.defaultAddressCityName = defaultAddressCityName;
+    }
+
+    public String getDefaultAddressStateCode() {
+        return defaultAddressStateCode;
+    }
+
+    public void setDefaultAddressStateCode(String defaultAddressStateCode) {
+        this.defaultAddressStateCode = defaultAddressStateCode;
+    }
+
+    public String getDefaultAddressStreetAddress() {
+        return defaultAddressStreetAddress;
+    }
+
+    public void setDefaultAddressStreetAddress(String defaultAddressStreetAddress) {
+        this.defaultAddressStreetAddress = defaultAddressStreetAddress;
+    }
+
+    public String getDefaultAddressZipCode() {
+        return defaultAddressZipCode;
+    }
+
+    public void setDefaultAddressZipCode(String defaultAddressZipCode) {
+        this.defaultAddressZipCode = defaultAddressZipCode;
+    }
+
+    public String getAdminContactAddressCityName() {
+        return adminContactAddressCityName;
+    }
+
+    public void setAdminContactAddressCityName(String adminContactAddressCityName) {
+        this.adminContactAddressCityName = adminContactAddressCityName;
+    }
+
+    public String getAdminContactAddressStateCode() {
+        return adminContactAddressStateCode;
+    }
+
+    public void setAdminContactAddressStateCode(String adminContactAddressStateCode) {
+        this.adminContactAddressStateCode = adminContactAddressStateCode;
+    }
+
+    public String getAdminContactAddressStreetAddress() {
+        return adminContactAddressStreetAddress;
+    }
+
+    public void setAdminContactAddressStreetAddress(String adminContactAddressStreetAddress) {
+        this.adminContactAddressStreetAddress = adminContactAddressStreetAddress;
+    }
+
+    public String getAdminContactAddressZipCode() {
+        return adminContactAddressZipCode;
+    }
+
+    public void setAdminContactAddressZipCode(String adminContactAddressZipCode) {
+        this.adminContactAddressZipCode = adminContactAddressZipCode;
+    }
+
+    public String getPaymentAddressCityName() {
+        return paymentAddressCityName;
+    }
+
+    public void setPaymentAddressCityName(String paymentAddressCityName) {
+        this.paymentAddressCityName = paymentAddressCityName;
+    }
+
+    public String getPaymentAddressStateCode() {
+        return paymentAddressStateCode;
+    }
+
+    public void setPaymentAddressStateCode(String paymentAddressStateCode) {
+        this.paymentAddressStateCode = paymentAddressStateCode;
+    }
+
+    public String getPaymentAddressStreetAddress() {
+        return paymentAddressStreetAddress;
+    }
+
+    public void setPaymentAddressStreetAddress(String paymentAddressStreetAddress) {
+        this.paymentAddressStreetAddress = paymentAddressStreetAddress;
+    }
+
+    public String getPaymentAddressZipCode() {
+        return paymentAddressZipCode;
+    }
+
+    public void setPaymentAddressZipCode(String paymentAddressZipCode) {
+        this.paymentAddressZipCode = paymentAddressZipCode;
+    }
+    
+    
     
 }

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class AccountCreationStatus implements Serializable {
+public class AccountCreationStatusDTO implements Serializable {
 
     private static final long serialVersionUID = -3058053637490790154L;
     
@@ -28,7 +28,7 @@ public class AccountCreationStatus implements Serializable {
     protected String chartOfAccountsCode;
     protected boolean success;
 
-    public AccountCreationStatus() {}
+    public AccountCreationStatusDTO() {}
 
     /**
      * Gets the errorCodes attribute. 

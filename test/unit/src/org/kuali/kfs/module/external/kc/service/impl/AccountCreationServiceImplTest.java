@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -75,9 +75,9 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
      * This method will create AccountsParameters with test values...
      * @return accountParameters
      */
-    public AccountParameters getAccountParameters() {
+    public AccountParametersDTO getAccountParameters() {
         
-        AccountParameters accountParameters = new AccountParameters();
+        AccountParametersDTO accountParameters = new AccountParametersDTO();
         accountParameters.setAccountName("Test Account Name");
         accountParameters.setAccountNumber("1031400");
         accountParameters.setCfdaNumber("123456");
@@ -115,7 +115,7 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
         
         //create accountparameters and defaults and then use these two to create account object
-        AccountParameters accountParameters = this.getAccountParameters();
+        AccountParametersDTO accountParameters = this.getAccountParameters();
         AccountAutoCreateDefaults defaults = this.getAccountAutoCreateDefaults();
         Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);
         

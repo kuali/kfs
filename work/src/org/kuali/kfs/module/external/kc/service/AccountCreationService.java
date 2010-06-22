@@ -20,8 +20,8 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
+import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 
 @WebService(name = KcConstants.AccountCreationService.WEB_SERVICE_NAME, 
             targetNamespace = KcConstants.MODULE_TARGET_NAMESPACE)
@@ -29,7 +29,7 @@ import org.kuali.kfs.module.external.kc.dto.AccountParameters;
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AccountCreationService {
 
-    public AccountCreationStatus createAccount(
-            @WebParam(name="accountParameters")AccountParameters accountParameters);
+    public AccountCreationStatusDTO createAccount(
+            @WebParam(name="accountParametersDTO")AccountParametersDTO accountParametersDTO);
     
 }

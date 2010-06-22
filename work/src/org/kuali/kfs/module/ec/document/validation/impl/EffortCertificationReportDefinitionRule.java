@@ -84,35 +84,4 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
         return isValid;
     }
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
-     */
-    @Override
-    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
-
-        if (success && line instanceof EffortCertificationReportPosition) {
-            EffortCertificationReportPosition reportPosition = (EffortCertificationReportPosition) line;
-            String errorKey = KNSConstants.MAINTENANCE_ADD_PREFIX + collectionName + "." + EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE;
-
-            success &= this.reportPositionObjectGroupExists(errorKey, reportPosition);
-        }
-
-        return success;
-    }
-
-    // determine whether the given report position object group exists
-    protected boolean reportPositionObjectGroupExists(String errorKey, EffortCertificationReportPosition reportPosition) {
-        String positionObjectGroupCode = reportPosition.getEffortCertificationReportPositionObjectGroupCode();
-
-        if (StringUtils.isNotBlank(positionObjectGroupCode) && ObjectUtils.isNull(reportPosition.getPositionObjectGroup())) {
-            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(EffortCertificationReportPosition.class, EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE);
-            putFieldError(errorKey, KFSKeyConstants.ERROR_EXISTENCE, label + "(" + positionObjectGroupCode + ")");
-
-            return false;
-        }
-
-        return true;
-    }
 }

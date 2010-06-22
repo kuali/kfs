@@ -22,8 +22,8 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatus;
-import org.kuali.kfs.module.external.kc.dto.AccountParameters;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
+import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -33,7 +33,7 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 public class AccountCreationServiceTest extends KualiTestBase 
 {
     private AccountCreationService accountCreationService;
-    private AccountParameters accountParameters;
+    private AccountParametersDTO accountParameters;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -46,7 +46,7 @@ public class AccountCreationServiceTest extends KualiTestBase
             SpringContext.getBean(AccountCreationService.class);
         
         // Initialize objects.
-        accountParameters = new AccountParameters();
+        accountParameters = new AccountParametersDTO();
         accountParameters.setAccountName("accountName");
         accountParameters.setAccountNumber("123456");
         
@@ -68,7 +68,7 @@ public class AccountCreationServiceTest extends KualiTestBase
      */
     public void testCreateAccountServiceLocally() 
     {   
-        AccountCreationStatus creationStatus =
+        AccountCreationStatusDTO creationStatus =
             accountCreationService.createAccount(accountParameters);
     
         System.out.println("account number: " + creationStatus.getAccountNumber()); 
@@ -86,7 +86,7 @@ public class AccountCreationServiceTest extends KualiTestBase
             AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceSOAP"));  
             //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceSOAP"); // error
             
-            AccountCreationStatus creationStatus = accountService.createAccount(accountParameters);        
+            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);        
             System.out.println("account number: " + creationStatus.getAccountNumber());        
             assertTrue(creationStatus.isSuccess());
             

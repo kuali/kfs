@@ -103,14 +103,14 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
         if (ObjectUtils.isNotNull(holdingTaxLot)) {
             if (holdingTaxLot.getUnits().compareTo(postiveUnitValue) < 0) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
                 // Empty out Tax lot lines.
                 transLine.getTaxLotLines().remove(0);
             }
         }
         else {
             // Object must exist
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Liability");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Liability");
             // Empty out Tax lot lines.
             transLine.getTaxLotLines().remove(0);
 

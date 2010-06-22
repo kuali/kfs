@@ -49,6 +49,7 @@
   <c:set var="totalIncomeUnits" value="${KualiForm.document.sourceIncomeTotalUnits}"/>
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.sourcePrincipalTotalUnits}"/>
   <c:set var="importLineAction" value="importSourceTransactionLines"/>
+  <c:set var="errorKeyMatch" value="${EndowConstants.SOURCE_TRANSACTION_LINES_ERRORS}" />
 </c:if>
 <c:if test="${not isSource}">
   <c:set var="lineAttributes" value="${DataDictionary.EndowmentTargetTransactionLine.attributes}" />
@@ -63,6 +64,7 @@
   <c:set var="totalIncomeUnits" value="${KualiForm.document.targetIncomeTotalUnits}"/>
   <c:set var="totalPrincipalUnits" value="${KualiForm.document.targetPrincipalTotalUnits}"/>
   <c:set var="importLineAction" value="importTargetTransactionLines"/>
+  <c:set var="errorKeyMatch" value="${EndowConstants.TARGET_TRANSACTION_LINES_ERRORS}" />
 </c:if>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
@@ -106,6 +108,13 @@
 					</NOSCRIPT>
 				</td>
 	    </tr>
+	    
+	   <kul:displayIfErrors keyMatch="${errorKeyMatch}*">
+	    <tr>
+            <td colspan="8"><kul:errors keyMatch="${errorKeyMatch}*" errorTitle="Errors found in this Section:" /></td>
+        </tr>
+       </kul:displayIfErrors>
+	    
 		<tr>
 		    <c:if test="${showIncomeTotalAmount}">
         	    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>

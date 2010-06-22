@@ -15,6 +15,14 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
@@ -45,6 +53,27 @@ public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocument
             taxLotsService.updateTransactionLineTaxLots(securityTransferDocument, transLine);
         }
 
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#deleteSourceTransactionLine(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward deleteSourceTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward actionForward = super.deleteSourceTransactionLine(mapping, form, request, response);
+        EndowmentTransactionLinesDocumentFormBase etlForm = (EndowmentTransactionLinesDocumentFormBase) form;
+
+        // delete target transaction lines as well
+        List<EndowmentTransactionLine> targetTransactionLines = etlForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines();
+        if (targetTransactionLines != null && targetTransactionLines.size() > 0) {
+            for (int i = 0; i < targetTransactionLines.size(); i++) {
+                deleteTransactionLine(false, etlForm, i);
+            }
+        }
+
+        return actionForward;
     }
 
 }

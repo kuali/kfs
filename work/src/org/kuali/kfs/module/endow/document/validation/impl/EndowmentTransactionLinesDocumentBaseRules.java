@@ -616,14 +616,14 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         if (isSource) {
             transactionLineList = document.getSourceTransactionLines();
             if (transactionLineList == null || transactionLineList.size() == 0) {
-                putFieldError(EndowConstants.TRANSACTION_LINE_TAB_ERROR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                putFieldError(EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT);
                 return false;
             }
         }
         else {
             transactionLineList = document.getTargetTransactionLines();
             if (transactionLineList == null || transactionLineList.size() == 0) {
-                putFieldError(EndowConstants.TRANSACTION_LINE_TAB_ERROR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT);
+                putFieldError(EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT);
                 return false;
             }
         }
@@ -773,7 +773,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     protected boolean validateSourceTargetUnitsEqual(SecurityTransferDocument securityTransferDocument) {
         if (!securityTransferDocument.getTargetTotalUnits().equals(securityTransferDocument.getSourceTotalUnits())) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL);
             return false;
         }
 
@@ -788,7 +788,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      */
     protected boolean validateSourceTargetAmountEqual(SecurityTransferDocument securityTransferDocument) {
         if (!securityTransferDocument.getTargetTotalAmount().equals(securityTransferDocument.getSourceTotalAmount())) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_AMOUNT_EQUAL);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_SOURCE_TARGET_AMOUNT_EQUAL);
             return false;
         }
 

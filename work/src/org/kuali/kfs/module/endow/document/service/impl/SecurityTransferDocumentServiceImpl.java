@@ -42,17 +42,18 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
 
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService#checkSufficientUnitsAvaiable(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.endow.document.service.SecurityTransferDocumentService#checkSufficientUnitsAvaiable(java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     public boolean checkSufficientUnitsAvaiable(String kemid, String securityID, String registrationCode, String transactionIPIndicatorCode, KualiDecimal units) {
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(kemid, securityID, registrationCode, 1, transactionIPIndicatorCode);
 
         if (ObjectUtils.isNull(holdingTaxLot)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Security");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Security");
             return false;
         }
         else if (holdingTaxLot.getUnits().compareTo(units.bigDecimalValue()) < 0) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
             return false;
         }
         else
@@ -122,14 +123,14 @@ public class SecurityTransferDocumentServiceImpl extends EndowmentTransactionLin
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
         if (ObjectUtils.isNotNull(holdingTaxLot)) {
             if (holdingTaxLot.getUnits().compareTo(postiveUnitValue) < 0) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS);
                 // Empty out Tax lot lines.
                 transLine.getTaxLotLines().remove(0);
             }
         }
         else {
             // Object must exist
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Liability");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAXLOT_INVALID, "Liability");
             // Empty out Tax lot lines.
             transLine.getTaxLotLines().remove(0);
 

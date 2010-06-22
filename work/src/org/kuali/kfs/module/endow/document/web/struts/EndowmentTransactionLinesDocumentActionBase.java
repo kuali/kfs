@@ -131,7 +131,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         Class lineClass = tranLineDocument.getTranLineClass(isSource);
         List<EndowmentTransactionLine> importedTransactionLines = null;
         
-        String errorPath = TRANSACTION_LINE_TAB_ERROR; 
+        String errorPath = TRANSACTION_LINE_ERRORS; 
         LineParser lineParser = tranLineDocument.getLineParser(); 
         
         //Starting position of the imported items, equals the # of existing above-the-line items.
@@ -359,7 +359,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @param etlDocumentForm
      * @param index
      */
-    private void deleteTransactionLine(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, int index) {
+    protected void deleteTransactionLine(boolean isSource, EndowmentTransactionLinesDocumentFormBase etlDocumentForm, int index) {
         if (isSource) {
             // remove from document
             etlDocumentForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().remove(index);

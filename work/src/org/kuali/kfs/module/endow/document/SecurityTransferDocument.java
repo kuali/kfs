@@ -18,9 +18,8 @@ package org.kuali.kfs.module.endow.document;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.Correctable;
 
-public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, UnitsTotaling, AmountTotaling {
+public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements UnitsTotaling, AmountTotaling {
 
     /**
      * Constructs a SecurityTransferDocument.java.

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.core.util.JSTLConstants;
 
 public class EndowConstants extends JSTLConstants {
 
@@ -26,11 +26,11 @@ public class EndowConstants extends JSTLConstants {
 
     public static final String SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME = "From";
     public static final String TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME = "To";
-    
+
     // labels for transaction lines for Corpus Adjustment
     public static final String CORPUS_ADJUSTMENT_SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Decrease";
     public static final String CORPUS_ADJUSTMENT_TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME = "Increase";
-    
+
     public static class SecurityReportingGroups {
         public static final String CASH_EQUIVALENTS = "CSHEQ";
     }
@@ -231,7 +231,7 @@ public class EndowConstants extends JSTLConstants {
 
     public static final String PRINCIPAL = "Principal";
     public static final String INCOME = "Income";
-    
+
     public static final String UNITS_TOTALING_EDITING_MODE = "unitsTotaling";
 
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
@@ -247,11 +247,11 @@ public class EndowConstants extends JSTLConstants {
         public static final String CASH = "C";
         public static final String NON_CASH = "N";
     }
-    
-    public static final String ENDOWMENT_TRANSACTION_LINE_ERRORS = "document.transactionLines";    
+
     public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
-    public static final String TRANSACTION_LINE_TAB_ERROR = "document.targetTransactionLines,document.sourceTransactionLines,";
-    public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines,newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
+    public static final String SOURCE_TRANSACTION_LINES_ERRORS = "document.targetTransactionLines,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
+    public static final String TARGET_TRANSACTION_LINES_ERRORS = "document.sourceTransactionLines,newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*";
+    public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
 
 }

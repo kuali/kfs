@@ -24,10 +24,8 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.SecurityTransferDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.SecurityTransferDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.SecurityTransferDocumentPresentationController"/>
-    <property name="allowsErrorCorrection" value="true"/>
     <property name="defaultExistenceChecks">
       <list>
-        <!--<bean parent="ReferenceDefinition" p:attributeName="customerPaymentMedium" p:attributeToHighlightOnFail="customerPaymentMediumCode"/> !-->
       </list>
     </property>
     <property name="attributes">

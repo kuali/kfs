@@ -22,7 +22,6 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -35,13 +34,12 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLineDocument, EndowmentTransactionLine line) 
-    {
+    public boolean processAddTransactionLineRules(EndowmentTransactionLinesDocument transLineDocument, EndowmentTransactionLine line) {
         return validateTransactionLine((EndowmentTransactionLinesDocumentBase) transLineDocument, line, -1);
     }
-    
+
     /**
-     * This method validates the Tx line but from Corpus Adjustment document. 
+     * This method validates the Tx line but from Corpus Adjustment document.
      * 
      * @param endowmentTransactionLinesDocumentBase
      * @param line
@@ -94,8 +92,7 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
     }
 
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) 
-    {
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return super.processCustomSaveDocumentBusinessRules(document);
     }
 
@@ -108,7 +105,7 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
         if (isValid) {
             CorpusAdjustmentDocument corpusAdjustmentDocument = (CorpusAdjustmentDocument) document;
             if (corpusAdjustmentDocument.getSourceTransactionLines().isEmpty() && corpusAdjustmentDocument.getTargetTransactionLines().isEmpty()) {
-                putFieldError(EndowConstants.ENDOWMENT_TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DOCUMENT_CORPUS_ADJUSTMENT_TRANSACTION_LINES_COUNT_GREATER_THAN_ONE);
+                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DOCUMENT_CORPUS_ADJUSTMENT_TRANSACTION_LINES_COUNT_GREATER_THAN_ONE);
                 isValid = false;
             }
         }

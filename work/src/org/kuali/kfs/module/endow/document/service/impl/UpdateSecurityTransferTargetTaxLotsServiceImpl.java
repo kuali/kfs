@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.UpdateSecurityTransferTargetTaxLotsService;
+import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -50,12 +51,12 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
         if (ObjectUtils.isNotNull(sourceTransactionLine)) {
             BigDecimal sourceAmount = sourceTransactionLine.getTransactionAmount().bigDecimalValue();
             BigDecimal sourceUnits = sourceTransactionLine.getTransactionUnits().bigDecimalValue();
-            BigDecimal unitValue = sourceAmount.divide(sourceUnits);
+            BigDecimal unitValue = KEMCalculationRoundingHelper.divide(sourceAmount, sourceUnits, 5);
 
-            BigDecimal targetAmount = transLine.getTransactionUnits().bigDecimalValue().multiply(unitValue);
+            BigDecimal targetAmount = KEMCalculationRoundingHelper.multiply(transLine.getTransactionUnits().bigDecimalValue(), unitValue, 2);
             // set transaction line target amount
             transLine.setTransactionAmount(new KualiDecimal(targetAmount));
-            
+
             EndowmentTransactionTaxLotLine taxLotLine = null;
             boolean newLine = false;
 

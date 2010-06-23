@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import static org.kuali.kfs.module.endow.EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +32,11 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateSecurityTransferTargetTaxLotsService;
 import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
+import org.kuali.kfs.module.endow.document.validation.event.RefreshTransactionLineEvent;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kns.service.KualiRuleService;
 
 public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
@@ -71,6 +77,41 @@ public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocument
             for (int i = 0; i < targetTransactionLines.size(); i++) {
                 deleteTransactionLine(false, etlForm, i);
             }
+        }
+
+        return actionForward;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#deleteSourceTaxLotLine(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward deleteSourceTaxLotLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward actionForward = super.deleteSourceTaxLotLine(mapping, form, request, response);
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        boolean rulePassed = true;
+
+        // if the document has target transaction lines update the related tax lots
+        if (endowmentDocument.getTargetTransactionLines() != null && endowmentDocument.getTargetTransactionLines().size() > 0) {
+            for (int i = 0; i < endowmentDocument.getTargetTransactionLines().size(); i++) {
+
+                EndowmentTransactionLine transLine = endowmentDocument.getTargetTransactionLines().get(i);
+
+                // check any business rules
+                rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, i));
+
+                if (rulePassed) {
+                    updateTransactionLineTaxLots(true, endowmentDocument, transLine);
+                }
+
+                if (endowmentDocument instanceof AmountTotaling)
+                    ((FinancialSystemDocumentHeader) documentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) endowmentDocument).getTotalDollarAmount());
+            }
+
         }
 
         return actionForward;

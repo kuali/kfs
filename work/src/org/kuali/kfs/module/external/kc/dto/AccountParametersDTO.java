@@ -53,6 +53,8 @@ public class AccountParametersDTO implements Serializable {
     
     protected boolean offCampusIndicator;
     
+    protected String principalId;
+    
     public AccountParametersDTO() {}
 
     /**
@@ -358,7 +360,13 @@ public class AccountParametersDTO implements Serializable {
     public void setPaymentAddressZipCode(String paymentAddressZipCode) {
         this.paymentAddressZipCode = paymentAddressZipCode;
     }
-    
-    
+
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
     
 }

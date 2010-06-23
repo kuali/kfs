@@ -26,7 +26,7 @@ public class AccountCreationStatusDTO implements Serializable {
     protected String documentNumber;
     protected String accountNumber;
     protected String chartOfAccountsCode;
-    protected boolean success;
+    protected String status;
 
     public AccountCreationStatusDTO() {}
 
@@ -95,19 +95,20 @@ public class AccountCreationStatusDTO implements Serializable {
     }
 
     /**
-     * Gets the success attribute. 
-     * @return Returns the success.
+     * Gets the status attribute. 
+     * @return Returns the status.
      */
-    public boolean isSuccess() {
-        return success;
+    public String getStatus() {
+        return status;
     }
 
     /**
-     * Sets the success attribute value.
-     * @param success The success to set.
+     * Sets the status attribute value.
+     * @param status The status to set.
      */
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setStatus(String status) {
+        this.status = status;
     }
+
 
 }

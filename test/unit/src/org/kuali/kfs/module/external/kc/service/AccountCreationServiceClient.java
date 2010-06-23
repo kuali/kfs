@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.external.kc.service;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -24,10 +26,7 @@ import junit.framework.TestCase;
 
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.ksb.service.KSBServiceLocator;
 
 public class AccountCreationServiceClient extends TestCase
 {
@@ -70,7 +69,7 @@ public class AccountCreationServiceClient extends TestCase
                     
             AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);      
             System.out.println("account number: " + creationStatus.getAccountNumber());            
-            assertTrue(creationStatus.isSuccess());
+            assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
@@ -89,10 +88,19 @@ public class AccountCreationServiceClient extends TestCase
             
             AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);        
             System.out.println("account number: " + creationStatus.getAccountNumber());        
-            assertTrue(creationStatus.isSuccess());
+            assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
+        }
+    }
+    
+    public void testTest() {
+        
+        List<String> parentUnits = new ArrayList<String>();
+        parentUnits.add("adsfdsf");
+        for (String s : parentUnits) {
+            System.out.println("s: " + s);
         }
     }
 

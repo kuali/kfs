@@ -64,12 +64,12 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
     /**
      * This method will create a CgDocument for the document type ACCT.  Successful if there are no error messages
      */
-    public void testCreateCGAccountMaintenanceDocument() {
-        List<String> errorMessages = new ArrayList();
-        
-        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
-        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
-    }
+//    public void testCreateCGAccountMaintenanceDocument() {
+//        List<String> errorMessages = new ArrayList();
+//        
+//        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
+//        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
+//    }
 
     /**
      * This method will create AccountsParameters with test values...
@@ -106,39 +106,39 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
     /**
      * This method will test the creation of a CgDocument and try to route it based on system parameter value...
      */
-    public void NoRun_testCreateRouteAutomaticCGAccountDocument() {
-        List<String> errorMessages = new ArrayList();
-        
-        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
-        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
-
-        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
-        
-        //create accountparameters and defaults and then use these two to create account object
-        AccountParametersDTO accountParameters = this.getAccountParameters();
-        AccountAutoCreateDefaults defaults = this.getAccountAutoCreateDefaults();
-        Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);
-        
-        maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-        //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
-        // the document should be saved....
-        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages);
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-        
-        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
-        // the document should be submitted....
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-        
-        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
-        // the document should be blanket approved....
-        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-
-        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, "I");
-        //we want to test for failure of the routing by using routing value not defined for the system parameter...
-        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));        
-    }
+//    public void NoRun_testCreateRouteAutomaticCGAccountDocument() {
+//        List<String> errorMessages = new ArrayList();
+//        
+//        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
+//        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
+//
+//        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
+//        
+//        //create accountparameters and defaults and then use these two to create account object
+//        AccountParametersDTO accountParameters = this.getAccountParameters();
+//        AccountAutoCreateDefaults defaults = this.getAccountAutoCreateDefaults();
+//        Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);
+//        
+//        maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
+//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
+//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
+//        // the document should be saved....
+//        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages);
+//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
+//        
+//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+//        // the document should be submitted....
+//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
+//        
+//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
+//        // the document should be blanket approved....
+//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
+//
+//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
+//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, "I");
+//        //we want to test for failure of the routing by using routing value not defined for the system parameter...
+//        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));        
+//    }
 }

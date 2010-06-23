@@ -17,10 +17,7 @@ package org.kuali.kfs.module.external.kc.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.net.URL;
-
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
@@ -73,7 +70,7 @@ public class AccountCreationServiceTest extends KualiTestBase
     
         System.out.println("account number: " + creationStatus.getAccountNumber()); 
         
-        assertTrue(creationStatus.isSuccess());
+        assertTrue(creationStatus.getStatus().equals("success"));
     }
 
     
@@ -88,11 +85,12 @@ public class AccountCreationServiceTest extends KualiTestBase
             
             AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);        
             System.out.println("account number: " + creationStatus.getAccountNumber());        
-            assertTrue(creationStatus.isSuccess());
+            assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
         }
     }
 
+    
 }

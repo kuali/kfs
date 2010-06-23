@@ -11,8 +11,8 @@
 			<accessrule kind="nonaccessible" pattern="sunw/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="build/server-lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="build/server-lib/jsp-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/server-lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="build/server-lib/jasper-compiler-jdt.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
@@ -28,7 +28,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="build/server-lib/commons-el.jar">
+	<classpathentry exported="true" kind="lib" path="build/server-lib/commons-el.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

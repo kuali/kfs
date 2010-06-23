@@ -294,6 +294,7 @@
 		<path id="run.tests.classpath">
 			<pathelement location="${test.classes.directory}" />
 			<path refid="compile.tests.classpath" />
+			<fileset dir="${drivers.directory}" includes="*.jar" />
 		</path>
 	</target>
 	

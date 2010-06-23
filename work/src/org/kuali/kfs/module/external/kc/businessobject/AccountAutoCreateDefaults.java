@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountType;
@@ -34,8 +33,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.kfs.module.external.kc.businessobject.KCUnit;
 
 /**
  * 

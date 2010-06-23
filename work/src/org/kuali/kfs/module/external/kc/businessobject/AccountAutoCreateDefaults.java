@@ -35,6 +35,7 @@ import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.kfs.module.external.kc.businessobject.KCUnit;
 
 /**
  * 
@@ -100,6 +101,9 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String accountPurposeText;
     private String accountDescriptionCampusCode;
     private String accountDescriptionBuildingCode;
+    private String contractControlFinCoaCode;
+    private String contractControlAccountNumber;
+    private String financialIcrSeriesIdentifier;
     private boolean active;
 
     //
@@ -1057,6 +1061,54 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountDescriptionBuildingCode(String accountDescriptionBuildingCode) {
         this.accountDescriptionBuildingCode = accountDescriptionBuildingCode;
+    }
+
+    /**
+     * Gets the contractControlFinCoaCode attribute. 
+     * @return Returns the contractControlFinCoaCode.
+     */
+    public String getContractControlFinCoaCode() {
+        return contractControlFinCoaCode;
+    }
+
+    /**
+     * Sets the contractControlFinCoaCode attribute value.
+     * @param contractControlFinCoaCode The contractControlFinCoaCode to set.
+     */
+    public void setContractControlFinCoaCode(String contractControlFinCoaCode) {
+        this.contractControlFinCoaCode = contractControlFinCoaCode;
+    }
+
+    /**
+     * Gets the contractControlAccountNumber attribute. 
+     * @return Returns the contractControlAccountNumber.
+     */
+    public String getContractControlAccountNumber() {
+        return contractControlAccountNumber;
+    }
+
+    /**
+     * Sets the contractControlAccountNumber attribute value.
+     * @param contractControlAccountNumber The contractControlAccountNumber to set.
+     */
+    public void setContractControlAccountNumber(String contractControlAccountNumber) {
+        this.contractControlAccountNumber = contractControlAccountNumber;
+    }
+
+    /**
+     * Gets the financialIcrSeriesIdentifier attribute. 
+     * @return Returns the financialIcrSeriesIdentifier.
+     */
+    public String getFinancialIcrSeriesIdentifier() {
+        return financialIcrSeriesIdentifier;
+    }
+
+    /**
+     * Sets the financialIcrSeriesIdentifier attribute value.
+     * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
+     */
+    public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
+        this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
     }
 
     /**

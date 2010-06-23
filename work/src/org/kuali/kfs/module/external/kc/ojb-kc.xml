@@ -57,6 +57,9 @@
     <field-descriptor name="accountPurposeText" column="ACCT_PRPS_GUIDE_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="accountDescriptionCampusCode" column="ACCT_DESC_CMPS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountDescriptionBuildingCode" column="ACCT_DESC_BLDG_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="contractControlFinCoaCode" column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="contractControlAccountNumber" column="CONTR_CTRLACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.coa.util.OjbAccountActiveIndicatorConversion" />
  
     <reference-descriptor name="fringeBenefitsChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

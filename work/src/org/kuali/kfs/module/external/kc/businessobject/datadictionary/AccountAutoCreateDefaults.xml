@@ -69,6 +69,9 @@
         <bean parent="Account-accountManagerSystemIdentifier"/>
         <bean parent="Account-accountManagerUser.principalName"/>
         <bean parent="Account-accountManagerUser.name"/>
+        <bean parent="Account-contractControlFinCoaCode"/>
+        <bean parent="Account-contractControlAccountNumber"/>
+        <bean parent="Account-financialIcrSeriesIdentifier"/>
         <ref bean="AccountAutoCreateDefaults-accountExpenseGuidelineText"/>
         <ref bean="AccountAutoCreateDefaults-accountIncomeGuidelineText"/>
         <ref bean="AccountAutoCreateDefaults-accountPurposeText"/>
@@ -80,7 +83,7 @@
     <property name="collections">
       <list>
 <!--        <bean parent="CollectionDefinition" p:name="subAccounts" p:label="Sub-Accounts" p:shortLabel="Sub-Accounts"/>
-         <bean parent="CollectionDefinition" p:name="awards" p:label="Awards" p:shortLabel="Awards"/>  -->
+         <bean parent="CollectionDefinition" p:name="awards" p:label="Awards" p:shortLabel="Awards"/> -->
       </list>
     </property>
     <property name="relationships">

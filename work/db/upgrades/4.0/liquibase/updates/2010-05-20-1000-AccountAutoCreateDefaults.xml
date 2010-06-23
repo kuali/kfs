@@ -131,6 +131,15 @@
       <column name='ACCT_DESC_BLDG_CD' type='VARCHAR2(10)'>
         <constraints nullable='true' />
       </column>
+  	  <column name='CONTR_CTRL_FCOA_CD' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>
+       <column name='CONTR_CTRLACCT_NBR' type='VARCHAR2(7)'>
+        <constraints nullable='true' />
+      </column>
+       <column name='FIN_SERIES_ID' type='VARCHAR2(2)'>
+        <constraints nullable='true' />
+      </column>     
       <column name='ACCT_CLOSED_IND' type='VARCHAR2(1)'>
         <constraints nullable='true' />
       </column>

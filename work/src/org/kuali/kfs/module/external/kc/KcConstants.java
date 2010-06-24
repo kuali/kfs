@@ -21,7 +21,12 @@ public class KcConstants {
     private KcConstants() {}
     
     public static class AccountCreationService {
+        
         public static final String WEB_SERVICE_NAME = "accountCreationService";
+        
+        public static final String DEFAULT_ADDRESS_TYTPE = "default";
+        public static final String ADMIN_ADDRESS_TYTPE = "admin";
+        public static final String PAYMENT_ADDRESS_TYTPE = "payment";
     
         public static final String STATUS_KC_ACCOUNT_SUCCESS = "success";
         public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";

@@ -204,9 +204,7 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
 
 
     public Person getDocumentInitiatorUser() {
-        if (!StringUtils.isBlank(documentInitiatorUserIdentifier)) {
-            documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
-        }
+        documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
         return documentInitiatorUser;
     }
 

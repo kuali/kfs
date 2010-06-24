@@ -18,12 +18,12 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -204,7 +204,9 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
 
 
     public Person getDocumentInitiatorUser() {
-        documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
+        if (!StringUtils.isBlank(documentInitiatorUserIdentifier)) {
+            documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
+        }
         return documentInitiatorUser;
     }
 

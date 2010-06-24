@@ -45,9 +45,13 @@
         <value>emplid</value>
       </list>
     </property>
-    
-    
-    
+        
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>    
     
     <property name="documentTypeName" value="CSFO"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.bc.document.validation.impl.CalculatedSalaryFoundationTrackerOverrideRule"/>
@@ -69,7 +73,13 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>chartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:required="true"/>

@@ -52,6 +52,8 @@
       <list>
         <value>../dwr/interface/ObjectCodeService.js</value>
         <value>../scripts/coa/orgReversionDocument.js</value>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
 
@@ -73,9 +75,21 @@
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="budgetReversionChartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="budgetReversionAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="budgetReversionAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>budgetReversionChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="cashReversionFinancialChartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="cashReversionAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashReversionAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>cashReversionFinancialChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="carryForwardByObjectCodeIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>

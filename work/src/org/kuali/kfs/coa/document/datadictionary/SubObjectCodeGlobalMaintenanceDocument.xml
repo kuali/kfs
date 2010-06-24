@@ -38,11 +38,12 @@
         <value>documentNumber</value>
       </list>
     </property>
-    
-    
-    
-    
-    
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>    
     <property name="documentTypeName" value="GSOB"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubObjCdGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -126,7 +127,13 @@
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:template="chartOfAccountsCode"/>
-              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:template="accountNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:template="accountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+				<property name="webUILeaveFieldFunctionParameters">
+					<list>
+						<value>chartOfAccountsCode</value>
+					</list>
+				</property> 
+			  </bean>  
               <bean parent="MaintainableFieldDefinition" p:name="account.accountName" p:unconditionallyReadOnly="true" p:template="accountName"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>

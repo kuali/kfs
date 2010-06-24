@@ -13,35 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function resetICRAccount( subAccountTypeCodeField ) {
-	var subAccountTypeCodeFieldPrefix = findElPrefix( subAccountTypeCodeField.name );
-	var accountFieldPrefix = findElPrefix(subAccountTypeCodeFieldPrefix);
-	var acctFieldName = accountFieldPrefix + ".accountNumber";
 
-	updateCgIcrAccount(acctFieldName);
+function onblur_subAccountTypeCode( subAccountTypeCodeField ) {
+	// need to call findElPrefix twice to strip off the a21SubAccount prefix
+	var subAccountTypeCodeFieldName = subAccountTypeCodeField.name;
+	var fieldPrefix = findElPrefix( findElPrefix(subAccountTypeCodeFieldName) );
+	var chartCodeFieldName = fieldPrefix + ".chartOfAccountsCode";
+	var accountNumberFieldName = fieldPrefix + ".accountNumber";
+	
+	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
+	updateCgIcrAccount(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName);
 }
  
-function updateICRAccount(acctField) {
-	var acctFieldName = acctField.name;	
-	if(acctFieldName != ""){
-		updateCgIcrAccount(acctFieldName);
-	}
+/* This function is for the primary key account number in SubAccount BO. */
+function onblur_accountNumberPK( accountNumberField ) {
+	var accountNumberFieldName = accountNumberField.name;
+	var fieldPrefix = findElPrefix(accountNumberFieldName);
+	var chartCodeFieldName = fieldPrefix + ".chartOfAccountsCode";
+	var subAccountTypeCodeFieldName = fieldPrefix + ".a21SubAccount.subAccountTypeCode";	
+	
+	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
+	updateCgIcrAccount(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName);
+	
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == 'boolean' && param == false) {	
+				loadChartCode(chartCodeFieldName, accountNumberFieldName);
+			}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);			
 }
 
-function updateCgIcrAccount(acctFieldName) {
-	var fieldPrefix = findElPrefix( acctFieldName );
-	
-	var accountNumber = getElementValue( acctFieldName );
-	var chartCode = getElementValue( fieldPrefix + ".chartOfAccountsCode" );
-	var subAccountTypeCode = getElementValue( fieldPrefix + ".a21SubAccount.subAccountTypeCode" );
+function updateCgIcrAccount( chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName ) {	
+	var chartCode = getElementValue( chartCodeFieldName );
+	var accountNumber = getElementValue( accountNumberFieldName );
+	var subAccountTypeCode = getElementValue( subAccountTypeCodeFieldName );
+	//alert ("chartCode = " + chartCode + ", accountNumber = " + accountNumber + ", subAccountTypeCode = " + subAccountTypeCode);
 	
 	var dwrReply = {
 		callback:updateCgIcrAccount_Callback,
 		errorHandler:function( errorMessage ) { 
 			window.status = errorMessage;
 		}
-	};
-	
+	};	
 	A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
 }
 
@@ -65,5 +83,52 @@ function updateCgIcrAccount_Callback( data ) {
 		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
 		setElementValue( prefix + ".offCampusCode", "" );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
+	}
+}
+
+/* This function is for the a21SubAccount account numbers in SubAccount BO. */
+function onblur_accountNumberA21Sub( accountNumberField, chartCodePropertyName ) {
+	// need to call findElPrefix twice to strip off the a21SubAccount prefix
+	var accountNumberFieldName = accountNumberField.name;
+	var fieldPrefix = findElPrefix( findElPrefix(accountNumberFieldName) );
+	var chartCodeFieldName = fieldPrefix + "." + chartCodePropertyName;
+	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
+
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == 'boolean' && param == false) {	
+				loadChartCode(chartCodeFieldName, accountNumberFieldName);
+			}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);	
+}
+
+function loadChartCode( chartCodeFieldName, accountNumberFieldName ) {
+    var accountNumber = getElementValue( accountNumberFieldName );	
+
+    if (accountNumber == "") {
+		clearRecipients(chartCodeFieldName);    		
+	}
+	else {
+		var dwrReply = {
+				callback: function (data) {
+				//alert ("chartCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber);
+				if ( data != null && typeof data == 'object' ) {   
+					setRecipientValue( chartCodeFieldName, data.chartOfAccountsCode );
+				}
+				else {
+					clearRecipients(chartCodeFieldName); 
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				clearRecipients(chartCodeFieldName); 
+				window.status = errorMessage;
+			}
+		};
+		AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
 	}
 }

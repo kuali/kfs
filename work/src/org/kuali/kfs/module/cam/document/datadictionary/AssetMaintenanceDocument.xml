@@ -60,6 +60,14 @@
       <ref bean="AssetMaintenanceDocument-workflowAttributes"/>
     </property>
     <property name="additionalSectionsFile" value="/jsp/module/cams/AssetPendingLookup.jsp"/> 
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -84,7 +92,13 @@
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Asset Detail Info"/>
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>organizationOwnerChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="false" p:defaultValue="C"/>

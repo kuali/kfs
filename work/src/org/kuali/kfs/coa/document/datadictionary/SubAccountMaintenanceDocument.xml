@@ -51,8 +51,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
-        <value>../dwr/interface/A21SubAccountService.js</value>         
-        <value>../scripts/coa/accountDocument.js</value>             
+        <value>../dwr/interface/A21SubAccountService.js</value>                  
         <value>../scripts/coa/subAccountDocument.js</value>  
       </list>
     </property>
@@ -70,11 +69,11 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="updateICRAccount"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumberPK"/>        
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="resetICRAccount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="onblur_subAccountTypeCode"/>
       </list>
     </property>
   </bean>
@@ -99,7 +98,13 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareChartOfAccountCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumberA21Sub">        	
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>a21SubAccount.costShareChartOfAccountCode</value>
+				</list>
+			</property>         	
+        </bean>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceSubAccountNumber"/>
       </list>
     </property>
@@ -113,7 +118,13 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:a21SubAccount.financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRcvyFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumberA21Sub">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>a21SubAccount.indirectCostRcvyFinCoaCode</value>
+				</list>
+			</property>         	
+        </bean>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.offCampusCode" p:defaultValue="false"/>
       </list>

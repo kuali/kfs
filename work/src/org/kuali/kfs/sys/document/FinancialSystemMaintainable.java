@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -81,9 +82,11 @@ public class FinancialSystemMaintainable extends KualiMaintainableImpl {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterAddLine(String)
      */
     @Override
-    public void processAfterAddLine(String colName, Class colClass) {
-        super.processAfterAddLine(colName, colClass);
-
+    //public void processAfterAddLine(String colName, Class colClass) {
+    public void processBeforeAddLine(String colName, Class colClass, BusinessObject bo) {
+        //super.processAfterAddLine(colName, colClass);
+        super.processBeforeAddLine(colName, colClass, bo);
+        
         // if accounts can't cross charts, populate chart code fields according to corresponding account number fields
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
             populateChartOfAccountsCodeFields();            

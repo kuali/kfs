@@ -50,6 +50,7 @@
         <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountGlobal.js</value>
         <value>../scripts/sys/objectInfo.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
@@ -81,9 +82,21 @@
         <bean parent="MaintainableFieldDefinition" p:name="accountStateCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountStreetAddress"/>
         <bean parent="MaintainableFieldDefinition" p:name="continuationFinChrtOfAcctCd"/>
-        <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>continuationFinChrtOfAcctCd</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="incomeStreamFinancialCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>incomeStreamFinancialCoaCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="accountCfdaNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialHigherEdFunctionCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountSufficientFundsCode"/>

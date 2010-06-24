@@ -176,12 +176,13 @@ function onblur_awardIndirectCostAmount( indirectAmountField ) {
 }
 
 function onblur_chartCode( chartCodeField ) {
+    var accountNumberFieldName = findAccountNumberFieldName(chartCodeField.name);
     var accountNameFieldName = findAccountNameFieldName(chartCodeField.name);
-    var chartCode = getElementValue(chartCodeField.name);    
+    var chartCode = getElementValue(chartCodeField.name);   
     var accountNumber = getElementValue(accountNumberFieldName);    
 
     // no need to check accounts_can_cross_charts since if that's false the onblur function won't be called
-    alert ("accountNameFieldName = " + accountNameFieldName + ",\n chartCode = " + chartCode + ", accountNumber = " + accountNumber);
+    //alert ("accountNumberFieldName = " + accountNumberFieldName + ", accountNameFieldName = " + accountNameFieldName + ",\n chartCode = " + chartCode + ", accountNumber = " + accountNumber);
 	lookupAccountName(chartCode, accountNumber, accountNameFieldName);
 }
 
@@ -189,7 +190,7 @@ function onblur_accountNumber( accountNumberField ) {
     var chartCodeFieldName = findChartCodeFieldName(accountNumberField.name);
     var accountNameFieldName = findAccountNameFieldName(accountNumberField.name);
     var accountNumber = getElementValue(accountNumberField.name);    
-	alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNameFieldName = " + accountNameFieldName);
+	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNameFieldName = " + accountNameFieldName);
 
 	var dwrReply = {
 		callback: function (param) {
@@ -216,7 +217,7 @@ function loadChartAccount( accountNumber, chartCodeFieldName, accountNumberField
 	else {
 		var dwrReply = {
 			callback: function (data) {
-				alert ("accountNumber = " + accountNumber + ", chartCode = " + data.chartOfAccountsCode + ", accountName = " + data.accountName);
+				//alert ("chartCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber + ", accountName = " + data.accountName);
 				if ( data != null && typeof data == 'object' ) {   
 					var chart = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
 					setRecipientValue(chartCodeFieldName, chart);

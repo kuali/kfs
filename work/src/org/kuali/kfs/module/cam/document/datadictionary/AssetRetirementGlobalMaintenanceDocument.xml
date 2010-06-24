@@ -52,6 +52,8 @@
       <list>
         <value>../dwr/interface/AssetRetirementService.js</value>
         <value>../scripts/module/cams/assetRetirementGlobalMaintenanceDocument.js</value>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>        
       </list>
     </property>
     <property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>
@@ -135,7 +137,13 @@
         <bean parent="MaintainableFieldDefinition" p:name="calculatedTotal" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="cashReceiptFinancialDocumentNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="retirementChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="retirementAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="retirementAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>retirementChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
       </list>
     </property>
   </bean>

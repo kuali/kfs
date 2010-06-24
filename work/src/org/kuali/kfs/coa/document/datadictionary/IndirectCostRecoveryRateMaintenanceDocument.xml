@@ -31,10 +31,13 @@
         <value>financialIcrSeriesIdentifier</value>
       </list>
     </property>
-    
-    
-    
-    
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
     
     <property name="documentTypeName" value="ICRE"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.IndirectCostRecoveryRateRule"/>
@@ -82,7 +85,13 @@
           	<list>
 			  <bean parent="MaintainableFieldDefinition" p:name="awardIndrCostRcvyEntryNbr" p:unconditionallyReadOnly="true"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-		      <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+		      <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+				<property name="webUILeaveFieldFunctionParameters">
+					<list>
+						<value>chartOfAccountsCode</value>
+					</list>
+				</property> 
+			  </bean>  
 		      <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber"/>
 		      <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
 		      <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode"/>

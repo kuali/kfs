@@ -29,11 +29,7 @@
         <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionPostalCodes"/>
       </list>
     </property>
-    
-    
-    
-    
-    
+
     <property name="defaultExistenceChecks">
       <list>
         <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
@@ -43,13 +39,19 @@
     </property>
     
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentPresentationController"/>
-      
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.TaxRegionMaintenanceDocumentPresentationController"/>      
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule"/>
     
     <property name="lockingKeys">
       <list>
         <value>taxRegionCode</value>
+      </list>
+    </property>
+    
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
     
@@ -72,7 +74,13 @@
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>chartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionUseTaxIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

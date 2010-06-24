@@ -38,7 +38,12 @@
       </list>
     </property>
     
-    
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>    
     
     <property name="documentTypeName" value="PMNP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -57,8 +62,14 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>chartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>                
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="negativePaymentRequestApprovalLimitAmount" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>              
       </list>

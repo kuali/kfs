@@ -42,12 +42,16 @@
       </list>
     </property>
     
-    
-    
-    
-    
     <property name="documentTypeName" value="OFAC"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    
     <property name="workflowAttributes">
     	<ref bean="OffsetAccountMaintenanceDocument-workflowAttributes"/>
     </property>
@@ -63,10 +67,22 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>chartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean> 
         <bean parent="MaintainableFieldDefinition" p:name="financialOffsetObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialOffsetChartOfAccountCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>financialOffsetChartOfAccountCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>

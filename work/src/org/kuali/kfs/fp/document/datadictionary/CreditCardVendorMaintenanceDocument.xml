@@ -45,14 +45,18 @@
         <value>financialDocumentCreditCardVendorNumber</value>
       </list>
     </property>
-    
-    
-    
-    
-    
+ 
     <property name="documentTypeName" value="CCVN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardVendorRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    
     <property name="workflowAttributes">
     	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes"/>
     </property>
@@ -71,12 +75,24 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>incomeFinancialChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialSubObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeSubAccountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>expenseFinancialChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialSubObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseSubAccountNumber"/>

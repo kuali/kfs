@@ -55,10 +55,12 @@ function checkRestrictedStatusCode_Callback( data ) {
 	}
 }
 
-function onblur_accountNumber( accountNumberField ) {
-    var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
-    var accountNumber = getElementValue( accountNumberField.name );	
-	//alert ("accountNumberField name = " + accountNumberField.name + ", coaCodeFieldName = " + coaCodeFieldName + ", accountNumber = " + accountNumber);
+function onblur_accountNumber( accountNumberField, coaCodePropertyName ) {
+    //var coaCodeFieldName = findCoaFieldName( accountNumberField.name );
+	var accountNumberFieldName = accountNumberField.name;
+	var coaCodeFieldName = findElPrefix(accountNumberFieldName) + "." + coaCodePropertyName;
+    var accountNumber = getElementValue( accountNumberFieldName );	
+	//alert ("coaCodeFieldName = " + coaCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
 
 	var dwrReply = {
 		callback: function (param) {
@@ -80,10 +82,10 @@ function loadChartCode( accountNumber, coaCodeFieldName ) {
 	else {
 		var dwrReply = {
 				callback: function (data) {
-				alert ("accountNumber = " + accountNumber + ", chartOfAccountsCode = " + data.chartOfAccountsCode);
+				//alert ("chartOfAccountsCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber);
 				if ( data != null && typeof data == 'object' ) {   
-					var coaValue = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
-					setRecipientValue( coaCodeFieldName, coaValue );
+					//var coaValue = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
+					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
 				}
 				else {
 					clearRecipients(coaCodeFieldName); 
@@ -98,8 +100,10 @@ function loadChartCode( accountNumber, coaCodeFieldName ) {
 	}
 }
 
+/*
 function findCoaFieldName( accountNumberFieldName ) {
 	var index = accountNumberFieldName.indexOf("AccountNumber");    
 	var coaCodeFieldName = accountNumberFieldName.substring(0, index) + "ChartOfAccountsCode";
 	return coaCodeFieldName;
 }    
+*/

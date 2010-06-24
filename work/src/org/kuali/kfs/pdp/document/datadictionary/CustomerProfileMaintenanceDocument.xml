@@ -50,8 +50,12 @@
       </list>
     </property>
     
-    
-    
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
     
     <property name="documentTypeName" value="CSPR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.CustomerProfileRule"/>
@@ -129,7 +133,13 @@
     <property name="maintainableItems">
       <list>	    
           <bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="defaultAccountNumber" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="defaultAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>defaultChartCode</value>
+				</list>
+			</property> 
+		  </bean>        
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubAccountNumber" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultObjectCode" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubObjectCode" p:required="false"/>

@@ -84,8 +84,8 @@
     <property name="title" value="Asset Detail Information"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="onblur_chartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:required="false" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true"/>

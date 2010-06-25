@@ -32,6 +32,7 @@ public class EndowConstants extends JSTLConstants {
     // labels for transaction lines for Corpus Adjustment, Unit/Share Adjustment
     public static final String DECREASE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Decrease";
     public static final String INCREASE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Increase";
+
     public static final String DECREASE_TAX_LOTS_LABEL_NAME = "Decrease";
     public static final String INCREASE_TAX_LOTS_LABEL_NAME = "Increase";
 

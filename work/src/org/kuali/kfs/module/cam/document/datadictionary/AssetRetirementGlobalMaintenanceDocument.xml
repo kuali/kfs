@@ -129,9 +129,8 @@
     <property name="title" value="Auction or Sold"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="buyerDescription" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="salePrice" p:required="true" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
-        <!-- <bean parent="MaintainableFieldDefinition" p:name="estimatedSellingPrice"/> -->
+        <bean parent="MaintainableFieldDefinition" p:name="buyerDescription"/>
+        <bean parent="MaintainableFieldDefinition" p:name="salePrice" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
         <bean parent="MaintainableFieldDefinition" p:name="handlingFeeAmount" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
         <bean parent="MaintainableFieldDefinition" p:name="preventiveMaintenanceAmount" p:webUILeaveFieldFunction="onblur_generateCalculatedTotal" p:webUILeaveFieldCallbackFunction="generateCalculatedTotal_Callback"/>
         <bean parent="MaintainableFieldDefinition" p:name="calculatedTotal" p:unconditionallyReadOnly="true"/>

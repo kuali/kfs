@@ -429,21 +429,21 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         if (!salePrice.isEmpty()) {
             KualiDecimal testAmount = toKualiDecimal(salePrice);
             if(testAmount.isZero()){
-              return "Please enter Sale Price in 1234567.00 Format";
+              return "Please enter Sale Price in 1,234,567.00 Format";
             }
             calculatedTotal = calculatedTotal.add(testAmount);
         }
         if (!handlingFeeAmount.isEmpty()) {
             KualiDecimal testAmount = toKualiDecimal(handlingFeeAmount);
             if(testAmount.isZero()){
-               return "Please enter Handling Fee Amount in 1234567.00 Format";
+               return "Please enter Handling Fee Amount in 1,234,567.00 Format";
             }
             calculatedTotal = calculatedTotal.add(testAmount);
         }
         if (!preventiveMaintenanceAmount.isEmpty()) {
             KualiDecimal testAmount = toKualiDecimal(preventiveMaintenanceAmount);
             if(testAmount.isZero()){
-              return "Please enter Preventive Maintenance Amount in 1234567.00 Format";
+              return "Please enter Preventive Maintenance Amount in 1,234,567.00 Format";
             }
             calculatedTotal = calculatedTotal.add(testAmount);
         }

@@ -35,25 +35,29 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     private String balanceInquiryReturnAnchor;
 
-    //labels that appear on the transaction lines as group headers.
+    // labels that appear on the transaction lines as group headers.
     protected String sourceGroupLabelName = EndowConstants.SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME;
     protected String targetGroupLabelName = EndowConstants.TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME;
 
-    //these properties control if the total amount and units show on the summary lines.
-    //the default is set to true to show the values on the document.
+    // labels for the source and taget tax lot lines
+    protected String sourceTaxLotsLabelName = EndowConstants.SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME;
+    protected String targetTaxLotsLabelName = EndowConstants.TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME;
+
+    // these properties control if the total amount and units show on the summary lines.
+    // the default is set to true to show the values on the document.
     protected boolean showIncomeTotalAmount = true;
     protected boolean showPrincipalTotalAmount = true;
-    
+
     protected boolean showIncomeTotalUnits = true;
     protected boolean showPrincipalTotalUnits = true;
-    
-    //the income or principal box value will be set on tag file using the property.
-    //if set to true, income or principal drop-down box will be readonly with value set to P-Principal
+
+    // the income or principal box value will be set on tag file using the property.
+    // if set to true, income or principal drop-down box will be readonly with value set to P-Principal
     protected boolean fieldValueToPrincipal = false;
-    
-    //show the etran code on the document...
+
+    // show the etran code on the document...
     protected boolean showETranCode = true;
-    
+
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -172,7 +176,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public boolean getShowFromTransactionLine() {
         return true;
     }
-    
+
     /**
      * Gets the sourceGroupLabelName attribute.
      * 
@@ -208,7 +212,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setTargetGroupLabelName(String targetGroupLabelName) {
         this.targetGroupLabelName = targetGroupLabelName;
     }
-    
+
     /**
      * Gets the showIncomeTotalAmount attribute.
      * 
@@ -280,7 +284,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setShowPrincipalTotalUnits(boolean showPrincipalTotalUnits) {
         this.showPrincipalTotalUnits = showPrincipalTotalUnits;
     }
-    
+
     /**
      * Gets the fieldValueToPrincipal attribute.
      * 
@@ -298,7 +302,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setFeildValueToPrincipal(boolean fieldValueToPrincipal) {
         this.fieldValueToPrincipal = fieldValueToPrincipal;
     }
-    
+
     /**
      * Gets the showETranCode attribute.
      * 
@@ -315,5 +319,41 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setShowETranCode(boolean showETranCode) {
         this.showETranCode = showETranCode;
-    }    
+    }
+
+    /**
+     * Gets sourceTaxLotsLabelName.
+     * 
+     * @return sourceTaxLotsLabelName
+     */
+    public String getSourceTaxLotsLabelName() {
+        return sourceTaxLotsLabelName;
+    }
+
+    /**
+     * Sets the sourceTaxLotsLabelName.
+     * 
+     * @param sourceTaxLotsLabelName
+     */
+    public void setSourceTaxLotsLabelName(String sourceTaxLotsLabelName) {
+        this.sourceTaxLotsLabelName = sourceTaxLotsLabelName;
+    }
+
+    /**
+     * Gets the targetTaxLotsLabelName.
+     * 
+     * @return targetTaxLotsLabelName
+     */
+    public String getTargetTaxLotsLabelName() {
+        return targetTaxLotsLabelName;
+    }
+
+    /**
+     * Sets targetTaxLotsLabelName.
+     * 
+     * @param targetTaxLotsLabelName
+     */
+    public void setTargetTaxLotsLabelName(String targetTaxLotsLabelName) {
+        this.targetTaxLotsLabelName = targetTaxLotsLabelName;
+    }
 }

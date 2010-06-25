@@ -15,104 +15,167 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 
-public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument 
-{
+public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
     private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
     private List<EndowmentTransactionSecurity> targetTransactionSecurities;
-    
+
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
     private EndowmentTargetTransactionSecurity targetTransactionSecurity;
-    
-    public EndowmentSecurityDetailsDocumentBase()
-    {
+
+    public EndowmentSecurityDetailsDocumentBase() {
         super();
-        sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();;
-        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();;
+        sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
+        targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
         sourceTransactionSecurities = new TypedArrayList(EndowmentSourceTransactionSecurity.class);
         targetTransactionSecurities = new TypedArrayList(EndowmentTargetTransactionSecurity.class);
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase#prepareForSave()
+     */
     @Override
-    public void prepareForSave() 
-    {
+    public void prepareForSave() {
         super.prepareForSave();
-        
-        //A Hack to insert transaction securities in the securities collection.
-        if( !StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID()) )
-        {
-            getSourceTransactionSecurities().add(0,sourceTransactionSecurity);
-        }
+        sourceTransactionSecurities.clear();
+        targetTransactionSecurities.clear();
 
-        //A Hack to insert transaction securities in the securities collection.
-        if( !StringUtils.isEmpty(targetTransactionSecurity.getSecurityID()) )
-        {
-            getTargetTransactionSecurities().add(0,targetTransactionSecurity);        
+        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
+        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI allows
+        // the user to enter a source security detail by default. This is adjusted before save so that the right security is saved
+        // in the DB.
+        if (this instanceof EndowmentUnitShareAdjustmentDocument) {
+
+            if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
+
+                if (this.getSourceTransactionLines() != null && this.getSourceTransactionLines().size() > 0) {
+                    getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
+                }
+                else if (this.getTargetTransactionLines() != null && this.getTargetTransactionLines().size() > 0) {
+                    targetTransactionSecurity.setSecurityID(sourceTransactionSecurity.getSecurityID());
+                    targetTransactionSecurity.setRegistrationCode(sourceTransactionSecurity.getRegistrationCode());
+                    getTargetTransactionSecurities().add(0, targetTransactionSecurity);
+                }
+            }
+        }
+        else {
+
+            // A Hack to insert transaction securities in the securities collection.
+            if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
+                getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
+            }
+
+            // A Hack to insert transaction securities in the securities collection.
+            if (!StringUtils.isEmpty(targetTransactionSecurity.getSecurityID())) {
+                getTargetTransactionSecurities().add(0, targetTransactionSecurity);
+            }
         }
 
     }
-    
+
+    /**
+     * Gets the sourceTransactionSecurities.
+     * 
+     * @return sourceTransactionSecurities
+     */
     public List<EndowmentTransactionSecurity> getSourceTransactionSecurities() {
         return sourceTransactionSecurities;
     }
+
+    /**
+     * Sets the sourceTransactionSecurities.
+     * 
+     * @param sourceTransactionSecurities
+     */
     public void setSourceTransactionSecurities(List<EndowmentTransactionSecurity> sourceTransactionSecurities) {
         this.sourceTransactionSecurities = sourceTransactionSecurities;
     }
+
+    /**
+     * Gets the targetTransactionSecurities.
+     * 
+     * @return targetTransactionSecurities
+     */
     public List<EndowmentTransactionSecurity> getTargetTransactionSecurities() {
         return targetTransactionSecurities;
     }
+
+    /**
+     * Sets the targetTransactionSecurities.
+     * 
+     * @param targetTransactionSecurities
+     */
     public void setTargetTransactionSecurities(List<EndowmentTransactionSecurity> targetTransactionSecurities) {
         this.targetTransactionSecurities = targetTransactionSecurities;
     }
-    
+
     /**
-     * Here when the document is being read from the DB, the security object to be retruned must be the object from the DB and not the new object created. 
+     * Here when the document is being read from the DB, the security object to be returned must be the object from the DB and not
+     * the new object created.
      * 
      * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getSourceTransactionSecurity()
      */
-    public EndowmentTransactionSecurity getSourceTransactionSecurity() 
-    {
-        if(this.sourceTransactionSecurities.size() > 0)
-        {
-            return this.sourceTransactionSecurities.get(0);
+    public EndowmentTransactionSecurity getSourceTransactionSecurity() {
+        if (this.sourceTransactionSecurities.size() > 0) {
+            this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) this.sourceTransactionSecurities.get(0);
         }
-        else 
-            return this.sourceTransactionSecurity;
-   }
+        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
+        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI
+        // display a source security detail by default so this code will return the target security saved to be displayed on the
+        // source security on the UI.
+        else if (this instanceof EndowmentUnitShareAdjustmentDocument && this.targetTransactionSecurities.size() > 0) {
+            this.sourceTransactionSecurity.setSecurityID(this.targetTransactionSecurities.get(0).getSecurityID());
+
+            this.sourceTransactionSecurity.setRegistrationCode(this.targetTransactionSecurities.get(0).getRegistrationCode());
+        }
+        return this.sourceTransactionSecurity;
+    }
 
     /**
-     * Here when the document is being read from the DB, the security object to be retruned must be the object from the DB and not the new object created.
+     * Here when the document is being read from the DB, the security object to be returned must be the object from the DB and not
+     * the new object created.
      * 
      * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#getTargetTransactionSecurity()
      */
-    public EndowmentTransactionSecurity getTargetTransactionSecurity() 
-    {
-        if(this.targetTransactionSecurities.size() > 0)
-        {
-            return this.targetTransactionSecurities.get(0);
+    public EndowmentTransactionSecurity getTargetTransactionSecurity() {
+        if (this.targetTransactionSecurities.size() > 0) {
+            this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity) this.targetTransactionSecurities.get(0);
         }
-        else 
-            return this.targetTransactionSecurity; 
+
+        return this.targetTransactionSecurity;
     }
-    
-    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) 
-    {
-        this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity)sourceTransactionSecurity;
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setSourceTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
+     */
+    public void setSourceTransactionSecurity(EndowmentTransactionSecurity sourceTransactionSecurity) {
+        this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) sourceTransactionSecurity;
     }
-    
-    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) 
-    {
-        this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity)targetTransactionSecurity;
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument#setTargetTransactionSecurity(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity)
+     */
+    public void setTargetTransactionSecurity(EndowmentTransactionSecurity targetTransactionSecurity) {
+        this.targetTransactionSecurity = (EndowmentTargetTransactionSecurity) targetTransactionSecurity;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+
+        managedList.add(getTargetTransactionSecurities());
+        managedList.add(getSourceTransactionSecurities());
+
+        return managedList;
     }
 }

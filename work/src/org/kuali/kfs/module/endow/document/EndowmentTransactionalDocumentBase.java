@@ -141,43 +141,39 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
         this.transactionSourceType = transactionSourceType;
     }
-    
+
     protected void initializeSubType() {
-        //Fill sub type code for UI on Initial request. 
+        // Fill sub type code for UI on Initial request.
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("code", this.getTransactionSubTypeCode());
         EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
         setTransactionSubType(endowmentTransactionSubType);
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
-    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
-    {
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         super.toErrorCorrection();
-        
-        //Reset All the Version numbers to 1
-        try 
-        {
+
+        // Reset All the Version numbers to 1
+        try {
             ObjectUtils.setObjectPropertyDeep(this, KNSPropertyConstants.VERSION_NUMBER, versionNumber.getClass(), 0L);
         }
-        catch (Exception e) 
-        {
+        catch (Exception e) {
             LOG.error("Unable to set version number property in copied document " + e.getMessage());
             throw new RuntimeException("Unable to set version number property in copied document " + e.getMessage());
         }
     }
-    
+
     /**
      * This method...
      * 
      * @return
      */
-    public boolean isErrorCorrectedDocument()
-    {
-        if( StringUtils.isEmpty(getDocumentHeader().getFinancialDocumentInErrorNumber()) )
+    public boolean isErrorCorrectedDocument() {
+        if (StringUtils.isEmpty(getDocumentHeader().getFinancialDocumentInErrorNumber()))
             return false;
         else
             return true;

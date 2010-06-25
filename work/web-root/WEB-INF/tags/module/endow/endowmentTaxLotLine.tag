@@ -64,7 +64,7 @@
 			</c:if>
 			</c:otherwise>
 			</c:choose>
-	        	    FROM
+	        	   ${KualiForm.sourceTaxLotsLabelName}
 	            </td>   
 	        </tr>	
 			<tr>
@@ -155,7 +155,7 @@
 			</c:if>
 			</c:otherwise>
 			</c:choose>
-	        	    TO
+	        	    ${KualiForm.targetTaxLotsLabelName}
 	            </td>   
 	        </tr>	
 			<tr>

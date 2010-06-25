@@ -26,10 +26,14 @@ public class EndowConstants extends JSTLConstants {
 
     public static final String SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME = "From";
     public static final String TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME = "To";
+    public static final String SOURCE_TAX_LOTS_LABEL_NAME = "From";
+    public static final String TARGET_TAX_LOTS__LABEL_NAME = "To";
 
-    // labels for transaction lines for Corpus Adjustment
-    public static final String CORPUS_ADJUSTMENT_SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Decrease";
-    public static final String CORPUS_ADJUSTMENT_TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME = "Increase";
+    // labels for transaction lines for Corpus Adjustment, Unit/Share Adjustment
+    public static final String DECREASE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Decrease";
+    public static final String INCREASE_TRANSACTION_LINE_GROUP_LABEL_NAME = "Increase";
+    public static final String DECREASE_TAX_LOTS_LABEL_NAME = "Decrease";
+    public static final String INCREASE_TAX_LOTS_LABEL_NAME = "Increase";
 
     public static class SecurityReportingGroups {
         public static final String CASH_EQUIVALENTS = "CSHEQ";

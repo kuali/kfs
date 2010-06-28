@@ -22,8 +22,15 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
 
+/**
+ * The Endowment Asset Decrease (EAD) is used to reduce the holdings of a KEMID, either through the cash sale of an asset or by
+ * removing it directly from the KEMID holding record.
+ */
 public class AssetDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, Copyable, UnitsTotaling, AmountTotaling {
 
+    /**
+     * Constructs a AssetDecreaseDocument.
+     */
     public AssetDecreaseDocument() {
         super();
     }

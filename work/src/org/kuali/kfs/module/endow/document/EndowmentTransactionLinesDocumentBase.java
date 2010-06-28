@@ -25,7 +25,6 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
 import org.kuali.kfs.module.endow.util.LineParser;
 import org.kuali.kfs.module.endow.util.LineParserBase;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -49,11 +48,6 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         this.nextTargetLineNumber = new Integer(1);
         sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
         targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
-    }
-
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
     }
 
 
@@ -433,33 +427,29 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     @Override
-    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
-    {
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         super.toErrorCorrection();
-        
-        //Negate the Tx lines
-        List<EndowmentTransactionLine> lines = new  ArrayList<EndowmentTransactionLine>();
+
+        // Negate the Tx lines
+        List<EndowmentTransactionLine> lines = new ArrayList<EndowmentTransactionLine>();
         lines.addAll(sourceTransactionLines);
         lines.addAll(targetTransactionLines);
-        
-        for(EndowmentTransactionLine line : lines)
-        {
+
+        for (EndowmentTransactionLine line : lines) {
             line.setTransactionAmount(line.getTransactionAmount().negated());
-            if( null != line.getTransactionUnits() && !line.getTransactionUnits().isZero() )
+            if (null != line.getTransactionUnits() && !line.getTransactionUnits().isZero())
                 line.setTransactionUnits(line.getTransactionUnits().negated());
         }
     }
-    
-    public Class getTranLineClass(boolean isSource) 
-    {
-        if(isSource)
+
+    public Class getTranLineClass(boolean isSource) {
+        if (isSource)
             return EndowmentSourceTransactionLine.class;
         else
             return EndowmentTargetTransactionLine.class;
     }
-    
-    public LineParser getLineParser()
-    {
-        return new LineParserBase(); 
+
+    public LineParser getLineParser() {
+        return new LineParserBase();
     }
 }

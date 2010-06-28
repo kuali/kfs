@@ -43,13 +43,11 @@ public class EndowmentTransactionalDocumentPresentationController extends Financ
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) 
-    {
+    protected boolean canEdit(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         FinancialSystemDocumentHeader documentheader = (FinancialSystemDocumentHeader) (document.getDocumentHeader());
 
-        if (workflowDocument.stateIsCanceled() || documentheader.getFinancialDocumentInErrorNumber() != null) 
-        {
+        if (workflowDocument.stateIsCanceled() || documentheader.getFinancialDocumentInErrorNumber() != null) {
             return false;
         }
         else

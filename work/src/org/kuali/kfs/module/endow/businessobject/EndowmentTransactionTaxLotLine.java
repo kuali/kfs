@@ -73,74 +73,164 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.lineNumber = lineNumber;
     }
 
+    /**
+     * Gets the documentNumber.
+     * 
+     * @return documentNumber
+     */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
+    /**
+     * Sets the documentNumber.
+     * 
+     * @param documentNumber
+     */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
+    /**
+     * Gets the documentLineNumber.
+     * 
+     * @return documentLineNumber
+     */
     public Integer getDocumentLineNumber() {
         return documentLineNumber;
     }
 
+    /**
+     * Sets the documentLineNumber.
+     * 
+     * @param documentLineNumber
+     */
     public void setDocumentLineNumber(Integer documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
 
+    /**
+     * Gets the documentLineTypeCode.
+     * 
+     * @return documentLineTypeCode
+     */
     public String getDocumentLineTypeCode() {
         return documentLineTypeCode;
     }
 
+    /**
+     * Sets the documentLineTypeCode.
+     * 
+     * @param documentLineTypeCode
+     */
     public void setDocumentLineTypeCode(String documentLineTypeCode) {
         this.documentLineTypeCode = documentLineTypeCode;
     }
 
+    /**
+     * Gets the transactionHoldingLotNumber.
+     * 
+     * @return transactionHoldingLotNumber
+     */
     public Integer getTransactionHoldingLotNumber() {
         return transactionHoldingLotNumber;
     }
 
+    /**
+     * Sets the transactionHoldingLotNumber.
+     * 
+     * @param transactionHoldingLotNumber
+     */
     public void setTransactionHoldingLotNumber(Integer transactionHoldingLotNumber) {
         this.transactionHoldingLotNumber = transactionHoldingLotNumber;
     }
 
+    /**
+     * Gets the lotUnits.
+     * 
+     * @return lotUnits
+     */
     public BigDecimal getLotUnits() {
         return lotUnits;
     }
 
+    /**
+     * Sets the lotUnits.
+     * 
+     * @param lotUnits
+     */
     public void setLotUnits(BigDecimal lotUnits) {
         this.lotUnits = lotUnits;
     }
 
+    /**
+     * Gets the lotHoldingCost.
+     * 
+     * @return lotHoldingCost
+     */
     public BigDecimal getLotHoldingCost() {
         return lotHoldingCost;
     }
 
+    /**
+     * Sets the lotHoldingCost.
+     * 
+     * @param lotHoldingCost
+     */
     public void setLotHoldingCost(BigDecimal lotHoldingCost) {
         this.lotHoldingCost = lotHoldingCost;
     }
 
+    /**
+     * Gets the lotLongTermGainLoss.
+     * 
+     * @return lotLongTermGainLoss
+     */
     public BigDecimal getLotLongTermGainLoss() {
         return lotLongTermGainLoss;
     }
 
+    /**
+     * Sets the lotLongTermGainLoss.
+     * 
+     * @param lotLongTermGainLoss
+     */
     public void setLotLongTermGainLoss(BigDecimal lotLongTermGainLoss) {
         this.lotLongTermGainLoss = lotLongTermGainLoss;
     }
 
+    /**
+     * Gets the lotShortTermGainLoss.
+     * 
+     * @return lotShortTermGainLoss
+     */
     public BigDecimal getLotShortTermGainLoss() {
         return lotShortTermGainLoss;
     }
 
+    /**
+     * Sets the lotShortTermGainLoss.
+     * 
+     * @param lotShortTermGainLoss
+     */
     public void setLotShortTermGainLoss(BigDecimal lotShortTermGainLoss) {
         this.lotShortTermGainLoss = lotShortTermGainLoss;
     }
 
+    /**
+     * Gets the transactionLine.
+     * 
+     * @return transactionLine
+     */
     public EndowmentTransactionLine getTransactionLine() {
         return transactionLine;
     }
 
+    /**
+     * Sets the transactionLine.
+     * 
+     * @param transactionLine
+     */
     public void setTransactionLine(EndowmentTransactionLine transactionLine) {
         this.transactionLine = transactionLine;
     }

@@ -15,13 +15,19 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
 
+/**
+ * The Endowment Asset Increase (EAI) transaction is used to add to the holdings of a KEMID, either through the cash purchase of an
+ * asset or by depositing it directly into the KEMID holding record.
+ */
 public class AssetIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Correctable, Copyable, UnitsTotaling, AmountTotaling {
 
+    /**
+     * Constructs a AssetIncreaseDocument.
+     */
     public AssetIncreaseDocument() {
         super();
     }

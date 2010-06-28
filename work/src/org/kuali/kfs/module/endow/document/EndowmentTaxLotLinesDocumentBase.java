@@ -23,19 +23,19 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 
-public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument{
+public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentTaxLotLinesDocument {
 
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument#getTaxLotLinesNumber()
      */
     public int getTaxLotLinesNumber() {
         int taxLotLinesNbr = 0;
-        
+
         for (int i = 0; i < getTargetTransactionLines().size(); i++) {
             EndowmentTransactionLine transactionLine = (EndowmentTransactionLine) getTargetTransactionLines().get(i);
             taxLotLinesNbr += transactionLine.getTaxLotLines().size();
         }
-        
+
         for (int i = 0; i < getSourceTransactionLines().size(); i++) {
             EndowmentTransactionLine transactionLine = (EndowmentTransactionLine) getSourceTransactionLines().get(i);
             taxLotLinesNbr += transactionLine.getTaxLotLines().size();
@@ -49,27 +49,24 @@ public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurity
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     @Override
-    public void toErrorCorrection() throws WorkflowException, IllegalStateException 
-    {
+    public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         super.toErrorCorrection();
-        
-        //Negate the Taxlot lines Amount, Units, Short term gain & long term gain values.  
-        List<EndowmentTransactionLine> lines = new  ArrayList<EndowmentTransactionLine>();
+
+        // Negate the Taxlot lines Amount, Units, Short term gain & long term gain values.
+        List<EndowmentTransactionLine> lines = new ArrayList<EndowmentTransactionLine>();
         lines.addAll(sourceTransactionLines);
         lines.addAll(targetTransactionLines);
-        
-        for(EndowmentTransactionLine line : lines)
-        {
-            for(EndowmentTransactionTaxLotLine taxLotLine: line.getTaxLotLines())
-            {
+
+        for (EndowmentTransactionLine line : lines) {
+            for (EndowmentTransactionTaxLotLine taxLotLine : line.getTaxLotLines()) {
                 taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
                 taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
-                if( null != taxLotLine.getLotLongTermGainLoss() && 0 != taxLotLine.getLotLongTermGainLoss().intValue() )
-                    taxLotLine.setLotLongTermGainLoss(taxLotLine.getLotLongTermGainLoss().negate());  
-                if(null != taxLotLine.getLotShortTermGainLoss()  && 0 != taxLotLine.getLotShortTermGainLoss().intValue() )
-                    taxLotLine.setLotShortTermGainLoss(taxLotLine.getLotShortTermGainLoss().negate());      
+                if (null != taxLotLine.getLotLongTermGainLoss() && 0 != taxLotLine.getLotLongTermGainLoss().intValue())
+                    taxLotLine.setLotLongTermGainLoss(taxLotLine.getLotLongTermGainLoss().negate());
+                if (null != taxLotLine.getLotShortTermGainLoss() && 0 != taxLotLine.getLotShortTermGainLoss().intValue())
+                    taxLotLine.setLotShortTermGainLoss(taxLotLine.getLotShortTermGainLoss().negate());
             }
         }
     }
-    
+
 }

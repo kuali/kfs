@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -71,35 +70,59 @@ public abstract class EndowmentTransactionSecurityBase extends PersistableBusine
         this.securityLineTypeCode = securityLineTypeCode;
     }
     
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#getSecurityID()
+     */
     public String getSecurityID() {
         return securityID;
     }
     
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#setSecurityID(java.lang.String)
+     */
     public void setSecurityID(String securityID ) {
         this.securityID = securityID;
     }
     
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#getSecurity()
+     */
     public Security getSecurity() {
         return security;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#setSecurity(org.kuali.kfs.module.endow.businessobject.Security)
+     */
     public void setSecurity(Security security) {
         this.security = security;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#getRegistrationCode()
+     */
     public String getRegistrationCode() {
         return registrationCode;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#setRegistrationCode(java.lang.String)
+     */
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
 
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#getRegistrationCodeObj()
+     */
     public RegistrationCode getRegistrationCodeObj() {
         return registrationCodeObj;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity#setRegistrationCodeObj(org.kuali.kfs.module.endow.businessobject.RegistrationCode)
+     */
     public void setRegistrationCodeObj(RegistrationCode registrationCodeObj) {
         this.registrationCodeObj = registrationCodeObj;
 

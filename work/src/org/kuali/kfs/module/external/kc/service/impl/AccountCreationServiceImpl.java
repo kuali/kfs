@@ -83,7 +83,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             return accountCreationStatus;
         }
         
-        GlobalVariables.setUserSession(new UserSession(principalId));
+        // set the user session so that the user name can be displayed in the saved document
+        PersonService<Person> personService = KIMServiceLocator.getPersonService();
+        Person user = personService.getPerson(principalId);
+        GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
         
         // get the defaults table
         String unitNumber = accountParameters.getUnit();
@@ -129,24 +132,30 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountEffectiveDate(new java.sql.Date(parameters.getEffectiveDate().getTime()));
         
         // set the right address based on system parameter ACCOUNT_ADDRESS_TYPE
-        // T1:T2:T3
-        String addressType = parameterService.getParameterValue(Account.class, "ACCOUNT_ADDRESS_TYPE");
-        if (addressType.equals("T1")) {         // default
-            account.setAccountStreetAddress(parameters.getDefaultAddressStreetAddress());
-            account.setAccountCityName(parameters.getDefaultAddressCityName());
-            account.setAccountStateCode(parameters.getDefaultAddressStateCode());            
-            account.setAccountZipCode(parameters.getDefaultAddressZipCode());
-        } else if (addressType.equals("T2")) {  // admin
-            account.setAccountStreetAddress(parameters.getAdminContactAddressStreetAddress());
-            account.setAccountCityName(parameters.getAdminContactAddressCityName());
-            account.setAccountStateCode(parameters.getAdminContactAddressStateCode());            
-            account.setAccountZipCode(parameters.getAdminContactAddressZipCode());
-        } else if (addressType.equals("T3")) {  // payment
-            account.setAccountStreetAddress(parameters.getPaymentAddressStreetAddress());
-            account.setAccountCityName(parameters.getPaymentAddressCityName());
-            account.setAccountStateCode(parameters.getPaymentAddressStateCode());            
-            account.setAccountZipCode(parameters.getPaymentAddressZipCode());
-        } else {
+        List<String> addressTypes = parameterService.getParameterValues(Account.class, KcConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE);
+        for (String addressType : addressTypes) {
+            if (addressType.equals(KcConstants.AccountCreationService.ADMIN_ADDRESS_TYTPE) && !parameters.getDefaultAddressStreetAddress().isEmpty()) {         // default
+                account.setAccountStreetAddress(parameters.getDefaultAddressStreetAddress());
+                account.setAccountCityName(parameters.getDefaultAddressCityName());
+                account.setAccountStateCode(parameters.getDefaultAddressStateCode());            
+                account.setAccountZipCode(parameters.getDefaultAddressZipCode());
+                break;
+            } else if (addressType.equals(KcConstants.AccountCreationService.PAYMENT_ADDRESS_TYTPE) && !parameters.getAdminContactAddressStreetAddress().isEmpty()) {  // admin
+                account.setAccountStreetAddress(parameters.getAdminContactAddressStreetAddress());
+                account.setAccountCityName(parameters.getAdminContactAddressCityName());
+                account.setAccountStateCode(parameters.getAdminContactAddressStateCode());            
+                account.setAccountZipCode(parameters.getAdminContactAddressZipCode());
+                break;
+            } else if (addressType.equals(KcConstants.AccountCreationService.DEFAULT_ADDRESS_TYTPE) && !parameters.getPaymentAddressStreetAddress().isEmpty()) {  // payment
+                account.setAccountStreetAddress(parameters.getPaymentAddressStreetAddress());
+                account.setAccountCityName(parameters.getPaymentAddressCityName());
+                account.setAccountStateCode(parameters.getPaymentAddressStateCode());            
+                account.setAccountZipCode(parameters.getPaymentAddressZipCode());
+                break;
+            } 
+        }
+        // if they are all empty, then take from the default table
+        if (account.getAccountStreetAddress().isEmpty()) {
             account.setAccountStreetAddress(defaults.getAccountStreetAddress());             
             account.setAccountCityName(defaults.getAccountCityName());
             account.setAccountStateCode(defaults.getAccountStateCode());

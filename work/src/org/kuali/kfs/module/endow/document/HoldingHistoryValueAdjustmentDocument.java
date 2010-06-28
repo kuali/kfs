@@ -25,7 +25,7 @@ import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
  * This is the transactional document that is used to record a modification to the 
  * market value of a record or group of records in the holding history table
  */
-public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactionalDocumentBase implements Copyable, Correctable{
+public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactionalDocumentBase implements Copyable {
 
     protected String securityId;
     protected String securityClassCode;
@@ -44,6 +44,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
     
     /**
      * This method will get securityId
+     * @return securityId
      */
     public String getSecurityId() {
         return securityId;
@@ -59,6 +60,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
     
     /**
      * This method will get securityClassCode
+     * @return securityClassCode 
      */    
     public String getSecurityClassCode() {
         return securityClassCode;
@@ -74,6 +76,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
     
     /**
      * This method will get securityValuationMethod
+     * @return securityValuationMethod
      */
     public String getSecurityValuationMethod() {
         return securityValuationMethod;
@@ -89,6 +92,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
 
     /**
      * This method will get holdingMonthEndDate
+     * @return holdingMonthEndDate
      */    
     public long getHoldingMonthEndDate() {
         return holdingMonthEndDate;
@@ -104,6 +108,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
 
     /**
      * This method will get securityUnitValue
+     * @return securityUnitValue
      */    
     public long getSecurityUnitValue() {
         return securityUnitValue;
@@ -119,6 +124,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
 
     /**
      * This method will get securityMarketValue
+     * @return securityMarketValue
      */    
     public long getSecurityMarketValue() {
         return securityMarketValue;
@@ -132,26 +138,50 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
         this.securityMarketValue = securityMarketValue;
     }
 
+    /**
+     * This method will get security
+     * @return security
+     */    
     public Security getSecurity() {
         return security;
     }
 
+    /**
+     * This method will set security
+     * @param security
+     */    
     public void setSecurity(Security security) {
         this.security = security;
     }
 
+    /**
+     * This method will get securityValuation
+     * @return securityValuation
+     */    
     public SecurityValuationMethod getSecurityValuation() {
         return securityValuation;
     }
 
+    /**
+     * This method will set securityValuation
+     * @param securityValuation
+     */    
     public void setSecurityValuation(SecurityValuationMethod securityValuation) {
         this.securityValuation = securityValuation;
     }
 
+    /**
+     * This method will get monthEndDate
+     * @return monthEndDate
+     */    
     public MonthEndDate getMonthEndDate() {
         return monthEndDate;
     }
 
+    /**
+     * This method will set monthEndDate
+     * @param monthEndDate
+     */
     public void setMonthEndDate(MonthEndDate monthEndDate) {
         this.monthEndDate = monthEndDate;
     }

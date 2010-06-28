@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.endow.EndowConstants;
 
 public class EndowmentSourceTransactionLine extends EndowmentTransactionLineBase {
 
@@ -24,6 +24,6 @@ public class EndowmentSourceTransactionLine extends EndowmentTransactionLineBase
      */
     public EndowmentSourceTransactionLine() {
         super();
-        this.setTransactionLineTypeCode("F");
+        this.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE);
     }
 }

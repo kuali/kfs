@@ -247,6 +247,9 @@ public class EndowConstants extends JSTLConstants {
     // }
     public static final String TRANSACTION_LINE_TYPE_SOURCE = "F";
     public static final String TRANSACTION_LINE_TYPE_TARGET = "T";
+    
+    public static final String TRANSACTION_SECURITY_TYPE_SOURCE = "F";
+    public static final String TRANSACTION_SECURITY_TYPE_TARGET = "T";
 
     public static final class TransactionSubTypeCode {
         public static final String CASH = "C";

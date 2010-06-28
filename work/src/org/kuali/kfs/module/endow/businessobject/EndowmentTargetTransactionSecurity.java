@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import org.kuali.kfs.module.endow.EndowConstants;
+
 public class EndowmentTargetTransactionSecurity extends EndowmentTransactionSecurityBase {
     
     public EndowmentTargetTransactionSecurity() {
         super();
-        this.setSecurityLineTypeCode("T");
+        this.setSecurityLineTypeCode(EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET);
     }
 
 }

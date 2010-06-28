@@ -31,7 +31,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.util.RiceUtilities;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
@@ -60,9 +62,12 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
 
+import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private GroupService groupService;
@@ -70,6 +75,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     private IdentityManagementService identityManagementService;
     private DocumentTypeService documentTypeService;
     private KimTypeInfoService typeInfoService;
+    private RiceCacheAdministrator cacheAdministrator;
     
     protected static final String WILDCARD = "*";
     protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
@@ -94,6 +100,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected static final String ACTIVE = "active";
     protected static final String ACTIVE_FROM_DATE = "activeFromDate";
     protected static final String ACTIVE_TO_DATE = "activeToDate";
+    public static final String ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP = "OrgAcctReviewRoleDocType";
+    public static final String ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX = ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP + ":";
     
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -435,11 +443,30 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         } else{
             if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName))
                 roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
-            else if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName))
-                throw new RuntimeException("Invalid document type chosen for Organization Review: "+KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+            else if(parentAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
+                throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
+            }
         }
 
         return roleToConsider;
+    }
+    public boolean parentAndChildrenHaveZeroOrgAndAccountReviewRoles(String parentDocumentTypeName){     
+        boolean hasZeroQualifyingNodes = true;
+        Object hasZeroNodesCache  = null;
+        hasZeroNodesCache = getCacheAdministrator().getFromCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + parentDocumentTypeName);        
+        if( ObjectUtils.isNotNull(hasZeroNodesCache)){
+            return ((Boolean)hasZeroNodesCache).booleanValue();
+        }
+        DocumentTypeDTO parentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(parentDocumentTypeName);
+        if(hasOrganizationHierarchy(parentDocumentTypeName) || hasAccountingOrganizationHierarchy(parentDocumentTypeName) )                        
+            return false;        
+        List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(parentDocType.getDocTypeId());
+        for(DocumentType docType : docTypes){
+            hasZeroQualifyingNodes &= parentAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
+            if(hasZeroQualifyingNodes == false) break;
+        }
+        getCacheAdministrator().putInCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + parentDocumentTypeName, new Boolean(hasZeroQualifyingNodes), ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP);            
+        return hasZeroQualifyingNodes;
     }
     
     protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMemberCompleteInfo> members){
@@ -860,6 +887,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             typeInfoService = KIMServiceLocator.getTypeInfoService();
         }
         return typeInfoService;
+    }
+    protected RiceCacheAdministrator getCacheAdministrator(){
+        if(cacheAdministrator==null){
+            cacheAdministrator = KEWServiceLocator.getCacheAdministrator();
+        }
+        return cacheAdministrator;
     }
 
 }

@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Role;
@@ -57,10 +58,12 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.KualiException;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+
 
 public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
@@ -807,4 +810,19 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return null;
     }
 
+    @Override
+    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
+        String docTypeName = "";
+        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
+        if(fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME)){
+            docTypeName = (String)fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
+        }
+        if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) && fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
+           orrLHSI.parentAndChildrenHaveZeroOrgAndAccountReviewRoles(docTypeName)){
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);            
+            return new HashMap();           
+        }else{
+            return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+        }
+    }
 }

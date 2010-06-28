@@ -226,6 +226,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ORGMAINT_STARTDATE_IN_PAST = "error.document.orgMaintenance.startDateMustBeGreaterThanOrEqualToToday";
     public static final String ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG = "error.document.orgMaintenance.onlyOneTopLevelOrg";
 
+    // Org Review Errors
+    
+    public static final String ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE = "error.document.orgReview.invalidDocumentType";
+    
     // Org Reversion Errors
     public static final String ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_BUDGET_REVERSION_INCOMPLETE = "error.document.globalOrgReversion.incompleteBudgetReversion";
     public static final String ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_CASH_REVERSION_INCOMPLETE = "error.document.globalOrgReversion.incompleteCashReversion";

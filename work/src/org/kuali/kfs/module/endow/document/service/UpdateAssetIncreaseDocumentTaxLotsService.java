@@ -24,10 +24,9 @@ public interface UpdateAssetIncreaseDocumentTaxLotsService {
     /**
      * Updates the tax lots related to the given transaction line in the Asset Increase document.
      * 
-     * @param isSource true if transaction line is source, false if target
      * @param aiDocument the Asset Increase Document for which we compute the transaction line related tax lots
      * @param transLine the transaction line for which we update the tax lots
      */
-    public void updateTransactionLineTaxLots(boolean isSource, AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine);
+    public void updateTransactionLineTaxLots(AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine);
 
 }

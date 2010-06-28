@@ -37,7 +37,7 @@ public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocume
 
         UpdateAssetIncreaseDocumentTaxLotsService taxLotsService = SpringContext.getBean(UpdateAssetIncreaseDocumentTaxLotsService.class);
         AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) etlDocument;
-        taxLotsService.updateTransactionLineTaxLots(isSource, assetIncreaseDocument, transLine);
+        taxLotsService.updateTransactionLineTaxLots(assetIncreaseDocument, transLine);
 
     }
 

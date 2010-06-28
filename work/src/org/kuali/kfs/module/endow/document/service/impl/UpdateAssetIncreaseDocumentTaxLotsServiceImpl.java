@@ -39,18 +39,19 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
 
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.AssetIncreaseDocument,
+     * @see org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService#updateTransactionLineTaxLots(org.kuali.kfs.module.endow.document.AssetIncreaseDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
-    public void updateTransactionLineTaxLots(boolean isSource, AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine) {
+    public void updateTransactionLineTaxLots(AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine) {
         EndowmentTransactionTaxLotLine taxLotLine = null;
         boolean newLine = false;
 
+        // updating an existing tax lot
         if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
             // there is only one tax lot line per each transaction line
             taxLotLine = transLine.getTaxLotLines().get(0);
         }
+        // or adding a new one
         else {
             // create and set a new tax lot line
             newLine = true;
@@ -69,7 +70,9 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
-        // if security tax lot indicator is 'No'
+        // if security tax lot indicator is 'No' and a tax lot exists for the kemid, security, registration code and income
+        // principal indicator - set the lot acquired date to be the tax lot holding acquired date if units and cost is not zero;
+        // otherwise set the date to be the current date
         if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
             HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), 1, transLine.getTransactionIPIndicatorCode());
             if (ObjectUtils.isNotNull(holdingTaxLot)) {
@@ -85,7 +88,7 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
             }
 
         }
-        // if security tax lot indicator is 'Yes'
+        // if security tax lot indicator is 'Yes' set the lot acquired date to be the current date
         else {
             taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
         }

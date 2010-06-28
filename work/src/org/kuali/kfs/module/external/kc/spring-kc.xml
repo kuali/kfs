@@ -31,7 +31,13 @@
         <property name="packagePrefixes">
             <list merge="true">
                 <value>org.kuali.kfs.module.external.kc</value>
+                <value>org.kuali.kfs.integration.kc</value>
             </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.service.UnitDTOExternalizableBusinessObjectService" />
+             </map>
         </property>
 		<property name="dataDictionaryPackages">
 			<list>
@@ -51,25 +57,20 @@
 				<value>org/kuali/kfs/module/external/kc/dwr-kc.xml</value>
 			</list>
 		</property>
-		<property name="externalizableBusinessObjectImplementations">
-            <map>
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsCfda" value="org.kuali.kfs.module.kc.businessobject.CFDA" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.kc.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAward" value="org.kuali.kfs.module.kc.businessobject.Award" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.kc.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.kc.ContractAndGrantsProposal" value="org.kuali.kfs.module.kc.businessobject.Proposal" />
-                <entry key="org.kuali.kfs.integration.kc.ContractsAndGrantsAgency" value="org.kuali.kfs.module.kc.businessobject.Agency" />
-            </map>
-        </property>
 		 -->
 	</bean>
-
+	<!--
     <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
 
     <bean id="kcModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
 	</bean>
-
+	-->
+	<bean id="kcModuleService" parent="kcModuleService-parentBean"/>
+    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.UnitDTOExternalizableBusinessObjectService" abstract="true">
+		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
+	</bean>
+	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService"
@@ -98,4 +99,16 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 	    
+  <bean id="unitDTOLookupableHelperService"
+		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="unitDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="unitDTOLookupableHelperService" />
+		</property>
+	</bean>
+
+  
 </beans>

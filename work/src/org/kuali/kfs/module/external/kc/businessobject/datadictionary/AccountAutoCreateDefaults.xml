@@ -88,6 +88,9 @@
     </property>
     <property name="relationships">
       <list>
+        <dd:relationship objectAttribute="unitDTO">
+        	<dd:primitiveAttribute source="kcUnit" target="unitNumber"/>
+        </dd:relationship>
         <dd:relationship objectAttribute="accountFiscalOfficerUser">
             <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="principalId"/>
             <dd:supportAttribute source="accountFiscalOfficerUser.principalName" target="principalName" identifier="true"/>
@@ -128,9 +131,9 @@
   </bean>
 
 <!-- Attribute Definitions -->
-	<!-- Most attributes derived from Account; Define KC specific attributes here -->
+ 	<!-- Most attributes derived from Account; Define KC specific attributes here -->	
     <bean id="AccountAutoCreateDefaults-kcUnit" parent="AccountAutoCreateDefaults-kcUnit-parentBean"/>
-  	<bean id="AccountAutoCreateDefaults-kcUnit-parentBean" abstract="true" parent="AttributeDefinition">
+  	<bean id="AccountAutoCreateDefaults-kcUnit-parentBean" abstract="true"  parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.kc.KcUnit" p:sourceAttributeName="UnitNumber"> 
     	<property name="name" value="kcUnit"/>
     	<property name="label" value="KC Unit"/>
     	<property name="shortLabel" value="KC Unit"/>

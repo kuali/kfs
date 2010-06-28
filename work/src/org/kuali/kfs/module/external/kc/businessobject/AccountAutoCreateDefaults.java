@@ -25,6 +25,8 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
@@ -107,7 +109,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
-    
+    private UnitDTO unitDTO;
 
     /**
      * Default no-arg constructor.
@@ -1173,6 +1175,16 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountManagerUser(Person accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
+    }
+    
+    public UnitDTO getUnitDTO() {
+       // return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
+
+        return unitDTO;
+    }
+
+    public void setUnitDTO(UnitDTO unitDTO) {
+        this.unitDTO = unitDTO;
     }
     
 }

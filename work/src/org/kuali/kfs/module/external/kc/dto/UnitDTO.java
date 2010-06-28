@@ -16,9 +16,13 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class UnitDTO implements Serializable {
+import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
+
+public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable {
 
     private static final long serialVersionUID = 7517946137745989736L;
     
@@ -71,6 +75,27 @@ public class UnitDTO implements Serializable {
     public void setUnitAdministrators(List<String> unitAdministrators) {
         this.unitAdministrators = unitAdministrators;
     }
+
+
+    public void prepareForWorkflow() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void refresh() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("UnitDTO", this.unitNumber);
+        return m;
+    }
+
 
 }
 

@@ -77,16 +77,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 
         // check to see if the user has the permission to create account
         String principalId = accountParameters.getPrincipalId();
-        if (!canCreate(principalId)) {
+        if (!isValidUser(principalId)) {
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
             accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
             return accountCreationStatus;
         }
-        
-        // set the user session so that the user name can be displayed in the saved document
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
-        Person user = personService.getPerson(principalId);
-        GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
         
         // get the defaults table
         String unitNumber = accountParameters.getUnit();
@@ -104,7 +99,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // create an account automatic maintenance document
         createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus, principalId);
         
-        // set some values to AccountCreationStatus
+        // set required values to AccountCreationStatus
         if (accountCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
             accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
             accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
@@ -155,12 +150,12 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             } 
         }
         // if they are all empty, then take from the default table
-        if (account.getAccountStreetAddress().isEmpty()) {
-            account.setAccountStreetAddress(defaults.getAccountStreetAddress());             
-            account.setAccountCityName(defaults.getAccountCityName());
-            account.setAccountStateCode(defaults.getAccountStateCode());
-            account.setAccountZipCode(defaults.getAccountZipCode());
-        }
+//        if (account.getAccountStreetAddress().isEmpty()) {
+//            account.setAccountStreetAddress(defaults.getAccountStreetAddress());             
+//            account.setAccountCityName(defaults.getAccountCityName());
+//            account.setAccountStateCode(defaults.getAccountStateCode());
+//            account.setAccountZipCode(defaults.getAccountZipCode());
+//        }
         
         account.setAccountOffCampusIndicator(parameters.isOffCampusIndicator());
         
@@ -321,9 +316,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     protected Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus, String principalId) {
       
         try {
-            Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));            
-            // save the KC user
-            //document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setInitiatorPrincipalId(principalId);           
+            Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));                  
             return document;      
             
         } catch (Exception e) {
@@ -334,17 +327,22 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     }       
     
     /**
-     * This method check to see if the user can create the account maintenance document
+     * This method check to see if the user can create the account maintenance document and set the user session
      * @param String principalId
      * @return boolean
      */
-    protected boolean canCreate(String principalId) {
+    protected boolean isValidUser(String principalId) {
         
         PersonService<Person> personService = KIMServiceLocator.getPersonService();
         Person user = personService.getPerson(principalId);
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
-               
-        return documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user);
+        if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+            // set the user session so that the user name can be displayed in the saved document        
+            GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
+            return true;
+        } else {
+            return false;
+        }        
     }
     
     /**

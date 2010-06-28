@@ -232,6 +232,8 @@ public class EndowConstants extends JSTLConstants {
 
     public static class TransactionSourceTypeCode {
         public static final String MANUAL = "M";
+        public static final String AUTOMATED = "A";
+        public static final String RECURRING ="R";
     }
 
     public static final String PRINCIPAL = "Principal";

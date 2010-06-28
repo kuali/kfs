@@ -6,11 +6,18 @@
     <property name="inquiryDefinition" ref="unitDTO-inquiryDefinition"/>
     <property name="lookupDefinition" ref="unitDTO-lookupDefinition"/>
     <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.dto.UnitDTO"/>
-    <property name="objectLabel" value="unitDTO Reference"/>
+    <property name="objectLabel" value="KC Unit Reference"/>
     <property name="attributes">
       <list>
         <ref bean="unitDTO-UnitNumber"/>
         <ref bean="unitDTO-UnitName"/>
+        <ref bean="unitDTO-ParentUnitNumber"/>
+        <ref bean="unitDTO-OrganizationId"/>
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="unitAdministrators" p:label="Unit Administrators" p:shortLabel="Unit Admins"/>
       </list>
     </property>
   </bean>
@@ -18,12 +25,11 @@
 <!-- Attribute Definitions -->
 
 
-   <bean id="unitDTO-UnitNumber" parent="unitDTO-UnitNumber-parentBean"/>
-
+  <bean id="unitDTO-UnitNumber" parent="unitDTO-UnitNumber-parentBean"/>
   <bean id="unitDTO-UnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="UnitNumber"/>
+    <property name="name" value="unitNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="unitDTO Number"/>
+    <property name="label" value="Unit Number"/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">
@@ -33,10 +39,10 @@
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
+  
   <bean id="unitDTO-UnitName" parent="unitDTO-UnitName-parentBean"/>
-
   <bean id="unitDTO-UnitName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="UnitName"/>
+    <property name="name" value="unitName"/>
     <property name="label" value="Unit Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="300"/>
@@ -47,21 +53,54 @@
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
+
+  <bean id="unitDTO-ParentUnitNumber" parent="unitDTO-ParentUnitNumber-parentBean"/>
+  <bean id="unitDTO-ParentUnitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="parentUnitNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Parent Unit Number"/>
+    <property name="shortLabel" value="Parent"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+  </bean>
+
+  <bean id="unitDTO-OrganizationId" parent="unitDTO-OrganizationId-parentBean"/>
+  <bean id="unitDTO-OrganizationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization ID"/>
+    <property name="shortLabel" value="Org ID"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
+  </bean>
   
+       
  <!-- Business Object Inquiry Definition -->
 
 
   <bean id="unitDTO-inquiryDefinition" parent="unitDTO-inquiryDefinition-parentBean"/>
 
   <bean id="unitDTO-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Unit DTO Inquiry"/>
+    <property name="title" value="KC Unit Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Unit DTO Details">
+        <bean parent="InquirySectionDefinition" p:title="Unit Number Details">
           <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition" p:attributeName="UnitNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="UnitName"/>
+              <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="unitName"/>
+              <bean parent="FieldDefinition" p:attributeName="parentUnitNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationId"/>
             </list>
           </property>
         </bean>
@@ -75,18 +114,22 @@
   <bean id="unitDTO-lookupDefinition" parent="unitDTO-lookupDefinition-parentBean"/>
 
   <bean id="unitDTO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Unit DTO Lookup"/>
+    <property name="title" value="KC Unit Lookup"/>
     <property name="lookupableID" value="unitDTOLookupable"/>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="UnitNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="UnitName"/>
+        <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="unitName"/>
+        <bean parent="FieldDefinition" p:attributeName="parentUnitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationId"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="UnitNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="UnitName"/>
+        <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="unitName"/>
+        <bean parent="FieldDefinition" p:attributeName="parentUnitNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationId"/>
       </list>
     </property>
   </bean>

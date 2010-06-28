@@ -146,7 +146,7 @@ are intended for use only by Kuali Foundation developers.
       		</fileset>
       		<chainedmapper>
         		<flattenmapper />
-      			<mapper type="glob" from="*${rice.version}.jar" to="*${kfs.rice.version}.zip" />
+      			<mapper type="glob" from="*${rice.version}*.jar" to="*${kfs.rice.version}*.zip" />
       		</chainedmapper>
     	</copy>
 	</target>

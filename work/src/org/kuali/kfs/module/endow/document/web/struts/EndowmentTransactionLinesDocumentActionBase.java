@@ -82,7 +82,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     private static final String REGISTRATION_TARGET_REFRESH = "document.targetTransactionSecurity.registrationCode";
 
     protected static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EndowmentTransactionLinesDocumentActionBase.class);
-    
+
     /**
      * @param mapping
      * @param form
@@ -91,12 +91,11 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward importSourceTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception 
-    {
-        importTransactionLines(true,form);
+    public ActionForward importSourceTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        importTransactionLines(true, form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * @param mapping
      * @param form
@@ -107,10 +106,10 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      */
     public ActionForward importTargetTransactionLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        importTransactionLines(false,form);
+        importTransactionLines(false, form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * @param mapping
      * @param form
@@ -119,80 +118,68 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
      * @return ActionForward
      * @throws Exception
      */
-    public void importTransactionLines(boolean isSource, ActionForm form) throws Exception 
-    {
+    public void importTransactionLines(boolean isSource, ActionForm form) throws Exception {
         log.info("Importing item lines");
 
         EndowmentTransactionLinesDocumentFormBase tranLineForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument tranLineDocument = (EndowmentTransactionLinesDocument) tranLineForm.getDocument();
         String documentNumber = tranLineDocument.getDocumentNumber();
-        
+
         FormFile lineFile = tranLineForm.getTransactionLineImportFile();
         Class lineClass = tranLineDocument.getTranLineClass(isSource);
         List<EndowmentTransactionLine> importedTransactionLines = null;
-        
-        String errorPath = TRANSACTION_LINE_ERRORS; 
-        LineParser lineParser = tranLineDocument.getLineParser(); 
-        
-        //Starting position of the imported items, equals the # of existing above-the-line items.
+
+        String errorPath = TRANSACTION_LINE_ERRORS;
+        LineParser lineParser = tranLineDocument.getLineParser();
+
+        // Starting position of the imported items, equals the # of existing above-the-line items.
         int itemLinePosition = 0;
-        int transactionLineSize=0;
-        if(isSource)
-        {
+        int transactionLineSize = 0;
+        if (isSource) {
             itemLinePosition = tranLineDocument.getNextSourceLineNumber();
             transactionLineSize = tranLineDocument.getSourceTransactionLines().size();
         }
-        else
-        {
+        else {
             itemLinePosition = tranLineDocument.getNextTargetLineNumber();
             transactionLineSize = tranLineDocument.getTargetTransactionLines().size();
         }
-        
-        try 
-        {
+
+        try {
             importedTransactionLines = lineParser.importLines(lineFile, lineClass, documentNumber);
-            
-            //Validate imported items
+
+            // Validate imported items
             boolean rulePassed = true;
             int lineNumber = 1;
-            for (EndowmentTransactionLine line : importedTransactionLines) 
-            {
-                /* 
-                  Before the validation, set the item line number to the same as the line number in the import file (starting from 
-                   1) So that the error message will use the correct line number if there're errors for the current item line.
-                */   
+            for (EndowmentTransactionLine line : importedTransactionLines) {
+                /*
+                 * Before the validation, set the item line number to the same as the line number in the import file (starting from
+                 * 1) So that the error message will use the correct line number if there're errors for the current item line.
+                 */
 
-                
-                //line.setTransactionLineNumber(++lineNumber);
-                
+
+                // line.setTransactionLineNumber(++lineNumber);
+
                 // check any business rules
-                //rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line, lineNumber ));
+                // rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new
+                // RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line, lineNumber ));
 
                 lineNumber++;
             }
-            
-            if (rulePassed) 
-            {
-/*                if(isSource) 
-                {
-                    // add it to the document
-                    tranLineDocument.addSourceTransactionLine((EndowmentSourceTransactionLine) line);
-                }
-                else 
-                {
-                    // add it to the document
-                    tranLineDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) line);
-                }*/
-                    
-                //Add the lines to the collection 1 by one.
-                for (EndowmentTransactionLine line : importedTransactionLines) 
-                {
-                    insertTransactionLine(isSource, tranLineForm, line); 
+
+            if (rulePassed) {
+                /*
+                 * if(isSource) { // add it to the document
+                 * tranLineDocument.addSourceTransactionLine((EndowmentSourceTransactionLine) line); } else { // add it to the
+                 * document tranLineDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) line); }
+                 */
+
+                // Add the lines to the collection 1 by one.
+                for (EndowmentTransactionLine line : importedTransactionLines) {
+                    insertTransactionLine(isSource, tranLineForm, line);
                 }
             }
         }
-        catch (LineParserException e) 
-        {
+        catch (LineParserException e) {
             GlobalVariables.getMessageMap().putError(errorPath, e.getErrorKey(), e.getErrorParameters());
         }
     }
@@ -759,6 +746,8 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
 
+        // on AssetDecreaseDocument and SecurityTransferDocument we can delete tax lots and that would be overridden by this
+        // updateTaxLots call
         if (!(endowmentDocument instanceof AssetDecreaseDocument) && !(endowmentDocument instanceof SecurityTransferDocument)) {
             updateTaxLots(endowmentDocument);
         }
@@ -775,6 +764,9 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        // on AssetDecreaseDocument and SecurityTransferDocument we can delete tax lots and that would be overridden by this
+        // updateTaxLots call
         if (!(endowmentDocument instanceof AssetDecreaseDocument) && !(endowmentDocument instanceof SecurityTransferDocument)) {
             updateTaxLots(endowmentDocument);
         }

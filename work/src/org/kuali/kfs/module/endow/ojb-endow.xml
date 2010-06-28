@@ -2221,4 +2221,30 @@
     </collection-descriptor>
 </class-descriptor>
 
+<!-- Endowment Holding History Value Adjustment Document -->
+<class-descriptor class="org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument" table="END_HIST_VAL_ADJ_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityId" column="SEC_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityClassCode" column="SEC_CLS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="securityValuationMethod" column="SEC_VLTN_MTHD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="holdingMonthEndDate" column="HLDG_ME_DT_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="securityUnitValue" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
+	<field-descriptor name="securityMarketValue" column="SEC_MKT_VAL" jdbc-type="DECIMAL"/>
+	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>   
+	
+	<reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="securityId"/>
+	</reference-descriptor>		
+	
+	<reference-descriptor name="monthEndDate" class-ref="org.kuali.kfs.module.endow.businessobject.MonthEndDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="holdingMonthEndDate" />
+	</reference-descriptor>	
+</class-descriptor>
+
 </descriptor-repository>

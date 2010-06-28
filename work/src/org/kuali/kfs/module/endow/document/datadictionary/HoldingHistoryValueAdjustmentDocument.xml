@@ -24,7 +24,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingHistoryValueAdjustmentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.HoldingHistoryValueAdjustmentDocumentPresentationController"/>
-    <property name="allowsErrorCorrection" value="true"/>
+    <property name="allowsErrorCorrection" value="false"/>
 	<property name="allowsCopy" value="true"/>
     <property name="attributes">
       <list>

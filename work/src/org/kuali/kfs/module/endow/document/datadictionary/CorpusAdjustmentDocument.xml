@@ -39,11 +39,15 @@
         <ref bean="CorpusAdjustmentDocument-versionNumber"/>
       </list>
     </property>
+    <property name="workflowAttributes">
+    	<ref bean="CorpusAdjustmentDocument-workflowAttributes"/>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
 
   <bean id="CorpusAdjustmentDocument-transactionSubTypeCode" parent="CorpusAdjustmentDocument-transactionSubTypeCode-parentBean"/>
+
   <bean id="CorpusAdjustmentDocument-transactionSubTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSubTypeCode"/>
     <property name="forceUppercase" value="true"/>
@@ -59,6 +63,7 @@
   </bean>
   
   <bean id="CorpusAdjustmentDocument-transactionSourceTypeCode" parent="CorpusAdjustmentDocument-transactionSourceTypeCode-parentBean"/>
+
   <bean id="CorpusAdjustmentDocument-transactionSourceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSourceTypeCode"/>
     <property name="forceUppercase" value="true"/>
@@ -74,10 +79,18 @@
   </bean>
   
   <bean id="CorpusAdjustmentDocument-transactionPosted" parent="CorpusAdjustmentDocument-transactionPosted-parentBean"/>
+
   <bean id="CorpusAdjustmentDocument-transactionPosted-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="transactionPosted"/>
     <property name="label" value="Transaction Posted"/>
   </bean>
 
   <bean id="CorpusAdjustmentDocument-versionNumber" parent="GenericAttributes-versionNumber"/>
+  
+  <!-- workflow attributes -->
+	<bean id="CorpusAdjustmentDocument-workflowAttributes" parent="CorpusAdjustmentDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="CorpusAdjustmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	</bean>
+  
 </beans>

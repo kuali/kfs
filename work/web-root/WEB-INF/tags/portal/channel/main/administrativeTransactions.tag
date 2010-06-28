@@ -62,6 +62,7 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Corpus Adjustment" url="endowCorpusAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECA" /></li>
          <li><portal:portalLink displayTitle="true" title="Endowment Unit/Share Adjustment" url="endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EUSA" /></li>
+        <li><portal:portalLink displayTitle="true" title="History Value Adjustment" url="endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EHVA" /></li>                 
     </ul>
 </div>
 <channel:portalChannelBottom />

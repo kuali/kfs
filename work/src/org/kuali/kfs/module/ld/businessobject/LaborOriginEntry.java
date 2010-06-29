@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -804,8 +806,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
      */
     
     public List<Message> setFromTextFileForBatch(String line, int lineNumber)  {
-        List<Message> returnList = new ArrayList();
-        
+        List<Message> returnList = new ArrayList();        
         Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
         Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
         int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID); 
@@ -813,8 +814,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, entryLength, ' ');
         String fiscalYearString = line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(fiscalYearString)) {
-            
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(fiscalYearString)) {            
             try {
                 setUniversityFiscalYear(new Integer(fiscalYearString));
             }
@@ -827,8 +827,19 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         else {
             setUniversityFiscalYear(null);
         }
+        
         setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
         setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+
+        // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
+        AccountService acctserv = SpringContext.getBean(AccountService.class);
+        if (StringUtils.isEmpty(getChartOfAccountsCode()) && StringUtils.isNotEmpty(getAccountNumber()) && !acctserv.accountsCanCrossCharts()) {
+            Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
+            if (account != null) {
+                setChartOfAccountsCode(account.getChartOfAccountsCode());
+            }            
+        }
+                
         setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
         setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
         setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));

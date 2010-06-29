@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.sys.KFSConstants;
@@ -184,7 +185,6 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
         
-
         if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)))) {
             try {
                 setUniversityFiscalYear(new Integer(getValue(line, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))));
@@ -200,6 +200,16 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
 
         setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
         setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+
+        // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
+        AccountService acctserv = SpringContext.getBean(AccountService.class);
+        if (StringUtils.isEmpty(getChartOfAccountsCode()) && StringUtils.isNotEmpty(getAccountNumber()) && !acctserv.accountsCanCrossCharts()) {
+            Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
+            if (account != null) {
+                setChartOfAccountsCode(account.getChartOfAccountsCode());
+            }            
+        }
+        
         setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
         setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
         setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
@@ -259,6 +269,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         setReferenceFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE)));
         setReferenceFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR)));
         setReferenceFinancialDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE)));
+
         if (!getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
                 setFinancialDocumentReversalDate(parseDate(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)), false));
@@ -274,10 +285,8 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         
         //set till end
         setTransactionEncumbranceUpdateCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), GeneralLedgerConstants.getSpaceAllOriginEntryFields().length()));
-
     
-    return returnList;
-    
+        return returnList;    
     }
 
 

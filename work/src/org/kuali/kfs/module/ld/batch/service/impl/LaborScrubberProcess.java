@@ -390,7 +390,7 @@ public class LaborScrubberProcess {
             INPUT_GLE_FILE = new FileReader(inputFile);
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to find input file: " + inputFile, e);
         }
         try {
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
@@ -398,7 +398,7 @@ public class LaborScrubberProcess {
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Problem opening output files", e);
         }
 
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
@@ -702,7 +702,7 @@ public class LaborScrubberProcess {
                 setCutoffTimeForPreviousDay(hourInt, minuteInt, secondInt);
             }
             catch (Exception e) {
-                throw new IllegalArgumentException("Cutoff time should either be null, or in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.");
+                throw new IllegalArgumentException("Cutoff time should either be null, or in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.",e);
             }
         }
     }
@@ -867,14 +867,14 @@ public class LaborScrubberProcess {
             INPUT_ERR_FILE = new FileReader(errorOutputFilename);
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to open input files", e);
         }
         try {
             OUTPUT_DEMERGER_GLE_FILE_ps = new PrintStream(demergerValidOutputFilename);
             OUTPUT_DEMERGER_ERR_FILE_ps = new PrintStream(demergerErrorOutputFilename);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to open output files",e);
         }
 
         Collection<LaborOriginEntry> validEntryCollection = new ArrayList<LaborOriginEntry>();
@@ -1001,7 +1001,7 @@ public class LaborScrubberProcess {
             ps.printf("%s\n", entry.getLine());
         }
         catch (Exception e) {
-            throw new IOException(e.toString());
+            throw new IOException(e.toString(),e);
         }
     }
 
@@ -1010,7 +1010,7 @@ public class LaborScrubberProcess {
             ps.printf("%s\n", line);
         }
         catch (Exception e) {
-            throw new IOException(e.toString());
+            throw new IOException(e.toString(),e);
         }
     }
 

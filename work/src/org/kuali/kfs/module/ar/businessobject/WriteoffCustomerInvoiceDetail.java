@@ -20,6 +20,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.kns.service.ParameterService;
@@ -40,6 +41,7 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
         String writeoffGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals( writeoffGenerationOption );
         isUsingChartForWriteoff = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_CHART.equals( writeoffGenerationOption );
+        
         
         if( isUsingOrgAcctDefaultWriteoffFAU ){
             //if is using org account default, I already set the writeoff FAU on
@@ -99,27 +101,16 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
 
    @Override
    public String getFinancialObjectCode() {
-       if ( isUsingOrgAcctDefaultWriteoffFAU ){
-           return poster.getFinancialObjectCode();
-       } else if ( isUsingChartForWriteoff ) {
-           return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode() );
-       } else {
-           return postable.getAccountsReceivableObjectCode();
-       }   
+       CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);       
+       return customerInvoiceWriteoffDocumentService.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff);
    }
 
   @Override
    public ObjectCode getObjectCode() {
-      if ( isUsingOrgAcctDefaultWriteoffFAU ){
-          return poster.getFinancialObject();
-      } else if (isUsingChartForWriteoff) {
-          // KFSMI-5220 - replace hard coded return value
-          String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode() );          
-          return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(postable.getChartOfAccountsCode(), objectCode);
-      } else {
-          return postable.getAccountsReceivableObject();
+      CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);  
+      return customerInvoiceWriteoffDocumentService.getObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff);
       }
-   }
+  
   
   @Override
   public String getFinancialSubObjectCode() {

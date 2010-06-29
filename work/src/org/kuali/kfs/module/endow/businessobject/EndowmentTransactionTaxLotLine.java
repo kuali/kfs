@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  * This class provides an implementation for the Tax Lot Lines in the Endowment transactional documents.
  */
 public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBase {
-    private KualiInteger lineNumber;
+//  private KualiInteger lineNumber;
     private String documentNumber;
     private Integer documentLineNumber;
     private String documentLineTypeCode;
@@ -60,19 +60,19 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
      * 
      * @return lineNumber
      */
-    public KualiInteger getLineNumber() {
+/*    public KualiInteger getLineNumber() {
         return lineNumber;
     }
-
+*/
     /**
      * Sets the lineNumber.
      * 
      * @param lineNumber
      */
-    public void setLineNumber(KualiInteger lineNumber) {
+/*    public void setLineNumber(KualiInteger lineNumber) {
         this.lineNumber = lineNumber;
     }
-
+*/
     /**
      * Gets the documentNumber.
      * 

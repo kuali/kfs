@@ -103,10 +103,6 @@ public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServic
     /***
      * @see org.kuali.rice.kns.service.ModuleService#getExternalizableBusinessObject(java.lang.Class, java.util.Map)
      */
-    public BusinessObject getExternalizableBusinessObject(
-            Class externalizableBusinessObjectInterface, Map<String, Object> fieldValues) {
-        return getBusinessObjectFromClass(getExternalizableBusinessObjectImplementation(externalizableBusinessObjectInterface));
-    }
 
     private BusinessObject getBusinessObjectFromClass(Class clazz){
         if(clazz==null) return null;

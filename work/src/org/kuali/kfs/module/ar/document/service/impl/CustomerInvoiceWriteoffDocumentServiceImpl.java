@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
@@ -72,6 +74,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService;
     private DateTimeService dateTimeService;
     private InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+
     
     /**
      * 
@@ -437,6 +440,29 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return document.getDocumentNumber();
     }
     
+    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff) {
+
+        if ( isUsingOrgAcctDefaultWriteoffFAU ){
+            return poster.getFinancialObjectCode();
+        } else if ( isUsingChartForWriteoff ) {
+            return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU) );
+        } else {
+            return postable.getAccountsReceivableObjectCode();
+        }
+    }
+
+    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff) {
+        
+        return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(this.getChartOfAccountsCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU), this.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU,isUsingChartForWriteoff));
+    }
+    
+    private String getChartOfAccountsCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU) {
+        if ( isUsingOrgAcctDefaultWriteoffFAU ){
+            return poster.getChartOfAccountsCode();
+        } else {
+            return postable.getChartOfAccountsCode();
+        }        
+    }
     
     public ParameterService getParameterService() {
         return parameterService;

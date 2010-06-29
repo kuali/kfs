@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='David' id='5833-1-1' failOnError='true' dbms=''>
+    <comment>needs to add system parameters</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='nmspc_cd' value='KFS-COA' />
+      <column name='parm_dtl_typ_cd' value='Account' />
+      <column name='parm_nm' value='ACCOUNT_ADDRESS_TYPE' />
+      <column name='obj_id' type='UUID' valueNumeric='SYS_GUID' />
+      <column name='ver_nbr' valueNumeric='1' />
+      <column name='parm_typ_cd' value='CONFG' />
+      <column name='txt' value='ADMIN;PAYMENT;DEFAULT' />
+      <column name='parm_desc_txt' value='Defines the cascading order for extracting the addresses' />
+      <column name='cons_cd' value='A' />
+      <column name='appl_nmspc_cd' value='KFS' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='David' id='5833-1-2' failOnError='true' dbms=''>
+    <comment>needs to add system parameters</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='nmspc_cd' value='KFS-COA' />
+      <column name='parm_dtl_typ_cd' value='ObjectCode' />
+      <column name='parm_nm' value='ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND' />
+      <column name='obj_id' type='UUID' valueNumeric='SYS_GUID' />
+      <column name='ver_nbr' valueNumeric='1' />
+      <column name='parm_typ_cd' value='CONFG' />
+      <column name='txt' value='Y' />
+      <column name='parm_desc_txt' value='Set this value to Y if you are using both Research Admin System and KFS and wish for KC budgets to use KFS Object Codes This will cause the Research Admin Attributes tab to appear on the Object Code document Set this value to N if you are not using Research Admin System and KFS or if you wish Research Admin System to maintain a distinct list of object codes' />
+      <column name='cons_cd' value='A' />
+      <column name='appl_nmspc_cd' value='KFS' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

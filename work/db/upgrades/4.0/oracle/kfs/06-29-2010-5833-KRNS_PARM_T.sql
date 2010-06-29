@@ -1,0 +1,5 @@
+insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values('KFS-COA', 'Account', 'ACCOUNT_ADDRESS_TYPE', SYS_GUID(), 1, 'CONFG', 'ADMIN;PAYMENT;DEFAULT', 'Defines the cascading order for extracting the addresses', 'A', 'KFS');
+
+insert into KRNS_PARM_T (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values('KFS-COA', 'ObjectCode', 'ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND', SYS_GUID(), 1, 'CONFG', 'Y', 'Set this value to Y if you are using both Research Admin System and KFS and wish for KC budgets to use KFS Object Codes. This will cause the Research Admin Attributes tab to appear on the Object Code document. Set this value to N if you are not using Research Admin System and KFS or if you wish Research Admin System to maintain a distinct list of object codes.', 'A', 'KFS'); 

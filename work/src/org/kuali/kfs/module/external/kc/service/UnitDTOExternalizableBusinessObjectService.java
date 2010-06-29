@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.namespace.QName;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +33,7 @@ import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
@@ -142,7 +145,7 @@ public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServic
     public BusinessObject retrieveExternalizableBusinessObjectIfNecessary(
             BusinessObject businessObject, BusinessObject currentInstanceExternalizableBO, String externalizableRelationshipName) {
         if(businessObject==null) return null;
-        Class clazz;
+        Class<org.kuali.rice.kns.bo.ExternalizableBusinessObject> clazz;
         try{
             clazz = getExternalizableBusinessObjectImplementation(
                     PropertyUtils.getPropertyType(businessObject, externalizableRelationshipName));
@@ -151,7 +154,7 @@ public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServic
                     " from business object:"+businessObject);
             return null;
         }
-        return getExternalizableBusinessObject(clazz, null);
+        return  getExternalizableBusinessObject(clazz, null);
     }
 
     /***

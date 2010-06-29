@@ -25,11 +25,11 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTransactionLinesDocumentBase implements EndowmentSecurityDetailsDocument {
-    private List<EndowmentTransactionSecurity> sourceTransactionSecurities;
-    private List<EndowmentTransactionSecurity> targetTransactionSecurities;
+    protected List<EndowmentTransactionSecurity> sourceTransactionSecurities;
+    protected List<EndowmentTransactionSecurity> targetTransactionSecurities;
 
-    private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
-    private EndowmentTargetTransactionSecurity targetTransactionSecurity;
+    protected EndowmentSourceTransactionSecurity sourceTransactionSecurity;
+    protected EndowmentTargetTransactionSecurity targetTransactionSecurity;
 
     public EndowmentSecurityDetailsDocumentBase() {
         super();
@@ -45,38 +45,15 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        sourceTransactionSecurities.clear();
-        targetTransactionSecurities.clear();
 
-        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
-        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI allows
-        // the user to enter a source security detail by default. This is adjusted before save so that the right security is saved
-        // in the DB.
-        if (this instanceof EndowmentUnitShareAdjustmentDocument) {
-
-            if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
-
-                if (this.getSourceTransactionLines() != null && this.getSourceTransactionLines().size() > 0) {
-                    getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
-                }
-                else if (this.getTargetTransactionLines() != null && this.getTargetTransactionLines().size() > 0) {
-                    targetTransactionSecurity.setSecurityID(sourceTransactionSecurity.getSecurityID());
-                    targetTransactionSecurity.setRegistrationCode(sourceTransactionSecurity.getRegistrationCode());
-                    getTargetTransactionSecurities().add(0, targetTransactionSecurity);
-                }
-            }
+        // A Hack to insert transaction securities in the securities collection.
+        if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
+            getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
         }
-        else {
 
-            // A Hack to insert transaction securities in the securities collection.
-            if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
-                getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
-            }
-
-            // A Hack to insert transaction securities in the securities collection.
-            if (!StringUtils.isEmpty(targetTransactionSecurity.getSecurityID())) {
-                getTargetTransactionSecurities().add(0, targetTransactionSecurity);
-            }
+        // A Hack to insert transaction securities in the securities collection.
+        if (!StringUtils.isEmpty(targetTransactionSecurity.getSecurityID())) {
+            getTargetTransactionSecurities().add(0, targetTransactionSecurity);
         }
 
     }
@@ -125,18 +102,10 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      */
     public EndowmentTransactionSecurity getSourceTransactionSecurity() {
         if (this.sourceTransactionSecurities.size() > 0) {
-            this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) this.sourceTransactionSecurities.get(0);
+            return this.sourceTransactionSecurities.get(0);
         }
-        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
-        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI
-        // display a source security detail by default so this code will return the target security saved to be displayed on the
-        // source security on the UI.
-        else if (this instanceof EndowmentUnitShareAdjustmentDocument && this.targetTransactionSecurities.size() > 0) {
-            this.sourceTransactionSecurity.setSecurityID(this.targetTransactionSecurities.get(0).getSecurityID());
-
-            this.sourceTransactionSecurity.setRegistrationCode(this.targetTransactionSecurities.get(0).getRegistrationCode());
-        }
-        return this.sourceTransactionSecurity;
+        else
+            return this.sourceTransactionSecurity;
     }
 
     /**

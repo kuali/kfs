@@ -47,17 +47,17 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
         initializeSourceTypeObj();
     }
-    
+
     /**
      * Constructs used by creating a recurring or automated eDoc
      */
-    public EndowmentTransactionalDocumentBase(String transactionSourceTypeCode){
+    public EndowmentTransactionalDocumentBase(String transactionSourceTypeCode) {
         super();
         this.transactionPosted = false;
         this.setTransactionSourceTypeCode(transactionSourceTypeCode);
         initializeSourceTypeObj();
     }
-    
+
     /**
      * This method fills source type code for UI on Initial request.
      */
@@ -68,7 +68,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         EndowmentTransactionSourceType endowmentTransactionSourceType = (EndowmentTransactionSourceType) businessObjectService.findByPrimaryKey(EndowmentTransactionSourceType.class, primaryKeys);
         this.setTransactionSourceType(endowmentTransactionSourceType);
     }
-    
+
     /**
      * This method fills sub type code for UI on Initial request.
      */
@@ -78,14 +78,6 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         primaryKeys.put("code", this.getTransactionSubTypeCode());
         EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
         setTransactionSubType(endowmentTransactionSubType);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#prepareForSave()
-     */
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
     }
 
     /**

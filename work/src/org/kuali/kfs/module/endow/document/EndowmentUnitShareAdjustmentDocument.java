@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.sys.document.AmountTotaling;
 
 /**
- * The Endowment Unit/Share Adjustment (EUSA) transaction is available for those times when a number of units of a security held by
+ * Endowment Unit/Share Adjustment (EUSA) transaction is available for those times when a number of units of a security held by
  * the KEMID must be modified without affecting the original cost or carry value of the security tax lot(s).
  */
 public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDocumentBase {
@@ -33,6 +37,60 @@ public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDo
         setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
 
         initializeSubType();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        if (this instanceof AmountTotaling) {
+            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+        }
+
+        sourceTransactionSecurities.clear();
+        targetTransactionSecurities.clear();
+
+        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
+        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI allows
+        // the user to enter a source security detail by default. This is adjusted before save so that the right security is saved
+        // in the DB.
+        if (this instanceof EndowmentUnitShareAdjustmentDocument) {
+
+            if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
+
+                if (this.getSourceTransactionLines() != null && this.getSourceTransactionLines().size() > 0) {
+                    getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
+                }
+                else if (this.getTargetTransactionLines() != null && this.getTargetTransactionLines().size() > 0) {
+                    targetTransactionSecurity.setSecurityID(sourceTransactionSecurity.getSecurityID());
+                    targetTransactionSecurity.setRegistrationCode(sourceTransactionSecurity.getRegistrationCode());
+                    getTargetTransactionSecurities().add(0, targetTransactionSecurity);
+                }
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase#getSourceTransactionSecurity()
+     */
+    @Override
+    public EndowmentTransactionSecurity getSourceTransactionSecurity() {
+
+        if (this.sourceTransactionSecurities.size() > 0) {
+            this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) this.sourceTransactionSecurities.get(0);
+        }
+        // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
+        // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI
+        // display a source security detail by default so this code will return the target security saved to be displayed on the
+        // source security on the UI.
+        else if (this.targetTransactionSecurities.size() > 0) {
+            this.sourceTransactionSecurity.setSecurityID(this.targetTransactionSecurities.get(0).getSecurityID());
+
+            this.sourceTransactionSecurity.setRegistrationCode(this.targetTransactionSecurities.get(0).getRegistrationCode());
+        }
+        return this.sourceTransactionSecurity;
+
     }
 
 }

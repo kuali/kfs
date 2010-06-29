@@ -17,7 +17,7 @@
 
 <c:set var="readOnly"
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	
+
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="HoldingHistoryValueAdjustmentDocument"
 	htmlFormAction="endowHoldingHistoryValueAdjustmentDocument" renderMultipart="true"

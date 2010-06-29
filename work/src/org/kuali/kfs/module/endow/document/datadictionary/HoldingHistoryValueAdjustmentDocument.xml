@@ -63,8 +63,8 @@
 
   <bean id="HoldingHistoryValueAdjustmentDocument-holdingMonthEndDate-parentBean" abstract="true" parent="MonthEndDate-monthEndDateId">
   	<property name="name" value="holdingMonthEndDate"/>
-    <property name="label" value="Month End Date Id" />
-    <property name="shortLabel" value="Mnth End Date Id" />
+    <property name="label" value="Month End Date" />
+    <property name="shortLabel" value="Mnth End Date" />
     <property name="required" value="true"/>
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -84,7 +84,7 @@
   	<property name="name" value="securityMarketValue"/>
     <property name="label" value="Market Value"/>
     <property name="shortLabel" value="Units"/>
-    <property name="maxLength" value="21"/>
+    <property name="maxLength" value="22"/>
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
             p:precision="19"
@@ -92,7 +92,7 @@
             />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="22"/>
+      <bean parent="TextControlDefinition" p:size="23"/>
     </property>
   </bean>
   <bean id="HoldingHistoryValueAdjustmentDocument-transactionPosted" parent="HoldingHistoryValueAdjustmentDocument-transactionPosted-parentBean"/>

@@ -15,15 +15,17 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
-public class HoldingHistoryValueAdjustmentDocumentForm extends KualiTransactionalDocumentFormBase {
+public class HoldingHistoryValueAdjustmentDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 
     public HoldingHistoryValueAdjustmentDocumentForm() {
         super();
@@ -31,13 +33,13 @@ public class HoldingHistoryValueAdjustmentDocumentForm extends KualiTransactiona
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        //use the DataDictionaryService service to get the document type name...
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(HoldingHistoryValueAdjustmentDocument.class);
     }
     
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getHoldingHistoryValueAdjustmentDocument());
     }
     
@@ -49,6 +51,5 @@ public class HoldingHistoryValueAdjustmentDocumentForm extends KualiTransactiona
     public HoldingHistoryValueAdjustmentDocument getHoldingHistoryValueAdjustmentDocument() {
         return (HoldingHistoryValueAdjustmentDocument) getDocument();
     }
-    
     
 }

@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.math.BigDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
+
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -30,9 +33,9 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
     protected String securityId;
     protected String securityClassCode;
     protected String securityValuationMethod;
-    protected long holdingMonthEndDate;
-    protected long securityUnitValue;
-    protected long securityMarketValue;
+    protected KualiInteger holdingMonthEndDate;
+    protected BigDecimal securityUnitValue;
+    protected BigDecimal securityMarketValue;
     
     protected Security security;
     protected SecurityValuationMethod securityValuation;
@@ -94,7 +97,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      * This method will get holdingMonthEndDate
      * @return holdingMonthEndDate
      */    
-    public long getHoldingMonthEndDate() {
+    public KualiInteger getHoldingMonthEndDate() {
         return holdingMonthEndDate;
     }
 
@@ -102,7 +105,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      * This method will set holdingMonthEndDate
      * @param holdingMonthEndDate
      */
-    public void setHoldingMonthEndDate(long holdingMonthEndDate) {
+    public void setHoldingMonthEndDate(KualiInteger holdingMonthEndDate) {
         this.holdingMonthEndDate = holdingMonthEndDate;
     }
 
@@ -110,15 +113,15 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      * This method will get securityUnitValue
      * @return securityUnitValue
      */    
-    public long getSecurityUnitValue() {
+    public BigDecimal getSecurityUnitValue() {
         return securityUnitValue;
     }
 
     /**
-     * This method will set securityMarketValue
-     * @param securityMarketValue
+     * This method will set securityUnitValue
+     * @param securityUnitValue
      */
-    public void setSecurityUnitValue(long securityUnitValue) {
+    public void setSecurityUnitValue(BigDecimal securityUnitValue) {
         this.securityUnitValue = securityUnitValue;
     }
 
@@ -126,7 +129,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      * This method will get securityMarketValue
      * @return securityMarketValue
      */    
-    public long getSecurityMarketValue() {
+    public BigDecimal getSecurityMarketValue() {
         return securityMarketValue;
     }
 
@@ -134,7 +137,7 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      * This method will set securityMarketValue
      * @param securityMarketValue
      */
-    public void setSecurityMarketValue(long securityMarketValue) {
+    public void setSecurityMarketValue(BigDecimal securityMarketValue) {
         this.securityMarketValue = securityMarketValue;
     }
 

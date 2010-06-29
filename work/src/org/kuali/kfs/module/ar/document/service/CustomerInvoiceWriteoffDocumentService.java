@@ -19,6 +19,8 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -102,5 +104,11 @@ public interface CustomerInvoiceWriteoffDocumentService {
      * @throws WorkflowException
      */
     public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException;
+    
+    
+    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff);
+    
+    
+    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff);
     
 }

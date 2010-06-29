@@ -31,8 +31,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTransactionalDocumentBase implements EndowmentTransactionLinesDocument {
-    private static final String SOURCE_TAX_LOT_LINE = "F";
-    private static final String TARGET_TAX_LOT_LINE = "T";
 
     protected Integer nextSourceLineNumber;
     protected Integer nextTargetLineNumber;

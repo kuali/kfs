@@ -154,7 +154,7 @@ public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServic
                     " from business object:"+businessObject);
             return null;
         }
-        return  getExternalizableBusinessObject(clazz, null);
+        return  this.getExternalizableBusinessObject(clazz, null);
     }
 
     /***

@@ -29,16 +29,7 @@
 	
 	
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true"
-	tabErrorKey="${EndowConstants.TRANSACTION_DETAILS_ERRORS}">
-	
-	<SCRIPT type="text/javascript">
-	    <!--
-	        function submitForChangedSecurityCode() {
-	      	    	document.forms[0].submit();
-	        }
-	    //-->
-	</SCRIPT>
-	
+	tabErrorKey="${EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS}">
 	<div class="tab-container" align=center>
 			<h3>${headingTitle}</h3>
 		<table cellpadding="0" cellspacing="0" summary="${summaryTitle}">
@@ -74,7 +65,7 @@
             <td class="infoline">
 	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.securityClassCode}" 
 	            	property="document.securityId" 
-	            	onblur="loadSecurityInfo(this.name);" onchange="submitForChangedSecurityCode();"
+	            	onblur="loadSecurityInfo(this.name);" 
 	            	readOnly="${readOnly}"
 	            	/>
 	            &nbsp;

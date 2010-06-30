@@ -2229,7 +2229,7 @@
 	<field-descriptor name="securityValuationMethod" column="SEC_VLTN_MTHD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="holdingMonthEndDate" column="HLDG_ME_DT_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="securityUnitValue" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
-	<field-descriptor name="securityMarketValue" column="SEC_MKT_VAL" jdbc-type="DECIMAL"/>
+	<field-descriptor name="securityMarketValue" column="SEC_MVAL" jdbc-type="DECIMAL"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

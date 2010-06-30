@@ -264,4 +264,9 @@ public class EndowConstants extends JSTLConstants {
     public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
 
+    public static final class HistoryHoldingValueAdjustmentValuationCodes {
+        public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";
+        public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M"; 
+        public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "holdingHistory*";
+    }
 }

@@ -29,5 +29,7 @@
     <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
 		
 	<bean id="kcMockAccountCreationService" parent="accountCreationService"/>
+
+	<bean id="kcMockBudgetAdjustmentService" parent="budgetAdjustmentService"/>
 	    
 </beans>

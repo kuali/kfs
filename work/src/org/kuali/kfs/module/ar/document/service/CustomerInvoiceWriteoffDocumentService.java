@@ -106,9 +106,9 @@ public interface CustomerInvoiceWriteoffDocumentService {
     public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException;
     
     
-    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff);
+    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode);
     
     
-    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff);
+    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode);
     
 }

@@ -440,28 +440,20 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return document.getDocumentNumber();
     }
     
-    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff) {
+    public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode) {
 
         if ( isUsingOrgAcctDefaultWriteoffFAU ){
             return poster.getFinancialObjectCode();
         } else if ( isUsingChartForWriteoff ) {
-            return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU) );
+            return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
         } else {
             return postable.getAccountsReceivableObjectCode();
         }
     }
 
-    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff) {
+    public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode) {
         
-        return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(this.getChartOfAccountsCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU), this.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU,isUsingChartForWriteoff));
-    }
-    
-    private String getChartOfAccountsCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU) {
-        if ( isUsingOrgAcctDefaultWriteoffFAU ){
-            return poster.getChartOfAccountsCode();
-        } else {
-            return postable.getChartOfAccountsCode();
-        }        
+        return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartOfAccountsCode, this.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU,isUsingChartForWriteoff, chartOfAccountsCode));
     }
     
     public ParameterService getParameterService() {

@@ -79,6 +79,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
@@ -757,11 +758,22 @@ public class PurapServiceImpl implements PurapService {
                 document.getDocumentHeader().setWorkflowDocument(workflowDocument);
             }
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+            
+            // At this point, the work-flow status will not change for the current document, but the document status will.
+            // This causes the search indices for the document to become out of synch, and will show a different status type
+            // in the RICE lookup results screen.
+            WorkflowDocumentActions wrkflowDocActions = SpringContext.getBean(WorkflowDocumentActions.class);
+            wrkflowDocActions.indexDocument(Long.valueOf(document.getDocumentNumber()));
         }
         catch (WorkflowException we) {
-            String errorMsg = "Workflow Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
+            String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
+        }
+        catch (NumberFormatException ne) {
+            String errorMsg = "Invalid document number format for document # " + document.getDocumentHeader().getDocumentNumber() + " " + ne.getMessage();
+            LOG.error(errorMsg, ne);
+            throw new RuntimeException(errorMsg, ne);
         }
     }
     

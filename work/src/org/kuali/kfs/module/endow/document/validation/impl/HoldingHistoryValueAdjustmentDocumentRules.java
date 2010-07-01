@@ -23,7 +23,6 @@ import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -132,7 +131,6 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         }
 
         return isValid;
-
     }
     
     /**
@@ -164,7 +162,6 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         
         return true;
     }
-    
 
     /**
      * Checks if security valuation method is Unit value and if so make sure nothing entered for Market Value
@@ -190,7 +187,6 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         
         return true;
     }
-    
     
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)

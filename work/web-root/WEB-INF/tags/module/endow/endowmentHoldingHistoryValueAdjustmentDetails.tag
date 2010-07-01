@@ -27,9 +27,13 @@
 <%@ attribute name="headingTitle" required="true"
 	description="This is displayed as heading in H3 title."%>
 	
+<script type='text/javascript' src="dwr/interface/EndowmentTransactionDocumentService.js"></script>	
+<script language="JavaScript" type="text/javascript" src="scripts/module/endow/historyValueAdjustmentSecurityObjectInfo.js"></script>
 	
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true"
 	tabErrorKey="${EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS}">
+	<c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />	
+	
 	<div class="tab-container" align=center>
 			<h3>${headingTitle}</h3>
 		<table cellpadding="0" cellspacing="0" summary="${summaryTitle}">
@@ -40,7 +44,7 @@
 				useShortLabel="false"
 				/>
 
-			<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.securityClassCode}"
+			<kul:htmlAttributeHeaderCell attributeEntry="${ClassCodeAttributes.code}"
 				hideRequiredAsterisk="true"
 				useShortLabel="false"/>
 
@@ -63,9 +67,9 @@
 		</tr>
         <tr> 
             <td class="infoline">
-	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.securityClassCode}" 
+	            <kul:htmlControlAttribute attributeEntry="${documentAttributes.securityId}" 
 	            	property="document.securityId" 
-	            	onblur="loadSecurityInfo(this.name);" 
+	            	onblur="loadHistoryValueAdjustmentSecurityInfo(this.name);" 
 	            	readOnly="${readOnly}"
 	            	/>
 	            &nbsp;
@@ -79,10 +83,10 @@
             	</div>	
             </td>
             <td>
-            	<div id="document.securityClassCode" >
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.securityClassCode}" property="document.securityClassCode" readOnly="true" />
+            	<div id="document.security.securityClassCode" >
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.securityClassCode" readOnly="true" />
             		-
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.securityClassCode}" property="document.security.classCode.name" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.security.classCode.name" readOnly="true" />
             	</div>
             </td>
             <td>

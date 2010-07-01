@@ -47,6 +47,7 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -695,7 +696,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         for (PurApItem item : document.getItems()) {
             updateItemAccountAmounts(item);
         }
-
     }
 
     /**
@@ -796,8 +796,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 for (Iterator<PurApAccountingLine> iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                     accountIdentifier++;
                     PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
-                    
-                    KualiDecimal accountAmount = account.getAmount();
+                  
+                    //account.getAmount returns the wrong value for trade in source accounting lines...
+                    KualiDecimal accountAmount = KualiDecimal.ZERO;
+                    if(item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)){
+                        accountAmount = item.getExtendedPrice();
+                    }else{
+                        accountAmount = account.getAmount();
+                    }
                     BigDecimal tmpPercent = BigDecimal.ZERO;
                     KualiDecimal extendedPrice = item.getTotalAmount();
                     tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);

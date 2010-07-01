@@ -102,13 +102,13 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
    @Override
    public String getFinancialObjectCode() {
        CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);       
-       return customerInvoiceWriteoffDocumentService.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff);
+       return customerInvoiceWriteoffDocumentService.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff, this.getChartOfAccountsCode());
    }
 
   @Override
    public ObjectCode getObjectCode() {
       CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);  
-      return customerInvoiceWriteoffDocumentService.getObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff);
+      return customerInvoiceWriteoffDocumentService.getObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU, isUsingChartForWriteoff, this.getChartOfAccountsCode());
       }
   
   

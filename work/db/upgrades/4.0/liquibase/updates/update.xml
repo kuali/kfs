@@ -164,4 +164,5 @@
 <include file="updates/2010-06-21-5817-1-END_HIST_VAL_ADJ_DOC_T.xml"/>
 <include file="updates/2010-06-22-5817a-1-END_HIST_VAL_ADJ_DOC_T.xml"/>
 <include file="updates/2010-06-29-5833-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-07-02-5817e-1-END_HIST_VAL_ADJ_DOC_T.xml"/>
 </databaseChangeLog>

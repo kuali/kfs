@@ -31,12 +31,6 @@
 	description="Display the Delete button for the Target Tax Lot Lines."%>	
 
 <c:set var="holdingTaxLotAttributes" value="${DataDictionary.HoldingTaxLot.attributes}"/>
-<c:if test="${isSource}" >
-  <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTaxLotLine" />
-</c:if>
-<c:if test="${isTarget}">
-  <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTaxLotLine" />
-</c:if>
 
 <kul:tab tabTitle="Tax Lot Lines" defaultOpen="true" tabErrorKey="${EndowConstants.TAX_LOT_LINE_DOCUMENT_ERRORS}" tabItemCount="${KualiForm.document.taxLotLinesNumber}">
 	<div class="tab-container" align=center>
@@ -124,7 +118,7 @@
 		                <c:if test="${showSourceDeleteButton and not readOnly}" >
 		                <td class="datacell">
                				<div align="center">
-		                		<html:image property="${methodToCallDelete}.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
+		                		<html:image property="methodToCall.deleteSourceTaxLotLine.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
 		                    </div>
                 		</td>
 		                </c:if>
@@ -215,7 +209,7 @@
 		                <c:if test="${showTargetDeleteButton and not readOnly}" >
 		                    <td class="datacell">
                					<div align="center">
-		                			<html:image property="${methodToCallDelete}.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
+		                			<html:image property="methodToCall.deleteTargetTaxLotLine.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
 		                		</div>
 		                	</td>
 		                </c:if>

@@ -340,7 +340,12 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
                 if (EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCodeType)) {
                     isValid = false;
 
-                    putFieldError(EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_NOT_LIABILITY);
+                    if (isSource) {
+                        putFieldError(EndowPropertyConstants.TRANSACTION_SOURCE_SECURITY_PREFIX + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_NOT_LIABILITY);
+                    }
+                    else {
+                        putFieldError(EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_NOT_LIABILITY);
+                    }
                 }
             }
         }

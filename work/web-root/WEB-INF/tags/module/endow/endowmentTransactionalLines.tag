@@ -109,9 +109,9 @@
 				</td>
 	    </tr>
 	    
-	   <kul:displayIfErrors keyMatch="${errorKeyMatch}*">
+	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">
 	    <tr>
-            <td colspan="8"><kul:errors keyMatch="${errorKeyMatch}*" errorTitle="Errors found in this Section:" /></td>
+            <td colspan="8"><kul:errors keyMatch="${errorKeyMatch}" errorTitle="Errors found in this Section:" /></td>
         </tr>
        </kul:displayIfErrors>
 	    
@@ -129,7 +129,9 @@
             </c:if>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionLineDescription}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionIPIndicatorCode}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
+            <c:if test="${showTransactionAmount}">
+            	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
+            </c:if>
             <c:if test="${hasUnits}">
            		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
             </c:if>	
@@ -177,7 +179,9 @@
 				<c:if test="${not setFieldValueToPrincipal}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
 				</c:if>
+				<c:if test="${showTransactionAmount}">
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right" readOnly="${isTransAmntReadOnly}"/></td>
+                </c:if>
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
@@ -241,7 +245,9 @@
 				<c:if test="${not setFieldValueToPrincipal}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
 				</c:if>
-                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
+				<c:if test="${showTransactionAmount}">
+                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
+                </c:if>
                 <c:if test="${hasUnits}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>
@@ -258,31 +264,36 @@
                 </td>
             </tr>
         </logic:iterate>
-        
+        <c:if test="${not showIncomeTotalAmount and not showPrincipalTotalAmount}" >
         <tr>
 				<td class="total-line" colspan="5">
 					&nbsp;
 				</td>
         
-			<c:if test="${showIncomeTotalAmount}">
+			
 				<td class="total-line">
+				<c:if test="${showIncomeTotalAmount}">
 					<strong>Total Income Amount:
 						${totalIncomeAmount}</strong>
+				</c:if>
 				</td>
-			</c:if>
 			
-			<c:if test="${showPrincipalTotalAmount}">
+			
+			
 				<td class="total-line">
+				<c:if test="${showPrincipalTotalAmount}">
 				    <strong>Total Principal Amount:
 						${totalPrincipalAmount}</strong>
+                </c:if>							
 				</td>
-			</c:if>	
+			
 				<c:if test="${!readOnly}">
 					<td class="total-line">
 						&nbsp;
 					</td>
 				</c:if>
 		</tr>
+		</c:if>
 		<c:if test="${hasUnits}">
         <tr>
 			<td class="total-line" colspan="5">

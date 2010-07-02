@@ -16,12 +16,10 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiInteger;
 
 
 public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
@@ -29,11 +27,11 @@ public class AssetIncreaseDocumentAction extends EndowmentTransactionLinesDocume
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+    protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
 
         UpdateAssetIncreaseDocumentTaxLotsService taxLotsService = SpringContext.getBean(UpdateAssetIncreaseDocumentTaxLotsService.class);
         AssetIncreaseDocument assetIncreaseDocument = (AssetIncreaseDocument) etlDocument;

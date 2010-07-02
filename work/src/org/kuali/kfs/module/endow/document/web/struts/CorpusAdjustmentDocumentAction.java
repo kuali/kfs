@@ -71,7 +71,7 @@ public class CorpusAdjustmentDocumentAction extends EndowmentTransactionLinesDoc
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This action executes an insert of an EndowmentTargetTransactionLine into a document only after validating the Transaction
      * line and checking any appropriate business rules.
@@ -108,14 +108,14 @@ public class CorpusAdjustmentDocumentAction extends EndowmentTransactionLinesDoc
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+    protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
         // Not needed to implement since there are no TaxLot lines for Corpus....
     }
 }

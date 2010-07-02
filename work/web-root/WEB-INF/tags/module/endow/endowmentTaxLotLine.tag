@@ -34,7 +34,7 @@
 <c:if test="${isSource}" >
   <c:set var="methodToCallDelete" value="methodToCall.deleteSourceTaxLotLine" />
 </c:if>
-<c:if test="${not isSource}">
+<c:if test="${isTarget}">
   <c:set var="methodToCallDelete" value="methodToCall.deleteTargetTaxLotLine" />
 </c:if>
 
@@ -213,7 +213,11 @@
 		                </c:if>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${holdingTaxLotAttributes.acquiredDate}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotAcquiredDate" readOnly="true"/></td>
 		                <c:if test="${showTargetDeleteButton and not readOnly}" >
-		                	<html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
+		                    <td class="datacell">
+               					<div align="center">
+		                			<html:image property="${methodToCallDelete}.line${outerctr}.taxLot${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Tax Lot ${ctr+1}" alt="Delete Tax Lot  ${ctr+1}" styleClass="tinybutton"/>
+		                		</div>
+		                	</td>
 		                </c:if>
 		            </tr>
 		        </logic:iterate>

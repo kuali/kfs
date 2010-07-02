@@ -65,11 +65,11 @@ public class LiabilityDecreaseDocumentAction extends EndowmentTransactionLinesDo
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+    protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
 
         LiabilityDocumentService taxLotsService = SpringContext.getBean(LiabilityDocumentService.class);
         LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) etlDocument;

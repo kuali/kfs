@@ -21,10 +21,15 @@ import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
+import org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * This class...
+ */
 public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
+    private HoldingTaxLotDao holdingTaxLotDao;
     private BusinessObjectService businessObjectService;
 
     /**
@@ -75,6 +80,14 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithPositiveUnits(java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithPositiveUnits(String kemid, String securityId, String registrationCode, String ipIndicator) {
+        return (List<HoldingTaxLot>) holdingTaxLotDao.getAllTaxLotsWithPositiveUnits(kemid, securityId, registrationCode, ipIndicator);
+    }
+
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService
@@ -90,6 +103,24 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the holdingTaxLotDao.
+     * 
+     * @return holdingTaxLotDao
+     */
+    public HoldingTaxLotDao getHoldingTaxLotDao() {
+        return holdingTaxLotDao;
+    }
+
+    /**
+     * Sets the holdingTaxLotDao.
+     * 
+     * @param holdingTaxLotDao
+     */
+    public void setHoldingTaxLotDao(HoldingTaxLotDao holdingTaxLotDao) {
+        this.holdingTaxLotDao = holdingTaxLotDao;
     }
 
 }

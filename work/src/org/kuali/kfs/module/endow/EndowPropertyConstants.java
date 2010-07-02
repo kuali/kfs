@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.endow;
 
-import java.sql.Date;
-
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowPropertyConstants {
 
@@ -102,6 +98,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_TAX_LOT_BALANCE_DATE = "balanceDate";
     public static final String HOLDING_TAX_LOT_ACQUIRED_DATE = "acquiredDate";
+    public static final String HOLDING_TAX_LOT_UNITS = "units";
 
     // MonthEndDate fields
     public static final String MONTH_END_DATE_ID = "monthEndDateId";
@@ -496,7 +493,7 @@ public class EndowPropertyConstants {
 
     // Transaction Document
     public static final String TRANSACTION_LINE_DESCRIPTION = "transactionLineDescription";
-    
+
     public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";
 
@@ -516,11 +513,11 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_SECURITY_ID = "securityID";
     public static final String TRANSACTION_REGISTRATION_ID = "registrationCode";
     public static final String TRANSACTION_IPINDICATOR = "transactionIPIndicatorCode";
-    
+
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
 
-    public static final String HISTORY_VALUE_ADJUSTMENT_SECURITY_ID = "securityId";    
+    public static final String HISTORY_VALUE_ADJUSTMENT_SECURITY_ID = "securityId";
     public static final String HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE = "securityUnitValue";
-    public static final String HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE = "securityMarketValue";    
+    public static final String HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE = "securityMarketValue";
 }

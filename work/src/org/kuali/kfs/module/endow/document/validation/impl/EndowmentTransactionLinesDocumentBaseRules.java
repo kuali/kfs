@@ -232,7 +232,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 return false;
 
             // If non-cash transactions
-            if (nonCashTransaction(endowmentTransactionLinesDocument)) {
+            if (nonCashTransaction(endowmentTransactionLinesDocument) && hasEtranCode(endowmentTransactionLinesDocument)) {
                 // Is Etran code empty
                 if (isEndowmentTransactionCodeEmpty(line, ERROR_PREFIX))
                     return false;
@@ -275,6 +275,17 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
             return true;
         else
             return false;
+    }
+
+    /**
+     * Tells if the document has an etran code. Override this method in the BR class specific to your document to return whether the
+     * document has etran code or not.
+     * 
+     * @param endowmentTransactionLinesDocument
+     * @return true by default. It should return true if the document has an etran code or false otherwise.
+     */
+    protected boolean hasEtranCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
+        return true;
     }
 
     /**

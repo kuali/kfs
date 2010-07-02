@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -23,7 +24,6 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.kfs.module.endow.EndowConstants;
 
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
@@ -50,6 +50,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     protected boolean showIncomeTotalUnits = true;
     protected boolean showPrincipalTotalUnits = true;
+    protected boolean showTransactionAmount = true;
 
     // the income or principal box value will be set on tag file using the property.
     // if set to true, income or principal drop-down box will be readonly with value set to P-Principal
@@ -355,5 +356,23 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setTargetTaxLotsLabelName(String targetTaxLotsLabelName) {
         this.targetTaxLotsLabelName = targetTaxLotsLabelName;
+    }
+
+    /**
+     * Gets showTransactionAmount.
+     * 
+     * @return showTransactionAmount
+     */
+    public boolean isShowTransactionAmount() {
+        return showTransactionAmount;
+    }
+
+    /**
+     * Sets showTransactionAmount.
+     * 
+     * @param showTransactionAmount
+     */
+    public void setShowTransactionAmount(boolean showTransactionAmount) {
+        this.showTransactionAmount = showTransactionAmount;
     }
 }

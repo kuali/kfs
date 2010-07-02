@@ -172,15 +172,6 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        return super.processCustomRouteDocumentBusinessRules(document);
-    }
-
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionalDocumentBaseRule#validateSecurityClassTypeCode(org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument,
      *      boolean, java.lang.String)

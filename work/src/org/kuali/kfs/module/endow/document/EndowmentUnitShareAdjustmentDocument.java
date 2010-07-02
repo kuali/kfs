@@ -23,8 +23,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
 /**
- * Endowment Unit/Share Adjustment (EUSA) transaction is available for those times when a number of units of a security held by
- * the KEMID must be modified without affecting the original cost or carry value of the security tax lot(s).
+ * Endowment Unit/Share Adjustment (EUSA) transaction is available for those times when a number of units of a security held by the
+ * KEMID must be modified without affecting the original cost or carry value of the security tax lot(s).
  */
 public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDocumentBase {
 

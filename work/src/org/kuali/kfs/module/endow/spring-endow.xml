@@ -314,7 +314,12 @@
 	
 	</bean>
 	
+	<bean id="holdingTaxLotDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingTaxLotDaoOjb" />
+	
 	<bean id="holdingTaxLotService" class="org.kuali.kfs.module.endow.document.service.impl.HoldingTaxLotServiceImpl">
+	    <property name="holdingTaxLotDao">
+			<ref bean="holdingTaxLotDao" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -375,6 +380,15 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
+	</bean>
+	
+	<bean id="updateUnitShareAdjustmentDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl">
+		<property name="taxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>	
 	</bean>
 	
 </beans>

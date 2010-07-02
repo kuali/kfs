@@ -28,6 +28,14 @@ public class EndowmentUnitShareAdjustmentDocumentForm extends EndowmentTransacti
      */
     public EndowmentUnitShareAdjustmentDocumentForm() {
         super();
+
+        // don't show these values on the edoc.
+        setShowPrincipalTotalAmount(false);
+        setShowIncomeTotalAmount(false);
+        setShowTransactionAmount(false);
+
+        // do not show the etran code on the UI screen
+        setShowETranCode(false);
     }
 
     /**

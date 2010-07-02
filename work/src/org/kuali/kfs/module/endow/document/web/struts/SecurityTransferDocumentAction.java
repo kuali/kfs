@@ -46,7 +46,7 @@ public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocument
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
-    protected void updateTransactionLineTaxLots(boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
+    protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
         SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) etlDocument;
 
         if (transLine instanceof EndowmentSourceTransactionLine) {
@@ -105,7 +105,7 @@ public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocument
                 rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, i));
 
                 if (rulePassed) {
-                    updateTransactionLineTaxLots(true, endowmentDocument, transLine);
+                    updateTransactionLineTaxLots(true, true, endowmentDocument, transLine);
                 }
 
                 if (endowmentDocument instanceof AmountTotaling)

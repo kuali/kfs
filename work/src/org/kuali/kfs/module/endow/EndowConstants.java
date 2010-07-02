@@ -233,7 +233,7 @@ public class EndowConstants extends JSTLConstants {
     public static class TransactionSourceTypeCode {
         public static final String MANUAL = "M";
         public static final String AUTOMATED = "A";
-        public static final String RECURRING ="R";
+        public static final String RECURRING = "R";
     }
 
     public static final String PRINCIPAL = "Principal";
@@ -249,7 +249,7 @@ public class EndowConstants extends JSTLConstants {
     // }
     public static final String TRANSACTION_LINE_TYPE_SOURCE = "F";
     public static final String TRANSACTION_LINE_TYPE_TARGET = "T";
-    
+
     public static final String TRANSACTION_SECURITY_TYPE_SOURCE = "F";
     public static final String TRANSACTION_SECURITY_TYPE_TARGET = "T";
 
@@ -259,14 +259,14 @@ public class EndowConstants extends JSTLConstants {
     }
 
     public static final String TRANSACTION_DETAILS_ERRORS = "document.transactionSubTypeCode";
-    public static final String SOURCE_TRANSACTION_LINES_ERRORS = "document.targetTransactionLines,newSourceTransactionLine*,document.newSourceTransactionLine*,document.sourceTransactionLines*";
-    public static final String TARGET_TRANSACTION_LINES_ERRORS = "document.sourceTransactionLines,newTargetTransactionLine*,document.newTargetTransactionLine*,document.targetTransactionLines*";
+    public static final String SOURCE_TRANSACTION_LINES_ERRORS = "newSourceTransactionLine*,document.sourceTransactionLines*";
+    public static final String TARGET_TRANSACTION_LINES_ERRORS = "newTargetTransactionLine*,document.targetTransactionLines*";
     public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
 
     public static final class HistoryHoldingValueAdjustmentValuationCodes {
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";
-        public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M"; 
+        public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M";
         public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "holdingHistory*";
     }
 }

@@ -25,7 +25,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
-import org.kuali.kfs.module.endow.document.service.UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteTaxLotLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -57,9 +56,7 @@ public abstract class EndowmentTaxLotLinesDocumentActionBase extends EndowmentTr
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteTaxLot(true, etlForm, transLineindex, taxLotIndex);
-            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
-            EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument = (EndowmentTaxLotLinesDocument) etlDoc;
-            taxLotsService.updateTransactionLineTaxLots(true, endowmentTaxLotLinesDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getSourceTransactionLines().get(transLineindex));
+            updateTransactionLineTaxLots(true, true, etlDoc, transLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -88,9 +85,7 @@ public abstract class EndowmentTaxLotLinesDocumentActionBase extends EndowmentTr
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
             deleteTaxLot(false, etlForm, transLineindex, taxLotIndex);
-            UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
-            EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument = (EndowmentTaxLotLinesDocument) etlDoc;
-            taxLotsService.updateTransactionLineTaxLots(true, endowmentTaxLotLinesDocument, etlForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines().get(transLineindex));
+            updateTransactionLineTaxLots(true, false, etlDoc, transLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -26,11 +26,13 @@ import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
@@ -574,9 +576,18 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
             if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(detailLine.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))))
                 setChartOfAccountsCode(getValue(detailLine, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
             else
-                setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
-            
+                setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());            
             setAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+            
+            // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
+            AccountService acctserv = SpringContext.getBean(AccountService.class);
+            if (StringUtils.isEmpty(getChartOfAccountsCode()) && StringUtils.isNotEmpty(getAccountNumber()) && !acctserv.accountsCanCrossCharts()) {
+                Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
+                if (account != null) {
+                    setChartOfAccountsCode(account.getChartOfAccountsCode());
+                }            
+            }
+                        
             setSubAccountNumber(getValue(detailLine, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
             setFinancialObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
             setFinancialSubObjectCode(getValue(detailLine, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));

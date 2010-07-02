@@ -49,7 +49,7 @@
 				hideRequiredAsterisk="true"
 				useShortLabel="false"/>
 
-			<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.securityValuationMethod}" 
+			<kul:htmlAttributeHeaderCell attributeEntry="${SecurityValuationMethodAttributes.code}" 
 				hideRequiredAsterisk="true"
 				useShortLabel="false" />
 			

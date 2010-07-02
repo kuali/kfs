@@ -95,8 +95,8 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
         
         String returnArray[] = new String[4];
         returnArray[0] = security.getDescription(); 
-        returnArray[1] = security.getSecurityClassCode() + " - " + classCode.getName();
-        returnArray[2] = securityValuation.getCode() + " - " + securityValuation.getName();
+        returnArray[1] = classCode.getCodeAndDescription();
+        returnArray[2] = securityValuation.getCodeAndDescription();
         returnArray[3] = security.getId();
         
         return returnArray;

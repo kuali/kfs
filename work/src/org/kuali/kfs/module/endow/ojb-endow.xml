@@ -2225,8 +2225,6 @@
 <class-descriptor class="org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument" table="END_HIST_VAL_ADJ_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="securityId" column="SEC_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="securityClassCode" column="SEC_CLS_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="securityValuationMethod" column="SEC_VLTN_MTHD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="holdingMonthEndDate" column="HLDG_ME_DT_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="securityUnitValue" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
 	<field-descriptor name="securityMarketValue" column="SEC_MVAL" jdbc-type="DECIMAL"/>

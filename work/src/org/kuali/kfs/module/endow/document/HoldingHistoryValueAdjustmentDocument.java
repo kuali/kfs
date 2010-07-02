@@ -31,8 +31,6 @@ import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactionalDocumentBase implements Copyable {
 
     protected String securityId;
-    protected String securityClassCode;
-    protected String securityValuationMethod;
     protected KualiInteger holdingMonthEndDate;
     protected BigDecimal securityUnitValue;
     protected BigDecimal securityMarketValue;
@@ -61,38 +59,6 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
         this.securityId = securityId;
     }
     
-    /**
-     * This method will get securityClassCode
-     * @return securityClassCode 
-     */    
-    public String getSecurityClassCode() {
-        return securityClassCode;
-    }
-
-    /**
-     * This method will set securityClassCode
-     * @param securityClassCode
-     */    
-    public void setSecurityClassCode(String securityClassCode) {
-        this.securityClassCode = securityClassCode;
-    }
-    
-    /**
-     * This method will get securityValuationMethod
-     * @return securityValuationMethod
-     */
-    public String getSecurityValuationMethod() {
-        return securityValuationMethod;
-    }
-
-    /**
-     * This method will set securityValuationMethod
-     * @param securityValuationMethod
-     */
-    public void setSecurityValuationMethod(String securityValuationMethod) {
-        this.securityValuationMethod = securityValuationMethod;
-    }
-
     /**
      * This method will get holdingMonthEndDate
      * @return holdingMonthEndDate

@@ -29,8 +29,6 @@
     <property name="attributes">
       <list>
         <ref bean="HoldingHistoryValueAdjustmentDocument-securityId"/>
-        <ref bean="HoldingHistoryValueAdjustmentDocument-securityclassCode"/>
-        <ref bean="HoldingHistoryValueAdjustmentDocument-securityValuationMethod"/>
         <ref bean="HoldingHistoryValueAdjustmentDocument-holdingMonthEndDate"/>
         <ref bean="HoldingHistoryValueAdjustmentDocument-securityUnitValue"/>                
         <ref bean="HoldingHistoryValueAdjustmentDocument-securityMarketValue"/>        
@@ -48,16 +46,6 @@
 
   <bean id="HoldingHistoryValueAdjustmentDocument-securityId-parentBean" abstract="true" parent="Security-id">
     <property name="name" value="securityId" />
-  </bean>
-  <bean id="HoldingHistoryValueAdjustmentDocument-securityclassCode" parent="HoldingHistoryValueAdjustmentDocument-securityclassCode-parentBean"/>
-
-  <bean id="HoldingHistoryValueAdjustmentDocument-securityclassCode-parentBean" abstract="true" parent="ClassCode-code">
-    <property name="name" value="securityClassCode"/>
-  </bean>
-  <bean id="HoldingHistoryValueAdjustmentDocument-securityValuationMethod" parent="HoldingHistoryValueAdjustmentDocument-securityValuationMethod-parentBean"/>
-
-  <bean id="HoldingHistoryValueAdjustmentDocument-securityValuationMethod-parentBean" abstract="true" parent="SecurityValuationMethod-code">
-    <property name="name" value="securityValuationMethod"/>
   </bean>
   <bean id="HoldingHistoryValueAdjustmentDocument-holdingMonthEndDate" parent="HoldingHistoryValueAdjustmentDocument-holdingMonthEndDate-parentBean"/>
 

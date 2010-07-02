@@ -382,6 +382,12 @@
 		</property>				
 	</bean>
 	
+	<bean id="holdingHistoryService" class="org.kuali.kfs.module.endow.document.service.impl.HoldingHistoryServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+	</bean>
+	
 	<bean id="updateUnitShareAdjustmentDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl">
 		<property name="taxLotService">
 			<ref bean="holdingTaxLotService" />
@@ -390,5 +396,4 @@
 			<ref bean="securityService" />
 		</property>	
 	</bean>
-	
 </beans>

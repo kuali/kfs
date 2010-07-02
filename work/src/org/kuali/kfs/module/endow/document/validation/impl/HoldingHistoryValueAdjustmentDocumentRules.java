@@ -16,15 +16,19 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -139,8 +143,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      * @return true if positive, else false
      */
     protected boolean isUnitValuePositive(HoldingHistoryValueAdjustmentDocument document) {
-        
-        if (ObjectUtils.isNotNull(document.getSecurityUnitValue()) && document.getSecurityUnitValue().compareTo(BigDecimal.ZERO) != 1) {
+        if (ObjectUtils.isNotNull(document.getSecurityUnitValue()) && document.getSecurityUnitValue().compareTo(BigDecimal.ZERO) <= 0) {
             putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE);            
             return false;
         }
@@ -154,8 +157,10 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      * @return true if positive, else false
      */
     protected boolean isMarketValuePositive(HoldingHistoryValueAdjustmentDocument document) {
+        //reset Market value if unit valuation method is U (Unit value)
+        resetMarketValueToNullWhenUnitValueEntered(document);
         
-        if (ObjectUtils.isNotNull(document.getSecurityMarketValue()) && document.getSecurityMarketValue().compareTo(BigDecimal.ZERO) != 1) {
+        if (ObjectUtils.isNotNull(document.getSecurityMarketValue()) && document.getSecurityMarketValue().compareTo(BigDecimal.ZERO) <= 0) {
             putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE);            
             return false;
         }
@@ -169,23 +174,68 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      * @return true if only Unit Value is entered, else false
      */
     protected boolean checkValuationMethodForUnitOrSecurityValue(HoldingHistoryValueAdjustmentDocument document) {
+        String valuationMethodCode = document.getSecurity().getClassCode().getSecurityValuationMethod().getCode();
+        
         // check if the valuation method is U (unit value) and if so, then make sure no value is entered for market value.
-        if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(document.getSecurityValuationMethod())) {
+        if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_UNIT_VALUE);
-                return false;
+                document.setSecurityMarketValue(null);
+                return true;
             }
         }
 
         // check if the valuation method is M (market value) and if so, then make sure no value is entered for unit value.        
-        if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE.equals(document.getSecurityValuationMethod())) {
+        if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNotNull(document.getSecurityUnitValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_MARKET_VALUE);
-                return false;
+                //calculate Unit value as per 5.6.2.1.2 in KEM Adjustment_Transactions+v.1.3 document...
+                document.setSecurityUnitValue(calculateUnitValueWhenMarketValueEntered(document));
+                return true;
             }
         }
         
         return true;
+    }
+    
+    /**
+     * Reset the value for Market Value that the user entered if the valuation method is U (Unit Value)
+     * @param document
+     */
+    protected void resetMarketValueToNullWhenUnitValueEntered(HoldingHistoryValueAdjustmentDocument document) {
+        String valuationMethodCode = document.getSecurity().getClassCode().getSecurityValuationMethod().getCode();
+
+        // check if the valuation method is U (unit value) and if so, then make sure no value is entered for market value.
+        if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(valuationMethodCode)) {
+            if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
+                document.setSecurityMarketValue(null);
+            }
+        }
+    }
+    
+    /**
+     * Calculates unit value when security id's valuation method is M and market value is entered.
+     * 
+     */
+    protected BigDecimal calculateUnitValueWhenMarketValueEntered(HoldingHistoryValueAdjustmentDocument document) {
+        BigDecimal unitValue = BigDecimal.ZERO;
+        BigDecimal totalUnits = BigDecimal.ZERO;
+        BigDecimal marketValue = document.getSecurityMarketValue();
+        
+        Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
+        for (HoldingHistory holdingHistory : holdingHistoryRecords) {
+            totalUnits.add(holdingHistory.getUnits());
+        }
+        ClassCode classCode = document.getSecurity().getClassCode();
+        
+        if (ObjectUtils.isNotNull(classCode) && ObjectUtils.isNotNull(totalUnits) && totalUnits.compareTo(BigDecimal.ZERO) != 0) {
+            if (EndowConstants.ClassCodeTypes.BOND.equalsIgnoreCase(classCode.getClassCodeType())) {
+                unitValue = KEMCalculationRoundingHelper.divide((marketValue.multiply(new BigDecimal(100))), totalUnits, EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            }
+            else {
+                unitValue = KEMCalculationRoundingHelper.divide(marketValue, totalUnits, EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            }
+        }
+        
+        return unitValue;
     }
     
     /**

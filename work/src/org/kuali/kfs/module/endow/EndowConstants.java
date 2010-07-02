@@ -20,7 +20,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
-
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
 

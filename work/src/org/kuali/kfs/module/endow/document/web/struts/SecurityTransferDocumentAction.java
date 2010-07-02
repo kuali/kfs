@@ -51,7 +51,7 @@ public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocument
 
         if (transLine instanceof EndowmentSourceTransactionLine) {
             UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService taxLotsService = SpringContext.getBean(UpdateTaxLotsBasedOnAccMethodAndTransSubtypeService.class);
-            taxLotsService.updateTransactionLineTaxLots(false, securityTransferDocument, transLine);
+            taxLotsService.updateTransactionLineTaxLots(isUpdate, securityTransferDocument, transLine);
         }
 
         if (transLine instanceof EndowmentTargetTransactionLine) {

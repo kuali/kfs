@@ -218,6 +218,7 @@
 	    <create creator="spring" javascript="EndowmentTransactionDocumentService">
 	    	<param name="beanName" value="endowmentTransactionDocumentService" />
 	    	<include method="getSecurity" />
+	    	<include method="getSecurityForHoldingHistoryValueAdjustment" />	    	
 	    </create>	     
     </allow>
 </dwr>

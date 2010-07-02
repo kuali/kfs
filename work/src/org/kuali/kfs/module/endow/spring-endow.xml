@@ -371,4 +371,10 @@
 		</property>	
 	</bean>
 	
+	<bean id="securityValuationMethodService" class="org.kuali.kfs.module.endow.document.service.impl.SecurityValuationMethodServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+	</bean>
+	
 </beans>

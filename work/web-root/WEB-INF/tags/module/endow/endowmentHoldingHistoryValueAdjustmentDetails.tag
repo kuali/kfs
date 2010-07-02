@@ -32,7 +32,8 @@
 	
 <kul:tab tabTitle="${tabTitle}" defaultOpen="true"
 	tabErrorKey="${EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS}">
-	<c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />	
+	<c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />
+	<c:set var="SecurityValuationMethodAttributes" value="${DataDictionary.SecurityValuationMethod.attributes}" />
 	
 	<div class="tab-container" align=center>
 			<h3>${headingTitle}</h3>
@@ -84,16 +85,12 @@
             </td>
             <td>
             	<div id="document.security.securityClassCode" >
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.securityClassCode" readOnly="true" />
-            		-
-            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.security.classCode.name" readOnly="true" />
+            		<kul:htmlControlAttribute attributeEntry="${ClassCodeAttributes.code}" property="document.security.classCode.codeAndDescription" readOnly="true" />
             	</div>
             </td>
             <td>
-            	<div id="document.securityValuationMethod">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.securityValuationMethod}" property="document.securityValuationMethod" readOnly="true" />
-            		-
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.securityValuationMethod}" property="document.securityValuation.name" readOnly="true" />
+            	<div id="document.security.classCode.valuationMethod">
+            		<kul:htmlControlAttribute attributeEntry="${SecurityValuationMethodAttributes.code}" property="document.security.classCode.securityValuationMethod.codeAndDescription" readOnly="true" />
             	</div>	
             </td>
             <td>

@@ -27,11 +27,13 @@ import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.document.service.SecurityValuationMethodService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -66,6 +68,36 @@ public class EndowmentTransactionDocumentServiceImpl implements EndowmentTransac
         returnArray[3] = new Boolean( security.getClassCode().isTaxLotIndicator()).toString();
         returnArray[4] = security.getId();
         
+        
+        return returnArray;
+    }
+    
+    /**
+     * Gets the security, class and valuationMethod details based on the securityId.
+     * @see org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService#getSecurity(java.lang.String)
+     */
+    public String[] getSecurityForHoldingHistoryValueAdjustment(String securityId) {
+        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(securityId);
+        if(null == security)
+            return null;
+
+        ClassCode classCode  = SpringContext.getBean(ClassCodeService.class).getByPrimaryKey(security.getSecurityClassCode());
+        if(null == classCode)
+            return null;
+
+        SecurityValuationMethod securityValuation = SpringContext.getBean(SecurityValuationMethodService.class).getByPrimaryKey(classCode.getValuationMethod());
+        
+        if(null == securityValuation)
+            return null;
+               
+        classCode.setSecurityValuationMethod(securityValuation);
+        security.setClassCode(classCode);
+        
+        String returnArray[] = new String[4];
+        returnArray[0] = security.getDescription(); 
+        returnArray[1] = security.getSecurityClassCode() + " - " + classCode.getName();
+        returnArray[2] = securityValuation.getCode() + " - " + securityValuation.getName();
+        returnArray[3] = security.getId();
         
         return returnArray;
     }

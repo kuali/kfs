@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 function loadHistoryValueAdjustmentSecurityInfo(securityIdFieldName) {
-
 	var securityId = DWRUtil.getValue(securityIdFieldName ).toUpperCase();
     var securityCodeFieldDescription = "security.description";
     var classCodeField = "document.security.securityClassCode";
-    
+    var valuationMethodField = "document.security.classCode.valuationMethod"
+    	
 	clearRecipients(securityCodeFieldDescription, "");
-	clearRecipients(classCodeField, "-");
+	clearRecipients(classCodeField, "");
+	clearRecipients(valuationMethodField, "");
  
 	if (securityId != '') 
 	{
@@ -28,19 +29,20 @@ function loadHistoryValueAdjustmentSecurityInfo(securityIdFieldName) {
 			callback:function(data) {
 			if (data != null && typeof data == 'object') 
 			{
-				setRecipientValue(securityIdFieldName, data[4]);				
 				setRecipientValue(securityCodeFieldDescription, data[0]);
 				setRecipientValue(classCodeField, data[1]);
+				setRecipientValue(valuationMethodField, data[2]);	
+				setRecipientValue(securityIdFieldName, data[3]);				
 			} 
 			else 
 			{
-				setRecipientValue(securityCodeFieldDescription, wrapError( "Security description not found" ), true);			
+				setRecipientValue(securityCodeFieldDescription, wrapError("Security description not found" ), true);			
 			} },
 			errorHandler:function(errorMessage) 
 			{ 
-				setRecipientValue(securityCodeFieldDescription, wrapError( "Security description not found" ), true );
+				setRecipientValue(securityCodeFieldDescription, wrapError("Security description not found" ), true);
 			}
 		};
-		EndowmentTransactionDocumentService.getSecurity(securityId, dwrReply);
+		EndowmentTransactionDocumentService.getSecurityForHoldingHistoryValueAdjustment(securityId, dwrReply);
 	}
 }

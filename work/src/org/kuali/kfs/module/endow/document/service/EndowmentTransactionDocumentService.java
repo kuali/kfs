@@ -50,4 +50,12 @@ public interface EndowmentTransactionDocumentService {
      */
     public boolean matchChartBetweenSecurityAndETranCode(Security security, String etranCode, String ipIndicator);
 
+    /**
+     * This method gets security by the primary key: securityId
+     * 
+     * @param securityId
+     * @return String[]
+     */
+    public String[] getSecurityForHoldingHistoryValueAdjustment(String securityId);
+    
 }

@@ -33,13 +33,12 @@ public class HoldingHistoryValueAdjustmentDocumentForm extends FinancialSystemTr
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(HoldingHistoryValueAdjustmentDocument.class);
+        return "EHVA";
     }
     
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getHoldingHistoryValueAdjustmentDocument());
     }
     

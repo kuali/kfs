@@ -68,11 +68,11 @@
 		    	includePostingYear="true"
                 fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
-		
 		        <purap:purapDocumentDetail
 		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 		            purchaseOrder="true"
-		            detailSectionLabel="Purchase Order Detail" />
+		            detailSectionLabel="Purchase Order Detail"
+		            tabErrorKey="${PurapConstants.DETAIL_TAB_ERRORS}"/>
 		    </sys:documentOverview>
 		</c:if>
 		 

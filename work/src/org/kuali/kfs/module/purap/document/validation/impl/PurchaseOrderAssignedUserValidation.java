@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -40,7 +41,7 @@ public class PurchaseOrderAssignedUserValidation extends GenericValidation {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)event.getDocument();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.clearErrorPath();
-        errorMap.addToErrorPath(KFSConstants.DOCUMENT_DOCUMENT_ERRORS);
+        errorMap.addToErrorPath(PurapConstants.DETAIL_TAB_ERRORS);
         boolean valid = true;
 
         // assigned user is not a required field

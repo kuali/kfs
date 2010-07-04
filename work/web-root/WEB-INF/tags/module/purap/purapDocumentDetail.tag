@@ -25,7 +25,9 @@
 			  description="The label of the detail section."%>
 <%@ attribute name="editableFundingSource" required="false"
 			  description="Is fundingsourcecode editable?."%>
-
+<%@ attribute name="tabErrorKey" required="false"
+			  description="error map to display"%>
+			
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:if test="${empty editableFundingSource}">
 	<c:set var="editableFundingSource" value="false" />
@@ -48,7 +50,10 @@
 <c:set var="tabindexOverrideBase" value="10" />
 <c:set var="poOutForQuote" value="${KualiForm.document.statusCode eq 'QUOT'}" />
 
-<h3><c:out value="${detailSectionLabel}"/></h3>
+<h3><c:out value="${detailSectionLabel}"/> </h3>
+<div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="document.assignedUserPrincipalName"/></div></div>		        
+
+
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
     <c:if test="${not paymentRequest}">
@@ -135,7 +140,7 @@
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.assignedUserPrincipalName}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-            	<kul:htmlControlAttribute 
+             	<kul:htmlControlAttribute 
                     property="document.assignedUserPrincipalName" 
                     attributeEntry="${documentAttributes.assignedUserPrincipalName}" 
                     readOnly="${!fullEntryMode and !amendmentEntry}" tabindexOverride="${tabindexOverrideBase + 0}" />
@@ -154,7 +159,7 @@
                     readOnly="${not (fullEntryMode or amendmentEntry)}" 
                     tabindexOverride="${tabindexOverrideBase + 5}" />
             </td> 
-		</tr>
+		</tr>		
 	</c:if>
 
     

@@ -38,18 +38,6 @@ public class WorkflowImporter {
         }
         Log4jConfigurer.configureLogging(false);
         try {
-//            File pendingDir = new File( args[0], "pending" );
-//            if ( !pendingDir.exists() ) {
-//            	throw new IllegalArgumentException( "Pending directory does not exist! - " + pendingDir.getAbsolutePath() );
-//            }
-//            File completedDir = new File( args[0], "completed" );
-//            if ( !completedDir.exists() ) {
-//            	completedDir.mkdir();
-//            }
-//            File failedDir = new File( args[0], "failed" );
-//            if ( !failedDir.exists() ) {
-//            	failedDir.mkdir();
-//            }
             SpringContextForWorkflowImporter.initializeApplicationContext();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
@@ -62,6 +50,7 @@ public class WorkflowImporter {
             });     
             if ( dirs == null ) {
                 LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING!" );
+                System.err.println( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING!" );
                 System.exit(-1);
             }
             Arrays.sort(dirs);
@@ -113,7 +102,8 @@ public class WorkflowImporter {
             System.exit(0);
         }
         catch (Throwable t) {
-            LOG.error("ERROR: Exception caught: ", t);
+            System.err.println("ERROR: Exception caught: ");
+            t.printStackTrace(System.err);
             System.exit(-1);
         }
     }

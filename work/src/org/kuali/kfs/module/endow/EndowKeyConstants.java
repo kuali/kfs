@@ -236,6 +236,8 @@ public class EndowKeyConstants {
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_NOT_LIABILITY = "error.holdingHistoryValueAdjustment.securityId.notLiability";
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE = "error.holdingHistoryValueAdjustment.unitValue.notPositive";
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE = "error.holdingHistoryValueAdjustment.marketValue.notPositive";
+        public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED = "error.holdingHistoryValueAdjustment.unitValue.required";
+        public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED = "error.holdingHistoryValueAdjustment.marketValue.required";        
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_UNIT_VALUE = "error.holdingHistoryValueAdjustment.marketValue.entered";
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_MARKET_VALUE = "error.holdingHistoryValueAdjustment.unitValue.entered";
     }

@@ -53,12 +53,12 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         isValid &= this.isSecurityActive(holdingHistoryValueAdjustmentDocument);
         // check if it is Liability class type code for the given security id
         isValid &= this.validateSecurityClassCodeTypeNotLiability(holdingHistoryValueAdjustmentDocument);
+        // check the valuation method for Unit value and make sure market value is not entered.
+        isValid &= this.checkValuationMethodForUnitOrSecurityValue(holdingHistoryValueAdjustmentDocument);        
         // check if the unit value is a positve value
         isValid &= this.isUnitValuePositive(holdingHistoryValueAdjustmentDocument);
         // check if the market value is a positive value
         isValid &= this.isMarketValuePositive(holdingHistoryValueAdjustmentDocument);   
-        // check the valuation method for Unit value and make sure market value is not entered.
-        isValid &= this.checkValuationMethodForUnitOrSecurityValue(holdingHistoryValueAdjustmentDocument);        
         
         return isValid;
     }
@@ -178,6 +178,11 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         
         // check if the valuation method is U (unit value) and if so, then make sure no value is entered for market value.
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(valuationMethodCode)) {
+            if (ObjectUtils.isNull(document.getSecurityUnitValue())) {
+                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED);            
+                return false;
+            }
+            
             if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
                 document.setSecurityMarketValue(null);
                 return true;
@@ -186,7 +191,12 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
 
         // check if the valuation method is M (market value) and if so, then make sure no value is entered for unit value.        
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE.equals(valuationMethodCode)) {
-            if (ObjectUtils.isNotNull(document.getSecurityUnitValue())) {
+            if (ObjectUtils.isNull(document.getSecurityMarketValue())) {
+                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED);            
+                return false;
+            }
+            
+            if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
                 //calculate Unit value as per 5.6.2.1.2 in KEM Adjustment_Transactions+v.1.3 document...
                 document.setSecurityUnitValue(calculateUnitValueWhenMarketValueEntered(document));
                 return true;
@@ -218,12 +228,14 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
     protected BigDecimal calculateUnitValueWhenMarketValueEntered(HoldingHistoryValueAdjustmentDocument document) {
         BigDecimal unitValue = BigDecimal.ZERO;
         BigDecimal totalUnits = BigDecimal.ZERO;
+        
         BigDecimal marketValue = document.getSecurityMarketValue();
         
         Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
-            totalUnits.add(holdingHistory.getUnits());
+            totalUnits = totalUnits.add(holdingHistory.getUnits()); //sum up the units and store it
         }
+        
         ClassCode classCode = document.getSecurity().getClassCode();
         
         if (ObjectUtils.isNotNull(classCode) && ObjectUtils.isNotNull(totalUnits) && totalUnits.compareTo(BigDecimal.ZERO) != 0) {

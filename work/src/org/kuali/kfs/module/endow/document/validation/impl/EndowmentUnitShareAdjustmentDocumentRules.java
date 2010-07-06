@@ -46,8 +46,6 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
 
         EndowmentUnitShareAdjustmentDocument endowmentUnitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) document;
 
-        boolean isSource = line instanceof EndowmentSourceTransactionLine;
-
         isValid &= validateSecurity(isValid, endowmentUnitShareAdjustmentDocument, true);
         isValid &= validateSecurityClassCodeTypeNotLiability(endowmentUnitShareAdjustmentDocument, true);
 
@@ -91,10 +89,15 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
         boolean isValid = true;
         EndowmentUnitShareAdjustmentDocument endowmentUnitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) document;
 
-        isValid &= super.processCustomSaveDocumentBusinessRules(document);
+        isValid &= validateSecurity(isValid, endowmentUnitShareAdjustmentDocument, true);
+        isValid &= validateSecurityClassCodeTypeNotLiability(endowmentUnitShareAdjustmentDocument, true);
+
+        isValid &= validateRegistration(isValid, endowmentUnitShareAdjustmentDocument, true);
 
         if (isValid) {
             isValid &= hasOnlySourceOrTargetTransactionLines(endowmentUnitShareAdjustmentDocument);
+            isValid &= super.processCustomSaveDocumentBusinessRules(document);
+
         }
 
         return isValid;

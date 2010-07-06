@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.Arrays;
 
 import org.kuali.kfs.sys.context.Log4jConfigurer;
@@ -34,6 +36,7 @@ public class WorkflowImporter {
             System.err.println("ERROR: You must pass the base directory on the command line.");
             System.exit(-1);
         }
+        Log4jConfigurer.configureLogging(false);
         try {
 //            File pendingDir = new File( args[0], "pending" );
 //            if ( !pendingDir.exists() ) {
@@ -47,7 +50,6 @@ public class WorkflowImporter {
 //            if ( !failedDir.exists() ) {
 //            	failedDir.mkdir();
 //            }
-            Log4jConfigurer.configureLogging(false);
             SpringContextForWorkflowImporter.initializeApplicationContext();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
@@ -58,6 +60,10 @@ public class WorkflowImporter {
                     return pathname.isDirectory() && !pathname.getName().startsWith(".");
                 }
             });     
+            if ( dirs == null ) {
+                LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING!" );
+                System.exit(-1);
+            }
             Arrays.sort(dirs);
             
             for ( File dir : dirs ) {
@@ -107,23 +113,43 @@ public class WorkflowImporter {
             System.exit(0);
         }
         catch (Throwable t) {
-            System.err.println("ERROR: Exception caught: ");
-            t.printStackTrace(System.err);
+            LOG.error("ERROR: Exception caught: ", t);
             System.exit(-1);
         }
     }
 
-    private static void copyFile(File sourceFile, File destFile) throws Exception{
-        InputStream in = new FileInputStream(sourceFile);
-
-        OutputStream out = new FileOutputStream(destFile);
-
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
+    public static void copyFile(File sourceFile, File destFile) throws IOException {
+        if (!destFile.exists()) {
+            destFile.createNewFile();
         }
-        in.close();
-        out.close();
+
+        FileChannel source = null;
+        FileChannel destination = null;
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            destination.transferFrom(source, 0, source.size());
+        }
+        finally {
+            if (source != null) {
+                source.close();
+            }
+            if (destination != null) {
+                destination.close();
+            }
+        }
     }
+//    private static void copyFile(File sourceFile, File destFile) throws Exception{
+//        InputStream in = new FileInputStream(sourceFile);
+//
+//        OutputStream out = new FileOutputStream(destFile);
+//
+//        byte[] buf = new byte[1024];
+//        int len;
+//        while ((len = in.read(buf)) > 0) {
+//            out.write(buf, 0, len);
+//        }
+//        in.close();
+//        out.close();
+//    }
 }

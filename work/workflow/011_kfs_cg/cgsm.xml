@@ -119,14 +119,6 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-      </routeNodes>
     </documentType>
     <documentType>
       <name>

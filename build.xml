@@ -817,6 +817,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
                 <fail />
             </then>
         </if>
+    	<echo message="Running Workflow Importer on ${workflow.dir}" />
         <java classname="org.kuali.kfs.sys.WorkflowImporter" fork="true">
             <jvmarg value="-Xms512m" />
             <jvmarg value="-Xmx1g" />

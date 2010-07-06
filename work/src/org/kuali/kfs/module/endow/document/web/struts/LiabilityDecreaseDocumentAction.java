@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-public class LiabilityDecreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+public class LiabilityDecreaseDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
@@ -64,9 +64,7 @@ public class LiabilityDecreaseDocumentAction extends EndowmentTransactionLinesDo
 
 
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
@@ -75,6 +73,15 @@ public class LiabilityDecreaseDocumentAction extends EndowmentTransactionLinesDo
         LiabilityDecreaseDocument liabilityDecreaseDocument = (LiabilityDecreaseDocument) etlDocument;
         taxLotsService.updateLiabilityDecreaseTransactionLineTaxLots(isSource, liabilityDecreaseDocument, transLine);
 
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#getRefreshTaxLotsOnSaveOrSubmit()
+     */
+    @Override
+    protected boolean getRefreshTaxLotsOnSaveOrSubmit() {
+        return true;
     }
 
 }

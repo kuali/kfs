@@ -98,6 +98,13 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
             isValid &= hasOnlySourceOrTargetTransactionLines(endowmentUnitShareAdjustmentDocument);
             isValid &= super.processCustomSaveDocumentBusinessRules(document);
 
+            List<EndowmentTransactionLine> transLines = (endowmentUnitShareAdjustmentDocument.getSourceTransactionLines() != null && endowmentUnitShareAdjustmentDocument.getSourceTransactionLines().size() > 0) ? endowmentUnitShareAdjustmentDocument.getSourceTransactionLines() : endowmentUnitShareAdjustmentDocument.getTargetTransactionLines();
+
+            for (int i = 0; i < transLines.size(); i++) {
+                EndowmentTransactionLine transLine = transLines.get(i);
+                validateTaxLotsRelateToKemid(endowmentUnitShareAdjustmentDocument, transLine, i);
+            }
+
         }
 
         return isValid;

@@ -26,10 +26,9 @@ import org.kuali.kfs.sys.context.SpringContext;
  */
 public class EndowmentUnitShareAdjustmentDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
+
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
@@ -37,6 +36,15 @@ public class EndowmentUnitShareAdjustmentDocumentAction extends EndowmentTaxLotL
         EndowmentUnitShareAdjustmentDocument unitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) etlDocument;
 
         updateUnitShareAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLots(isUpdate, unitShareAdjustmentDocument, transLine, isSource);
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#getRefreshTaxLotsOnSaveOrSubmit()
+     */
+    @Override
+    protected boolean getRefreshTaxLotsOnSaveOrSubmit() {
+        return false;
     }
 
 }

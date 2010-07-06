@@ -739,6 +739,40 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
     /**
+     * Validates that the tax lots for a transaction line correspond to the information in that transaction line. It might be
+     * possible that the user has changed the KEMID or Security related data without refreshing the tax lot lines. On save we need
+     * to check that the tax lot lines relate to the KEMID in the transaction lines. Take the first tax lot for the transaction line
+     * and check if it is in the holding tax lots for that KEMID. This validation is needed in documents that support tax lot lines
+     * deletion as in that case the tax lot lines are not automatically refreshed on save/submit.
+     * 
+     * @param endowmentTransactionLinesDocument
+     * @param transLine
+     * @param transLineIndex
+     * @return
+     */
+    protected boolean validateTaxLotsRelateToKemid(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int transLineIndex) {
+        boolean isValid = true;
+
+        EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocument, true);
+
+        // as it might be possible that the user has changed the KEMID without refreshing the tax lot lines, on save we need to
+        // check that the tax lot lines relate to the KEMID in the transaction lines. Take the first tax lot for the transaction
+        // line and check if it is in the holding tax lots for that KEMID.
+        if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
+            EndowmentTransactionTaxLotLine transactionTaxLotLine = transLine.getTaxLotLines().get(0);
+            // TODO validation to be added
+
+
+            // if () {
+            // isValid = false;
+            // putFieldError(getErrorPrefix(transLine, transLineIndex) + EndowPropertyConstants.KEMID,
+            // EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAX_LOT_DONT_CORRESPOND);
+            // }
+        }
+        return isValid;
+    }
+
+    /**
      * This method Check if value of Endowment is being reduced.
      * 
      * @param endowmentTransactionLinesDocumentBase

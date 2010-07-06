@@ -27,7 +27,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
@@ -109,13 +108,4 @@ public class CorpusAdjustmentDocumentAction extends EndowmentTransactionLinesDoc
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
-     */
-    @Override
-    protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-        // Not needed to implement since there are no TaxLot lines for Corpus....
-    }
 }

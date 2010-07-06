@@ -22,12 +22,11 @@ import org.kuali.kfs.module.endow.document.service.LiabilityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
+public class LiabilityIncreaseDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
+
 
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
-     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
@@ -36,6 +35,15 @@ public class LiabilityIncreaseDocumentAction extends EndowmentTransactionLinesDo
         LiabilityIncreaseDocument liabilityIncreaseDocument = (LiabilityIncreaseDocument) etlDocument;
         taxLotsService.updateLiabilityIncreaseTransactionLineTaxLots(isSource, liabilityIncreaseDocument, transLine);
 
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#getRefreshTaxLotsOnSaveOrSubmit()
+     */
+    @Override
+    protected boolean getRefreshTaxLotsOnSaveOrSubmit() {
+        return true;
     }
 
 }

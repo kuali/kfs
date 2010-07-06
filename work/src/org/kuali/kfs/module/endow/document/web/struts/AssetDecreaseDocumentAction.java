@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class AssetDecreaseDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
     /**
-     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
-     *      org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean,
+     *      boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
@@ -34,6 +34,14 @@ public class AssetDecreaseDocumentAction extends EndowmentTaxLotLinesDocumentAct
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) etlDocument;
         taxLotsService.updateTransactionLineTaxLots(isUpdate, assetDecreaseDocument, transLine);
 
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#getRefreshTaxLotsOnSaveOrSubmit()
+     */
+    @Override
+    protected boolean getRefreshTaxLotsOnSaveOrSubmit() {
+        return false;
     }
 
 }

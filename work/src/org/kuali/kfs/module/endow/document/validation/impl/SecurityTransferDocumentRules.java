@@ -159,6 +159,7 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             for (int i = 0; i < txLines.size(); i++) {
                 EndowmentTransactionLine txLine = txLines.get(i);
                 isValid &= validateSecurityTransferTransactionLine(false, securityTransferDocument, txLine, i, -1);
+                isValid &= validateTaxLotsRelateToKemid(securityTransferDocument, txLine, i);
             }
 
             // Validate the source & target units are equal.

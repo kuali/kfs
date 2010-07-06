@@ -129,7 +129,7 @@
             </c:if>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionLineDescription}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionIPIndicatorCode}"/>
-            <c:if test="${showTransactionAmount}">
+            <c:if test="${KualiForm.showTransactionAmount}">
             	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
             </c:if>
             <c:if test="${hasUnits}">
@@ -179,7 +179,7 @@
 				<c:if test="${not setFieldValueToPrincipal}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
 				</c:if>
-				<c:if test="${showTransactionAmount}">
+				<c:if test="${KualiForm.showTransactionAmount}">
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right" readOnly="${isTransAmntReadOnly}"/></td>
                 </c:if>
                 <c:if test="${hasUnits}">
@@ -245,7 +245,7 @@
 				<c:if test="${not setFieldValueToPrincipal}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
 				</c:if>
-				<c:if test="${showTransactionAmount}">
+				<c:if test="${KualiForm.showTransactionAmount}">
                 	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
                 </c:if>
                 <c:if test="${hasUnits}">

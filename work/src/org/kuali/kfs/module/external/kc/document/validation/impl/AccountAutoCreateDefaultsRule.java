@@ -15,17 +15,25 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.external.kc.KcKeyConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.ParameterService;
@@ -120,6 +128,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkContractsAndGrants(document);
+        success &= checkCgRequiredKcUnit(newAccountAutoCreateDefaults);
         return success;
     }
 
@@ -239,7 +248,23 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         return success;
     }
 
-   
+    /**
+     * This method checks to make sure that the kcUnit field exists and is entered correctly
+     * 
+     * @param newAccountAutoCreateDefaults
+     * @return true/false
+     */
+
+    protected boolean checkCgRequiredKcUnit(AccountAutoCreateDefaults newAccountAutoCreateDefaults) {
+
+        boolean result = true;
+        // Check KcUnit required field      
+        UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
+        UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+        if (unitDTO == null) result = false;
+        return result;
+    }
+    
     /**
      * This method checks to make sure that if the contracts and grants fields are required they are entered correctly
      * 
@@ -247,9 +272,9 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
      * @return
      */
     protected boolean checkCgRequiredFields(AccountAutoCreateDefaults newAccountAutoCreateDefaults) {
-
         boolean result = true;
-
+        
+   
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccountAutoCreateDefaults.getSubFundGroup())) {
             if (getSubFundGroupService().isForContractsAndGrants(newAccountAutoCreateDefaults.getSubFundGroup())) {

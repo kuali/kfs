@@ -89,15 +89,15 @@ public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServic
 
 
     public boolean isExternalizable(Class businessObjectClass) {
-        return externalizedBOs.containsValue(businessObjectClass);
+        return externalizedBOs.containsKey(businessObjectClass);
     }
 
     public boolean isExternalizableBusinessObjectInquirable(Class businessObjectClass) {
-        return externalizedBOs.containsValue(businessObjectClass);
+        return externalizedBOs.containsKey(businessObjectClass);
     }
     
     public boolean isExternalizableBusinessObjectLookupable(Class businessObjectClass) {
-        return externalizedBOs.containsValue(businessObjectClass);
+        return externalizedBOs.containsKey(businessObjectClass);
     }
 
     /***

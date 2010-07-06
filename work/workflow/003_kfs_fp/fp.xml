@@ -955,5 +955,97 @@
         </role>
       </routeNodes>
     </documentType>
+    <documentType>
+      <name>
+        YEBA
+      </name>
+      <parent>
+        FPYE
+      </parent>
+      <label>
+        Year End Budget Adjustment
+      </label>
+      <docHandler>
+        ${application.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        YEDI
+      </name>
+      <parent>
+        FPYE
+      </parent>
+      <label>
+        Year End Distribution Of Income And Expense
+      </label>
+      <docHandler>
+        ${application.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        YEGE
+      </name>
+      <parent>
+        FPYE
+      </parent>
+      <label>
+        Year End General Error Correction
+      </label>
+      <docHandler>
+        ${application.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        YETF
+      </name>
+      <parent>
+        FPYE
+      </parent>
+      <label>
+        Year End Transfer Of Funds
+      </label>
+      <docHandler>
+        ${application.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
   </documentTypes>
 </data>

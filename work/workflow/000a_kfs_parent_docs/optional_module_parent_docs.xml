@@ -2,121 +2,13 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>
-        ACHD
+        ARSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        ACH Disbursement
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        CHKD
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        Check Disbursement
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        CHKR
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        Check Cancel &amp; Re-Issue
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        CHKC
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        Check Cancellation
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        ACHR
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        ACH Cancel &amp; Re-Issue
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        ACHC
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        ACH Cancellation
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        1
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        AVAD
-      </name>
-      <parent>
-        FSLO
-      </parent>
-      <label>
-        Auxiliary Voucher - Adjustment
+        AccountsReceivableSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -124,17 +16,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        AVAE
+        BCSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Auxiliary Voucher - Accrual Entry
+        BudgetConstructionSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -142,17 +33,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        AVRC
+        CMSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Auxiliary Voucher - Re-code
+        CapitalAssetManagementSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -160,17 +50,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        DVWF
+        CGSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Disbursement Voucher - WT/FD
+        ContractsAndGrantsSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -178,17 +67,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        DVCA
+        ECSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Disbursement Voucher - Check/ACH
+        EffortCertificationSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -196,17 +84,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        LJVA
+        LDSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Labor Journal Voucher - Accrual
+        LaborDistributionSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -214,17 +101,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        LJVC
+        PRSM
       </name>
       <parent>
-        FSLO
+        FSSM
       </parent>
       <label>
-        Labor Journal Voucher - Cash
+        PurchasingAccountsPayableSimpleMaintenanceDocument
       </label>
       <active>
         true
@@ -232,17 +118,16 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        LJVE
+        ARM
       </name>
       <parent>
-        FSLO
+        KFSM
       </parent>
       <label>
-        Labor Journal Voucher - Encumbrance
+        AccountsReceivableComplexMaintenanceDocument
       </label>
       <active>
         true
@@ -250,14 +135,203 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        BCBB
+        CAMM
       </name>
       <parent>
-        FSLO
+        KFSM
+      </parent>
+      <label>
+        CapitalAssetManagementComplexMaintenanceDocument
+      </label>
+      <docSearchHelpURL>
+        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        CGM
+      </name>
+      <parent>
+        KFSM
+      </parent>
+      <label>
+        ContractsAndGrantsComplexMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        CAB
+      </name>
+      <parent>
+        KFSM
+      </parent>
+      <label>
+        CapitalAssetBuilderComplexMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        AR
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        AccountsReceivableTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        BCT
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        BudgetConstructionTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        CAM
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        CapitalAssetManagementTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        CG
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        ContractsAndGrantsTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ProjectManagement"/>
+          <role name="ProjectManagement"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="ProjectManagement">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        EC
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        EffortCertificationTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        LD
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        LaborDistributionTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        PRAP
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>
+        PurchasingAccountsPayableTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        ET
+      </name>
+      <label>
+        EndowmentTransactionalDocument
+      </label>
+      <parent>
+        KFST
       </parent>
     </documentType>
   </documentTypes>

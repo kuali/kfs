@@ -2,18 +2,11 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>
-        FSLO
+        BCBB
       </name>
-      <label>
-        Financial System - Ledger Only
-      </label>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-      <routePaths/>
+      <parent>
+        FSLO
+      </parent>
     </documentType>
   </documentTypes>
 </data>

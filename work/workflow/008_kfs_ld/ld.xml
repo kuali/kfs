@@ -221,5 +221,51 @@
         </simple>
       </routeNodes>
     </documentType>
+    <documentType>
+      <name>
+        YEBT
+      </name>
+      <parent>
+        LDYE
+      </parent>
+      <label>
+        Year End Benefit Expense Transfer
+      </label>
+      <docHandler>
+        ${application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        YEST
+      </name>
+      <parent>
+        LDYE
+      </parent>
+      <label>
+        Year End Salary Expense Transfer
+      </label>
+      <docHandler>
+        ${application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
   </documentTypes>
 </data>

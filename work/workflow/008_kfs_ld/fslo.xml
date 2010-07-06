@@ -2,49 +2,57 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>
-        YEBT
+        LJVA
       </name>
       <parent>
-        LDYE
+        FSLO
       </parent>
       <label>
-        Year End Benefit Expense Transfer
+        Labor Journal Voucher - Accrual
       </label>
-      <docHandler>
-        ${application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler
-      </docHandler>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
-      </helpDefinitionURL>
       <active>
         true
       </active>
       <routingVersion>
         2
       </routingVersion>
+      <routePaths/>
     </documentType>
     <documentType>
       <name>
-        YEST
+        LJVC
       </name>
       <parent>
-        LDYE
+        FSLO
       </parent>
       <label>
-        Year End Salary Expense Transfer
+        Labor Journal Voucher - Cash
       </label>
-      <docHandler>
-        ${application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler
-      </docHandler>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
-      </helpDefinitionURL>
       <active>
         true
       </active>
       <routingVersion>
         2
       </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        LJVE
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Labor Journal Voucher - Encumbrance
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
     </documentType>
   </documentTypes>
 </data>

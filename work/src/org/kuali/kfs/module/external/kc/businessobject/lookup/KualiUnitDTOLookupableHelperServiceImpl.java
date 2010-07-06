@@ -19,9 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -48,13 +54,20 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
  
 
     /**
-     * Overridden to changed the "closed" parameter to an "active" parameter
+     * Overridden to allow EBO to use web service to lookup KC Unit.
      * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
-        return super.getSearchResults(parameters);
+        /*
+        List<UnitDTO> unitList = new ArrayList<UnitDTO>();
+        UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
+        unitList = unitService.lookupUnits(parameters);
+         return unitList;
+        */
+         return super.getSearchResults(parameters);
+       
     }
 
 

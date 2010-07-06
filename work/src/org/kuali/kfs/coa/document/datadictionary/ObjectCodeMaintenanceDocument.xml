@@ -23,6 +23,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="ObjectCodeMaintenanceDocument-EditObjectCode"/>
+        <ref bean="ObjectCodeMaintenanceDocument-EditAdminAttributes"/>
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -93,6 +94,20 @@
     </property>
   </bean>
 
+  <bean id="ObjectCodeMaintenanceDocument-EditAdminAttributes" parent="ObjectCodeMaintenanceDocument-EditAdminAttributes-parentBean"/>
+
+  <bean id="ObjectCodeMaintenanceDocument-EditAdminAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Admin Attributes"/>
+    <property name="title" value="Admin Attributes"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="kcBudgetCategoryCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="kcOnCampusIndicator" />
+        <bean parent="MaintainableFieldDefinition" p:name="kcObjectCodeDescription" />
+      </list>
+    </property>
+  </bean>
+  
 	<!-- workflow attributes -->
   	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   

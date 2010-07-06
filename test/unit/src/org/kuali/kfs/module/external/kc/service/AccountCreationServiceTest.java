@@ -17,6 +17,8 @@ package org.kuali.kfs.module.external.kc.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.util.Calendar;
+
 import javax.xml.namespace.QName;
 
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
@@ -36,17 +38,57 @@ public class AccountCreationServiceTest extends KualiTestBase
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception 
-    {
+    protected void setUp() throws Exception { 
+    
         // Initialize service objects.
-        accountCreationService = 
-            SpringContext.getBean(AccountCreationService.class);
+        accountCreationService = SpringContext.getBean(AccountCreationService.class);
         
         // Initialize objects.
         accountParameters = new AccountParametersDTO();
-        accountParameters.setAccountName("accountName");
-        accountParameters.setAccountNumber("123456");
+        accountParameters.setUnit("BL");
+        accountParameters.setAccountNumber("1234567");
+        accountParameters.setAccountName("KC Award");
+        accountParameters.setHigherEdFunctionCode("IPR");
+        accountParameters.setIndirectCostTypeCode("");
+        accountParameters.setIndirectCostRate("");
+        accountParameters.setExpenseGuidelineText("expenseGuidelineText");
+        accountParameters.setIncomeGuidelineText("incomeGuidelineText");
+        accountParameters.setPurposeText("purposeText");
+        accountParameters.setCfdaNumber("");
         
+        accountParameters.setDefaultAddressStreetAddress("1000 Main St");
+        accountParameters.setDefaultAddressCityName("Cold Spring");
+        accountParameters.setDefaultAddressStateCode("MD");
+        accountParameters.setDefaultAddressZipCode("20090");
+        
+        accountParameters.setAdminContactAddressStreetAddress("1010 Main St");
+        accountParameters.setAdminContactAddressCityName("Silver Spring");
+        accountParameters.setAdminContactAddressStateCode("MD");
+        accountParameters.setAdminContactAddressZipCode("20090");
+        
+        accountParameters.setPaymentAddressStreetAddress("");
+        accountParameters.setPaymentAddressCityName("");
+        accountParameters.setPaymentAddressStateCode("");
+        accountParameters.setPaymentAddressZipCode("");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set( Calendar.YEAR, 2012 );
+        cal.set( Calendar.MONTH, Calendar.DECEMBER);
+        cal.set( Calendar.DATE, 1 );        
+        cal.set( Calendar.HOUR_OF_DAY, 0 );
+        cal.set( Calendar.MINUTE, 0 );
+        cal.set( Calendar.SECOND, 0 );
+        cal.set( Calendar.MILLISECOND, 0 );
+        accountParameters.setExpirationDate(new java.sql.Date(cal.getTime().getTime()) );
+        
+        cal.set( Calendar.YEAR, 2010 );
+        cal.set( Calendar.MONTH, Calendar.JANUARY );
+        cal.set( Calendar.DATE, 1 );
+        accountParameters.setEffectiveDate(new java.sql.Date(cal.getTime().getTime()) );
+        
+        accountParameters.setOffCampusIndicator(false);
+        accountParameters.setPrincipalId("6162502038"); //khuntley
+                
         super.setUp();
     }
     
@@ -55,18 +97,16 @@ public class AccountCreationServiceTest extends KualiTestBase
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
-    protected void tearDown() throws Exception 
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
     
     /**
-     * This method tests the service locally
+     * This method tests the service without using web services
      */
-    public void testCreateAccountServiceLocally() 
-    {   
-        AccountCreationStatusDTO creationStatus =
-            accountCreationService.createAccount(accountParameters);
+    public void testCreateAccountServiceLocally() { 
+ 
+        AccountCreationStatusDTO creationStatus = accountCreationService.createAccount(accountParameters);
     
         System.out.println("account number: " + creationStatus.getAccountNumber()); 
         
@@ -75,7 +115,7 @@ public class AccountCreationServiceTest extends KualiTestBase
 
     
     /**
-     * This method tests the service using KSB, but locally 
+     * This method tests the service using KSB, but without SOAP 
      */
     public void testCreateAccountServiceWithKSB() {
         
@@ -83,7 +123,7 @@ public class AccountCreationServiceTest extends KualiTestBase
             AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceSOAP"));  
             //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceSOAP"); // error
             
-            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);        
+            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);   
             System.out.println("account number: " + creationStatus.getAccountNumber());        
             assertTrue(creationStatus.getStatus().equals("success"));
             

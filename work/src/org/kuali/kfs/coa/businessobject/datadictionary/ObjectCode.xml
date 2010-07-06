@@ -45,6 +45,9 @@
         <ref bean="ObjectCode-finObjMandatoryTrnfrelimCd"/>
         <ref bean="ObjectCode-financialFederalFundedCode"/>
         <ref bean="ObjectCode-nextYearFinancialObjectCode"/>
+        <ref bean="ObjectCode-kcBudgetCategoryCode"/>
+        <ref bean="ObjectCode-kcOnCampusIndicator"/>
+        <ref bean="ObjectCode-kcObjectCodeDescription"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -178,6 +181,33 @@
     <property name="name" value="nextYearFinancialObjectCode"/>
     <property name="label" value="Next Year Object Code"/>
     <property name="shortLabel" value="NextYearObjCode"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ObjectCode-kcBudgetCategoryCode" parent="ObjectCode-kcBudgetCategoryCode-parentBean"/>
+  <bean id="ObjectCode-kcBudgetCategoryCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="kcBudgetCategoryCode"/>
+    <property name="label" value="Budget Categoty Code"/>
+    <property name="shortLabel" value="KcBudgetCategoryCode"/>
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="ObjectCode-kcObjectCodeDescription" parent="ObjectCode-kcObjectCodeDescription-parentBean"/>
+  <bean id="ObjectCode-kcObjectCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="kcObjectCodeDescription"/>
+    <property name="label" value="Object Code Description for KC"/>
+    <property name="shortLabel" value="KcObjectCodeDescription"/>
+    <property name="maxLength" value="200"/>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="ObjectCode-kcOnCampusIndicator" parent="ObjectCode-kcOnCampusIndicator-parentBean"/>
+  <bean id="ObjectCode-kcOnCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="kcOnCampusIndicator"/>
+    <property name="label" value="On Campus?"/>
     <property name="required" value="false"/>
   </bean>
 

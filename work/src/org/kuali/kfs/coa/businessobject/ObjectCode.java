@@ -58,7 +58,12 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private String nextYearFinancialObjectCode;
     private String finObjMandatoryTrnfrelimCd;
     private String financialFederalFundedCode;
-
+    
+    // for KC Budget Adjustment
+    private String kcBudgetCategoryCode; 
+    private boolean kcOnCampusIndicator;
+    private String kcObjectCodeDescription;
+    
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private transient FederalFundedCode financialFederalFunded;
@@ -542,9 +547,9 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap<String, String> toStringMapper() {
 
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
 
@@ -608,6 +613,30 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         return this.financialObjectCodeName;
     }
     
+    public String getKcBudgetCategoryCode() {
+        return kcBudgetCategoryCode;
+    }
+
+    public void setKcBudgetCategoryCode(String kcBudgetCategoryCode) {
+        this.kcBudgetCategoryCode = kcBudgetCategoryCode;
+    }
+
+    public boolean isKcOnCampusIndicator() {
+        return kcOnCampusIndicator;
+    }
+
+    public void setKcOnCampusIndicator(boolean kcOnCampusIndicator) {
+        this.kcOnCampusIndicator = kcOnCampusIndicator;
+    }
+
+    public String getKcObjectCodeDescription() {
+        return kcObjectCodeDescription;
+    }
+
+    public void setKcObjectCodeDescription(String kcObjectCodeDescription) {
+        this.kcObjectCodeDescription = kcObjectCodeDescription;
+    }
+
     /**
      * Determines if this object code reports to itself
      * @return true if the object code reports to itself, false otherwise

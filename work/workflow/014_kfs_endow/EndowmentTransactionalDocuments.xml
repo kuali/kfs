@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	<documentType>
+		<name>ET</name>
+		<label>Endowment Transactional Document</label>
+		<parent>KFST</parent>
+	</documentType>
+    <documentType>
+      	<name>EAD</name>
+      	<label>Endowment Asset Decrease</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>	
+    <documentType>
+      	<name>EAI</name>
+      	<label>Endowment Asset Increase</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>
+	<documentType>
+		<name>ECDD</name>
+		<label>Endowment Cash Decrease</label>
+		<parent>ET</parent>
+      	<docHandler> ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>    
+	<documentType>
+		<name>ECI</name>
+		<label>Endowment Cash Increase</label>
+		<parent>ET</parent>
+    	<docHandler> ${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>    
+    <documentType>
+		<name>ECT</name>
+		<label>Endowment Cash Transfer</label>
+		<parent>ET</parent>
+    	<docHandler> ${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>
+    <documentType>
+		<name>ECA</name>
+		<label>Endowment Corpus Adjustment</label>
+		<parent>ET</parent>
+    	<docHandler> ${application.url}/endowCorpusAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>
+    <documentType>
+      	<name>EUSA</name>
+      	<label>Endowment Unit/Share Adjustment</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>  
+    <documentType>
+		<name>EHVA</name>
+		<label>Endowment Holding History Value Adjustment</label>
+		<parent>ET</parent>
+      	<docHandler> ${application.url}/endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+	</documentType>
+    <documentType>
+    	<name>ELD</name>
+    	<label>Endowment Liability Decrease</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowLiabilityDecreaseDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>  
+    <documentType>
+      	<name>ELI</name>
+      	<label>Endowment Liability Increase</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>
+    <documentType>
+		<name>EST</name>
+		<label>Endowment Security Transfer</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>            	
+</documentTypes>
+</data>

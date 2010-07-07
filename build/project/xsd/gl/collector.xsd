@@ -93,7 +93,7 @@
                <xsd:element maxOccurs="1" minOccurs="1" ref="universityFiscalAccountingPeriod" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="universityFiscalYear" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="createDate" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="chartOfAccountsCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="chartOfAccountsCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="objectCode" />
@@ -119,7 +119,7 @@
         <xsd:complexType name="glEntryType">
             <xsd:all>
                <xsd:element maxOccurs="1" minOccurs="0" ref="universityFiscalYear" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="chartOfAccountsCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="chartOfAccountsCode" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="objectCode" />

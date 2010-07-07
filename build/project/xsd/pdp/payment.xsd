@@ -97,8 +97,8 @@
     <xsd:element name="accounting">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element ref="coa_cd"/>
-                <xsd:element ref="account_nbr"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="coa_cd"/>
+                <xsd:element maxOccurs="1" minOccurs="1" ref="account_nbr"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="sub_account_nbr"/>
                 <xsd:element ref="object_cd"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="sub_object_cd"/>

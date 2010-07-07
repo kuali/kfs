@@ -15,22 +15,19 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.KcKeyConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
@@ -46,20 +43,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaultsRule.class);
-/*
-    protected static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
-    protected static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUPS";
-
-    protected static final String GENERAL_FUND_CD = "GF";
-    protected static final String RESTRICTED_FUND_CD = "RF";
-    protected static final String ENDOWMENT_FUND_CD = "EN";
-    protected static final String PLANT_FUND_CD = "PF";
-
-    protected static final String RESTRICTED_CD_RESTRICTED = "R";
-    protected static final String RESTRICTED_CD_UNRESTRICTED = "U";
-    protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    protected static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
-*/
     protected static SubFundGroupService subFundGroupService;
     protected static ParameterService parameterService;    
     
@@ -128,7 +111,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkContractsAndGrants(document);
-        success &= checkCgRequiredKcUnit(newAccountAutoCreateDefaults);
+        success &= checkRequiredKcUnit(newAccountAutoCreateDefaults);
         return success;
     }
 
@@ -255,15 +238,20 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
      * @return true/false
      */
 
-    protected boolean checkCgRequiredKcUnit(AccountAutoCreateDefaults newAccountAutoCreateDefaults) {
+    protected boolean checkRequiredKcUnit(AccountAutoCreateDefaults newAccountAutoCreateDefaults) {
 
         boolean result = true;
+        if (StringUtils.isBlank(newAccountAutoCreateDefaults.getKcUnit())) {
+            GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+            return false;
+            
+        }
         // Check KcUnit required field      
-        UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
-        UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
-        if (unitDTO == null) result = false;
-        return result;
-    }
+       UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
+       UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+       if (unitDTO == null) result = false;
+              return result;
+       }
     
     /**
      * This method checks to make sure that if the contracts and grants fields are required they are entered correctly

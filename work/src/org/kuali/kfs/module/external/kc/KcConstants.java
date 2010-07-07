@@ -54,12 +54,10 @@ public class KcConstants {
         
         public static final String WEB_SERVICE_NAME = "budgetAdjustmentService";
                 
-        public static final String PARAMETER_KC_ACCOUNT_ADDRESS_TYPE = "ACCOUNT_ADDRESS_TYPE";
-        public static final String PARAMETER_KC_ACCOUNT_CREATE_ROUTE = "ACCOUNT_AUTO_CREATE_ROUTE";
+        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
         
-        public static final String ADMIN_ADDRESS_TYTPE = "ADMIN";
-        public static final String PAYMENT_ADDRESS_TYTPE = "PAYMENT";
-    
+        public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
+        
         public static final String STATUS_KC_ACCOUNT_SUCCESS = "success";
         public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
         public static final String STATUS_KC_ACCOUNT_WARNING = "warning";

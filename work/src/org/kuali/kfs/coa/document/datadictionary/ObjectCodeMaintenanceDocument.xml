@@ -23,7 +23,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="ObjectCodeMaintenanceDocument-EditObjectCode"/>
-        <ref bean="ObjectCodeMaintenanceDocument-EditAdminAttributes"/>
+        <ref bean="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes"/>
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -59,6 +59,7 @@
       </list>
     </property>
 
+	<property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.ObjectCodeDocumentPresentationController"/>
     <property name="workflowAttributes">
     	<ref bean="ObjectCodeMaintenanceDocument-workflowAttributes"/>
     </property>
@@ -94,11 +95,11 @@
     </property>
   </bean>
 
-  <bean id="ObjectCodeMaintenanceDocument-EditAdminAttributes" parent="ObjectCodeMaintenanceDocument-EditAdminAttributes-parentBean"/>
+  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes" parent="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean"/>
 
-  <bean id="ObjectCodeMaintenanceDocument-EditAdminAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Admin Attributes"/>
-    <property name="title" value="Admin Attributes"/>
+  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="researchAdminAttributes"/>
+    <property name="title" value="Research Admin Attributes"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="kcBudgetCategoryCode" />

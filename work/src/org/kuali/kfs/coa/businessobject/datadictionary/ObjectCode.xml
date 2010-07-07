@@ -45,9 +45,9 @@
         <ref bean="ObjectCode-finObjMandatoryTrnfrelimCd"/>
         <ref bean="ObjectCode-financialFederalFundedCode"/>
         <ref bean="ObjectCode-nextYearFinancialObjectCode"/>
-        <ref bean="ObjectCode-kcBudgetCategoryCode"/>
-        <ref bean="ObjectCode-kcOnCampusIndicator"/>
-        <ref bean="ObjectCode-kcObjectCodeDescription"/>
+        <ref bean="ObjectCode-rschBudgetCategoryCode"/>
+        <ref bean="ObjectCode-rschOnCampusIndicator"/>
+        <ref bean="ObjectCode-rschObjectCodeDescription"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -184,31 +184,32 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="ObjectCode-kcBudgetCategoryCode" parent="ObjectCode-kcBudgetCategoryCode-parentBean"/>
-  <bean id="ObjectCode-kcBudgetCategoryCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="kcBudgetCategoryCode"/>
+  <bean id="ObjectCode-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>
+  <bean id="ObjectCode-rschBudgetCategoryCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    <property name="name" value="rschBudgetCategoryCode"/>
     <property name="label" value="Budget Categoty Code"/>
-    <property name="shortLabel" value="KcBudgetCategoryCode"/>
-    <property name="required" value="false"/>
+    <property name="shortLabel" value="RschBudgetCategoryCode"/>
+    <property name="maxLength" value="3"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
   </bean>
   
-  <bean id="ObjectCode-kcObjectCodeDescription" parent="ObjectCode-kcObjectCodeDescription-parentBean"/>
-  <bean id="ObjectCode-kcObjectCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="kcObjectCodeDescription"/>
-    <property name="label" value="Object Code Description for KC"/>
-    <property name="shortLabel" value="KcObjectCodeDescription"/>
+  <bean id="ObjectCode-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
+  <bean id="ObjectCode-rschObjectCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rschObjectCodeDescription"/>
+    <property name="label" value="Object Code Description for RSCH"/>
+    <property name="shortLabel" value="RschObjectCodeDescription"/>
     <property name="maxLength" value="200"/>
     <property name="control">
-      <ref bean="StandardShortNameTextControl" />
+      <bean parent="TextControlDefinition" p:size="200"/>
     </property>
-    <property name="required" value="false"/>
   </bean>
   
-  <bean id="ObjectCode-kcOnCampusIndicator" parent="ObjectCode-kcOnCampusIndicator-parentBean"/>
-  <bean id="ObjectCode-kcOnCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="kcOnCampusIndicator"/>
+  <bean id="ObjectCode-rschOnCampusIndicator" parent="ObjectCode-rschOnCampusIndicator-parentBean"/>
+  <bean id="ObjectCode-rschOnCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="rschOnCampusIndicator"/>
     <property name="label" value="On Campus?"/>
-    <property name="required" value="false"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

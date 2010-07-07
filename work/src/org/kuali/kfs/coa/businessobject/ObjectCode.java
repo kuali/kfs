@@ -60,9 +60,9 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private String financialFederalFundedCode;
     
     // for KC Budget Adjustment
-    private String kcBudgetCategoryCode; 
-    private boolean kcOnCampusIndicator;
-    private String kcObjectCodeDescription;
+    private String rschBudgetCategoryCode; 
+    private boolean rschOnCampusIndicator;
+    private String rschObjectCodeDescription;
     
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
@@ -612,29 +612,29 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     public String getName() {
         return this.financialObjectCodeName;
     }
-    
-    public String getKcBudgetCategoryCode() {
-        return kcBudgetCategoryCode;
+
+    public String getRschBudgetCategoryCode() {
+        return rschBudgetCategoryCode;
     }
 
-    public void setKcBudgetCategoryCode(String kcBudgetCategoryCode) {
-        this.kcBudgetCategoryCode = kcBudgetCategoryCode;
+    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
+        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
     }
 
-    public boolean isKcOnCampusIndicator() {
-        return kcOnCampusIndicator;
+    public boolean isRschOnCampusIndicator() {
+        return rschOnCampusIndicator;
     }
 
-    public void setKcOnCampusIndicator(boolean kcOnCampusIndicator) {
-        this.kcOnCampusIndicator = kcOnCampusIndicator;
+    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
+        this.rschOnCampusIndicator = rschOnCampusIndicator;
     }
 
-    public String getKcObjectCodeDescription() {
-        return kcObjectCodeDescription;
+    public String getRschObjectCodeDescription() {
+        return rschObjectCodeDescription;
     }
 
-    public void setKcObjectCodeDescription(String kcObjectCodeDescription) {
-        this.kcObjectCodeDescription = kcObjectCodeDescription;
+    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
+        this.rschObjectCodeDescription = rschObjectCodeDescription;
     }
 
     /**

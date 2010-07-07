@@ -102,9 +102,9 @@
     <property name="title" value="Research Admin Attributes"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="kcBudgetCategoryCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="kcOnCampusIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="kcObjectCodeDescription" />
+        <bean parent="MaintainableFieldDefinition" p:name="rschBudgetCategoryCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="rschOnCampusIndicator" />
+        <bean parent="MaintainableFieldDefinition" p:name="rschObjectCodeDescription" />
       </list>
     </property>
   </bean>

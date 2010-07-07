@@ -369,9 +369,9 @@
     <field-descriptor name="finObjMandatoryTrnfrelimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcBudgetCategoryCode" column="KC_BDGT_CTGRY_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcObjectCodeDescription" column="KC_OBJ_CD_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcOnCampusIndicator" column="KC_ON_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="rschBudgetCategoryCode" column="RSCH_BDGT_CTGRY_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschObjectCodeDescription" column="RSCH_OBJ_CD_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschOnCampusIndicator" column="RSCH_ON_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.kfs.coa.businessobject.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -426,9 +426,9 @@
     <field-descriptor name="finObjMandatoryTrnfrelimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcBudgetCategoryCode" column="KC_BDGT_CTGRY_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcObjectCodeDescription" column="KC_OBJ_CD_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="kcOnCampusIndicator" column="KC_ON_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="rschBudgetCategoryCode" column="RSCH_BDGT_CTGRY_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschObjectCodeDescription" column="RSCH_OBJ_CD_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschOnCampusIndicator" column="RSCH_ON_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     
     <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.kfs.coa.businessobject.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialBudgetAggregationCd" />

@@ -585,6 +585,8 @@ public class KFSKeyConstants {
     public static final String ERROR_BATCH_UPLOAD_NO_FILE_TYPE_SELECTED_DOWNLOAD = "error.batchUpload.download.noFileTypeSelected";
     public static final String ERROR_BATCH_UPLOAD_FILE_USER_IDENTIFIER_BAD_FORMAT = "error.batchUpload.save.fileUserIdentifierBadFormat";
     public static final String ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT = "error.batchUpload.save.fileSetIdentifierBadFormat";
+    public static final String ERROR_BATCH_UPLOAD_FILE_EMPTY_CHART = "error.batchUpload.emptyChart";
+    public static final String ERROR_BATCH_UPLOAD_FILE_INVALID_ACCOUNT = "error.batchUpload.invalidAccount";
 
     public static final class AdvanceDeposit {
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET = "error.document.advanceDeposit.requiredNumberOfAdvanceDepositsNotMet";

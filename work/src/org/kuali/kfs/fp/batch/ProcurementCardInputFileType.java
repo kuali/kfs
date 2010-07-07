@@ -16,12 +16,18 @@
 package org.kuali.kfs.fp.batch;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Batch input type for the procurement card job.
@@ -69,7 +75,33 @@ public class ProcurementCardInputFileType extends XmlBatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
     public boolean validate(Object parsedFileContents) {
-        return true;
+        List<ProcurementCardTransaction> pctrans = (List<ProcurementCardTransaction>)parsedFileContents;
+        boolean valid = true;
+        
+        // add validation for chartCode-accountNumber, as chartCode is not required in xsd due to accounts-cant-cross-charts option
+        AccountService acctserv = SpringContext.getBean(AccountService.class);
+        for (ProcurementCardTransaction pctran : pctrans) {
+            // if chart code is empty while accounts cannot cross charts, then derive chart code from account number
+            if (StringUtils.isEmpty(pctran.getChartOfAccountsCode())) {
+                if (acctserv.accountsCanCrossCharts()) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_EMPTY_CHART, pctran.getAccountNumber());
+                    valid = false;
+                }
+                else {
+                    // accountNumber shall not be empty, otherwise won't pass schema validation
+                    Account account = acctserv.getUniqueAccountForAccountNumber(pctran.getAccountNumber());
+                    if (account != null) {
+                        pctran.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                    }       
+                    else {
+                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_INVALID_ACCOUNT, pctran.getAccountNumber());
+                        valid = false;
+                    }
+                }
+            }
+        }
+
+        return valid;
     }
 
     /**

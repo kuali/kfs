@@ -21,7 +21,7 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
- * 
+ * HoldingHistoryService interface to provide the method to get holding history records
  */
 public interface HoldingHistoryService {
 

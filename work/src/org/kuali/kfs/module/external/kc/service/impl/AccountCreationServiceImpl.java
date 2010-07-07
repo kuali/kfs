@@ -87,7 +87,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         // get the defaults table
         String unitNumber = accountParameters.getUnit();
-        AccountAutoCreateDefaults defaults = getAccountDetaults(unitNumber);
+        AccountAutoCreateDefaults defaults = getAccountDefaults(unitNumber);
         
         if (defaults == null) {
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND);
@@ -360,7 +360,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param String unitNumber
      * @return AccountAutoCreateDefaults
      */
-    protected AccountAutoCreateDefaults getAccountDetaults(String unitNumber) {
+    protected AccountAutoCreateDefaults getAccountDefaults(String unitNumber) {
         
         AccountAutoCreateDefaults defaults = null;
         

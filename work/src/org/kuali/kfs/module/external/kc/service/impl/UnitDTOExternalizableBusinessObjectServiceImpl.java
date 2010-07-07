@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.external.kc.service;
+package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,9 +45,9 @@ import org.kuali.rice.kns.service.XmlObjectSerializerService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
-public class UnitDTOExternalizableBusinessObjectService  extends KfsModuleServiceImpl {
+public class UnitDTOExternalizableBusinessObjectServiceImpl  extends KfsModuleServiceImpl {
     
-    protected static final Logger LOG = Logger.getLogger(UnitDTOExternalizableBusinessObjectService.class);
+    protected static final Logger LOG = Logger.getLogger(UnitDTOExternalizableBusinessObjectServiceImpl.class);
     
     private static final Map<Class, Class> externalizedBOs;
     

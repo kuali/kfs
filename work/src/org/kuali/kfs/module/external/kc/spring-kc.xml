@@ -36,7 +36,7 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.service.UnitDTOExternalizableBusinessObjectService" />
+                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.service.impl.UnitDTOExternalizableBusinessObjectServiceImpl" />
              </map>
         </property>
 		<property name="dataDictionaryPackages">
@@ -67,7 +67,7 @@
 	</bean>
 	-->
 	<bean id="kcModuleService" parent="kcModuleService-parentBean"/>
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.UnitDTOExternalizableBusinessObjectService" abstract="true">
+    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.UnitDTOExternalizableBusinessObjectServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
 	</bean>
 	

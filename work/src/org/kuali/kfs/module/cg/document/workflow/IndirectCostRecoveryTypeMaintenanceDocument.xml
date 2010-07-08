@@ -19,20 +19,6 @@
     <documentType>
       <name>ITYP</name>
       <parent>CGSM</parent>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="Workflow Review"/>
-          <requests name="Workflow Review"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <role name="Workflow Review">
-          <ruleTemplate>WorkflowDocumentTemplate</ruleTemplate>
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
-      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

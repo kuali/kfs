@@ -20,8 +20,8 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
-import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
+import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
+import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
 
 @WebService(name = KcConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
             targetNamespace = KcConstants.MODULE_TARGET_NAMESPACE)
@@ -29,7 +29,7 @@ import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface BudgetAdjustmentService {
 
-    public AccountCreationStatusDTO createAccount(
-            @WebParam(name="accountParametersDTO")AccountParametersDTO accountParametersDTO);
+    public BudgetAdjustmentCreationStatusDTO createBudgetAdjustment(
+            @WebParam(name="budgetAdjustmentParametersDTO")BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO);
     
 }

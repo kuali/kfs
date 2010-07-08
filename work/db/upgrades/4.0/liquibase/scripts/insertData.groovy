@@ -218,6 +218,17 @@ class SequenceCreate  implements LiquibaseCommonTableInterface {
   }
 }
 
+class ViewCreate implements LiquibaseCommonTableInterface {
+    Map attributes = [:]
+    List columns = []
+    ViewCreate(Map attribs) {
+        attributes = attribs
+    }
+    void modification(table, xml) {
+        xml.createView(this.attributes, this.getColumns().join("\n")) {
+        }
+    }
+}
 
 class ModSql {
   Map attributes = [:]
@@ -252,7 +263,7 @@ class ChangelogCreateTable {
                          , "xsi:schemaLocation" : "http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"
                          ) {
         tables.each { table ->
-            if (table.getAttributes().find{"dbms"} != null) {
+            if  ((table.getAttributes().find{"dbms"} != null) && (table.attributes["dbms"] != null)) {
                 changeSet(author: author, id : (identifier << changesetId++), failOnError : table.getFailOnErr(), dbms : table.attributes["dbms"]) {              
                     comment(comments)           
                     table.modification(xml)
@@ -715,6 +726,36 @@ def checkSequenceColumns(line, sequenceCreate)
         }
     }
 }
+
+def checkView( rawlines, tables) 
+{ 
+     matcher = (rawlines[0] =~ /(?i)^[ ]*CREATE[ ]+VIEW[ ]+([a-zA-Z1-9_-]+).*/)
+     if (matcher.matches() == true) {
+          println "create view " + matcher[0][1]
+          table = new Table( viewName : matcher[0][1], dbms : "oracle")
+          tables << table
+          viewCreate = new ViewCreate( viewName : matcher[0][1])
+          table.changes << viewCreate
+          rawlines.each() { line ->
+             viewCreate.getColumns() << line
+          }
+          return true
+     }
+     matcher = (rawlines[0] =~ /(?i)^[ ]*CREATE OR REPLACE[ ]+VIEW[ ]+([a-zA-Z1-9_-]+).*/)
+     if (matcher.matches() == true) {
+          println "create or replace view " + matcher[0][1]
+          table = new Table( viewName : matcher[0][1], dbms : "oracle")
+          tables << table
+          viewCreate = new ViewCreate( viewName : matcher[0][1], , replaceIfExists : true)
+           table.changes << viewCreate
+          rawlines.each() { line ->
+              viewCreate.getColumns() << line
+          }
+          return true
+     }
+     return false
+}
+
 //-----------------------------------------------------------------------------------------
 def createOutName(String infilename,String datePrefix, counter)
 {
@@ -738,6 +779,7 @@ def processLine(rawlines)
     if (checkDropTable(rawlines.join(" "), tables) == true) return
     if (checkCreateTable(rawlines, tables) == true) return
     if (checkSequence(rawlines, tables) == true) return
+    if (checkView(rawlines, tables) == true) return
      println "***Invalid line " + rawlines.join(" ")
     
 }

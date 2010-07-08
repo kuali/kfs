@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -28,6 +29,7 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
@@ -94,6 +96,9 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
 
         isValid &= validateRegistration(isValid, endowmentUnitShareAdjustmentDocument, true);
 
+        // the document must have at least one transaction line
+        isValid &= hasAtLeastOneTransactionLine(endowmentUnitShareAdjustmentDocument);
+
         if (isValid) {
             isValid &= hasOnlySourceOrTargetTransactionLines(endowmentUnitShareAdjustmentDocument);
             isValid &= super.processCustomSaveDocumentBusinessRules(document);
@@ -108,6 +113,27 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
         }
 
         return isValid;
+    }
+
+    /**
+     * Validates that the document has at least one transaction line.
+     * 
+     * @param document
+     * @return true if valid, false otherwise
+     */
+    private boolean hasAtLeastOneTransactionLine(EndowmentTransactionLinesDocumentBase document) {
+
+        List<EndowmentTransactionLine> transactionLineList = new ArrayList<EndowmentTransactionLine>();
+        transactionLineList.addAll(document.getSourceTransactionLines());
+        transactionLineList.addAll(document.getTargetTransactionLines());
+
+        if (transactionLineList.size() == 0) {
+            putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_MUST_HAVE_AT_LEAST_ONE_TRANS_LINE);
+            return false;
+        }
+
+
+        return true;
     }
 
     /**

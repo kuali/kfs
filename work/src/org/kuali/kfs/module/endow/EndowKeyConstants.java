@@ -217,6 +217,7 @@ public class EndowKeyConstants {
         public static final String ERROR_UNIT_SHARE_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES = "error.unitShareAdjustment.addOnlySourceOrTargetTransactionLines";
         public static final String ERROR_UNIT_SHARE_ADJUSTMENT_NO_TAX_LOTS_FOUND = "error.unitShareAdjustment.noTaxLotsFoundForKemid";
         public static final String ERROR_UNIT_SHARE_ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT = "error.unitShareAdjustment.transactionLineMustHaveAtLeastOneTaxLotLine";
+        public static final String ERROR_UNIT_SHARE_ADJUSTMENT_MUST_HAVE_AT_LEAST_ONE_TRANS_LINE = "error.unitShareAdjustment.mustHaveAtLeastOneTransactionLine";
         // Parser Errors
         public static final String ERROR_LINEPARSER_INVALID_PROPERTY_VALUE = "error.lineParser.invalidPropertyValue";
         public static final String ERROR_TRANSACTION_LINE_PARSE_INVALID = "error.transactionLineParser.line.invalid";

@@ -139,23 +139,6 @@
       <routingVersion>
         2
       </routingVersion>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="Workflow Review"/>
-          <role name="Workflow Review"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <role name="Workflow Review">
-          <ruleTemplate>
-            WorkflowDocumentTemplate
-          </ruleTemplate>
-          <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-        </role>
-      </routeNodes>
     </documentType>
     <documentType>
       <name>

@@ -190,6 +190,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
         public static final String ERROR_TRANSACTION_LINE_SECURITY_KEMID_CHART_CODE_DOES_NOT_MATCH = "error.document.transactionLine.security.kemid.chartCodeDoesNotMatch";
         public static final String ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_BLANK = "error.document.transactionLine.both.amountsFields.blank";
+        public static final String ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_ENTERED = "error.document.transactionLine.both.amountsFields.entered";        
 
         public static final String ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.from.transactionLine.count.insufficient";
         public static final String ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.to.transactionLine.count.insufficient";

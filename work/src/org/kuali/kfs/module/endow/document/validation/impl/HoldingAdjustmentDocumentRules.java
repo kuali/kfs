@@ -55,6 +55,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         isValid &= canOnlyAddSourceOrTargetTransactionLines(holdingAdjustmentDocument, line, -1);
 
         isValid &=!checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(line, -1);
+        isValid &= !checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(line, -1);
         
         if (isValid) {
             isValid &= super.processAddTransactionLineRules(holdingAdjustmentDocument, line);
@@ -79,6 +80,19 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         }
         return false;
     }
+    
+    /**
+     * Check if the transaction amount and unit adjustment amount are filled in then do not allow the validation to succeed
+     * @return true if valid, false otherwise
+     */
+    protected boolean checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(EndowmentTransactionLine line, int index) {
+        if (ObjectUtils.isNotNull(line.getTransactionAmount()) && ObjectUtils.isNotNull(line.getUnitAdjustmentAmount())) {
+            putFieldError(getErrorPrefix(line, index) + EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_ENTERED);
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
@@ -87,6 +101,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
 
         boolean isValid = !checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(line, index);
+        isValid &= !checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(line, index);
         if (isValid) {
                isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
         }       

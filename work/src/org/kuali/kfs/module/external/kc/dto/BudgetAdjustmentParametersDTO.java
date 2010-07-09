@@ -37,7 +37,7 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
     protected String principalId;
     
     // inner class implements BA details
-    public class Details {
+    static public class Details {
         public String LineType;
         public String Chart;
         public String Account;

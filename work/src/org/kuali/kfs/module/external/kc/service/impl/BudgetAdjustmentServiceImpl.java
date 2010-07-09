@@ -174,8 +174,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
 
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
-            if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && 
-                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
+            if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) || 
+                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) ||
                 !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
                 budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);

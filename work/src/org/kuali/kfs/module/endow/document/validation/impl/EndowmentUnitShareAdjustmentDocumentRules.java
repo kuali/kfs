@@ -83,11 +83,12 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
         return isValid;
     }
 
+
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         EndowmentUnitShareAdjustmentDocument endowmentUnitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) document;
 
@@ -101,7 +102,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
 
         if (isValid) {
             isValid &= hasOnlySourceOrTargetTransactionLines(endowmentUnitShareAdjustmentDocument);
-            isValid &= super.processCustomSaveDocumentBusinessRules(document);
+            isValid &= super.processCustomRouteDocumentBusinessRules(document);
 
             List<EndowmentTransactionLine> transLines = (endowmentUnitShareAdjustmentDocument.getSourceTransactionLines() != null && endowmentUnitShareAdjustmentDocument.getSourceTransactionLines().size() > 0) ? endowmentUnitShareAdjustmentDocument.getSourceTransactionLines() : endowmentUnitShareAdjustmentDocument.getTargetTransactionLines();
 

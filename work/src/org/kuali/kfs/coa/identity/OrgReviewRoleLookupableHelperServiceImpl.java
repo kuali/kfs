@@ -486,9 +486,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 orgReviewRole = new OrgReviewRole();
                 OrgReviewRoleMaintainableImpl orgReviewRoleMaintainableImpl = new OrgReviewRoleMaintainableImpl();
                 orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getMemberTypeCode());
+                orgReviewRole.setMemberTypeCode(member.getMemberTypeCode());           
                 orgReviewRole.setActiveFromDate(member.getActiveFromDate());
                 orgReviewRole.setActiveToDate(member.getActiveToDate());
+                orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
                 orgReviewRole.setMemberName(member.getMemberName());
                 orgReviewRole.setMemberNamespaceCode(member.getMemberNamespaceCode());
@@ -537,6 +538,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 orgReviewRole.setMemberTypeCode(member.getMemberTypeCode());
                 orgReviewRole.setActiveFromDate(member.getActiveFromDate());
                 orgReviewRole.setActiveToDate(member.getActiveToDate());
+                orgReviewRole.setActive(member.isActive());
                 orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
                 orgReviewRole.setMemberName(member.getMemberName());
                 orgReviewRole.setMemberNamespaceCode(member.getMemberNamespaceCode());

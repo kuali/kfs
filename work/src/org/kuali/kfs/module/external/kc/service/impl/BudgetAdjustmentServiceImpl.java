@@ -98,11 +98,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         BudgetAdjustmentDocument budgetAdjustmentDoc = createBudgetAdjustmentObject(budgetAdjustmentParameters, budgetAdjustmentCreationStatus);
       
         // set required values to AccountCreationStatus
-        if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
-//            budgetAdjustmentCreationStatus.setAccountNumber(budgetAdjustmentParameters.getAccountNumber());
-//            budgetAdjustmentCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
+        if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.BudgetAdjustmentService.STATUS_KC_BA_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
+            routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);  
         }      
-        routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);  
         return budgetAdjustmentCreationStatus;
     }
     
@@ -132,6 +130,14 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                         break;
              }
           }
+        // save the document 
+        try{
+            getDocumentService().saveDocument(budgetAdjustmentDocument);
+        }catch(WorkflowException wfe){
+            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage()); 
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage());
+        }
+        
         return budgetAdjustmentDocument;
     }
     

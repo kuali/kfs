@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateUnitShareAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -33,9 +33,9 @@ public class HoldingAdjustmentDocumentAction extends EndowmentTaxLotLinesDocumen
     @Override
     protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
         UpdateUnitShareAdjustmentDocumentTaxLotsService updateUnitShareAdjustmentDocumentTaxLotsService = SpringContext.getBean(UpdateUnitShareAdjustmentDocumentTaxLotsService.class);
-        EndowmentUnitShareAdjustmentDocument unitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) etlDocument;
+        HoldingAdjustmentDocument holdingAdjustmentDocument = (HoldingAdjustmentDocument) etlDocument;
 
-        updateUnitShareAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLots(isUpdate, unitShareAdjustmentDocument, transLine, isSource);
+   //     updateUnitShareAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLots(isUpdate, holdingAdjustmentDocument, transLine, isSource);
     }
 
 

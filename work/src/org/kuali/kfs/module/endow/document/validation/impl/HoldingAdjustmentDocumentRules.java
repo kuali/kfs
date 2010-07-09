@@ -77,7 +77,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
 
         if (isValid) {
-            isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(line, index));
+            isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(line, index));
         }
         return isValid;
     }

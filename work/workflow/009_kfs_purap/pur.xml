@@ -325,5 +325,282 @@
         </simple>
       </routeNodes>
     </documentType>
+    <documentType>
+      <name>
+        POA
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Amendment
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasNewUnorderedItems"/>
+          <split name="HasNewUnorderedItems" nextNode="Account">
+            <branch name="True">
+              <role name="NewUnorderedItems" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+          <role name="Account"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="HasNewUnorderedItems">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="NewUnorderedItems">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="Join"/>
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        POC
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Close
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        POPH
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Payment Hold
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        PORH
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Remove Payment Hold
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountsPayable"/>
+          <role name="AccountsPayable"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountsPayable">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        POR
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Reopen
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        PORT
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Retransmit
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        POSP
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Split
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        POV
+      </name>
+      <parent>
+        PO
+      </parent>
+      <label>
+        Purchase Order Void
+      </label>
+      <docHandler>
+        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
   </documentTypes>
 </data>

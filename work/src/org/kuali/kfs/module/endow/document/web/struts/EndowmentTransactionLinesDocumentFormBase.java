@@ -51,7 +51,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     protected boolean showIncomeTotalUnits = true;
     protected boolean showPrincipalTotalUnits = true;
     protected boolean showTransactionAmount = true;
-
+    protected boolean showUnitAdjustmentAmount = false; //default -> do not show
+    
     // the income or principal box value will be set on tag file using the property.
     // if set to true, income or principal drop-down box will be readonly with value set to P-Principal
     protected boolean fieldValueToPrincipal = false;
@@ -374,5 +375,23 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setShowTransactionAmount(boolean showTransactionAmount) {
         this.showTransactionAmount = showTransactionAmount;
+    }
+    
+    /**
+     * Gets showUnitAdjustmentAmount.
+     * 
+     * @return showUnitAdjustmentAmount
+     */
+    public boolean isShowUnitAdjustmentAmount() {
+        return showUnitAdjustmentAmount;
+    }
+
+    /**
+     * Sets showUnitAdjustmentAmount.
+     * 
+     * @param showUnitAdjustmentAmount
+     */
+    public void setShowUnitAdjustmentAmount(boolean showUnitAdjustmentAmount) {
+        this.showUnitAdjustmentAmount = showUnitAdjustmentAmount;
     }
 }

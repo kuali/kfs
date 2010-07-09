@@ -35,7 +35,7 @@
         <ref bean="EndowmentTargetTransactionLine-corpusIndicator"/>
         <ref bean="EndowmentTargetTransactionLine-transactionUnits"/>
         <ref bean="EndowmentTargetTransactionLine-linePosted"/>
-
+		<ref bean="EndowmentSourceTransactionLine-unitAdjustmentAmount"/>
       </list>
     </property>
   </bean>
@@ -157,6 +157,14 @@
     <property name="label" value="Transaction Units"/>
     <property name="shortLabel" value="Transaction Units"/>
     <property name="required" value="true"/>
+  </bean>
+  <bean id="EndowmentSourceTransactionLine-unitAdjustmentAmount" parent="EndowmentSourceTransactionLine-unitAdjustmentAmount-parentBean"/>
+
+  <bean id="EndowmentSourceTransactionLine-unitAdjustmentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="unitAdjustmentAmount"/>
+    <property name="label" value="Unit Adjustment Amount"/>
+    <property name="shortLabel" value="Unit Adjustment Amount"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="EndowmentTargetTransactionLine-linePosted" parent="EndowmentTargetTransactionLine-linePosted-parentBean"/>
 

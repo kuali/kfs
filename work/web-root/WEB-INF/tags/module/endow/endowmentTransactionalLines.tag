@@ -33,6 +33,7 @@
 <c:set var="showPrincipalTotalUnits" value="${KualiForm.showPrincipalTotalUnits}" />
 <c:set var="setFieldValueToPrincipal" value="${KualiForm.fieldValueToPrincipal}" />
 <c:set var="showETranCode" value="${KualiForm.showETranCode}" />
+<c:set var="showUnitAdjustmentAmount" value="${KualiForm.showUnitAdjustmentAmount}" />
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -132,6 +133,9 @@
             <c:if test="${KualiForm.showTransactionAmount}">
             	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionAmount}"/>
             </c:if>
+            <c:if test="${KualiForm.showUnitAdjustmentAmount}">
+            	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.unitAdjustmentAmount}"/>
+            </c:if>
             <c:if test="${hasUnits}">
            		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
             </c:if>	
@@ -182,6 +186,9 @@
 				<c:if test="${KualiForm.showTransactionAmount}">
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right" readOnly="${isTransAmntReadOnly}"/></td>
                 </c:if>
+	            <c:if test="${KualiForm.showUnitAdjustmentAmount}">
+	            	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.unitAdjustmentAmount}" property="${newTransactionLine}.unitAdjustmentAmount" styleClass="right" readOnly="${readOnly}"/></td>
+            	</c:if>
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
@@ -248,6 +255,9 @@
 				<c:if test="${KualiForm.showTransactionAmount}">
                 	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
                 </c:if>
+				<c:if test="${KualiForm.showUnitAdjustmentAmount}">
+                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.unitAdjustmentAmount}" property="${transLines}[${ctr}].unitAdjustmentAmount" readOnly="${readOnly}" styleClass="right"/></td>
+                </c:if>                
                 <c:if test="${hasUnits}">
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${transLines}[${ctr}].transactionUnits" readOnly="${readOnly}" styleClass="right"/></td>              
                 </c:if>
@@ -264,12 +274,11 @@
                 </td>
             </tr>
         </logic:iterate>
-        <c:if test="${not showIncomeTotalAmount and not showPrincipalTotalAmount}" >
+        <c:if test="${showIncomeTotalAmount or showPrincipalTotalAmount}" >
         <tr>
 				<td class="total-line" colspan="5">
 					&nbsp;
 				</td>
-        
 			
 				<td class="total-line">
 				<c:if test="${showIncomeTotalAmount}">
@@ -277,8 +286,6 @@
 						${totalIncomeAmount}</strong>
 				</c:if>
 				</td>
-			
-			
 			
 				<td class="total-line">
 				<c:if test="${showPrincipalTotalAmount}">

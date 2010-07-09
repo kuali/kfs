@@ -240,6 +240,8 @@
 			type="org.kuali.kfs.module.endow.document.web.struts.CashTransferDocumentForm" />
 		<form-bean name="CorpusAdjustmentDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.CorpusAdjustmentDocumentForm" />
+		<form-bean name="HoldingAdjustmentDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.HoldingAdjustmentDocumentForm" />					
 		<form-bean name="HoldingHistoryValueAdjustmentDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.HoldingHistoryValueAdjustmentDocumentForm" />			
 		<form-bean name="LiabilityIncreaseDocumentForm"

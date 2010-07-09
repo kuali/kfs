@@ -39,7 +39,8 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     private boolean corpusIndicator;
     private KualiDecimal transactionUnits;
     private boolean linePosted;
-
+    private KualiDecimal unitAdjustmentAmount;
+    
     private KEMID kemidObj;
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
@@ -285,5 +286,18 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines) {
         this.taxLotLines = taxLotLines;
     }
+    /**
+     * Gets unitAdjustmentAmount
+     * @return unitAdjustmentAmount
+     */
+    public KualiDecimal getUnitAdjustmentAmount() {
+        return unitAdjustmentAmount;
+    }
 
+    /**
+     * sets unitAdjustmentAmount
+     */
+    public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
+        this.unitAdjustmentAmount = unitAdjustmentAmount;
+    }
 }

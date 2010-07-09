@@ -190,4 +190,15 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      */
     public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines);
 
+    /**
+     * Gets the unit adjustment amount.
+     * 
+     * @return returns unit adjustment amount for this transaction line
+     */
+    public KualiDecimal getUnitAdjustmentAmount();
+    
+    /**
+     * sets unitAdjustmentAmount
+     */
+    public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount);    
 }

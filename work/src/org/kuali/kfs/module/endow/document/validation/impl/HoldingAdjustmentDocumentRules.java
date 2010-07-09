@@ -33,6 +33,7 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
 
@@ -53,6 +54,8 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
         isValid &= canOnlyAddSourceOrTargetTransactionLines(holdingAdjustmentDocument, line, -1);
 
+        isValid &=!checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(line, -1);
+        
         if (isValid) {
             isValid &= super.processAddTransactionLineRules(holdingAdjustmentDocument, line);
 
@@ -65,7 +68,17 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
     }
 
-
+    /**
+     * Check if the transaction amount and unit adjustment amount are empty
+     * @return true if valid, false otherwise
+     */
+    protected boolean checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(EndowmentTransactionLine line, int index) {
+        if (ObjectUtils.isNull(line.getTransactionAmount()) && ObjectUtils.isNull(line.getUnitAdjustmentAmount())) {
+            putFieldError(getErrorPrefix(line, index) + EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_BLANK);
+            return true;
+        }
+        return false;
+    }
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
@@ -73,8 +86,10 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
     @Override
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
 
-        boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
-
+        boolean isValid = !checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(line, index);
+        if (isValid) {
+               isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
+        }       
         if (isValid) {
             isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(line, index));
         }

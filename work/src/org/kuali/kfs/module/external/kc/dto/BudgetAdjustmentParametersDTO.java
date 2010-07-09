@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+
 public class BudgetAdjustmentParametersDTO implements Serializable {
     
     private static final long serialVersionUID = 8417796622708399543L;
@@ -34,7 +36,16 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
     
     protected String principalId;
     
-    protected List accountingLines;
+    // inner class implements BA details
+    public class Details {
+        public String LineType;
+        public String Chart;
+        public String Account;
+        public String ObjectCode;
+        public String ProjectCode;
+        public String Amount;
+    }
+    protected List <Details> details;
     
     public BudgetAdjustmentParametersDTO() {}
 
@@ -183,5 +194,13 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
     }
 
 
+    public List<Details> getDetails() {
+        return details;
+    }
+
+
+    public void setDetails(List<Details> details) {
+        this.details = details;
+    }
     
 }

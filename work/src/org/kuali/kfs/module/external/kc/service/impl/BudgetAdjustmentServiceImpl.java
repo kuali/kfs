@@ -24,8 +24,13 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.impl.ChartServiceImpl;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
+import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentAction;
+import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
@@ -54,6 +59,8 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
@@ -67,12 +74,11 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
        
     /**
      * This is the web service method that facilitates budget adjustment  
-     * 1. Creates an account object using the parameters from KC and the default Account table
-     * 2. Creates an account automatic maintenance document and puts the account object into it
-     * 3. Returns the status object
+     * 1. Creates a Budget Adjustment Doc using the parameters from KC 
+     * 2. Returns the status object
      * 
-     * @param AccountAutoCreateDefaults
-     * @return AccountCreationStatusDTO
+     * @param BudgetAdjustmentParametersDTO
+     * @return BudgetAdjustmentStatusDTO
      */
     public BudgetAdjustmentCreationStatusDTO createBudgetAdjustment(BudgetAdjustmentParametersDTO budgetAdjustmentParameters) {
         
@@ -90,13 +96,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 
         // create an Budget Adjustment object        
         BudgetAdjustmentDocument budgetAdjustmentDoc = createBudgetAdjustmentObject(budgetAdjustmentParameters, budgetAdjustmentCreationStatus);
-          
+      
         // set required values to AccountCreationStatus
         if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
 //            budgetAdjustmentCreationStatus.setAccountNumber(budgetAdjustmentParameters.getAccountNumber());
 //            budgetAdjustmentCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
-        }
-        
+        }      
+        routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);  
         return budgetAdjustmentCreationStatus;
     }
     
@@ -118,17 +124,41 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentDocument.setPostingPeriodCode("");
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
         
-        //setup accounting lines
-//            for (Iterator<BulkReceivingView> iterator = bulkViews.iterator(); iterator.hasNext();) {
-
-        //for(Iterator<AccountingLine> iterator = parameters.getAccountingLines().iterator() ; iterator.hasNext();){
-        //    budgetAdjustmentDocument.addSourceAccountingLine(iterator.next());
-        //}
-        
+         for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
+             switch (detail.LineType.charAt(0)) {
+                 case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
+                        break;
+                 case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
+                        break;
+             }
+          }
         return budgetAdjustmentDocument;
     }
     
+    protected BudgetAdjustmentSourceAccountingLine createBudgetAdjustmentSourceAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
+        BudgetAdjustmentSourceAccountingLine budgetAdjustmentSourceAccountingLine = new BudgetAdjustmentSourceAccountingLine();
+        // from / decrease chart -account
+        budgetAdjustmentSourceAccountingLine.setFinancialDocumentLineTypeCode(detail.LineType);
+        budgetAdjustmentSourceAccountingLine.setChartOfAccountsCode(detail.Chart);
+        budgetAdjustmentSourceAccountingLine.setAccountNumber(detail.Account);
+        budgetAdjustmentSourceAccountingLine.setProjectCode(detail.ProjectCode);
+        budgetAdjustmentSourceAccountingLine.setObjectId(detail.ObjectCode);
+        budgetAdjustmentSourceAccountingLine.setAmount(new KualiDecimal(detail.Amount));
+        return budgetAdjustmentSourceAccountingLine;     
+    }
     
+    protected BudgetAdjustmentTargetAccountingLine createBudgetAdjustmentTargetAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
+        BudgetAdjustmentTargetAccountingLine budgetAdjustmentTargetAccountingLine = new BudgetAdjustmentTargetAccountingLine();
+        // from / decrease chart -account
+        budgetAdjustmentTargetAccountingLine.setFinancialDocumentLineTypeCode(detail.LineType);
+        budgetAdjustmentTargetAccountingLine.setChartOfAccountsCode(detail.Chart);
+        budgetAdjustmentTargetAccountingLine.setAccountNumber(detail.Account);
+        budgetAdjustmentTargetAccountingLine.setProjectCode(detail.ProjectCode);
+        budgetAdjustmentTargetAccountingLine.setObjectId(detail.ObjectCode);
+        budgetAdjustmentTargetAccountingLine.setAmount(new KualiDecimal(detail.Amount));
+        return budgetAdjustmentTargetAccountingLine;     
+    }
+
     /**
      * This method processes the workflow document actions like save, route and blanket approve depending on the 
      * ACCOUNT_AUTO_CREATE_ROUTE system parameter value.
@@ -138,47 +168,46 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      * @param maintenanceAccountDocument, errorMessages
      * @return success returns true if the workflow document action is successful else return false.
      */
-    protected boolean routeBudgetAdjustmentDocument(MaintenanceDocument maintenanceAccountDocument, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
-            /*
+    protected boolean routeBudgetAdjustmentDocument(BudgetAdjustmentDocument budgetAdjustmentDocument, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
+      
         try {
-            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KcConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
+            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
 
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
-            if (!accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && 
-                !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
-                !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
+            if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && 
+                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
+                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
+                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
                 return false;
             }
             
-            if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
-                getDocumentService().saveDocument(maintenanceAccountDocument);
+            if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
+                getDocumentService().saveDocument(budgetAdjustmentDocument);
             }
-            else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null); 
+            else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
+                getDocumentService().blanketApproveDocument(budgetAdjustmentDocument, "", null); 
             }
-            else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
-                getDocumentService().approveDocument(maintenanceAccountDocument, "", null);
+            else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
+                getDocumentService().approveDocument(budgetAdjustmentDocument, "", null);
             }             
             return true;
             
         }  catch (WorkflowException wfe) { 
-            LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
-                getDocumentService().saveDocument(maintenanceAccountDocument);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+                getDocumentService().saveDocument(budgetAdjustmentDocument);
+                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
             } catch (WorkflowException e) {
-                LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                LOG.error(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
+                budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
+                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
             } 
             return false;
-        } */
-        return true;
+        } 
     }
     
     

@@ -15,27 +15,20 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
 
+
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
-    public boolean processCustomSaveDocumentBusinessRules(Document document) {
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
         EndowmentTransactionSecurity endowmentTransactionSecurity = assetIncreaseDoc.getTargetTransactionSecurity();
 
@@ -43,7 +36,7 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (!transactionLineSizeGreaterThanZero(assetIncreaseDoc, false))
             return false;
 
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         if (isValid) {
 
@@ -74,19 +67,6 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
             isValid &= isRegistrationCodeActive(assetIncreaseDoc, false);
         }
 
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    public boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
-        if (isValid) {
-            AssetIncreaseDocument assetIncreaseDoc = (AssetIncreaseDocument) document;
-            EndowmentTransactionSecurity endowmentTransactionSecurity = assetIncreaseDoc.getTargetTransactionSecurity();
-        }
         return isValid;
     }
 
@@ -152,24 +132,22 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (isValid) {
 
             isValid &= checkCashTransactionEndowmentCode(endowmentTransactionLinesDocument, targetTransactionLine, getErrorPrefix(targetTransactionLine, index));
-            
-            if(endowmentTransactionLinesDocument.isErrorCorrectedDocument())
-            {
+
+            if (endowmentTransactionLinesDocument.isErrorCorrectedDocument()) {
                 // Validate Amount is Less than Zero.
                 isValid &= validateTransactionAmountLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
-    
+
                 // Validate Units is Less than Zero.
                 isValid &= validateTransactionUnitsLessThanZero(line, getErrorPrefix(targetTransactionLine, index));
             }
-            else
-            {
-                //Validate Greater then Zero(thus positive) value
+            else {
+                // Validate Greater then Zero(thus positive) value
                 isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
-    
-                //Validate Units is Greater than Zero.
+
+                // Validate Units is Greater than Zero.
                 isValid &= validateTransactionUnitsGreaterThanZero(line, getErrorPrefix(targetTransactionLine, index));
             }
-            
+
             isValid &= validateSecurityEtranChartMatch(endowmentTransactionLinesDocument, line, getErrorPrefix(targetTransactionLine, index), false);
         }
 

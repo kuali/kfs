@@ -91,11 +91,6 @@ public class CorpusAdjustmentDocumentRules extends EndowmentTransactionLinesDocu
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return super.processCustomSaveDocumentBusinessRules(document);
-    }
-
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */

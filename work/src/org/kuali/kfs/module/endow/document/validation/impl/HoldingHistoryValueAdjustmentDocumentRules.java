@@ -35,13 +35,16 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransactionalDocumentBaseRule {
 
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+
         HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument = (HoldingHistoryValueAdjustmentDocument) document;
-        
+
         boolean isValid = true;
-        
+
         if (this.isSecurityCodeEmpty(holdingHistoryValueAdjustmentDocument)) {
             return false;
         }
@@ -54,12 +57,12 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         // check if it is Liability class type code for the given security id
         isValid &= this.validateSecurityClassCodeTypeNotLiability(holdingHistoryValueAdjustmentDocument);
         // check the valuation method for Unit value and make sure market value is not entered.
-        isValid &= this.checkValuationMethodForUnitOrSecurityValue(holdingHistoryValueAdjustmentDocument);        
+        isValid &= this.checkValuationMethodForUnitOrSecurityValue(holdingHistoryValueAdjustmentDocument);
         // check if the unit value is a positve value
         isValid &= this.isUnitValuePositive(holdingHistoryValueAdjustmentDocument);
         // check if the market value is a positive value
-        isValid &= this.isMarketValuePositive(holdingHistoryValueAdjustmentDocument);   
-        
+        isValid &= this.isMarketValuePositive(holdingHistoryValueAdjustmentDocument);
+
         return isValid;
     }
 
@@ -88,15 +91,15 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
     protected boolean validateSecurityCode(HoldingHistoryValueAdjustmentDocument document) {
         Security security = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(document.getSecurityId());
         document.setSecurity(security);
-        
+
         if (ObjectUtils.isNull(security)) {
             putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INVALID);
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Checks if the Security is Active.
      * 
@@ -105,15 +108,15 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      */
     protected boolean isSecurityActive(HoldingHistoryValueAdjustmentDocument document) {
         Security security = document.getSecurity();
-        
+
         if (!security.isActive()) {
             putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INACTIVE);
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Validates that the security class code type is not Liability.
      * 
@@ -122,9 +125,9 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      */
     protected boolean validateSecurityClassCodeTypeNotLiability(HoldingHistoryValueAdjustmentDocument document) {
         boolean isValid = true;
-        
+
         Security security = document.getSecurity();
-        
+
         ClassCode classCode = security.getClassCode();
         if (ObjectUtils.isNotNull(classCode)) {
             String classCodeType = classCode.getClassCodeType();
@@ -136,78 +139,82 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
 
         return isValid;
     }
-    
+
     /**
      * Checks if the unit value entered is positive value
+     * 
      * @param document
      * @return true if positive, else false
      */
     protected boolean isUnitValuePositive(HoldingHistoryValueAdjustmentDocument document) {
         if (ObjectUtils.isNotNull(document.getSecurityUnitValue()) && document.getSecurityUnitValue().compareTo(BigDecimal.ZERO) <= 0) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE);            
+            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE);
             return false;
         }
-        
+
         return true;
     }
 
     /**
      * Checks if the market value entered is positive value
+     * 
      * @param document
      * @return true if positive, else false
      */
     protected boolean isMarketValuePositive(HoldingHistoryValueAdjustmentDocument document) {
-        //reset Market value if unit valuation method is U (Unit value)
+        // reset Market value if unit valuation method is U (Unit value)
         resetMarketValueToNullWhenUnitValueEntered(document);
-        
+
         if (ObjectUtils.isNotNull(document.getSecurityMarketValue()) && document.getSecurityMarketValue().compareTo(BigDecimal.ZERO) <= 0) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE);            
+            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE);
             return false;
         }
-        
+
         return true;
     }
 
     /**
      * Checks if security valuation method is Unit value and if so make sure nothing entered for Market Value
+     * 
      * @param document
      * @return true if only Unit Value is entered, else false
      */
     protected boolean checkValuationMethodForUnitOrSecurityValue(HoldingHistoryValueAdjustmentDocument document) {
         String valuationMethodCode = document.getSecurity().getClassCode().getSecurityValuationMethod().getCode();
-        
+
         // check if the valuation method is U (unit value) and if so, then make sure no value is entered for market value.
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNull(document.getSecurityUnitValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED);            
+                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED);
                 return false;
             }
-            
+
             if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
                 document.setSecurityMarketValue(null);
                 return true;
             }
         }
 
-        // check if the valuation method is M (market value) and if so, then make sure no value is entered for unit value.        
+        // check if the valuation method is M (market value) and if so, then make sure no value is entered for unit value.
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNull(document.getSecurityMarketValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED);            
+                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED);
                 return false;
             }
-            
+
             if (ObjectUtils.isNotNull(document.getSecurityMarketValue())) {
-                //calculate Unit value as per 5.6.2.1.2 in KEM Adjustment_Transactions+v.1.3 document...
+                // calculate Unit value as per 5.6.2.1.2 in KEM Adjustment_Transactions+v.1.3 document...
                 document.setSecurityUnitValue(calculateUnitValueWhenMarketValueEntered(document));
                 return true;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Reset the value for Market Value that the user entered if the valuation method is U (Unit Value)
+     * 
      * @param document
      */
     protected void resetMarketValueToNullWhenUnitValueEntered(HoldingHistoryValueAdjustmentDocument document) {
@@ -220,24 +227,23 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
             }
         }
     }
-    
+
     /**
      * Calculates unit value when security id's valuation method is M and market value is entered.
-     * 
      */
     protected BigDecimal calculateUnitValueWhenMarketValueEntered(HoldingHistoryValueAdjustmentDocument document) {
         BigDecimal unitValue = BigDecimal.ZERO;
         BigDecimal totalUnits = BigDecimal.ZERO;
-        
+
         BigDecimal marketValue = document.getSecurityMarketValue();
-        
+
         Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
-            totalUnits = totalUnits.add(holdingHistory.getUnits()); //sum up the units and store it
+            totalUnits = totalUnits.add(holdingHistory.getUnits()); // sum up the units and store it
         }
-        
+
         ClassCode classCode = document.getSecurity().getClassCode();
-        
+
         if (ObjectUtils.isNotNull(classCode) && ObjectUtils.isNotNull(totalUnits) && totalUnits.compareTo(BigDecimal.ZERO) != 0) {
             if (EndowConstants.ClassCodeTypes.BOND.equalsIgnoreCase(classCode.getClassCodeType())) {
                 unitValue = KEMCalculationRoundingHelper.divide((marketValue.multiply(new BigDecimal(100))), totalUnits, EndowConstants.Scale.SECURITY_UNIT_VALUE);
@@ -246,16 +252,8 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
                 unitValue = KEMCalculationRoundingHelper.divide(marketValue, totalUnits, EndowConstants.Scale.SECURITY_UNIT_VALUE);
             }
         }
-        
+
         return unitValue;
     }
-    
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    public boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        return isValid;
-    }
 }

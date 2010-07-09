@@ -126,12 +126,11 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        isValid &= !GlobalVariables.getMessageMap().hasErrors();
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         if (isValid) {
             SecurityTransferDocument securityTransferDocument = (SecurityTransferDocument) document;
@@ -182,6 +181,9 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processRefreshTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
+     */
     @Override
     public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {
         boolean isValid = super.processRefreshTransactionLineRules(endowmentTransactionLinesDocument, endowmentTransactionLine, index);

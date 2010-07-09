@@ -28,10 +28,9 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
-import org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
-import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 
@@ -83,10 +82,10 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
         HoldingAdjustmentDocument holdingAdjustmentDocument = (HoldingAdjustmentDocument) document;
 
@@ -97,7 +96,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
         if (isValid) {
             isValid &= hasOnlySourceOrTargetTransactionLines(holdingAdjustmentDocument);
-            isValid &= super.processCustomSaveDocumentBusinessRules(document);
+            isValid &= super.processCustomRouteDocumentBusinessRules(document);
 
             List<EndowmentTransactionLine> transLines = (holdingAdjustmentDocument.getSourceTransactionLines() != null && holdingAdjustmentDocument.getSourceTransactionLines().size() > 0) ? holdingAdjustmentDocument.getSourceTransactionLines() : holdingAdjustmentDocument.getTargetTransactionLines();
 

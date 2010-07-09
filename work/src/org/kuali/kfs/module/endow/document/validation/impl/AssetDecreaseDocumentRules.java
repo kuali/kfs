@@ -36,10 +36,10 @@ import org.kuali.rice.kns.document.Document;
 public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         AssetDecreaseDocument assetDecreaseDocument = (AssetDecreaseDocument) document;
         EndowmentTransactionSecurity endowmentTransactionSecurity = assetDecreaseDocument.getSourceTransactionSecurity();
 
@@ -47,7 +47,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
         if (!transactionLineSizeGreaterThanZero(assetDecreaseDocument, true))
             return false;
 
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         if (isValid) {
             isValid &= validateSecurity(isValid, assetDecreaseDocument, true);

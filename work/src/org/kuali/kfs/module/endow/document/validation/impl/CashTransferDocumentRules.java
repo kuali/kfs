@@ -26,15 +26,29 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class CashTransferDocumentRules extends CashDocumentBaseRules {
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
             CashTransferDocument cashTransferDocument = (CashTransferDocument) document;
+
+            // check if the total of the transaction amount (Income plus Principal) in the From transaction lines
+            // equals the total of the transaction amount in the To transaction lines.
+            if (!cashTransferDocument.getTargetTotalAmount().equals(cashTransferDocument.getSourceTotalAmount())) {
+                GlobalVariables.getMessageMap().putError(EndowConstants.TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+            }
+
+            // check must have one source tranaction line
+            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, true))
+                return false;
+
+            // check must have one source tranaction line
+            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, false))
+                return false;
 
             // Checks if Security field is not empty, security code must be valid.
             if (!isSecurityCodeEmpty(cashTransferDocument, true)) {
@@ -57,30 +71,6 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules {
         return isValid;
     }
 
-    /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        CashTransferDocument cashTransferDocument = (CashTransferDocument) document;
-        if (isValid) {
-            // check if the total of the transaction amount (Income plus Principal) in the From transaction lines
-            // equals the total of the transaction amount in the To transaction lines.
-            if (!cashTransferDocument.getTargetTotalAmount().equals(cashTransferDocument.getSourceTotalAmount())) {
-                GlobalVariables.getMessageMap().putError(EndowConstants.TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
-            }
-
-            // check must have one source tranaction line
-            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, true))
-                return false;
-
-            // check must have one source tranaction line
-            if (!transactionLineSizeGreaterThanZero(cashTransferDocument, false))
-                return false;
-        }
-        return isValid;
-    }
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#validateCashTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase,

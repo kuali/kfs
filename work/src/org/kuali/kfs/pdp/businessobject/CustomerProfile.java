@@ -49,8 +49,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
-    public static final String CHART_OF_ACCOUNTS_FIELD_NAME = "chartCode";
-    public static final String SUB_UNIT_CODE_FIELD_NAME = "subUnitCode";
     private String achPaymentDescription; // ACH_PMT_DESC
     private String additionalCheckNoteTextLine1;
     private String additionalCheckNoteTextLine2;

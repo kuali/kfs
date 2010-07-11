@@ -34,11 +34,6 @@
                 <value>org.kuali.kfs.integration.kc</value>
             </list>
         </property>
-        <property name="externalizableBusinessObjectImplementations">
-            <map>
-                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.service.impl.UnitDTOExternalizableBusinessObjectServiceImpl" />
-             </map>
-        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/external/kc/businessobject/datadictionary</value>
@@ -58,16 +53,17 @@
 			</list>
 		</property>
 		 -->
-	</bean>
-	<!--
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO"/>
+            </map>
+     </property>
+ 	</bean>
+  
+ 
     <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
 
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
-		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
-	</bean>
-	-->
-	<bean id="kcModuleService" parent="kcModuleService-parentBean"/>
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.UnitDTOExternalizableBusinessObjectServiceImpl" abstract="true">
+    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.integration.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
 	</bean>
 	

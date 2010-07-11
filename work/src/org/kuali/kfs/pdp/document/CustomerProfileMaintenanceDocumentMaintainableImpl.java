@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.pdp.document.datadictionary;
+package org.kuali.kfs.pdp.document;
 
 import java.security.GeneralSecurityException;
 import java.sql.Date;
@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -65,6 +66,7 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         super.processAfterCopy( document, parameters );
         CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
         customerProfile.setChartCode(null);
+        customerProfile.setUnitCode(null); 
         customerProfile.setSubUnitCode(null);
     }
     
@@ -81,10 +83,13 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         for (Section section : sections) {
             for (Row row : section.getRows()) {
                 for (Field field : row.getFields()) {
-                    if (customerProfile.CHART_OF_ACCOUNTS_FIELD_NAME.equals(field.getPropertyName())) {
+                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE.equals(field.getPropertyName())) {
                         field.setReadOnly(true);
                      }
-                    if (customerProfile.SUB_UNIT_CODE_FIELD_NAME.equals(field.getPropertyName())) {
+                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE.equals(field.getPropertyName())) {
+                         field.setReadOnly(true);
+                    }
+                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE.equals(field.getPropertyName())) {
                         field.setReadOnly(true);
                     }
                 }
@@ -98,6 +103,7 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         CustomerProfile  customerProfile = (CustomerProfile)document.getNewMaintainableObject().getBusinessObject();
         if(StringUtils.isEmpty(customerProfile.getChartCode())) return false;
         if(StringUtils.isEmpty(customerProfile.getSubUnitCode())) return false;
+        if(StringUtils.isEmpty(customerProfile.getUnitCode())) return false;
         return true;
     }
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Daniella' id='5856-1-1' failOnError='true'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <delete tableName='END_TRAN_HLDG_LOT_T' />
+  </changeSet>
+  <changeSet author='Daniella' id='5856-1-2' failOnError='true'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <addColumn tableName='END_TRAN_HLDG_LOT_T'>
+      <column name='KEMID' type='VARCHAR2(10)'>
+        <constraints nullable='false' />
+      </column>
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Daniella' id='5856-1-3' failOnError='true'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <addColumn tableName='END_TRAN_HLDG_LOT_T'>
+      <column name='SEC_ID' type='VARCHAR2(9)'>
+        <constraints nullable='false' />
+      </column>
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Daniella' id='5856-1-4' failOnError='true'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <addColumn tableName='END_TRAN_HLDG_LOT_T'>
+      <column name='REGIS_CD' type='VARCHAR2(4)'>
+        <constraints nullable='false' />
+      </column>
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Daniella' id='5856-1-5' failOnError='false'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <addColumn tableName='END_TRAN_HLDG_LOT_T'>
+      <column name='HLDG_IP_IND' type='VARCHAR2(1)'>
+        <constraints nullable='false' />
+      </column>
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Daniella' id='5856-1-6' failOnError='true'>
+    <comment>Add new fields to END_TRAN_HLDG_LOT</comment>
+    <addForeignKeyConstraint constraintName='END_TRAN_HLDG_LOT_TR2' baseTableName='END_TRAN_HLDG_LOT_T' baseColumnNames='KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TRAN_HLDG_LT_NBR' referencedTableName='END_HLDG_TAX_LOT_T' referencedColumnNames='KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, HLDG_LOT_NBR' />
+  </changeSet>
+</databaseChangeLog>

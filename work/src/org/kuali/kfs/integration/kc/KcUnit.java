@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 public interface KcUnit extends ExternalizableBusinessObject {
-     
+      
     public String getUnitNumber();
 
     public void setUnitNumber(String unitNumber);
@@ -42,6 +42,5 @@ public interface KcUnit extends ExternalizableBusinessObject {
 
 
     public void setUnitAdministrators(List<String> unitAdministrators);
-
-
+     
 }

@@ -96,6 +96,5 @@ public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable 
         return m;
     }
 
-
 }
 

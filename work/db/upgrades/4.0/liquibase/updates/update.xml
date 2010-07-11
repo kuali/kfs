@@ -166,4 +166,5 @@
 <include file="updates/2010-06-29-5833-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-07-02-5817e-1-END_HIST_VAL_ADJ_DOC_T.xml"/>
 <include file="updates/2010-07-07-5850-1-CA_OBJECT_CODE_T.xml"/>
+<include file="updates/2010-07-09-5856-1-END_TRAN_HLDG_LOT_T.xml"/>
 </databaseChangeLog>

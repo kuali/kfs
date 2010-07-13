@@ -123,7 +123,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 // do nothing, ignore
             } catch (Exception e) {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);
-                LOG.warn(e.getClass().getName() + " : " + e.getMessage() );
+                LOG.warn(e.getClass().getName() + " : " + e.getMessage(), e );
             }
             if (bean != null) {
                 Class<? extends Object> beanClass = bean.getClass();
@@ -168,11 +168,11 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                     if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
                     if (beanMethod.getAnnotation(org.kuali.kfs.sys.service.NonTransactional.class) != null) hasMethodAnnotation = true;
                     if (hasMethodAnnotation == false && hasClassAnnotation == false) {
-                        nonAnnotatedTransactionalServices.put(beanName, beanMethod.getName());
+                        nonAnnotatedTransactionalServices.put(beanName, beanClass.getName() + "." + beanMethod.getName());
                         return false; 
                     }
                     if (hasMethodAnnotation == true && hasClassAnnotation == true){
-                        doubleAnnotatedTransactionalServices.put(beanName, beanMethod.getName());
+                        doubleAnnotatedTransactionalServices.put(beanName, beanClass.getName() + "." + beanMethod.getName());
                         return false;
                     }
                 }

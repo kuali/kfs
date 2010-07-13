@@ -60,7 +60,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
             isValid &= validateAssetDecreaseTransactionLine(false, assetDecreaseDocument, txLine, i, -1);
             if (isValid) {
                 isValid &= validateTotalAmountAndUnits(assetDecreaseDocument, txLine, i);
-                isValid &= validateTaxLotsRelateToKemid(assetDecreaseDocument, txLine, i);
+                isValid &= validateTaxLots(assetDecreaseDocument, txLine, i);
 
             }
         }

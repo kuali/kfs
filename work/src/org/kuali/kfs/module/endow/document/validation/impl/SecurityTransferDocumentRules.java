@@ -158,7 +158,8 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             for (int i = 0; i < txLines.size(); i++) {
                 EndowmentTransactionLine txLine = txLines.get(i);
                 isValid &= validateSecurityTransferTransactionLine(false, securityTransferDocument, txLine, i, -1);
-                isValid &= validateTaxLotsRelateToKemid(securityTransferDocument, txLine, i);
+                isValid &= validateTaxLots(securityTransferDocument, txLine, i);
+                isValid &= validateTotalUnits(securityTransferDocument, txLine, i);
             }
 
             // Validate the source & target units are equal.
@@ -182,7 +183,8 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processRefreshTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processRefreshTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.Number)
      */
     @Override
     public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {

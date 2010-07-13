@@ -184,6 +184,10 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
 
                 // set tax lot line lot number and acquired date
                 taxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
+                taxLotLine.setKemid(transLine.getKemid());
+                taxLotLine.setSecurityID(holdingTaxLot.getSecurityId());
+                taxLotLine.setRegistrationCode(holdingTaxLot.getRegistrationCode());
+                taxLotLine.setIpIndicator(holdingTaxLot.getIncomePrincipalIndicator());
                 taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
 
                 // add the new tax lot line to the transaction line tax lots
@@ -403,6 +407,10 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
 
                 // set the lot number
                 taxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
+                taxLotLine.setKemid(transLine.getKemid());
+                taxLotLine.setSecurityID(holdingTaxLot.getSecurityId());
+                taxLotLine.setRegistrationCode(holdingTaxLot.getRegistrationCode());
+                taxLotLine.setIpIndicator(holdingTaxLot.getIncomePrincipalIndicator());
                 // set the lot acquired date
                 taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
 

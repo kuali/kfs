@@ -1537,6 +1537,10 @@
 	<field-descriptor name="documentLineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/> 
 	<field-descriptor name="documentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionHoldingLotNumber" column="TRAN_HLDG_LT_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/> 
+	<field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR" />
+	<field-descriptor name="securityID" column="SEC_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="registrationCode" column="REGIS_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="ipIndicator" column="HLDG_IP_IND" jdbc-type="VARCHAR" />
 	<field-descriptor name="lotUnits" column="LOT_UNITS" jdbc-type="DECIMAL" />
 	<field-descriptor name="lotHoldingCost" column="LOT_HLDG_COST" jdbc-type="DECIMAL" />
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_LT_GAIN_LOSS" jdbc-type="DECIMAL" />
@@ -1544,6 +1548,22 @@
 	<field-descriptor name="lotAcquiredDate" column="LOT_ACQD_DT" jdbc-type="DATE"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>	
+	
+	<reference-descriptor name="kemidObjRef" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="securityID" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="registrationCodeObjRef" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="registrationCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="ipIndicatorObjRef" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="ipIndicator" />
+	</reference-descriptor>
 
 </class-descriptor>
  

@@ -206,6 +206,8 @@ public class EndowKeyConstants {
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";
 
         public static final String ERROR_TRANSACTION_LINE_TAX_LOT_DONT_CORRESPOND = "error.document.transactionLine.taxLotsDontCorrespond";
+        
+        public static final String ERROR_TRANSACTION_LINE_TAX_LOT_UNITS_DONT_CORRESPOND = "error.document.transactionLine.taxLotsUnitsDontCorrespond";
 
         // Asset increase constants
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";

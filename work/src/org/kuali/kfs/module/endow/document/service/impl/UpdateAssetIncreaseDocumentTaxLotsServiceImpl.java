@@ -45,6 +45,7 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
     public void updateTransactionLineTaxLots(AssetIncreaseDocument aiDocument, EndowmentTransactionLine transLine) {
         EndowmentTransactionTaxLotLine taxLotLine = null;
         boolean newLine = false;
+        EndowmentTransactionSecurity endowmentTransactionSecurity = aiDocument.getTargetTransactionSecurity();
 
         // updating an existing tax lot
         if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
@@ -59,7 +60,10 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
             taxLotLine.setDocumentNumber(aiDocument.getDocumentNumber());
             taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
             taxLotLine.setTransactionHoldingLotNumber(1);
-
+            taxLotLine.setKemid(transLine.getKemid());
+            taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
+            taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
+            taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
         }
 
         taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());

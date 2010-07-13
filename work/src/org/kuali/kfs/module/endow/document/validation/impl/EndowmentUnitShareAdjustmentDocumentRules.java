@@ -108,7 +108,15 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
 
             for (int i = 0; i < transLines.size(); i++) {
                 EndowmentTransactionLine transLine = transLines.get(i);
-                validateTaxLotsRelateToKemid(endowmentUnitShareAdjustmentDocument, transLine, i);
+                isValid &= validateTransactionLineHasTaxLots(transLine, i);
+
+                if (isValid) {
+                    isValid &= validateTaxLots(endowmentUnitShareAdjustmentDocument, transLine, i);
+                    isValid &= validateTotalUnits(endowmentUnitShareAdjustmentDocument, transLine, i);
+                }
+                if (!isValid) {
+                    return false;
+                }
             }
 
         }
@@ -241,6 +249,24 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
         if (endowmentTransactionLine.getTaxLotLines() != null && endowmentTransactionLine.getTaxLotLines().size() <= 1) {
             isValid = false;
             putFieldError(getErrorPrefix(endowmentTransactionLine, (Integer) transLineIndex) + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that the transaction lines has at least one tax lot line associated.
+     * 
+     * @param endowmentTransactionLine
+     * @param transLineIndex
+     * @return true is valid, false otherwise
+     */
+    private boolean validateTransactionLineHasTaxLots(EndowmentTransactionLine endowmentTransactionLine, int transLineIndex) {
+        boolean isValid = true;
+
+        if (endowmentTransactionLine.getTaxLotLines() != null && endowmentTransactionLine.getTaxLotLines().size() < 1) {
+            isValid = false;
+            putFieldError(getErrorPrefix(endowmentTransactionLine, transLineIndex) + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT);
         }
 
         return isValid;

@@ -47,6 +47,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
 
         // get the source transaction line and compute the unit value by dividing the source amount by the source number of units
         EndowmentSourceTransactionLine sourceTransactionLine = (EndowmentSourceTransactionLine) document.getSourceTransactionLines().get(0);
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getTargetTransactionSecurity();
 
         if (ObjectUtils.isNotNull(sourceTransactionLine)) {
             BigDecimal sourceAmount = sourceTransactionLine.getTransactionAmount().bigDecimalValue();
@@ -71,7 +72,10 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
                 taxLotLine.setDocumentNumber(document.getDocumentNumber());
                 taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                 taxLotLine.setTransactionHoldingLotNumber(1);
-
+                taxLotLine.setKemid(transLine.getKemid());
+                taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
+                taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
+                taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
             }
 
             taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());

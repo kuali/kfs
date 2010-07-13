@@ -37,6 +37,7 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
@@ -750,7 +751,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param transLineIndex
      * @return
      */
-    protected boolean validateTaxLotsRelateToKemid(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int transLineIndex) {
+    protected boolean validateTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int transLineIndex) {
         boolean isValid = true;
 
         EndowmentTransactionSecurity endowmentTransactionSecurity = getEndowmentTransactionSecurity(endowmentTransactionLinesDocument, true);
@@ -760,17 +761,55 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         // line and check if it is in the holding tax lots for that KEMID.
         if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
             EndowmentTransactionTaxLotLine transactionTaxLotLine = transLine.getTaxLotLines().get(0);
-            // TODO validation to be added
 
+            boolean isMatchingSecurity = endowmentTransactionSecurity.getSecurityID().equalsIgnoreCase(transactionTaxLotLine.getSecurityID());
+            boolean isMatchingRegistrationCode = endowmentTransactionSecurity.getRegistrationCode().equalsIgnoreCase(transactionTaxLotLine.getRegistrationCode());
+            boolean isMatchingKemid = transLine.getKemid().equalsIgnoreCase(transactionTaxLotLine.getKemid());
+            boolean isMatchingIpIndicator = transLine.getTransactionIPIndicatorCode().equalsIgnoreCase(transactionTaxLotLine.getIpIndicator());
 
-            // if () {
-            // isValid = false;
-            // putFieldError(getErrorPrefix(transLine, transLineIndex) + EndowPropertyConstants.KEMID,
-            // EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAX_LOT_DONT_CORRESPOND);
-            // }
+            if (!isMatchingSecurity || !isMatchingRegistrationCode || !isMatchingKemid || !isMatchingIpIndicator) {
+                isValid = false;
+                putFieldError(getErrorPrefix(transLine, transLineIndex) + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAX_LOT_DONT_CORRESPOND);
+            }
+
         }
         return isValid;
     }
+
+    /**
+     * Checks that the transaction line units match the tax lot lines total number of units.
+     * 
+     * @param document
+     * @param transactionLine
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateTotalUnits(EndowmentTransactionalDocument document, EndowmentTransactionLine transactionLine, int index) {
+        boolean isValid = true;
+
+        BigDecimal transactionLineUnits = transactionLine.getTransactionUnits().bigDecimalValue();
+        BigDecimal taxLotLinesTotalUnits = BigDecimal.ZERO;
+
+        if (transactionLine.getTaxLotLines() != null && transactionLine.getTaxLotLines().size() > 0) {
+
+            for (EndowmentTransactionTaxLotLine taxLotLine : transactionLine.getTaxLotLines()) {
+                taxLotLinesTotalUnits = taxLotLinesTotalUnits.add(taxLotLine.getLotUnits());
+            }
+        }
+
+        if (transactionLine instanceof EndowmentSourceTransactionLine) {
+            taxLotLinesTotalUnits = taxLotLinesTotalUnits.negate();
+        }
+
+        if (transactionLineUnits.compareTo(taxLotLinesTotalUnits) != 0) {
+            isValid = false;
+
+            putFieldError(getErrorPrefix(transactionLine, index) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_TAX_LOT_UNITS_DONT_CORRESPOND);
+        }
+
+        return isValid;
+    }
+
 
     /**
      * This method Check if value of Endowment is being reduced.

@@ -288,7 +288,7 @@ public abstract class EndowmentTaxLotLinesDocumentActionBase extends EndowmentTr
 
         // on AssetDecreaseDocument and SecurityTransferDocument we can delete tax lots and that would be overridden by this
         // updateTaxLots call
-        if (!(endowmentDocument instanceof AssetDecreaseDocument) && !(endowmentDocument instanceof SecurityTransferDocument)) {
+        if (getRefreshTaxLotsOnSaveOrSubmit()) {
             updateTaxLots(endowmentDocument);
         }
 

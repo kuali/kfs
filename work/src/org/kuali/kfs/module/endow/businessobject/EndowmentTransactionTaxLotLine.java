@@ -27,11 +27,15 @@ import org.kuali.rice.kns.util.KualiInteger;
  * This class provides an implementation for the Tax Lot Lines in the Endowment transactional documents.
  */
 public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBase {
-//  private KualiInteger lineNumber;
+    // private KualiInteger lineNumber;
     private String documentNumber;
     private Integer documentLineNumber;
     private String documentLineTypeCode;
     private Integer transactionHoldingLotNumber;
+    private String kemid;
+    private String securityID;
+    private String registrationCode;
+    private String ipIndicator;
     private BigDecimal lotUnits;
     private BigDecimal lotHoldingCost;
     private BigDecimal lotLongTermGainLoss;
@@ -39,6 +43,10 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private Date lotAcquiredDate;
 
     private EndowmentTransactionLine transactionLine;
+    private KEMID kemidObjRef;
+    private Security security;
+    private RegistrationCode registrationCodeObjRef;
+    private IncomePrincipalIndicator ipIndicatorObjRef;
 
 
     /**
@@ -60,19 +68,17 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
      * 
      * @return lineNumber
      */
-/*    public KualiInteger getLineNumber() {
-        return lineNumber;
-    }
-*/
+    /*
+     * public KualiInteger getLineNumber() { return lineNumber; }
+     */
     /**
      * Sets the lineNumber.
      * 
      * @param lineNumber
      */
-/*    public void setLineNumber(KualiInteger lineNumber) {
-        this.lineNumber = lineNumber;
-    }
-*/
+    /*
+     * public void setLineNumber(KualiInteger lineNumber) { this.lineNumber = lineNumber; }
+     */
     /**
      * Gets the documentNumber.
      * 
@@ -251,5 +257,149 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
      */
     public void setLotAcquiredDate(Date lotAcquiredDate) {
         this.lotAcquiredDate = lotAcquiredDate;
+    }
+
+    /**
+     * Gets the kemid.
+     * 
+     * @return kemid
+     */
+    public String getKemid() {
+        return kemid;
+    }
+
+    /**
+     * Sets the kemid.
+     * 
+     * @param kemid
+     */
+    public void setKemid(String kemid) {
+        this.kemid = kemid;
+    }
+
+    /**
+     * Gets the securityID.
+     * 
+     * @return securityID
+     */
+    public String getSecurityID() {
+        return securityID;
+    }
+
+    /**
+     * Sets the securityID.
+     * 
+     * @param securityID
+     */
+    public void setSecurityID(String securityID) {
+        this.securityID = securityID;
+    }
+
+    /**
+     * Gets the registrationCode.
+     * 
+     * @return registrationCode
+     */
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+    /**
+     * Sets the registrationCode.
+     * 
+     * @param registrationCode
+     */
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
+    }
+
+    /**
+     * Gets the ipIndicator.
+     * 
+     * @return ipIndicator
+     */
+    public String getIpIndicator() {
+        return ipIndicator;
+    }
+
+    /**
+     * Sets the ipIndicator.
+     * 
+     * @param ipIndicator
+     */
+    public void setIpIndicator(String ipIndicator) {
+        this.ipIndicator = ipIndicator;
+    }
+
+    /**
+     * Gets the kemidObjRef.
+     * 
+     * @return kemidObjRef
+     */
+    public KEMID getKemidObjRef() {
+        return kemidObjRef;
+    }
+
+    /**
+     * Sets the kemidObjRef.
+     * 
+     * @param kemidObjRef
+     */
+    public void setKemidObjRef(KEMID kemidObjRef) {
+        this.kemidObjRef = kemidObjRef;
+    }
+
+    /**
+     * Gets the security.
+     * 
+     * @return security
+     */
+    public Security getSecurity() {
+        return security;
+    }
+
+    /**
+     * Sets the security.
+     * 
+     * @param security
+     */
+    public void setSecurity(Security security) {
+        this.security = security;
+    }
+
+    /**
+     * Gets the registrationCodeObjRef.
+     * 
+     * @return registrationCodeObjRef
+     */
+    public RegistrationCode getRegistrationCodeObjRef() {
+        return registrationCodeObjRef;
+    }
+
+    /**
+     * Sets the registrationCodeObjRef.
+     * 
+     * @param registrationCodeObjRef
+     */
+    public void setRegistrationCodeObjRef(RegistrationCode registrationCodeObjRef) {
+        this.registrationCodeObjRef = registrationCodeObjRef;
+    }
+
+    /**
+     * Gets the ipIndicatorObjRef.
+     * 
+     * @return ipIndicatorObjRef
+     */
+    public IncomePrincipalIndicator getIpIndicatorObjRef() {
+        return ipIndicatorObjRef;
+    }
+
+    /**
+     * Sets the ipIndicatorObjRef.
+     * 
+     * @param ipIndicatorObjRef
+     */
+    public void setIpIndicatorObjRef(IncomePrincipalIndicator ipIndicatorObjRef) {
+        this.ipIndicatorObjRef = ipIndicatorObjRef;
     }
 }

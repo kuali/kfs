@@ -92,7 +92,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         }
         return false;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
@@ -132,7 +132,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
             for (int i = 0; i < transLines.size(); i++) {
                 EndowmentTransactionLine transLine = transLines.get(i);
-                validateTaxLotsRelateToKemid(holdingAdjustmentDocument, transLine, i);
+                isValid &= validateTaxLots(holdingAdjustmentDocument, transLine, i);
             }
 
         }

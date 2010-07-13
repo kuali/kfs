@@ -74,6 +74,10 @@ public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements Upda
                     endowmentTransactionTaxLotLine.setDocumentNumber(unitShareAdjustmentDocument.getDocumentNumber());
                     endowmentTransactionTaxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                     endowmentTransactionTaxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
+                    endowmentTransactionTaxLotLine.setKemid(transLine.getKemid());
+                    endowmentTransactionTaxLotLine.setSecurityID(holdingTaxLot.getSecurityId());
+                    endowmentTransactionTaxLotLine.setRegistrationCode(holdingTaxLot.getRegistrationCode());
+                    endowmentTransactionTaxLotLine.setIpIndicator(holdingTaxLot.getIncomePrincipalIndicator());
                     endowmentTransactionTaxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
                     // set it just for future computation
                     endowmentTransactionTaxLotLine.setLotUnits(holdingTaxLot.getUnits());

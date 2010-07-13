@@ -23,6 +23,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -68,7 +69,7 @@ public class PooledFundControlRule extends MaintenanceDocumentRuleBase {
     private boolean checkCustomRequiredFields(ClassCodeType classCodeType) {
         boolean isValid = true;
         
-        if (!"P".equals(classCodeType.getCode())){
+        if (!EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equals(classCodeType.getCode())){
             putFieldError(EndowPropertyConstants.POOL_SECURITY_ID, EndowKeyConstants.PooledFundControlConstants.ERROR_CLASS_CODE_TYPE_IS_NOT_P);
             isValid = false;
         }

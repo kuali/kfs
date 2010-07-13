@@ -171,6 +171,8 @@
         <value>../dwr/interface/CombineGroupCodeService.js</value>
         <value>../scripts/module/endow/kemidCombineGroupCode.js</value>    
         <value>../dwr/interface/DonorStatementCodeService.js</value>
+        <value>../dwr/interface/DonorService.js</value>
+        <value>../dwr/interface/DonorLabelService.js</value>
         <value>../scripts/module/endow/kemidDonorStatement.js</value>    
       </list>
     </property>
@@ -772,10 +774,11 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorId" 
-                    p:required="true" /> 
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadDonorName"  /> 
               <bean parent="MaintainableFieldDefinition"
 		            p:name="donor.fullName"
-		            p:unconditionallyReadOnly="true" />  
+		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorStatementCode"
                     p:required="true"
@@ -784,13 +787,15 @@
 		            p:name="donorStatement.name"
 		            p:unconditionallyReadOnly="true" />                     
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="combineWithDonorId" />   
+                    p:name="combineWithDonorId"
+                    p:webUILeaveFieldFunction="loadCombineWithDonorName" />   
               <bean parent="MaintainableFieldDefinition"
 		            p:name="combineWithDonor.fullName"
 		            p:unconditionallyReadOnly="true" />                     
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorLabel"
-                    p:required="true" />      
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadDonorLabelDesc" />      
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorLabelObjRef.name"
                     p:unconditionallyReadOnly="true" />
@@ -837,6 +842,9 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineWithKemid" 
                     p:required="true" />
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="combineWithKemidObjRef.shortTitle" 
+                    p:unconditionallyReadOnly="true" />                    
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineDate" />   
               <bean parent="MaintainableFieldDefinition" 

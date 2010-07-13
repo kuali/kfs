@@ -209,7 +209,7 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
         try {
             Date currentProcessDate = dateTimeService.convertToSqlDate(currentProcessDateString);
             for (KemidCombineDonorStatement combineDonorStatement : kemidCombineDonorStatements) {
-                if (combineDonorStatement.getTerminateCombineDate().compareTo(currentProcessDate) < 0) {
+                if (combineDonorStatement.getTerminateCombineDate()==null || combineDonorStatement.getTerminateCombineDate().compareTo(currentProcessDate) < 0) {
                     activeKemidCombineDonorStatement.add(combineDonorStatement);
                 }
             }

@@ -25,6 +25,8 @@
         		<ref bean="KemidCombineDonorStatement-kemid" />
         		<ref bean="KemidCombineDonorStatement-combineDonorSeq" />
 		        <ref bean="KemidCombineDonorStatement-combineWithKemid" />
+		        <ref bean="KemidCombineDonorStatement-combineWithKemidObjRef.shortTitle" />
+		        <ref bean="KemidCombineDonorStatement-combineWithKemidObjRef.kemidAndShortTitle" />
 		        <ref bean="KemidCombineDonorStatement-combineDate"/>
 		        <ref bean="KemidCombineDonorStatement-terminateCombineDate"/>
         		<ref bean="KemidCombineDonorStatement-newCollectionRecord"/>	  
@@ -63,6 +65,18 @@
     	<property name="label" value="Combine with KEMID" />
     	<property name="required" value="true" />
   	</bean>
+  	<bean id="KemidCombineDonorStatement-combineWithKemidObjRef.shortTitle" parent="KemidCombineDonorStatement-combineWithKemidObjRef.shortTitle-parentBean" />
+  
+  	<bean id="KemidCombineDonorStatement-combineWithKemidObjRef.shortTitle-parentBean" abstract="true" parent="KEMID-shortTitle">
+  		<property name="name" value="combineWithKemidObjRef.shortTitle" />
+    	<property name="label" value="Combine with KEMID Short Title" />
+  	</bean>  	
+  	<bean id="KemidCombineDonorStatement-combineWithKemidObjRef.kemidAndShortTitle" parent="KemidCombineDonorStatement-combineWithKemidObjRef.kemidAndShortTitle-parentBean" />
+  
+  	<bean id="KemidCombineDonorStatement-combineWithKemidObjRef.kemidAndShortTitle-parentBean" abstract="true" parent="KEMID-kemidAndShortTitle">
+  		<property name="name" value="combineWithKemidObjRef.kemidAndShortTitle" />
+    	<property name="label" value="Combine with KEMID" />
+  	</bean>   	
   	<bean id="KemidCombineDonorStatement-combineDate" parent="KemidCombineDonorStatement-combineDate-parentBean" />
 		        
   	<bean id="KemidCombineDonorStatement-combineDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

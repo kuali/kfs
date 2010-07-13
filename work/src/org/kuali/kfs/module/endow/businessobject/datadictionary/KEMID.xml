@@ -840,7 +840,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="combineWithKemid" />
+                          p:attributeName="combineWithKemidObjRef.kemidAndShortTitle" />
                     <bean parent="FieldDefinition"
                           p:attributeName="combineDate" />
                     <bean parent="FieldDefinition"

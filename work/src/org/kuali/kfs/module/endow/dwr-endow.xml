@@ -212,7 +212,23 @@
 	    	<param name="beanName" value="donorStatementCodeService" />
 	        <include method="getByPrimaryKey" />
 	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.Donor">
+            <param name="include" value="fullName" />
+        </convert>
+	    <create creator="spring" javascript="DonorService">
+	    	<param name="beanName" value="donorService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
 	  
+	  	<convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.DonorLabel">
+            <param name="include" value="name" />
+        </convert>
+	    <create creator="spring" javascript="DonorLabelService">
+	    	<param name="beanName" value="donorLabelService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    
 	  	<convert converter="array" match="[S"/>
 	  	  
 	    <create creator="spring" javascript="EndowmentTransactionDocumentService">

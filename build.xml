@@ -577,6 +577,14 @@
 				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
 			</filterset>
 		</copy>
+		<if>
+			<isset property="institution.work.directory" />
+			<then>
+				<copy todir="${external.work.directory}" overwrite="true">
+					<fileset dir="${institution.work.directory}" />
+				</copy>
+			</then>
+		</if>
 		<mkdir dir="${logs.directory}" />
 	</target>
 

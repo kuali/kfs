@@ -23,15 +23,15 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 public class BudgetAdjustmentParametersDTO implements Serializable {
     
-    private static final long serialVersionUID = 8417796622708399543L;
-    
     protected String defaultObjectCodeFiscalYear;
     protected String incomeObjectCodeBySponsorType;
     protected String indirectCostObjectType;
     protected String fringeObjectCode;
     
-    protected String explanation;
-    protected String description;
+    // goes into document header
+    protected String awardDocumentNumber;
+    protected String budgetVersionNumber;
+    protected String comment;
     protected String postingPeriodCode;
     
     protected String principalId;
@@ -121,42 +121,58 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
         this.fringeObjectCode = fringeObjectCode;
     }
 
-
     /**
-     * Gets the explanation attribute. 
-     * @return Returns the explanation.
+     * Gets the awardDocumentNumber attribute. 
+     * @return Returns the awardDocumentNumber.
      */
-    public String getExplanation() {
-        return explanation;
+    public String getAwardDocumentNumber() {
+        return awardDocumentNumber;
     }
 
 
     /**
-     * Sets the explanation attribute value.
-     * @param explanation The explanation to set.
+     * Sets the awardDocumentNumber attribute value.
+     * @param awardDocumentNumber The awardDocumentNumber to set.
      */
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
+    public void setAwardDocumentNumber(String awardDocumentNumber) {
+        this.awardDocumentNumber = awardDocumentNumber;
     }
 
 
     /**
-     * Gets the description attribute. 
-     * @return Returns the description.
+     * Gets the budgetVersionNumber attribute. 
+     * @return Returns the budgetVersionNumber.
      */
-    public String getDescription() {
-        return description;
+    public String getBudgetVersionNumber() {
+        return budgetVersionNumber;
     }
 
 
     /**
-     * Sets the description attribute value.
-     * @param description The description to set.
+     * Sets the budgetVersionNumber attribute value.
+     * @param budgetVersionNumber The budgetVersionNumber to set.
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBudgetVersionNumber(String budgetVersionNumber) {
+        this.budgetVersionNumber = budgetVersionNumber;
     }
 
+
+    /**
+     * Gets the comment attribute. 
+     * @return Returns the comment.
+     */
+    public String getComment() {
+        return comment;
+    }
+
+
+    /**
+     * Sets the comment attribute value.
+     * @param comment The comment to set.
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     /**
      * Gets the postingPeriodCode attribute. 

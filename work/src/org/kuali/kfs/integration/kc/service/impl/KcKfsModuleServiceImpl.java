@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.integration.kc.service.impl;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,34 +38,32 @@ import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
-        
-    public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
-       if(this.isResponsibleFor(businessObjectClass)) {
-            getBusinessObjectFromClass(businessObjectClass);
-        }
-        return null; 
+ 
+    private static final Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();;
 
+    static{
+        externalizedWebBOs.put(KcUnit.class, UnitDTO.class);
+     }
+
+
+    public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
+        if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObject(businessObjectClass, fieldValues);
+        return (T) getBusinessObjectFromClass(getExternalizableBusinessObjectImplementation(businessObjectClass));
     }
      
     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
         BusinessObject object = null;
-        if(this.isResponsibleFor(businessObjectClass)) {
-            object = getBusinessObjectFromClass( getExternalizableBusinessObjectImplementation(businessObjectClass));       
-        } else
-            return super.getExternalizableBusinessObjectsList(
-                    getExternalizableBusinessObjectImplementation(businessObjectClass), fieldValues);
+        if (! externalizedWebBOs.containsValue(businessObjectClass)) return super.getExternalizableBusinessObjectsList(businessObjectClass, fieldValues);
         List returnList = new ArrayList();
+        object = getBusinessObjectFromClass( getExternalizableBusinessObjectImplementation(businessObjectClass));   
         returnList.add(object);
         return returnList;
-    }
+     }
 
     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsListForLookup(Class<T> businessObjectClass, Map<String, Object> fieldValues, boolean unbounded) {
-        if(this.isResponsibleFor(businessObjectClass)) {
-            return getExternalizableBusinessObjectsList( businessObjectClass,fieldValues);
-        } 
-
-        return Collections.emptyList();
-    }
+        if (! externalizedWebBOs.containsValue(businessObjectClass)) return super.getExternalizableBusinessObjectsListForLookup(businessObjectClass, fieldValues,unbounded);
+        return getExternalizableBusinessObjectsList( businessObjectClass,fieldValues);
+     }
 
     /***
      * 
@@ -79,6 +76,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
     @SuppressWarnings("unchecked")
     public List<? extends ExternalizableBusinessObject> retrieveExternalizableBusinessObjectsList(
             BusinessObject businessObject, String externalizableRelationshipName, Class externalizableClazz) {
+        if (! externalizedWebBOs.containsKey(businessObject)) return super.retrieveExternalizableBusinessObjectsList(businessObject, externalizableRelationshipName, externalizableClazz);
         return (List<? extends ExternalizableBusinessObject>) getExternalizableBusinessObjectsList(null, null);
     }
   
@@ -91,6 +89,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
      */
 
     public <T extends ExternalizableBusinessObject> T retrieveExternalizableBusinessObjectIfNecessary(BusinessObject businessObject, T currentInstanceExternalizableBO, String externalizableRelationshipName) {
+        if (! externalizedWebBOs.containsKey(businessObject)) return super.retrieveExternalizableBusinessObjectIfNecessary(businessObject, currentInstanceExternalizableBO,externalizableRelationshipName);
         if(businessObject==null) return null;
         Class<org.kuali.rice.kns.bo.ExternalizableBusinessObject> clazz;
         try{
@@ -105,29 +104,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
 
     };
   
-    
-    /**
-     * @return the externalizableBusinessObjectImplementations
-     */
-    /*
-    public Class getExternalizableBusinessObjectImplementation(Class externalizableBusinessObjectInterface) {
-        return externalizedBOs.get(externalizableBusinessObjectInterface);
-    }
-    */
-    public Class getExternalizableBusinessObjectImplementation(Class businessObjectClass) {    
-        if (ExternalizableBusinessObject.class.isAssignableFrom(businessObjectClass)) {
-            Class externalizableBusinessObjectInterface = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(businessObjectClass);
-            if (externalizableBusinessObjectInterface != null) {
-                Map<Class, Class> validEBOs = getModuleConfiguration().getExternalizableBusinessObjectImplementations();
-                if (validEBOs != null) {
-                    return validEBOs.get(externalizableBusinessObjectInterface);
-                }
-            }
-        }
-        return null;
-    }
-    
-  
+
     /***
      * @see org.kuali.rice.kns.service.ModuleService#getExternalizableBusinessObject(java.lang.Class, java.util.Map)
      */
@@ -152,20 +129,21 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
 
     public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
         int classModifiers = externalizableBusinessObjectInterface.getModifiers();
+        if (! externalizedWebBOs.containsValue(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
+        
         if (!Modifier.isInterface(classModifiers) && !Modifier.isAbstract(classModifiers)) {
             // the interface is really a non-abstract class
             return listPrimaryKeyNamesForConcreteClass(externalizableBusinessObjectInterface);
         }
         Class clazz = getExternalizableBusinessObjectImplementation(externalizableBusinessObjectInterface);
         List primaryKeys = listPrimaryKeyNamesForConcreteClass(clazz);
-        if(primaryKeys!=null)
-            return primaryKeys;
-        return KNSServiceLocator.getPersistenceStructureService().listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
+        if(primaryKeys!=null)  return primaryKeys;
+        return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
     }
 
     public List listPrimaryKeyNamesForConcreteClass(Class clazz){
         List primaryKeys = new ArrayList();
-        return primaryKeys;
+         return primaryKeys;
     }
     
   

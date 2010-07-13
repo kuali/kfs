@@ -117,8 +117,11 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentDocument.initiateDocument();
         
         //budgetAdjustmentDocument.getDocumentHeader().setDocumentNumber(documentNumber)
-        budgetAdjustmentDocument.getDocumentHeader().setDocumentDescription(parameters.getDescription());
-        budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getExplanation());
+        
+        //The Description of the BA document should carry the Award Document Number and Budget Version Number.
+        budgetAdjustmentDocument.getDocumentHeader().setDocumentDescription(parameters.getAwardDocumentNumber() + " " + parameters.getBudgetVersionNumber());
+        //The Comment section of the KC Award Budget Document will carry a BA document number for a reference purpose.
+        budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getComment());
         budgetAdjustmentDocument.setPostingPeriodCode("");
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
         

@@ -152,9 +152,11 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     if(iList.contains(Class.forName(INACTIVATEABLE_INTERFACE_CLASS))){
                         if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
-                            //Default must be 'Y' not 'true'
-                            if (!StringUtils.equals(lookupDefinition.getLookupField(ACTIVE_FIELD_NAME).getDefaultValue(), "Y")) {
-                                defaultValueWrongList.add(businessObjectEntry.getBusinessObjectClass());
+                            if ( lookupDefinition.getLookupField(ACTIVE_FIELD_NAME) != null ) {
+                                //Default must be 'Y' not 'true'
+                                if (!StringUtils.equals(lookupDefinition.getLookupField(ACTIVE_FIELD_NAME).getDefaultValue(), "Y")) {
+                                    defaultValueWrongList.add(businessObjectEntry.getBusinessObjectClass());
+                                }
                             }
                         }
                     }else{

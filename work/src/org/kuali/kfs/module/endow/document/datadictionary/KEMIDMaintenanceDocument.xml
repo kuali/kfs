@@ -785,9 +785,15 @@
 		            p:unconditionallyReadOnly="true" />                     
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineWithDonorId" />   
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="combineWithDonor.fullName"
+		            p:unconditionallyReadOnly="true" />                     
               <bean parent="MaintainableFieldDefinition" 
                     p:name="donorLabel"
-                    p:required="true" />                     
+                    p:required="true" />      
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="donorLabelObjRef.name"
+                    p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="effectiveDate"
                     p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.KEMIDDefaultProcessDateFinder" />

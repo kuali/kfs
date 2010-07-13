@@ -795,6 +795,10 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="combineWithDonorId" />
                     <bean parent="FieldDefinition"
+                          p:attributeName="combineWithDonor.fullName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="donorLabelObjRef.codeAndDescription" />
+                    <bean parent="FieldDefinition"
                           p:attributeName="effectiveDate" />
                     <bean parent="FieldDefinition"
                           p:attributeName="terminationDate" />

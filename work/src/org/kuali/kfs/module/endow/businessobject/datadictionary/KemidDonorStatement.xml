@@ -30,7 +30,9 @@
 		        <ref bean="KemidDonorStatement-donorStatement.name"/>
 		        <ref bean="KemidDonorStatement-donorStatement.codeAndDescription"/>
 		        <ref bean="KemidDonorStatement-combineWithDonorId"/>
+		        <ref bean="KemidDonorStatement-combineWithDonor.fullName"/>
 		        <ref bean="KemidDonorStatement-donorLabel"/>
+		        <ref bean="KemidDonorStatement-donorLabelObjRef.codeAndDescription"/>
 		        <ref bean="KemidDonorStatement-effectiveDate"/>
 		        <ref bean="KemidDonorStatement-terminationDate"/>
 		        <ref bean="KemidDonorStatement-terminationReason"/>
@@ -101,12 +103,24 @@
   		<property name="name" value="combineWithDonorId" />
     	<property name="label" value="Combine With Donor ID" />
   	</bean>
+  	<bean id="KemidDonorStatement-combineWithDonor.fullName" parent="KemidDonorStatement-combineWithDonor.fullName-parentBean" />
+  
+  	<bean id="KemidDonorStatement-combineWithDonor.fullName-parentBean" abstract="true" parent="Donor-fullName">
+  		<property name="name" value="combineWithDonor.fullName" />
+    	<property name="label" value="Combine with Donor Name" />
+  	</bean>  	
   	<bean id="KemidDonorStatement-donorLabel" parent="KemidDonorStatement-donorLabel-parentBean" />
 		        
   	<bean id="KemidDonorStatement-donorLabel-parentBean" abstract="true" parent="DonorLabel-code">
   		<property name="name" value="donorLabel" />
     	<property name="label" value="Donor Label" />
   	</bean>  	
+	<bean id="KemidDonorStatement-donorLabelObjRef.codeAndDescription" parent="KemidDonorStatement-donorLabelObjRef.codeAndDescription-parentBean" />
+		        
+  	<bean id="KemidDonorStatement-donorLabelObjRef.codeAndDescription-parentBean" abstract="true" parent="DonorLabel-codeAndDescription">
+  		<property name="name" value="donorLabelObjRef.codeAndDescription" />
+    	<property name="label" value="Donor Label" />
+  	</bean>    	
     <bean id="KemidDonorStatement-effectiveDate" parent="KemidDonorStatement-effectiveDate-parentBean" />
 		        
   	<bean id="KemidDonorStatement-effectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

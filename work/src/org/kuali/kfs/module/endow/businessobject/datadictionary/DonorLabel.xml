@@ -21,6 +21,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <ref bean="DonorLabel-code" />
         <ref bean="DonorLabel-name" />
+        <ref bean="DonorLabel-codeAndDescription" />
       </list>
     </property>
   </bean>
@@ -56,6 +57,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="40" />
     </property>
   </bean>
+  
+  <bean id="DonorLabel-codeAndDescription" parent="DonorLabel-codeAndDescription-parentBean"/>
+
+  <bean id="DonorLabel-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+   	<property name="name" value="codeAndDescription"/>
+   	<property name="label" value="Donor Label"/>
+   	<property name="shortLabel" value="Donor Label"/>
+   	<property name="maxLength" value="58"/>
+   	<property name="validationPattern">
+  		<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+    	<bean parent="TextControlDefinition" p:size="58"/>
+    </property>
+  </bean> 
   
 <!-- Business Object Inquiry Definition -->
 

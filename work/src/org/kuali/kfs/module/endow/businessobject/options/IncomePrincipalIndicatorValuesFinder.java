@@ -31,13 +31,13 @@ public class IncomePrincipalIndicatorValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyLabelPair> getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(IncomePrincipalIndicator.class);
-        List labels = new ArrayList();
+        Collection<IncomePrincipalIndicator> codes = boService.findAll(IncomePrincipalIndicator.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
 
         labels.add(new KeyLabelPair("", ""));
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
+        for (Iterator<IncomePrincipalIndicator> iter = codes.iterator(); iter.hasNext();) {
             IncomePrincipalIndicator incomePrincipalInd = (IncomePrincipalIndicator) iter.next();
             labels.add(new KeyLabelPair(incomePrincipalInd.getCode(), incomePrincipalInd.getCodeAndDescription()));
         }

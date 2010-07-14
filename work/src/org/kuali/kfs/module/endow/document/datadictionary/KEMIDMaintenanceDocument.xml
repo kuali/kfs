@@ -173,7 +173,8 @@
         <value>../dwr/interface/DonorStatementCodeService.js</value>
         <value>../dwr/interface/DonorService.js</value>
         <value>../dwr/interface/DonorLabelService.js</value>
-        <value>../scripts/module/endow/kemidDonorStatement.js</value>    
+        <value>../scripts/module/endow/kemidDonorStatement.js</value>  
+        <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>  
       </list>
     </property>
     <property name="workflowAttributes">
@@ -841,7 +842,8 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineWithKemid" 
-                    p:required="true" />
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadCombineWithKEMIDShortTitle" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="combineWithKemidObjRef.shortTitle" 
                     p:unconditionallyReadOnly="true" />                    

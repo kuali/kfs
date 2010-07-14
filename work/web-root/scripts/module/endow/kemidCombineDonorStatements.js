@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function loadKEMIDShortTitle(kemidFieldName){
+function loadCombineWithKEMIDShortTitle(kemidFieldName){
 	var elPrefix = findElPrefix(kemidFieldName.name);
-	var kemidShortTitleFieldName = elPrefix + ".kemidObj.shortTitle";
+	var kemidShortTitleFieldName = elPrefix + ".combineWithKemidObjRef.shortTitle";
  	setKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName);
  }
  

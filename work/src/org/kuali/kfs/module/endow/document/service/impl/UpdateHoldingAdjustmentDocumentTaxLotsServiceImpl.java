@@ -99,9 +99,6 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
                 taxLotsTotalUnits = calculateTotalLotsTotalUnits(holdingTaxLots);
                 calculateLotHoldingCostForTransactionAmount(transLine, isSource, taxLotsTotalUnits);
            }
-            
-           //Update Transaction Amount field with absolute value of the lot holding cost
-            updateTransactionAmountWithLotHoldingCost(transLine);
         }
     }
     
@@ -231,7 +228,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
             totalUnits = totalUnits.add(endowmentTransactionTaxLotLine.getLotUnits());
 
             if (isSource) {
-                endowmentTransactionTaxLotLine.setLotHoldingCost(endowmentTransactionTaxLotLine.getLotUnits().negate());
+                endowmentTransactionTaxLotLine.setLotHoldingCost(endowmentTransactionTaxLotLine.getLotHoldingCost().negate());
             }
         }
 

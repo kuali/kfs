@@ -85,10 +85,10 @@ function setDonorStatementDescription(donorStatementCodeFieldName,
 }
 
 function loadCombineWithDonorName(combineWithDonorIDFieldName) {
-	var elPrefix = findElPrefix(donorIDFieldName.name);
+	var elPrefix = findElPrefix(combineWithDonorIDFieldName.name);
 	var combineWithDonorNameFieldName = elPrefix + ".combineWithDonor.fullName";
 
-	setDonorName(combineWithDonorIDFieldName, combineWithDonorNameFieldName);
+	setCombineWithDonorName(combineWithDonorIDFieldName, combineWithDonorNameFieldName);
 }
 
 function setCombineWithDonorName(combineWithDonorIDFieldName,
@@ -106,7 +106,7 @@ function setCombineWithDonorName(combineWithDonorIDFieldName,
 					setRecipientValue(combineWithDonorNameFieldName,
 							data.fullName);
 				} else {
-					setRecipientValue(donorNameFieldName,
+					setRecipientValue(combineWithDonorNameFieldName,
 							wrapError("donor not found"), true);
 				}
 			},

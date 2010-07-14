@@ -41,4 +41,19 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
         return (Collection<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getAllTaxLotsWithPositiveAmounts(java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, registrationCode);
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR, incomePrincipalIndicator);
+        criteria.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_COST, 0);
+
+        return (Collection<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
+    }
+
 }

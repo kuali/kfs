@@ -99,6 +99,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_BALANCE_DATE = "balanceDate";
     public static final String HOLDING_TAX_LOT_ACQUIRED_DATE = "acquiredDate";
     public static final String HOLDING_TAX_LOT_UNITS = "units";
+    public static final String HOLDING_TAX_LOT_COST = "cost";    
 
     // MonthEndDate fields
     public static final String MONTH_END_DATE_ID = "monthEndDateId";

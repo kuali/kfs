@@ -18,26 +18,33 @@ package org.kuali.kfs.module.endow.document.web.struts;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
-import org.kuali.kfs.module.endow.document.service.UpdateUnitShareAdjustmentDocumentTaxLotsService;
+import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * HoldingAdjustmentDocumentAction class
  */
 public class HoldingAdjustmentDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 
-
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     @Override
     protected void updateTransactionLineTaxLots(boolean isUpdate, boolean isSource, EndowmentTransactionLinesDocument etlDocument, EndowmentTransactionLine transLine) {
-        UpdateUnitShareAdjustmentDocumentTaxLotsService updateUnitShareAdjustmentDocumentTaxLotsService = SpringContext.getBean(UpdateUnitShareAdjustmentDocumentTaxLotsService.class);
+        UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService = SpringContext.getBean(UpdateHoldingAdjustmentDocumentTaxLotsService.class);
         HoldingAdjustmentDocument holdingAdjustmentDocument = (HoldingAdjustmentDocument) etlDocument;
+        
+        //call service to update the tax lot lines if transaction amount is entered
+        if (ObjectUtils.isNotNull(transLine.getTransactionAmount())) {
+            updateHoldingAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLotsByTransactionAmount(isUpdate, holdingAdjustmentDocument, transLine, isSource);
+        }
 
-   //     updateUnitShareAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLots(isUpdate, holdingAdjustmentDocument, transLine, isSource);
+        //call service to update the tax lot lines if unit adjustment amount is entered
+        if (ObjectUtils.isNotNull(transLine.getUnitAdjustmentAmount())) {
+            updateHoldingAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLotsByUnitAdjustmentAmount(isUpdate, holdingAdjustmentDocument, transLine, isSource);
+        }        
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#getRefreshTaxLotsOnSaveOrSubmit()

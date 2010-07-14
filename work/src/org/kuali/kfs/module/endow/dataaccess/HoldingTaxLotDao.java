@@ -33,4 +33,15 @@ public interface HoldingTaxLotDao {
      */
     public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveUnits(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator);
 
+    /**
+     * Gets all tax lots with positive cost that meet the given criteria on kemid, security id, registration code and
+     * income/principal indicator
+     * 
+     * @param kemid
+     * @param securityId
+     * @param registrationCode
+     * @param incomePrincipalIndicator
+     * @return a collection of tax lots that meet the criteria
+     */
+    public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator);    
 }

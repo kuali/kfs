@@ -68,4 +68,16 @@ public interface HoldingTaxLotService {
      */
     public List<HoldingTaxLot> getAllTaxLotsOrderByAcquiredDate(String kemid, String securityId, String registrationCode, String ipIndicator, boolean sortAscending);
 
+    /**
+     * Gets all tax lots with positive cost based on the following criteria: kemid, security id, registration code, and IP
+     * indicator.
+     * 
+     * @param kemid
+     * @param securityId
+     * @param registrationCode
+     * @param ipIndicator
+     * @return a list of tax lots that meet the criteria
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String ipIndicator);
+    
 }

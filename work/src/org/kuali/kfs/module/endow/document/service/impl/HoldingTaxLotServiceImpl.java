@@ -88,6 +88,14 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithPositiveCost(java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String ipIndicator) {
+        return (List<HoldingTaxLot>) holdingTaxLotDao.getAllTaxLotsWithPositiveCost(kemid, securityId, registrationCode, ipIndicator);
+    }
+
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService

@@ -408,4 +408,13 @@
 			<ref bean="securityService" />
 		</property>	
 	</bean>
+	
+	<bean id="updateHoldingAdjustmentDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl">
+		<property name="taxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>	
+	</bean>	
 </beans>

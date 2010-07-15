@@ -90,6 +90,10 @@
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>
+	<servlet>
+		<servlet-name>heartbeat</servlet-name>
+		<servlet-class>org.kuali.kfs.sys.web.servlet.KualiHeartbeatServlet</servlet-class>
+	</servlet>
 
 	<!-- Embedded KEW Servlets -->
 	<servlet>
@@ -122,6 +126,10 @@
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>heartbeat</servlet-name>
+		<url-pattern>/heartbeat</url-pattern>
 	</servlet-mapping>
 
 	<!-- ******************* Embedded KEW Servlet Mappings ********************* -->

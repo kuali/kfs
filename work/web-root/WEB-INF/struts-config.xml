@@ -249,7 +249,9 @@
 		<form-bean name="LiabilityDecreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.LiabilityDecreaseDocumentForm" />
 		<form-bean name="SecurityTransferDocumentForm"
-			type="org.kuali.kfs.module.endow.document.web.struts.SecurityTransferDocumentForm" />					
+			type="org.kuali.kfs.module.endow.document.web.struts.SecurityTransferDocumentForm" />		
+		<form-bean name="EndowmentToGLTransferOfFundsDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.EndowmentToGLTransferOfFundsDocumentForm" />
 	</form-beans>
 
 	<global-exceptions>

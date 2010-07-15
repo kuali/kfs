@@ -76,5 +76,11 @@
       <parent>ET</parent>
       <docHandler> ${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler </docHandler>
     </documentType>
+    <documentType>
+      	<name>EGLT</name>
+      	<label>Endowment To GL Transfer Of Funds</label>
+      	<parent>ET</parent>
+      	<docHandler> ${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>     
 </documentTypes>
 </data>

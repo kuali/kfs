@@ -15,33 +15,20 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 
-public class AssetIncreaseDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
+public class EndowmentToGLTransferOfFundsDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
 
     /**
-     * Constructs a AssetIncreaseDocumentForm.
+     * Constructs a EndowmentToGLTransferOfFundsDocumentForm.
      */
-    public AssetIncreaseDocumentForm() {
+    public EndowmentToGLTransferOfFundsDocumentForm() {
         super();
     }
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
      */
-    @Override
     protected String getDefaultDocumentTypeName() {
-        return "EAI";
+        return "EGLT";
     }
-
-    /**
-     * This method gets the asset increase document
-     * 
-     * @return the AssetIncreaseDocument
-     */
-    public AssetIncreaseDocument getAssetIncreaseDocument() {
-        return (AssetIncreaseDocument) getDocument();
-    }
-
-
 }

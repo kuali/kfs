@@ -199,6 +199,15 @@
 		</property>
 	</bean>	
 
+    <bean id="holdingTaxLotRebalanceLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotRebalanceLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+    </bean>
+    
+    <bean id="holdingTaxLotRebalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="holdingTaxLotRebalanceLookupableHelperService" />
+        </property>
+    </bean>
+    
 	<bean id="calculateProcessDateUsingFrequencyCodeService" class="org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService" scope="prototype">
 		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>	

@@ -541,6 +541,42 @@
 	<field-descriptor name="name" column="IP_IND_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance" table="END_HLDG_TAX_LOT_REBAL_T">
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="securityId" column="SEC_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="registrationCode" column="REGIS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="incomePrincipalIndicator" column="HLDG_IP_IND" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="totalLotNumber" column="TOT_HLDG_LOT_NBR" jdbc-type="DECIMAL"/>    
+    <field-descriptor name="totalUnits" column="TOT_HLDG_UNITS" jdbc-type="DECIMAL"/>
+    <field-descriptor name="totalCost" column="TOT_HLDG_COST" jdbc-type="DECIMAL"/>
+    
+    <reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="kemid" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="securityId" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="incomePrincipal" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="incomePrincipalIndicator" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="registration" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="registrationCode" />
+    </reference-descriptor>
+    
+    <collection-descriptor name="holdingTaxLots" element-class-ref="org.kuali.kfs.module.endow.businessobject.HoldingTaxLot" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+        <orderby name="lotNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="kemid" />
+        <inverse-foreignkey field-ref="securityId" />
+        <inverse-foreignkey field-ref="registrationCode" />
+        <inverse-foreignkey field-ref="incomePrincipalIndicator" />
+    </collection-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.HoldingTaxLot" table="END_HLDG_TAX_LOT_T">
 	<field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

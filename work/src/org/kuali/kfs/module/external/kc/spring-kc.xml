@@ -24,7 +24,8 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
- <bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
+                           
+ 	<bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
     <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
      	<property name="namespaceCode" value="KFS-KC" />
      	<property name="initializeDataDictionary" value="true" />
@@ -46,7 +47,7 @@
 				<value>org/kuali/kfs/module/external/kc/ojb-kc.xml</value>
 			</list>
 		</property>
-<!-- 
+		<!-- 
 		<property name="scriptConfigurationFilePaths">
 			<list>
 				<value>org/kuali/kfs/module/external/kc/dwr-kc.xml</value>
@@ -55,7 +56,8 @@
 		 -->
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO"/>
+                <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO"/> 
+                <entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO"/>  
             </map>
      </property>
  	</bean>
@@ -125,5 +127,15 @@
 		</property>
 	</bean>
 
-  
+  	<bean id="budgetCategoryDTOLookupableHelperService"
+		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="budgetCategoryDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="budgetCategoryDTOLookupableHelperService" />
+		</property>
+	</bean>
+  	
 </beans>

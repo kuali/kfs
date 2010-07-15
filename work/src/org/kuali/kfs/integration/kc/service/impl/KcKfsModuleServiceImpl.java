@@ -17,23 +17,19 @@ package org.kuali.kfs.integration.kc.service.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.kc.BudgetCategory;
 import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
-import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
     
@@ -43,6 +39,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
 
     static{
         externalizedWebBOs.put(KcUnit.class, UnitDTO.class);
+        externalizedWebBOs.put(BudgetCategory.class, BudgetCategoryDTO.class);
      }
 
 

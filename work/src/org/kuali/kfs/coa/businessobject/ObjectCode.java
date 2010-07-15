@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -63,6 +64,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private String rschBudgetCategoryCode; 
     private boolean rschOnCampusIndicator;
     private String rschObjectCodeDescription;
+    private BudgetCategoryDTO budgetCategoryDTO; 
     
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
@@ -635,6 +637,14 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
 
     public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
         this.rschObjectCodeDescription = rschObjectCodeDescription;
+    }
+
+    public BudgetCategoryDTO getBudgetCategoryDTO() {
+        return budgetCategoryDTO;
+    }
+
+    public void setBudgetCategoryDTO(BudgetCategoryDTO budgetCategoryDTO) {
+        this.budgetCategoryDTO = budgetCategoryDTO;
     }
 
     /**

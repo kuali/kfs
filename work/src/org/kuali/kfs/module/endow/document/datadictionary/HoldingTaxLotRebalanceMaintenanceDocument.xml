@@ -10,6 +10,7 @@
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument" parent="HoldingTaxLotRebalanceMaintenanceDocument-parentBean" />
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.HoldingTaxLotRebalanceRule"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
@@ -38,7 +39,7 @@
 
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument-kemidHolding" parent="HoldingTaxLotRebalanceMaintenanceDocument-kemidHolding-parentBean" />
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument-kemidHolding-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="KEMID Holding" />
+    <property name="id" value="KEMIDHolding" />
     <property name="title" value="KEMID Holding" />
     <property name="maintainableItems">
       <list>
@@ -64,7 +65,7 @@
   
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument-editHoldingTaxLot" parent="HoldingTaxLotRebalanceMaintenanceDocument-editHoldingTaxLot-parentBean" />
   <bean id="HoldingTaxLotRebalanceMaintenanceDocument-editHoldingTaxLot-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Holding Tax Lot" />
+    <property name="id" value="HoldingTaxLot" />
     <property name="title" value="Holding Tax Lots" />
     <property name="maintainableItems">
       <list>

@@ -521,4 +521,7 @@ public class EndowPropertyConstants {
     public static final String HISTORY_VALUE_ADJUSTMENT_SECURITY_ID = "securityId";
     public static final String HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE = "securityUnitValue";
     public static final String HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE = "securityMarketValue";
+    
+    // Holding Tax Lot Re-balance
+    public static final String HOLDING_TAX_LOTS_TAB = "holdingTaxLots";
 }

@@ -248,4 +248,12 @@ public class EndowKeyConstants {
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_UNIT_VALUE = "error.holdingHistoryValueAdjustment.marketValue.entered";
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_MARKET_VALUE = "error.holdingHistoryValueAdjustment.unitValue.entered";
     }
+    
+    public static class HoldingTaxLotRebalanceConstants {
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalUnits.notBalanced";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED  = "error.document.holdingTaxLotRebalance.totalCost.notBalanced";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_INVALID = "error.document.holdingTaxLotRebalance.units.invalid";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_COST_INVALID  = "error.document.holdingTaxLotRebalance.cost.invalid";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_COST_ZERO = "error.document.holdingTaxLotRebalance.unitsAndCost.zero";
+    }
 }

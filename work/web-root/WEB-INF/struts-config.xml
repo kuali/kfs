@@ -252,6 +252,8 @@
 			type="org.kuali.kfs.module.endow.document.web.struts.SecurityTransferDocumentForm" />		
 		<form-bean name="EndowmentToGLTransferOfFundsDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.EndowmentToGLTransferOfFundsDocumentForm" />
+		<form-bean name="GLToEndowmentTransferOfFundsDocumentForm"
+			type="org.kuali.kfs.module.endow.document.web.struts.GLToEndowmentTransferOfFundsDocumentForm" />			
 	</form-beans>
 
 	<global-exceptions>

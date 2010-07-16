@@ -21,13 +21,17 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseOrderNewIndividualItemValidation {
 
+    private PurchaseOrderService purchaseOrderService;
+    
     /**
      * Overrides the method in PurchaseOrderNewIndividualItemValidation to add additional validations that are specific to Amendment.
      * 
@@ -57,10 +61,17 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
             }
         }
         
-        // check to see if the account lines are empty
-        if (item.getSourceAccountingLines() == null || item.getSourceAccountingLines().size() == 0) {            
-            valid = false;
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString, identifierString);            
+        PurchaseOrderAmendmentDocument document = (PurchaseOrderAmendmentDocument)event.getDocument();
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
+        // run additional accounting line check for items added to POA via receiving line, only after document in enroute
+        if ( !(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && purchaseOrderService.isNewUnorderedItem(item) ) {
+            
+            // check to see if the account lines are empty
+            if (item.getSourceAccountingLines() == null || item.getSourceAccountingLines().size() == 0) {            
+                valid = false;
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString, identifierString);            
+            }
         }
         
         return valid;
@@ -102,5 +113,13 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
             }
             return true;
         }
+    }
+
+    public PurchaseOrderService getPurchaseOrderService() {
+        return purchaseOrderService;
+    }
+
+    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
+        this.purchaseOrderService = purchaseOrderService;
     }
 }

@@ -23,103 +23,145 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 public class BudgetAdjustmentParametersDTO implements Serializable {
     
-    protected String defaultObjectCodeFiscalYear;
-    protected String incomeObjectCodeBySponsorType;
-    protected String indirectCostObjectType;
-    protected String fringeObjectCode;
-    
     // goes into document header
     protected String awardDocumentNumber;
     protected String budgetVersionNumber;
     protected String comment;
     protected String postingPeriodCode;
+    protected String postingYear;
     
     protected String principalId;
     
     // inner class implements BA details
     static public class Details {
-        public String LineType;
-        public String Chart;
-        public String Account;
-        public String ObjectCode;
-        public String ProjectCode;
-        public String Amount;
+        protected String lineType;
+        protected String chart;
+        protected String account;
+        protected String objectCode;
+        protected String projectCode;
+        protected String amount;
+        protected String currentBudgetAdjustAmount;
+        protected String baseBudgetAdjustAmount;
+        
+        /**
+         * Gets the budgetAmount attribute. 
+         * @return Returns the budgetAmount.
+         */
+        public String getBaseBudgetAdjustAmount() {
+            return baseBudgetAdjustAmount;
+        }
+        /**
+         * Sets the budgetAmount attribute value.
+         * @param budgetAmount The budgetAmount to set.
+         */
+        public void setBaseBudgetAdjustAmount(String budgetAmount) {
+            this.baseBudgetAdjustAmount = budgetAmount;
+        }
+       
+        /**
+         * Gets the currentBudgetAdjustAmount attribute. 
+         * @return Returns the currentBudgetAdjustAmount.
+         */
+        public String getCurrentBudgetAdjustAmount() {
+            return currentBudgetAdjustAmount;
+        }
+        /**
+         * Sets the currentBudgetAdjustAmount attribute value.
+         * @param currentBudgetAdjustAmount The currentBudgetAdjustAmount to set.
+         */
+        public void setCurrentBudgetAdjustAmount(String currentBudgetAdjustAmount) {
+            this.currentBudgetAdjustAmount = currentBudgetAdjustAmount;
+        }
+
+        /**
+         * Gets the lineType attribute. 
+         * @return Returns the lineType.
+         */
+        public String getLineType() {
+            return lineType;
+        }
+        /**
+         * Sets the lineType attribute value.
+         * @param lineType The lineType to set.
+         */
+        public void setLineType(String lneType) {
+            this.lineType = lneType;
+        }
+        /**
+         * Gets the chart attribute. 
+         * @return Returns the chart.
+         */
+        public String getChart() {
+            return chart;
+        }
+        /**
+         * Sets the chart attribute value.
+         * @param chart The chart to set.
+         */
+        public void setChart(String chrt) {
+            this.chart = chrt;
+        }
+        /**
+         * Gets the account attribute. 
+         * @return Returns the account.
+         */
+        public String getAccount() {
+            return account;
+        }
+        /**
+         * Sets the account attribute value.
+         * @param account The account to set.
+         */
+        public void setAccount(String account) {
+            this.account = account;
+        }
+        /**
+         * Gets the objectCode attribute. 
+         * @return Returns the objectCode.
+         */
+        public String getObjectCode() {
+            return objectCode;
+        }
+        /**
+         * Sets the objectCode attribute value.
+         * @param objectCode The objectCode to set.
+         */
+        public void setObjectCode(String objectCode) {
+            this.objectCode = objectCode;
+        }
+        /**
+         * Gets the projectCode attribute. 
+         * @return Returns the projectCode.
+         */
+        public String getProjectCode() {
+            return projectCode;
+        }
+        /**
+         * Sets the projectCode attribute value.
+         * @param projectCode The projectCode to set.
+         */
+        public void setProjectCode(String projectCode) {
+            this.projectCode = projectCode;
+        }
+        /**
+         * Gets the amount attribute. 
+         * @return Returns the amount.
+         */
+        public String getAmount() {
+            return amount;
+        }
+        /**
+         * Sets the amount attribute value.
+         * @param amount The amount to set.
+         */
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
     }
     protected List <Details> details;
     
     public BudgetAdjustmentParametersDTO() {}
 
-
-    /**
-     * Gets the defaultObjectCodeFiscalYear attribute. 
-     * @return Returns the defaultObjectCodeFiscalYear.
-     */
-    public String getDefaultObjectCodeFiscalYear() {
-        return defaultObjectCodeFiscalYear;
-    }
-
-
-    /**
-     * Sets the defaultObjectCodeFiscalYear attribute value.
-     * @param defaultObjectCodeFiscalYear The defaultObjectCodeFiscalYear to set.
-     */
-    public void setDefaultObjectCodeFiscalYear(String defaultObjectCodeFiscalYear) {
-        this.defaultObjectCodeFiscalYear = defaultObjectCodeFiscalYear;
-    }
-
-
-    /**
-     * Gets the incomeObjectCodeBySponsorType attribute. 
-     * @return Returns the incomeObjectCodeBySponsorType.
-     */
-    public String getIncomeObjectCodeBySponsorType() {
-        return incomeObjectCodeBySponsorType;
-    }
-
-
-    /**
-     * Sets the incomeObjectCodeBySponsorType attribute value.
-     * @param incomeObjectCodeBySponsorType The incomeObjectCodeBySponsorType to set.
-     */
-    public void setIncomeObjectCodeBySponsorType(String incomeObjectCodeBySponsorType) {
-        this.incomeObjectCodeBySponsorType = incomeObjectCodeBySponsorType;
-    }
-
-
-    /**
-     * Gets the indirectCostObjectType attribute. 
-     * @return Returns the indirectCostObjectType.
-     */
-    public String getIndirectCostObjectType() {
-        return indirectCostObjectType;
-    }
-
-
-    /**
-     * Sets the indirectCostObjectType attribute value.
-     * @param indirectCostObjectType The indirectCostObjectType to set.
-     */
-    public void setIndirectCostObjectType(String indirectCostObjectType) {
-        this.indirectCostObjectType = indirectCostObjectType;
-    }
-
-
-    /**
-     * Gets the fringeObjectCode attribute. 
-     * @return Returns the fringeObjectCode.
-     */
-    public String getFringeObjectCode() {
-        return fringeObjectCode;
-    }
-
-
-    /**
-     * Sets the fringeObjectCode attribute value.
-     * @param fringeObjectCode The fringeObjectCode to set.
-     */
-    public void setFringeObjectCode(String fringeObjectCode) {
-        this.fringeObjectCode = fringeObjectCode;
-    }
 
     /**
      * Gets the awardDocumentNumber attribute. 
@@ -191,6 +233,22 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
         this.postingPeriodCode = postingPeriodCode;
     }
 
+    /**
+     * Gets the postingYear attribute. 
+     * @return Returns the postingYear.
+     */
+    public String getPostingYear() {
+        return postingYear;
+    }
+
+
+    /**
+     * Sets the postingYear attribute value.
+     * @param postingYear The postingYear to set.
+     */
+    public void setPostingYear(String postingYear) {
+        this.postingYear = postingYear;
+    }
 
     /**
      * Gets the principalId attribute. 

@@ -53,11 +53,10 @@ public class KcConstants {
     public static class BudgetAdjustmentService {
         
         public static final String WEB_SERVICE_NAME = "budgetAdjustmentService";
-        public static final String PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION = "RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION";          
+        public static final String PARAMETER_KC_BA_DOCUMENT_ROUTE = "BA_DOCUMENT_ROUTE";   
         public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
-        
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
-        
+         
         public static final String STATUS_KC_BA_SUCCESS = "success";
         public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
         public static final String STATUS_KC_ACCOUNT_WARNING = "warning";
@@ -74,7 +73,7 @@ public class KcConstants {
         
         public static final String WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "warning.kc.document.workflowException.document.actions";
         
-        public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Account Document Creation";
+        public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic BA Document Creation";
     }    
 
 }

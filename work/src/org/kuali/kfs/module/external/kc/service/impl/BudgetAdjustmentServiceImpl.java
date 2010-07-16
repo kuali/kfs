@@ -33,6 +33,7 @@ import org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentAction;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
@@ -51,13 +52,16 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.TransactionalDocumentBase;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -111,8 +115,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      * @return Account
      */
     protected BudgetAdjustmentDocument createBudgetAdjustmentObject(BudgetAdjustmentParametersDTO parameters, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
-        BudgetAdjustmentDocument budgetAdjustmentDocument= new BudgetAdjustmentDocument();
-        
+         BudgetAdjustmentDocument budgetAdjustmentDocument = (BudgetAdjustmentDocument) createBADocument(budgetAdjustmentCreationStatus);
         //also populates posting year
         budgetAdjustmentDocument.initiateDocument();
         
@@ -122,11 +125,12 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentDocument.getDocumentHeader().setDocumentDescription(parameters.getAwardDocumentNumber() + " " + parameters.getBudgetVersionNumber());
         //The Comment section of the KC Award Budget Document will carry a BA document number for a reference purpose.
         budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getComment());
-        budgetAdjustmentDocument.setPostingPeriodCode("");
+        budgetAdjustmentDocument.setPostingPeriodCode(parameters.getPostingPeriodCode());
+        budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
         
          for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
-             switch (detail.LineType.charAt(0)) {
+             switch (detail.getLineType().charAt(0)) {
                  case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
                         break;
                  case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
@@ -147,27 +151,51 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected BudgetAdjustmentSourceAccountingLine createBudgetAdjustmentSourceAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
         BudgetAdjustmentSourceAccountingLine budgetAdjustmentSourceAccountingLine = new BudgetAdjustmentSourceAccountingLine();
         // from / decrease chart -account
-        budgetAdjustmentSourceAccountingLine.setFinancialDocumentLineTypeCode(detail.LineType);
-        budgetAdjustmentSourceAccountingLine.setChartOfAccountsCode(detail.Chart);
-        budgetAdjustmentSourceAccountingLine.setAccountNumber(detail.Account);
-        budgetAdjustmentSourceAccountingLine.setProjectCode(detail.ProjectCode);
-        budgetAdjustmentSourceAccountingLine.setObjectId(detail.ObjectCode);
-        budgetAdjustmentSourceAccountingLine.setAmount(new KualiDecimal(detail.Amount));
+        budgetAdjustmentSourceAccountingLine.setFinancialDocumentLineTypeCode(detail.getLineType());
+        budgetAdjustmentSourceAccountingLine.setChartOfAccountsCode(detail.getChart());
+        budgetAdjustmentSourceAccountingLine.setAccountNumber(detail.getAccount());
+        budgetAdjustmentSourceAccountingLine.setProjectCode(detail.getProjectCode());
+        budgetAdjustmentSourceAccountingLine.setFinancialObjectCode(detail.getObjectCode());
+        budgetAdjustmentSourceAccountingLine.setAmount(new KualiDecimal(detail.getAmount()));
+        budgetAdjustmentSourceAccountingLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(detail.getCurrentBudgetAdjustAmount()));
+        budgetAdjustmentSourceAccountingLine.setBaseBudgetAdjustmentAmount(new KualiInteger(detail.getBaseBudgetAdjustAmount()));
         return budgetAdjustmentSourceAccountingLine;     
     }
     
     protected BudgetAdjustmentTargetAccountingLine createBudgetAdjustmentTargetAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
         BudgetAdjustmentTargetAccountingLine budgetAdjustmentTargetAccountingLine = new BudgetAdjustmentTargetAccountingLine();
         // from / decrease chart -account
-        budgetAdjustmentTargetAccountingLine.setFinancialDocumentLineTypeCode(detail.LineType);
-        budgetAdjustmentTargetAccountingLine.setChartOfAccountsCode(detail.Chart);
-        budgetAdjustmentTargetAccountingLine.setAccountNumber(detail.Account);
-        budgetAdjustmentTargetAccountingLine.setProjectCode(detail.ProjectCode);
-        budgetAdjustmentTargetAccountingLine.setObjectId(detail.ObjectCode);
-        budgetAdjustmentTargetAccountingLine.setAmount(new KualiDecimal(detail.Amount));
+        budgetAdjustmentTargetAccountingLine.setFinancialDocumentLineTypeCode(detail.getLineType());
+        budgetAdjustmentTargetAccountingLine.setChartOfAccountsCode(detail.getChart());
+        budgetAdjustmentTargetAccountingLine.setAccountNumber(detail.getAccount());
+        budgetAdjustmentTargetAccountingLine.setProjectCode(detail.getProjectCode());
+        budgetAdjustmentTargetAccountingLine.setFinancialObjectCode(detail.getObjectCode());
+        budgetAdjustmentTargetAccountingLine.setAmount(new KualiDecimal(detail.getAmount()));
+        budgetAdjustmentTargetAccountingLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(detail.getCurrentBudgetAdjustAmount()));
+        budgetAdjustmentTargetAccountingLine.setBaseBudgetAdjustmentAmount(new KualiInteger(detail.getBaseBudgetAdjustAmount()));        
         return budgetAdjustmentTargetAccountingLine;     
     }
 
+    /**
+     * This method will use the DocumentService to create a new document.  The documentTypeName is gathered by
+     * using MaintenanceDocumentDictionaryService which uses Account class to get the document type name.
+     * 
+     * @param AccountCreationStatusDTO
+     * @return document  returns a new document for the account document type or null if there is an exception thrown.
+     */
+    protected Document createBADocument(BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatusDTO) {
+        try {
+            Document document = getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("BA"));
+            return document;
+        } catch (Exception e) {
+            budgetAdjustmentCreationStatusDTO.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + e.getMessage());
+            budgetAdjustmentCreationStatusDTO.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
+            return null;
+
+            
+        }
+    }       
+   
     /**
      * This method processes the workflow document actions like save, route and blanket approve depending on the 
      * ACCOUNT_AUTO_CREATE_ROUTE system parameter value.
@@ -180,11 +208,11 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected boolean routeBudgetAdjustmentDocument(BudgetAdjustmentDocument budgetAdjustmentDocument, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
       
         try {
-            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
-
+            //String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_BUDGETADJUST_WORKFLOW_ACTION);
+            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE);
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
-            if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) || 
-                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) ||
+            if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) &&
+                !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
                 !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
                 budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
@@ -228,8 +256,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected boolean isValidUser(String principalId) {
         
         PersonService<Person> personService = KIMServiceLocator.getPersonService();
-        Person user = personService.getPerson(principalId);
-        DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
+        //Person user = personService.getPerson(principalId);
+        Person user = personService.getPersonByPrincipalName(principalId);
+        DocumentAuthorizer documentAuthorizer = new TransactionalDocumentAuthorizerBase();
         if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
             // set the user session so that the user name can be displayed in the saved document        
             GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));

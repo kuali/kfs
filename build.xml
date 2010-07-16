@@ -640,7 +640,11 @@
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" 
 	 	    source="1.5" target="1.5"
-			debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+			debug="true" nowarn="true" 
+			optimize="true" fork="true" 
+			memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
+			includes="${tests.compile.includes}"
+			excludes="${tests.compile.excludes}">
 			<classpath refid="compile.tests.classpath" />
 			<src path="${source.directory}" />
 			<src path="${test.infrastructure.source.directory}" />
@@ -709,8 +713,8 @@
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
 				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
-				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" />
-				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" />
+				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 			</batchtest>
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>

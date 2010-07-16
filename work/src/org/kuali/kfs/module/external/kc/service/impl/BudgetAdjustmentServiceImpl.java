@@ -126,16 +126,17 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         //The Comment section of the KC Award Budget Document will carry a BA document number for a reference purpose.
         budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getComment());
         budgetAdjustmentDocument.setPostingPeriodCode(parameters.getPostingPeriodCode());
-        budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
+     //   budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
         
          for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
-             switch (detail.getLineType().charAt(0)) {
+     /*        switch (detail.getLineType().charAt(0)) {
                  case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
                         break;
                  case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
                         break;
              }
+      */
           }
         // save the document 
         try{
@@ -151,7 +152,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected BudgetAdjustmentSourceAccountingLine createBudgetAdjustmentSourceAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
         BudgetAdjustmentSourceAccountingLine budgetAdjustmentSourceAccountingLine = new BudgetAdjustmentSourceAccountingLine();
         // from / decrease chart -account
-        budgetAdjustmentSourceAccountingLine.setFinancialDocumentLineTypeCode(detail.getLineType());
+        /*
+        budgetAdjustmentSourceAccountingLine.setFinancialDocumentLineTypeCode(detail.getClass());
         budgetAdjustmentSourceAccountingLine.setChartOfAccountsCode(detail.getChart());
         budgetAdjustmentSourceAccountingLine.setAccountNumber(detail.getAccount());
         budgetAdjustmentSourceAccountingLine.setProjectCode(detail.getProjectCode());
@@ -159,12 +161,15 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentSourceAccountingLine.setAmount(new KualiDecimal(detail.getAmount()));
         budgetAdjustmentSourceAccountingLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(detail.getCurrentBudgetAdjustAmount()));
         budgetAdjustmentSourceAccountingLine.setBaseBudgetAdjustmentAmount(new KualiInteger(detail.getBaseBudgetAdjustAmount()));
-        return budgetAdjustmentSourceAccountingLine;     
+        */
+        return budgetAdjustmentSourceAccountingLine;   
+ 
     }
     
     protected BudgetAdjustmentTargetAccountingLine createBudgetAdjustmentTargetAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
         BudgetAdjustmentTargetAccountingLine budgetAdjustmentTargetAccountingLine = new BudgetAdjustmentTargetAccountingLine();
         // from / decrease chart -account
+        /*
         budgetAdjustmentTargetAccountingLine.setFinancialDocumentLineTypeCode(detail.getLineType());
         budgetAdjustmentTargetAccountingLine.setChartOfAccountsCode(detail.getChart());
         budgetAdjustmentTargetAccountingLine.setAccountNumber(detail.getAccount());
@@ -173,7 +178,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentTargetAccountingLine.setAmount(new KualiDecimal(detail.getAmount()));
         budgetAdjustmentTargetAccountingLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(detail.getCurrentBudgetAdjustAmount()));
         budgetAdjustmentTargetAccountingLine.setBaseBudgetAdjustmentAmount(new KualiInteger(detail.getBaseBudgetAdjustAmount()));        
-        return budgetAdjustmentTargetAccountingLine;     
+        */
+        return budgetAdjustmentTargetAccountingLine;   
+               
     }
 
     /**

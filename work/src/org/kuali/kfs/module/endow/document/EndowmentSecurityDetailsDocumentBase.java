@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
@@ -46,17 +46,21 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
     public void prepareForSave() {
         super.prepareForSave();
 
+        sourceTransactionSecurities.clear();
+        targetTransactionSecurities.clear();
+
         // A Hack to insert transaction securities in the securities collection.
-        if (!StringUtils.isEmpty(sourceTransactionSecurity.getSecurityID())) {
+        if (StringUtils.isNotBlank(sourceTransactionSecurity.getSecurityID())) {
             getSourceTransactionSecurities().add(0, sourceTransactionSecurity);
         }
 
         // A Hack to insert transaction securities in the securities collection.
-        if (!StringUtils.isEmpty(targetTransactionSecurity.getSecurityID())) {
+        if (StringUtils.isNotBlank(targetTransactionSecurity.getSecurityID())) {
             getTargetTransactionSecurities().add(0, targetTransactionSecurity);
         }
 
     }
+
 
     /**
      * Gets the sourceTransactionSecurities.

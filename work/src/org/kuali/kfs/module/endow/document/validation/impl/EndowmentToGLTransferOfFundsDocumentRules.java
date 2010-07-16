@@ -15,11 +15,14 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.EndowmentToGLTransferOfFundsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.Document;
 
 public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
 
@@ -66,6 +69,41 @@ public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentTransact
                 }
             }
         }
+
+        return isValid;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        EndowmentToGLTransferOfFundsDocument transferOfFundsDocument = (EndowmentToGLTransferOfFundsDocument) document;
+
+        // if security is not empty validate that security is valid
+        if (StringUtils.isNotBlank(transferOfFundsDocument.getSourceTransactionSecurity().getSecurityID())) {
+            // Validates Security Code.
+            if (!validateSecurityCode(transferOfFundsDocument, true))
+                return false;
+
+            // Checks if Security is Active
+            isValid &= isSecurityActive(transferOfFundsDocument, true);
+        }
+
+        // if registration code is not empty validate that registration code are valid
+        if (StringUtils.isNotBlank(transferOfFundsDocument.getSourceTransactionSecurity().getRegistrationCode())) {
+            // Validate Registration code.
+            if (!validateRegistrationCode(transferOfFundsDocument, true))
+                return false;
+
+            // Checks if registration code is active
+            isValid &= isRegistrationCodeActive(transferOfFundsDocument, true);
+        }
+
+        // validate the document has at least one source transaction line
+        if (!transactionLineSizeGreaterThanZero(transferOfFundsDocument, true))
+            return false;
 
         return isValid;
     }

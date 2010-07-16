@@ -94,12 +94,12 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
 
     /**
      * Sets the Acquired date for the given tax lot line. If the tax lot indicator for the security (END_TRAN_SEC_T:
-     * SEC_TAX_LOT_IND) is No then for the lot acquired date - LOT_AQ_DATE – Search the END_HLDG_TAX_LOT_T records by KEMID by
+     * SEC_TAX_LOT_IND) is No then for the lot acquired date - LOT_AQ_DATE - Search the END_HLDG_TAX_LOT_T records by KEMID by
      * SEC_ID by REGIS_CD by HLDG_IP_IND [where HLDG_IP_IND is equal to END_TRAN_LN_T: TRAN_IP_IND_CD] by HLDG_LOT_NBR where
      * HLDG_LOT_NBR is equal to 1 and return the HLDG_ACQD_DT: - If a lot exists for the security in END_HLDG_TAX_LOT_T, but the
      * HLDG_UNITS and HLDG_COST are zero, insert the current date (System or Process) in LOT_ACQD_DT. - IF no lot exists for the
      * security, then insert the current date (System or Process) in LOT_ACQD_DT. If the tax lot indicator for the security
-     * (END_TRAN_SEC_T: SEC_TAX_LOT_IND) is Yes: - LOT_AQ_DATE – insert the current date (System or Process) in this field
+     * (END_TRAN_SEC_T: SEC_TAX_LOT_IND) is Yes: - LOT_AQ_DATE - insert the current date (System or Process) in this field
      * 
      * @param taxLotLine the tax lot line for which to set the acquired date
      * @param aiDocument the Asset Increase Document the tax lot line belongs to

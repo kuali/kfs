@@ -265,5 +265,5 @@
 "96","96","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of the Purchase Order Retransmit Document.","Y"
 "97","97","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of the Payment Request Document.","Y"
 "98","98","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of Receiving Transactional Documents.","Y"
-"99","99","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of the Electronic Invoice Reject  Document.
-","Y"
+"99","99","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of the Electronic Invoice Reject Document.","Y"
+"1101","1101","1","2","KFS-SYS","Copy Document","Allows access to the Copy button on KFS Financial System Documents.","Y"

@@ -25,23 +25,25 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.kc.BudgetCategory;
 import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.module.external.kc.KcFinancialSystemModuleConfiguration;
 import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.kns.bo.ModuleConfiguration;
 
-public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
+public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
- 
-    private static final Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();;
-
+    private static Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();;
+/*
     static{
         externalizedWebBOs.put(KcUnit.class, UnitDTO.class);
         externalizedWebBOs.put(BudgetCategory.class, BudgetCategoryDTO.class);
      }
-
+*/
 
     public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
         if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObject(businessObjectClass, fieldValues);
@@ -144,4 +146,25 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl {
     }
     
   
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#setModuleConfiguration(org.kuali.rice.kns.bo.ModuleConfiguration)
+     */
+    @Override
+    public void setModuleConfiguration(ModuleConfiguration moduleConfiguration) {   
+          KcFinancialSystemModuleConfig kcModuleConfiguration = (KcFinancialSystemModuleConfig) moduleConfiguration;
+          kcModuleConfiguration.getExternalizableWebBusinessObjectImplementations();
+          List<Class> webos = kcModuleConfiguration.getExternalizableWebBusinessObjectImplementations();
+          
+          if (webos != null) {
+              Map<Class,Class> ebos = moduleConfiguration.getExternalizableBusinessObjectImplementations();
+              for (Class webo : webos) {
+                  if (ebos.containsKey(webo)) {
+                      externalizedWebBOs.put(webo, ebos.get(webo));
+                  }
+              }
+          }
+          super.setModuleConfiguration(moduleConfiguration);
+    }
+
+   
 }

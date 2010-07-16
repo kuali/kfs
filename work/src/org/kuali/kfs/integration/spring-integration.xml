@@ -133,7 +133,7 @@
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
     
-   <bean id="kcModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+   <bean id="kcModuleConfiguration" class="org.kuali.kfs.external.module.kc.KcFinancialSystemModuleConfiguration">
         <property name="namespaceCode" value="KFS-KC" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -146,6 +146,12 @@
 	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO" />  
              </map>
+        </property>
+        <property name="externalizableWebBusinessObjectImplementations">
+             <list>
+	            <value>org.kuali.kfs.integration.kc.KcUnit</value> 
+       			<value>org.kuali.kfs.integration.kc.BudgetCategory</value>  
+             </list>
         </property>
  
         <property name="dataDictionaryPackages">

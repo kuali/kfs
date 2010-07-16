@@ -652,18 +652,22 @@
 			<src path="${test.integration.source.directory}" />
 		</javac>
 		<copy todir="${test.classes.directory}">
-			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" />
-			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" />
-			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" />
+			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
+			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
+			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
 		</copy>
 		<copy todir="${test.classes.directory}">
-			<fileset dir="${source.directory}" includes="${non.java.resources}" />
+			<fileset dir="${source.directory}" includes="${non.java.resources}" excludes="${tests.compile.excludes}" />
 		</copy>
 	</target>
 
 	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
         <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
-        <javac destdir="${test.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+        <javac destdir="${test.classes.directory}" debug="true" nowarn="true" 
+        	   optimize="true" fork="true" 
+        	   memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
+			   includes="${tests.compile.includes}"
+			   excludes="${tests.compile.excludes}">
             <src path="${institution.source.directory}" />
             <src path="${institution.test.source.directory}" />
             <classpath>
@@ -679,11 +683,11 @@
         </javac>
         <echo message="Copying Non-Java files from ${institution.test.source.directory} into ${test.classes.directory}" />
         <copy todir="${test.classes.directory}" overwrite="true">
-            <fileset dir="${institution.test.source.directory}" includes="${non.java.resources}" />
+            <fileset dir="${institution.test.source.directory}" includes="${non.java.resources}" excludes="${tests.compile.excludes}" />
         </copy>
         <echo message="Copying Non-Java files from ${institution.source.directory} into ${test.classes.directory}" />
         <copy todir="${test.classes.directory}" overwrite="true">
-            <fileset dir="${institution.source.directory}" includes="${non.java.resources}" />
+            <fileset dir="${institution.source.directory}" includes="${non.java.resources}" excludes="${tests.compile.excludes}" />
         </copy>
 	</target>
 	

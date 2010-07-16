@@ -73,7 +73,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
         budgetAdjustmentParametersDTO.setPrincipalId("khuntley");
         budgetAdjustmentParametersDTO.setPostingPeriodCode("10");
-        budgetAdjustmentParametersDTO.setPostingYear("2010");
+       // budgetAdjustmentParametersDTO.setPostingYear("2010");
         budgetAdjustmentParametersDTO.setAwardDocumentNumber("1234");
         budgetAdjustmentParametersDTO.setBudgetVersionNumber("1.0");
         budgetAdjustmentParametersDTO.setComment("Mock BudgetAdjustment test data");
@@ -82,6 +82,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         budgetAdjustmentParametersDTO.setDetails(details);
         
         BudgetAdjustmentParametersDTO.Details detail = new BudgetAdjustmentParametersDTO.Details();
+        /*
         detail.setLineType("T");
         detail.setChart("BL");
         detail.setAccount("4631640");
@@ -89,9 +90,11 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         detail.setAmount("0.00");
         detail.setCurrentBudgetAdjustAmount("100.00");
         detail.setBaseBudgetAdjustAmount("0");
+        */
         details.add(detail);
  
         BudgetAdjustmentParametersDTO.Details detailF = new BudgetAdjustmentParametersDTO.Details();
+        /*
         detailF.setLineType("F");
         detailF.setChart("BL");
         detailF.setAccount("4331300");
@@ -99,6 +102,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         detailF.setAmount("0.00");
         detailF.setCurrentBudgetAdjustAmount("100.00");
         detailF.setBaseBudgetAdjustAmount("0");
+        */
         details.add(detailF);
         return budgetAdjustmentParametersDTO;
     }

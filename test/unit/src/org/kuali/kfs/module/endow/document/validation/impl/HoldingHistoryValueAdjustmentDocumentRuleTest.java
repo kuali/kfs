@@ -84,7 +84,7 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * @return doc
      * @throws WorkflowException
      */
-    private HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument() throws WorkflowException {
+    protected HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument() throws WorkflowException {
 
         //insert into security class code END_SEC_CLS_CD_T table to validate security class code later...
         String sqlForSecurityClassCode = "INSERT INTO END_CLS_CD_T VALUES ('MUD','Test Class Code Description','LIAB','N','22025','74100','N','L','Y','BLAH BLAH BLAH',1,'U')";

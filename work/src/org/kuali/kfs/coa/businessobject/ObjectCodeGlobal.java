@@ -76,10 +76,10 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
     
     // for KC Budget Adjustment
-    private String rschBudgetCategoryCode; 
-    private boolean rschOnCampusIndicator;
-    private String rschObjectCodeDescription;
-    private BudgetCategoryDTO budgetCategoryDTO; 
+//    private String rschBudgetCategoryCode; 
+//    private boolean rschOnCampusIndicator;
+//    private String rschObjectCodeDescription;
+//    private BudgetCategoryDTO budgetCategoryDTO; 
 
     /**
      * Default constructor.
@@ -643,37 +643,37 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         this.finObjMandatoryTrnfrelim = finObjMandatoryTrnfrelim;
     }
 
-    public String getRschBudgetCategoryCode() {
-        return rschBudgetCategoryCode;
-    }
-
-    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
-        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
-    }
-
-    public boolean isRschOnCampusIndicator() {
-        return rschOnCampusIndicator;
-    }
-
-    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
-        this.rschOnCampusIndicator = rschOnCampusIndicator;
-    }
-
-    public String getRschObjectCodeDescription() {
-        return rschObjectCodeDescription;
-    }
-
-    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
-        this.rschObjectCodeDescription = rschObjectCodeDescription;
-    }
-
-    public BudgetCategoryDTO getBudgetCategoryDTO() {
-        return budgetCategoryDTO;
-    }
-
-    public void setBudgetCategoryDTO(BudgetCategoryDTO budgetCategoryDTO) {
-        this.budgetCategoryDTO = budgetCategoryDTO;
-    }
+//    public String getRschBudgetCategoryCode() {
+//        return rschBudgetCategoryCode;
+//    }
+//
+//    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
+//        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
+//    }
+//
+//    public boolean isRschOnCampusIndicator() {
+//        return rschOnCampusIndicator;
+//    }
+//
+//    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
+//        this.rschOnCampusIndicator = rschOnCampusIndicator;
+//    }
+//
+//    public String getRschObjectCodeDescription() {
+//        return rschObjectCodeDescription;
+//    }
+//
+//    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
+//        this.rschObjectCodeDescription = rschObjectCodeDescription;
+//    }
+//
+//    public BudgetCategoryDTO getBudgetCategoryDTO() {
+//        return budgetCategoryDTO;
+//    }
+//
+//    public void setBudgetCategoryDTO(BudgetCategoryDTO budgetCategoryDTO) {
+//        this.budgetCategoryDTO = budgetCategoryDTO;
+//    }
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

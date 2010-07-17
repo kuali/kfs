@@ -24,7 +24,9 @@
       <list>
         <ref bean="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance"/>
         <ref bean="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart"/>
+        <!-- 
         <ref bean="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes"/>
+        -->
       </list>
     </property>
     <property name="defaultExistenceChecks">

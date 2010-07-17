@@ -21,8 +21,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;

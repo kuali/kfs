@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.external.kc;
+package org.kuali.kfs.integration.kc.service.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.List;
 
 
-import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
+import org.kuali.kfs.integration.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
 

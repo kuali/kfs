@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+<changeSet author="Winston" id="5878-1-1" failOnError="true">
+<comment>
+Need to add system parameter to the master source for Kuali Coeus Integration for Budget Adjustment Doc create process
+</comment>
+<insert tableName="KRNS_PARM_T">
+<column name="NMSPC_CD" value="KFS-FP"/>
+<column name="PARM_DTL_TYP_CD" value="BudgetAdjustment"/>
+<column name="PARM_NM" value="RESEARCH_ADMIN_BA_DOCUMENT_ROUTE_ACTION"/>
+<column name="OBJ_ID" type="UUID" valueNumeric="SYS_GUID"/>
+<column name="VER_NBR" valueNumeric="1"/>
+<column name="PARM_TYP_CD" value="CONFG"/>
+<column name="TXT" value="save"/>
+<column name="PARM_DESC_TXT" value="If KFS is integrated with a Research Admin System that has the ability to generate KFS budget adjustment documents, this is the routing action that will take place on the generated document."/>
+<column name="CONS_CD" value="A"/>
+<column name="APPL_NMSPC_CD" value="KFS"/>
+</insert>
+<modifySql dbms="mysql">
+<replace replace="SYS_GUID" with="uuid()"/>
+</modifySql>
+<modifySql dbms="mysql">
+<replace replace="SYSDATE" with="now()"/>
+</modifySql>
+<modifySql dbms="oracle">
+<replace replace="SYS_GUID" with="sys_guid()"/>
+</modifySql>
+</changeSet>
+</databaseChangeLog>

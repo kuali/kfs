@@ -133,7 +133,7 @@
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
     
-   <bean id="kcModuleConfiguration" class="org.kuali.kfs.external.module.kc.KcFinancialSystemModuleConfiguration">
+   <bean id="kcModuleConfiguration" class="org.kuali.kfs.integration.kc.service.impl.KcFinancialSystemModuleConfiguration">
         <property name="namespaceCode" value="KFS-KC" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">

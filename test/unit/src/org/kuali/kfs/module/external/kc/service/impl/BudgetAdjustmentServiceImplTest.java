@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
@@ -112,23 +113,23 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     {  
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
-        TestUtils.setSystemParameter(Account.class,  KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class,  KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
 
         BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
         assertTrue(status.getErrorMessages().isEmpty());
         
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
 //      // the document should be submitted....
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
         assertTrue(status.getErrorMessages().isEmpty());
 
-        TestUtils.setSystemParameter(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
      // the document should be blanket approved.....
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
         assertTrue(status.getErrorMessages().isEmpty());
 
-        TestUtils.setSystemParameter(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE, "I");
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, "I");
 //      // the document should be submitted....
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
 //       //we want to test for failure of the routing by using routing value not defined for the system parameter...

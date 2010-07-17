@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class tests the rules in CashControlDocumentRule
+ * This class tests the rules in HoldingHistoryValueAdjustmentDocumentRule
  */
 @ConfigureContext(session = khuntley)
 public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase {

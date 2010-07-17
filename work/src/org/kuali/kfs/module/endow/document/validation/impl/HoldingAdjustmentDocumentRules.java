@@ -155,7 +155,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      * @param endowmentTransactionLinesDocument
      * @return true if valid, false otherwise
      */
-    private boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
+    protected boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
         boolean isValid = true;
 
         boolean hasSourceTransLines = endowmentTransactionLinesDocument.getSourceTransactionLines() != null && endowmentTransactionLinesDocument.getSourceTransactionLines().size() > 0;
@@ -176,7 +176,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      * @param index
      * @return true if valid, false otherwise
      */
-    private boolean canOnlyAddSourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
+    protected boolean canOnlyAddSourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
         boolean isValid = true;
 
         boolean isSource = transLine instanceof EndowmentSourceTransactionLine;
@@ -184,14 +184,12 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         // the user can only enter to or from transaction lines not both
         if (isSource) {
             if (endowmentTransactionLinesDocument.getTargetTransactionLines() != null && endowmentTransactionLinesDocument.getTargetTransactionLines().size() > 0) {
-
                 isValid = false;
                 putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
             }
         }
         else {
             if (endowmentTransactionLinesDocument.getSourceTransactionLines() != null && endowmentTransactionLinesDocument.getSourceTransactionLines().size() > 0) {
-
                 isValid = false;
                 putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
             }
@@ -208,7 +206,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      * @param index
      * @return true if there are tax lots that meet the criteria, false otherwise
      */
-    private boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
+    protected boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
         boolean isValid = true;
         HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
         HoldingAdjustmentDocument holdingAdjustmentDocument = (HoldingAdjustmentDocument) endowmentTransactionLinesDocument;

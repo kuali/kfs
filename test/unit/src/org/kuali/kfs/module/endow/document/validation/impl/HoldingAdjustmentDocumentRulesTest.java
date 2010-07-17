@@ -113,21 +113,62 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         
         // add a source transaction line and check the rule - the rule should pass.
         document.getTargetTransactionLines().clear();        
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        
+        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLines().get(index), index));
+        
+        //add a target transaction line and check the rule - should pass.
+        document.getSourceTransactionLines().clear();
+        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
+        document.setTargetTransactionLines(targetTransactionLines);
+        
+        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));        
+    }
+
+    /**
+     * Helper Method to create a source transaction line
+     */
+    private List<EndowmentTransactionLine> createSourceTransactionLine(int index) {
         List<EndowmentTransactionLine> sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
         sourceTransactionLines.add(index, endowmentSourceTransactionLine);
         
-        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLine(index), index));
-        
-        //add a target transaction line and check the rule - should pass.
-        document.getSourceTransactionLines().clear();
+        return sourceTransactionLines;
+    }
+    
+    /**
+     * Helper Method to create a source transaction line
+     */
+    private List<EndowmentTransactionLine> createTargetTransactionLine(int index) {
         List<EndowmentTransactionLine> targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
         targetTransactionLines.add(index, endowmentTargetTransactionLine);
-
-        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLine(index), index));        
+        
+        return targetTransactionLines;
+    }
+    
+    /**
+     * Method to validate the rule canOnlyAddSourceOrTargetTransactionLines
+     * Entered both source and target lines to the document and call the rule - should fail...
+     */
+    public void testCanOnlyAddSourceOrTargetTransactionLines_False() {
+        int index = 0;
+        
+        document.getSourceTransactionLines().clear();        
+        document.getTargetTransactionLines().clear();
+        
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        
+        //add a target transaction line and check the rule - should pass.
+        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
+        document.setTargetTransactionLines(targetTransactionLines);
+        
+        assertFalse(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLines().get(index), index));        
     }
 }
 

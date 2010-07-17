@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!--
  Copyright 2007-2009 The Kuali Foundation
  
@@ -37,8 +37,18 @@
         <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
         <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
         <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>
+        <ref bean="ObjectCode-rschBudgetCategoryCode"/>
+        <ref bean="ObjectCode-rschOnCampusIndicator"/>
+        <ref bean="ObjectCode-rschObjectCodeDescription"/>
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+        	<dd:relationship objectAttribute="budgetCategoryDTO">
+        		<dd:primitiveAttribute source="rschBudgetCategoryCode" target="budgetCategoryCode"/>
+        	</dd:relationship>
+        </list>
+    </property> 
   </bean>
 
 <!-- Attribute Definitions -->
@@ -94,4 +104,11 @@
 
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean"/>
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-nextYearFinancialObjectCode" />
+  
+  <bean id="ObjectCodeGlobal-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>
+  
+  <bean id="ObjectCodeGlobal-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
+
+  <bean id="ObjectCodeGlobal-rschOnCampusIndicator" parent="ObjectCode-rschOnCampusIndicator-parentBean"/>
+
 </beans>

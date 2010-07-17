@@ -55,9 +55,7 @@ public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupabl
 //        budgetCategoryList = budgetCategoryService.lookupBudgetCategories(parameters);
 //        
 //        return budgetCategoryList;
-        
-        //return super.getSearchResults(parameters);
-        
+               
         // for test
         BudgetCategoryDTO bc = new BudgetCategoryDTO();
         bc.setBudgetCategoryCode("BA1");

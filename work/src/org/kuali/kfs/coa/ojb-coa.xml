@@ -1487,6 +1487,9 @@
 	<field-descriptor name="finObjMandatoryTrnfrOrElimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="rschBudgetCategoryCode" column="RSCH_BDGT_CTGRY_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschObjectCodeDescription" column="RSCH_OBJ_CD_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rschOnCampusIndicator" column="RSCH_ON_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>

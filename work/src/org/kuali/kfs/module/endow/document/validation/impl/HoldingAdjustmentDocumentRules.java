@@ -208,10 +208,11 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      */
     protected boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
         boolean isValid = true;
-        HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
+
         HoldingAdjustmentDocument holdingAdjustmentDocument = (HoldingAdjustmentDocument) endowmentTransactionLinesDocument;
         EndowmentTransactionSecurity endowmentTransactionSecurity = holdingAdjustmentDocument.getSourceTransactionSecurity();
 
+        HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
         List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getAllTaxLotsWithPositiveUnits(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
 
         if (holdingTaxLots == null || holdingTaxLots.size() == 0) {

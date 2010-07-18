@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -291,6 +292,32 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         endowmentTransactionLine.setTaxLotLines(taxLotLines);
         
         assertTrue(rule.processDeleteTaxLotLineRules(endowmentTaxLotLinesDocument, endowmentTransactionTaxLotLine, endowmentTransactionLine, transLineIndex, taxLotLineIndex));
+    }
+    
+    /**
+     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty
+     */
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty_False() {
+        int index = 0;
+        
+        setupDataToTestValidateKemidHasTaxLots(index);  
+        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
+        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(new KualiDecimal("100.00"));
+        
+        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(document.getSourceTransactionLines().get(index), index));
+    }
+    
+    /**
+     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty
+     */
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty_True() {
+        int index = 0;
+        
+        setupDataToTestValidateKemidHasTaxLots(index);  
+        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
+        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
+        
+        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(document.getSourceTransactionLines().get(index), index));
     }    
 }
 

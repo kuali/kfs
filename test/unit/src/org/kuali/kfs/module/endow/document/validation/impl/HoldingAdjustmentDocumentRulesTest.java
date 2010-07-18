@@ -319,5 +319,33 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         
         assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(document.getSourceTransactionLines().get(index), index));
     }    
+    
+    /**
+     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered
+     */
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered_True() {
+        int index = 0;
+        
+        setupDataToTestValidateKemidHasTaxLots(index);  
+        document.getSourceTransactionLines().get(index).setTransactionAmount(new KualiDecimal("100.00"));
+        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(new KualiDecimal("200.00"));
+        
+        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(document.getSourceTransactionLines().get(index), index));
+    }    
+
+    /**
+     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered
+     */
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered_False() {
+        int index = 0;
+        
+        setupDataToTestValidateKemidHasTaxLots(index);  
+        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
+        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
+        
+        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(document.getSourceTransactionLines().get(index), index));
+    }
 }
+
+
 

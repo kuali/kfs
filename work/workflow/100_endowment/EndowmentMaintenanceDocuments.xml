@@ -159,5 +159,10 @@
 		<parent>EndowmentSimpleMaintenanceDocument</parent>
 		<label>Use Criteria Code Maintenance Document</label>
 	</documentType>
+	<documentType>
+		<name>HoldingTaxLotRebalanceMaintenanceDocument</name>
+		<parent>EndowmentSimpleMaintenanceDocument</parent>
+		<label>Holding Tax Lot Rebalance Document</label>
+	</documentType>
 </documentTypes>
 </data>

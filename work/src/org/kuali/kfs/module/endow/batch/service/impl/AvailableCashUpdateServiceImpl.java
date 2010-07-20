@@ -43,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AvailableCashUpdateServiceImpl.class);
-    public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
     
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;

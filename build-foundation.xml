@@ -129,26 +129,33 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="update-rice-kfs-dependencies" depends="init-property-files,init-additional-properties">
     	<delete verbose="true" failonerror="false">
-      		<fileset dir="${dependencies.project.directory}" includes="rice-*.zip" />
-    	</delete>
-    	<maven goals="compile source:jar javadoc:jar" />
-    	<copy todir="${dependencies.project.directory}" verbose="true" overwrite="true">
-      		<fileset dir="${rice.project.directory}">
-      			<include name="**/target/rice*-sources.jar" />
-      			<include name="**/target/rice*-javadoc.jar" />
-      			<exclude name="**/*-kim-*" />
-      			<exclude name="**/*-kns-*" />
-      			<exclude name="**/*-ken-*" />
-      			<exclude name="**/*-kcb-*" />
-      			<exclude name="**/*-ksb-*" />
-      			<exclude name="**/*-kew-*" />
-      			<exclude name="**/*-web-*" />
+      		<fileset dir="${dependencies.project.directory}">
+      			<include name="rice-*${rice.version}-*.*" />
+      			<include name="rice-*${kfs.rice.version}-*.*" />
       		</fileset>
-      		<chainedmapper>
-        		<flattenmapper />
-      			<mapper type="glob" from="*${rice.version}*.jar" to="*${kfs.rice.version}*.zip" />
-      		</chainedmapper>
+    	</delete>
+		<!--
+    	<maven goals="compile source:jar javadoc:jar" />
+    	-->
+		<echo>
+Copying Files from ${rice.project.directory}/**/target/rice*...
+To: ${dependencies.project.directory}
+Renaming from: rice-xxx-${rice.version}-xxxxx.jar
+		 to  : rice-xxx-${kfs.rice.version}-xxxxx.zip
+		</echo>
+    	<copy todir="${dependencies.project.directory}" verbose="true" overwrite="true" >
+      		<fileset dir="${rice.project.directory}">
+      			<include name="**/target/rice-api-*-sources.jar" />
+      			<include name="**/target/rice-api-*-javadoc.jar" />
+      			<include name="**/target/rice-impl-*-sources.jar" />
+      			<include name="**/target/rice-impl-*-javadoc.jar" />
+      		</fileset>
+       		<flattenmapper />
     	</copy>
+		<move file="${dependencies.project.directory}/rice-api-${rice.version}-sources.jar"  tofile="${dependencies.project.directory}/rice-api-${kfs.rice.version}-sources.jar" verbose="true" />
+		<move file="${dependencies.project.directory}/rice-api-${rice.version}-javadoc.jar"  tofile="${dependencies.project.directory}/rice-api-${kfs.rice.version}-javadoc.jar" verbose="true" />
+		<move file="${dependencies.project.directory}/rice-impl-${rice.version}-sources.jar" tofile="${dependencies.project.directory}/rice-impl-${kfs.rice.version}-sources.jar" verbose="true" />
+		<move file="${dependencies.project.directory}/rice-impl-${rice.version}-javadoc.jar" tofile="${dependencies.project.directory}/rice-impl-${kfs.rice.version}-javadoc.jar" verbose="true" />
 	</target>
   
 	<target name="update-rice-licenses" depends="init-property-files,init-additional-properties">

@@ -18,20 +18,18 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.Summarizable;
 
 /**
  * 
  */
-public class Chart extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
+public class Chart extends PersistableBusinessObjectBase implements KualiCode {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
@@ -356,6 +354,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
@@ -648,6 +647,14 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
             chartService = SpringContext.getBean(ChartService.class);
         }
         return chartService;
+    }
+
+    public void setCode(String chartOfAccountsCode) {
+        setChartOfAccountsCode(chartOfAccountsCode);        
+    }
+
+    public void setName(String finChartOfAccountDescription) {
+        setFinChartOfAccountDescription(finChartOfAccountDescription);
     }
 }
 

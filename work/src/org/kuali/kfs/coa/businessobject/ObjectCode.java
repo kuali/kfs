@@ -24,8 +24,8 @@ import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.Summarizable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * 
  */
-public class ObjectCode extends PersistableBusinessObjectBase implements Summarizable, Inactivateable {
+public class ObjectCode extends PersistableBusinessObjectBase implements KualiCode {
 
 
     static {

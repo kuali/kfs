@@ -92,18 +92,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected boolean systemParametersForSummarizeAvailableSpendableFundsJobExist() {
         LOG.info("systemParametersForSummarizeAvailableSpendableFundsJobExist() started.");
         
-        boolean systemParametersExists = true;
-        systemParametersExists &= checkIfAvailableCashPercentParameterExists();          
-        
-        return systemParametersExists;
-    }
-    
-    /**
-     * This method checks for the system parameter for AVAILABLE_CASH_PERCENT
-     * @return true if AVAILABLE_CASH_PERCENT exists else false
-     */
-    protected boolean checkIfAvailableCashPercentParameterExists() {
-        boolean parameterExists = true;
+        boolean systemParameterExists = true;
         
         // check to make sure the system parameter has been setup...
         if (!getParameterService().parameterExists(AvailableCashUpdateStep.class, EndowParameterKeyConstants.AvailableCashUpdateConstants.AVAILABLE_CASH_PERCENT)) {
@@ -111,9 +100,9 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
           return false;
         }
         
-        return parameterExists;
+        return systemParameterExists;
     }
-
+    
     /**
      * @see org.kuali.kfs.module.endow.batch.service.AvailableCashUpdateService#getAllKemIdWithClosedIndicatorNo()
      * Retrieves all kemId records where closed indicator = 'N'
@@ -133,6 +122,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
      */
     public void clearAllAvailableCash() {
         Collection<KEMIDCurrentAvailableBalance> KEMIDCurrentAvailableBalances = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
+
         for (KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance : KEMIDCurrentAvailableBalances) {
             businessObjectService.delete(kEMIDCurrentAvailableBalance);
         }

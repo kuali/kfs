@@ -76,10 +76,10 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
     
     // for KC Budget Adjustment
-//    private String rschBudgetCategoryCode; 
-//    private boolean rschOnCampusIndicator;
-//    private String rschObjectCodeDescription;
-//    private BudgetCategoryDTO budgetCategoryDTO; 
+    private String rschBudgetCategoryCode; 
+    private boolean rschOnCampusIndicator;
+    private String rschObjectCodeDescription;
+    private BudgetCategoryDTO budgetCategoryDTO; 
 
     /**
      * Default constructor.
@@ -643,42 +643,75 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         this.finObjMandatoryTrnfrelim = finObjMandatoryTrnfrelim;
     }
 
-//    public String getRschBudgetCategoryCode() {
-//        return rschBudgetCategoryCode;
-//    }
-//
-//    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
-//        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
-//    }
-//
-//    public boolean isRschOnCampusIndicator() {
-//        return rschOnCampusIndicator;
-//    }
-//
-//    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
-//        this.rschOnCampusIndicator = rschOnCampusIndicator;
-//    }
-//
-//    public String getRschObjectCodeDescription() {
-//        return rschObjectCodeDescription;
-//    }
-//
-//    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
-//        this.rschObjectCodeDescription = rschObjectCodeDescription;
-//    }
-//
-//    public BudgetCategoryDTO getBudgetCategoryDTO() {
-//        return budgetCategoryDTO;
-//    }
-//
-//    public void setBudgetCategoryDTO(BudgetCategoryDTO budgetCategoryDTO) {
-//        this.budgetCategoryDTO = budgetCategoryDTO;
-//    }
+    /**
+     * Gets the rschBudgetCategoryCode attribute. 
+     * @return Returns the rschBudgetCategoryCode.
+     */
+    public String getRschBudgetCategoryCode() {
+        return rschBudgetCategoryCode;
+    }
+
+    /**
+     * Sets the rschBudgetCategoryCode attribute value.
+     * @param rschBudgetCategoryCode The rschBudgetCategoryCode to set.
+     */
+    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
+        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
+    }
+
+    /**
+     * Gets the rschOnCampusIndicator attribute. 
+     * @return Returns the rschOnCampusIndicator.
+     */
+    public boolean isRschOnCampusIndicator() {
+        return rschOnCampusIndicator;
+    }
+
+    /**
+     * Sets the rschOnCampusIndicator attribute value.
+     * @param rschOnCampusIndicator The rschOnCampusIndicator to set.
+     */
+    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
+        this.rschOnCampusIndicator = rschOnCampusIndicator;
+    }
+
+    /**
+     * Gets the rschObjectCodeDescription attribute. 
+     * @return Returns the rschObjectCodeDescription.
+     */
+    public String getRschObjectCodeDescription() {
+        return rschObjectCodeDescription;
+    }
+
+    /**
+     * Sets the rschObjectCodeDescription attribute value.
+     * @param rschObjectCodeDescription The rschObjectCodeDescription to set.
+     */
+    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
+        this.rschObjectCodeDescription = rschObjectCodeDescription;
+    }
+
+    /**
+     * Gets the budgetCategoryDTO attribute. 
+     * @return Returns the budgetCategoryDTO.
+     */
+    public BudgetCategoryDTO getBudgetCategoryDTO() {
+        return budgetCategoryDTO;
+    }
+
+    /**
+     * Sets the budgetCategoryDTO attribute value.
+     * @param budgetCategoryDTO The budgetCategoryDTO to set.
+     */
+    public void setBudgetCategoryDTO(BudgetCategoryDTO budgetCategoryDTO) {
+        this.budgetCategoryDTO = budgetCategoryDTO;
+    }
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String,String> toStringMapper() {
+        LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }

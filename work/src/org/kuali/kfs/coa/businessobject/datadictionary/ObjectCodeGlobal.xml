@@ -36,15 +36,12 @@
         <ref bean="ObjectCodeGlobal-financialBudgetAggregationCd"/>
         <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
         <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
-        <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>
-<!--         
+        <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>     
         <ref bean="ObjectCode-rschBudgetCategoryCode"/>
         <ref bean="ObjectCode-rschOnCampusIndicator"/>
         <ref bean="ObjectCode-rschObjectCodeDescription"/>
--->        
       </list>
-    </property>
-<!--     
+    </property>  
     <property name="relationships">
     	<list>
         	<dd:relationship objectAttribute="budgetCategoryDTO">
@@ -52,7 +49,6 @@
         	</dd:relationship>
         </list>
     </property>
-     -->
   </bean>
 
 <!-- Attribute Definitions -->
@@ -108,11 +104,9 @@
 
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean"/>
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-nextYearFinancialObjectCode" />
-  
-  <!-- 
+
   <bean id="ObjectCodeGlobal-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>  
   <bean id="ObjectCodeGlobal-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
   <bean id="ObjectCodeGlobal-rschOnCampusIndicator" parent="ObjectCode-rschOnCampusIndicator-parentBean"/>
-  -->
 
 </beans>

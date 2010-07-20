@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.impl.TicklerRule;
@@ -181,6 +183,21 @@ public class KEMServiceImpl implements KEMService {
         return date;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getAvailableCashPercent()
+     * Gets the AVAILABLE_CASH_PERCENT system parameter
+     * @return AVAILABLE_CASH_PERCENT value
+     */
+    public BigDecimal getAvailableCashPercent() {
+        BigDecimal availableCashPercent = BigDecimal.ZERO;
+        
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String systemParameterAvailablePercent = parameterService.getParameterValue(AvailableCashUpdateStep.class, EndowParameterKeyConstants.AvailableCashUpdateConstants.AVAILABLE_CASH_PERCENT);
+        availableCashPercent = new BigDecimal(systemParameterAvailablePercent);
+        
+        return availableCashPercent;
+    }
+    
     /**
      * Gets the dateTimeService.
      * 

@@ -71,4 +71,9 @@ public interface KEMService {
      */
     public java.sql.Date getCurrentProcessDate();
 
+    /**
+     * Gets the AVAILABLE_CASH_PERCENT system parameter
+     * @return AVAILABLE_CASH_PERCENT value
+     */
+    public BigDecimal getAvailableCashPercent();
 }

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -51,6 +52,20 @@ public class KemidCurrentCashOpenRecordsServiceImpl implements KemidCurrentCashO
         return hasOpenRecords;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService#getByPrimaryKey(String)
+     * Gets the current cash record for the given kemId
+     * @param kemId
+     * @return KemidCurrentCash the record with the given kemId
+     */
+    public KemidCurrentCash getByPrimaryKey(String kemId) {
+        Map<String, String> primaryKey = new HashMap<String, String>();
+
+        primaryKey.put(EndowPropertyConstants.KEMID, kemId);
+
+        return (KemidCurrentCash) businessObjectService.findByPrimaryKey(KemidCurrentCash.class, primaryKey);
+    }
+    
     /**
      * Gets the businessObjectService.
      * 

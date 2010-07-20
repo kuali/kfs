@@ -51,7 +51,189 @@
                 <value>org/kuali/kfs/module/endow/dwr-endow.xml</value>
             </list>
         </property>
+        <property name="triggerNames">
+            <list>
+				<value>scheduleJobTrigger</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list>
+				<value>availableCashUpdatesJob</value>
+            </list>
+        </property>
     </bean>
+ 
+     <!-- begin batch framework -->
+	<bean id="scheduler" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean">
+		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
+		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
+		<property name="dataSourceReference" ref="dataSource" />
+        <property name="nonTransactionalDataSourceReference" ref="nonTransactionalDataSource" />
+		<property name="autoStartup" value="false" />
+		<property name="quartzPropertiesReference">
+			<props>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<prop key="org.quartz.scheduler.instanceName">KFSScheduler</prop>
+				<prop key="org.quartz.threadPool.threadCount">${batch.quartz.thread.pool.size}</prop>
+				<prop key="org.quartz.scheduler.idleWaitTime">${batch.quartz.trigger.check.interval}</prop>
+				<prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerFiredMessage">Trigger {1}.{0} fired job {6}.{5} at: {4, date, HH:mm:ss MM/dd/yyyy}</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerCompleteMessage">Trigger {1}.{0} completed firing job {6}.{5} at {4, date, HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="kfsService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
+    </bean>
+    
+    <bean id="kfsJaxWsSoapService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition" abstract="true">
+       <property name="serviceNameSpaceURI" value="KFS"/>
+       <property name="jaxWsService" value="true"/>
+       <property name="priority" value="3" />
+       <property name="retryAttempts" value="0" />
+       <!-- TODO: make config property for bus security -->
+       <property name="busSecurity" value="false"/>
+    </bean>
+    
+	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
+		<property name="scheduler" ref="scheduler" />
+		<property name="jobListener" ref="jobListener" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="mailService" ref="mailService" />		
+	</bean>
+
+	<bean id="jobListener" class="org.kuali.kfs.sys.batch.JobListener">
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="mailService" ref="mailService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
+		<property name="group" value="scheduled" />
+	</bean>
+
+	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
+		<property name="group" value="unscheduled" />
+	</bean>
+
+	<bean id="step" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="wrappedBatchExecutorService" class="org.kuali.kfs.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" />
+	
+	<bean id="wrappedStep" parent="step" abstract="true">
+		<property name="wrappedBatchExecutorService" ref="wrappedBatchExecutorService" />
+	</bean>
+
+	<bean id="scheduleJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="scheduleStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="scheduleStep" parent="step" class="org.kuali.kfs.sys.batch.ScheduleStep">
+		<property name="schedulerService" ref="schedulerService" />
+	</bean>
+
+	<bean id="trigger" abstract="true">
+		<property name="group" value="scheduled" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.SimpleTriggerDescriptor" />
+
+	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.CronTriggerDescriptor" />
+
+  	<bean id="scheduleJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="scheduleJob" />
+		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
+	</bean>
+	 
+ 	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+    	<property name="schedulerService" ref="schedulerService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
+	
+	<bean id="batchJobStatusLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	    <property name="lookupableHelperService">
+	        <ref bean="batchJobStatusLookupableHelperService" />
+	    </property>
+	</bean>
+	
+	<bean id="batchFileLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.BatchFileLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="batchFileAdminAuthorizationService" ref="batchFileAdminAuthorizationService"/>
+	</bean>
+	
+	<bean id="batchFileAdminAuthorizationService" class="org.kuali.kfs.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl"/>
+	
+	<bean id="batchFileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	    <property name="lookupableHelperService">
+	        <ref bean="batchFileLookupableHelperService" />
+	    </property>
+	</bean>
+	
+	<bean id="batchInputFileService" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileServiceImpl" />
+	
+	<bean id="batchInputFileSetService" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	<!-- end batch framework -->
+ 
+ 	<!--  begin core batch jobs -->
+ 	<bean id="availableCashUpdatesJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="avilableCashUpdateStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="avilableCashUpdateStep" class="org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep" parent="step">
+		<property name="availableCashUpdateService">
+			<ref bean="availableCashUpdateService" />
+		</property>
+	</bean>
+	
+	<bean id="availableCashUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+    	<property name="parameterService">
+    	 <ref bean="parameterService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kemidCurrentCashOpenRecordsService">
+			<ref bean="kemidCurrentCashOpenRecordsService" />
+		</property>
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>
+		<property name="typeRestrictionCodeService">
+			<ref bean="typeRestrictionCodeService" />
+		</property>
+	</bean>
+ 
+ 	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>
+ 	
+ 	<bean id="typeRestrictionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TypeRestrictionCodeServiceImpl">
+ 		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
  
     <bean id="endowModuleService" parent="endowModuleService-parentBean"/>
  
@@ -344,6 +526,15 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="securityService">
+			<ref bean="securityService"/>
+		</property>
+		<property name="classCodeService">
+			<ref bean="classCodeService"/> 
+		</property>	
+		<property name="kEMService">
+			<ref bean="kemService"/>
+		</property>	
 	</bean>
 	
 	<bean id="updateAssetIncreaseDocumentTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateAssetIncreaseDocumentTaxLotsServiceImpl">

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
@@ -80,4 +81,56 @@ public interface HoldingTaxLotService {
      */
     public List<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String ipIndicator);
     
+    /**
+     * Gets all tax lots on the following criteria: kemi and IPindicator.
+     * 
+     * @param kemid
+     * @param ipIndicator
+     * @return a list of tax lots that meet the criteria
+     */
+    public List<HoldingTaxLot> getAllTaxLotsByKemIdAdndIPIndicator(String kemid, String ipIndicator);
+    
+    /**
+     * Gets class code type based on securityId.
+     * Based on security ID, you search END_SEC_T Table to get END_SEC_T:SEC_CLS_CD, 
+     * then, based on class code, you search END_CLS_CD_T, to get END_CLS_CD_T:CLS_CD_TYP
+     * @param id
+     * @return class code type
+     */
+    public String getClassCodeType(String securityId);
+    
+    /**
+     * The Market Value of the KEMID END_HLDG_TAX_LOT_T records with a CLS_CD_TYP of 
+     * Cash Equivalents (C), and with the HLDG_IP_IND equal to I.
+     * @param kemId
+     * @return marketValue
+     */
+    public BigDecimal getMarketValueForCashEquivalentsForAvailableIncomeCash(String kemId);  
+    
+    /**
+     * The Market Value of the KEMID END_HLDG_TAX_LOT_T records with a CLS_CD_TYP of 
+     * Pooled Investment (P) and with the HLDG_IP_IND equal to I times the value in the 
+     * Available Cash Percent institutional parameter (accounts for only a percentage of the market 
+     * value allowing for pricing changes).
+     * @return marketValue
+     */
+    public BigDecimal getMarketValueForPooledInvestmentForAvailableIncomeCash(String kemId);
+
+    /**
+     * The Market Value of the KEMID END_HLDG_TAX_LOT_T records with a CLS_CD_TYP of 
+     * Cash Equivalents (C), and with the HLDG_IP_IND equal to P.
+     * @param kemId
+     * @return marketValue
+     */
+    public BigDecimal getMarketValueForCashEquivalentsForAvailablePrincipalCash(String kemId);  
+    
+    /**
+     * The Market Value of the KEMID END_HLDG_TAX_LOT_T records with a CLS_CD_TYP of 
+     * Pooled Investment (P) and with the HLDG_IP_IND equal to P times the value in the 
+     * Available Cash Percent institutional parameter (accounts for only a percentage of the market 
+     * value allowing for pricing changes).
+     * @return marketValue
+     */
+    public BigDecimal getMarketValueForPooledInvestmentForAvailablePrincipalCash(String kemId);
+
 }

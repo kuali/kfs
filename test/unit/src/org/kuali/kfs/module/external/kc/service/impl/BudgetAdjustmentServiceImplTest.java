@@ -144,7 +144,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
 
         try {
-            URL url = new URL("http://localhost:8080/budgetAdjustmentSOAP");
+            URL url = new URL("http://localhost:8080/remoting/budgetAdjustmentServiceSOAP");
             QName qName = new QName("KFS", "budgetAdjustmentServiceSoap");
             
             Service service = Service.create(url, qName);

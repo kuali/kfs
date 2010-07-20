@@ -1,0 +1,2876 @@
+- *********************************************************************
+-- Update Database Script
+-- *********************************************************************
+-- Change Log: ./updates/update.xml
+-- Ran at: 7/19/10 8:12 PM
+-- Against: kuldemo@jdbc:mysql://localhost:3306/kuldemo
+-- LiquiBase version: 1.9.5
+-- *********************************************************************
+
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-1::Bonnie::(MD5Sum: 8db3705358029ca712c4ea359dbb66)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_TRAN_HLDG_LOT_T` DROP FOREIGN KEY `END_TRAN_HLDG_LOT_TR2`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-2::Bonnie::(MD5Sum: 7164792ace53164467fc5ddd55f5cbc)
+-- create Endowment tables and sequences in KULDBA
+DELETE FROM `END_HLDG_TAX_LOT_T`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-3::Bonnie::(MD5Sum: f8a61c2388d34636d772683a47e47c6)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_T` DROP FOREIGN KEY `END_HLDG_TAX_LOT_TR4`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-4::Bonnie::(MD5Sum: 7ea616e73df440a7d4ba498c20104f4)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_T` DROP FOREIGN KEY `END_HLDG_TAX_LOT_TR3`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-5::Bonnie::(MD5Sum: 25b2e4f2be5137135f242f16c6d22eeb)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_T` DROP FOREIGN KEY `END_HLDG_TAX_LOT_TR2`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-6::Bonnie::(MD5Sum: 1bd9b92adbef1f6538dcad9d2365e25)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_T` DROP FOREIGN KEY `END_HLDG_TAX_LOT_TR1`;
+
+DROP TABLE `END_HLDG_TAX_LOT_REBAL_T`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-6b::Bonnie::(MD5Sum: 594a34ba4de54c5eb8f16a76f4e2f753)
+-- create Endowment tables and sequences in KULDBA
+DROP TABLE `END_HLDG_TAX_LOT_REBAL_T`;
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-7::Bonnie::(MD5Sum: 1596c118164445911ef5a7a1537cb796)
+-- create Endowment tables and sequences in KULDBA
+CREATE TABLE `END_HLDG_TAX_LOT_REBAL_T` (`KEMID` VARCHAR(10) NOT NULL, `SEC_ID` VARCHAR(9) NOT NULL, `REGIS_CD` VARCHAR(4) NOT NULL, `HLDG_IP_IND` VARCHAR(1) NOT NULL, `TOT_HLDG_LOT_NBR` DECIMAL(4,0) DEFAULT '0' NOT NULL, `TOT_HLDG_UNITS` DECIMAL(16,4) DEFAULT '0.0000' NOT NULL, `TOT_HLDG_COST` DECIMAL(19,2) DEFAULT '0.00' NOT NULL, `VER_NBR` DECIMAL(8,0) DEFAULT '1' NOT NULL, `OBJ_ID` VARCHAR(36) NOT NULL);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-8::Bonnie::(MD5Sum: abd01e3954d6c76bb4fbd923bc94837)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_REBAL_T` ADD PRIMARY KEY (`KEMID`, `SEC_ID`, `REGIS_CD`, `HLDG_IP_IND`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-9::Bonnie::(MD5Sum: 238df7f0b143955019bafd22414a46f8)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_REBAL_T` ADD CONSTRAINT `END_HLDG_TAX_LOT_REBAL_TR1` FOREIGN KEY (`KEMID`) REFERENCES `END_KEMID_T`(`KEMID`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-10::Bonnie::(MD5Sum: 85c37378ef87791dbaf794813d0ba5d)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_REBAL_T` ADD CONSTRAINT `END_HLDG_TAX_LOT_REBAL_TR2` FOREIGN KEY (`REGIS_CD`) REFERENCES `END_REGIS_CD_T`(`REGIS_CD`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-11::Bonnie::(MD5Sum: 11e8b81788525c577a7aa89b8a21962)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_REBAL_T` ADD CONSTRAINT `END_HLDG_TAX_LOT_REBAL_TR3` FOREIGN KEY (`SEC_ID`) REFERENCES `END_SEC_T`(`SEC_ID`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-12::Bonnie::(MD5Sum: 42c240c4e41252ea5b3da6c86278efa1)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_REBAL_T` ADD CONSTRAINT `END_HLDG_TAX_LOT_REBAL_TR4` FOREIGN KEY (`HLDG_IP_IND`) REFERENCES `END_IP_IND_T`(`IP_IND_CD`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-13::Bonnie::(MD5Sum: ada7aecdda439356882d39d91a2fdcc8)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_HLDG_TAX_LOT_T` ADD CONSTRAINT `END_HLDG_TAX_LOT_TR1` FOREIGN KEY (`KEMID`, `SEC_ID`, `REGIS_CD`, `HLDG_IP_IND`) REFERENCES `END_HLDG_TAX_LOT_REBAL_T`(`KEMID`, `SEC_ID`, `REGIS_CD`, `HLDG_IP_IND`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-14::Bonnie::(MD5Sum: b25dd9a56743e9610e4232c4b761bc)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 20, '094420981', uuid(), 10000, '0NI', '032A017014', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-15::Bonnie::(MD5Sum: 6da12d89e2fb4764f3b69f71ca3dc83)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 282586, '99MMKT013', uuid(), 282586, '0AI', '032A017014', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-16::Bonnie::(MD5Sum: fee050e9b0c88671f73334127cf8e6f0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 23123, '99PSTF018', uuid(), 23123, '0AI', '032A017014', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-17::Bonnie::(MD5Sum: 102fa93e5d5462b632ed1d54843248b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 10000, 'REHUNT017', uuid(), 10000, 'REI', '032A017014', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-18::Bonnie::(MD5Sum: 1813acc8b4b483851f471a397f21b550)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2012, '99PLTF013', uuid(), 196385, '0CI', '032AS06149', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-19::Bonnie::(MD5Sum: dfc0ca20556bd78af32cf88a95b583ca)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 488, '99PSTF018', uuid(), 488, '0AI', '032AS06149', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-20::Bonnie::(MD5Sum: cba1e09add4a48e61a336348d636f5eb)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 8163, '99PLTF013', uuid(), 885073, '0CI', '032AS08053', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-21::Bonnie::(MD5Sum: 173579870b844f7b552a890cab8e08a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 33997, '99PSTF018', uuid(), 33997, '0AI', '032AS08053', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-22::Bonnie::(MD5Sum: f8588bdec9344e63209e1e695ebcad)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4111, '99PLTF013', uuid(), 440453, '0CI', '032AS11040', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-23::Bonnie::(MD5Sum: b0f54d28b0a096438ab9de545d2c55bf)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 15714, '99PSTF018', uuid(), 15714, '0AI', '032AS11040', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-24::Bonnie::(MD5Sum: 4ad2c3d447e569df8fa89135a73954d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 26279, '99PSTF018', uuid(), 26279, '0AI', '032B011354', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-25::Bonnie::(MD5Sum: e9df15df3a5e21a4f1d2eebc0f8390)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 3949, '99PSTF018', uuid(), 3949, '0AI', '032D008242', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-26::Bonnie::(MD5Sum: 74ae70c5e63ee1a0d5a5b056522c9bdc)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 264110, '99PLTF013', uuid(), 29720727, '0CI', '032L006015', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-27::Bonnie::(MD5Sum: efcd83d1fa25e254764965537c21b68)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 112930, '99PSTF018', uuid(), 112930, '0AI', '032L006015', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-28::Bonnie::(MD5Sum: d65b9d60f7334967574e423b75faced5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 22461, '99PSTF018', uuid(), 22461, '0AI', '032L006098', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-29::Bonnie::(MD5Sum: b2c232a115894046adc93e32d4d1b38a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4109, '99PSTF018', uuid(), 4109, '0AI', '032P002085', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-30::Bonnie::(MD5Sum: e2d27b3e5d774b90181aceca8786e571)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 227, '99PSTF018', uuid(), 227, '0AI', '032P002101', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-31::Bonnie::(MD5Sum: e7594d32fa5c667487fa5a3eefb7427)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2651, '99PLTF013', uuid(), 277324, '0CI', '032P011045', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-32::Bonnie::(MD5Sum: a89caa39abb73dc4211ea0cf59716aff)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 11, '99PSTF018', uuid(), 11, '0AI', '032P011045', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-33::Bonnie::(MD5Sum: 7d5ec279324a2995839c15a5580097)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 25914, '99PLTF021', uuid(), 2597399, '0CP', '037A014184', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-34::Bonnie::(MD5Sum: 21b1287388d9da9eddd74972aab8d5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 74918, '99PLTF013', uuid(), 8839125, '0CI', '037A017013', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-35::Bonnie::(MD5Sum: dbd69b6a58bbd1356dc136f3b2677)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20578908, '99PLTF021', uuid(), 210864529, '0CP', '037A017013', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-36::Bonnie::(MD5Sum: b85d716629b1a4ee7735b5e987f2bd38)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2578445, '99PSTF018', uuid(), 2578445, '0AI', '037A017013', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-37::Bonnie::(MD5Sum: 33fdc74e41b915c52e3ebd1fa91d6fee)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 253822, '99PLTF021', uuid(), 30100695, '0CP', '037AS12302', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-38::Bonnie::(MD5Sum: fb8267caaddc9c35f6ab4f9e93bf63)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 32464, '99PSTF018', uuid(), 32464, '0AI', '037AS12302', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-39::Bonnie::(MD5Sum: f896259d251b45e6a5e9db1db22e34b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 113013, '99PLTF021', uuid(), 14038855, '0CP', '037AS34082', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-40::Bonnie::(MD5Sum: 42e44910ff1288472c6adbed1897cea)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 19352, '99PSTF018', uuid(), 19352, '0AI', '037AS34082', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-41::Bonnie::(MD5Sum: 66e2ed68f86b46d9d115b4b7b86e42e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 6147, '99PLTF021', uuid(), 6147, '0CP', '037AS35022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-42::Bonnie::(MD5Sum: 6cffc1735e97d54daf063256b69e4)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 633, '99PSTF018', uuid(), 633, '0AI', '037AS35022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-43::Bonnie::(MD5Sum: 8eb841f364984c962aba49824bb2b86b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3927, '99PLTF021', uuid(), 394918, '0CP', '037AS36012', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-44::Bonnie::(MD5Sum: e337918516ea763e6bf4064e3ae61)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 987, '99PSTF018', uuid(), 987, '0AI', '037AS36012', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-45::Bonnie::(MD5Sum: 7293af42c1f1ca898f2b6b2ee7fe8)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4479, '99PLTF013', uuid(), 4479, '0CI', '037AS38026', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-46::Bonnie::(MD5Sum: f2aaea1a4d37f4eddf6342fac117e31)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1023447, '99PLTF021', uuid(), 104659208, '0CP', '037AS38026', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-47::Bonnie::(MD5Sum: 228167404177b2927752b4aa3fbfba3c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 128155, '99PSTF018', uuid(), 128155, '0AI', '037AS38026', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-48::Bonnie::(MD5Sum: 13c48ce979e521ea41882e5701d72d1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 40049, '99PLTF021', uuid(), 5254176, '0CP', '037AS54239', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-49::Bonnie::(MD5Sum: 6825587bfe8b713d0979df7fa64d5b0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4743, '99PSTF018', uuid(), 4743, '0AI', '037AS54239', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-50::Bonnie::(MD5Sum: 125ed9857eb30c578b494fb7a34d72)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 9337, '99PLTF021', uuid(), 957973, '0CP', '037B011AG1', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-51::Bonnie::(MD5Sum: ae191e13148121f76417325469ebacc3)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 692005, '99PLTF021', uuid(), 5999995, '0CP', '037B012161', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-52::Bonnie::(MD5Sum: d6481d87f5b75deae978a826cb3b9a12)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 261487, '99PSTF018', uuid(), 261487, '0AI', '037B012161', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-53::Bonnie::(MD5Sum: 50699ffe4482d9c8b1f2f7861c1df8)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 16506, '99PLTF021', uuid(), 2100407, '0CP', '037E009701', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-54::Bonnie::(MD5Sum: f5b66e4b43299f2028766f6580f35dd9)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 11562, '99PSTF018', uuid(), 11562, '0AI', '037E009701', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-55::Bonnie::(MD5Sum: 2fc5639e1329e6d1e441b7b7fd027ae)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 128280, '99PLTF021', uuid(), 10795685, '0CP', '037E009727', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-56::Bonnie::(MD5Sum: ee4ca2588e2dabf5494853b498c759d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 18854, '99PSTF018', uuid(), 18854, '0AI', '037E009727', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-57::Bonnie::(MD5Sum: e5cc7361f68f6ff9caa4b1dd0591b1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 19149, '99PLTF021', uuid(), 19149, '0CP', '037F002010', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-58::Bonnie::(MD5Sum: 450f9296226b59798582a690ab464)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 20417, '99PSTF018', uuid(), 20417, '0AI', '037F002010', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-59::Bonnie::(MD5Sum: f163768db9914515696b8a86cf99650)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 538900, '99PLTF021', uuid(), 57465572, '0CP', '037G003785', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-60::Bonnie::(MD5Sum: d9af3e94e6f41b5e2bdd131da21adf1e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 29294, '99PLTF021', uuid(), 2735931, '0CP', '037G030812', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-61::Bonnie::(MD5Sum: fa5fb277937656685fdc9867f5263e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 9251, '99PSTF018', uuid(), 9251, '0AI', '037G030812', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-62::Bonnie::(MD5Sum: 1e68b179edb3cda2b6876514c26bb)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 24760, '99PLTF021', uuid(), 268985, '0CP', '037H004261', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-63::Bonnie::(MD5Sum: d6ea645998819355964f231b418cd7)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2928, '99PSTF018', uuid(), 2928, '0AI', '037H004261', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-64::Bonnie::(MD5Sum: c36624fa1e46385231bfc395776178e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 55650, '99PLTF021', uuid(), 5772464, '0CP', '037I002512', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-65::Bonnie::(MD5Sum: 1572d5e763eaa44f465046f8f4f3bbeb)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4634, '99PSTF018', uuid(), 4634, '0AI', '037I002512', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-66::Bonnie::(MD5Sum: 1a5dbca96a559235a7752fab36688ad)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2050, '99PLTF013', uuid(), 2050, '0CI', '037K008284', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-67::Bonnie::(MD5Sum: 8ae384ad3388174b8b8a4ddac4e7c26)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 310135, '99PLTF021', uuid(), 31828087, '0CP', '037K008284', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-68::Bonnie::(MD5Sum: f44f755e6e5e3c8f79c112274012bdb6)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 14665, '99PSTF018', uuid(), 14665, '0AI', '037K008284', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-69::Bonnie::(MD5Sum: 4a539a4224f265b5f3e8eb66e49e37cd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 13500, '99OTHER14', uuid(), 13500, 'MAP', '037L006493', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-70::Bonnie::(MD5Sum: e943549a25f3783f2dabbd5f96c2292a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 53330, '99PLTF013', uuid(), 5598689, '0CI', '037L006493', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-71::Bonnie::(MD5Sum: 3f7680298ebc73ce576d48f5e9b5562)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 221721, '99PLTF021', uuid(), 221721, '0CP', '037L006493', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-72::Bonnie::(MD5Sum: 52fa23b5198eb6d3c977c334d19f46c5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 27230, '99PSTF018', uuid(), 27230, '0AI', '037L006493', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-73::Bonnie::(MD5Sum: 28b0e683aeb5aaf7a923ca36b448c7e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 105147, '99PLTF021', uuid(), 12195451, '0CP', '037L006709', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-74::Bonnie::(MD5Sum: 2461ba5689f32ef11747f9bc0474baf)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 37652, '99PLTF013', uuid(), 4619232, '0CI', '037MDER022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-75::Bonnie::(MD5Sum: e16fb02c90bf9f2c75e4a6ad1719f633)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 404406, '99PLTF021', uuid(), 42720556, '0CP', '037MDER022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-76::Bonnie::(MD5Sum: f86556de113bb7616a6d09645675a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 26225, '99PSTF018', uuid(), 26225, '0AI', '037MDER022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-77::Bonnie::(MD5Sum: 1c664c2cce1c49fb89911f2bce3dcc)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1697, '99PLTF013', uuid(), 186239, '0CI', '037MDSL103', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-78::Bonnie::(MD5Sum: aa805737e9ca84e8c4279d8bae19c18)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 143821, '99PLTF021', uuid(), 1462601, '0CP', '037MDSL103', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-79::Bonnie::(MD5Sum: a3e91666f29dccfc2b9fdd25b891fd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 9902, '99PSTF018', uuid(), 9902, '0AI', '037MDSL103', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-80::Bonnie::(MD5Sum: 657f82d17d6c20a7ba47f84829428)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 34623, '99PLTF013', uuid(), 3617259, '0CI', '037MMED197', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-81::Bonnie::(MD5Sum: bcdf6becc9b687a54266f4cba2a526e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 118959, '99PLTF021', uuid(), 13099813, '0CP', '037MMED197', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-82::Bonnie::(MD5Sum: ad52db9b5a7f389e9725ffa933eb385)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 26184, '99PSTF018', uuid(), 26184, '0AI', '037MMED197', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-83::Bonnie::(MD5Sum: cfda1d2ca338fb58c3c4e4253116674)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 87955, '99PLTF021', uuid(), 9912457, '0CP', '037MPHC132', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-84::Bonnie::(MD5Sum: ebfafd25cd9935ea6bf81ffbaa4b5ea)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 11016, '99PSTF018', uuid(), 11016, '0AI', '037MPHC132', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-85::Bonnie::(MD5Sum: 97ce439d447fb658335bd9f4a0a6fd58)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 19, '99PLTF013', uuid(), 1978, '0CI', '037O009148', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-86::Bonnie::(MD5Sum: a8c9f599fb34c79f69c336da023be29)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 11660, '99PLTF021', uuid(), 1203268, '0CP', '037O009148', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-87::Bonnie::(MD5Sum: 80f6fec2fd4b12ccb1884b9b92415c94)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1591, '99PSTF018', uuid(), 1591, '0AI', '037O009148', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-88::Bonnie::(MD5Sum: 24445f459e9188aef0a0b1bc48b4df9)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 19347, '99PLTF021', uuid(), 2365198, '0CP', '037P003108', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-89::Bonnie::(MD5Sum: 2c8a2bc20f674bfb9e44f58f25c2b6)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1553, '99PSTF018', uuid(), 1553, '0AI', '037P003108', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-90::Bonnie::(MD5Sum: 1a9ae46ff8cbd2219a4d23506bdd51)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 412307, '99PLTF021', uuid(), 43427191, '0CP', '037P004148', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-91::Bonnie::(MD5Sum: 1557c122b764bbd79da86e170aab75)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 43603, '99PSTF018', uuid(), 43603, '0AI', '037P004148', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-92::Bonnie::(MD5Sum: bff2d78f8dbf3214ccb713d56a9c2073)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 209, '99PLTF013', uuid(), 23874, '0CI', '037P011291', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-93::Bonnie::(MD5Sum: fa4be7136d2fc25406a4359f3fc2774)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 18937, '99PLTF021', uuid(), 2008402, '0CP', '037P011291', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-94::Bonnie::(MD5Sum: b16631d1cf48432fb4efd30f2619f88)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1360, '99PSTF018', uuid(), 1360, '0AI', '037P011291', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-95::Bonnie::(MD5Sum: 16ecf3c1a6a06d6431dadec65949353)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037P011291', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-96::Bonnie::(MD5Sum: d1a95fe794c7aad9fdc3f2a3e28963cf)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 12647, '99PLTF021', uuid(), 1292767, '0CP', '037RQ04222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-97::Bonnie::(MD5Sum: 58fe3158b762fc353a7b33ddac7cd65c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1202, '99PSTF018', uuid(), 1202, '0AI', '037RQ04222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-98::Bonnie::(MD5Sum: d395a5f79228a979527bc2ef3b18c0fd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037RQ04222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-99::Bonnie::(MD5Sum: a0fb982122cf9bcce99fb1d60f5e21b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 9266, '99PLTF021', uuid(), 97772, '0CP', '037RT04333', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-100::Bonnie::(MD5Sum: 2181edafc112e1fec3b12c78177af71e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1922, '99PSTF018', uuid(), 1922, '0AI', '037RT04333', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-101::Bonnie::(MD5Sum: 83412161dc6bf59b31b84e65efb92ff)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037RT04333', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-102::Bonnie::(MD5Sum: 12e89ace696abada3d4831b1be819f)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 42285, '99PLTF021', uuid(), 4096899, '0CP', '037S012056', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-103::Bonnie::(MD5Sum: eb6e788380355a31f0ec775f5ce05dfa)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 6813, '99PSTF018', uuid(), 6813, '0AI', '037S012056', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-104::Bonnie::(MD5Sum: c1485158e1a7b64ef38d5312b47333d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037S012056', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-105::Bonnie::(MD5Sum: 9916607b7ee210d41849f9777a7841)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 125014, '99PLTF021', uuid(), 12129251, '0CP', '037SC00501', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-106::Bonnie::(MD5Sum: bf65fce37eab16f152b2dfa0ffffa1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 10472, '99PSTF018', uuid(), 10472, '0AI', '037SC00501', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-107::Bonnie::(MD5Sum: 8ab86817a371f2bbfea0806019eeae22)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037SC00501', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-108::Bonnie::(MD5Sum: 91c2ba27c8bb9450e1f93846c5c5364)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 312, '99PLTF013', uuid(), 35066, '0CI', '037V009140', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-109::Bonnie::(MD5Sum: e2ffc694be691994f0bc76974ba610)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10484, '99PLTF021', uuid(), 1126978, '0CP', '037V009140', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-110::Bonnie::(MD5Sum: 5833b66826ed67b7e124f11d533f77)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 3342, '99PSTF018', uuid(), 3342, '0AI', '037V009140', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-111::Bonnie::(MD5Sum: 73a1eb1d1c4adbee4b36b8beaa8fb7)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 0, '99PSTF034', uuid(), 0, '0AP', '037V009140', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-112::Bonnie::(MD5Sum: 4922ba1b8c36d60531b2731ebe2b3a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 7422, '99PLTF013', uuid(), 816689, '0CI', '037V010080', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-113::Bonnie::(MD5Sum: 18fc358382c7bad58c23441df29f90)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 86528, '99PLTF021', uuid(), 100320, '0CP', '037V010080', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-114::Bonnie::(MD5Sum: 83e2894f16fc3c506ac17ff22c992d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 3512, '99PSTF018', uuid(), 3512, '0AI', '037V010080', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-115::Bonnie::(MD5Sum: e96c1554bff758ef5d9ff9c82d5d3522)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 269322, '99PLTF021', uuid(), 32033458, '0CP', '037WHMM024', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-116::Bonnie::(MD5Sum: bd18a81bcf7112e543710459f3de4ed)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 27447, '99PSTF018', uuid(), 27447, '0AI', '037WHMM024', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-117::Bonnie::(MD5Sum: 81fcae3fed0c6fc99811c849129b73b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 239, '99PLTF013', uuid(), 28319, '0CI', '037X002044', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-118::Bonnie::(MD5Sum: b2393d80d6fbec865e83b6e474c71957)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 586760, '99PLTF021', uuid(), 586760, '0CP', '037X002044', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-119::Bonnie::(MD5Sum: 5f77adc4ee282036c880632bb6315ec5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 17964, '99PSTF018', uuid(), 17964, '0AI', '037X002044', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-120::Bonnie::(MD5Sum: f2fc2eb985b6d79eb89bd33c5a7f425)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 401512, '99MMKT013', uuid(), 401512, '0AI', '038A017011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-121::Bonnie::(MD5Sum: 17408e3d5b9b8354c8df4076b512e4f1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 4717403, '99PLTF021', uuid(), 582054838, '0CP', '038A017011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-122::Bonnie::(MD5Sum: 8a5f59fcf356a191f2c4113cdcfe33a2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 53943, '99PSTF018', uuid(), 53943, '0AI', '038A017011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-123::Bonnie::(MD5Sum: 4a38ec186a39e4c19b11326a2694ef)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 321504, '99PLTF021', uuid(), 35921653, '0CP', '038AS00057', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-124::Bonnie::(MD5Sum: bc095983833f08411d8da27652ae73c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 175299, '99PSTF018', uuid(), 175299, '0AI', '038AS00057', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-125::Bonnie::(MD5Sum: 9518bb2173459bca36942ddb7f56e34)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 23960, '99PLTF021', uuid(), 2509962, '0CP', '038AS06237', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-126::Bonnie::(MD5Sum: 29b678d0259a4b6a74622ec2a5a9715)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2388, '99PSTF018', uuid(), 2388, '0AI', '038AS06237', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-127::Bonnie::(MD5Sum: fd99a5fca2bdd89525e73a84c685be4)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 250, '99PETTY12', uuid(), 250, 'MAI', '038AS17028', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-128::Bonnie::(MD5Sum: 3a719302b9d1d94b8195fcdacf7b1d2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 191365, '99PLTF021', uuid(), 22202021, '0CP', '038AS17028', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-129::Bonnie::(MD5Sum: a820bd561dcd2d3f61e0b45b64c5519e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 7034, '99PSTF018', uuid(), 7034, '0AI', '038AS17028', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-130::Bonnie::(MD5Sum: 48e513dd4b36522260a8f35aa4e1f)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 7, '99PLTF021', uuid(), 7, '0CP', '038AS53023', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-131::Bonnie::(MD5Sum: 6cdd1ef02a4f975173334568cea05393)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 122000, 'REBROWN17', uuid(), 122000, 'REP', '038AS53023', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-132::Bonnie::(MD5Sum: fa892254dab811640eb896bcc691bb3)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 3114, '99PLTF013', uuid(), 329844, '0CI', '038B011179', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-133::Bonnie::(MD5Sum: a1195dd333648bc377427c9d33c71cd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 384528, '99PLTF021', uuid(), 48381205, '0CP', '038B011179', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-134::Bonnie::(MD5Sum: 277d6acf61ade9bdac4cf79739182a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 54713, '99PSTF018', uuid(), 54713, '0AI', '038B011179', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-135::Bonnie::(MD5Sum: 1be5bfc1a802c1169450cc3386ef7)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10894, '99PLTF021', uuid(), 1289852, '0CP', '038CC00118', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-136::Bonnie::(MD5Sum: 646bcff5d1564b02ebd23357bb96ec1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 5426, '99PSTF018', uuid(), 5426, '0AI', '038CC00118', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-137::Bonnie::(MD5Sum: c1944394b12db3acdd485c19042551c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2000, '99STULN13', uuid(), 2000, 'MAI', '038CC00118', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-138::Bonnie::(MD5Sum: 50e698ab32242b75880eb6877d8417a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 8479, '99PLTF021', uuid(), 930807, '0CP', '038D008041', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-139::Bonnie::(MD5Sum: 85b1c02d31d94bf409c846a55deac5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 7321, '99PSTF018', uuid(), 7321, '0AI', '038D008041', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-140::Bonnie::(MD5Sum: ea6d821c5a6960a2cf27af5df616b99d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 15500, '99STULN13', uuid(), 15500, 'MAI', '038D008041', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-141::Bonnie::(MD5Sum: 3f27ab9b31626c2a8ac7d789825a7854)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1053807, '99PLTF013', uuid(), 124563056, '0CI', '038E009022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-142::Bonnie::(MD5Sum: 31ce447121e79138bb2a2ebd733b7125)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3585772, '99PLTF021', uuid(), 359786572, '0CP', '038E009022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-143::Bonnie::(MD5Sum: 998f19227ead3ab6e278d88638aa4b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 554077, '99PSTF018', uuid(), 554077, '0AI', '038E009022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-144::Bonnie::(MD5Sum: 8adb0356c3796d5eeb3a8e8f6b584b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 7600, 'REBURREL4', uuid(), 7600, 'REP', '038E009022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-145::Bonnie::(MD5Sum: 5d9cdfd43cf74e0fcd6dd9bf533295d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 328809, '99PLTF021', uuid(), 34982358, '0CP', '038F002075', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-146::Bonnie::(MD5Sum: e350bf8e6769784c4a2ec9ce4e5bc2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 10670, '99PSTF018', uuid(), 10670, '0AI', '038F002075', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-147::Bonnie::(MD5Sum: 1c2c64c3fc2dd8ad2c16cd3b908ef6)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 524459, '99ITRCIF3', uuid(), 524459, 'MAI', '038G003452', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-148::Bonnie::(MD5Sum: 496bfb61436cd8b89c2645c480c4c919)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 14000, '99NTRCIF7', uuid(), 14000, 'MAI', '038G003452', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-149::Bonnie::(MD5Sum: ec1802a3f146e8c7ca976e72eb38a32)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 267707, '99PLTF021', uuid(), 2895974, '0CP', '038G003452', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-150::Bonnie::(MD5Sum: dfe6fd77d3ccc685d27aee8e060729d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 444652, '99PSTF018', uuid(), 444652, '0AI', '038G003452', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-151::Bonnie::(MD5Sum: fad9eb60c637496f805380134c92fb76)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 486542, '99CSVLIF6', uuid(), 486542, 'MAP', '038IU09022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-152::Bonnie::(MD5Sum: 81b99950ef2a8150ee53b7d0d75263cc)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 743007, '99PLTF013', uuid(), 81596416, '0CI', '038IU09022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-153::Bonnie::(MD5Sum: 7d3a13d5a5b4ea79961812608ad8e8f)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 14210896, '99PLTF021', uuid(), 1423562833, '0CP', '038IU09022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-154::Bonnie::(MD5Sum: 63a3ce637eee4df8f93c1bf2021a135)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 627285, '99PSTF018', uuid(), 627285, '0AI', '038IU09022', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-155::Bonnie::(MD5Sum: b951122be9587b8f3f2e241e87215b3)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2414, '99PETTY12', uuid(), 2414, 'MAI', '038K008027', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-156::Bonnie::(MD5Sum: 6825bb731ec8dc94c014cb959952a79)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 255129, '99PLTF021', uuid(), 29121833, '0CP', '038K008027', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-157::Bonnie::(MD5Sum: 6fe4512cb87a419b5cbdfedf5b11b1e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 879748, '99PSTF018', uuid(), 879748, '0AI', '038K008027', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-158::Bonnie::(MD5Sum: 21b2f3c1415dee8d9fcb5315289795b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 19564, '99PLTF021', uuid(), 2172453, '0CP', '038L006228', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-159::Bonnie::(MD5Sum: b9ff5102c12fba9603b63a8d05e9e85)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 11819, '99PSTF018', uuid(), 11819, '0AI', '038L006228', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-160::Bonnie::(MD5Sum: 6057ce6af86e731524e99fae492e9b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 873, '99PLTF013', uuid(), 102915, '0CI', '038MCCC134', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-161::Bonnie::(MD5Sum: df5a2c9b173ed14453ffbf3c62a3fc2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 4656, '99PLTF021', uuid(), 418999, '0CP', '038MCCC134', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-162::Bonnie::(MD5Sum: b4adc0828f1d809aaead9e3e555a7bca)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 16569, '99PSTF018', uuid(), 16569, '0AI', '038MCCC134', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-163::Bonnie::(MD5Sum: e0ceef2845f3594c4580236517f82b3)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 537, '99PLTF021', uuid(), 68289, '0CP', '038MDSL325', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-164::Bonnie::(MD5Sum: 3229e4d742f8435a710f6cc2b93853)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 558062, '99PSTF018', uuid(), 558062, '0AI', '038MDSL325', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-165::Bonnie::(MD5Sum: 4145d536053febe68f6d4288e1989c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 11281, '99PLTF021', uuid(), 1470998, '0CP', '038MPHC072', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-166::Bonnie::(MD5Sum: 62c3fd6fb1cc86468b0ed57e4782dc)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1238, '99PSTF018', uuid(), 1238, '0AI', '038MPHC072', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-167::Bonnie::(MD5Sum: a8ae10f739c4d1f827abe87c22732e61)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 2112, '99PLTF013', uuid(), 228849, '0CI', '038MSCI011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-168::Bonnie::(MD5Sum: 614649073dca16dc1e8e753743fda)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 8967, '99PLTF021', uuid(), 903122, '0CP', '038MSCI011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-169::Bonnie::(MD5Sum: 6cd9a28ee14385a62de16946b72165)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 302, '99PSTF018', uuid(), 302, '0AI', '038MSCI011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-170::Bonnie::(MD5Sum: 6b3611b2ca92756c67cfd248a1b3a5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 217, '99PLTF013', uuid(), 24902, '0CI', '038N008222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-171::Bonnie::(MD5Sum: ff2a7dac628fcc4d45f35ad96f215b1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 17558, '99PLTF021', uuid(), 200499, '0CP', '038N008222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-172::Bonnie::(MD5Sum: 6849525393c2b3bd4e8667585945845)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 567, '99PSTF018', uuid(), 567, '0AI', '038N008222', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-173::Bonnie::(MD5Sum: 81ff1d40289f21a1bb5e35dc55f3e35)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 75, '99PLTF013', uuid(), 8694, '0CI', '038P011463', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-174::Bonnie::(MD5Sum: 83c8eca04cae568785e224c241717)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 78, '99PLTF021', uuid(), 9999, '0CP', '038P011463', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-175::Bonnie::(MD5Sum: 7cde2045e49a3cbfdd7b591950b012e0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 9999, '99PSTF018', uuid(), 9999, '0AI', '038P011463', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-176::Bonnie::(MD5Sum: caf268ac969044dc84b1fe49119fa11b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 51475, '99PLTF021', uuid(), 51475, '0CP', '038RPS1012', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-177::Bonnie::(MD5Sum: 4c4e597ed0d81ca0c1e2d3e96b2f2a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 15024, '99PSTF018', uuid(), 15024, '0AI', '038RPS1012', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-178::Bonnie::(MD5Sum: 4c1f644b45acaa282141ab882bee0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 41203, '99PLTF013', uuid(), 4999943, '0CI', '038RQ04162', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-179::Bonnie::(MD5Sum: a8448930c3f90ef8a8f642de4578ea4)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1058317, '99PLTF021', uuid(), 10582827, '0CP', '038RQ04162', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-180::Bonnie::(MD5Sum: de13947555bfd887b1a131754e44ec49)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 82768, '99PSTF018', uuid(), 82768, '0AI', '038RQ04162', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-181::Bonnie::(MD5Sum: d5f2f24fe67280c4e03492fd50a3bf26)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 28952, '99PLTF021', uuid(), 2895194, '0CP', '038RR04087', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-182::Bonnie::(MD5Sum: e68825c32cfd99138c6423cc27f769e9)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 4241, '99PSTF018', uuid(), 4241, '0AI', '038RR04087', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-183::Bonnie::(MD5Sum: f2fe6599ba7e443b3f38af1233adc524)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 49193, '99PLTF021', uuid(), 4970713, '0CP', '038RT04091', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-184::Bonnie::(MD5Sum: 3945f719fa1dc4c919562996c91aa8d5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 67693, '99PSTF018', uuid(), 67693, '0AI', '038RT04091', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-185::Bonnie::(MD5Sum: c19f93bc21fbe2fa7221f311880df3b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 139633, '99PLTF021', uuid(), 1559302, '0CP', '038RV04351', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-186::Bonnie::(MD5Sum: 91ba418d30b14ab6c9703490f8a78c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 24021, '99PSTF018', uuid(), 24021, '0AI', '038RV04351', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-187::Bonnie::(MD5Sum: 597f4fe8f74f7134ea1234eb71c24d4)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1369, '99PLTF021', uuid(), 135341, '0CP', '038SC01010', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-188::Bonnie::(MD5Sum: ffbad4eaecb5396b95eb13a76b1a3e3)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('I', 1128, '99PSTF018', uuid(), 1128, '0AI', '038SC01010', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-189::Bonnie::(MD5Sum: 22c3b09acb81da7572c9fd97ca293)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 174632, '99PLTF021', uuid(), 18962952, '0CP', '046G007720', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-190::Bonnie::(MD5Sum: dbd49faae2d5f3d82d59cdda8a7f317)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 101612350, '99PLTF997', uuid(), 1265310034, '0CP', '099PLTF013', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-191::Bonnie::(MD5Sum: e77d4a2593dd151256d5e561b5b6b0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1229456642, '99PLTF997', uuid(), 1527150615, '0CP', '099PLTF021', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-192::Bonnie::(MD5Sum: 725f8a42b93070d97c8e73383682e4a9)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1550, '023184203', uuid(), 3875, '0OP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-193::Bonnie::(MD5Sum: 6f693a1cb46bb4d1fb8f99c15fc5ce2e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 45600, '04314Z998', uuid(), 32957443, '0OP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-194::Bonnie::(MD5Sum: 401248f83f6179b8942618b7e4a6dc94)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 284072, '610313108', uuid(), 10731599, '0OP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-195::Bonnie::(MD5Sum: acb4297a7f4335375ebfe5687a2f23)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 7987124244, '99ALPHTL4', uuid(), 7987124244, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-196::Bonnie::(MD5Sum: 977528593e1b5616dddbeb9fed90a761)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3212913248, '99ARTIS28', uuid(), 3212913247, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-197::Bonnie::(MD5Sum: a65ee2ca8cf58e6f20ae5bb2cc1b3c4)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 41000000, '99BERNST8', uuid(), 41000000, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-198::Bonnie::(MD5Sum: cc50955042adb3760cc5ab86c507b48)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3423344471, '99BGI0014', uuid(), 3423345037, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-199::Bonnie::(MD5Sum: 862a2b259e681efe89f45cf5998138)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 16264, '99CHAMP14', uuid(), 16264, '0FP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-200::Bonnie::(MD5Sum: 76db1a6ca552b5cef0c4354397da1679)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 312107546, '99CHAMP22', uuid(), 312107546, '0FP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-201::Bonnie::(MD5Sum: 45e0fc83f4f28eb324feed6bdfb90f5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 273268508, '99CHAMPL0', uuid(), 273268508, '0FP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-202::Bonnie::(MD5Sum: 238ad5bc7185fc7f133cf8d827f803)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 14017797, '99CLIFTN0', uuid(), 14017797, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-203::Bonnie::(MD5Sum: d31bebeb7117c22dcf54ea35d2e586bf)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 4249434559, '99CRM0014', uuid(), 4249434559, '0KP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-204::Bonnie::(MD5Sum: 8820408e9379a0506d4852cdadff291e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 287950323, '99CRM0022', uuid(), 287950323, '0KP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-205::Bonnie::(MD5Sum: b9d4cb581ab4a2afd41b22e2a8bb60)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 14860, '99CRM0030', uuid(), 14860, '0KP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-206::Bonnie::(MD5Sum: 3e6a1cb4e5bc50d84be61b9760ae80d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10000000, '99DFAEME0', uuid(), 10000000, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-207::Bonnie::(MD5Sum: 974763ea22bbd2c4eea93bb52bae85d2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 58000000, '99DIMFND9', uuid(), 58000000, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-208::Bonnie::(MD5Sum: ef2a984462cab36f349c79652efbd73)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3592731253, '99LOOMI12', uuid(), 3592731253, '0WP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-209::Bonnie::(MD5Sum: 9883121a83b979de326fd6844323070)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 128299253, '99LOOMI20', uuid(), 128299253, '0WP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-210::Bonnie::(MD5Sum: 382a6eaaaae05ef19fc38f911ffdfb44)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 85310679, '99LOOMI38', uuid(), 85310679, '0WP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-211::Bonnie::(MD5Sum: 23e81b44eac8d35571ed7411cbc5d97)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 557925108, '99LOOMI46', uuid(), 557925108, '0WP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-212::Bonnie::(MD5Sum: dafc56fc3b58eedde88caa4382378629)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 21553732, '99LOOMI53', uuid(), 21553732, '0WP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-213::Bonnie::(MD5Sum: 6d6af28b2b64ab36d72acfae762a2c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3802614808, '99PIMCO00', uuid(), 3802614808, '0YP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-214::Bonnie::(MD5Sum: 2119a44f70bc5ad9d5853298e2884e3e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 916834869, '99PIMCO26', uuid(), 916834869, '0YP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-215::Bonnie::(MD5Sum: f4c7cae9c567b4776eb17a639146f3f)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 52986037, '99PIMCO34', uuid(), 52986037, '0YP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-216::Bonnie::(MD5Sum: 8147dc2aec208cfae8fb522a6945457b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 2251894035, '99PIMCO42', uuid(), 2251894035, '0YP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-217::Bonnie::(MD5Sum: a62048d0f72dd81e95608a918fe1f6a7)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 239527122, '99SNYDE28', uuid(), 239527122, '0SP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-218::Bonnie::(MD5Sum: 22911b9a31dcd72e60ab3876fee126d2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 26389, '99SNYDE36', uuid(), 26389, '0SP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-219::Bonnie::(MD5Sum: 4e494f176a027a9ba09b33da305630)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 609803863, '99SNYDER3', uuid(), 609803863, '0SP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-220::Bonnie::(MD5Sum: 567e37601535d45aa52b579fc1c4cf)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 5037591935, '99STKPLS8', uuid(), 5037591935, '0ZP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-221::Bonnie::(MD5Sum: 9a41db90191ee8e2e614ce324e22b754)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 6493353872, '99TEMP010', uuid(), 6493353872, '0QP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-222::Bonnie::(MD5Sum: 1587eab99e1fe7ebff1f9c3069bb71b2)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 361563526, '99TEMP028', uuid(), 361563526, '0QP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-223::Bonnie::(MD5Sum: 79f6742e77a83795fc447c2f1bb566a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 159720, '99TEMP036', uuid(), 159720, '0QP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-224::Bonnie::(MD5Sum: dfdb5d049cb4cbdfba4f937e3e5affa)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 5747, '99WILBL16', uuid(), 5747, '0DP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-225::Bonnie::(MD5Sum: aac483adefa3b6bb8b32d740e3a9ed48)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 3829961314, '99WILBL24', uuid(), 3829961314, '0DP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-226::Bonnie::(MD5Sum: a7f5b5327596bd1ea07a82a809502b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 71483706, '99WILBLR9', uuid(), 71483706, '0DP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-227::Bonnie::(MD5Sum: e8acd826353a20c34163c70a1b933)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 2426585, 'REPEQF011', uuid(), 13443854, 'REP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-228::Bonnie::(MD5Sum: 157a48d814f63a3e3a5f7dc5823ca1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1, 'REPEQF029', uuid(), 450000, 'REP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-229::Bonnie::(MD5Sum: a462e892138cbcace1e5c3286eb1657f)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1, 'REPEQF037', uuid(), 222200, 'REP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-230::Bonnie::(MD5Sum: c6cd9acca86eeef4e4854c91abbc52)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 772435, 'REPEQF045', uuid(), 42908335, 'REP', '099PLTF997', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-231::Bonnie::(MD5Sum: 179db645e8af4127cb2c4c6642e594ce)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 525000, '3133X8AS1', uuid(), 55767599, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-232::Bonnie::(MD5Sum: 353542ac320cfa930507c9f748c26fd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 350000, '3133XLDW0', uuid(), 350000, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-233::Bonnie::(MD5Sum: c04e59758cabd288f3e5facd7541e1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 440000, '36966RV94', uuid(), 440000, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-234::Bonnie::(MD5Sum: 35c944b6ab8e951dd624cc1eb664fff8)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 400000, '650094CD5', uuid(), 395848, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-235::Bonnie::(MD5Sum: 4beba23fa73686ae77b5f3dfc94abfd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 380000, '717081AR4', uuid(), 3933456, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-236::Bonnie::(MD5Sum: 3a1f57e24959ba42b4a2683b8373256)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 100000, '71713UAL6', uuid(), 1189375, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-237::Bonnie::(MD5Sum: 211b04ffea2838d215707bc24c1920)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 400000, '8447HBAC6', uuid(), 393000, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-238::Bonnie::(MD5Sum: dab6e0bf1e3290cc6b49cbe11b821e14)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1, 'S99990558', uuid(), 1, '0TP', '909BTIP011', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-239::Bonnie::(MD5Sum: e0a59ff85533dcde539fd49031af8d1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 50000, '251566105', uuid(), 815480, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-240::Bonnie::(MD5Sum: 85523b6f443ebb80bff0d52511479a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 5000, '38141G104', uuid(), 989750, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-241::Bonnie::(MD5Sum: 72ef6f712ec3c0a68f56f91766241423)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20000, '40414L109', uuid(), 29147189, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-242::Bonnie::(MD5Sum: 3cb121ececff75906ec18f73ddc42a3e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 30000, '459902102', uuid(), 78817401, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-243::Bonnie::(MD5Sum: 8568d6b336b0f23c968ff84721a113b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '532457108', uuid(), 895200, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-244::Bonnie::(MD5Sum: 3b371f45ac339e174d7d89aff347cc7b)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 12000, '742718109', uuid(), 364800, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-245::Bonnie::(MD5Sum: 945f5bb56fc5769a539c306873425d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10000, '755111507', uuid(), 391200, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-246::Bonnie::(MD5Sum: c57bd2d09e86433bcee5aead727355d)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '931422109', uuid(), 5222715, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-247::Bonnie::(MD5Sum: be5ac93b1934b557f6c8135d68e3278)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20000, '94106L109', uuid(), 601388, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-248::Bonnie::(MD5Sum: 4845d5285a83a3948229439f5b2e148a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '94973V107', uuid(), 585345, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-249::Bonnie::(MD5Sum: c8fb96e1d354bab78a7536a2dd8261f0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1, 'S99990558', uuid(), 1, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-250::Bonnie::(MD5Sum: 93e46023d1adc17d8c39482ac6047)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 29000, '464287176', uuid(), 3067040, '0TP', '909BTIP011', 5);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-251::Bonnie::(MD5Sum: a2a675afe2304cb6b25ec570d721c5e)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10000, '464287440', uuid(), 86930566, '0TP', '909BTIP011', 4);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-252::Bonnie::(MD5Sum: 8d21d8754ebe52eef3e74ffae7c463a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '464287457', uuid(), 12359491, '0TP', '909BTIP011', 5);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-253::Bonnie::(MD5Sum: b136c18cfe106d4f8ca3a23baef3e5fd)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 25000, '04314Z998', uuid(), 200000, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-254::Bonnie::(MD5Sum: 6eb9c42545e646c0d328b9da987bbbc9)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 40000, '09253U108', uuid(), 8917666, '0EP', '909ETIP018', 4);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-255::Bonnie::(MD5Sum: 14ea26bc8d9d1c4e97d9ef44ee9f7d5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20000, '165167107', uuid(), 17367064, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-256::Bonnie::(MD5Sum: 4046ba23ad64c5c178d354971661bb2a)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 25000, '17275R102', uuid(), 21665888, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-257::Bonnie::(MD5Sum: 34564a013ab54e79b208ff1b19c19)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 35000, '21036P108', uuid(), 5203315, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-258::Bonnie::(MD5Sum: 101f96a7562cf46712b628e48f27c77)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 25000, '254687106', uuid(), 5439165, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-259::Bonnie::(MD5Sum: 45f6c4ad4a1f95ebb2493cfb35dca528)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '26874Q100', uuid(), 2757275, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-260::Bonnie::(MD5Sum: 9fc15e57e5d6433944f6aa159a40e1b1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 30000, '436440101', uuid(), 84533255, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-261::Bonnie::(MD5Sum: d7f6832f9cebf9c448918dfe865e073)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20000, '437076102', uuid(), 7352965, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-262::Bonnie::(MD5Sum: fc1510f7c11b3f7bf36e926b5a3ea8c)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 30000, '449934108', uuid(), 6212435, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-263::Bonnie::(MD5Sum: 103686fb22563995f10bcca9083c5e1)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 4000, '46120E602', uuid(), 4633285, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-264::Bonnie::(MD5Sum: 97b99ef22352bd307bac13dd42857967)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 40000, '594918104', uuid(), 103479553, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-265::Bonnie::(MD5Sum: e94ad3eda2df496cdb44fd39a2cb44)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 12000, '61166W101', uuid(), 8747586, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-266::Bonnie::(MD5Sum: e18fcf6b12e1bb21cc59e1ce1122fa0)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10000, '62886E108', uuid(), 23143914, '0EP', '909ETIP018', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-267::Bonnie::(MD5Sum: aeee10b8b0a6e7221e7c33b71f180)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 14000, '713448108', uuid(), 34822646, '0EP', '909ETIP018', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-268::Bonnie::(MD5Sum: 6c41464b694bb06cc2c4ac9c0d11069)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 35000, '73935X740', uuid(), 452276, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-269::Bonnie::(MD5Sum: 6bc678ac430cc95cfce1e709b59d11)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 20000, '88076W103', uuid(), 46920686, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-270::Bonnie::(MD5Sum: 7bb71ff699245e5ca750eaa5cb7350)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 15000, '911312106', uuid(), 10110595, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-271::Bonnie::(MD5Sum: ab486dbc44bdd02a1cb5b5ab7edaeb5)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 10000, 'H8817H100', uuid(), 38474858, '0EP', '909ETIP018', 2);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-272::Bonnie::(MD5Sum: dfbf9d891a95bd5e60328837b6e3d046)
+-- create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_REBAL_T` (`HLDG_IP_IND`, `TOT_HLDG_UNITS`, `SEC_ID`, `OBJ_ID`, `TOT_HLDG_COST`, `REGIS_CD`, `KEMID`, `TOT_HLDG_LOT_NBR`) VALUES ('P', 1500, '99BTIP011', uuid(), 29900, '0CP', '046G007720', 3);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-1::Bonnie::(MD5Sum: 403f248ace4d6b6a5e327471655ab14)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2002-06-27', 'I', 0, '84114A077E09D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '032A017014', 10000, '094420981', '0NI', 20);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-2::Bonnie::(MD5Sum: db7989b2a78946958fb74d39a2bea858)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-23', 'I', 0, '84114A077E0AD38EE0404F8189D83D5B', '2009-11-23', 0, 0, '032A017014', 282586, '99MMKT013', '0AI', 282586);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-3::Bonnie::(MD5Sum: b879d77bc9bd9562cd8d4e87145d6c88)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-10', 'I', 0, '84114A077E0BD38EE0404F8189D83D5B', '2009-12-10', 12, 0, '032A017014', 23123, '99PSTF018', '0AI', 23123);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-4::Bonnie::(MD5Sum: a53894eca8dc71a14fcd9ff1980776c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'I', 0, '84114A077E0CD38EE0404F8189D83D5B', '2008-09-30', 0, 0, '032A017014', 10000, 'REHUNT017', 'REI', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-5::Bonnie::(MD5Sum: 381dee95a5995b36d7030d0d24fe71e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2004-02-26', 'I', 0, '84114A077E0DD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '032AS06149', 196385, '99PLTF013', '0CI', 2012);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-6::Bonnie::(MD5Sum: 2cba8a2ff1ce58be1cec45c1efcb)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E0ED38EE0404F8189D83D5B', '2009-12-01', 9, 0, '032AS06149', 488, '99PSTF018', '0AI', 488);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-7::Bonnie::(MD5Sum: 17f8f77a6376765cba3e343e53f2146)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2000-02-28', 'I', 0, '84114A077E0FD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '032AS08053', 885073, '99PLTF013', '0CI', 8163);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-8::Bonnie::(MD5Sum: 86e394815ff7f563d0b26270e3d7be47)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-09', 'I', 0, '84114A077E10D38EE0404F8189D83D5B', '2009-12-09', 68, 0, '032AS08053', 33997, '99PSTF018', '0AI', 33997);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-9::Bonnie::(MD5Sum: d4f4d2e917655dddc6789f191c35cd8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-10-25', 'I', 0, '84114A077E11D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '032AS11040', 440453, '99PLTF013', '0CI', 4111);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-10::Bonnie::(MD5Sum: 4b34833aff55699cf95f9b0df384388)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E12D38EE0404F8189D83D5B', '2009-12-01', 339, 0, '032AS11040', 15714, '99PSTF018', '0AI', 15714);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-11::Bonnie::(MD5Sum: 75f9cbb221c64faa4df8f272c333f25)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-01', 'I', 0, '84114A077E13D38EE0404F8189D83D5B', '2009-10-01', 538, 0, '032B011354', 26279, '99PSTF018', '0AI', 26279);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-12::Bonnie::(MD5Sum: f1b134d3b3a12397b47d4ec5129275e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-01', 'I', 0, '84114A077E14D38EE0404F8189D83D5B', '2009-10-01', 81, 0, '032D008242', 3949, '99PSTF018', '0AI', 3949);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-13::Bonnie::(MD5Sum: a6392c7056f421faaf1c0fbe6eee2f9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-04-25', 'I', 0, '84114A077E15D38EE0404F8189D83D5B', '2007-04-25', 0, 0, '032L006015', 29720727, '99PLTF013', '0CI', 264110);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-14::Bonnie::(MD5Sum: a1b2c79279d7db3908430533bb83)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-10', 'I', 0, '84114A077E16D38EE0404F8189D83D5B', '2009-12-10', 2187, 0, '032L006015', 112930, '99PSTF018', '0AI', 112930);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-15::Bonnie::(MD5Sum: babd4087f96a27143de284cfb1acc54)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-30', 'I', 0, '84114A077E17D38EE0404F8189D83D5B', '2009-11-30', 421, 0, '032L006098', 22461, '99PSTF018', '0AI', 22461);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-16::Bonnie::(MD5Sum: df48bd83e074dfcafbf178e55d4e7bf)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-20', 'I', 0, '84114A077E18D38EE0404F8189D83D5B', '2009-11-20', 84, 0, '032P002085', 4109, '99PSTF018', '0AI', 4109);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-17::Bonnie::(MD5Sum: b295516836e338b8cf5dd47a5bd73)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-20', 'I', 0, '84114A077E19D38EE0404F8189D83D5B', '2009-11-20', 3, 0, '032P002101', 227, '99PSTF018', '0AI', 227);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-18::Bonnie::(MD5Sum: f645dd98ada4570d34f9caee63dfe21)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'I', 0, '84114A077E1AD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '032P011045', 277324, '99PLTF013', '0CI', 2651);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-19::Bonnie::(MD5Sum: 8a967fe7626c6ff7cedf0f0e1cfafa8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E1BD38EE0404F8189D83D5B', '2009-12-01', 6, 0, '032P011045', 11, '99PSTF018', '0AI', 11);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-20::Bonnie::(MD5Sum: 5be924ef5830694825db935e2b4d5a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-03-25', 'P', 0, '84114A077E1CD38EE0404F8189D83D5B', '2009-03-25', 0, 0, '037A014184', 2597399, '99PLTF021', '0CP', 25914);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-21::Bonnie::(MD5Sum: 3a8d7330303556578becca5ce658e87)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2000-11-27', 'I', 0, '84114A077E1DD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037A017013', 8839125, '99PLTF013', '0CI', 74918);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-22::Bonnie::(MD5Sum: d2b2a8e66021fcf8e1213b63cf8c3d4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E1ED38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037A017013', 210864529, '99PLTF021', '0CP', 20578908);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-23::Bonnie::(MD5Sum: 72ad147694351480629b2235b23d8e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-06', 'I', 0, '84114A077E1FD38EE0404F8189D83D5B', '2009-12-05', 44045, 0, '037A017013', 2578445, '99PSTF018', '0AI', 2578445);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-24::Bonnie::(MD5Sum: 255dab6747cd8e832133f11cc6d528f2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-25', 'P', 0, '84114A077E20D38EE0404F8189D83D5B', '2009-09-25', 0, 0, '037AS12302', 30100695, '99PLTF021', '0CP', 253822);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-25::Bonnie::(MD5Sum: 5eb29b827b3b39bb5d78b67be231dedf)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E21D38EE0404F8189D83D5B', '2009-12-01', 592, 0, '037AS12302', 32464, '99PSTF018', '0AI', 32464);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-26::Bonnie::(MD5Sum: b6dda4c4aaf6387de1129bd368f3a72a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-10-25', 'P', 0, '84114A077E22D38EE0404F8189D83D5B', '2008-10-25', 0, 0, '037AS34082', 14038855, '99PLTF021', '0CP', 113013);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-27::Bonnie::(MD5Sum: 5f83263ca9250205884ecd59e566)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E23D38EE0404F8189D83D5B', '2009-12-01', 364, 0, '037AS34082', 19352, '99PSTF018', '0AI', 19352);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-28::Bonnie::(MD5Sum: 4d33a189364377daad855b76d7261ba)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '1998-01-28', 'P', 0, '84114A077E24D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037AS35022', 6147, '99PLTF021', '0CP', 6147);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-29::Bonnie::(MD5Sum: aa41a7bd10ef3ade554d3bfec7538d8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E25D38EE0404F8189D83D5B', '2009-12-01', 11, 0, '037AS35022', 633, '99PSTF018', '0AI', 633);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-30::Bonnie::(MD5Sum: 8a0e1d4eb83769495493d77dc2eb58c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-25', 'P', 0, '84114A077E26D38EE0404F8189D83D5B', '2008-11-25', 0, 0, '037AS36012', 394918, '99PLTF021', '0CP', 3927);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-31::Bonnie::(MD5Sum: c4cc9a9e1bdd8f8d47ff376bba3f292)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E27D38EE0404F8189D83D5B', '2009-12-01', 19, 0, '037AS36012', 987, '99PSTF018', '0AI', 987);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-32::Bonnie::(MD5Sum: 94429ec3c52ec22debe98edf23c0f6f2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-09-19', 'I', 0, '84114A077E28D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037AS38026', 4479, '99PLTF013', '0CI', 4479);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-33::Bonnie::(MD5Sum: 31b49cd770a3ed947b58b36b5bc79568)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-09-19', 'P', 0, '84114A077E29D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037AS38026', 104659208, '99PLTF021', '0CP', 1023447);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-34::Bonnie::(MD5Sum: ce99c5a50bb346ac4f7e3ab6d3043)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E2AD38EE0404F8189D83D5B', '2009-12-01', 233, 0, '037AS38026', 128155, '99PSTF018', '0AI', 128155);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-35::Bonnie::(MD5Sum: 95fa356ebbb8266cce5fddbbb49b223)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-25', 'P', 0, '84114A077E2BD38EE0404F8189D83D5B', '2009-08-25', 0, 0, '037AS54239', 5254176, '99PLTF021', '0CP', 40049);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-36::Bonnie::(MD5Sum: 7d801c67585b334464254720d0c3934e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E2CD38EE0404F8189D83D5B', '2009-12-01', 86, 0, '037AS54239', 4743, '99PSTF018', '0AI', 4743);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-37::Bonnie::(MD5Sum: 36e29e2c8ccc146b81454597be8aa9c7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E2DD38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037B011AG1', 957973, '99PLTF021', '0CP', 9337);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-38::Bonnie::(MD5Sum: ff94b6e5ddd6d5a9debd7a73c51322c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-05-28', 'P', 0, '84114A077E2ED38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037B012161', 5999995, '99PLTF021', '0CP', 692005);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-39::Bonnie::(MD5Sum: 804ca0ead027f8b9d03654f7e72e3fa)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E2FD38EE0404F8189D83D5B', '2009-12-01', 5158, 0, '037B012161', 261487, '99PSTF018', '0AI', 261487);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-40::Bonnie::(MD5Sum: c1da84a238fd67eb9fdd7fba9e51863)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E30D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037E009701', 2100407, '99PLTF021', '0CP', 16506);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-41::Bonnie::(MD5Sum: b7ff2de0ab2b1b51a6471636dc804479)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E31D38EE0404F8189D83D5B', '2009-12-01', 232, 0, '037E009701', 11562, '99PSTF018', '0AI', 11562);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-42::Bonnie::(MD5Sum: 207eebafbfd08bc6c96752c378d15a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E32D38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037E009727', 10795685, '99PLTF021', '0CP', 128280);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-43::Bonnie::(MD5Sum: a6b5ab2e978af399e2ec38e5ca9f6ed)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-06', 'I', 0, '84114A077E33D38EE0404F8189D83D5B', '2009-12-01', 388, 0, '037E009727', 18854, '99PSTF018', '0AI', 18854);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-44::Bonnie::(MD5Sum: 372c3d731a9e0827acc6dc86d5e691)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-04-24', 'P', 0, '84114A077E34D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037F002010', 19149, '99PLTF021', '0CP', 19149);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-45::Bonnie::(MD5Sum: af7f7d81183ac853a622348ca7af96f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-08', 'I', 0, '84114A077E35D38EE0404F8189D83D5B', '2009-12-01', 417, 0, '037F002010', 20417, '99PSTF018', '0AI', 20417);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-46::Bonnie::(MD5Sum: da7efe4d5166e0b8571fa290fcf1cfe2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2001-12-26', 'P', 0, '84114A077E36D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037G003785', 57465572, '99PLTF021', '0CP', 538900);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-47::Bonnie::(MD5Sum: dafebcbfe018536f37934134873f59d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E37D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037G030812', 2735931, '99PLTF021', '0CP', 29294);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-48::Bonnie::(MD5Sum: f872e310ae4cd96229d063ea25d69283)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E38D38EE0404F8189D83D5B', '2009-12-01', 182, 0, '037G030812', 9251, '99PSTF018', '0AI', 9251);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-49::Bonnie::(MD5Sum: e45e223b253e9eaf1049892885e4599a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-25', 'P', 0, '84114A077E39D38EE0404F8189D83D5B', '2009-09-25', 0, 0, '037H004261', 268985, '99PLTF021', '0CP', 24760);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-50::Bonnie::(MD5Sum: 57f11f8219d932e12567f192f268ff0)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E3AD38EE0404F8189D83D5B', '2009-12-01', 42, 0, '037H004261', 2928, '99PSTF018', '0AI', 2928);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-51::Bonnie::(MD5Sum: 3f529dbc9c9b81c711f8492452b8764)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E3BD38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037I002512', 5772464, '99PLTF021', '0CP', 55650);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-52::Bonnie::(MD5Sum: 74da327da6f061d2d8a91683c1d11b2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E3CD38EE0404F8189D83D5B', '2009-12-01', 79, 0, '037I002512', 4634, '99PSTF018', '0AI', 4634);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-53::Bonnie::(MD5Sum: b41bdd7fd6219628c34551d9b6f626b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2004-07-26', 'I', 0, '84114A077E3DD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037K008284', 2050, '99PLTF013', '0CI', 2050);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-54::Bonnie::(MD5Sum: d9d906d487c8eeb72a34d7c1bca8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E3ED38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037K008284', 31828087, '99PLTF021', '0CP', 310135);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-55::Bonnie::(MD5Sum: 1b9419692eb2cf8ef6e2e04f30c8dbc)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E3FD38EE0404F8189D83D5B', '2009-12-01', 211, 0, '037K008284', 14665, '99PSTF018', '0AI', 14665);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-56::Bonnie::(MD5Sum: bd238b1f01326b5863f4ac8d7a13c7d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077E40D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '037L006493', 13500, '99OTHER14', 'MAP', 13500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-57::Bonnie::(MD5Sum: d15084197df3639361d1baaedabf461)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-04-25', 'I', 0, '84114A077E41D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037L006493', 5598689, '99PLTF013', '0CI', 53330);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-58::Bonnie::(MD5Sum: 265bb54a1c685aeaa9ad43efb9c6eee)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '1998-02-24', 'P', 0, '84114A077E42D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037L006493', 221721, '99PLTF021', '0CP', 221721);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-59::Bonnie::(MD5Sum: 99e21daf38599993c2ca30cbbe5029)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E43D38EE0404F8189D83D5B', '2009-12-01', 479, 0, '037L006493', 27230, '99PSTF018', '0AI', 27230);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-60::Bonnie::(MD5Sum: 2acb6dff58d2318b76c4b83434efacfc)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E44D38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037L006709', 12195451, '99PLTF021', '0CP', 105147);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-61::Bonnie::(MD5Sum: 32aedd12ed31d43370a46f9c4c10079)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-03-25', 'I', 0, '84114A077E45D38EE0404F8189D83D5B', '2008-03-25', 0, 0, '037MDER022', 4619232, '99PLTF013', '0CI', 37652);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-62::Bonnie::(MD5Sum: af9436d3eeca60ff3ef96ecfb429ecfd)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E46D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037MDER022', 42720556, '99PLTF021', '0CP', 404406);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-63::Bonnie::(MD5Sum: 6225f96aa19ce8479854b5dbac538)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E47D38EE0404F8189D83D5B', '2009-12-01', 425, 0, '037MDER022', 26225, '99PSTF018', '0AI', 26225);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-64::Bonnie::(MD5Sum: c96b4c7977619da38ba31f4e2ef3cc)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-08-25', 'I', 0, '84114A077E48D38EE0404F8189D83D5B', '2006-08-25', 0, 0, '037MDSL103', 186239, '99PLTF013', '0CI', 1697);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-65::Bonnie::(MD5Sum: a66b5d82c2eee2e567a21322c5e8f921)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E49D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037MDSL103', 1462601, '99PLTF021', '0CP', 143821);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-66::Bonnie::(MD5Sum: d137559fcad2652b7d5862ba1d6df51)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-02', 'I', 0, '84114A077E4AD38EE0404F8189D83D5B', '2009-12-01', 241, 0, '037MDSL103', 9902, '99PSTF018', '0AI', 9902);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-67::Bonnie::(MD5Sum: efabc83f31a9e3d8e935f5ac2ad42b56)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2004-06-28', 'I', 0, '84114A077E4BD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037MMED197', 3617259, '99PLTF013', '0CI', 34623);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-68::Bonnie::(MD5Sum: d4290152531401b73f87a70aad62cf8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E4CD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037MMED197', 13099813, '99PLTF021', '0CP', 118959);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-69::Bonnie::(MD5Sum: 328c87a7a683e425d945f374f7936a5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E4DD38EE0404F8189D83D5B', '2009-12-01', 493, 0, '037MMED197', 26184, '99PSTF018', '0AI', 26184);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-70::Bonnie::(MD5Sum: 8fcd5c8881ae3ddc175a7b8b93f8a3a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E4ED38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037MPHC132', 9912457, '99PLTF021', '0CP', 87955);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-71::Bonnie::(MD5Sum: e1c26dcbf6238a2fabae721b93ed6df)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-04', 'I', 0, '84114A077E4FD38EE0404F8189D83D5B', '2009-12-01', 213, 0, '037MPHC132', 11016, '99PSTF018', '0AI', 11016);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-72::Bonnie::(MD5Sum: 5252633f79c32577b87039e81f5f2a13)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2002-01-28', 'I', 0, '84114A077E50D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037O009148', 1978, '99PLTF013', '0CI', 19);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-73::Bonnie::(MD5Sum: 62e2a08f177c817fe79533eaa2ece49)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-25', 'P', 0, '84114A077E51D38EE0404F8189D83D5B', '2009-09-25', 0, 0, '037O009148', 1203268, '99PLTF021', '0CP', 11660);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-74::Bonnie::(MD5Sum: 3bd839cfe0c0da5ee64ac16d4ee0b5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E52D38EE0404F8189D83D5B', '2009-12-01', 4, 0, '037O009148', 1591, '99PSTF018', '0AI', 1591);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-75::Bonnie::(MD5Sum: 113484dec1cfb5d8da666f2c13da775)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-25', 'P', 0, '84114A077E53D38EE0404F8189D83D5B', '2008-11-25', 0, 0, '037P003108', 2365198, '99PLTF021', '0CP', 19347);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-76::Bonnie::(MD5Sum: 33949f9aee744eac8e4913429953e5d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E54D38EE0404F8189D83D5B', '2009-12-01', 26, 0, '037P003108', 1553, '99PSTF018', '0AI', 1553);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-77::Bonnie::(MD5Sum: 82f864651501dcf0d12c1f7663e0c9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E55D38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037P004148', 43427191, '99PLTF021', '0CP', 412307);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-78::Bonnie::(MD5Sum: fc7ec9124db5d795a4311830138d72d2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E56D38EE0404F8189D83D5B', '2009-12-01', 813, 0, '037P004148', 43603, '99PSTF018', '0AI', 43603);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-79::Bonnie::(MD5Sum: 85fac7ea10953332863f96e9eff16399)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-11-27', 'I', 0, '84114A077E57D38EE0404F8189D83D5B', '2006-11-27', 0, 0, '037P011291', 23874, '99PLTF013', '0CI', 209);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-80::Bonnie::(MD5Sum: c20a8158fea75a4c78fd45b979dd4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E58D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '037P011291', 2008402, '99PLTF021', '0CP', 18937);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-81::Bonnie::(MD5Sum: 15f2d464a63db1d2f11cefff096aa7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E59D38EE0404F8189D83D5B', '2009-12-01', 22, 0, '037P011291', 1360, '99PSTF018', '0AI', 1360);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-82::Bonnie::(MD5Sum: 7163372ccc16128ebb1ffd1183b5b350)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E5AD38EE0404F8189D83D5B', '2009-11-16', 1, 0, '037P011291', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-83::Bonnie::(MD5Sum: e48df47a38a53fee782a67ac3d60e1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-25', 'P', 0, '84114A077E5BD38EE0404F8189D83D5B', '2008-11-25', 0, 0, '037RQ04222', 1292767, '99PLTF021', '0CP', 12647);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-84::Bonnie::(MD5Sum: 6f41eea73f6c669affd4ce6ecac170)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E5CD38EE0404F8189D83D5B', '2009-12-01', 21, 0, '037RQ04222', 1202, '99PSTF018', '0AI', 1202);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-85::Bonnie::(MD5Sum: 3c3ee0d03ec614b1ecbcf57f129135)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-05-01', 'P', 0, '84114A077E5DD38EE0404F8189D83D5B', '2007-03-29', 41, 0, '037RQ04222', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-86::Bonnie::(MD5Sum: d636214b493a7827356e37d9543e6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E5ED38EE0404F8189D83D5B', '2009-12-25', 0, 0, '037RT04333', 97772, '99PLTF021', '0CP', 9266);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-87::Bonnie::(MD5Sum: 5c23a896a5336239f7e286b1496f4ba6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E5FD38EE0404F8189D83D5B', '2009-12-01', 37, 0, '037RT04333', 1922, '99PSTF018', '0AI', 1922);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-88::Bonnie::(MD5Sum: 6df0f662432d4af65fd3ca1a7d71388c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E60D38EE0404F8189D83D5B', '2009-12-09', 5, 0, '037RT04333', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-89::Bonnie::(MD5Sum: e836db9dc25695d31e48346d762d4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-04-25', 'P', 0, '84114A077E61D38EE0404F8189D83D5B', '2009-04-25', 0, 0, '037S012056', 4096899, '99PLTF021', '0CP', 42285);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-90::Bonnie::(MD5Sum: 2a49cfb1ae6e7c9e259ed717c973159)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E62D38EE0404F8189D83D5B', '2009-12-01', 127, 0, '037S012056', 6813, '99PSTF018', '0AI', 6813);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-91::Bonnie::(MD5Sum: 71a7b55174de931f6d4a17e712478a4b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-05-01', 'P', 0, '84114A077E63D38EE0404F8189D83D5B', '2009-03-30', 12, 0, '037S012056', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-92::Bonnie::(MD5Sum: 1ad17d6132b6b6e3262c2146b389453)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-07-25', 'P', 0, '84114A077E64D38EE0404F8189D83D5B', '2009-07-25', 0, 0, '037SC00501', 12129251, '99PLTF021', '0CP', 125014);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-93::Bonnie::(MD5Sum: c1eba9a55fe49ae4d9c9f9d89d9aaa)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E65D38EE0404F8189D83D5B', '2009-12-01', 179, 0, '037SC00501', 10472, '99PSTF018', '0AI', 10472);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-94::Bonnie::(MD5Sum: eb1e74a389aa04c6153d9af5f355d0)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-01', 'P', 0, '84114A077E66D38EE0404F8189D83D5B', '2009-07-20', 23, 0, '037SC00501', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-95::Bonnie::(MD5Sum: 72cc53c279d5daf03ce2617cb9c3e2ee)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2001-06-26', 'I', 0, '84114A077E67D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037V009140', 35066, '99PLTF013', '0CI', 312);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-96::Bonnie::(MD5Sum: 5f7293a168cc47431a99b7d15482af)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-12-25', 'P', 0, '84114A077E68D38EE0404F8189D83D5B', '2008-12-25', 0, 0, '037V009140', 1126978, '99PLTF021', '0CP', 10484);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-97::Bonnie::(MD5Sum: 5c9f5f341b486df44bdf64fd703eb2ad)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E69D38EE0404F8189D83D5B', '2009-12-01', 65, 0, '037V009140', 3342, '99PSTF018', '0AI', 3342);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-98::Bonnie::(MD5Sum: 2bb2a720dcf29237f688f0805885566f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-01', 'P', 0, '84114A077E6AD38EE0404F8189D83D5B', '2008-12-22', 2, 0, '037V009140', 0, '99PSTF034', '0AP', 0);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-99::Bonnie::(MD5Sum: 4039f3e17d62a56c623d14c2a6a6a44)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-10-25', 'I', 0, '84114A077E6BD38EE0404F8189D83D5B', '2007-10-25', 0, 0, '037V010080', 816689, '99PLTF013', '0CI', 7422);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-100::Bonnie::(MD5Sum: e813f24559d18db7bac7b68e616326ea)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2001-09-26', 'P', 0, '84114A077E6CD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037V010080', 100320, '99PLTF021', '0CP', 86528);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-101::Bonnie::(MD5Sum: 3f777fb4ee12e6a2a9642c389a393)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E6DD38EE0404F8189D83D5B', '2009-12-01', 127, 0, '037V010080', 3512, '99PSTF018', '0AI', 3512);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-102::Bonnie::(MD5Sum: 1e5b7f74b0a15c014f72ffa43e688e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-02-26', 'P', 0, '84114A077E6ED38EE0404F8189D83D5B', '2006-02-25', 0, 0, '037WHMM024', 32033458, '99PLTF021', '0CP', 269322);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-103::Bonnie::(MD5Sum: 3793643f8d335d7d7a605c52e177fb4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E6FD38EE0404F8189D83D5B', '2009-12-01', 485, 0, '037WHMM024', 27447, '99PSTF018', '0AI', 27447);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-104::Bonnie::(MD5Sum: 1adc45ba24333f75e66958dd22e25a7d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-06-25', 'I', 0, '84114A077E70D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037X002044', 28319, '99PLTF013', '0CI', 239);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-105::Bonnie::(MD5Sum: defc4e406f63bd38630ee484576d479)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '1998-01-28', 'P', 0, '84114A077E71D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '037X002044', 586760, '99PLTF021', '0CP', 586760);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-106::Bonnie::(MD5Sum: 1d1079ad30145c75b0474484576189)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E72D38EE0404F8189D83D5B', '2009-12-01', 199, 0, '037X002044', 17964, '99PSTF018', '0AI', 17964);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-107::Bonnie::(MD5Sum: 843a335468f5d89448aba679319ea8d7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-23', 'I', 0, '84114A077E73D38EE0404F8189D83D5B', '2009-11-23', 0, 0, '038A017011', 401512, '99MMKT013', '0AI', 401512);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-108::Bonnie::(MD5Sum: bdd01a9cae71c522fc8496e2cd83f6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-08-25', 'P', 0, '84114A077E74D38EE0404F8189D83D5B', '2008-08-25', 0, 0, '038A017011', 582054838, '99PLTF021', '0CP', 4717403);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-109::Bonnie::(MD5Sum: 2668532dae5e77ad92aec4856fd24ab5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-07', 'I', 0, '84114A077E75D38EE0404F8189D83D5B', '2009-12-05', 543, 0, '038A017011', 53943, '99PSTF018', '0AI', 53943);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-110::Bonnie::(MD5Sum: 7b2e6310e0e3e976a053a6c247ef53b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E76D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '038AS00057', 35921653, '99PLTF021', '0CP', 321504);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-111::Bonnie::(MD5Sum: 5ea0d3bd401c5d6cf785a0792efe4d34)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E77D38EE0404F8189D83D5B', '2009-12-01', 3818, 0, '038AS00057', 175299, '99PSTF018', '0AI', 175299);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-112::Bonnie::(MD5Sum: 33b2e77a56f8854d833c27e23937a82)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-25', 'P', 0, '84114A077E78D38EE0404F8189D83D5B', '2009-01-25', 0, 0, '038AS06237', 2509962, '99PLTF021', '0CP', 23960);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-113::Bonnie::(MD5Sum: e31b9e9a3477a0c0a4b81c81301585d2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E79D38EE0404F8189D83D5B', '2009-12-01', 42, 0, '038AS06237', 2388, '99PSTF018', '0AI', 2388);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-114::Bonnie::(MD5Sum: 168a3095d752b25765f4ed424d20f1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'I', 0, '84114A077E7AD38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038AS17028', 250, '99PETTY12', 'MAI', 250);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-115::Bonnie::(MD5Sum: 848a90297e669c3ca35df8c33c0a672)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E7BD38EE0404F8189D83D5B', '2009-12-25', 0, 0, '038AS17028', 22202021, '99PLTF021', '0CP', 191365);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-116::Bonnie::(MD5Sum: 81a946e18d3048e1d436fdf46d96891)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-10', 'I', 0, '84114A077E7CD38EE0404F8189D83D5B', '2009-12-01', 28, 0, '038AS17028', 7034, '99PSTF018', '0AI', 7034);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-117::Bonnie::(MD5Sum: 2761afb09caf5ee9571ed59f49cb060)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-08-26', 'P', 0, '84114A077E7DD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038AS53023', 7, '99PLTF021', '0CP', 7);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-118::Bonnie::(MD5Sum: b7a3fc929f7d7dae688b7e4c5734f14e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077E7ED38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038AS53023', 122000, 'REBROWN17', 'REP', 122000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-119::Bonnie::(MD5Sum: 9b9ee389e1746a9e3cd75e51a2c3)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2005-08-26', 'I', 0, '84114A077E7FD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038B011179', 329844, '99PLTF013', '0CI', 3114);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-120::Bonnie::(MD5Sum: 2ad72174ac860f064c1fe59ea754136)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-25', 'P', 0, '84114A077E80D38EE0404F8189D83D5B', '2008-02-25', 0, 0, '038B011179', 48381205, '99PLTF021', '0CP', 384528);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-121::Bonnie::(MD5Sum: 7a6d324c7f3943ba9d57854dcc8ce46d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E81D38EE0404F8189D83D5B', '2009-12-01', 1009, 0, '038B011179', 54713, '99PSTF018', '0AI', 54713);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-122::Bonnie::(MD5Sum: 6f5731e813b2c841f210227b209d5752)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-05-25', 'P', 0, '84114A077E82D38EE0404F8189D83D5B', '2007-05-25', 0, 0, '038CC00118', 1289852, '99PLTF021', '0CP', 10894);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-123::Bonnie::(MD5Sum: 133ce193269a46dedcccc5d11291dcfc)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E83D38EE0404F8189D83D5B', '2009-12-01', 108, 0, '038CC00118', 5426, '99PSTF018', '0AI', 5426);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-124::Bonnie::(MD5Sum: a919a6abdb729bb0b9676b9d661b72aa)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'I', 0, '84114A077E84D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038CC00118', 2000, '99STULN13', 'MAI', 2000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-125::Bonnie::(MD5Sum: 5b2e59f12a5beb1eb69337d4c1af2ef)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E85D38EE0404F8189D83D5B', '2009-12-25', 0, 0, '038D008041', 930807, '99PLTF021', '0CP', 8479);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-126::Bonnie::(MD5Sum: dc54afc75fbc161826d066a08c3a745e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E86D38EE0404F8189D83D5B', '2009-12-01', 147, 0, '038D008041', 7321, '99PSTF018', '0AI', 7321);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-127::Bonnie::(MD5Sum: 937142ac893490221830dc56b199687e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-06-18', 'I', 0, '84114A077E87D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038D008041', 15500, '99STULN13', 'MAI', 15500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-128::Bonnie::(MD5Sum: 324dc1e6f01ed966612e129a64711897)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-25', 'I', 0, '84114A077E88D38EE0404F8189D83D5B', '2008-09-25', 0, 0, '038E009022', 124563056, '99PLTF013', '0CI', 1053807);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-129::Bonnie::(MD5Sum: c7445ab2293c5d567171c684bc6888c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-07-25', 'P', 0, '84114A077E89D38EE0404F8189D83D5B', '2008-07-25', 0, 0, '038E009022', 359786572, '99PLTF021', '0CP', 3585772);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-130::Bonnie::(MD5Sum: 7ff4d01c23c6a16daa934176623ecd)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-11', 'I', 0, '84114A077E8AD38EE0404F8189D83D5B', '2009-12-11', 9029, 0, '038E009022', 554077, '99PSTF018', '0AI', 554077);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-131::Bonnie::(MD5Sum: 4fc064818168c9c452e8afdac2dd8b68)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077E8BD38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038E009022', 7600, 'REBURREL4', 'REP', 7600);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-132::Bonnie::(MD5Sum: af16119bdedc14ce516e87f92c3893c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2003-08-26', 'P', 0, '84114A077E8CD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038F002075', 34982358, '99PLTF021', '0CP', 328809);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-133::Bonnie::(MD5Sum: 6152f4aaee847322189d6d4987f4f499)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E8DD38EE0404F8189D83D5B', '2009-12-01', 706, 0, '038F002075', 10670, '99PSTF018', '0AI', 10670);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-134::Bonnie::(MD5Sum: 1448aa1c8b511a836898fe423e67e0)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-23', 'I', 0, '84114A077E8ED38EE0404F8189D83D5B', '2009-11-23', 0, 0, '038G003452', 524459, '99ITRCIF3', 'MAI', 524459);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-135::Bonnie::(MD5Sum: ef47c53b7fbdea30581fa616a797045)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-07-31', 'I', 0, '84114A077E8FD38EE0404F8189D83D5B', '2009-07-31', 0, 0, '038G003452', 14000, '99NTRCIF7', 'MAI', 14000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-136::Bonnie::(MD5Sum: 28c34184f79b127b1c19bff7146ab)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-10-25', 'P', 0, '84114A077E90D38EE0404F8189D83D5B', '2008-10-25', 0, 0, '038G003452', 2895974, '99PLTF021', '0CP', 267707);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-137::Bonnie::(MD5Sum: fe94a19780e0e3dba310b5d88af9dd2d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E91D38EE0404F8189D83D5B', '2009-12-01', 7823, 0, '038G003452', 444652, '99PSTF018', '0AI', 444652);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-138::Bonnie::(MD5Sum: 50916cc6aa1a5b25e2e75bc67f7c8e7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077E92D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038IU09022', 486542, '99CSVLIF6', 'MAP', 486542);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-139::Bonnie::(MD5Sum: 31d2154ea11b16d01897937a80ad3b9f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2005-07-26', 'I', 0, '84114A077E93D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038IU09022', 81596416, '99PLTF013', '0CI', 743007);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-140::Bonnie::(MD5Sum: 3b8a6ffd942ed19ba183ec2c5deb460)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E94D38EE0404F8189D83D5B', '2009-12-25', 0, 0, '038IU09022', 1423562833, '99PLTF021', '0CP', 14210896);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-141::Bonnie::(MD5Sum: c5ba334a218d7228bc2a5c2a24e6b1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-04', 'I', 0, '84114A077E95D38EE0404F8189D83D5B', '2009-12-04', 8685, 0, '038IU09022', 627285, '99PSTF018', '0AI', 627285);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-142::Bonnie::(MD5Sum: 8d4c2329e77b6ea2b3984d58e274c0d5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'I', 0, '84114A077E96D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '038K008027', 2414, '99PETTY12', 'MAI', 2414);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-143::Bonnie::(MD5Sum: 742af1c73fd5e15c08546c88188d345)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077E97D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '038K008027', 29121833, '99PLTF021', '0CP', 255129);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-144::Bonnie::(MD5Sum: c299fa07396f61f84808ef6580e63a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-10', 'I', 0, '84114A077E98D38EE0404F8189D83D5B', '2009-12-10', 17061, 0, '038K008027', 879748, '99PSTF018', '0AI', 879748);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-145::Bonnie::(MD5Sum: 94af3f8289eebaacda3018ea4e8ee9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-02-26', 'P', 0, '84114A077E99D38EE0404F8189D83D5B', '2006-02-25', 0, 0, '038L006228', 2172453, '99PLTF021', '0CP', 19564);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-146::Bonnie::(MD5Sum: 60fb9b6f3b2d6d52546657a1b75b46)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E9AD38EE0404F8189D83D5B', '2009-12-01', 237, 0, '038L006228', 11819, '99PSTF018', '0AI', 11819);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-147::Bonnie::(MD5Sum: 85ab2222a7e3a669663ee1ee5ab46e2e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-06-25', 'I', 0, '84114A077E9BD38EE0404F8189D83D5B', '2006-10-17', 0, 0, '038MCCC134', 102915, '99PLTF013', '0CI', 873);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-148::Bonnie::(MD5Sum: b9fb283d35df84ed7a0771679626a82)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-25', 'P', 0, '84114A077E9CD38EE0404F8189D83D5B', '2009-12-25', 0, 0, '038MCCC134', 418999, '99PLTF021', '0CP', 4656);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-149::Bonnie::(MD5Sum: 15bbd56f52d5447be7c023d9f0ee6f32)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077E9DD38EE0404F8189D83D5B', '2009-12-01', 1017, 0, '038MCCC134', 16569, '99PSTF018', '0AI', 16569);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-150::Bonnie::(MD5Sum: a27dcea1418dc1ecf0c2c86cb3532370)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-06-25', 'P', 0, '84114A077E9ED38EE0404F8189D83D5B', '2007-02-25', 0, 0, '038MDSL325', 68289, '99PLTF021', '0CP', 537);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-151::Bonnie::(MD5Sum: b5a6c35a67324946943a6b38bef7deac)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-09', 'I', 0, '84114A077E9FD38EE0404F8189D83D5B', '2009-12-09', 10326, 0, '038MDSL325', 558062, '99PSTF018', '0AI', 558062);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-152::Bonnie::(MD5Sum: 155eca19b4acd8b8404f7a67c832e36)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-25', 'P', 0, '84114A077EA0D38EE0404F8189D83D5B', '2008-01-25', 0, 0, '038MPHC072', 1470998, '99PLTF021', '0CP', 11281);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-153::Bonnie::(MD5Sum: c8ebd8c2aba4b15d4869b339e0323095)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EA1D38EE0404F8189D83D5B', '2009-12-01', 22, 0, '038MPHC072', 1238, '99PSTF018', '0AI', 1238);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-154::Bonnie::(MD5Sum: bec7a9e138358dabf7b7e07592c8dc7c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'I', 0, '84114A077EA2D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '038MSCI011', 228849, '99PLTF013', '0CI', 2112);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-155::Bonnie::(MD5Sum: a3a96114a05c01c2094c8ec58d8c7c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-25', 'P', 0, '84114A077EA3D38EE0404F8189D83D5B', '2008-11-25', 0, 0, '038MSCI011', 903122, '99PLTF021', '0CP', 8967);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-156::Bonnie::(MD5Sum: 20e7227ec2a35b3b5929a9497b38a5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EA4D38EE0404F8189D83D5B', '2009-12-01', 6, 0, '038MSCI011', 302, '99PSTF018', '0AI', 302);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-157::Bonnie::(MD5Sum: bb6a19dc440704d26503fec8dea36f2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-07-25', 'I', 0, '84114A077EA5D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038N008222', 24902, '99PLTF013', '0CI', 217);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-158::Bonnie::(MD5Sum: 6089637c12ed8ec4a179c5292b3c231)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2001-01-26', 'P', 0, '84114A077EA6D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038N008222', 200499, '99PLTF021', '0CP', 17558);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-159::Bonnie::(MD5Sum: 1dd8f38959c58d7f14892c452a4251)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EA7D38EE0404F8189D83D5B', '2009-12-01', 7, 0, '038N008222', 567, '99PSTF018', '0AI', 567);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-160::Bonnie::(MD5Sum: 21a7074d0ad301d44c4251138ce8dd0)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-02-23', 'I', 0, '84114A077EA8D38EE0404F8189D83D5B', '2006-08-07', 0, 0, '038P011463', 8694, '99PLTF013', '0CI', 75);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-161::Bonnie::(MD5Sum: 397bece0ca8dff3249a7a4509537a48d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-10-25', 'P', 0, '84114A077EA9D38EE0404F8189D83D5B', '2008-10-25', 0, 0, '038P011463', 9999, '99PLTF021', '0CP', 78);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-162::Bonnie::(MD5Sum: 7c2fecc83f66d271f4a6c4b8098018)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-18', 'I', 0, '84114A077EAAD38EE0404F8189D83D5B', '2009-11-18', 12, 0, '038P011463', 9999, '99PSTF018', '0AI', 9999);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-163::Bonnie::(MD5Sum: 46ac23b28e63cfc6ef826530c65ac5d6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '1998-12-03', 'P', 0, '84114A077EABD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038RPS1012', 51475, '99PLTF021', '0CP', 51475);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-164::Bonnie::(MD5Sum: 708fe412c2b65bae645ddf9bf21258f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EACD38EE0404F8189D83D5B', '2009-12-01', 201, 0, '038RPS1012', 15024, '99PSTF018', '0AI', 15024);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-165::Bonnie::(MD5Sum: afea9d9cdd9e6eac2f48f67b06bc2d4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2000-03-27', 'I', 0, '84114A077EADD38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038RQ04162', 4999943, '99PLTF013', '0CI', 41203);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-166::Bonnie::(MD5Sum: c967ab7292baa5025a018aba91fd639)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077EAED38EE0404F8189D83D5B', '2009-11-25', 0, 0, '038RQ04162', 10582827, '99PLTF021', '0CP', 1058317);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-167::Bonnie::(MD5Sum: 9c783ae6b61482873df2d8849b843d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EAFD38EE0404F8189D83D5B', '2009-12-01', 1099, 0, '038RQ04162', 82768, '99PSTF018', '0AI', 82768);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-168::Bonnie::(MD5Sum: 6746aed2f83bc64b4d27d5ad11f21c8e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-25', 'P', 0, '84114A077EB0D38EE0404F8189D83D5B', '2005-11-01', 0, 0, '038RR04087', 2895194, '99PLTF021', '0CP', 28952);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-169::Bonnie::(MD5Sum: f86ea783ddcf541c15bf01b4f4e2e3)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EB1D38EE0404F8189D83D5B', '2009-12-01', 42, 0, '038RR04087', 4241, '99PSTF018', '0AI', 4241);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-170::Bonnie::(MD5Sum: 913192877631aecf6682d6679403516)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-25', 'P', 0, '84114A077EB2D38EE0404F8189D83D5B', '2009-09-25', 0, 0, '038RT04091', 4970713, '99PLTF021', '0CP', 49193);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-171::Bonnie::(MD5Sum: e5edd634f5b1ed9808e10282261731d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-09', 'I', 0, '84114A077EB3D38EE0404F8189D83D5B', '2009-12-09', 55, 0, '038RT04091', 67693, '99PSTF018', '0AI', 67693);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-172::Bonnie::(MD5Sum: 67b87686931b8b70b325b6e9fecc1427)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-02-25', 'P', 0, '84114A077EB4D38EE0404F8189D83D5B', '2008-02-25', 0, 0, '038RV04351', 1559302, '99PLTF021', '0CP', 139633);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-173::Bonnie::(MD5Sum: ed16deae923e30b810abd45db2ee6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EB5D38EE0404F8189D83D5B', '2009-12-01', 14, 0, '038RV04351', 24021, '99PSTF018', '0AI', 24021);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-174::Bonnie::(MD5Sum: 53c0b6f7f6834997d5945ac0f6f3f013)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-25', 'P', 0, '84114A077EB6D38EE0404F8189D83D5B', '2008-11-25', 0, 0, '038SC01010', 135341, '99PLTF021', '0CP', 1369);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-175::Bonnie::(MD5Sum: 9c8bda5b778aa4a53211f1799d32485)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-01', 'I', 0, '84114A077EB7D38EE0404F8189D83D5B', '2009-12-01', 24, 0, '038SC01010', 1128, '99PSTF018', '0AI', 1128);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-176::Bonnie::(MD5Sum: 6be6bddee3f87aa638dd82c7c15e36)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-25', 'P', 0, '84114A077EB8D38EE0404F8189D83D5B', '2008-07-25', 0, 0, '046G007720', 18962952, '99PLTF021', '0CP', 174632);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-177::Bonnie::(MD5Sum: 7bf96f1b5ce499d238e691206c3ac88d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-30', 'P', 0, '84114A077EB9D38EE0404F8189D83D5B', '2009-10-27', 0, 0, '099PLTF013', 1265310034, '99PLTF997', '0CP', 101612350);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-178::Bonnie::(MD5Sum: c0669832435590b0c57b6131499d891)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-30', 'P', 0, '84114A077EBAD38EE0404F8189D83D5B', '2009-11-30', 0, 0, '099PLTF021', 1527150615, '99PLTF997', '0CP', 1229456642);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-179::Bonnie::(MD5Sum: 24b3127f48b85402beee96a8bcfaf6c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-01-26', 'P', 0, '84114A077EBBD38EE0404F8189D83D5B', '2007-01-26', 0, 0, '099PLTF997', 3875, '023184203', '0OP', 1550);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-180::Bonnie::(MD5Sum: 61c0cb9b5329588039f6ec8dea4379b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-01-25', 'P', 0, '84114A077EBCD38EE0404F8189D83D5B', '2007-01-25', 0, 0, '099PLTF997', 32957443, '04314Z998', '0OP', 45600);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-181::Bonnie::(MD5Sum: 60d44bdfa2f166485753d9bc9ae461b5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-31', 'P', 0, '84114A077EBDD38EE0404F8189D83D5B', '2007-01-25', 3692936, 0, '099PLTF997', 10731599, '610313108', '0OP', 284072);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-182::Bonnie::(MD5Sum: 1e8dc74cd342173ac93d50268130b823)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-19', 'P', 0, '84114A077EC0D38EE0404F8189D83D5B', '2007-01-25', 0, 0, '099PLTF997', 7987124244, '99ALPHTL4', '0ZP', 7987124244);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-183::Bonnie::(MD5Sum: 397429f66fa518c660f4b328dedfe9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-02-27', 'P', 0, '84114A077EC4D38EE0404F8189D83D5B', '2007-01-25', 0, 0, '099PLTF997', 3212913247, '99ARTIS28', '0ZP', 3212913248);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-184::Bonnie::(MD5Sum: 2b387e657e93b69f8cdaa474f4f1979)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-19', 'P', 0, '84114A077EC7D38EE0404F8189D83D5B', '2009-04-30', 0, 0, '099PLTF997', 41000000, '99BERNST8', '0ZP', 41000000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-185::Bonnie::(MD5Sum: fde77ccae487ccd7641e2151b7c2be34)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-02-27', 'P', 0, '84114A077EC8D38EE0404F8189D83D5B', '2008-08-15', 0, 0, '099PLTF997', 3423345037, '99BGI0014', '0ZP', 3423344471);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-186::Bonnie::(MD5Sum: aacfb340826262e5b9c88a8dceb1d4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077ED1D38EE0404F8189D83D5B', '2009-09-28', 0, 0, '099PLTF997', 16264, '99CHAMP14', '0FP', 16264);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-187::Bonnie::(MD5Sum: 39d5588d41a96bd67129397c3a1646a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077ED2D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 312107546, '99CHAMP22', '0FP', 312107546);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-188::Bonnie::(MD5Sum: 286121d07fbecb858f584fa0cd7f545e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077ED3D38EE0404F8189D83D5B', '2009-10-29', 0, 0, '099PLTF997', 273268508, '99CHAMPL0', '0FP', 273268508);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-189::Bonnie::(MD5Sum: 24d92dd0bb9ee8f750617616ca1375b7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-16', 'P', 0, '84114A077ED5D38EE0404F8189D83D5B', '2008-12-03', 0, 0, '099PLTF997', 14017797, '99CLIFTN0', '0ZP', 14017797);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-190::Bonnie::(MD5Sum: 4ce793c9ef1dbfd0d8ae6418a92d7350)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077EDDD38EE0404F8189D83D5B', '2009-09-28', 0, 0, '099PLTF997', 4249434559, '99CRM0014', '0KP', 4249434559);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-191::Bonnie::(MD5Sum: a383d995a334bd5c944cca272ddbdd9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077EDED38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 287950323, '99CRM0022', '0KP', 287950323);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-192::Bonnie::(MD5Sum: 356b7512da4ca0737121d76143345a8a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077EDFD38EE0404F8189D83D5B', '2009-09-28', 0, 0, '099PLTF997', 14860, '99CRM0030', '0KP', 14860);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-193::Bonnie::(MD5Sum: 50c1b21bb6a9e7cd6a6f6fc3bffb486d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-26', 'P', 0, '84114A077EE2D38EE0404F8189D83D5B', '2009-01-26', 0, 0, '099PLTF997', 10000000, '99DFAEME0', '0ZP', 10000000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-194::Bonnie::(MD5Sum: 9437a53ee886c1dc27a4521039b410ff)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-04-30', 'P', 0, '84114A077EE3D38EE0404F8189D83D5B', '2009-04-30', 0, 0, '099PLTF997', 58000000, '99DIMFND9', '0ZP', 58000000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-195::Bonnie::(MD5Sum: 3ffeea838e595f1c17ff52e5944e9e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F07D38EE0404F8189D83D5B', '2009-08-27', 0, 0, '099PLTF997', 3592731253, '99LOOMI12', '0WP', 3592731253);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-196::Bonnie::(MD5Sum: c54130ae923bbc85118525137bab713e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F08D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 128299253, '99LOOMI20', '0WP', 128299253);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-197::Bonnie::(MD5Sum: 39eccd299ae74b62b1277e96cbee667b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F09D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 85310679, '99LOOMI38', '0WP', 85310679);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-198::Bonnie::(MD5Sum: b75a125f95a7c5836e1f7d2631ac3e50)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F0AD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 557925108, '99LOOMI46', '0WP', 557925108);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-199::Bonnie::(MD5Sum: 63abf83edd85ea1b2553bce2cf9189b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F0BD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 21553732, '99LOOMI53', '0WP', 21553732);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-200::Bonnie::(MD5Sum: 670d1ee9e8dcb1a1e5088b14cfd3919)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F19D38EE0404F8189D83D5B', '2009-03-30', 0, 0, '099PLTF997', 3802614808, '99PIMCO00', '0YP', 3802614808);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-201::Bonnie::(MD5Sum: 9c4cb956d0f22514177da874351a69cf)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F1AD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 916834869, '99PIMCO26', '0YP', 916834869);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-202::Bonnie::(MD5Sum: 3c535292297272a2392a6e304e6fc31c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F1BD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 52986037, '99PIMCO34', '0YP', 52986037);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-203::Bonnie::(MD5Sum: a9fee0bb912b21e7ad9a6fe7cc636f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F1CD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 2251894035, '99PIMCO42', '0YP', 2251894035);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-204::Bonnie::(MD5Sum: efbcf36141f4f7f3ed44191d8b034)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F2BD38EE0404F8189D83D5B', '2009-10-29', 0, 0, '099PLTF997', 239527122, '99SNYDE28', '0SP', 239527122);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-205::Bonnie::(MD5Sum: ffe6649588a799c3759698ceca5e8e4c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F2CD38EE0404F8189D83D5B', '2009-10-29', 0, 0, '099PLTF997', 26389, '99SNYDE36', '0SP', 26389);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-206::Bonnie::(MD5Sum: 1d791ea35f98d7809fb5d2788fe4d75)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F2DD38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 609803863, '99SNYDER3', '0SP', 609803863);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-207::Bonnie::(MD5Sum: 8a9df9ede601fe3ceec8a2b80ba10df)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-06-29', 'P', 0, '84114A077F30D38EE0404F8189D83D5B', '2007-01-25', 0, 0, '099PLTF997', 5037591935, '99STKPLS8', '0ZP', 5037591935);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-208::Bonnie::(MD5Sum: 31e267a97be220a823f11661e9607520)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F36D38EE0404F8189D83D5B', '2009-08-27', 0, 0, '099PLTF997', 6493353872, '99TEMP010', '0QP', 6493353872);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-209::Bonnie::(MD5Sum: a04e9b5dd6dab915f2bea3f591cc75f4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F37D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 361563526, '99TEMP028', '0QP', 361563526);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-210::Bonnie::(MD5Sum: 8235788dfcc402454c29944bf169ac6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F38D38EE0404F8189D83D5B', '2009-06-26', 0, 0, '099PLTF997', 159720, '99TEMP036', '0QP', 159720);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-211::Bonnie::(MD5Sum: 4c10a5fdb690911aad2cb931bc2cd57e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F44D38EE0404F8189D83D5B', '2009-09-28', 0, 0, '099PLTF997', 5747, '99WILBL16', '0DP', 5747);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-212::Bonnie::(MD5Sum: 737fbf3bfdf482de3b56af353e7adb1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F45D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 3829961314, '99WILBL24', '0DP', 3829961314);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-213::Bonnie::(MD5Sum: 267740124845262ef3227d5ec43c7a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F46D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '099PLTF997', 71483706, '99WILBLR9', '0DP', 71483706);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-214::Bonnie::(MD5Sum: 1cc13d30f9ac902e9cc675148a58f2aa)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077F47D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '099PLTF997', 13443854, 'REPEQF011', 'REP', 2426585);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-215::Bonnie::(MD5Sum: febfda245b6a435db356ee101183fb9b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077F48D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '099PLTF997', 450000, 'REPEQF029', 'REP', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-216::Bonnie::(MD5Sum: db7048bdbcfaa99743f464dc471451)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077F49D38EE0404F8189D83D5B', '2008-09-30', 0, 0, '099PLTF997', 222200, 'REPEQF037', 'REP', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-217::Bonnie::(MD5Sum: f77f291d2d1787dab3ffcd1e834547c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-09-30', 'P', 0, '84114A077F4AD38EE0404F8189D83D5B', '2008-09-30', 0, 0, '099PLTF997', 42908335, 'REPEQF045', 'REP', 772435);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-218::Bonnie::(MD5Sum: e6f6b76a5c8dab537f0eaebadae9166)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-02-07', 'P', 0, '84114A077F4BD38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909BTIP011', 55767599, '3133X8AS1', '0TP', 525000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-219::Bonnie::(MD5Sum: 82276c93ada3f8c398af1e275055c33)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-06-23', 'P', 0, '84114A077F4CD38EE0404F8189D83D5B', '2007-06-27', 154918, 0, '909BTIP011', 350000, '3133XLDW0', '0TP', 350000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-220::Bonnie::(MD5Sum: c993b4e2aa941daa64c223acaa76ef)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-02-27', 'P', 0, '84114A077F4DD38EE0404F8189D83D5B', '2008-02-27', 0, 0, '909BTIP011', 440000, '36966RV94', '0TP', 440000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-221::Bonnie::(MD5Sum: 54263831617c715a377a40bc5d97bf1f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-02', 'P', 0, '84114A077F4ED38EE0404F8189D83D5B', '2005-07-29', 0, 0, '909BTIP011', 519804, '464287176', '0TP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-222::Bonnie::(MD5Sum: 464a112e2290f263c6b5bd22a17cea39)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-01-16', 'P', 0, '84114A077F4FD38EE0404F8189D83D5B', '2005-10-25', 0, 108965001, '909BTIP011', 1055100, '464287176', '0TP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-223::Bonnie::(MD5Sum: eee74438fe3c58ae2c8721ff957ad27)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2008-02-07', 'P', 0, '84114A077F50D38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909BTIP011', 436000, '464287176', '0TP', 4000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-224::Bonnie::(MD5Sum: 2d7eccf7b073367beca5fbf173dc40d3)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 4, '2008-08-29', 'P', 0, '84114A077F51D38EE0404F8189D83D5B', '2008-08-29', 0, 0, '909BTIP011', 7994025, '464287176', '0TP', 7500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-225::Bonnie::(MD5Sum: b2fc7f3bffab6dc5d59e7b3b6a5c8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 5, '2008-10-07', 'P', 0, '84114A077F52D38EE0404F8189D83D5B', '2008-10-07', 0, 0, '909BTIP011', 256733, '464287176', '0TP', 2500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-226::Bonnie::(MD5Sum: 292f3a55af5254f997bc23c330a466)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-06', 'P', 0, '84114A077F53D38EE0404F8189D83D5B', '2005-07-29', 0, 0, '909BTIP011', 1570874, '464287440', '0TP', 1839);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-227::Bonnie::(MD5Sum: 85149d9bb4cb65f33495f5ccfb31fca5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-02-13', 'P', 0, '84114A077F54D38EE0404F8189D83D5B', '2005-10-25', 0, 210142693, '909BTIP011', 3121008, '464287440', '0TP', 3680);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-228::Bonnie::(MD5Sum: 3b065abe3d6690b927505e68b5c2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-02-13', 'P', 0, '84114A077F55D38EE0404F8189D83D5B', '2008-08-29', 0, 0, '909BTIP011', 24652872, '464287440', '0TP', 2760);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-229::Bonnie::(MD5Sum: 2eb02a41429c6398105fddcf358f8b1e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 4, '2009-02-13', 'P', 0, '84114A077F56D38EE0404F8189D83D5B', '2008-10-07', 0, 0, '909BTIP011', 15358874, '464287440', '0TP', 1721);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-230::Bonnie::(MD5Sum: fc2ac95b7e83176922d04548fbec3e5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-12-07', 'P', 0, '84114A077F57D38EE0404F8189D83D5B', '2005-07-29', 0, 0, '909BTIP011', 15175652, '464287457', '0TP', 1874);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-231::Bonnie::(MD5Sum: e6d1272cd1783465c8859b335d4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-02-13', 'P', 0, '84114A077F58D38EE0404F8189D83D5B', '2005-10-25', 0, 203272382, '909BTIP011', 30299305, '464287457', '0TP', 3749);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-232::Bonnie::(MD5Sum: 52a01ca94bf32817b9fc0699e531d96)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-02-13', 'P', 0, '84114A077F59D38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909BTIP011', 1826145, '464287457', '0TP', 2187);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-233::Bonnie::(MD5Sum: 0ac14a989f5ef6e3d8cae907d459d54)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 4, '2009-02-13', 'P', 0, '84114A077F5AD38EE0404F8189D83D5B', '2008-08-29', 0, 0, '909BTIP011', 44156001, '464287457', '0TP', 5312);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-234::Bonnie::(MD5Sum: 781e9a3f7adb331d9326a8609c109fce)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 5, '2009-02-13', 'P', 0, '84114A077F5BD38EE0404F8189D83D5B', '2008-10-07', 0, 0, '909BTIP011', 15702502, '464287457', '0TP', 1878);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-235::Bonnie::(MD5Sum: 8876839c99b9f59891de06697c7a999)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-07-16', 'P', 0, '84114A077F5CD38EE0404F8189D83D5B', '1998-05-12', 13388, 0, '909BTIP011', 395848, '650094CD5', '0TP', 400000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-236::Bonnie::(MD5Sum: 5220fae9adbab6f46830ca53a23945c4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-02-27', 'P', 0, '84114A077F5DD38EE0404F8189D83D5B', '2008-02-27', 0, 0, '909BTIP011', 3933456, '717081AR4', '0TP', 380000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-237::Bonnie::(MD5Sum: ff7aa1aa5103f5d94d08c49da6c5fb)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-06-15', 'P', 0, '84114A077F5ED38EE0404F8189D83D5B', '2000-11-29', 8002, 0, '909BTIP011', 1189375, '71713UAL6', '0TP', 100000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-238::Bonnie::(MD5Sum: cf1666a8d684922393dd10653a8ef045)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-06-15', 'P', 0, '84114A077F5FD38EE0404F8189D83D5B', '2001-02-28', 23677, 0, '909BTIP011', 393000, '8447HBAC6', '0TP', 400000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-239::Bonnie::(MD5Sum: eef09cd2a8e4b1aee4d377ffaaaf68)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-08-26', 'P', 0, '84114A077F60D38EE0404F8189D83D5B', '2004-12-07', 0, 0, '909BTIP011', 1, 'S99990558', '0TP', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-240::Bonnie::(MD5Sum: 25652aaf5cc9fec987249c32e4e3996)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2000-05-22', 'P', 0, '84114A077F61D38EE0404F8189D83D5B', '1998-08-13', 0, 0, '909ETIP018', 200000, '04314Z998', '0EP', 12500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-241::Bonnie::(MD5Sum: 6e7cd55238adbee8e91be6ec5f39738f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, 'P', 0, '84114A077F62D38EE0404F8189D83D5B', '2000-05-22', 0, 0, '909ETIP018', 0, '04314Z998', '0EP', 12500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-242::Bonnie::(MD5Sum: 2b8346787a4379274aa06d267f6be88e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-16', 'P', 0, '84114A077F63D38EE0404F8189D83D5B', '2007-06-29', 3060, 0, '909ETIP018', 316200, '09253U108', '0EP', 10200);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-243::Bonnie::(MD5Sum: 7937985bf5454e35c553ccbb79db52d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-02-06', 'P', 0, '84114A077F64D38EE0404F8189D83D5B', '2007-08-28', 0, 0, '909ETIP018', 243305, '09253U108', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-244::Bonnie::(MD5Sum: 1ec36e1d50a4cf7aa4a9e34fdfa44e36)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 5, '2008-02-07', 'P', 0, '84114A077F65D38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909ETIP018', 188182, '09253U108', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-245::Bonnie::(MD5Sum: 84aac791e6159b548cd1ff49d967095)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 6, '2009-11-30', 'P', 0, '84114A077F66D38EE0404F8189D83D5B', '2009-11-30', 0, 0, '909ETIP018', 1440796, '09253U108', '0EP', 9800);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-246::Bonnie::(MD5Sum: cc6041cf99e4b68a69e4e4e1e141f1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-10-15', 'P', 0, '84114A077F67D38EE0404F8189D83D5B', '2002-12-30', 0, 0, '909ETIP018', 5252808, '165167107', '0EP', 6666);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-247::Bonnie::(MD5Sum: 637c8173ae7bd159b12f7f86d83f8c8c)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-04-29', 'P', 0, '84114A077F68D38EE0404F8189D83D5B', '2002-12-30', 0, 675, '909ETIP018', 49995, '165167107', '0EP', 6666);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-248::Bonnie::(MD5Sum: b2b6ffa8339c819ec493f692491f84)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2008-04-29', 'P', 0, '84114A077F69D38EE0404F8189D83D5B', '2003-09-30', 0, 675, '909ETIP018', 7114756, '165167107', '0EP', 6668);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-249::Bonnie::(MD5Sum: 5cad60e1e2b3428cd2c94a256a674d29)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2005-04-15', 'P', 0, '84114A077F6AD38EE0404F8189D83D5B', '2000-03-30', 0, 0, '909ETIP018', 0, '17275R102', '0EP', 7000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-250::Bonnie::(MD5Sum: 889b396a6be1d4137679e451510316f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, 'P', 0, '84114A077F6BD38EE0404F8189D83D5B', '1994-07-29', 0, 0, '909ETIP018', 1788888, '17275R102', '0EP', 7000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-251::Bonnie::(MD5Sum: 33c382286a05c1bb26b59c7a8aaae89)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, 'P', 0, '84114A077F6CD38EE0404F8189D83D5B', '2005-04-15', 0, 0, '909ETIP018', 198770, '17275R102', '0EP', 11000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-252::Bonnie::(MD5Sum: f6cdd24ac9469cc54138207283927d92)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-08-25', 'P', 0, '84114A077F6DD38EE0404F8189D83D5B', '2009-08-25', 0, 0, '909ETIP018', 3495325, '21036P108', '0EP', 25000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-253::Bonnie::(MD5Sum: b124b86d8f1603a749fdced2c3710)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-11-25', 'P', 0, '84114A077F6ED38EE0404F8189D83D5B', '2009-11-25', 0, 0, '909ETIP018', 170799, '21036P108', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-254::Bonnie::(MD5Sum: 27f3a9d2c812180a52c959e8569bb6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-06-07', 'P', 0, '84114A077F6FD38EE0404F8189D83D5B', '2006-06-07', 0, 0, '909ETIP018', 815480, '251566105', '0EP', 50000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-255::Bonnie::(MD5Sum: e7968ff9ab2c7b52a64d10554bd7a212)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-25', 'P', 0, '84114A077F70D38EE0404F8189D83D5B', '2008-11-25', 0, 0, '909ETIP018', 2645175, '254687106', '0EP', 13000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-256::Bonnie::(MD5Sum: 9ea081b8f7525f34d532a54629a56ea)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-03-27', 'P', 0, '84114A077F71D38EE0404F8189D83D5B', '2009-03-27', 0, 0, '909ETIP018', 129255, '254687106', '0EP', 7000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-257::Bonnie::(MD5Sum: 793a75adbf04ebb9564885d8ca2a23a)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-11-25', 'P', 0, '84114A077F72D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '909ETIP018', 150144, '254687106', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-258::Bonnie::(MD5Sum: e72e99abe8fe5ada9a78b78d364a537)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-21', 'P', 0, '84114A077F73D38EE0404F8189D83D5B', '2002-07-15', 1875, 0, '909ETIP018', 13786375, '26874Q100', '0EP', 7500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-259::Bonnie::(MD5Sum: 804522d3f537951f4dc84f863c198d3)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-01-09', 'P', 0, '84114A077F74D38EE0404F8189D83D5B', '1998-08-11', 0, 0, '909ETIP018', 13786375, '26874Q100', '0EP', 7500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-260::Bonnie::(MD5Sum: f464d3b72f56a14395d6fca728d6835)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-11-26', 'P', 0, '84114A077F75D38EE0404F8189D83D5B', '2007-03-27', 1750, 0, '909ETIP018', 989750, '38141G104', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-261::Bonnie::(MD5Sum: 56a791a853c1999a9cc4795b7c97f345)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-11-19', 'P', 0, '84114A077F76D38EE0404F8189D83D5B', '2007-09-20', 8900, 0, '909ETIP018', 29147189, '40414L109', '0EP', 20000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-262::Bonnie::(MD5Sum: 9b63c271e78aa91682f5d63f8312dbc9)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-04-15', 'P', 0, '84114A077F77D38EE0404F8189D83D5B', '2007-08-31', 0, 0, '909ETIP018', 52804805, '436440101', '0EP', 25000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-263::Bonnie::(MD5Sum: d545713fff9e7996eb610b74fc5098)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2007-11-28', 'P', 0, '84114A077F78D38EE0404F8189D83D5B', '2007-11-28', 0, 0, '909ETIP018', 3172845, '436440101', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-264::Bonnie::(MD5Sum: f9e971a8cd96fe55f6517e9c4ce43a8)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-14', 'P', 0, '84114A077F79D38EE0404F8189D83D5B', '2002-06-25', 3375, 0, '909ETIP018', 5578965, '437076102', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-265::Bonnie::(MD5Sum: f189d9923a7eb18c8274be37348ec4a6)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-01-09', 'P', 0, '84114A077F7AD38EE0404F8189D83D5B', '2004-06-29', 0, 0, '909ETIP018', 177400, '437076102', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-266::Bonnie::(MD5Sum: f3ce6c17cfa3ce5decd60549f92c37b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-07', 'P', 0, '84114A077F7BD38EE0404F8189D83D5B', '2006-01-30', 450, 0, '909ETIP018', 381150, '449934108', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-267::Bonnie::(MD5Sum: 24d1c73e13ca9bf08e3bd63f22fa81ab)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2008-02-07', 'P', 0, '84114A077F7CD38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909ETIP018', 1067485, '449934108', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-268::Bonnie::(MD5Sum: 7f8aa6ff95e875cf5cf191a5664f3d2)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-05-14', 'P', 0, '84114A077F7DD38EE0404F8189D83D5B', '2009-05-14', 0, 0, '909ETIP018', 133345, '449934108', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-269::Bonnie::(MD5Sum: 46c14b681f9575f88f3f37291e5cdfa)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-01-07', 'P', 0, '84114A077F7ED38EE0404F8189D83D5B', '2005-04-15', 4200, 0, '909ETIP018', 78817401, '459902102', '0EP', 30000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-270::Bonnie::(MD5Sum: a3809ea49f3429c5683b88144cc32f1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-20', 'P', 0, '84114A077F7FD38EE0404F8189D83D5B', '2009-01-20', 0, 0, '909ETIP018', 3174535, '46120E602', '0EP', 2500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-271::Bonnie::(MD5Sum: 5cca41be77838dfd56ad4cfc7904b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-03-27', 'P', 0, '84114A077F80D38EE0404F8189D83D5B', '2009-03-27', 0, 0, '909ETIP018', 145875, '46120E602', '0EP', 1500);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-272::Bonnie::(MD5Sum: c783556ca6733e33a4bddace069c5e7)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-12-10', 'P', 0, '84114A077F81D38EE0404F8189D83D5B', '2002-06-25', 6375, 0, '909ETIP018', 895200, '532457108', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-273::Bonnie::(MD5Sum: 56b8b14acfcade76c389126162337f58)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-11-25', 'P', 0, '84114A077F82D38EE0404F8189D83D5B', '2003-08-19', 2200, 0, '909ETIP018', 4095744, '594918104', '0EP', 15999);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-274::Bonnie::(MD5Sum: 41633a5afdd5f6bc9d729f9de9488f5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-11-25', 'P', 0, '84114A077F83D38EE0404F8189D83D5B', '2004-01-26', 0, 0, '909ETIP018', 33225231, '594918104', '0EP', 11999);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-275::Bonnie::(MD5Sum: 84bb50f261bf9cb70c657c94554833)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-11-25', 'P', 0, '84114A077F84D38EE0404F8189D83D5B', '2006-05-23', 0, 0, '909ETIP018', 29296882, '594918104', '0EP', 12002);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-276::Bonnie::(MD5Sum: 891f1978dbfc621bbf4fd4367b9e355)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-07-30', 'P', 0, '84114A077F85D38EE0404F8189D83D5B', '2009-07-30', 0, 0, '909ETIP018', 714800, '61166W101', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-277::Bonnie::(MD5Sum: f786b0c2b3751fb75d553ecd4a1640a3)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-11-25', 'P', 0, '84114A077F86D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '909ETIP018', 1599586, '61166W101', '0EP', 2000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-278::Bonnie::(MD5Sum: 304f634e42bf763fb3c9d962ae8319f)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2007-11-28', 'P', 0, '84114A077F87D38EE0404F8189D83D5B', '2007-11-28', 0, 0, '909ETIP018', 23143914, '62886E108', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-279::Bonnie::(MD5Sum: 1a269331528df19e757e23a2ec49d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2010-01-04', 'P', 0, '84114A077F88D38EE0404F8189D83D5B', '1994-06-30', 0, 0, '909ETIP018', 17625968, '713448108', '0EP', 9333);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-280::Bonnie::(MD5Sum: 136fd670bd3db84883eadd1005def4)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-01-20', 'P', 0, '84114A077F89D38EE0404F8189D83D5B', '1997-11-12', 0, 2250, '909ETIP018', 11618807, '713448108', '0EP', 3111);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-281::Bonnie::(MD5Sum: dd1daa668a5c58d322800a25191d6e1)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2009-01-20', 'P', 0, '84114A077F8AD38EE0404F8189D83D5B', '1998-02-17', 0, 750, '909ETIP018', 5577871, '713448108', '0EP', 1556);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-282::Bonnie::(MD5Sum: 3fffd2a4729d7ab9c1a80b8d489023)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-02-23', 'P', 0, '84114A077F8BD38EE0404F8189D83D5B', '2006-02-23', 0, 0, '909ETIP018', 323600, '73935X740', '0EP', 20000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-283::Bonnie::(MD5Sum: 33c7ee69fe558f1dd53488501c20619e)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-05-14', 'P', 0, '84114A077F8CD38EE0404F8189D83D5B', '2009-05-14', 0, 0, '909ETIP018', 128676, '73935X740', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-284::Bonnie::(MD5Sum: 79bc7fa6efaf952623317e89f934)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-20', 'P', 0, '84114A077F8DD38EE0404F8189D83D5B', '2005-10-25', 511875, 0, '909ETIP018', 364800, '742718109', '0EP', 12000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-285::Bonnie::(MD5Sum: edc18c7b641e1b37f49f96e82810e446)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-01-20', 'P', 0, '84114A077F8ED38EE0404F8189D83D5B', '2001-05-30', 3825, 0, '909ETIP018', 391200, '755111507', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-286::Bonnie::(MD5Sum: 53469da753183192e4df36cf6c45c54)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2007-10-30', 'P', 0, '84114A077F8FD38EE0404F8189D83D5B', '2007-10-30', 0, 0, '909ETIP018', 26212186, '88076W103', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-287::Bonnie::(MD5Sum: a48eb4a1d5ae982a42de9c70eae4b5)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-05-14', 'P', 0, '84114A077F90D38EE0404F8189D83D5B', '2009-05-14', 0, 0, '909ETIP018', 207085, '88076W103', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-288::Bonnie::(MD5Sum: 9b5ad45ae944cc5cdc184e80cee74d6d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-01-03', 'P', 0, '84114A077F91D38EE0404F8189D83D5B', '2005-04-15', 4200, 0, '909ETIP018', 724320, '911312106', '0EP', 10000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-289::Bonnie::(MD5Sum: 9249ebf82ab0461555a9435045a15924)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-11-25', 'P', 0, '84114A077F92D38EE0404F8189D83D5B', '2009-11-25', 0, 0, '909ETIP018', 2867395, '911312106', '0EP', 5000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-290::Bonnie::(MD5Sum: e0cbef41f0bb7e5b8082bd3d9bd8d98b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-02-07', 'P', 0, '84114A077F93D38EE0404F8189D83D5B', '2008-02-07', 0, 0, '909ETIP018', 5222715, '931422109', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-291::Bonnie::(MD5Sum: 4c80ef7933c14b59188e33a7963a3a0)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2008-11-17', 'P', 0, '84114A077F94D38EE0404F8189D83D5B', '2008-11-17', 0, 0, '909ETIP018', 601388, '94106L109', '0EP', 20000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-292::Bonnie::(MD5Sum: 61bd8d9ff690a823e8f04cd169be6763)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2006-06-07', 'P', 0, '84114A077F95D38EE0404F8189D83D5B', '2004-12-29', 0, 0, '909ETIP018', 585345, '94973V107', '0EP', 15000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-293::Bonnie::(MD5Sum: 4496fa0a18291a8c71f7956514d2055)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-09-29', 'P', 0, '84114A077F96D38EE0404F8189D83D5B', '2008-12-31', 0, 0, '909ETIP018', 10450428, 'H8817H100', '0EP', 4115);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-294::Bonnie::(MD5Sum: 11d1d76fb874f68ed238374539cf03b)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-09-29', 'P', 0, '84114A077F97D38EE0404F8189D83D5B', '2008-12-31', 0, 0, '909ETIP018', 2802443, 'H8817H100', '0EP', 5885);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-295::Bonnie::(MD5Sum: 1aafb665b93cc6b5dda8ed9f4619ab1d)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2004-12-07', 'P', 0, '84114A077F98D38EE0404F8189D83D5B', '2004-12-07', 0, 0, '909ETIP018', 1, 'S99990558', '0EP', 1);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-296::Bonnie::(MD5Sum: 6c9de4dce7abcaa5fd3d6ae3999a66)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 1, '2009-06-26', 'P', 0, '8B3609E91D6A4C7EE0404F8189D87414', '2009-06-26', 0, 0, '046G007720', 20000, '99BTIP011', '0CP', 1000);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-297::Bonnie::(MD5Sum: 8f78bbad33b265b42304b0ddc028eb)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 2, '2009-08-27', 'P', 0, '8B3609E91D6B4C7EE0404F8189D87414', '2009-08-27', 0, 0, '046G007720', 3500, '99BTIP011', '0CP', 200);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476ja-1-298::Bonnie::(MD5Sum: ef9d3cce798fb95961f89e278fb077)
+-- Endowment request: create Endowment tables and sequences in KULDBA
+INSERT INTO `END_HLDG_TAX_LOT_T` (`VER_NBR`, `HLDG_LOT_NBR`, `LAST_TRAN_DT`, `HLDG_IP_IND`, `HLDG_FRGN_TAX_WITH`, `OBJ_ID`, `HLDG_ACQD_DT`, `HLDG_PRIOR_ACRD_INC`, `HLDG_ACRD_INC_DUE`, `KEMID`, `HLDG_COST`, `SEC_ID`, `REGIS_CD`, `HLDG_UNITS`) VALUES (1, 3, '2008-09-30', 'P', 0, '8B3609E91D6C4C7EE0404F8189D87414', '2008-09-30', 0, 0, '046G007720', 6400, '99BTIP011', '0CP', 300);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-571::Bonnie::(MD5Sum: d18111f5289dcac1d15f31dedc529c)
+-- create Endowment tables and sequences in KULDBA
+ALTER TABLE `END_TRAN_HLDG_LOT_T` ADD CONSTRAINT `END_TRAN_HLDG_LOT_TR2` FOREIGN KEY (`KEMID`, `SEC_ID`, `REGIS_CD`, `HLDG_IP_IND`, `TRAN_HLDG_LT_NBR`) REFERENCES `END_HLDG_TAX_LOT_T`(`KEMID`, `SEC_ID`, `REGIS_CD`, `HLDG_IP_IND`, `HLDG_LOT_NBR`);
+
+
+-- Changeset updates/2010-07-19-5476j-1-END_HLDG_TAX_LOG_REBAL_T.xml::5476j-2-572::Bonnie::(MD5Sum: 198f3ecd3fd764c52a28bee59a70afde)
+-- create Endowment tables and sequences in KULDBA
+UPDATE `END_HLDG_TAX_LOT_REBAL_T` SET `TOT_HLDG_COST` = 3067039.5 WHERE KEMID='909BTIP011' AND SEC_ID='464287176' AND REGIS_CD='0TP' AND HLDG_IP_IND='P';

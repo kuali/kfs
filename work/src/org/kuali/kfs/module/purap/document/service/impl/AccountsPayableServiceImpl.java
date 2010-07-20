@@ -65,19 +65,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AccountsPayableServiceImpl implements AccountsPayableService {
 
-    private PurapAccountingService purapAccountingService;
-    private PurapGeneralLedgerService purapGeneralLedgerService;
-    private DocumentService documentService;
-    private PurapService purapService;
-    private ParameterService parameterService;
-    private DateTimeService dateTimeService;
-    private PurchaseOrderService purchaseOrderService;
-    private AccountService accountService;
-    
+    protected PurapAccountingService purapAccountingService;
+    protected PurapGeneralLedgerService purapGeneralLedgerService;
+    protected DocumentService documentService;
+    protected PurapService purapService;
+    protected ParameterService parameterService;
+    protected DateTimeService dateTimeService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected AccountService accountService;           
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
+   
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }

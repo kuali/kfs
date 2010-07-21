@@ -29,7 +29,6 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
@@ -469,18 +468,16 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         String budgetCategoryCode = objectCode.getRschBudgetCategoryCode();
         
-//        if (budgetCategoryCode != null) { 
-//            if (!budgetCategoryCode.isEmpty()) {
-//                List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//                HashMap<String, String> criteria = new HashMap<String, String>();
-//                criteria.put("budgetCategoryCode", budgetCategoryCode); 
-//                BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName("KC", "budgetCategorytServiceSOAP"));
-//                budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-//                if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-//                    GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code");
-//                    return false;
-//                }                
-//            }
+//        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
+//            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
+//            HashMap<String, String> criteria = new HashMap<String, String>();
+//            criteria.put("budgetCategoryCode", budgetCategoryCode); 
+//            BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName("KC", "budgetCategorytServiceSOAP"));
+//            budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
+//            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
+//                GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code");
+//                return false;
+//            }                
 //        }
         
         return true;        

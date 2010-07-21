@@ -61,8 +61,8 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
     private CustomerProfileService customerProfileService;
     private KualiConfigurationService kualiConfigurationService;
-    private MailService mailService;
-    private ParameterService parameterService;
+    protected MailService mailService;
+    protected ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private AchBankService achBankService;
 
@@ -714,7 +714,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * 
      * @return true if email should be sent, false otherwise
      */
-    protected boolean isPaymentEmailEnabled() {
+    public boolean isPaymentEmailEnabled() {
         boolean noEmail = parameterService.getIndicatorParameter(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL);
         if (noEmail) {
             LOG.debug("sendLoadEmail() sending payment file email is disabled");

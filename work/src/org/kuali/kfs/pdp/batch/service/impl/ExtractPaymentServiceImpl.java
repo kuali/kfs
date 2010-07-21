@@ -57,18 +57,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
-    private String directoryName;
+    protected String directoryName;
 
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private PaymentGroupService paymentGroupService;
-    private PaymentDetailService paymentDetailService;
-    private PaymentGroupHistoryDao paymentGroupHistoryDao;
-    private ProcessDao processDao;
-    private PdpEmailService paymentFileEmailService;
-    private BusinessObjectService businessObjectService;
-    private KualiConfigurationService kualiConfigurationService;
-    private CountryService countryService;
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected PaymentGroupService paymentGroupService;
+    protected PaymentDetailService paymentDetailService;
+    protected PaymentGroupHistoryDao paymentGroupHistoryDao;
+    protected ProcessDao processDao;
+    protected PdpEmailService paymentFileEmailService;
+    protected BusinessObjectService businessObjectService;
+    protected KualiConfigurationService kualiConfigurationService;
+    protected CountryService countryService;
 
     // Set this to true to run this process without updating the database. This
     // should stay false for production.

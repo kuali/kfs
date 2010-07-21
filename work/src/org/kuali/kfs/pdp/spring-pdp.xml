@@ -284,7 +284,9 @@
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 
-	<bean id="pdpExtractPaymentService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
+    <bean id="pdpExtractPaymentService" parent="PdpExtractPaymentService-parentBean"/>
+    
+    <bean id="PdpExtractPaymentService-parentBean" abstract="true" class="org.kuali.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
 		<property name="parameterService" ref="parameterService"/>
 		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>

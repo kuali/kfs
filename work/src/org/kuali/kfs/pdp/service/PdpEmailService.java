@@ -99,4 +99,11 @@ public interface PdpEmailService {
      * @param user
      */
     public void sendCancelEmail(PaymentGroup paymentGroup, String note, Person user);
+    
+    /**
+     * Reads system parameter indicating whether to status emails should be sent
+     * 
+     * @return true if email should be sent, false otherwise
+     */
+    public boolean isPaymentEmailEnabled() ;
 }

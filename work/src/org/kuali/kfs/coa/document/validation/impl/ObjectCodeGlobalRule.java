@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -33,11 +35,14 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -713,18 +718,16 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         
         String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
         
-//        if (budgetCategoryCode != null) { 
-//            if (!budgetCategoryCode.trim().isEmpty()) {
-//                List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//                HashMap<String, String> criteria = new HashMap<String, String>();
-//                criteria.put("budgetCategoryCode", budgetCategoryCode); 
-//                BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName("KC", "budgetCategorytServiceSOAP"));
-//                budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-//                if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-//                    GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
-//                    return false;
-//                }                
-//            }        
+//        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
+//            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
+//            HashMap<String, String> criteria = new HashMap<String, String>();
+//            criteria.put("budgetCategoryCode", budgetCategoryCode); 
+//            BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName("KC", "budgetCategorytServiceSOAP"));
+//            budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
+//            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
+//                GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
+//                return false;
+//            }                
 //        }        
         
         return true;

@@ -176,4 +176,5 @@
 <include file="updates/2010-07-19-5880-1-CA_ICR_EXL_TYPE_T.xml"/>
 <include file="updates/2010-07-20-5578-1-END_TRAN_ARCHV_SEC_T.xml"/>
 <include file="updates/2010-07-20-5578g-1-END_TRAN_ARCHV_SEC_T.xml"/>
+<include file="updates/2010-07-20-5412-1-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

@@ -129,7 +129,8 @@ public class EndowPropertyConstants {
     public static final String KEMID_DONOR_STATEMENTS_TAB = "kemidDonorStatements";
     public static final String KEMID_COMBINE_DONOR_STATEMENTS_TAB = "kemidCombineDonorStatements";
     public static final String KEMID_FEES_TAB = "kemidFees";
-
+    public static final String KEMID_CLOSED = "closed_ind";
+    
     public static final String KEMID_AGREEMENTS_SECTION = "agreements";
     public static final String KEMID_SOURCE_OF_FUNDS_SECTION = "sourcesOfFunds";
     public static final String KEMID_BENEFITTING_ORGS_SECTION = "benefittingOrganizations";

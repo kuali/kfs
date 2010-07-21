@@ -32,9 +32,12 @@ import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.TypeRestrictionCodeService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -76,12 +79,18 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
                 KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance = new KEMIDCurrentAvailableBalance();
                 String kemId = kemIdRecord.getKemid();
                 kEMIDCurrentAvailableBalance.setKemid(kemId);
+                LOG.info("Calculate sum for available income cash and available principal cash for the kemid: " + kemId);                        
                 kEMIDCurrentAvailableBalance.setAvailableIncomeCash(getAvailableIncomeCash(kemId));
-                kEMIDCurrentAvailableBalance.setAvailablePrincipalCash(getAvailablePrincipalCash(kemId, kemIdRecord.getTypeRestrictionCodeForPrincipalRestrictionCodeDesc()));
+                kEMIDCurrentAvailableBalance.setAvailablePrincipalCash(getAvailablePrincipalCash(kemId, kemIdRecord.getPrincipalRestrictionCode()));
+                kEMIDCurrentAvailableBalance.setAvailableTotalCash(kEMIDCurrentAvailableBalance.getAvailableIncomeCash().add(kEMIDCurrentAvailableBalance.getAvailablePrincipalCash()));
+                kEMIDCurrentAvailableBalance.setObjectId(new Guid().toString());
+                kEMIDCurrentAvailableBalance.setVersionNumber(1L);
                 InsertAvailableCash(kEMIDCurrentAvailableBalance);
             }
         }
-            
+        
+        LOG.info("Processed all KEMID records.  Summarized available spendable funds."); 
+        
         return success;
     }
     
@@ -108,10 +117,13 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
      * Retrieves all kemId records where closed indicator = 'N'
      */
     public Collection<KEMID> getAllKemIdWithClosedIndicatorNo() {
+        LOG.info("Getting all KEMIDs with Closed Indicator = 'N'");
+        
         Map fieldValues = new HashMap();
-        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED_IND, EndowConstants.NO);
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.NO);
         
         Collection<KEMID> kemIdRecords = businessObjectService.findMatching(KEMID.class, fieldValues);
+        LOG.info("Number of KEMIDs with Closed Indicator = '" + kemIdRecords.size());
         
         return kemIdRecords;
     }
@@ -121,6 +133,8 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
      * Method to clear all the records in the kEMIDCurrentAvailableBalance table
      */
     public void clearAllAvailableCash() {
+        LOG.info("Step1: Clearing all available cash records");
+        
         Collection<KEMIDCurrentAvailableBalance> KEMIDCurrentAvailableBalances = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
 
         for (KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance : KEMIDCurrentAvailableBalances) {
@@ -156,7 +170,9 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
         BigDecimal availableIncomeCash = BigDecimal.ZERO;
         
         KemidCurrentCash kemidCurrentCash = kemidCurrentCashOpenRecordsService.getByPrimaryKey(kemId);
-        availableIncomeCash = availableIncomeCash.add(kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue());
+        if (ObjectUtils.isNotNull(kemidCurrentCash)) {
+            availableIncomeCash = availableIncomeCash.add(kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue());
+        }
         
         //get market value of the KEMID with class code type = C and IP indicator = I
         availableIncomeCash = availableIncomeCash.add(holdingTaxLotService.getMarketValueForCashEquivalentsForAvailableIncomeCash(kemId));
@@ -191,7 +207,10 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
         }
         
         KemidCurrentCash kemidCurrentCash = kemidCurrentCashOpenRecordsService.getByPrimaryKey(kemId);
-        availablePrincipalCash = availablePrincipalCash.add(kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue());
+        
+        if (ObjectUtils.isNotNull(kemidCurrentCash)) {
+            availablePrincipalCash = availablePrincipalCash.add(kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue());
+        }
         
         //get market value of the KEMID with class code type = C and IP indicator = P
         availablePrincipalCash = availablePrincipalCash.add(holdingTaxLotService.getMarketValueForCashEquivalentsForAvailablePrincipalCash(kemId));

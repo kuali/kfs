@@ -225,6 +225,9 @@
 		<property name="typeRestrictionCodeService">
 			<ref bean="typeRestrictionCodeService" />
 		</property>
+		<property name="kEMIDService">
+			<ref bean="KEMIDService" />
+		</property>		
 	</bean>
  
  	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>

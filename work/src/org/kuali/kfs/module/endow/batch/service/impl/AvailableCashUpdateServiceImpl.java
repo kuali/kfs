@@ -28,11 +28,10 @@ import org.kuali.kfs.module.endow.batch.service.AvailableCashUpdateService;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
-import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.TypeRestrictionCodeService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -53,6 +52,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
     protected HoldingTaxLotService holdingTaxLotService;
     protected TypeRestrictionCodeService typeRestrictionCodeService;
+    protected KEMIDService kEMIDService;
 
     /**
      * Constructs a AvailableCashUpdateServiceImpl instance
@@ -201,8 +201,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected BigDecimal getAvailablePrincipalCash(String kemId, String typePrincipalRestrictedCode) {
         BigDecimal availablePrincipalCash = BigDecimal.ZERO;
         
-        TypeRestrictionCode typeRestrictionCode = typeRestrictionCodeService.getByPrimaryKey(typePrincipalRestrictedCode);
-        if (typeRestrictionCode.getPermanentIndicator() == true) {
+        if (kEMIDService.isTrueEndowment(kemId)) {
             return availablePrincipalCash;
         }
         
@@ -318,5 +317,23 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
      */    
     public void setTypeRestrictionCodeService(TypeRestrictionCodeService typeRestrictionCodeService) {
         this.typeRestrictionCodeService = typeRestrictionCodeService;
+    }
+    
+    /**
+     * gets the kEMIDService
+     * 
+     * @param kEMIDService The kEMIDService to get.
+     */    
+    protected KEMIDService getkEMIDService() {
+        return kEMIDService;
+    }
+
+    /**
+     * gets the kEMIDService
+     * 
+     * @param kEMIDService The kEMIDService to get.
+     */    
+    public void setkEMIDService(KEMIDService kEMIDService) {
+        this.kEMIDService = kEMIDService;
     }
 }

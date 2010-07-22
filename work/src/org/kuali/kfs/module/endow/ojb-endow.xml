@@ -2446,4 +2446,59 @@
     </collection-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.TransactionArchive" table="END_TRAN_ARCHV_T">
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="lineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="lineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="description" column="TRAN_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="typeCode" column="TRAN_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="subTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="srcTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="kemid" column="TRAN_KEMID" jdbc-type="VARCHAR" />
+    <field-descriptor name="etranCode" column="TRAN_ETRAN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="lineDescription" column="TRAN_LN_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="incomePrincipalIndicatorCode" column="TRAN_IP_IND_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="principalCashAmount" column="TRAN_PRIN_CSH_AMT" jdbc-type="DECIMAL" />
+    <field-descriptor name="incomeCashAmount" column="TRAN_INC_CSH_AMT" jdbc-type="DECIMAL" />
+    <field-descriptor name="corpusIndicator" column="TRAN_CORPUS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="corpusAmount" column="TRAN_CORPUS_AMT" jdbc-type="DECIMAL" />
+    <field-descriptor name="postedDate" column="TRAN_PSTD_DT" jdbc-type="DATE"/>
+    
+    <reference-descriptor name="etranObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="etranCode" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="kemid" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="archiveSecurity" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+        <foreignkey field-ref="lineNumber" />
+        <foreignkey field-ref="lineTypeCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" table="END_TRAN_ARCHV_SEC_T">
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="lineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="lineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="securityId" column="TRAN_SEC_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="registrationCode" column="TRAN_SEC_REGIS_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="etranCode" column="TRAN_SEC_ETRAN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="unitValue" column="TRAN_SEC_UNIT_VAL" jdbc-type="DECIMAL" />
+    <field-descriptor name="unitsHeld" column="TRAN_SEC_UNITS" jdbc-type="DECIMAL" />
+    <field-descriptor name="holdingCost" column="TRAN_SEC_COST" jdbc-type="DECIMAL" />
+    <field-descriptor name="longTermGainLoss" column="TRAN_SEC_LT_GAIN_LOSS" jdbc-type="DECIMAL" />
+    <field-descriptor name="shortTermGainLoss" column="TRAN_SEC_ST_GAIN_LOSS" jdbc-type="DECIMAL" />
+    
+    <reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="securityId" />
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

@@ -165,7 +165,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         }
         else {
             String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_ACCOUNTING_LINE, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DELETING_ACCOUNTING_LINE, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -195,7 +195,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         }
         else {
             String[] errorParams = new String[] { "target", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_ACCOUNTING_LINE, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DELETING_ACCOUNTING_LINE, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

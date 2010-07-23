@@ -29,6 +29,7 @@
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForSourceAccountingLine" />
   <c:set var="transLines" value="document.sourceAccountingLines"/> 
   <c:set var="importLineAction" value="importSourceTransactionLines"/>
+  <c:set var="errorKeyMatch" value="${EndowConstants.SOURCE_ACCOUNTING_LINES_ERRORS}" />
 </c:if>
 <c:if test="${not isSource}">
   <c:set var="lineAttributes" value="${DataDictionary.TargetEndowmentAccountingLine.attributes}" />
@@ -38,6 +39,7 @@
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForTargetAccountingLine" />
   <c:set var="transLines" value="document.targetAccountingLines"/>
   <c:set var="importLineAction" value="importTargetAccountingLines"/>
+  <c:set var="errorKeyMatch" value="${EndowConstants.TARGET_ACCOUNTING_LINES_ERRORS}" />
 </c:if>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
@@ -81,6 +83,12 @@
 					</NOSCRIPT>
 				</td>
 	    </tr>
+	    
+	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">
+	    <tr>
+            <td colspan="11"><kul:errors keyMatch="${errorKeyMatch}" errorTitle="Errors found in this Section:" /></td>
+        </tr>
+       </kul:displayIfErrors>
 	    
 		<tr>
 

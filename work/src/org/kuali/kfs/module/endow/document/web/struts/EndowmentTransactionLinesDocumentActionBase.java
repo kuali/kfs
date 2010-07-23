@@ -33,7 +33,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
@@ -45,11 +44,9 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
@@ -57,7 +54,6 @@ import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteTransactionLineEvent;
-import org.kuali.kfs.module.endow.document.validation.event.RefreshTransactionLineEvent;
 import org.kuali.kfs.module.endow.exception.LineParserException;
 import org.kuali.kfs.module.endow.util.LineParser;
 import org.kuali.kfs.sys.KFSConstants;
@@ -299,7 +295,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
         else {
             String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_TRANSACTION_LINE, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DELETING_TRANSACTION_LINE, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -329,7 +325,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
         else {
             String[] errorParams = new String[] { "target", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.TransactionalDocuments.ERROR_DELETING_TRANSACTION_LINE, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_DELETING_TRANSACTION_LINE, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -22,7 +22,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class EndowConstants extends JSTLConstants {
     public static final String YES = "Y";
     public static final String NO = "N";
-    
+
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
     public static final String NEW_SOURCE_ACC_LINE_PROPERTY_NAME = "newSourceAccouningLine";
@@ -271,10 +271,19 @@ public class EndowConstants extends JSTLConstants {
     public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
     public static final String ACCOUNTING_LINE_ERRORS = "document.accountingLines";
+    public static final String SOURCE_ACCOUNTING_LINES_ERRORS = "newSourceAccountingLine*,document.sourceAccountingLines*";
+    public static final String TARGET_ACCOUNTING_LINES_ERRORS = "newTargetAccountingLine*,document.targetAccountingLines*";
 
     public static final class HistoryHoldingValueAdjustmentValuationCodes {
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M";
         public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "holdingHistory*";
+    }
+
+    // Consolidated Object Code Constants
+    public static final class ConsolidatedObjectCode {
+        public static final String ASSETS = "ASST";
+        public static final String LIABILITIES = "LIAB";
+        public static final String FUND_BALANCE = "FDBL";
     }
 }

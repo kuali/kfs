@@ -197,6 +197,8 @@ public class EndowKeyConstants {
 
         public static final String ERROR_TRANSACTION_LINE_TAXLOT_INVALID = "error.document.transactionLine.taxlot.invalid";
 
+        public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
+
         public static final String WARNING_TRANSACTION_LINE_ENDOWMENT_VALUE_REDUCTION = "warning.transactionLine.endowment.value.reduction";
 
         public static final String ERROR_TRANSACTION_LINE_SOURCE_TARGET_UNITS_EQUAL = "error.transactionLine.source.target.unit.equal";
@@ -230,13 +232,13 @@ public class EndowKeyConstants {
         // Security Transfer constants
         public static final String ERROR_SECURITY_TRANSFER_ONE_AND_ONLY_ONE_SOURCE_TRANS_LINE = "error.document.securityTransfer.oneAndOnlyOneTransactionLine";
 
+
         // Accounting Lines
         public static final String ERROR_ACCT_LINE_COUNT_INSUFFICIENT = "error.document.accountingLine.count.insufficient";
-    }
-
-    public static class TransactionalDocuments {
-        public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
         public static final String ERROR_DELETING_ACCOUNTING_LINE = "error.accountingLine.deleteRule.invalid";
+        public static final String ERROR_ACCT_LINE_OBJECT_CODE_REQUIRED = "error.accountingLine.objectCode.required";
+        public static final String ERROR_ACCT_LINE_OBJECT_CODE_INVALID = "error.accountingLine.objectCode.invalid";
+        public static final String ERROR_ACCT_LINE_OBJECT_CODE_NOT_ASSET_LIABILITY_OR_FUND_BAL = "error.accountingLine.objectCode.notAssetLiabilityOrFundBalance";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {

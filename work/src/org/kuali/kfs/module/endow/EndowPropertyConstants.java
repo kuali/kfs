@@ -514,6 +514,9 @@ public class EndowPropertyConstants {
 
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";
     public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX = "document.targetTransactionLines";
+    
+    public static final String EXISTING_SOURCE_ACCT_LINE_PREFIX = "document.sourceAccountingLines";
+    public static final String EXISTING_TARGET_ACCT_LINE_PREFIX = "document.targetAccountingLines";
 
     public static final String TRANSACTION_SECURITY_ID = "securityID";
     public static final String TRANSACTION_REGISTRATION_ID = "registrationCode";
@@ -528,4 +531,7 @@ public class EndowPropertyConstants {
     
     // Holding Tax Lot Re-balance
     public static final String HOLDING_TAX_LOTS_TAB = "holdingTaxLots";
+    
+    // Endowment Accounting Line
+    public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
 }

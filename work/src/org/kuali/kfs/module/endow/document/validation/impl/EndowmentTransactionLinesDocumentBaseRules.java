@@ -58,7 +58,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransactionalDocumentBaseRule implements AddTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, DeleteTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine>, RefreshTransactionLineRule<EndowmentTransactionLinesDocument, EndowmentTransactionLine, Number> {
 
-    private static final String LIABILITY_CLASS_CODE = "L";
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.DeleteTransactionLineRule#processDeleteTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
@@ -86,11 +85,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase = null;
@@ -133,12 +132,12 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
             }
             else {
-                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_TRANSACTION_LINE_PREFIX + "[" + index + "].";
+                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_ACCT_LINE_PREFIX + "[" + index + "].";
             }
         }
         else {
             if (index == -1) {
-                ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
+                ERROR_PREFIX = EndowPropertyConstants.TARGET_ACCT_LINE_PREFIX;
             }
             else {
                 ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
@@ -685,7 +684,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         isValid &= isSecurityActive(document, isSource);
 
         // Validates Security class code
-        isValid &= validateSecurityClassTypeCode(document, isSource, LIABILITY_CLASS_CODE);
+        isValid &= validateSecurityClassTypeCode(document, isSource, EndowConstants.ClassCodeTypes.LIABILITY);
         return isValid;
     }
 

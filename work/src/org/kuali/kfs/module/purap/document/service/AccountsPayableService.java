@@ -78,6 +78,14 @@ public interface AccountsPayableService {
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName);
 
     /**
+     * This method cancels an AccountsPayableDocument according to the document status.
+     * 
+     * @param apDocument       The accounts payable document to be canceled.
+     * @param noteText         Notes users input when canceling the document 
+     */
+    public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument apDocument, String noteText) throws Exception;
+
+    /**
      * Updates the item list based on what's eligible to be payed on purchase order.
      * 
      * @param apDocument  The accounts payable document containing the items to be updated.

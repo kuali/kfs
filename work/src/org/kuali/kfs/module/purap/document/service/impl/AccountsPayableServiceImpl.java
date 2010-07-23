@@ -27,18 +27,18 @@ import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -51,15 +51,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -486,6 +491,52 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
     
     /**
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#cancelAccountsPayableDocumentByCheckingDocumentStatus(org.kuali.kfs.module.purap.document.AccountsPayableDocument, java.lang.String)
+     */
+    public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument document, String noteText) throws Exception {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+
+        if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+            //prior to submit, just call regular cancel logic
+            documentService.cancelDocument(document, noteText);
+        }
+        else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode())) {
+            //while awaiting AP approval, just call regular disapprove logic as user will have action request
+            documentService.disapproveDocument(document, noteText);
+        }
+        else {
+            UserSession originalUserSession = GlobalVariables.getUserSession();
+            KualiWorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            //any other time, perform special logic to cancel the document
+            if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                try {
+                    // person canceling may not have an action requested on the document
+                    Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
+                    GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                    
+                    WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
+                    KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
+                    documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
+                }
+                finally {
+                    GlobalVariables.setUserSession(originalUserSession);
+                    document.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
+                }
+            }
+            else {
+                // call gl method here (no reason for post processing since workflow done)
+                SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
+                document.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
+            }
+        }
+                    
+        Note noteObj = documentService.createNoteFromDocument(document, noteText);
+        documentService.addNoteToDocument(document, noteObj);
+        SpringContext.getBean(NoteService.class).save(noteObj);      
+    }
+
+    /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
@@ -532,7 +583,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     // take invoiced quantities from the lower of the preq and po if different
                     updateEncumberances(preqItem, poItem, cmItem);
                 }
-
             }
             else if (cm.isSourceDocumentPurchaseOrder()) {
                 PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
@@ -576,7 +626,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             // finally update encumbrances
         }
         else if (apDocument instanceof PaymentRequestDocument) {
-
 
             // get a fresh purchase order
             PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());

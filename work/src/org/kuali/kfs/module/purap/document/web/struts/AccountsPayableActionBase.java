@@ -31,7 +31,6 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
-import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -53,26 +52,19 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Struts Action for Accounts Payable documents.
@@ -480,50 +472,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return A PurQuestionCallback which does post-question tasks appropriate to Cancellation.
      */
     protected PurQuestionCallback cancelCallbackMethod() {
-
         return new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                DocumentService documentService = SpringContext.getBean(DocumentService.class);
-
-                if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getStatusCode())) {
-                    //prior to submit, just call regular cancel logic
-                    documentService.cancelDocument(document, noteText);
-                }
-                else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode())) {
-                    //while awaiting AP approval, just call regular disapprove logic as user will have action request
-                    documentService.disapproveDocument(document, noteText);
-                }
-                else {
-                    UserSession originalUserSession = GlobalVariables.getUserSession();
-                    KualiWorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
-                    //any other time, perform special logic to cancel the document
-                    if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                        try {
-                            // person canceling may not have an action requested on the document
-                            Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
-                            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                            
-                            WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                            KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
-                            document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-                            documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
-                        }
-                        finally {
-                            GlobalVariables.setUserSession(originalUserSession);
-                            document.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
-                        }
-                    }
-                    else {
-                        // call gl method here (no reason for post processing since workflow done)
-                        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                        document.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
-                    }
-                }
-                
-                
-                Note noteObj = documentService.createNoteFromDocument(document, noteText);
-                documentService.addNoteToDocument(document, noteObj);
-                SpringContext.getBean(NoteService.class).save(noteObj);
+                SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocumentByCheckingDocumentStatus(document, noteText);
                 return document;
             }
         };

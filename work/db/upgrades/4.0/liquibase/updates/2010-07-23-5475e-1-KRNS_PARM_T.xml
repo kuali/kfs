@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Muddu' id='5475e-1-1' failOnError='true'>
+    <comment>Endowment need to create two more system parameters to the master data source. </comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='PARM_DTL_TYP_CD' value='AvailableCashUpdateStep' />
+      <column name='PARM_NM' value='AVAILABLE_CASH_PERCENT' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='90' />
+      <column name='PARM_DESC_TXT' value='Used to calculate the percent of the market value of pooled funds considered available for spending' />
+      <column name='CONS_CD' value='A' />
+      <column name='APPL_NMSPC_CD' value='KUALI' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5475e-1-2' failOnError='true'>
+    <comment>Endowment need to create two more system parameters to the master data source. </comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='PARM_DTL_TYP_CD' value='Batch' />
+      <column name='PARM_NM' value='FISCAL_YEAR_END_DAY_AND_MONTH' />
+      <column name='OBJ_ID' type='UUID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='0630' />
+      <column name='PARM_DESC_TXT' value='The month and day marking the last date of the fiscal year' />
+      <column name='CONS_CD' value='A' />
+      <column name='APPL_NMSPC_CD' value='KUALI' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

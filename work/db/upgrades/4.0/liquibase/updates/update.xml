@@ -177,4 +177,7 @@
 <include file="updates/2010-07-20-5578-1-END_TRAN_ARCHV_SEC_T.xml"/>
 <include file="updates/2010-07-20-5578g-1-END_TRAN_ARCHV_SEC_T.xml"/>
 <include file="updates/2010-07-20-5412-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-07-22-5742-1-CA_OBJECT_CODE_T.xml"/>
+<include file="updates/2010-07-23-5475e-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-07-23-5578h-1-END_ENDOW_ACCT_LINES_T.xml"/>
 </databaseChangeLog>

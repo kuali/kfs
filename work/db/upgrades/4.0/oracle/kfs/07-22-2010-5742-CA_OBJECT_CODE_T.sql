@@ -1,0 +1,1 @@
+update CA_OBJECT_CODE_T set fin_obj_sub_typ_cd='CM' WHERE fin_coa_cd = 'BL' AND fin_object_cd = '7070' and univ_fiscal_yr='2011';

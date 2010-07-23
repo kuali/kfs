@@ -26,8 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.kc.BudgetCategory;
 import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.kfs.integration.kc.service.KcFinancialSystemModuleConfig;
-import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
-import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;

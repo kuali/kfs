@@ -45,6 +45,7 @@
     <li><portal:portalLink displayTitle="true" title="Current KEMID Available Balances Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>    
 	<li><portal:portalLink displayTitle="true" title="Current KEMID Balances Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li> 
 	<li><portal:portalLink displayTitle="true" title="KEMID Historical Balances Lookup" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>       
+    <li><portal:portalLink displayTitle="true" title="Transaction Archives" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.TransactionArchive&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

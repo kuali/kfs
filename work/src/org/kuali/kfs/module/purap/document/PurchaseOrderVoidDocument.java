@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Purchase Order Void Document
@@ -48,6 +49,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         super();
     }
 
+ 
     /**
      * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
      * processed. Overriding this method so that entries are not created yet.
@@ -56,9 +58,11 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
-        setSourceAccountingLines(new ArrayList());
-        setGeneralLedgerPendingEntries(new ArrayList());
+       KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
+       if (workFlowDocument.stateIsCanceled() || ( workFlowDocument.stateIsFinal())) {
+           setSourceAccountingLines(new ArrayList());
+           setGeneralLedgerPendingEntries(new ArrayList());        
+       }
     }
 
     @Override
@@ -80,7 +84,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
-
+           
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
@@ -95,7 +99,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-        }
+        } 
     }
 
     /**

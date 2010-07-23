@@ -809,7 +809,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 continue;
             }
 
-            KualiDecimal itemAmount = null;
+            KualiDecimal itemAmount = ZERO;
             if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
                 itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
@@ -818,7 +818,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on quantities");
                 itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
             }
-
+           
             KualiDecimal accountTotal = ZERO;
             PurchaseOrderAccount lastAccount = null;
             if (itemAmount.compareTo(ZERO) != 0) {

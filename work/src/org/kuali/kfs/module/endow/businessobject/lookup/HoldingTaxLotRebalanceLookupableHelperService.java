@@ -50,6 +50,7 @@ public class HoldingTaxLotRebalanceLookupableHelperService extends KualiLookupab
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) 
     {
+        // Change "Actions" column to show "Rebalance" as a link to the maintenance document.
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         for (HtmlData htmlData : anchorHtmlDataList) {
             htmlData.setDisplayText("Rebalance");

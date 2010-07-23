@@ -274,23 +274,5 @@ public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
      */
     public void setHoldingTaxLots(List<HoldingTaxLot> holdingTaxLots) {
         this.holdingTaxLots = holdingTaxLots;
-        
-//        BigDecimal totalUnits = new BigDecimal(0);
-//        BigDecimal totalCost  = new BigDecimal(0);
-//        
-//        if (holdingTaxLots != null) {
-//            
-//            // Set the total number of tax lots.
-//            setTotalLotNumber(new BigDecimal(holdingTaxLots.size()));
-//            
-//            // Calculate the total units and costs.
-//            for (HoldingTaxLot taxLot : holdingTaxLots) {
-//                totalUnits.add(taxLot.getUnits());
-//                totalCost.add(taxLot.getCost());
-//            }
-//        }
-//        
-//        setTotalUnits(totalUnits);
-//        setTotalCost(totalCost);
     }
 }

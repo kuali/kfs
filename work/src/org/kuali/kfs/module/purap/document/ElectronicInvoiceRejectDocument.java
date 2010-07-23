@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
@@ -40,14 +42,17 @@ import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.purap.util.PurapSearchUtils;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -341,6 +346,75 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }
     }
 
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle() {
+        //TODO change back to ElectronicInvoiceRejectDocument.class
+        //if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
+            return getCustomDocumentTitle();
+        }
+        
+        return this.buildDocumentTitle(super.getDocumentTitle());
+    }
+
+    /**
+     * Returns a custom document title based on the properties of current document.. 
+     * 
+     * @return - Customized document title.
+     */
+    protected String getCustomDocumentTitle() {
+        String poID = StringUtils.isEmpty(getInvoicePurchaseOrderNumber()) ? "UNKNOWN" : getInvoicePurchaseOrderNumber();
+        String researchInd = isInvoiceResearchIndicator() ? "Y" : "N";
+        
+        // if this method is called when EIRT doc is just created, vendorDetail is not set yet, need to retrieve from DB
+        VendorDetail vendorDetail = getVendorDetail();
+        Integer headerId = getVendorHeaderGeneratedIdentifier();
+        Integer detailId = getVendorDetailAssignedIdentifier();
+        if (vendorDetail == null && headerId != null && detailId != null) {
+            vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(headerId, detailId);
+        }
+        String vendorName = vendorDetail == null || StringUtils.isEmpty(vendorDetail.getVendorName()) ? "UNKNOWN" : vendorDetail.getVendorName();       
+
+        //set title to: Vendor: <Vendor's Name> PO: <PO#> <Research Indicator>
+        String documentTitle = "Vendor: " + vendorName + " PO: " + poID +  " " + researchInd;
+        return documentTitle;
+    }
+    
+    /**
+     * Builds document title based on the properties of current document.
+     * 
+     * @param the default document title
+     * @return the combine information of the given title and additional payment indicators 
+     */ 
+    protected String buildDocumentTitle(String title) { 
+        if(this.getVendorDetail() == null) {
+           return title; 
+        }
+        
+        Integer vendorHeaderGeneratedIdentifier = this.getVendorDetail().getVendorHeaderGeneratedIdentifier();
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+     
+        Object[] indicators = new String[2];
+        
+        boolean isEmployeeVendor = vendorService.isVendorInstitutionEmployee(vendorHeaderGeneratedIdentifier);
+        indicators[0] = isEmployeeVendor ? AdHocPaymentIndicator.EMPLOYEE_VENDOR : AdHocPaymentIndicator.OTHER;
+        
+        boolean isVendorForeign = vendorService.isVendorForeign(vendorHeaderGeneratedIdentifier);
+        indicators[1] = isVendorForeign ? AdHocPaymentIndicator.ALIEN_VENDOR : AdHocPaymentIndicator.OTHER;
+        
+        for(Object indicator : indicators) {
+            if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
+                String titlePattern = title + " [{0}:{1}]";
+                return MessageFormat.format(titlePattern, indicators);
+            }
+        }
+    
+        return title;
+    }
+    
     protected ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
         if (contact != null) {
             for (ElectronicInvoicePostalAddress cpa : contact.getPostalAddresses()) {

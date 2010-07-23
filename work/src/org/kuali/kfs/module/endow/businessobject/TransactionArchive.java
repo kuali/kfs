@@ -17,9 +17,11 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Business Object for Holding Tax Lot table
@@ -71,6 +73,66 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
         m.put(TransactionArchive.LINE_TYPE_CODE, this.lineTypeCode);
         
         return m;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getKemidResults() {
+        String result = "";
+        if (ObjectUtils.isNotNull(kemidObj)) {
+            result += "[" + kemid + "," + " ,";
+            result += kemidObj.getShortTitle() + "]";
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getTransactionTypeResults() {
+        String result = "";
+        if (ObjectUtils.isNotNull(typeCodeObj)) {
+            result += "[" + typeCode + "," + " ,";
+            result += typeCodeObj.getDescription() + "]";
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getEtranCodeResults() {
+        String result = "";
+        if (ObjectUtils.isNotNull(etranObj)) {
+            result += "[" + etranCode + "," + " ,";
+            result += etranObj.getName() + "]";
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getSecurityResults() {
+        String result = "";
+        if (ObjectUtils.isNotNull(archiveSecurity)) {
+            result += "[" + archiveSecurity.getSecurityId() + "," + " ,";
+            result += archiveSecurity.getSecurity().getDescription() + "]";
+        }
+        
+        return result;
     }
     
     /**

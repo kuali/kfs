@@ -49,6 +49,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="TransactionArchive-archiveSecurity.longTermGainLoss" />
         <ref bean="TransactionArchive-archiveSecurity.registrationCode" />
         <ref bean="TransactionArchive-archiveSecurity.etranCode" />
+        <ref bean="TransactionArchive-kemidResults" />
+        <ref bean="TransactionArchive-etranCodeResults" />
+        <ref bean="TransactionArchive-transactionTypeResults" />
+        <ref bean="TransactionArchive-securityResults" />
       </list>
     </property>
   </bean>
@@ -280,6 +284,63 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="etranObj.name" />
   </bean>
   
+  <bean id="TransactionArchive-kemidResults" parent="TransactionArchive-kemidResults-parentBean" />
+  <bean id="TransactionArchive-kemidResults-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="kemidResults" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="KEMID" />
+    <property name="shortLabel" value="KEMID" />
+    <property name="maxLength" value="60" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="61" />
+    </property>
+  </bean>
+
+  <bean id="TransactionArchive-transactionTypeResults" parent="TransactionArchive-transactionTypeResults-parentBean" />
+  <bean id="TransactionArchive-transactionTypeResults-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionTypeResults" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Type" />
+    <property name="shortLabel" value="Transaction Type" />
+    <property name="maxLength" value="11" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="12" />
+    </property>
+  </bean>  
+  
+  
+  <bean id="TransactionArchive-etranCodeResults" parent="TransactionArchive-etranCodeResults-parentBean" />
+  <bean id="TransactionArchive-etranCodeResults-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="etranCodeResults" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="ETran Code" />
+    <property name="shortLabel" value="ETran Code" />
+    <property name="maxLength" value="129" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="130" />
+    </property>
+  </bean>
+  
+  <bean id="TransactionArchive-securityResults" parent="TransactionArchive-securityResults-parentBean" />
+  <bean id="TransactionArchive-securityResults-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="securityResults" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Security ID" />
+    <property name="shortLabel" value="Security ID" />
+    <property name="maxLength" value="129" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="130" />
+    </property>
+  </bean>
+    
   <bean id="TransactionArchive-etranCode" parent="TransactionArchive-etranCode-parentBean" />
   <bean id="TransactionArchive-etranCode-parentBean" abstract="true" parent="EndowmentTransactionCode-code">
     <property name="name" value="etranCode" />
@@ -485,9 +546,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="kemid" />
+              p:attributeName="kemidResults" />
         <bean parent="FieldDefinition"
-              p:attributeName="typeCode" />
+              p:attributeName="transactionTypeResults" />
         <bean parent="FieldDefinition"
               p:attributeName="postedDate" />
         <bean parent="FieldDefinition"
@@ -495,9 +556,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="principalCashAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="etranCode" />
+              p:attributeName="etranCodeResults" />
         <bean parent="FieldDefinition"
-              p:attributeName="archiveSecurity.securityId" />
+              p:attributeName="securityResults" />
         <bean parent="FieldDefinition"
               p:attributeName="archiveSecurity.unitsHeld" 
               p:forceInquiry="false" />

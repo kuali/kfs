@@ -2474,6 +2474,10 @@
         <foreignkey field-ref="kemid" />
     </reference-descriptor>
     
+    <reference-descriptor name="typeCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="typeCode" />
+    </reference-descriptor>
+    
     <reference-descriptor name="archiveSecurity" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="lineNumber" />

@@ -24,7 +24,7 @@ import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocu
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 
-public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentTransactionLinesDocumentBaseRules {
+public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentAccountingLinesDocumentBaseRules {
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
@@ -104,6 +104,11 @@ public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentTransact
         // validate the document has at least one source transaction line
         if (!transactionLineSizeGreaterThanZero(transferOfFundsDocument, true))
             return false;
+
+        // validate that the document has at least one target accounting line
+        if (!validateAccountingLinesSizeGreaterThanZero(transferOfFundsDocument, false)) {
+            return false;
+        }
 
         return isValid;
     }

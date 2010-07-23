@@ -235,6 +235,7 @@
 	    	<param name="beanName" value="endowmentTransactionDocumentService" />
 	    	<include method="getSecurity" />
 	    	<include method="getSecurityForHoldingHistoryValueAdjustment" />	    	
-	    </create>	     
+	    </create>	
+	    
     </allow>
 </dwr>

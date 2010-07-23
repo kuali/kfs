@@ -16,7 +16,10 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 
-public class EndowmentToGLTransferOfFundsDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
+/**
+ * This class...
+ */
+public class EndowmentToGLTransferOfFundsDocumentForm extends EndowmentAccountingLinesDocumentFormBase {
 
     /**
      * Constructs a EndowmentToGLTransferOfFundsDocumentForm.

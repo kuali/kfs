@@ -43,6 +43,8 @@
     <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="false"/>          
          
     <endow:endowmentTransactionLinesSection hasSource="true" hasTarget="false" hasUnits="false" isTransAmntReadOnly="false"/>              
+    
+    <endow:endowmentAccountingLinesSection hasSource="false" hasTarget="true"/>
         
 	<kul:notes /> 
 	

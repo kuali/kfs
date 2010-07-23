@@ -507,6 +507,9 @@ public class EndowPropertyConstants {
 
     public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";
     public static final String SOURCE_TRANSACTION_LINE_PREFIX = "newSourceTransactionLine.";
+    
+    public static final String TARGET_ACCT_LINE_PREFIX = "newTargetAccountingLine.";
+    public static final String SOURCE_ACCT_LINE_PREFIX = "newSourceAccountingLine.";
 
 
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";

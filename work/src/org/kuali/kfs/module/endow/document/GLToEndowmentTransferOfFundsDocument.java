@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.document;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
-public class GLToEndowmentTransferOfFundsDocument extends EndowmentSecurityDetailsDocumentBase implements AmountTotaling {
+public class GLToEndowmentTransferOfFundsDocument extends EndowmentAccountingLinesDocumentBase implements AmountTotaling {
 
     /**
      * Constructs a GLToEndowmentTransferOfFundsDocument.

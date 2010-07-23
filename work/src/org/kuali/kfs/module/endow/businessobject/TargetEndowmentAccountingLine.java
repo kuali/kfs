@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.web.struts;
+package org.kuali.kfs.module.endow.businessobject;
 
-public class GLToEndowmentTransferOfFundsDocumentForm extends EndowmentAccountingLinesDocumentFormBase {
+/**
+ * Represents the "target" grouping of accounting lines in a given Endowment Transfer of Funds document. Its counterpart is the
+ * SourceEndowmentAccountingLine class. Both objects' data is stored in the DB in a single table named "ENDOW_ACCT_LINES_T."
+ */
+public class TargetEndowmentAccountingLine extends EndowmentAccountingLineBase {
 
     /**
-     * Constructs a GLToEndowmentTransferOfFundsDocumentForm.java.
+     * Initializes the financialDocumentLineTypeCode attribute to the value for this class.
      */
-    public GLToEndowmentTransferOfFundsDocumentForm() {
+    public TargetEndowmentAccountingLine() {
         super();
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
-     */
-    protected String getDefaultDocumentTypeName() {
-        return "GLET";
+        super.financialDocumentLineTypeCode = "T";
     }
 
 }

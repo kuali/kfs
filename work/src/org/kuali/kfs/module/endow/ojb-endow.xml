@@ -2362,6 +2362,105 @@
     </collection-descriptor>
 </class-descriptor>
 
+<!-- Endowment Accounting Lines -->
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase">
+    <extent-class class-ref="org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine" />
+    <extent-class class-ref="org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine" table="END_ENDOW_ACCT_LINES_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountingLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="amount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+
+    <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="subAccountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine" table="END_ENDOW_ACCT_LINES_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountingLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+
+    <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="subAccountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="financialObjectCode" />
+        <foreignkey field-ref="financialSubObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 <!-- Endowment To GL Transfer Of Funds Document -->
  <class-descriptor class="org.kuali.kfs.module.endow.document.EndowmentToGLTransferOfFundsDocument" table="END_TRAN_DOC_T">
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -2374,6 +2473,10 @@
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
+    
+    <!-- Sequence numbers for source & target accounting line numbers -->
+	<field-descriptor name="nextSourceAccountingLineNumber" column="FDOC_NXT_SRC_ACCT_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="nextTargetAccountingLineNumber" column="FDOC_NXT_TAR_ACCT_LN_NBR" jdbc-type="INTEGER" />
     
 	<reference-descriptor name="transactionSubType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transactionSubTypeCode" />
@@ -2406,6 +2509,14 @@
 						<attribute attribute-name="securityLineTypeCode" attribute-value="F" />
 				</query-customizer>
     </collection-descriptor>
+    
+    <collection-descriptor name="targetAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="accountingLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="financialDocumentLineTypeCode" attribute-value="T" />
+				</query-customizer>
+    </collection-descriptor>
 </class-descriptor>
 
 <!-- GL To Endowment Transfer Of Funds Document -->
@@ -2420,6 +2531,10 @@
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
+    
+    <!-- Sequence numbers for source & target accounting line numbers -->
+	<field-descriptor name="nextSourceAccountingLineNumber" column="FDOC_NXT_SRC_ACCT_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="nextTargetAccountingLineNumber" column="FDOC_NXT_TAR_ACCT_LN_NBR" jdbc-type="INTEGER" />
     
 	<reference-descriptor name="transactionSubType" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transactionSubTypeCode" />
@@ -2436,6 +2551,22 @@
     <!--  collections -->
 
     <!--  common collections --> 
+    
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="accountingLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="financialDocumentLineTypeCode" attribute-value="S" />
+				</query-customizer>
+    </collection-descriptor>
+    
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="accountingLineNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+				<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+						<attribute attribute-name="financialDocumentLineTypeCode" attribute-value="F" />
+				</query-customizer>
+    </collection-descriptor>
      
     <collection-descriptor name="targetTransactionLines" proxy="true" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLineNumber" sort="ASC" />
@@ -2444,6 +2575,7 @@
 						<attribute attribute-name="transactionLineTypeCode" attribute-value="T" />
 				</query-customizer>
     </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.TransactionArchive" table="END_TRAN_ARCHV_T">

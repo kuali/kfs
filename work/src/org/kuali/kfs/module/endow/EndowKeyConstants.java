@@ -190,7 +190,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME = "error.document.transactionLine.etran.chartCodeDoesNotMatchForIncome";
         public static final String ERROR_TRANSACTION_LINE_SECURITY_KEMID_CHART_CODE_DOES_NOT_MATCH = "error.document.transactionLine.security.kemid.chartCodeDoesNotMatch";
         public static final String ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_BLANK = "error.document.transactionLine.both.amountsFields.blank";
-        public static final String ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_ENTERED = "error.document.transactionLine.both.amountsFields.entered";        
+        public static final String ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_ENTERED = "error.document.transactionLine.both.amountsFields.entered";
 
         public static final String ERROR_FROM_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.from.transactionLine.count.insufficient";
         public static final String ERROR_TO_TRANSACTION_LINE_COUNT_INSUFFICIENT = "error.document.to.transactionLine.count.insufficient";
@@ -206,7 +206,7 @@ public class EndowKeyConstants {
         public static final String WARNING_NO_SUFFICIENT_FUNDS = "warning.document.transactionLine.noSufficientFunds";
 
         public static final String ERROR_TRANSACTION_LINE_TAX_LOT_DONT_CORRESPOND = "error.document.transactionLine.taxLotsDontCorrespond";
-        
+
         public static final String ERROR_TRANSACTION_LINE_TAX_LOT_UNITS_DONT_CORRESPOND = "error.document.transactionLine.taxLotsUnitsDontCorrespond";
 
         // Asset increase constants
@@ -229,11 +229,14 @@ public class EndowKeyConstants {
 
         // Security Transfer constants
         public static final String ERROR_SECURITY_TRANSFER_ONE_AND_ONLY_ONE_SOURCE_TRANS_LINE = "error.document.securityTransfer.oneAndOnlyOneTransactionLine";
+
+        // Accounting Lines
+        public static final String ERROR_ACCT_LINE_COUNT_INSUFFICIENT = "error.document.accountingLine.count.insufficient";
     }
 
     public static class TransactionalDocuments {
         public static final String ERROR_DELETING_TRANSACTION_LINE = "error.transactionLine.deleteRule.invalid";
-        public static final String ERROR_ADDING_TRANSACTION_LINE = "error.transactionLine.addRule.invalid";
+        public static final String ERROR_DELETING_ACCOUNTING_LINE = "error.accountingLine.deleteRule.invalid";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {
@@ -248,12 +251,12 @@ public class EndowKeyConstants {
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_UNIT_VALUE = "error.holdingHistoryValueAdjustment.marketValue.entered";
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_MARKET_VALUE = "error.holdingHistoryValueAdjustment.unitValue.entered";
     }
-    
+
     public static class HoldingTaxLotRebalanceConstants {
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalUnits.notBalanced";
-        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED  = "error.document.holdingTaxLotRebalance.totalCost.notBalanced";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalCost.notBalanced";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_INVALID = "error.document.holdingTaxLotRebalance.units.invalid";
-        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_COST_INVALID  = "error.document.holdingTaxLotRebalance.cost.invalid";
+        public static final String ERROR_HLDG_TAX_LOT_REBALANCE_COST_INVALID = "error.document.holdingTaxLotRebalance.cost.invalid";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_COST_ZERO = "error.document.holdingTaxLotRebalance.unitsAndCost.zero";
     }
 }

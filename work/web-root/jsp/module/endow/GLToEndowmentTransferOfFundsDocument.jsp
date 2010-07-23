@@ -40,7 +40,11 @@
          headingTitle="GL To Endowment Transfer Of Funds Details"
          summaryTitle="GL To Endowment Transfer Of Funds Details" />      
          
-    <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="false" isTransAmntReadOnly="false"/>              
+    <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="false"/> 
+    
+    <endow:endowmentAccountingLinesSection hasSource="true" hasTarget="false"/>     
+         
+    <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="false" isTransAmntReadOnly="false"/>             
         
 	<kul:notes /> 
 	

@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.web.struts;
+package org.kuali.kfs.module.endow.document.validation;
 
-public class GLToEndowmentTransferOfFundsDocumentForm extends EndowmentAccountingLinesDocumentFormBase {
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
+import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
+import org.kuali.rice.kns.rule.BusinessRule;
 
-    /**
-     * Constructs a GLToEndowmentTransferOfFundsDocumentForm.java.
-     */
-    public GLToEndowmentTransferOfFundsDocumentForm() {
-        super();
-    }
+public interface AddEndowmentAccountingLineRule<E extends EndowmentAccountingLinesDocument, D extends EndowmentAccountingLine> extends BusinessRule {
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
      */
-    protected String getDefaultDocumentTypeName() {
-        return "GLET";
-    }
-
+    public boolean processAddEndowmentAccountingLineRules(E EndowmentAccountingLinesDocument, D EndowmentAccountingLine);
 }

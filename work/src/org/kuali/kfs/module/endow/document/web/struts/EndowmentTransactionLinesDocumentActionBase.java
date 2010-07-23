@@ -33,7 +33,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -606,7 +608,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
 
         if (StringUtils.isNotBlank(etLine.getKemid())) {
-            params.put("kemid", etLine.getKemid());
+            params.put(EndowPropertyConstants.KEMID, etLine.getKemid());
         }
 
         // anchor, if it exists

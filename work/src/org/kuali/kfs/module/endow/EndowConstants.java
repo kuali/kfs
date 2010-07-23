@@ -25,6 +25,8 @@ public class EndowConstants extends JSTLConstants {
     
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
+    public static final String NEW_SOURCE_ACC_LINE_PROPERTY_NAME = "newSourceAccouningLine";
+    public static final String NEW_TARGET_ACC_LINE_PROPERTY_NAME = "newTargetAccountingLine";
 
     public static final String SOURCE_TRANSACTION_LINE_GROUP_LABEL_NAME = "From";
     public static final String TARGET_TRANSACTION_LINE_GROUP_LABEL_NAME = "To";
@@ -246,6 +248,9 @@ public class EndowConstants extends JSTLConstants {
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
     public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";
 
+    public static final String EXISTING_SOURCE_ACC_LINE_PROPERTY_NAME = "sourceAccountingLine";
+    public static final String EXISTING_TARGET_ACC_LINE_PROPERTY_NAME = "targetAccountingLine";
+
     // public static class TransactionTabErrors {
     public static final String SECURITY_ERRORS = "securityErrors";
     // }
@@ -265,6 +270,7 @@ public class EndowConstants extends JSTLConstants {
     public static final String TARGET_TRANSACTION_LINES_ERRORS = "newTargetTransactionLine*,document.targetTransactionLines*";
     public static final String TRANSACTION_LINE_ERRORS = "document.transactionLines";
     public static final String TRANSACTION_SECURITY_TAB_ERRORS = "document.sourceTransactionSecurity*,document.targetTransactionSecurity*,*registrationCode";
+    public static final String ACCOUNTING_LINE_ERRORS = "document.accountingLines";
 
     public static final class HistoryHoldingValueAdjustmentValuationCodes {
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";

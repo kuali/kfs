@@ -145,6 +145,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String PARAMETER_KEMID_COMPONENT = "KEMID";
 
         public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
+
+        public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_DAY_AND_MONTH";
     }
 
     public static class KemidValueOptions {

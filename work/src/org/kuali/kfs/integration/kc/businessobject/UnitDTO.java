@@ -27,7 +27,9 @@ import org.kuali.kfs.integration.kc.KcUnit;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class UnitDTO extends BusinessObjectBase implements KcUnit,Serializable   {
+public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable {
+
+    private static final long serialVersionUID = 7517946137745989736L;
     
     private String unitNumber;
     private String parentUnitNumber;
@@ -79,6 +81,7 @@ public class UnitDTO extends BusinessObjectBase implements KcUnit,Serializable  
         this.unitAdministrators = unitAdministrators;
     }
 
+
     public void prepareForWorkflow() {
         // TODO Auto-generated method stub
         
@@ -89,6 +92,9 @@ public class UnitDTO extends BusinessObjectBase implements KcUnit,Serializable  
         
     }
 
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("UnitDTO", this.unitNumber);
@@ -96,3 +102,4 @@ public class UnitDTO extends BusinessObjectBase implements KcUnit,Serializable  
     }
 
 }
+

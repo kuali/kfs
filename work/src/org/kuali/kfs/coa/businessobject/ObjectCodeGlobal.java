@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;

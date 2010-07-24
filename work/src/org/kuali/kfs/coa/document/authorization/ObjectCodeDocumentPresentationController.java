@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.integration.kc.KcConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.bo.BusinessObject;

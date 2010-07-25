@@ -161,7 +161,7 @@
         </property>
     </bean>
 
-    <bean id="kcModuleService" class="org.kuali.kfs.integration.kc.service.impl.KcKfsModuleServiceImpl">
+    <bean id="kcModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
         <property name="moduleConfiguration" ref="kcModuleConfiguration" />
     </bean>
 

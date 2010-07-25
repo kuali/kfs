@@ -118,7 +118,6 @@
     	<property name="documentValuePathGroups">
     		<list>
     			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ChartAccount"/>
-    			<ref bean="DocumentValuePathGroup-MaintenanceDocument-ReportsToChartOrganization"/>
     		</list>
     	</property>
     </bean>

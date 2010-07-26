@@ -37,7 +37,7 @@
         <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
         <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
         <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>     
-        <!-- <ref bean="ObjectCode-rschBudgetCategoryCode"/> -->
+        <ref bean="ObjectCode-rschBudgetCategoryCode"/>
         <ref bean="ObjectCode-rschOnCampusIndicator"/>
         <ref bean="ObjectCode-rschObjectCodeDescription"/>
       </list>
@@ -105,7 +105,7 @@
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean"/>
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-nextYearFinancialObjectCode" />
 
-  <!-- <bean id="ObjectCodeGlobal-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>  -->
+  <bean id="ObjectCodeGlobal-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>  
   <bean id="ObjectCodeGlobal-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
   <bean id="ObjectCodeGlobal-rschOnCampusIndicator" parent="ObjectCode-rschOnCampusIndicator-parentBean"/>
 

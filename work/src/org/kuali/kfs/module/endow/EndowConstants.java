@@ -23,6 +23,9 @@ public class EndowConstants extends JSTLConstants {
     public static final String YES = "Y";
     public static final String NO = "N";
 
+    public static final int NUMBER_OF_MONTHS_REMAINING = 6;
+    public static final int NUMBER_OF_DAYS_IN_YEAR = 365;
+    
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
     public static final String NEW_SOURCE_ACC_LINE_PROPERTY_NAME = "newSourceAccouningLine";
@@ -57,6 +60,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String BOND = "B";
         public static final String LIABILITY = "L";
         public static final String POOLED_INVESTMENT = "P";
+        public static final String STOCKS = "S";
+        public static final String OTHER = "O";
     }
 
     // Frequency Codes

@@ -25,7 +25,40 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
- 
+ 	<bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
+    <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcFinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-KC" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list merge="true">
+            	<value>org.kuali.kfs.module.external.kc</value>
+                <value>org.kuali.kfs.integration.kc</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+	            <entry key="org.kuali.kfs.module.external.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.module.external.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO" />
+             </map>
+        </property>
+        <property name="externalizableWebBusinessObjectImplementations">
+             <list>
+	            <value>org.kuali.kfs.module.external.kc.KcUnit</value> 
+       			<value>org.kuali.kfs.module.external.kc.BudgetCategory</value>
+             </list>
+        </property>
+ 		<property name="dataDictionaryPackages">
+			<list>
+                <value>org/kuali/kfs/module/external/kc/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/module/external/kc/document/datadictionary</value>
+			</list>
+		</property> 	
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/kfs/module/external/kc/ojb-kc.xml</value>
+			</list>
+		</property>
+ 	</bean>
     <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
 
     <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.KcKfsModuleServiceImpl" abstract="true">

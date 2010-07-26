@@ -23,9 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.kc.BudgetCategory;
-import org.kuali.kfs.integration.kc.KcUnit;
-import org.kuali.kfs.integration.kc.service.KcFinancialSystemModuleConfig;
+import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
@@ -109,6 +107,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     }
 
 
+  
     /***
      * 
      * This method assumes that the externalizableClazz is an interface
@@ -154,6 +153,33 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
               }
           }
           super.setModuleConfiguration(moduleConfiguration);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizableBusinessObjectLookupable(java.lang.Class)
+     */
+    @Override
+    public boolean isExternalizableBusinessObjectLookupable(Class boClass) {
+        // TODO Auto-generated method stub
+        return super.isExternalizableBusinessObjectLookupable(boClass);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizable(java.lang.Class)
+     */
+    @Override
+    public boolean isExternalizable(Class boClazz) {
+        // TODO Auto-generated method stub
+        return super.isExternalizable(boClazz);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isResponsibleFor(java.lang.Class)
+     */
+    @Override
+    public boolean isResponsibleFor(Class arg0) {
+        // TODO Auto-generated method stub
+        return super.isResponsibleFor(arg0);
     }
 
    

@@ -57,3 +57,26 @@ function loadFinChartOfAccountDescription(chartFieldName, chartDescFieldName) {
 		ChartService.getByPrimaryId(chart, dwrReply);
 	}
 }
+
+function loadObjectCodeName(objectCodeFieldName, chartFieldName, objectCodeNameFieldName) {
+	var objectCode = DWRUtil.getValue( objectCodeFieldName );
+	var chart = DWRUtil.getValue( chartFieldName );
+
+	if (objectCode == '' || chart == '') {
+		setRecipientValue(objectCodeNameFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue(objectCodeNameFieldName, data.financialObjectCodeName);
+			} else {
+				setRecipientValue(objectCodeNameFieldName, wrapError( "object code not found"), true);			
+			} },
+			errorHandler:function(errorMessage ) { 
+				setRecipientValue(objectCodeNameFieldName, wrapError( "object code not found"), true);				
+			}
+		};
+		
+		ObjectCodeService.getByPrimaryIdForCurrentYear(chart, objectCode, dwrReply);
+	}
+}

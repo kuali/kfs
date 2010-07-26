@@ -238,8 +238,12 @@ public class EndowKeyConstants {
         public static final String ERROR_DELETING_ACCOUNTING_LINE = "error.accountingLine.deleteRule.invalid";
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_REQUIRED = "error.accountingLine.objectCode.required";
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_INVALID = "error.accountingLine.objectCode.invalid";
+        public static final String ERROR_ACCT_LINE_OBJECT_CODE_INACTIVE = "error.accountingLine.objectCode.inactive";
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_NOT_ASSET_LIABILITY_OR_FUND_BAL = "error.accountingLine.objectCode.notAssetLiabilityOrFundBalance";
         public static final String ERROR_ACCT_LINE_OBJECT_TYPE_NOT_VALID = "error.accountingLine.objectCode.objectTypeNotValid";
+        public static final String ERROR_ACCT_LINE_CHART_CODE_REQUIRED = "error.accountingLine.chartCode.required";
+        public static final String ERROR_ACCT_LINE_CHART_CODE_INVALID = "error.accountingLine.chartCode.invalid";
+        public static final String ERROR_ACCT_LINE_CHART_CODE_INACTIVE = "error.accountingLine.chartCode.inactive";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {

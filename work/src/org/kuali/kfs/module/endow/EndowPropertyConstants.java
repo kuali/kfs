@@ -534,4 +534,5 @@ public class EndowPropertyConstants {
     
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_CHART_CD = "chartOfAccountsCode";
 }

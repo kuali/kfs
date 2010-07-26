@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -66,6 +68,17 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
     protected boolean validateAccountingLine(EndowmentAccountingLinesDocument accountingLinesDocument, EndowmentAccountingLine accountingLine, int index) {
         boolean isValid = true;
 
+        // validate chart code
+        if (isChartCodeEmpty(accountingLine, index)) {
+            return false;
+        }
+
+        if (!validateChartCode(accountingLine, index)) {
+            return false;
+        }
+
+        isValid &= validateChartCodeIsActive(accountingLine, index);
+
         // validate object code
         if (isObjectCodeEmpty(accountingLine, index)) {
             return false;
@@ -74,6 +87,8 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         if (!validateObjectCode(accountingLine, index)) {
             return false;
         }
+
+        isValid &= validateObjectCodeIsActive(accountingLine, index);
         isValid &= validateObjectCodeObjectConsolidation(accountingLine, index);
         isValid &= validateObjectCodeType(accountingLine, index);
 
@@ -111,10 +126,67 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
     }
 
     /**
-     * Checks if the object code is empty.
+     * Checks if the chart code is empty.
      * 
-     * @return true if empty, false otherwise
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
      */
+    protected boolean isChartCodeEmpty(EndowmentAccountingLine line, int index) {
+        if (StringUtils.isBlank(line.getFinancialObjectCode())) {
+            putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_REQUIRED);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /**
+     * Validates that the chart code exists in the database.
+     * 
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateChartCode(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        Chart chartCode = SpringContext.getBean(ChartService.class).getByPrimaryId(chartOfAccountsCode);
+
+        if (ObjectUtils.isNull(chartCode)) {
+            isValid = false;
+            putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_INVALID);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates if the chart code is Active.
+     * 
+     * @param line
+     * @param index
+     * @return true of active, false otherwise
+     */
+    protected boolean validateChartCodeIsActive(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        Chart chartCode = SpringContext.getBean(ChartService.class).getByPrimaryId(chartOfAccountsCode);
+
+        if (ObjectUtils.isNotNull(chartCode)) {
+            if (!chartCode.isActive()) {
+                isValid = false;
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_INACTIVE);
+            }
+        }
+
+        return isValid;
+    }
+
     /**
      * Checks if the object code is empty.
      * 
@@ -150,6 +222,31 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         if (ObjectUtils.isNull(objectCode)) {
             isValid = false;
             putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_OBJECT_CODE_INVALID);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that the object code is active.
+     * 
+     * @param line
+     * @param index
+     * @return true if active, false otherwise
+     */
+    protected boolean validateObjectCodeIsActive(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String financialObjectCode = line.getFinancialObjectCode();
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartOfAccountsCode, financialObjectCode);
+
+        if (ObjectUtils.isNotNull(objectCode)) {
+            if (!objectCode.isActive()) {
+                isValid = false;
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_OBJECT_CODE_INACTIVE);
+            }
         }
 
         return isValid;

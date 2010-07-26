@@ -25,6 +25,7 @@
         <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectTypeCode"/>
         <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectSubTypeCode"/>
         <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectCodeName"/>
         <ref bean="SourceEndowmentAccountingLine-account.accountName"/>
         <ref bean="SourceEndowmentAccountingLine-account.subFundGroupCode"/>
         <ref bean="SourceEndowmentAccountingLine-account.subFundGroup.fundGroupCode"/>
@@ -59,6 +60,11 @@
 
   <bean id="SourceEndowmentAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
     <property name="name" value="objectCode.financialObjectLevelCode"/>
+  </bean>
+  <bean id="SourceEndowmentAccountingLine-objectCode.financialObjectCodeName" parent="SourceEndowmentAccountingLine-objectCode.financialObjectCodeName-parentBean"/>
+
+  <bean id="SourceEndowmentAccountingLine-objectCode.financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
+    <property name="name" value="objectCode.financialObjectCodeName"/>
   </bean>
   <bean id="SourceEndowmentAccountingLine-account.accountName" parent="SourceEndowmentAccountingLine-account.accountName-parentBean"/>
 

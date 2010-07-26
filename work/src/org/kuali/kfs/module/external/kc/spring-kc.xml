@@ -57,23 +57,51 @@
 		<property name="externalizableBusinessObjectImplementations">
             <map>
                 <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO"/> 
-                <!-- <entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO"/>   -->
+                <entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO"/>  
             </map>
      	</property>
      
         <property name="externalizableWebBusinessObjectImplementations">
             <list>
 	            <value>org.kuali.kfs.integration.kc.KcUnit</value> 
-       			<!-- <value>org.kuali.kfs.integration.kc.BudgetCategory</value>   -->
+       			<value>org.kuali.kfs.integration.kc.BudgetCategory</value>  
              </list>
      	</property>
    	
  	</bean>
   
+    <bean id="kcModuleConfiguration" class="org.kuali.kfs.integration.kc.service.impl.KcFinancialSystemModuleConfiguration">
+        <property name="namespaceCode" value="KFS-KC" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.kc</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO" />  
+             </map>
+        </property>
+        <property name="externalizableWebBusinessObjectImplementations">
+             <list>
+	            <value>org.kuali.kfs.integration.kc.KcUnit</value> 
+       			<value>org.kuali.kfs.integration.kc.BudgetCategory</value>  
+             </list>
+     	</property>
+   	
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/kc/businessobject/datadictionary</value>
+            </list>
+        </property>
+ 	</bean>
+  
  
     <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
 
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.integration.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
+    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.KcKfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
 	</bean>
 	

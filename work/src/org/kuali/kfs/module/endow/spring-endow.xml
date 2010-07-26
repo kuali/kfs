@@ -619,5 +619,12 @@
 		<property name="securityService">
 			<ref bean="securityService" />
 		</property>	
-	</bean>	
+	</bean>
+    
+    <bean id="transactionArchiveLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.TransactionArchiveLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
+    <bean id="transactionArchiveLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="transactionArchiveLookupableHelperService" />
+        </property>
+    </bean>
 </beans>

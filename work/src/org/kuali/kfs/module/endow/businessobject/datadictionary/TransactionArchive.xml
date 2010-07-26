@@ -216,7 +216,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Greater Than Amount" />
     <property name="shortLabel" value="Greater Than Amount" />
      <property name="maxLength" value="21" />
-    <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
             p:precision="19"
@@ -235,7 +234,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Less Than Amount" />
     <property name="shortLabel" value="Less Than Amount" />
     <property name="maxLength" value="21" />
-    <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
             p:precision="19"
@@ -511,6 +509,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="TransactionArchive-lookupDefinition" parent="TransactionArchive-lookupDefinition-parentBean" />
   <bean id="TransactionArchive-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="transactionArchiveLookupable" />
     <property name="title" value="Endowment Transaction Archive Lookup" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

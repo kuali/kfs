@@ -32,6 +32,9 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public final static String LINE_NUMBER     = "lineNumber";
     public final static String LINE_TYPE_CODE  = "lineTypeCode";
     
+    public final static String GREATER_AMOUNT  = "greaterAmount";
+    public final static String LESS_AMOUNT     = "lessAmount";
+    
     // Composite keys:
     private String  documentNumber;
     private Integer lineNumber;

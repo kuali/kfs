@@ -239,6 +239,7 @@ public class EndowKeyConstants {
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_REQUIRED = "error.accountingLine.objectCode.required";
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_INVALID = "error.accountingLine.objectCode.invalid";
         public static final String ERROR_ACCT_LINE_OBJECT_CODE_NOT_ASSET_LIABILITY_OR_FUND_BAL = "error.accountingLine.objectCode.notAssetLiabilityOrFundBalance";
+        public static final String ERROR_ACCT_LINE_OBJECT_TYPE_NOT_VALID = "error.accountingLine.objectCode.objectTypeNotValid";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {

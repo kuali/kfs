@@ -20,7 +20,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
-import org.kuali.kfs.coa.service.impl.ObjectLevelServiceImpl;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -76,6 +75,7 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             return false;
         }
         isValid &= validateObjectCodeObjectConsolidation(accountingLine, index);
+        isValid &= validateObjectCodeType(accountingLine, index);
 
         return isValid;
     }
@@ -178,6 +178,34 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             if (EndowConstants.ConsolidatedObjectCode.ASSETS.equalsIgnoreCase(consolidatedObjectCode) || EndowConstants.ConsolidatedObjectCode.LIABILITIES.equalsIgnoreCase(consolidatedObjectCode) || EndowConstants.ConsolidatedObjectCode.FUND_BALANCE.equalsIgnoreCase(consolidatedObjectCode)) {
                 isValid &= false;
                 putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_OBJECT_CODE_NOT_ASSET_LIABILITY_OR_FUND_BAL);
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that Object codes belonging to the object types of Expense not Expenditure and Income not Cash may not be used on a
+     * Transfer of Funds document.
+     * 
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateObjectCodeType(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String financialObjectCode = line.getFinancialObjectCode();
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartOfAccountsCode, financialObjectCode);
+        String objectType = objectCode.getFinancialObjectTypeCode();
+
+        if (StringUtils.isNotBlank(objectType)) {
+
+            if (EndowConstants.ObjectTypeCode.EXPENSE_NOT_EXPENDITURE.equalsIgnoreCase(objectType) || EndowConstants.ObjectTypeCode.INCOME_NOT_CASH.equalsIgnoreCase(objectType)) {
+                isValid &= false;
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_OBJECT_TYPE_NOT_VALID);
             }
         }
 

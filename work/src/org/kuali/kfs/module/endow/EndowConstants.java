@@ -288,4 +288,9 @@ public class EndowConstants extends JSTLConstants {
         public static final String LIABILITIES = "LIAB";
         public static final String FUND_BALANCE = "FDBL";
     }
+
+    public static final class ObjectTypeCode {
+        public static final String EXPENSE_NOT_EXPENDITURE = "ES";
+        public static final String INCOME_NOT_CASH = "IC";
+    }
 }

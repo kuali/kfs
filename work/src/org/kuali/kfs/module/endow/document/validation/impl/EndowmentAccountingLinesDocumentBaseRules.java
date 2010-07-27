@@ -44,6 +44,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransactionLinesDocumentBaseRules implements AddEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine>, DeleteEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine> {
@@ -560,6 +561,9 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         if (isValid) {
             endowmentAccountingLinesDocumentBase = (EndowmentAccountingLinesDocumentBase) document;
 
+            // check that the document is not out of balance
+            validateGLTotalAmountMatchesKEMTotalAmount(endowmentAccountingLinesDocumentBase);
+
             // validate source Accounting lines
             if (endowmentAccountingLinesDocumentBase.getSourceAccountingLines() != null) {
                 for (int i = 0; i < endowmentAccountingLinesDocumentBase.getSourceAccountingLines().size(); i++) {
@@ -579,5 +583,25 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
+    }
+
+    /**
+     * Validates that the total amount in the FROM section equals the total amount in the To section.
+     * 
+     * @param endowmentAccountingLinesDocumentBase
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateGLTotalAmountMatchesKEMTotalAmount(EndowmentAccountingLinesDocumentBase endowmentAccountingLinesDocumentBase) {
+        boolean isValid = true;
+
+        KualiDecimal glTotalAmount = endowmentAccountingLinesDocumentBase.getTotalAccountingLinesAmount();
+        KualiDecimal kemTotalAmount = endowmentAccountingLinesDocumentBase.getTotalDollarAmount();
+
+        if (!glTotalAmount.equals(kemTotalAmount)) {
+            isValid = false;
+            GlobalVariables.getMessageMap().putError(EndowConstants.TRANSACTION_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+        }
+
+        return isValid;
     }
 }

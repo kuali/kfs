@@ -347,7 +347,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         if (getTargetTotalAmount() != null && getTargetTotalAmount().compareTo(KualiDecimal.ZERO) == 0) {
             totalAmount = getSourceTotalAmount();
         }
-        else if (getTargetTotalUnits() != null) {
+        else if (getTargetTotalAmount() != null) {
             totalAmount = getTargetTotalAmount();
         }
 

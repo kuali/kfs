@@ -351,9 +351,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      */
     @Override
     public String getDocumentTitle() {
-        //TODO change back to ElectronicInvoiceRejectDocument.class
-        //if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
         

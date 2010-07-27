@@ -530,7 +530,18 @@ public class EndowPropertyConstants {
     public static final String HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE = "securityMarketValue";
 
     // Holding Tax Lot Re-balance
-    public static final String HOLDING_TAX_LOTS_TAB = "holdingTaxLots";
+    public static final String HOLDING_TAX_LOT_REBAL_LOTS_TAB = "holdingTaxLots";
+    public static final String HOLDING_TAX_LOT_REBAL_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
+    public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
+    public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
+    
+    // Transaction Archive/Security
+    public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
+    public static final String TRANSACTION_ARCHIVE_LINE_NUMBER     = "lineNumber";
+    public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE  = "lineTypeCode";
+    
+    public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT  = "greaterAmount";
+    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT     = "lessAmount";
 
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";

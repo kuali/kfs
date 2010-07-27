@@ -548,7 +548,7 @@
     <field-descriptor name="securityId" column="SEC_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="registrationCode" column="REGIS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="incomePrincipalIndicator" column="HLDG_IP_IND" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="totalLotNumber" column="TOT_HLDG_LOT_NBR" jdbc-type="DECIMAL"/>    
+    <field-descriptor name="totalLotNumber" column="TOT_HLDG_LOT_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />    
     <field-descriptor name="totalUnits" column="TOT_HLDG_UNITS" jdbc-type="DECIMAL"/>
     <field-descriptor name="totalCost" column="TOT_HLDG_COST" jdbc-type="DECIMAL"/>
     

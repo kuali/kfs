@@ -21,10 +21,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 @ConfigureContext(session = khuntley)
 public class HoldingTaxLotRebalanceTest extends KualiTestBase {
@@ -50,16 +52,16 @@ public class HoldingTaxLotRebalanceTest extends KualiTestBase {
         htlr.setKemid("099PLTF013");
         
         htlr.setTotalUnits(new BigDecimal(22.0000));
-        htlr.setTotalLotNumber(new BigDecimal(1));
+        htlr.setTotalLotNumber(new KualiInteger(1));
         htlr.setTotalCost(new BigDecimal(1.00));
         
         businessObjectService.save(htlr);
         
         Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put(HoldingTaxLotRebalance.INCOME_PRINCIPAL_INDICATOR, "I");
-        primaryKeys.put(HoldingTaxLotRebalance.REGISTRATION_CODE, "01P");
-        primaryKeys.put(HoldingTaxLotRebalance.SECURITY_ID, "9128273E0");
-        primaryKeys.put(HoldingTaxLotRebalance.KEMID, "099PLTF013");
+        primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_INCOME_PRINCIPAL_INDICATOR, "I");
+        primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE, "01P");
+        primaryKeys.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_SECURITY_ID, "9128273E0");
+        primaryKeys.put(EndowPropertyConstants.KEMID, "099PLTF013");
         
         HoldingTaxLotRebalance newHtlr = (HoldingTaxLotRebalance) businessObjectService.findByPrimaryKey(HoldingTaxLotRebalance.class, primaryKeys);
         

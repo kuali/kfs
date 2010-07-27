@@ -35,20 +35,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
   <bean id="HoldingTaxLotRebalance-kemid" parent="HoldingTaxLotRebalance-kemid-parentBean" />
-  <bean id="HoldingTaxLotRebalance-kemid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HoldingTaxLotRebalance-kemid-parentBean" abstract="true" parent="KEMID-kemid">
     <property name="name" value="kemid" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="KEMID" />
-    <property name="shortLabel" value="KEMID" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
   </bean>
   
   <bean id="HoldingTaxLotRebalance-securityId" parent="HoldingTaxLotRebalance-securityId-parentBean" />
@@ -57,20 +45,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="HoldingTaxLotRebalance-registrationCode" parent="HoldingTaxLotRebalance-registrationCode-parentBean" />
-  <bean id="HoldingTaxLotRebalance-registrationCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HoldingTaxLotRebalance-registrationCode-parentBean" abstract="true" parent="HoldingTaxLot-registrationCode">
     <property name="name" value="registrationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Registration Code" />
-    <property name="shortLabel" value="Registration Code" />
-    <property name="maxLength" value="4" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
   
   <bean id="HoldingTaxLotRebalance-totalLotNumber" parent="HoldingTaxLotRebalance-totalLotNumber-parentBean" />
@@ -114,7 +90,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Total Units" />
     <property name="shortLabel" value="Total Units" />
-    <property name="maxLength" value="20" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -124,7 +100,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   <bean id="HoldingTaxLotRebalance-totalCost" parent="HoldingTaxLotRebalance-totalCost-parentBean" />
@@ -134,7 +110,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Total Carry Value" />
     <property name="shortLabel" value="Total Carry Value" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -144,7 +120,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
 

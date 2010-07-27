@@ -17,10 +17,10 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -54,9 +54,9 @@ public class TransactionArchiveSecurityTest extends KualiTestBase {
         businessObjectService.save(transactionSecurityArchive);
         
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(TransactionArchiveSecurity.DOCUMENT_NUMBER, transactionSecurityArchive.getDocumentNumber());
-        primaryKeys.put(TransactionArchiveSecurity.LINE_NUMBER, transactionSecurityArchive.getLineNumber());
-        primaryKeys.put(TransactionArchiveSecurity.LINE_TYPE_CODE, transactionSecurityArchive.getLineTypeCode());
+        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, transactionSecurityArchive.getDocumentNumber());
+        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, transactionSecurityArchive.getLineNumber());
+        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, transactionSecurityArchive.getLineTypeCode());
         
         TransactionArchiveSecurity newTransactionSecurityArchive = (TransactionArchiveSecurity) businessObjectService.findByPrimaryKey(TransactionArchiveSecurity.class, primaryKeys);
         

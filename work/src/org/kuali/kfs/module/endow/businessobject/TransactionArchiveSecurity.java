@@ -36,10 +36,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * Business Object for Holding Tax Lot table
  */
 public class TransactionArchiveSecurity extends PersistableBusinessObjectBase {
-
-    public final static String DOCUMENT_NUMBER = "documentNumber";
-    public final static String LINE_NUMBER     = "lineNumber";
-    public final static String LINE_TYPE_CODE  = "lineTypeCode";
     
     // Composite keys:
     private String  documentNumber;
@@ -57,7 +53,7 @@ public class TransactionArchiveSecurity extends PersistableBusinessObjectBase {
     private BigDecimal shortTermGainLoss;
     
     // Referenced objects:
-    private Security security;
+    protected Security security;
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -65,9 +61,9 @@ public class TransactionArchiveSecurity extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(TransactionArchiveSecurity.DOCUMENT_NUMBER, this.documentNumber);
-        m.put(TransactionArchiveSecurity.LINE_NUMBER, this.lineNumber);
-        m.put(TransactionArchiveSecurity.LINE_TYPE_CODE, this.lineTypeCode);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
         
         return m;
     }

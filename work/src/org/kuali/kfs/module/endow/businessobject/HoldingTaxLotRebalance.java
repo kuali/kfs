@@ -37,11 +37,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
 
-    public final static String INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
-    public final static String REGISTRATION_CODE = "registrationCode";
-    public final static String SECURITY_ID = "securityId";
-    public final static String KEMID = "kemid";
-    
     // Composite keys:
     private String incomePrincipalIndicator;     
     private String registrationCode;
@@ -49,18 +44,18 @@ public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
     private String kemid;
     
     // Other fields:
-    private BigDecimal totalLotNumber;
-    private BigDecimal totalUnits;
-    private BigDecimal totalCost;
+    private KualiInteger totalLotNumber;
+    private BigDecimal   totalUnits;
+    private BigDecimal   totalCost;
 
     // Reference objects:
-    private IncomePrincipalIndicator incomePrincipal;
-    private RegistrationCode         registration;
-    private Security                 security;
-    private KEMID                    kemidObj;
+    protected IncomePrincipalIndicator incomePrincipal;
+    protected RegistrationCode         registration;
+    protected Security                 security;
+    protected KEMID                    kemidObj;
     
     // Collections:
-    private List<HoldingTaxLot> holdingTaxLots;
+    protected List<HoldingTaxLot> holdingTaxLots;
     
     /**
      * Constructor.
@@ -76,10 +71,10 @@ public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put(HoldingTaxLotRebalance.KEMID, this.kemid);
-        m.put(HoldingTaxLotRebalance.SECURITY_ID, this.securityId);
-        m.put(HoldingTaxLotRebalance.REGISTRATION_CODE, this.registrationCode);
-        m.put(HoldingTaxLotRebalance.INCOME_PRINCIPAL_INDICATOR, this.incomePrincipalIndicator);
+        m.put(EndowPropertyConstants.KEMID, this.kemid);
+        m.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_SECURITY_ID, this.securityId);
+        m.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE, this.registrationCode);
+        m.put(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_INCOME_PRINCIPAL_INDICATOR, this.incomePrincipalIndicator);
         
         return m;
     }
@@ -152,7 +147,7 @@ public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
      * Gets the totalLotNumber attribute. 
      * @return Returns the totalLotNumber.
      */
-    public BigDecimal getTotalLotNumber() {
+    public KualiInteger getTotalLotNumber() {
         return totalLotNumber;
     }
 
@@ -160,7 +155,7 @@ public class HoldingTaxLotRebalance extends PersistableBusinessObjectBase {
      * Sets the totalLotNumber attribute value.
      * @param totalLotNumber The totalLotNumber to set.
      */
-    public void setTotalLotNumber(BigDecimal totalLotNumber) {
+    public void setTotalLotNumber(KualiInteger totalLotNumber) {
         this.totalLotNumber = totalLotNumber;
     }
 

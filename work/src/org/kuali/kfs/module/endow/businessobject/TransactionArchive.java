@@ -17,9 +17,9 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -27,13 +27,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Business Object for Holding Tax Lot table
  */
 public class TransactionArchive extends PersistableBusinessObjectBase {
-
-    public final static String DOCUMENT_NUMBER = "documentNumber";
-    public final static String LINE_NUMBER     = "lineNumber";
-    public final static String LINE_TYPE_CODE  = "lineTypeCode";
-    
-    public final static String GREATER_AMOUNT  = "greaterAmount";
-    public final static String LESS_AMOUNT     = "lessAmount";
     
     // Composite keys:
     private String  documentNumber;
@@ -56,10 +49,10 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     private Date postedDate;
     
     // Reference objects:
-    private TransactionArchiveSecurity archiveSecurity;
-    private EndowmentTransactionCode etranObj;
-    private TransactionTypeCode typeCodeObj;
-    private KEMID kemidObj;
+    protected TransactionArchiveSecurity archiveSecurity;
+    protected EndowmentTransactionCode etranObj;
+    protected TransactionTypeCode typeCodeObj;
+    protected KEMID kemidObj;
     
     // Transient members:
     private transient BigDecimal greaterAmount;
@@ -71,9 +64,9 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(TransactionArchive.DOCUMENT_NUMBER, this.documentNumber);
-        m.put(TransactionArchive.LINE_NUMBER, this.lineNumber);
-        m.put(TransactionArchive.LINE_TYPE_CODE, this.lineTypeCode);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
+        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
         
         return m;
     }

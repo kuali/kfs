@@ -298,4 +298,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String EXPENSE_NOT_EXPENDITURE = "ES";
         public static final String INCOME_NOT_CASH = "IC";
     }
+    
+    public static final class HoldingTaxLotRebalanceCodes {
+        public static final String RESULTS_ACTIONS_LINK = "Rebalance";
+    }
 }

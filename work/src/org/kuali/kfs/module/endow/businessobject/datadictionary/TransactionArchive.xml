@@ -77,7 +77,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Corpus Amount" />
     <property name="shortLabel" value="Corpus Amount" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -86,7 +86,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   
@@ -106,13 +106,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="true" />
     </property>
   </bean>
-  
-<!--  <bean id="TransactionArchive-incomePrincipal.name" parent="TransactionArchive-incomePrincipal.name-parentBean" />-->
-<!--  <bean id="TransactionArchive-incomePrincipal.name-parentBean" abstract="true" parent="IncomePrincipalIndicator-name">-->
-<!--    <property name="name" value="incomePrincipal.name" />-->
-<!--    <property name="label" value="Income or Principal" />-->
-<!--    <property name="shortLabel" value="Income or Principal" />-->
-<!--  </bean>-->
 
   <bean id="TransactionArchive-srcTypeCode" parent="TransactionArchive-srcTypeCode-parentBean" />
   <bean id="TransactionArchive-srcTypeCode-parentBean" abstract="true" parent="EndowmentTransactionSourceType-name">
@@ -215,7 +208,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="greaterAmount" />
     <property name="label" value="Greater Than Amount" />
     <property name="shortLabel" value="Greater Than Amount" />
-     <property name="maxLength" value="21" />
+     <property name="maxLength" value="22" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
             p:precision="19"
@@ -223,7 +216,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   
@@ -233,7 +226,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Less Than Amount" />
     <property name="shortLabel" value="Less Than Amount" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
             p:precision="19"
@@ -241,7 +234,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   
@@ -252,20 +245,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="TransactionArchive-documentNumber" parent="TransactionArchive-documentNumber-parentBean" />
-  <bean id="TransactionArchive-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="TransactionArchive-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Document Number" />
-    <property name="maxLength" value="14" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
-    </property>
   </bean>
 
   <bean id="TransactionArchive-kemid" parent="TransactionArchive-kemid-parentBean" />
@@ -398,7 +379,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Principal Cash Amount" />
     <property name="shortLabel" value="Principal Cash Amount" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -407,7 +388,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   
@@ -417,7 +398,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Income Cash Amount" />
     <property name="shortLabel" value="Income Cash Amount" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -426,7 +407,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   

@@ -45,7 +45,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Transaction Unit Value" />
     <property name="shortLabel" value="Transaction Unit Value" />
-    <property name="maxLength" value="24" />
+    <property name="maxLength" value="25" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -54,7 +54,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="25" />
+            p:size="26" />
     </property>
   </bean>
   
@@ -64,7 +64,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Short Term Gain (Loss)" />
     <property name="shortLabel" value="Short Term Gain (Loss)" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -73,7 +73,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   
@@ -83,7 +83,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Long Term Gain (Loss)" />
     <property name="shortLabel" value="Long Term Gain (Loss)" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -92,7 +92,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
 
@@ -118,7 +118,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Units Held" />
     <property name="shortLabel" value="Units Held" />
-    <property name="maxLength" value="20" />
+    <property name="maxLength" value="21" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -127,7 +127,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="21" />
+            p:size="22" />
     </property>
   </bean>
   
@@ -137,7 +137,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Holding Cost" />
     <property name="shortLabel" value="Holding Cost" />
-    <property name="maxLength" value="21" />
+    <property name="maxLength" value="22" />
     <property name="required" value="true" />
     <property name="validationPattern">
       <bean parent="FixedPointValidationPattern"
@@ -146,7 +146,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="22" />
+            p:size="23" />
     </property>
   </bean>
   

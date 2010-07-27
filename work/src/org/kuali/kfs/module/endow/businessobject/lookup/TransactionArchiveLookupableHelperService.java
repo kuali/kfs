@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -38,8 +39,8 @@ public class TransactionArchiveLookupableHelperService extends KualiLookupableHe
         
         // Get the greater than and less than amounts.
         try {
-            greaterAmt = new BigDecimal(fieldValues.remove(TransactionArchive.GREATER_AMOUNT));
-            lessAmt    = new BigDecimal(fieldValues.remove(TransactionArchive.LESS_AMOUNT));
+            greaterAmt = new BigDecimal(fieldValues.remove(EndowPropertyConstants.TRANSACTION_ARCHIVE_GREATER_AMOUNT));
+            lessAmt    = new BigDecimal(fieldValues.remove(EndowPropertyConstants.TRANSACTION_ARCHIVE_LESS_AMOUNT));
         }
         catch (NumberFormatException nfe) {}
         

@@ -36,6 +36,30 @@ function loadAccountName(accountNumberFieldName, chartFieldName, accountNameFiel
 	}
  }
 
+function loadSubAccountName(subAccountNumberFieldName, accountNumberFieldName, chartFieldName, subAccountNameFieldName){
+	var subAccountNumber = DWRUtil.getValue( subAccountNumberFieldName );
+	var accountNumber = DWRUtil.getValue( accountNumberFieldName );
+	var chart = DWRUtil.getValue( chartFieldName );
+	
+	if (subAccountNumber == '' || accountNumber =='' || chart == '') {
+		setRecipientValue(subAccountNameFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue(subAccountNameFieldName, data.subAccountName);
+			} else {
+				setRecipientValue(subAccountNameFieldName, wrapError( "sub-account not found"), true);			
+			} },
+			errorHandler:function(errorMessage ) { 
+				setRecipientValue(subAccountNameFieldName, wrapError( "sub account not found"), true);				
+			}
+		};
+		
+		SubAccountService.getByPrimaryId(chart, accountNumber, subAccountNumber, dwrReply);
+	}
+ }
+
 function loadFinChartOfAccountDescription(chartFieldName, chartDescFieldName) {
 	var chart = DWRUtil.getValue( chartFieldName );
 

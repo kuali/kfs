@@ -180,4 +180,6 @@
 <include file="updates/2010-07-22-5742-1-CA_OBJECT_CODE_T.xml"/>
 <include file="updates/2010-07-23-5475e-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-07-23-5578h-1-END_ENDOW_ACCT_LINES_T.xml"/>
+<include file="updates/2010-07-27-5898-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-07-27-5869-1-CB_PRTG_T.xml"/>
 </databaseChangeLog>

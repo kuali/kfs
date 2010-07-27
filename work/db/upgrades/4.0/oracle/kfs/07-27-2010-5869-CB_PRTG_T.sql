@@ -1,0 +1,24 @@
+alter table CB_PRTG_T
+modify CPTLAST_MFR_NM  VARCHAR(45);
+
+alter table CB_PRTG_T
+modify VENDOR_NAME  VARCHAR(45);
+
+alter table CM_AST_COMPONENT_T
+modify CACMP_MFR_NM  VARCHAR(45);
+
+alter table CM_AST_COMPONENT_T
+modify CACMP_VENDOR_NM  VARCHAR(45);
+
+alter table CM_CPTLAST_DOC_T
+modify CPTLAST_MFR_NM  VARCHAR(45);
+
+alter table CM_CPTLAST_DOC_T
+modify CPTLAST_MFR_NM  VARCHAR(45);
+
+alter table CM_CPTLAST_T
+modify CPTLAST_MFR_NM  VARCHAR(45);
+
+alter table CM_CPTLAST_T
+modify CPTLAST_VENDOR_NM  VARCHAR(45);
+

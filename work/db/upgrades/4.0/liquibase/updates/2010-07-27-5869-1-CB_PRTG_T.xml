@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bob' id='5869-1-1' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CB_PRTG_T'>
+      <column name='CPTLAST_MFR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-2' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CB_PRTG_T'>
+      <column name='VENDOR_NAME' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-3' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_AST_COMPONENT_T'>
+      <column name='CACMP_MFR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-4' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_AST_COMPONENT_T'>
+      <column name='CACMP_VENDOR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-5' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_CPTLAST_DOC_T'>
+      <column name='CPTLAST_MFR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-6' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_CPTLAST_DOC_T'>
+      <column name='CPTLAST_MFR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-7' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_CPTLAST_T'>
+      <column name='CPTLAST_MFR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bob' id='5869-1-8' failOnError='true'>
+    <comment>KFSMI-5869  CAB doesn't accept a vendor name &gt; 40 characters </comment>
+    <modifyColumn tableName='CM_CPTLAST_T'>
+      <column name='CPTLAST_VENDOR_NM' type='VARCHAR(45)' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

@@ -59,6 +59,7 @@
         <property name="jobNames">
             <list>
 				<value>availableCashUpdatesJob</value>
+				<value>currentTaxLotBalancesUpdateJob</value>				
             </list>
         </property>
     </bean>
@@ -199,7 +200,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="avilableCashUpdateStep" class="org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep" parent="step">
 		<property name="availableCashUpdateService">
 			<ref bean="availableCashUpdateService" />
@@ -229,12 +229,52 @@
 			<ref bean="KEMIDService" />
 		</property>		
 	</bean>
- 
  	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>
- 	
+
  	<bean id="typeRestrictionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TypeRestrictionCodeServiceImpl">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
+ 
+ 	<bean id="currentTaxLotBalancesUpdateJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="currentTaxLotBalanceUpdateStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="currentTaxLotBalanceUpdateStep" class="org.kuali.kfs.module.endow.batch.CurrentTaxLotBalanceUpdateStep" parent="step">
+		<property name="currentTaxLotBalanceUpdateService">
+			<ref bean="currentTaxLotBalanceUpdateService" />
+		</property>
+	</bean>
+	
+	<bean id="currentTaxLotBalanceUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl">
+    	<property name="parameterService">
+    	 <ref bean="parameterService" />
+		</property>		
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>
+		<property name="currentTaxLotService">
+			<ref bean="currentTaxLotService" />
+		</property>		
+	</bean>
+  	<bean id="currentTaxLotService" parent="currentTaxLotService-parentBean"/>
+ 
+ 	<bean id="currentTaxLotService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.CurrentTaxLotServiceImpl">
+ 		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+ 		<property name="securityService">
+			<ref bean="securityService" />
+		</property>
+ 		<property name="kEMService">
+			<ref bean="kemService" />
+		</property>
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
 		</property>
  	</bean>
  

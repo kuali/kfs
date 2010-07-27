@@ -77,6 +77,13 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLots()
+     */
+    public List<HoldingTaxLot> getAllTaxLots() {
+        return (List<HoldingTaxLot>) businessObjectService.findAll(HoldingTaxLot.class);
+    }
+    
+    /**
      * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsOrderByAcquiredDate(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean)
      */

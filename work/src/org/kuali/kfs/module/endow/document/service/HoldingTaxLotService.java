@@ -133,4 +133,10 @@ public interface HoldingTaxLotService {
      */
     public BigDecimal getMarketValueForPooledInvestmentForAvailablePrincipalCash(String kemId);
 
+    /**
+     * Gets all tax lots.
+     * 
+     * @return a list of tax lots
+     */
+    public List<HoldingTaxLot> getAllTaxLots();
 }

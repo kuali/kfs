@@ -76,4 +76,10 @@ public interface KEMService {
      * @return AVAILABLE_CASH_PERCENT value
      */
     public BigDecimal getAvailableCashPercent();
+    
+    /**
+     * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * @return FISCAL_YEAR_END_DAY_AND_MONTH value
+     */
+    public Date getFiscalYearEndDayAndMonth();    
 }

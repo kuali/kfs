@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.service.impl;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.impl.TicklerRule;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
+import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -198,6 +200,29 @@ public class KEMServiceImpl implements KEMService {
         return availableCashPercent;
     }
     
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth()
+     * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * @return FISCAL_YEAR_END_DAY_AND_MONTH value
+     */
+    public Date getFiscalYearEndDayAndMonth() {
+        Date fiscalDate = null;
+        
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String yearEndDateAndMonth = parameterService.getParameterValue(Batch.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH);
+        
+        Calendar calendar = Calendar.getInstance();
+        yearEndDateAndMonth = yearEndDateAndMonth.concat("/") + calendar.get(Calendar.YEAR);
+        
+        try {
+            fiscalDate = getDateTimeService().convertToDate(yearEndDateAndMonth);
+        } catch (ParseException pe) {
+            return null;
+        }
+        
+        return fiscalDate;
+    }
+
     /**
      * Gets the dateTimeService.
      * 

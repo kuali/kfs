@@ -16,9 +16,14 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -31,8 +36,13 @@ import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.validation.AddEndowmentAccountingLineRule;
 import org.kuali.kfs.module.endow.document.validation.DeleteEndowmentAccountingLineRule;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -79,6 +89,18 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
 
         isValid &= validateChartCodeIsActive(accountingLine, index);
 
+        // validate account
+        if (isAccountNumberEmpty(accountingLine, index)) {
+            return false;
+        }
+
+        if (!validateAccount(accountingLine, index)) {
+            return false;
+        }
+
+        isValid &= validateAccountIsActive(accountingLine, index);
+        isValid &= validateAccountNotExpired(accountingLine, index);
+
         // validate object code
         if (isObjectCodeEmpty(accountingLine, index)) {
             return false;
@@ -91,6 +113,10 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         isValid &= validateObjectCodeIsActive(accountingLine, index);
         isValid &= validateObjectCodeObjectConsolidation(accountingLine, index);
         isValid &= validateObjectCodeType(accountingLine, index);
+
+        isValid &= validateSubAccountNumber(accountingLine, index);
+        isValid &= validateSubObjectCode(accountingLine, index);
+        isValid &= validateProjectCode(accountingLine, index);
 
         return isValid;
     }
@@ -133,7 +159,7 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
      * @return true if valid, false otherwise
      */
     protected boolean isChartCodeEmpty(EndowmentAccountingLine line, int index) {
-        if (StringUtils.isBlank(line.getFinancialObjectCode())) {
+        if (StringUtils.isBlank(line.getChartOfAccountsCode())) {
             putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_REQUIRED);
             return true;
         }
@@ -181,6 +207,95 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             if (!chartCode.isActive()) {
                 isValid = false;
                 putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_INACTIVE);
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Checks if the account number is empty.
+     * 
+     * @param line
+     * @param index
+     * @return true if empty, false otherwise
+     */
+    protected boolean isAccountNumberEmpty(EndowmentAccountingLine line, int index) {
+        if (StringUtils.isBlank(line.getAccountNumber())) {
+            putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_CHART_CODE_REQUIRED);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /**
+     * Validates if the account exists in the database.
+     * 
+     * @param line
+     * @param index
+     * @return true if it exists, false otherwise
+     */
+    protected boolean validateAccount(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String accountNumber = line.getAccountNumber();
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
+
+        if (ObjectUtils.isNull(account)) {
+            isValid = false;
+            putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_ACCT_NBR_INVALID);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that the account is active.
+     * 
+     * @param line
+     * @param index
+     * @return true if active, false otherwise
+     */
+    protected boolean validateAccountIsActive(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String accountNumber = line.getAccountNumber();
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
+
+        if (ObjectUtils.isNotNull(account)) {
+            if (!account.isActive()) {
+                isValid = false;
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_ACCT_NBR_INACTIVE);
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates if the account is expired.
+     * 
+     * @param line
+     * @param index
+     * @return true if not expired, false otherwise.
+     */
+    protected boolean validateAccountNotExpired(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        String accountNumber = line.getAccountNumber();
+        String chartOfAccountsCode = line.getChartOfAccountsCode();
+
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(chartOfAccountsCode, accountNumber);
+
+        if (ObjectUtils.isNotNull(account)) {
+            if (account.isExpired()) {
+                isValid = false;
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_ACCT_NBR_EXPIRED);
             }
         }
 
@@ -303,6 +418,108 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             if (EndowConstants.ObjectTypeCode.EXPENSE_NOT_EXPENDITURE.equalsIgnoreCase(objectType) || EndowConstants.ObjectTypeCode.INCOME_NOT_CASH.equalsIgnoreCase(objectType)) {
                 isValid &= false;
                 putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_OBJECT_TYPE_NOT_VALID);
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that if the sub account number is not empty it exists in the DB and is active.
+     * 
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateSubAccountNumber(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+        String label = dd.getBusinessObjectEntry(SubAccount.class.getName()).getAttributeDefinition(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
+
+        // sub object is not required
+        if (StringUtils.isNotBlank(line.getSubAccountNumber())) {
+            line.refreshReferenceObject("subAccount");
+            SubAccount subAccount = line.getSubAccount();
+
+            // make sure it exists
+            if (ObjectUtils.isNull(subAccount)) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBACCT_NBR, KFSKeyConstants.ERROR_EXISTENCE, label);
+                return false;
+            }
+
+            // check active flag
+            if (!subAccount.isActive()) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBACCT_NBR, KFSKeyConstants.ERROR_INACTIVE, label);
+                return false;
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that if the sub object code is not empty it exists in the DB and is active.
+     * 
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateSubObjectCode(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+        String label = dd.getBusinessObjectEntry(SubObjectCode.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
+
+        // sub object is not required
+        if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())) {
+            line.refreshReferenceObject("subObjectCode");
+            SubObjectCode subObjectCode = line.getSubObjectCode();
+
+            // make sure it exists
+            if (ObjectUtils.isNull(subObjectCode)) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBOBJ_CD, KFSKeyConstants.ERROR_EXISTENCE, label);
+                return false;
+            }
+
+            // check active flag
+            if (!subObjectCode.isActive()) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBOBJ_CD, KFSKeyConstants.ERROR_INACTIVE, label);
+                return false;
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validates that if the project code is not empty it exists in the DB and is active.
+     * 
+     * @param line
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateProjectCode(EndowmentAccountingLine line, int index) {
+        boolean isValid = true;
+
+        DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+        String label = dd.getBusinessObjectEntry(ProjectCode.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
+
+        // sub object is not required
+        if (StringUtils.isNotBlank(line.getProjectCode())) {
+            line.refreshReferenceObject("project");
+            ProjectCode project = line.getProject();
+
+            // make sure it exists
+            if (ObjectUtils.isNull(project)) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_PROJECT_CD, KFSKeyConstants.ERROR_EXISTENCE, label);
+                return false;
+            }
+
+            // check active flag
+            if (!project.isActive()) {
+                putFieldError(getAcctLineErrorPrefix(line, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_PROJECT_CD, KFSKeyConstants.ERROR_INACTIVE, label);
+                return false;
             }
         }
 

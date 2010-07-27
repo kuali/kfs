@@ -244,6 +244,10 @@ public class EndowKeyConstants {
         public static final String ERROR_ACCT_LINE_CHART_CODE_REQUIRED = "error.accountingLine.chartCode.required";
         public static final String ERROR_ACCT_LINE_CHART_CODE_INVALID = "error.accountingLine.chartCode.invalid";
         public static final String ERROR_ACCT_LINE_CHART_CODE_INACTIVE = "error.accountingLine.chartCode.inactive";
+        public static final String ERROR_ACCT_LINE_ACCT_NBR_REQUIRED = "error.accountingLine.accountNumber.required";
+        public static final String ERROR_ACCT_LINE_ACCT_NBR_INVALID = "error.accountingLine.accountNumber.invalid";
+        public static final String ERROR_ACCT_LINE_ACCT_NBR_INACTIVE = "error.accountingLine.account.inactive";
+        public static final String ERROR_ACCT_LINE_ACCT_NBR_EXPIRED = "error.accountingLine.account.expired";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {

@@ -99,7 +99,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_BALANCE_DATE = "balanceDate";
     public static final String HOLDING_TAX_LOT_ACQUIRED_DATE = "acquiredDate";
     public static final String HOLDING_TAX_LOT_UNITS = "units";
-    public static final String HOLDING_TAX_LOT_COST = "cost";    
+    public static final String HOLDING_TAX_LOT_COST = "cost";
 
     // MonthEndDate fields
     public static final String MONTH_END_DATE_ID = "monthEndDateId";
@@ -130,7 +130,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_COMBINE_DONOR_STATEMENTS_TAB = "kemidCombineDonorStatements";
     public static final String KEMID_FEES_TAB = "kemidFees";
     public static final String KEMID_CLOSED = "closed_ind";
-    
+
     public static final String KEMID_AGREEMENTS_SECTION = "agreements";
     public static final String KEMID_SOURCE_OF_FUNDS_SECTION = "sourcesOfFunds";
     public static final String KEMID_BENEFITTING_ORGS_SECTION = "benefittingOrganizations";
@@ -507,14 +507,14 @@ public class EndowPropertyConstants {
 
     public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";
     public static final String SOURCE_TRANSACTION_LINE_PREFIX = "newSourceTransactionLine.";
-    
+
     public static final String TARGET_ACCT_LINE_PREFIX = "newTargetAccountingLine.";
     public static final String SOURCE_ACCT_LINE_PREFIX = "newSourceAccountingLine.";
 
 
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";
     public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX = "document.targetTransactionLines";
-    
+
     public static final String EXISTING_SOURCE_ACCT_LINE_PREFIX = "document.sourceAccountingLines";
     public static final String EXISTING_TARGET_ACCT_LINE_PREFIX = "document.targetAccountingLines";
 
@@ -528,11 +528,15 @@ public class EndowPropertyConstants {
     public static final String HISTORY_VALUE_ADJUSTMENT_SECURITY_ID = "securityId";
     public static final String HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE = "securityUnitValue";
     public static final String HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE = "securityMarketValue";
-    
+
     // Holding Tax Lot Re-balance
     public static final String HOLDING_TAX_LOTS_TAB = "holdingTaxLots";
-    
+
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
     public static final String ENDOWMENT_ACCOUNTING_LINE_CHART_CD = "chartOfAccountsCode";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR = "accountNumber";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_SUBACCT_NBR = "subAccountNumber";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_SUBOBJ_CD = "financialSubObjectCode";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_PROJECT_CD = "projectCode";
 }

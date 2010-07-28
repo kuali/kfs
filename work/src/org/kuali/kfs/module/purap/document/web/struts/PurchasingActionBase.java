@@ -117,7 +117,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         //names in KIM are longer than what we store these names at; truncate them to match our data dictionary maxlengths
         if (StringUtils.equals(refreshCaller, "kimPersonLookupable")) {
             Integer deliveryToNameMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getClass(), PurapPropertyConstants.DELIVERY_TO_NAME);
-            if (StringUtils.isNotEmpty(document.getDeliveryToName()) && document.getDeliveryToName().length() > deliveryToNameMaxLength.intValue()) {
+            if (StringUtils.isNotEmpty(document.getDeliveryToName()) && ObjectUtils.isNotNull(deliveryToNameMaxLength) && document.getDeliveryToName().length() > deliveryToNameMaxLength.intValue()) {
                 document.setDeliveryToName(document.getDeliveryToName().substring(0, deliveryToNameMaxLength));
                 GlobalVariables.getMessageMap().clearErrorPath();
                 GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
@@ -126,7 +126,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
 
             Integer requestorNameMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getClass(), PurapPropertyConstants.REQUESTOR_PERSON_NAME);
-            if (StringUtils.isNotEmpty(document.getRequestorPersonName()) && document.getRequestorPersonName().length() > requestorNameMaxLength.intValue()) {
+            if (StringUtils.isNotEmpty(document.getRequestorPersonName()) && ObjectUtils.isNotNull(requestorNameMaxLength) && document.getRequestorPersonName().length() > requestorNameMaxLength.intValue()) {
                 document.setRequestorPersonName(document.getRequestorPersonName().substring(0, requestorNameMaxLength));
                 GlobalVariables.getMessageMap().clearErrorPath();
                 GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ADDITIONAL_TAB_ERRORS);

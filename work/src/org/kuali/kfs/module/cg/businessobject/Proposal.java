@@ -92,6 +92,10 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     private LookupService lookupService;
     private Award award;
 
+    /** Dummy value used to facilitate lookups */
+    private transient String lookupPersonUniversalIdentifier;
+    private transient Person lookupPerson;
+
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
@@ -803,17 +807,12 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
         return m;
     }
 
-    /** Dummy value used to facilitate lookups */
-    private transient String lookupPersonUniversalIdentifier;
-    private transient Person lookupPerson;
-
     /**
      * Gets the lookup {@link Person}.
      * 
      * @return the lookup {@link Person}
      */
     public Person getLookupPerson() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPerson;
     }
 
@@ -832,6 +831,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson); 
         return lookupPersonUniversalIdentifier;
     }
 

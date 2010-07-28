@@ -715,7 +715,6 @@
     <property name="name" value="deliveryToName"/>
     <property name="label" value="Delivery To"/>
     <property name="shortLabel" value="To"/>
-    <property name="maxLength" value="45"/>
     <property name="required" value="true"/>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryToPhoneNumber" parent="PurchaseOrderDocument-deliveryToPhoneNumber-parentBean"/>

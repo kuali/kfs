@@ -104,3 +104,28 @@ function loadObjectCodeName(objectCodeFieldName, chartFieldName, objectCodeNameF
 		ObjectCodeService.getByPrimaryIdForCurrentYear(chart, objectCode, dwrReply);
 	}
 }
+
+function loadSubObjectCodeName(subObjectCodeFieldName, chartFieldName, accountNumberFieldName, objectCodeFieldName, subObjectCodeNameFieldName) {
+	var subObjectCode = DWRUtil.getValue( subObjectCodeFieldName );
+	var chart = DWRUtil.getValue( chartFieldName );
+	var accountNumber = DWRUtil.getValue( accountNumberFieldName );
+	var objectCode = DWRUtil.getValue( objectCodeFieldName );
+
+	if (subObjectCode == '' || chart == '' || accountNumber == '' || objectCode == '') {
+		setRecipientValue(subObjectCodeNameFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue(subObjectCodeNameFieldName, data.financialSubObjectCodeName);
+			} else {
+				setRecipientValue(subObjectCodeNameFieldName, wrapError( "sub-object code not found"), true);			
+			} },
+			errorHandler:function(errorMessage ) { 
+				setRecipientValue(subObjectCodeNameFieldName, wrapError( "sub-object code not found"), true);				
+			}
+		};
+		
+		SubObjectCodeService.getByPrimaryIdForCurrentYear(chart, accountNumber, objectCode, subObjectCode, dwrReply);
+	}
+}

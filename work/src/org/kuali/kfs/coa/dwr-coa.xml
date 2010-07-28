@@ -69,6 +69,7 @@
 	    <create creator="spring" javascript="SubObjectCodeService">
 	    	<param name="beanName" value="subObjectCodeService" />
 	    	<include method="getByPrimaryId" />
+	    	<include method="getByPrimaryIdForCurrentYear" />
 	    </create>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.ProjectCode">
 	   		<param name="include" value="code,name,active,projectDescription,chartOfAccountsCode,organizationCode" />

@@ -129,3 +129,24 @@ function loadSubObjectCodeName(subObjectCodeFieldName, chartFieldName, accountNu
 		SubObjectCodeService.getByPrimaryIdForCurrentYear(chart, accountNumber, objectCode, subObjectCode, dwrReply);
 	}
 }
+
+function loadProjectCodeName(projectCodeFieldName, projectNameFieldName) {
+    var projectCode = DWRUtil.getValue( projectCodeFieldName );
+
+	if (projectCode=='') {
+		setRecipientValue(projectNameFieldName, "");
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( projectNameFieldName, data.name );
+			} else {
+				setRecipientValue( projectNameFieldName, wrapError( "project not found" ), true );			
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( projectNameFieldName, wrapError( "project not found" ), true );
+			}
+		};
+		ProjectCodeService.getByPrimaryId( projectCode, dwrReply );
+	}
+}

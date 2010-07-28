@@ -154,12 +154,12 @@
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.financialSubObjectCode}" 
                 	property="${newAccountingLine}.financialSubObjectCode" 
-                	onblur="loadSubObjectCodeName('${newAccountingLine}.financialSubObjectCode', '${newAccountingLine}.chartOfAccountsCode', '${newAccountingLine}.accountNumber', '${newAccountingLine}.financialObjectCode', 'document.${newAccountingLine}.objectCode.financialSubObjectCodeName.div');"/>
+                	onblur="loadSubObjectCodeName('${newAccountingLine}.financialSubObjectCode', '${newAccountingLine}.chartOfAccountsCode', '${newAccountingLine}.accountNumber', '${newAccountingLine}.financialObjectCode', 'document.${newAccountingLine}.subObjectCode.financialSubObjectCodeName.div');"/>
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjectCode"
 					                fieldConversions="financialSubObjectCode:${newAccountingLine}.financialSubObjectCode" />
 					<br/>
-					<div id="document.${newAccountingLine}.objectCode.financialSubObjectCodeName.div" class="fineprint">
-            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialSubObjectCodeName}" property="${newAccountingLine}.subObjectCode.financialSubObjectCodeName" readOnly="true" />
+					<div id="document.${newAccountingLine}.subObjectCode.financialSubObjectCodeName.div" class="fineprint">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${newAccountingLine}.subObjectCode.financialSubObjectCodeName" readOnly="true" />
             		</div>
                 </td>
                 <td class="infoline">
@@ -248,13 +248,13 @@
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.financialSubObjectCode}"
                 		property="${transLines}[${ctr}].financialSubObjectCode" 
-                		onblur="loadSubObjectCodeName('${transLines}[${ctr}].financialSubObjectCode', '${transLines}[${ctr}].chartOfAccountsCode', '${transLines}[${ctr}].accountNumber', '${transLines}[${ctr}].financialObjectCode', 'document.${transLines}[${ctr}].objectCode.financialSubObjectCodeName.div');"
+                		onblur="loadSubObjectCodeName('${transLines}[${ctr}].financialSubObjectCode', '${transLines}[${ctr}].chartOfAccountsCode', '${transLines}[${ctr}].accountNumber', '${transLines}[${ctr}].financialObjectCode', 'document.${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName.div');"
                 		readOnly="${readOnly}"/>
                 	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjectCode"
 					                fieldConversions="financialSubObjectCode:${transLines}[${ctr}].financialSubObjectCode" />
 					<br/>
-					<div id="document.${transLines}[${ctr}].objectCode.financialSubObjectCodeName.div" class="fineprint">
-            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialSubObjectCodeName}" property="${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName" readOnly="true" />
+					<div id="document.${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName.div" class="fineprint">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName" readOnly="true" />
             		</div>
                 </td>
                 <td class="datacell">

@@ -63,6 +63,13 @@ public interface EndowmentAccountingLine extends PersistableBusinessObject {
     public void setObjectCode(ObjectCodeCurrent objectCode);
 
     /**
+     * Gets the object code.
+     * 
+     * @return objectCode
+     */
+    public ObjectCodeCurrent getObjectCode();
+
+    /**
      * @param organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId);

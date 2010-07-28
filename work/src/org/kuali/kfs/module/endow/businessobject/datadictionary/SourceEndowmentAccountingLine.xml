@@ -27,8 +27,6 @@
         <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectLevelCode"/>
         <ref bean="SourceEndowmentAccountingLine-objectCode.financialObjectCodeName"/>
         <ref bean="SourceEndowmentAccountingLine-account.accountName"/>
-        <ref bean="SourceEndowmentAccountingLine-account.subFundGroupCode"/>
-        <ref bean="SourceEndowmentAccountingLine-account.subFundGroup.fundGroupCode"/>
         <ref bean="SourceEndowmentAccountingLine-accountingLineNumber"/>
         <ref bean="SourceEndowmentAccountingLine-financialObjectCode"/>
         <ref bean="SourceEndowmentAccountingLine-accountNumber"/>
@@ -70,16 +68,6 @@
 
   <bean id="SourceEndowmentAccountingLine-account.accountName-parentBean" abstract="true" parent="Account-accountName">
     <property name="name" value="account.accountName"/>
-  </bean>
-  <bean id="SourceEndowmentAccountingLine-account.subFundGroupCode" parent="SourceEndowmentAccountingLine-account.subFundGroupCode-parentBean"/>
-
-  <bean id="SourceEndowmentAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="name" value="account.subFundGroupCode"/>
-  </bean>
-  <bean id="SourceEndowmentAccountingLine-account.subFundGroup.fundGroupCode" parent="SourceEndowmentAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
-
-  <bean id="SourceEndowmentAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
-    <property name="name" value="account.subFundGroup.fundGroupCode"/>
   </bean>
   <bean id="SourceEndowmentAccountingLine-accountingLineNumber" parent="SourceEndowmentAccountingLine-accountingLineNumber-parentBean"/>
 

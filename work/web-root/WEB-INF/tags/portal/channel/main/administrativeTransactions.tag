@@ -61,8 +61,6 @@
     <strong>Endowment</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Corpus Adjustment" url="endowCorpusAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECA" /></li>
-        <li><portal:portalLink displayTitle="true" title="Endowment To GL Transfer Of Funds" url="endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EGLT" /></li>
-        <li><portal:portalLink displayTitle="true" title="GL To Endowment Transfer Of Funds" url="endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=GLET" /></li>        
         <li><portal:portalLink displayTitle="true" title="Holding Adjustment" url="endowHoldingAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EHA" /></li>         
         <li><portal:portalLink displayTitle="true" title="Holding History Value Adjustment" url="endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EHVA" /></li>
         <li><portal:portalLink displayTitle="true" title="Holding Tax Lot Rebalance" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

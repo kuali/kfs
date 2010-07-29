@@ -72,6 +72,8 @@
         <li><portal:portalLink displayTitle="true" title="Cash Decrease" url="endowCashDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECDD" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Increase" url="endowCashIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECI" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Transfer" url="endowCashTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECT" /></li>
+        <li><portal:portalLink displayTitle="true" title="Endowment To GL Transfer Of Funds" url="endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EGLT" /></li>
+        <li><portal:portalLink displayTitle="true" title="GL To Endowment Transfer Of Funds" url="endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=GLET" /></li>        
   		<li><portal:portalLink displayTitle="true" title="Liability Decrease" url="endowLiabilityDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELD" /></li>
         <li><portal:portalLink displayTitle="true" title="Liability Increase" url="endowLiabilityIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELI" /></li>
         <li><portal:portalLink displayTitle="true" title="Security Transfer" url="endowSecurityTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EST" /></li>

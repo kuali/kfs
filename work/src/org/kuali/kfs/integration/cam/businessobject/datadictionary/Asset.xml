@@ -127,17 +127,12 @@
   </bean>
   
   <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean"/>
-  <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="name" value="manufacturerName"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Manufacturer"/>
     <property name="shortLabel" value="Manufacturer"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="42"/>
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
   
@@ -157,17 +152,10 @@
   </bean>
   
   <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean"/>
-  <bean id="Asset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorName"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Vendor Name"/>
+  <bean id="Asset-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="42"/>
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">

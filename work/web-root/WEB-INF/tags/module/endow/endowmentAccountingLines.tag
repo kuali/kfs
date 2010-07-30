@@ -112,7 +112,8 @@
                 		property="${newAccountingLine}.chartOfAccountsCode"
                 		onblur="loadFinChartOfAccountDescription('${newAccountingLine}.chartOfAccountsCode', '${newAccountingLine}.chart.finChartOfAccountDescription.div');"/>&nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"
-					                fieldConversions="chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode" />
+					                fieldConversions="chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
+					                lookupParameters="${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />
 				    <br/>
 					<div id="${newAccountingLine}.chart.finChartOfAccountDescription.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newAccountingLine}.chart.finChartOfAccountDescription" readOnly="true" />
@@ -122,7 +123,7 @@
                 <kul:htmlControlAttribute attributeEntry="${lineAttributes.accountNumber}" property="${newAccountingLine}.accountNumber"
 	                	onblur="loadAccountName('${newAccountingLine}.accountNumber', '${newAccountingLine}.chartOfAccountsCode', 'document.${newAccountingLine}.accountNumber.name.div');"/>&nbsp;
 	                	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
-					                fieldConversions="accountNumber:${newAccountingLine}.accountNumber"
+					                fieldConversions="accountNumber:${newAccountingLine}.accountNumber,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
 					                lookupParameters="${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode"/>
 				    <br/>
 					<div id="document.${newAccountingLine}.accountNumber.name.div" class="fineprint">
@@ -134,7 +135,7 @@
                 		property="${newAccountingLine}.subAccountNumber" 
                 		onblur="loadSubAccountName('${newAccountingLine}.subAccountNumber', '${newAccountingLine}.accountNumber', '${newAccountingLine}.chartOfAccountsCode', 'document.${newAccountingLine}.subAccount.name.div');"/>
 	                	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
-					                fieldConversions="subAccountNumber:${newAccountingLine}.subAccountNumber"
+					                fieldConversions="subAccountNumber:${newAccountingLine}.subAccountNumber,accountNumber:${newAccountingLine}.accountNumber,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
 					                lookupParameters="${newAccountingLine}.subAccountNumber:subAccountNumber,${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />                		
  					<br/>
 					<div id="document.${newAccountingLine}.subAccount.name.div" class="fineprint">
@@ -146,7 +147,8 @@
                 		property="${newAccountingLine}.financialObjectCode"
                     	onblur="loadObjectCodeName('${newAccountingLine}.financialObjectCode', '${newAccountingLine}.chartOfAccountsCode', 'document.${newAccountingLine}.objectCode.financialObjectCodeName.div');"/>
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode"
-					            fieldConversions="financialObjectCode:${newAccountingLine}.financialObjectCode" />
+					            fieldConversions="financialObjectCode:${newAccountingLine}.financialObjectCode,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
+					            lookupParameters="${newAccountingLine}.financialObjectCode:financialObjectCode,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />
 					<br/>
 					<div id="document.${newAccountingLine}.objectCode.financialObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialObjectCodeName}" property="${newAccountingLine}.objectCode.financialObjectCodeName" readOnly="true" />
@@ -158,7 +160,8 @@
                 	property="${newAccountingLine}.financialSubObjectCode" 
                 	onblur="loadSubObjectCodeName('${newAccountingLine}.financialSubObjectCode', '${newAccountingLine}.chartOfAccountsCode', '${newAccountingLine}.accountNumber', '${newAccountingLine}.financialObjectCode', 'document.${newAccountingLine}.subObjectCode.financialSubObjectCodeName.div');"/>
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjectCode"
-					            fieldConversions="financialSubObjectCode:${newAccountingLine}.financialSubObjectCode" />
+					            fieldConversions="financialSubObjectCode:${newAccountingLine}.financialSubObjectCode,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode,accountNumber:${newAccountingLine}.accountNumber,financialObjectCode:${newAccountingLine}.financialObjectCode" 
+					            lookupParameters="${newAccountingLine}.financialSubObjectCode:financialSubObjectCode,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode,${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.financialObjectCode:financialObjectCode" />
 					<br/>
 					<div id="document.${newAccountingLine}.subObjectCode.financialSubObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${newAccountingLine}.subObjectCode.financialSubObjectCodeName" readOnly="true" />
@@ -169,7 +172,8 @@
                 		property="${newAccountingLine}.projectCode"
                 		onblur="loadProjectCodeName('${newAccountingLine}.projectCode', 'document.${newAccountingLine}.project.name.div');"/>
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode"
-					            fieldConversions="projectCode:${newAccountingLine}.code" />
+					            fieldConversions="code:${newAccountingLine}.projectCode"
+					            lookupParameters="${newAccountingLine}.projectCode:code" />
 					<br/>
 					<div id="document.${newAccountingLine}.project.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.project.name}" property="${newAccountingLine}.project.name" readOnly="true" />
@@ -203,7 +207,8 @@
                 		onblur="loadFinChartOfAccountDescription('${transLines}[${ctr}].chartOfAccountsCode', '${transLines}[${ctr}].chart.finChartOfAccountDescription.div');"
 	            		readOnly="${readOnly}"/>&nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"
-					                fieldConversions="chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode" />
+					                fieldConversions="chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
+					                lookupParameters="${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />
 				    <br/>
 					<div id="${transLines}[${ctr}].chart.finChartOfAccountDescription.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].chart.finChartOfAccountDescription" readOnly="true" />
@@ -215,8 +220,8 @@
 	                	readOnly="${readOnly}"/>&nbsp;
 	                <c:if test="${not readOnly}">
 	                	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
-					                fieldConversions="accountNumber:${transLines}[${ctr}].accountNumber"
-					                lookupParameters="${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />
+					                fieldConversions="accountNumber:${transLines}[${ctr}].accountNumber,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
+					                lookupParameters="${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode"/>
 					</c:if>
 				    <br/>
 					<div id="document.${transLines}[${ctr}].accountNumber.name.div" class="fineprint">
@@ -230,7 +235,7 @@
                 		onblur="loadSubAccountName('${transLines}[${ctr}].subAccountNumber', '${transLines}[${ctr}].accountNumber', '${transLines}[${ctr}].chartOfAccountsCode', 'document.${transLines}[${ctr}].subAccount.name.div');"
                 		readOnly="${readOnly}" />
 						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
-					                fieldConversions="subAccountNumber:${transLines}[${ctr}].subAccountNumber"
+					                fieldConversions="subAccountNumber:${transLines}[${ctr}].subAccountNumber,accountNumber:${transLines}[${ctr}].accountNumber,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
 					                lookupParameters="${transLines}[${ctr}].subAccountNumber:subAccountNumber,${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />                		
  					<br/>
 					<div id="document.${transLines}[${ctr}].subAccount.name.div" class="fineprint">
@@ -243,7 +248,8 @@
                     	onblur="loadObjectCodeName('${transLines}[${ctr}].financialObjectCode', '${transLines}[${ctr}].chartOfAccountsCode','document.${transLines}[${ctr}].objectCode.financialObjectCodeName.div');"
 	            		readOnly="${readOnly}"/>
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode"
-					                fieldConversions="financialObjectCode:${transLines}[${ctr}].financialObjectCode" />	            		
+					            fieldConversions="financialObjectCode:${transLines}[${ctr}].financialObjectCode,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
+					            lookupParameters="${transLines}[${ctr}].financialObjectCode:financialObjectCode,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />	            		
 					<br/>
 					<div id="document.${transLines}[${ctr}].objectCode.financialObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialObjectCodeName}" property="${transLines}[${ctr}].objectCode.financialObjectCodeName" readOnly="true" />
@@ -255,7 +261,8 @@
                 		onblur="loadSubObjectCodeName('${transLines}[${ctr}].financialSubObjectCode', '${transLines}[${ctr}].chartOfAccountsCode', '${transLines}[${ctr}].accountNumber', '${transLines}[${ctr}].financialObjectCode', 'document.${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName.div');"
                 		readOnly="${readOnly}"/>
                 	<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.SubObjectCode"
-					                fieldConversions="financialSubObjectCode:${transLines}[${ctr}].financialSubObjectCode" />
+					            fieldConversions="financialSubObjectCode:${transLines}[${ctr}].financialSubObjectCode,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode,accountNumber:${transLines}[${ctr}].accountNumber,financialObjectCode:${transLines}[${ctr}].financialObjectCode" 
+					            lookupParameters="${transLines}[${ctr}].financialSubObjectCode:financialSubObjectCode,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode,${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].financialObjectCode:financialObjectCode" />
 					<br/>
 					<div id="document.${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName" readOnly="true" />
@@ -267,7 +274,8 @@
                 		onblur="loadProjectCodeName('${transLines}[${ctr}].projectCode', 'document.${transLines}[${ctr}].project.name.div');"
                 		readOnly="${readOnly}"/>
 					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ProjectCode"
-					                fieldConversions="projectCode:${transLines}[${ctr}].code" />
+					                fieldConversions="code:${transLines}[${ctr}].projectCode"
+					                lookupParameters="${transLines}[${ctr}].projectCode:code" />
 					<br/>
 					<div id="document.${transLines}[${ctr}].project.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.project.name}" property="${transLines}[${ctr}].project.name" readOnly="true" />

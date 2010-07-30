@@ -523,6 +523,15 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         return isChartMatched;
     }
 
+    /**
+     * Validates that the security chart and the etran code chart match.
+     * 
+     * @param endowmentTransactionLinesDocument
+     * @param line
+     * @param prefix
+     * @param isSource
+     * @return true if valid, false otherwise
+     */
     protected boolean validateSecurityEtranChartMatch(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix, boolean isSource) {
         boolean isChartMatched = true;
         Security security = getSecurityForValidation(endowmentTransactionLinesDocument, isSource);

@@ -17,12 +17,8 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 public interface EndowmentAccountingLinesDocument extends EndowmentTransactionLinesDocument {
 
@@ -59,28 +55,28 @@ public interface EndowmentAccountingLinesDocument extends EndowmentTransactionLi
      * 
      * @return sourceAccountingLines
      */
-    public List<EndowmentAccountingLine> getSourceAccountingLines();
+    public List<SourceEndowmentAccountingLine> getSourceAccountingLines();
 
     /**
      * Sets the sourceAccountingLines.
      * 
      * @param sourceAccountingLines
      */
-    public void setSourceAccountingLines(List<EndowmentAccountingLine> sourceAccountingLines);
+    public void setSourceAccountingLines(List<SourceEndowmentAccountingLine> sourceAccountingLines);
 
     /**
      * Gets the targetAccountingLines.
      * 
      * @return targetAccountingLines
      */
-    public List<EndowmentAccountingLine> getTargetAccountingLines();
+    public List<TargetEndowmentAccountingLine> getTargetAccountingLines();
 
     /**
      * Sets the targetAccountingLines.
      * 
      * @param targetAccountingLines
      */
-    public void setTargetAccountingLines(List<EndowmentAccountingLine> targetAccountingLines);
+    public void setTargetAccountingLines(List<TargetEndowmentAccountingLine> targetAccountingLines);
 
 
     /**
@@ -97,7 +93,7 @@ public interface EndowmentAccountingLinesDocument extends EndowmentTransactionLi
      * @param line
      */
     public void addTargetAccountingLine(TargetEndowmentAccountingLine line);
-    
+
     /**
      * This method returns the accounting line at a particular spot in the overall list of accounting lines.
      * 

@@ -331,15 +331,13 @@ public class EndowmentAccountingLineBase extends PersistableBusinessObjectBase i
 
         m.put("accountingLineNumber", accountingLineNumber);
         m.put("amount", amount);
-
-        m.put("chart", getChartOfAccountsCode());
-        m.put("account", getAccountNumber());
+        m.put("chartOfAccountsCode", getChartOfAccountsCode());
+        m.put("accountNumber", getAccountNumber());
         m.put("objectCode", getFinancialObjectCode());
-        m.put("subAccount", getSubAccountNumber());
-        m.put("subObjectCode", getFinancialSubObjectCode());
+        m.put("subAccountNumber", getSubAccountNumber());
+        m.put("financialSubObjectCode", getFinancialSubObjectCode());
         m.put("projectCode", getProjectCode());
-
-        m.put("orgRefId", getOrganizationReferenceId());
+        m.put("organizationReferenceId", getOrganizationReferenceId());
 
         return m;
     }

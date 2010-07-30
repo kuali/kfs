@@ -29,8 +29,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecurityDetailsDocumentBase implements EndowmentAccountingLinesDocument {
     protected Integer nextSourceAccountingLineNumber;
     protected Integer nextTargetAccountingLineNumber;
-    protected List<EndowmentAccountingLine> sourceAccountingLines;
-    protected List<EndowmentAccountingLine> targetAccountingLines;
+    protected List<SourceEndowmentAccountingLine> sourceAccountingLines;
+    protected List<TargetEndowmentAccountingLine> targetAccountingLines;
 
     /**
      * Constructs a EndowmentTransferOfFundsDocument.
@@ -85,7 +85,7 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * 
      * @return sourceAccountingLines
      */
-    public List<EndowmentAccountingLine> getSourceAccountingLines() {
+    public List<SourceEndowmentAccountingLine> getSourceAccountingLines() {
         return sourceAccountingLines;
     }
 
@@ -94,7 +94,7 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * 
      * @param sourceAccountingLines
      */
-    public void setSourceAccountingLines(List<EndowmentAccountingLine> sourceAccountingLines) {
+    public void setSourceAccountingLines(List<SourceEndowmentAccountingLine> sourceAccountingLines) {
         this.sourceAccountingLines = sourceAccountingLines;
     }
 
@@ -103,7 +103,7 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * 
      * @return targetAccountingLines
      */
-    public List<EndowmentAccountingLine> getTargetAccountingLines() {
+    public List<TargetEndowmentAccountingLine> getTargetAccountingLines() {
         return targetAccountingLines;
     }
 
@@ -112,7 +112,7 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * 
      * @param targetAccountingLines
      */
-    public void setTargetAccountingLines(List<EndowmentAccountingLine> targetAccountingLines) {
+    public void setTargetAccountingLines(List<TargetEndowmentAccountingLine> targetAccountingLines) {
         this.targetAccountingLines = targetAccountingLines;
     }
 
@@ -141,11 +141,11 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * @see org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument#getSourceAccountingLine(int)
      */
     public SourceEndowmentAccountingLine getSourceAccountingLine(int index) {
-        if (index >= getSourceTransactionLines().size()) {
-            return (SourceEndowmentAccountingLine) getSourceAccountingLines().get(index);
+
+        while (getSourceAccountingLines().size() <= index) {
+            getSourceAccountingLines().add(new SourceEndowmentAccountingLine());
         }
-        else
-            return null;
+        return (SourceEndowmentAccountingLine) getSourceAccountingLines().get(index);
     }
 
 
@@ -153,11 +153,10 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
      * @see org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument#getTargetAccountingLine(int)
      */
     public TargetEndowmentAccountingLine getTargetAccountingLine(int index) {
-        if (index >= getTargetTransactionLines().size()) {
-            return (TargetEndowmentAccountingLine) getTargetAccountingLines().get(index);
+        while (getTargetAccountingLines().size() <= index) {
+            getTargetAccountingLines().add(new TargetEndowmentAccountingLine());
         }
-        else
-            return null;
+        return (TargetEndowmentAccountingLine) getTargetAccountingLines().get(index);
     }
 
     /**

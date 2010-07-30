@@ -30,6 +30,13 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public interface EndowmentAccountingLine extends PersistableBusinessObject {
 
     /**
+     * Gets the account.
+     * 
+     * @return account
+     */
+    public Account getAccount();
+
+    /**
      * @param account The account to set.
      * @deprecated
      */

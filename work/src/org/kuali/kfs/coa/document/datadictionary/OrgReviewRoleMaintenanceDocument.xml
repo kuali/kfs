@@ -48,13 +48,6 @@
     <property name="documentTypeName" value="ORR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="webScriptFiles">
-      <list>
-        <value>../dwr/interface/SubFundGroupService.js</value>
-        <value>../scripts/chart/accountDocument.js</value>
-      </list>
-    </property>
-
     <property name="workflowAttributes">
     	<ref bean="OrgReviewRoleMaintenanceDocument-workflowAttributes"/>
     </property>

@@ -17,17 +17,23 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.Date;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
+import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
 
@@ -37,6 +43,9 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     private EndowmentTransactionSubType transactionSubType;
     private EndowmentTransactionSourceType transactionSourceType;
+    
+    private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.
@@ -183,4 +192,36 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         else
             return true;
     }
+    
+    /**
+     * When document is processed or in the final status, 
+     *
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange()
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+        super.doRouteStatusChange(statusChangeEvent);
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()||
+                getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+
+            String documentId = getDocumentHeader().getDocumentNumber();
+            String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
+            Date approvedDate =  dateTimeService.getCurrentSqlDate();
+            
+            System.out.println(">>> this is a test in doRouteStatusChange: doucmentId="+documentId+
+                            ", documentType="+documentType+", approvedDate="+approvedDate.toString());
+            //persist documentId, documentType and current data to END_PENDING_TRAN_DOC_T
+     
+            PendingTransactionDocumentEntry entry = new PendingTransactionDocumentEntry();
+            entry.setDocumentNumber(documentId);
+            entry.setDocumentType(documentType);
+            entry.setApprovedDate(approvedDate);
+            
+//            businessObjectService.save(entry);    
+        }
+    }        
+
 }

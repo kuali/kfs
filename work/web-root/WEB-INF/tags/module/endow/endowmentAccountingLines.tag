@@ -53,28 +53,29 @@
 	            <td colspan="8" class="tab-subhead" style="border-right: none;border-left: none;" >
 	            &nbsp;
 	            </td>
+	            <c:if test="${isSource}">
                 <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--
-                  		function hideImport() {
-                      		document.getElementById("showLinkEndow").style.display="inline";
-                      		document.getElementById("uploadDivEndow").style.display="none";
+                  		function hideSourceEndowImport() {
+                      		document.getElementById("showLinkSourceEndow").style.display="inline";
+                      		document.getElementById("uploadDivSourceEndow").style.display="none";
                   		}
-                  		function showImport() {
-                      		document.getElementById("showLinkEndow").style.display="none";
-                      		document.getElementById("uploadDivEndow").style.display="inline";
+                  		function showSourceEndowImport() {
+                      		document.getElementById("showLinkSourceEndow").style.display="none";
+                      		document.getElementById("uploadDivSourceEndow").style.display="inline";
                   		}
                   		document.write(
-                    		'<a id="showLinkEndow" href="#" onclick="showImport();return false;">' +
+                    		'<a id="showLinkSourceEndow" href="#" onclick="showSourceEndowImport();return false;">' +
                       		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import accounting lines from file" alt="import accounting lines from file"' +
                       		'     width=72 height=15 border=0 align="right" class="det-button">' +
                     		'<\/a>' +
-                    		'<div id="uploadDivEndow" style="display:none;" >' +
+                    		'<div id="uploadDivSourceEndow" style="display:none;" >' +
                       		'<html:file size="30" property="${importFile}" />' +
                       		'<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported accounting lines" title="add imported accounting lines" />' +
                       		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
-                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideSourceEndowImport();return false;" />' +
                     		'<\/div>');
                 		//-->
             		</SCRIPT>
@@ -84,6 +85,40 @@
 						<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</td>
+				</c:if>
+				<c:if test="${not isSource}">
+				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+					<SCRIPT type="text/javascript">
+                		<!--
+                  		function hideTargetEndowImport() {
+                      		document.getElementById("showLinkTargetEndow").style.display="inline";
+                      		document.getElementById("uploadDivTargetEndow").style.display="none";
+                  		}
+                  		function showTargetEndowImport() {
+                      		document.getElementById("showLinkTargetEndow").style.display="none";
+                      		document.getElementById("uploadDivTargetEndow").style.display="inline";
+                  		}
+                  		document.write(
+                    		'<a id="showLinkTargetEndow" href="#" onclick="showTargetEndowImport();return false;">' +
+                      		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import accounting lines from file" alt="import accounting lines from file"' +
+                      		'     width=72 height=15 border=0 align="right" class="det-button">' +
+                    		'<\/a>' +
+                    		'<div id="uploadDivTargetEndow" style="display:none;" >' +
+                      		'<html:file size="30" property="${importFile}" />' +
+                      		'<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                                    styleClass="tinybutton" alt="add imported accounting lines" title="add imported accounting lines" />' +
+                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideTargetEndowImport();return false;" />' +
+                    		'<\/div>');
+                		//-->
+            		</SCRIPT>
+					<NOSCRIPT>
+						Import lines
+						<html:file size="30" property="${importFile}" style="font:10px;height:16px;" />
+						<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+					</NOSCRIPT>
+				</td>
+				</c:if>
 	    </tr>
 	    
 	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">

@@ -77,28 +77,29 @@
 	            <td colspan="5" class="tab-subhead" style="border-right: none;border-left: none;" >
 	            &nbsp;
 	            </td>
+	            <c:if test="${isSource}">
                 <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--
-                  		function hideImport() {
-                      		document.getElementById("showLink").style.display="inline";
-                      		document.getElementById("uploadDiv").style.display="none";
+                  		function hideSourceTranImport() {
+                      		document.getElementById("showLinkSourceTran").style.display="inline";
+                      		document.getElementById("uploadDivSourceTran" + ${isSource}).style.display="none";
                   		}
-                  		function showImport() {
-                      		document.getElementById("showLink").style.display="none";
-                      		document.getElementById("uploadDiv").style.display="inline";
+                  		function showSourceTranImport() {
+                      		document.getElementById("showLinkSourceTran").style.display="none";
+                      		document.getElementById("uploadDivSourceTran").style.display="inline";
                   		}
                   		document.write(
-                    		'<a id="showLink" href="#" onclick="showImport();return false;">' +
+                    		'<a id="showLinkSourceTran" href="#" onclick="showSourceTranImport();return false;">' +
                       		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import transaction lines from file" alt="import transaction lines from file"' +
                       		'     width=72 height=15 border=0 align="right" class="det-button">' +
                     		'<\/a>' +
-                    		'<div id="uploadDiv" style="display:none;" >' +
+                    		'<div id="uploadDivSourceTran" style="display:none;" >' +
                       		'<html:file size="30" property="transactionLineImportFile" />' +
                       		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
                       		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
-                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideSourceTranImport();return false;" />' +
                     		'<\/div>');
                 		//-->
             		</SCRIPT>
@@ -108,6 +109,40 @@
 						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</td>
+				</c:if>
+				<c:if test="${not isSource}">
+				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+					<SCRIPT type="text/javascript">
+                		<!--
+                  		function hideTargetTranImport() {
+                      		document.getElementById("showLinkTargetTran").style.display="inline";
+                      		document.getElementById("uploadDivTargetTran").style.display="none";
+                  		}
+                  		function showTargetTranImport() {
+                      		document.getElementById("showLinkTargetTran").style.display="none";
+                      		document.getElementById("uploadDivTargetTran").style.display="inline";
+                  		}
+                  		document.write(
+                    		'<a id="showLinkTargetTran" href="#" onclick="showTargetTranImport();return false;">' +
+                      		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import transaction lines from file" alt="import transaction lines from file"' +
+                      		'     width=72 height=15 border=0 align="right" class="det-button">' +
+                    		'<\/a>' +
+                    		'<div id="uploadDivTargetTran" style="display:none;" >' +
+                      		'<html:file size="30" property="transactionLineImportFile" />' +
+                      		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                                    styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
+                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideTargetTranImport();return false;" />' +
+                    		'<\/div>');
+                		//-->
+            		</SCRIPT>
+					<NOSCRIPT>
+						Import lines
+						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
+						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+					</NOSCRIPT>
+				</td>
+				</c:if>
 	    </tr>
 	    
 	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">

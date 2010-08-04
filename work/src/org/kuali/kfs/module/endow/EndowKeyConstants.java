@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation.
+k * Copyright 2009 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -270,4 +270,11 @@ public class EndowKeyConstants {
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_COST_INVALID = "error.document.holdingTaxLotRebalance.cost.invalid";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_COST_ZERO = "error.document.holdingTaxLotRebalance.unitsAndCost.zero";
     }
+    
+    public static final class EndowmentAccountingLineParser {
+        public static final String ERROR_INVALID_FILE_FORMAT = "error.endowmentAccountingLineParser.invalidFileFormat";
+        public static final String ERROR_INVALID_PROPERTY_VALUE = "error.endowmentAccountingLineParser.invalidPropertyValue";
+    }
+    
+    public static final String ERROR_ENDOW_ACCOUNTING_LINES_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.endowmentAccountingLinesDocument.endowmentaccountinglineimport.general";
 }

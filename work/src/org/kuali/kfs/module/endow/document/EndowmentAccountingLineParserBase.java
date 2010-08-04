@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import static org.kuali.kfs.module.endow.EndowKeyConstants.EndowmentAccountingLineParser.ERROR_INVALID_FILE_FORMAT;
+import static org.kuali.kfs.module.endow.EndowKeyConstants.EndowmentAccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_ACCT_NBR;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_AMOUNT;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_CHART_CD;
@@ -24,8 +26,6 @@ import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUN
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_PROJECT_CD;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBACCT_NBR;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_SUBOBJ_CD;
-import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_FILE_FORMAT;
-import static org.kuali.kfs.sys.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,12 +39,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
@@ -95,7 +96,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#parseSourceAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#parseSourceEndowmentAccountingLine(org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument,
      *      java.lang.String)
      */
     public SourceEndowmentAccountingLine parseSourceEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String sourceAccountingLineString) {
@@ -115,7 +116,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#parseTargetAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#parseTargetEndowmentAccountingLine(org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument,
      *      java.lang.String)
      */
     public TargetEndowmentAccountingLine parseTargetEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String targetAccountingLineString) {
@@ -162,7 +163,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
                 performCustomTargetAccountingLinePopulation(attributeValueMap, (TargetEndowmentAccountingLine) accountingLine, accountingLineAsString);
             }
             else {
-                throw new IllegalArgumentException("invalid (unknown) accounting line type: " + accountingLineClass);
+                throw new IllegalArgumentException("invalid (unknown) endowment accounting line type: " + accountingLineClass);
             }
 
             for (Entry<String, String> entry : attributeValueMap.entrySet()) {
@@ -175,14 +176,13 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
                         ObjectUtils.setObjectProperty(accountingLine, entry.getKey(), entryType, entry.getValue());
                     }
                     catch (IllegalArgumentException e) {
-                        throw new InfrastructureException("unable to complete accounting line population.", e);
+                        throw new InfrastructureException("unable to complete endowment accounting line population.", e);
                     }
                 }
                 catch (FormatException e) {
                     String[] errorParameters = { entry.getValue().toString(), retrieveAttributeLabel(accountingLine.getClass(), entry.getKey()), accountingLineAsString };
-                    // KULLAB-408
-                    GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
-                    throw new AccountingLineParserException("invalid '" + entry.getKey() + "=" + entry.getValue() + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+                    GlobalVariables.getMessageMap().putError(EndowConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
+                    throw new AccountingLineParserException("invalid '" + entry.getKey() + "=" + entry.getValue() + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
                 }
             }
 
@@ -191,19 +191,19 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
             // SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(accountingLine);
         }
         catch (SecurityException e) {
-            throw new InfrastructureException("unable to complete accounting line population.", e);
+            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
         }
         catch (NoSuchMethodException e) {
-            throw new InfrastructureException("unable to complete accounting line population.", e);
+            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
         }
         catch (IllegalAccessException e) {
-            throw new InfrastructureException("unable to complete accounting line population.", e);
+            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
         }
         catch (InvocationTargetException e) {
-            throw new InfrastructureException("unable to complete accounting line population.", e);
+            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
         }
         catch (InstantiationException e) {
-            throw new InfrastructureException("unable to complete accounting line population.", e);
+            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
         }
 
         // force input to uppercase
@@ -214,7 +214,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     }
 
     /**
-     * Places fields common to both source/target accounting lines in the attribute map
+     * Places fields common to both source/target endowment accounting lines in the attribute map
      * 
      * @param attributeValueMap
      * @param document
@@ -249,7 +249,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     }
 
     /**
-     * Should be voerriden by documents to perform any additional <code>SourceAccountingLine</code> population
+     * Should be overriden by documents to perform any additional <code>SourceAccountingLine</code> population
      * 
      * @param attributeValueMap
      * @param sourceAccountingLine
@@ -299,19 +299,19 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
                     importedAccountingLines.add(accountingLine);
                 }
                 catch (AccountingLineParserException e) {
-                    GlobalVariables.getMessageMap().putError((isSource ? "sourceAccountingLines" : "targetAccountingLines"), KFSKeyConstants.ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL, new String[] { e.getMessage() });
+                    GlobalVariables.getMessageMap().putError((isSource ? EndowPropertyConstants.EXISTING_SOURCE_ACCT_LINE_PREFIX : EndowPropertyConstants.EXISTING_TARGET_ACCT_LINE_PREFIX), EndowKeyConstants.ERROR_ENDOW_ACCOUNTING_LINES_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL, new String[] { e.getMessage() });
                 }
             }
         }
         catch (IOException e) {
-            throw new InfrastructureException("unable to readLine from bufferReader in accountingLineParserBase", e);
+            throw new InfrastructureException("unable to readLine from bufferReader in endowmentAccountingLineParserBase", e);
         }
         finally {
             try {
                 br.close();
             }
             catch (IOException e) {
-                throw new InfrastructureException("unable to close bufferReader in accountingLineParserBase", e);
+                throw new InfrastructureException("unable to close bufferReader in endowmentAccountingLineParserBase", e);
             }
         }
 
@@ -335,6 +335,13 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     }
 
 
+    /**
+     * Retrieves label for given attribute.
+     * 
+     * @param clazz
+     * @param attributeName
+     * @return
+     */
     protected String retrieveAttributeLabel(Class clazz, String attributeName) {
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(clazz, attributeName);
         if (StringUtils.isBlank(label)) {
@@ -343,6 +350,12 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
         return label;
     }
 
+    /**
+     * Gets the accounting line format.
+     * 
+     * @param accountingLineClass
+     * @return
+     */
     protected String[] chooseFormat(Class<? extends EndowmentAccountingLine> accountingLineClass) {
         String[] format = null;
         if (SourceEndowmentAccountingLine.class.isAssignableFrom(accountingLineClass)) {
@@ -352,7 +365,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
             format = getTargetEndowmentAccountingLineFormat();
         }
         else {
-            throw new IllegalStateException("unknow accounting line class: " + accountingLineClass);
+            throw new IllegalStateException("unknow endowment accounting line class: " + accountingLineClass);
         }
         return format;
     }

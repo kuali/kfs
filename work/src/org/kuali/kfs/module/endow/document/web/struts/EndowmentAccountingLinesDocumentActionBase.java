@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
@@ -40,12 +41,12 @@ import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.module.endow.exception.EndowmentAccountingLineException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -164,7 +165,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         EndowmentAccountingLinesDocument etlDoc = etlForm.getEndowmentAccountingLinesDocumentBase();
 
         int deleteIndex = getLineToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_SOURCE_ACC_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        String errorPath = EndowPropertyConstants.EXISTING_SOURCE_ACCT_LINE_PREFIX + "[" + deleteIndex + "]";
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, etlDoc, etlDoc.getSourceAccountingLine(deleteIndex)));
 
         // if the rule evaluation passed, let's delete it
@@ -194,7 +195,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         EndowmentAccountingLinesDocument etlDoc = etlForm.getEndowmentAccountingLinesDocumentBase();
 
         int deleteIndex = getLineToDelete(request);
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + EndowConstants.EXISTING_TARGET_ACC_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
+        String errorPath = EndowPropertyConstants.EXISTING_TARGET_ACCT_LINE_PREFIX + "[" + deleteIndex + "]";
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, etlDoc, etlDoc.getTargetAccountingLine(deleteIndex)));
 
         // if the rule evaluation passed, let's delete it
@@ -420,19 +421,19 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         String errorPathPrefix = null;
         try {
             if (isSource) {
-                errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+                errorPathPrefix = EndowPropertyConstants.EXISTING_SOURCE_ACCT_LINE_PREFIX;
                 FormFile sourceFile = tmpForm.getSourceFile();
                 checkUploadFile(sourceFile);
                 importedLines = accountingLineParser.importSourceEndowmentAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), financialDocument);
             }
             else {
-                errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
+                errorPathPrefix = EndowPropertyConstants.EXISTING_TARGET_ACCT_LINE_PREFIX;
                 FormFile targetFile = tmpForm.getTargetFile();
                 checkUploadFile(targetFile);
                 importedLines = accountingLineParser.importTargetEndowmentAccountingLines(targetFile.getFileName(), targetFile.getInputStream(), financialDocument);
             }
         }
-        catch (AccountingLineParserException e) {
+        catch (EndowmentAccountingLineException e) {
             GlobalVariables.getMessageMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
         }
 
@@ -452,7 +453,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
      */
     protected void checkUploadFile(FormFile file) {
         if (file == null) {
-            throw new AccountingLineParserException("invalid (null) upload file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
+            throw new EndowmentAccountingLineException("invalid (null) upload file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
         }
     }
 

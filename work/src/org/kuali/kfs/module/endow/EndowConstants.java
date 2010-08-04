@@ -255,9 +255,6 @@ public class EndowConstants extends JSTLConstants {
     public static final String EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME = "sourceTransactionLine";
     public static final String EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME = "targetTransactionLine";
 
-    public static final String EXISTING_SOURCE_ACC_LINE_PROPERTY_NAME = "sourceAccountingLine";
-    public static final String EXISTING_TARGET_ACC_LINE_PROPERTY_NAME = "targetAccountingLine";
-
     // public static class TransactionTabErrors {
     public static final String SECURITY_ERRORS = "securityErrors";
     // }

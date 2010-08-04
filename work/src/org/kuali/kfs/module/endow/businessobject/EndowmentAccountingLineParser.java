@@ -39,8 +39,8 @@ public interface EndowmentAccountingLineParser {
     public String getExpectedEndowmentAccountingLineFormatAsString(Class<? extends EndowmentAccountingLine> accountingLineClass);
 
     /**
-     * parses a comma deliminated string into an <code>SourceEndowmentAccountingLine</code> by populating the attributes found in
-     * the getSourceAccountingLineFormat()
+     * Parses a comma delimited string into an <code>SourceEndowmentAccountingLine</code> by populating the attributes found in the
+     * getSourceAccountingLineFormat()
      * 
      * @param transactionalDocument
      * @param sourceAccountingLineString
@@ -49,8 +49,8 @@ public interface EndowmentAccountingLineParser {
     public SourceEndowmentAccountingLine parseSourceEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String sourceAccountingLineString);
 
     /**
-     * parses a comma deliminated string into an <code>TargetEndowmentAccountingLine</code> by populating the attributes found in
-     * the getTargetAccountingLineFormat()
+     * Parses a comma delimited string into an <code>TargetEndowmentAccountingLine</code> by populating the attributes found in the
+     * getTargetAccountingLineFormat()
      * 
      * @param transactionalDocument
      * @param targetAccountingLineString
@@ -59,22 +59,21 @@ public interface EndowmentAccountingLineParser {
     public TargetEndowmentAccountingLine parseTargetEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String targetAccountingLineString);
 
     /**
-     * generates a list of <code>SourceEndowmentAccountingLine</code> from the inputStream
+     * Generates a list of <code>SourceEndowmentAccountingLine</code> from the inputStream
      * 
      * @param stream
      * @param document
      * @return List containing <code>SourceEndowmentAccountingLine</code>s
      */
-    public List importSourceEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document);
+    public List<SourceEndowmentAccountingLine> importSourceEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document);
 
     /**
-     * generates a list of <code>TargetEndowmentAccountingLine</code> from the inputStream
+     * Generates a list of <code>TargetEndowmentAccountingLine</code> from the inputStream
      * 
      * @param stream
      * @param document
-     * @return List containing <code>SourceEndowmentAccountingLine</code>s
+     * @return List containing <code>TargetEndowmentAccountingLine</code>s
      */
-    public List importTargetEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document);
-
+    public List<TargetEndowmentAccountingLine> importTargetEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document);
 
 }

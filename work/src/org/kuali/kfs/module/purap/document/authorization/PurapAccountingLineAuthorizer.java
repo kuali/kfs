@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2008 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -45,7 +45,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
- * This class utilizes the new accountingLine model .
+ * This class utilizes the new accountingLine model.
  */
 public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
 

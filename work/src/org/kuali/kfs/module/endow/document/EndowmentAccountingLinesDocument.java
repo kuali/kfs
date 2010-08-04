@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.List;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 
@@ -109,5 +110,21 @@ public interface EndowmentAccountingLinesDocument extends EndowmentTransactionLi
      * @return The target accounting line at the passed in index.
      */
     public TargetEndowmentAccountingLine getTargetAccountingLine(int index);
+
+    /**
+     * @return EndowmentAccountingLineParser instance appropriate for importing AccountingLines for this document type
+     */
+    public EndowmentAccountingLineParser getEndowmentAccountingLineParser();
+
+    /*
+     * @return Class of the document's source accounting lines
+     */
+    public Class getSourceAccountingLineClass();
+
+
+    /*
+     * @return Class of the document's target accounting lines
+     */
+    public Class getTargetAccountingLineClass();
 
 }

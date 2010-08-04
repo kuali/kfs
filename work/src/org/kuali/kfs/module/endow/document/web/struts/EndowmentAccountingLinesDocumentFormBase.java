@@ -25,7 +25,9 @@ import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
  * This class...
  */
 public abstract class EndowmentAccountingLinesDocumentFormBase extends EndowmentTransactionLinesDocumentFormBase {
-    protected FormFile accountingLineImportFile;
+    protected FormFile sourceFile;
+    protected FormFile targetFile;
+
     protected EndowmentAccountingLine newSourceAccountingLine;
     protected EndowmentAccountingLine newTargetAccountingLine;
 
@@ -45,24 +47,6 @@ public abstract class EndowmentAccountingLinesDocumentFormBase extends Endowment
      */
     public EndowmentAccountingLinesDocumentBase getEndowmentAccountingLinesDocumentBase() {
         return (EndowmentAccountingLinesDocumentBase) getDocument();
-    }
-
-    /**
-     * Gets the accountingLineImportFile.
-     * 
-     * @return accountingLineImportFile
-     */
-    public FormFile getAccountingLineImportFile() {
-        return accountingLineImportFile;
-    }
-
-    /**
-     * Sets the accountingLineImportFile.
-     * 
-     * @param accountingLineImportFile
-     */
-    public void setAccountingLineImportFile(FormFile accountingLineImportFile) {
-        this.accountingLineImportFile = accountingLineImportFile;
     }
 
     /**
@@ -99,6 +83,42 @@ public abstract class EndowmentAccountingLinesDocumentFormBase extends Endowment
      */
     public void setNewTargetAccountingLine(EndowmentAccountingLine newTargetAccountingLine) {
         this.newTargetAccountingLine = newTargetAccountingLine;
+    }
+
+    /**
+     * Gets the sourceFile.
+     * 
+     * @return sourceFile
+     */
+    public FormFile getSourceFile() {
+        return sourceFile;
+    }
+
+    /**
+     * Sets the sourceFile.
+     * 
+     * @param sourceFile
+     */
+    public void setSourceFile(FormFile sourceFile) {
+        this.sourceFile = sourceFile;
+    }
+
+    /**
+     * Gets the targetFile.
+     * 
+     * @return targetFile
+     */
+    public FormFile getTargetFile() {
+        return targetFile;
+    }
+
+    /**
+     * Sets the targetFile.
+     * 
+     * @param targetFile
+     */
+    public void setTargetFile(FormFile targetFile) {
+        this.targetFile = targetFile;
     }
 
 }

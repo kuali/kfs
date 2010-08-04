@@ -534,14 +534,14 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
     public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
-    
+
     // Transaction Archive/Security
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
-    public static final String TRANSACTION_ARCHIVE_LINE_NUMBER     = "lineNumber";
-    public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE  = "lineTypeCode";
-    
-    public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT  = "greaterAmount";
-    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT     = "lessAmount";
+    public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";
+    public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE = "lineTypeCode";
+
+    public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
+    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
 
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
@@ -550,4 +550,8 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_ACCOUNTING_LINE_SUBACCT_NBR = "subAccountNumber";
     public static final String ENDOWMENT_ACCOUNTING_LINE_SUBOBJ_CD = "financialSubObjectCode";
     public static final String ENDOWMENT_ACCOUNTING_LINE_PROJECT_CD = "projectCode";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_NBR = "accountingLineNumber";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_ORG_REF_ID = "organizationReferenceId";
+    public static final String ENDOWMENT_ACCOUNTING_LINE_AMOUNT = "amount";
+        
 }

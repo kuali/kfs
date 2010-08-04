@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +28,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
@@ -35,9 +41,11 @@ import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -349,6 +357,103 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
 
         return new ActionForward(lookupUrl, true);
+    }
+
+    /**
+     * This action executes a call to upload CSV accounting line values as TargetAccountingLines for a given transactional document.
+     * The "uploadAccountingLines()" method handles the multi-part request.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward uploadTargetLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // call method that sourceform and destination list
+        uploadAccountingLines(false, form);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * This action executes a call to upload CSV accounting line values as SourceAccountingLines for a given transactional document.
+     * The "uploadAccountingLines()" method handles the multi-part request.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
+
+        // call method that sourceform and destination list
+        uploadAccountingLines(true, form);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method determines whether we are uploading source or target lines, and then calls uploadAccountingLines directly on the
+     * document object. This method handles retrieving the actual upload file as an input stream into the document.
+     * 
+     * @param isSource
+     * @param form
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
+        EndowmentAccountingLinesDocumentFormBase tmpForm = (EndowmentAccountingLinesDocumentFormBase) form;
+
+        List importedLines = null;
+
+        EndowmentAccountingLinesDocument financialDocument = tmpForm.getEndowmentAccountingLinesDocumentBase();
+        EndowmentAccountingLineParser accountingLineParser = financialDocument.getEndowmentAccountingLineParser();
+
+        // import the lines
+        String errorPathPrefix = null;
+        try {
+            if (isSource) {
+                errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+                FormFile sourceFile = tmpForm.getSourceFile();
+                checkUploadFile(sourceFile);
+                importedLines = accountingLineParser.importSourceEndowmentAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), financialDocument);
+            }
+            else {
+                errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
+                FormFile targetFile = tmpForm.getTargetFile();
+                checkUploadFile(targetFile);
+                importedLines = accountingLineParser.importTargetEndowmentAccountingLines(targetFile.getFileName(), targetFile.getInputStream(), financialDocument);
+            }
+        }
+        catch (AccountingLineParserException e) {
+            GlobalVariables.getMessageMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
+        }
+
+        // add line to list for those lines which were successfully imported
+        if (importedLines != null) {
+            for (Iterator i = importedLines.iterator(); i.hasNext();) {
+                EndowmentAccountingLine importedLine = (EndowmentAccountingLine) i.next();
+                insertAccountingLine(isSource, tmpForm, importedLine);
+            }
+        }
+    }
+
+    /**
+     * This method...
+     * 
+     * @param file
+     */
+    protected void checkUploadFile(FormFile file) {
+        if (file == null) {
+            throw new AccountingLineParserException("invalid (null) upload file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
+        }
     }
 
 

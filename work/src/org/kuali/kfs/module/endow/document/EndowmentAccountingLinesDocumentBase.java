@@ -18,8 +18,12 @@ package org.kuali.kfs.module.endow.document;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -31,6 +35,11 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
     protected Integer nextTargetAccountingLineNumber;
     protected List<SourceEndowmentAccountingLine> sourceAccountingLines;
     protected List<TargetEndowmentAccountingLine> targetAccountingLines;
+
+    protected transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
+
+    protected transient Class sourceAccountingLineClass;
+    protected transient Class targetAccountingLineClass;
 
     /**
      * Constructs a EndowmentTransferOfFundsDocument.
@@ -197,5 +206,60 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
         managedList.add(getSourceAccountingLines());
 
         return managedList;
+    }
+
+    /**
+     * Used to get the appropriate <code>{@link EndowmentAccountingLineParser}</code> for the <code>Document</code>
+     * 
+     * @return EndowmentAccountingLineParser
+     */
+    public EndowmentAccountingLineParser getEndowmentAccountingLineParser() {
+        // TODO: check if this is needed
+        // try {
+        // if (getDataDictionaryEntry().getImportedLineParserClass() != null) {
+        // return getDataDictionaryEntry().getImportedLineParserClass().newInstance();
+        // }
+        // }
+        // catch (InstantiationException ie) {
+        // throw new IllegalStateException("Accounting Line Parser class " +
+        // getDataDictionaryEntry().getImportedLineParserClass().getName() + " cannot be instantiated", ie);
+        // }
+        // catch (IllegalAccessException iae) {
+        // throw new IllegalStateException("Illegal Access Exception while attempting to instantiate Accounting Line Parser class "
+        // + getDataDictionaryEntry().getImportedLineParserClass().getName(), iae);
+        // }
+        return new EndowmentAccountingLineParserBase();
+    }
+
+    /**
+     * @return the data dictionary entry for this document
+     */
+    public FinancialSystemTransactionalDocumentEntry getDataDictionaryEntry() {
+        if (dataDictionaryEntry == null) {
+            dataDictionaryEntry = (FinancialSystemTransactionalDocumentEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(SpringContext.getBean(DataDictionaryService.class).getValidDocumentTypeNameByClass(getClass()));
+        }
+        return dataDictionaryEntry;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument#getSourceAccountingLineClass()
+     */
+    public Class getSourceAccountingLineClass() {
+        if (sourceAccountingLineClass == null) {
+            sourceAccountingLineClass = (getDataDictionaryEntry().getAccountingLineGroups() != null && getDataDictionaryEntry().getAccountingLineGroups().containsKey("source") && getDataDictionaryEntry().getAccountingLineGroups().get("source").getAccountingLineClass() != null) ? getDataDictionaryEntry().getAccountingLineGroups().get("source").getAccountingLineClass() : SourceEndowmentAccountingLine.class;
+        }
+        return sourceAccountingLineClass;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument#getTargetAccountingLineClass()
+     */
+    public Class getTargetAccountingLineClass() {
+        if (targetAccountingLineClass == null) {
+            targetAccountingLineClass = (getDataDictionaryEntry().getAccountingLineGroups() != null && getDataDictionaryEntry().getAccountingLineGroups().containsKey("target") && getDataDictionaryEntry().getAccountingLineGroups().get("target").getAccountingLineClass() != null) ? getDataDictionaryEntry().getAccountingLineGroups().get("target").getAccountingLineClass() : TargetEndowmentAccountingLine.class;
+        }
+        return targetAccountingLineClass;
     }
 }

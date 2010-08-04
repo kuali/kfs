@@ -28,7 +28,8 @@
   <c:set var="methodToCallDelete" value="methodToCall.deleteSourceAccountingLine" />
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForSourceAccountingLine" />
   <c:set var="transLines" value="document.sourceAccountingLines"/> 
-  <c:set var="importLineAction" value="importSourceTransactionLines"/>
+  <c:set var="uploadAccountingLines" value="uploadSourceLines"/> 
+  <c:set var="importFile" value="sourceFile"/> 
   <c:set var="errorKeyMatch" value="${EndowConstants.SOURCE_ACCOUNTING_LINES_ERRORS}" />
 </c:if>
 <c:if test="${not isSource}">
@@ -38,11 +39,12 @@
   <c:set var="methodToCallDelete" value="methodToCall.deleteTargetAccountingLine" />
   <c:set var="methodToCallBalanceInquiry" value="methodToCall.performBalanceInquiryForTargetAccountingLine" />
   <c:set var="transLines" value="document.targetAccountingLines"/>
-  <c:set var="importLineAction" value="importTargetAccountingLines"/>
+  <c:set var="uploadAccountingLines" value="uploadTargetLines"/> 
+  <c:set var="importFile" value="targetFile"/> 
   <c:set var="errorKeyMatch" value="${EndowConstants.TARGET_ACCOUNTING_LINES_ERRORS}" />
 </c:if>
 
-<table cellpadding="0" cellspacing="0" class="datatable" summary="Transaction Lines section">
+<table cellpadding="0" cellspacing="0" class="datatable" summary="Accounting Lines section">
 	    <tr>
 	            <td colspan="1" class="tab-subhead" style="border-right: none;" align="left">
 	            <c:if test="${isSource}">From</c:if>
@@ -55,21 +57,21 @@
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideImport() {
-                      		document.getElementById("showLink").style.display="inline";
-                      		document.getElementById("uploadDiv").style.display="none";
+                      		document.getElementById("showLinkEndow").style.display="inline";
+                      		document.getElementById("uploadDivEndow").style.display="none";
                   		}
                   		function showImport() {
-                      		document.getElementById("showLink").style.display="none";
-                      		document.getElementById("uploadDiv").style.display="inline";
+                      		document.getElementById("showLinkEndow").style.display="none";
+                      		document.getElementById("uploadDivEndow").style.display="inline";
                   		}
                   		document.write(
-                    		'<a id="showLink" href="#" onclick="showImport();return false;">' +
+                    		'<a id="showLinkEndow" href="#" onclick="showImport();return false;">' +
                       		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import accounting lines from file" alt="import accounting lines from file"' +
                       		'     width=72 height=15 border=0 align="right" class="det-button">' +
                     		'<\/a>' +
-                    		'<div id="uploadDiv" style="display:none;" >' +
-                      		'<html:file size="30" property="accountingLineImportFile" />' +
-                      		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                    		'<div id="uploadDivEndow" style="display:none;" >' +
+                      		'<html:file size="30" property="${importFile}" />' +
+                      		'<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported accounting lines" title="add imported accounting lines" />' +
                       		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
@@ -78,8 +80,8 @@
             		</SCRIPT>
 					<NOSCRIPT>
 						Import lines
-						<html:file size="30" property="accountingLineImportFile" style="font:10px;height:16px;" />
-						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+						<html:file size="30" property="${importFile}" style="font:10px;height:16px;" />
+						<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</td>
 	    </tr>

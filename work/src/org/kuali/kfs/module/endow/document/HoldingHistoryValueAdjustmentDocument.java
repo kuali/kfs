@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.endow.document;
 
 import java.math.BigDecimal;
+
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.util.KualiInteger;
 
 import org.kuali.kfs.sys.document.Correctable;
@@ -153,5 +155,17 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
      */
     public void setMonthEndDate(MonthEndDate monthEndDate) {
         this.monthEndDate = monthEndDate;
+    }
+    
+    /**
+     * When document is processed or in the final status, do nothing specific.
+     *
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase#doRouteStatusChange()
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+        //override the action defined in EndowmentTransactionalDocumentBase.
+        //since we don't need to post any transaction from this document type to
+        //the endowment transaction archive tables
     }
 }

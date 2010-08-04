@@ -54,7 +54,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         super();
         this.transactionPosted = false;
         this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
-        initializeSourceTypeObj();
+        initializeSourceTypeObj();        
     }
 
     /**
@@ -194,15 +194,16 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     }
     
     /**
-     * When document is processed or in the final status, 
+     * When document is processed or in the final status, create an PendingTransactionDocumentEntry object
+     * and persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T.
      *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
-        super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()||
-                getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        super.doRouteStatusChange(statusChangeEvent);        
+          
+        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             
             dateTimeService = SpringContext.getBean(DateTimeService.class);
             businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -211,16 +212,16 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
             Date approvedDate =  dateTimeService.getCurrentSqlDate();
             
-            System.out.println(">>> this is a test in doRouteStatusChange: doucmentId="+documentId+
-                            ", documentType="+documentType+", approvedDate="+approvedDate.toString());
-            //persist documentId, documentType and current data to END_PENDING_TRAN_DOC_T
-     
+//          System.out.println(">>> this is a test in doRouteStatusChange: doucmentId="+documentId+
+//                            ", documentType="+documentType+", approvedDate="+approvedDate.toString());
+          
+            //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T 
             PendingTransactionDocumentEntry entry = new PendingTransactionDocumentEntry();
             entry.setDocumentNumber(documentId);
             entry.setDocumentType(documentType);
             entry.setApprovedDate(approvedDate);
             
-//            businessObjectService.save(entry);    
+            businessObjectService.save(entry);    
         }
     }        
 

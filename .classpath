@@ -85,12 +85,6 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/quartz-1.6.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/saaj-1.2.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.4.jar" sourcepath="/kfs-dependencies/spring-framework-2.0.4-src.zip"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.8a.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/struts-1.2.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/xercesImpl-2.7.1.jar"/>
@@ -135,32 +129,12 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxb-xjc-2.1.7.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/geronimo-activation_1.1_spec-1.0.2.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/geronimo-annotation_1.0_spec-1.1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/geronimo-jaxws_2.1_spec-1.0.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/geronimo-stax-api_1.0_spec-1.0.1.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
@@ -188,17 +162,6 @@
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.3.jar" sourcepath="/rice"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.3.jar" sourcepath="/rice"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/opencsv-1.8.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/cxf-2.1.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxb-impl-2.1.9.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/wss4j-1.5.7.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/XmlSchema-1.4.5.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
@@ -249,11 +212,6 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-133.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/c1searchengine.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/cas-client-core-3.1.6.jar">
 		<accessrules>
@@ -263,11 +221,6 @@
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/FastInfoset-1.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/fop-0.20.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/javassist-3.3.ga.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxrpc-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jsearch.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/neethi-2.0.4.jar"/>
@@ -324,6 +277,75 @@
 	<classpathentry kind="lib" path="test/lib/jetty-6.1.1.jar"/>
 	<classpathentry kind="lib" path="test/lib/jetty-util-6.1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/backport-util-concurrent-2.1.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/abdera-core-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/abdera-extensions-json-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/abdera-extensions-main-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/abdera-i18n-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/abdera-parser-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-1.45.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-transaction-1.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-api-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-common-schemas-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-common-utilities-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-bindings-soap-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-bindings-xml-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-core-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-databinding-aegis-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-databinding-jaxb-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-frontend-jaxrs-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-frontend-jaxws-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-frontend-simple-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-transports-http-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-ws-addr-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-rt-ws-security-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cxf-tools-common-2.2.9.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxb-impl-2.1.13.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxb-xjc-2.1.13.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-aop-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-beans-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-context-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-context-support-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-core-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-jdbc-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-orm-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-test-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-tx-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-web-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-webmvc-2.5.6.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/wss4j-1.5.8.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/aopalliance-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

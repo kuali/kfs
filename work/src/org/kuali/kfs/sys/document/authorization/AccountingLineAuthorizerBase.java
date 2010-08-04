@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * The default implementation of AccountingLineAuthorizer
+ * The default implementation of AccountingLineAuthorizer .
  */
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);

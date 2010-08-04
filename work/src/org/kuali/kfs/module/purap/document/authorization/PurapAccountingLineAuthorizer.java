@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2008 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -44,14 +44,15 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
- * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents This class utilizes
- * the new accountingLine model.
+ * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
+ * This class utilizes the new accountingLine model.
  */
 public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
 
     /**
-     * Overrides the method in AccountingLineAuthorizerBase so that the add button would have the line item number in addition to
-     * the rest of the insertxxxx String for methodToCall when the user clicks on the add button.
+     * Overrides the method in AccountingLineAuthorizerBase so that the add button would
+     * have the line item number in addition to the rest of the insertxxxx String for
+     * methodToCall when the user clicks on the add button.
      * 
      * @param accountingLine
      * @param accountingLineProperty
@@ -63,18 +64,19 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         String lineNumber = null;
         if (accountingLineProperty.equals(PurapPropertyConstants.ACCOUNT_DISTRIBUTION_NEW_SRC_LINE)) {
             lineNumber = "-2";
-        } else {
-            lineNumber = StringUtils.substringBetween(accountingLineProperty, "[", "]");
         }
-        return "insert" + infix + "Line.line" + lineNumber + "." + "anchoraccounting" + infix + "Anchor";
+        else {
+        lineNumber = StringUtils.substringBetween(accountingLineProperty, "[", "]");
+        }
+        return "insert"+infix + "Line.line" + lineNumber + "." + "anchoraccounting"+infix+"Anchor";
     }
-
+    
     /**
-     * Overrides the method in AccountingLineAuthorizerBase so that the delete button would have both the line item number and the
-     * accounting line number for methodToCall when the user clicks on the delete button.
+     * Overrides the method in AccountingLineAuthorizerBase so that the delete button would have both
+     * the line item number and the accounting line number for methodToCall when the user clicks on
+     * the delete button.
      * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getDeleteLineMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
-     *      java.lang.String, java.lang.Integer)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getDeleteLineMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
      */
     @Override
     protected String getDeleteLineMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
@@ -84,15 +86,14 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             lineNumber = "-2";
         }
         String accountingLineNumber = StringUtils.substringBetween(accountingLineProperty, "sourceAccountingLine[", "]");
-        return "delete" + infix + "Line.line" + lineNumber + ":" + accountingLineNumber + ".anchoraccounting" + infix + "Anchor";
+        return "delete"+infix+"Line.line"+ lineNumber + ":" + accountingLineNumber + ".anchoraccounting"+infix+"Anchor";
     }
-
+    
     /**
-     * Overrides the method in AccountingLineAuthorizerBase so that the balance inquiry button would have both the line item number
-     * and the accounting line number for methodToCall when the user clicks on the balance inquiry button.
-     * 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
-     *      java.lang.String, java.lang.Integer)
+     * Overrides the method in AccountingLineAuthorizerBase so that the balance inquiry button would 
+     * have both the line item number and the accounting line number for methodToCall when the user 
+     * clicks on the balance inquiry button.
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
      */
     @Override
     protected String getBalanceInquiryMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
@@ -102,146 +103,157 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             lineNumber = "-2";
         }
         String accountingLineNumber = StringUtils.substringBetween(accountingLineProperty, "sourceAccountingLine[", "]");
-        return "performBalanceInquiryFor" + infix + "Line.line" + ":" + lineNumber + ":" + accountingLineNumber + ".anchoraccounting" + infix + "existingLineLineAnchor" + accountingLineNumber;
+        return "performBalanceInquiryFor"+infix+"Line.line"+ ":" + lineNumber + ":" + accountingLineNumber + ".anchoraccounting"+infix+ "existingLineLineAnchor"+accountingLineNumber;
     }
-
+    
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
      */
     @Override
     public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         Set unviewableBlocks = super.getUnviewableBlocks(accountingDocument, accountingLine, newLine, currentUser);
         if (showAmountOnly(accountingDocument)) {
             unviewableBlocks.add(KFSPropertyConstants.PERCENT);
-        } else {
+        }
+        else {
             unviewableBlocks.add(KFSPropertyConstants.AMOUNT);
         }
         return unviewableBlocks;
     }
-
+    
     private boolean showAmountOnly(AccountingDocument accountingDocument) {
         final FinancialSystemTransactionalDocumentPresentationController presentationController = getPresentationController(accountingDocument);
         final FinancialSystemTransactionalDocumentAuthorizerBase authorizer = getDocumentAuthorizer(accountingDocument);
         if (presentationController == null || authorizer == null) {
-            throw new RuntimeException("Null presentation controller or document authorizer for document " + accountingDocument.getClass().getName());
+            throw new RuntimeException("Null presentation controller or document authorizer for document "+accountingDocument.getClass().getName());
         }
         Set<String> editModes = presentationController.getEditModes(accountingDocument);
         editModes = authorizer.getEditModes(accountingDocument, GlobalVariables.getUserSession().getPerson(), editModes);
         return editModes.contains(PurapAuthorizationConstants.PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
     }
-
+    
     /**
+     * 
      * @param accountingDocument
      * @return
      */
     private FinancialSystemTransactionalDocumentPresentationController getPresentationController(AccountingDocument accountingDocument) {
-        final Class<? extends DocumentPresentationController> presentationControllerClass = ((TransactionalDocumentEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentPresentationControllerClass();
+        final Class<? extends DocumentPresentationController> presentationControllerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentPresentationControllerClass();
         FinancialSystemTransactionalDocumentPresentationController presentationController = null;
         try {
-            presentationController = (FinancialSystemTransactionalDocumentPresentationController) presentationControllerClass.newInstance();
-        } catch (InstantiationException ie) {
-            throw new RuntimeException("Cannot instantiate instance of presentation controller for " + accountingDocument.getClass().getName(), ie);
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException("Cannot instantiate instance of presentation controller for " + accountingDocument.getClass().getName(), iae);
+            presentationController = (FinancialSystemTransactionalDocumentPresentationController)presentationControllerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Cannot instantiate instance of presentation controller for "+accountingDocument.getClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot instantiate instance of presentation controller for "+accountingDocument.getClass().getName(), iae);
         }
         return presentationController;
     }
-
+    
     /**
+     * 
      * @param accountingDocument
      * @return
      */
     private FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument accountingDocument) {
-        final Class<? extends DocumentAuthorizer> documentAuthorizerClass = ((TransactionalDocumentEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentAuthorizerClass();
+        final Class<? extends DocumentAuthorizer> documentAuthorizerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentAuthorizerClass();
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
         try {
-            documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) documentAuthorizerClass.newInstance();
-        } catch (InstantiationException ie) {
-            throw new RuntimeException("Cannot instantiate instance of document authorizer for " + accountingDocument.getClass().getName(), ie);
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException("Cannot instantiate instance of document authorizer for " + accountingDocument.getClass().getName(), iae);
+            documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)documentAuthorizerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Cannot instantiate instance of document authorizer for "+accountingDocument.getClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot instantiate instance of document authorizer for "+accountingDocument.getClass().getName(), iae);
         }
         return documentAuthorizer;
     }
-
+    
     @Override
-    public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
-
+    public boolean isGroupEditable(AccountingDocument accountingDocument, 
+                                   List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, 
+                                   Person currentUser) {
+        
         boolean isEditable = super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
-
-        if (isEditable) {
+        
+        if (isEditable){
             if (accountingLineRenderingContexts.size() == 0) {
                 return false;
             }
-            isEditable = allowAccountingLinesAreEditable(accountingDocument, accountingLineRenderingContexts.get(0).getAccountingLine());
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLineRenderingContexts.get(0).getAccountingLine());
         }
-
+        
         return isEditable;
     }
-
+    
     @Override
-    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
-
-        boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
-
-        if (isEditable) {
-            isEditable = allowAccountingLinesAreEditable(accountingDocument, accountingLine);
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, 
+                                                  AccountingLine accountingLine, 
+                                                  String accountingLineCollectionProperty, 
+                                                  String fieldName,
+                                                  boolean editablePage) {
+        
+        boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty,fieldName,editablePage);
+        
+        if (isEditable){
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
         }
-
+        
         return isEditable;
     }
-
+    
     @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, 
+                                                 AccountingLine accountingLine, 
+                                                 String accountingLineCollectionProperty,
+                                                 boolean currentUserIsDocumentInitiator, 
+                                                 boolean pageIsEditable) {
+        
         boolean isEditable = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
-
-        if (isEditable) {
-            isEditable = allowAccountingLinesAreEditable(accountingDocument, accountingLine);
+        
+        if (isEditable){
+            isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
         }
-
+        
         return (isEditable && pageIsEditable);
     }
-
+    
     /**
-     * This method checks whether the accounting lines are editable for a specific item type. This method is an override of the bas
-     * class. At the time of implementation, the only known implementation is this class (the PurapAccountingLineAuthorizer
-     * subclass), so the default implementation will be true for all cases, and will be possibly false for
-     * PurapAccountingLineAuthorizer.
+     * This method checks whether the accounting lines are editable for a specific item type.
      * 
-     * @param accountingDocument the given accounting document
-     * @param accountingLine the accounting line an action is being checked for
-     * @return whether the accounting lines are editable for a specific item type
      */
-    @Override
-    protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-
-        PurApAccountingLine purapAccount = (PurApAccountingLine) accountingLine;
+    protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument,
+                                                            AccountingLine accountingLine){
+        
+        PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
         Class clazz = getPurapDocumentClass(accountingDocument);
-        if (clazz == null) {
+        if (clazz == null){
             return true;
         }
-
+        
         List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
-
-        if (restrictedItemTypesList != null && purapAccount.getPurapItem() != null) {
-            return !restrictedItemTypesList.contains(((PurApItem) purapAccount.getPurapItem()).getItemTypeCode());
-        } else {
+        
+        if (restrictedItemTypesList != null && purapAccount.getPurapItem() != null){
+            return !restrictedItemTypesList.contains(((PurApItem)purapAccount.getPurapItem()).getItemTypeCode());    
+        }else{
             return true;
         }
     }
-
-    private Class getPurapDocumentClass(AccountingDocument accountingDocument) {
-        if (accountingDocument instanceof RequisitionDocument) {
+    
+    private Class getPurapDocumentClass(AccountingDocument accountingDocument){
+        if (accountingDocument instanceof RequisitionDocument){
             return RequisitionDocument.class;
-        } else if (accountingDocument instanceof PurchaseOrderDocument) {
+        }else if (accountingDocument instanceof PurchaseOrderDocument){
             return PurchaseOrderDocument.class;
-        } else if (accountingDocument instanceof PaymentRequestDocument) {
+        }else if (accountingDocument instanceof PaymentRequestDocument){
             return PaymentRequestDocument.class;
-        } else {
+        }else{
             return null;
         }
     }
-
+    
 }
+

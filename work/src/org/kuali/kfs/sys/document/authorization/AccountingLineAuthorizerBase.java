@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2008 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -74,18 +72,15 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
         return actions;
     }
-
+    
     /**
      * Determines if the error map contains any errors which exist on the currently rendered accounting line
-     * 
      * @param accountingLinePropertyName the property name of the accounting line
      * @return true if there are errors on the line, false otherwise
      */
     protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
         for (Object errorKeyAsObject : GlobalVariables.getMessageMap().getPropertiesWithErrors()) {
-            if (((String) errorKeyAsObject).startsWith(accountingLinePropertyName)) {
-                return true;
-            }
+            if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
         return false;
     }
@@ -117,11 +112,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             return workflowDocument.userIsInitiator(currentUser);
         }
-
+        
         for (AccountingLineRenderingContext renderingContext : accountingLineRenderingContexts) {
-            if (renderingContext.isEditableLine()) {
-                return true;
-            }
+            if (renderingContext.isEditableLine()) return true;
         }
 
         return false;
@@ -142,7 +135,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (accountingLineIndex == null || accountingLineIndex < 0) {
             AccountingLineViewAction addAction = this.getAddAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, groupTitle);
             actionMap.put(KFSConstants.INSERT_METHOD, addAction);
-        } else {
+        }
+        else {
             if (accountingLineRenderingContext.allowDelete()) {
                 AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
                 actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
@@ -164,47 +158,31 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param editableLine whether the parent line of this field is editable
      * @param editablePage whether the parent page of this field is editable
      * @param currentUser the current user
-     * @return true if the the current user has permission to edit the given field in the given accounting line; otherwise, false
+     * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
     public final boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
-
-        // if specifically set to NOT EDITABLE (KFSMI-5723)... don't allow edit permission if it is not the blank record
-        // to which a
-        // user can "add" a new account line
-        if (editableLine == false) {
-            if (accountingLine != null) {
-                boolean testNewRecord = accountingLine.isNewCollectionRecord();
-                if ((accountingLine.getChartOfAccountsCode() != null) || (accountingLine.getAccountNumber() != null) || (accountingLine.getFinancialObjectCode() != null)) {
-                    return false;
-                }
-            }
-        }
-
         if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage)) {
             return false;
         }
-
+        
         // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
         }
 
         // examine whether the given field can be editable
-        boolean hasEditPermissionOnField = editableLine || this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty + "." + fieldName), currentUser);
+        boolean hasEditPermissionOnField = editableLine || this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty+"."+fieldName), currentUser);
         if (hasEditPermissionOnField == false) {
             // kim check shows field should not be editable based on contents of field - check if line error message occurred on this line
-            // if error message shows up, then the value must have changed recently so - we make it editable to allow user correct it
+            // if error message shows up, then the value must have changed recently so - we make it editable to allow user to correct it
             KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsEnroute() && isErrorMapContainingErrorsOnLine(accountingLineCollectionProperty)) {
-                return true;
-            }
-        }
+            if (workflowDocument.stateIsEnroute() && isErrorMapContainingErrorsOnLine(accountingLineCollectionProperty)) return true;
+         }
         return hasEditPermissionOnField;
     }
-
+ 
     /**
      * Allows the overriding of whether a field on an accounting line is editable or not
-     * 
      * @param accountingDocument the accounting document the line to test is on
      * @param accountingLine the accounting line to test
      * @param accountingLineCollectionProperty the property that the accounting line lives in
@@ -214,10 +192,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the field can be edited (subject to subsequence KIM check); false otherwise
      */
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
-        if (!editablePage) {
-            return false; // no edits by default on non editable pages
-        }
-
+        if (!editablePage) return false; // no edits by default on non editable pages
+        
         final FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader();
         final KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
@@ -237,37 +213,22 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {
+    public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {        
         if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser), pageIsEditable)) {
-
-            // if this line is one of the restricted types, it is uneditable
-            boolean isUnRestrictedLineType = true;
-            isUnRestrictedLineType = this.allowAccountingLinesAreEditable(accountingDocument, accountingLine);
-            PurApAccountingLine purapAccount = (PurApAccountingLine) accountingLine;
-
-            // KFSMI-5723 - the Trade-In accounting line cannot be editable once calculated
-            if (purapAccount != null && (PurApItem) purapAccount.getPurapItem() != null) {
-                isUnRestrictedLineType = isUnRestrictedLineType && (!((PurApItem) purapAccount.getPurapItem()).getItemAssignedToTradeInIndicator());
-            }
-
-            if (!isUnRestrictedLineType) {
-                return false; // no more checking required... the line is restricted by definition
-            }
-
+            
             if (approvedForUnqualifiedEditing(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
-                return true; // don't do the KIM check, we're good
+                return true;  // don't do the KIM check, we're good
             }
-
+            
             // examine whether the whole line can be editable via KIM check
             final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
             return this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
         }
         return false;
     }
-
+ 
     /**
      * A hook to decide, pre-KIM check, if there's an edit permission on the given accounting line
-     * 
      * @param accountingDocument the accounting document the line is or wants to be associated with
      * @param accountingLine the accounting line itself
      * @param accountingLineCollectionProperty the collection the accounting line is or would be part of
@@ -276,18 +237,17 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
         if (accountingDocument instanceof Correctable) {
-            String errorDocumentNumber = ((FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
+            String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
             if (StringUtils.isNotBlank(errorDocumentNumber))
                 return false;
         }
-
+        
         return true;
     }
-
+    
     /**
-     * Determines if the given line is editable, no matter what a KIM check would say about line editability. In the default case,
+     * Determines if the given line is editable, no matter what a KIM check would say about line editability.  In the default case,
      * any accounting line is editable - minus KIM check - when the document is PreRoute, or if the line is a new line
-     * 
      * @param accountingDocument the accounting document the line is or wants to be associated with
      * @param accountingLine the accounting line itself
      * @param accountingLineCollectionProperty the collection the accounting line is or would be part of
@@ -299,7 +259,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (accountingLine.getSequenceNumber() == null) {
             return true;
         }
-
+        
         // check the initiation permission on the document if it is in the state of preroute
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
@@ -316,13 +276,13 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param fieldName the name of a field in the given accounting line
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
-     */
-    private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {
+     */    
+    private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
         final AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
         final String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         final AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
 
-        return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);
+        return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);       
     }
 
     /**
@@ -337,7 +297,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
         String pricipalId = currentUser.getPrincipalId();
         DocumentAuthorizer accountingDocumentAuthorizer = this.getDocumentAuthorizer(accountingDocument);
-
+        
         return accountingDocumentAuthorizer.isAuthorizedByTemplate(accountingDocument, KFSConstants.ParameterNamespaces.KFS, KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name, pricipalId, permissionDetails, roleQualifiers);
     }
 
@@ -576,7 +536,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private DocumentAuthorizer getDocumentAuthorizer(AccountingDocument accountingDocument) {
         return SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
     }
-
+    
     /**
      * @return the path to rice images
      */
@@ -586,7 +546,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
         return riceImagePath;
     }
-
+    
     /**
      * @return the path to KFS images
      */
@@ -596,19 +556,4 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
         return kfsImagePath;
     }
-
-    /**
-     * This method checks whether the accounting lines are editable for a specific item type. This method is intended to be
-     * overridden by classes requiring the ability to delineate that some item types are restricted. At the time of implementation,
-     * the only known implementation is the PurapAccountingLineAuthorizer subclass, so the default in this implementation will be
-     * true for all cases, and will be possibly false for PurapAccountingLineAuthorizer.
-     * 
-     * @param accountingDocument the given accounting document
-     * @param accountingLine the accounting line an action is being checked for
-     * @return whether the accounting lines are editable for a specific item type
-     */
-    protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        return true;
-    }
-
 }

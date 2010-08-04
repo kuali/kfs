@@ -554,4 +554,5 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_ACCOUNTING_LINE_ORG_REF_ID = "organizationReferenceId";
     public static final String ENDOWMENT_ACCOUNTING_LINE_AMOUNT = "amount";
         
+    public static final String DOCUMENT_NUMBER = "documentNumber";
 }

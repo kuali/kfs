@@ -2637,4 +2637,11 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry" table="END_PENDING_TRAN_DOC_T ">
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" /> 
+    <field-descriptor name="documentType" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
+ 	<field-descriptor name="approvedDate" column="APPROVED_DT" jdbc-type="DATE"/>
+</class-descriptor>
 </descriptor-repository>

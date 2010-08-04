@@ -49,5 +49,10 @@
        	<li><portal:portalLink displayTitle="true" title="Type Restriction Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Use Criteria Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.UseCriteriaCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>   
     </ul>
+    <strong>Testing</strong><br />
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Pending Transaction Document Entry" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>    
+    
+    </ul>
 </div>
 <channel:portalChannelBottom />

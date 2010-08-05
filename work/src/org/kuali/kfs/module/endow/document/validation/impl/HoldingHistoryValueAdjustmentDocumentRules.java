@@ -31,9 +31,11 @@ import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 
-public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransactionalDocumentBaseRule {
+public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -75,7 +77,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
     protected boolean isSecurityCodeEmpty(HoldingHistoryValueAdjustmentDocument document) {
 
         if (StringUtils.isEmpty(document.getSecurityId())) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_REQUIRED);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_REQUIRED);
             return true;
         }
 
@@ -93,7 +95,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         document.setSecurity(security);
 
         if (ObjectUtils.isNull(security)) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INVALID);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INVALID);
             return false;
         }
 
@@ -110,7 +112,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         Security security = document.getSecurity();
 
         if (!security.isActive()) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INACTIVE);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_INACTIVE);
             return false;
         }
 
@@ -133,7 +135,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
             String classCodeType = classCode.getClassCodeType();
             if (EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCodeType)) {
                 isValid = false;
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_NOT_LIABILITY);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_SECURITY_ID_NOT_LIABILITY);
             }
         }
 
@@ -148,7 +150,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
      */
     protected boolean isUnitValuePositive(HoldingHistoryValueAdjustmentDocument document) {
         if (ObjectUtils.isNotNull(document.getSecurityUnitValue()) && document.getSecurityUnitValue().compareTo(BigDecimal.ZERO) <= 0) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_NOT_POSITIVE);
             return false;
         }
 
@@ -166,7 +168,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         resetMarketValueToNullWhenUnitValueEntered(document);
 
         if (ObjectUtils.isNotNull(document.getSecurityMarketValue()) && document.getSecurityMarketValue().compareTo(BigDecimal.ZERO) <= 0) {
-            putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_NOT_POSITIVE);
             return false;
         }
 
@@ -185,7 +187,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         // check if the valuation method is U (unit value) and if so, then make sure no value is entered for market value.
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNull(document.getSecurityUnitValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_REQUIRED);
                 return false;
             }
 
@@ -198,7 +200,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends EndowmentTransac
         // check if the valuation method is M (market value) and if so, then make sure no value is entered for unit value.
         if (EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE.equals(valuationMethodCode)) {
             if (ObjectUtils.isNull(document.getSecurityMarketValue())) {
-                putFieldError(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(EndowConstants.HistoryHoldingValueAdjustmentValuationCodes.HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS + EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE, EndowKeyConstants.HoldingHistoryValueAdjustmentConstants.ERROR_HISTORY_VALUE_ADJUSTMENT_MARKET_VALUE_REQUIRED);
                 return false;
             }
 

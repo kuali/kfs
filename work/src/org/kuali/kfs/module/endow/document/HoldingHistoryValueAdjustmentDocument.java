@@ -21,6 +21,7 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.util.KualiInteger;
 
 import org.kuali.kfs.sys.document.Correctable;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
@@ -30,12 +31,13 @@ import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
  * This is the transactional document that is used to record a modification to the 
  * market value of a record or group of records in the holding history table
  */
-public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactionalDocumentBase implements Copyable {
+public class HoldingHistoryValueAdjustmentDocument extends FinancialSystemTransactionalDocumentBase implements Copyable {
 
     protected String securityId;
     protected KualiInteger holdingMonthEndDate;
     protected BigDecimal securityUnitValue;
     protected BigDecimal securityMarketValue;
+    protected boolean transactionPosted;
     
     protected Security security;
     protected SecurityValuationMethod securityValuation;
@@ -109,6 +111,22 @@ public class HoldingHistoryValueAdjustmentDocument extends EndowmentTransactiona
         this.securityMarketValue = securityMarketValue;
     }
 
+    /**
+     * Get TransactionPosted
+     * @return transactionPosted
+     */
+    public boolean isTransactionPosted() {
+        return transactionPosted;
+    }
+
+    /**
+     * Set TransactionPosted
+     * @param transactionPosted
+     */
+    public void setTransactionPosted(boolean transactionPosted) {
+        this.transactionPosted = transactionPosted;
+    }
+    
     /**
      * This method will get security
      * @return security

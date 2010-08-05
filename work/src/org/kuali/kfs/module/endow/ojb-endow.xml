@@ -511,7 +511,6 @@
 	<field-descriptor name="dividendPayDate" column="SEC_DVDND_PAY_DT" jdbc-type="DATE"/>
 	<field-descriptor name="dividendAmount" column="SEC_DVDND_AMT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="commitmentAmount" column="CMTMNT_AMT" jdbc-type="DECIMAL"/>
-	<field-descriptor name="foreignWithholdPercentage" column="FRGN_WITH_PCT"/>
 	<field-descriptor name="nextFiscalYearDistributionAmount" column="NXT_FSCL_YR_DSTRB_AMT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	

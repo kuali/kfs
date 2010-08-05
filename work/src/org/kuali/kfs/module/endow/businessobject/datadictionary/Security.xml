@@ -42,7 +42,7 @@
         <ref bean="Security-issueDate" />
         <ref bean="Security-dividendAmount" />
         <ref bean="Security-commitmentAmount" />
-        <ref bean="Security-foreignWithholdPercentage" />
+        <ref bean="Security-securityValueByMarket" />
         <ref bean="Security-active" />
         <ref bean="Security-classCode.securityReportingGrp" />
         <ref bean="Security-classCode.reportingGroup.name" />
@@ -361,18 +361,21 @@
       <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="Security-foreignWithholdPercentage" parent="Security-foreignWithholdPercentage-parentBean" />
+  <bean id="Security-securityValueByMarket" parent="Security-securityValueByMarket-parentBean" />
 
-  <bean id="Security-foreignWithholdPercentage-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="foreignWithholdPercentage"/>
-    <property name="label" value="Foreign Withholding Percent"/>
-    <property name="shortLabel" value="Percent"/>
-    <property name="maxLength" value="9"/>
+  <bean id="Security-securityValueByMarket-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="securityValueByMarket"/>
+    <property name="label" value="Market Valuation"/>
+    <property name="shortLabel" value="Market Valuation"/>
+    <property name="maxLength" value="22"/>
     <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern"/>
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="2" 
+            p:allowNegative="true"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
+      <bean parent="TextControlDefinition" p:size="23"/>
     </property>
   </bean>
   <bean id="Security-active" parent="Security-active-parentBean" />
@@ -553,7 +556,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dividendAmount" /> 
               <bean parent="FieldDefinition"
-                    p:attributeName="foreignWithholdPercentage" />  
+                    p:attributeName="securityValueByMarket" />  
               <bean parent="FieldDefinition"
                     p:attributeName="classCode.reportingGroup.name" /> 
               <bean parent="FieldDefinition"

@@ -62,8 +62,8 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
     private Date dividendPayDate;
     private BigDecimal dividendAmount;
     private BigDecimal commitmentAmount;
-    private BigDecimal foreignWithholdPercentage;
     private BigDecimal nextFiscalYearDistributionAmount;
+    private BigDecimal securityValueByMarket;
     private boolean active;
 
     // this field is not saved in the db,
@@ -239,24 +239,6 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
      */
     public void setExDividendDate(Date exDividendDate) {
         this.exDividendDate = exDividendDate;
-    }
-
-    /**
-     * This method gets the foreignWithholdPercentage.
-     * 
-     * @return foreignWithholdPercentage
-     */
-    public BigDecimal getForeignWithholdPercentage() {
-        return foreignWithholdPercentage;
-    }
-
-    /**
-     * This method sets the foreignWithholdPercentage.
-     * 
-     * @param foreignWithholdPercentage
-     */
-    public void setForeignWithholdPercentage(BigDecimal foreignWithholdPercentage) {
-        this.foreignWithholdPercentage = foreignWithholdPercentage;
     }
 
     /**
@@ -760,6 +742,24 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
      */
     public void setTicklers(List<Tickler> ticklers) {
         this.ticklers = ticklers;
+    }
+
+    /**
+     * Gets the securityValueByMarket.
+     * 
+     * @return securityValueByMarket
+     */
+    public BigDecimal getSecurityValueByMarket() {
+        return securityValueByMarket;
+    }
+
+    /**
+     * Sets the securityValueByMarket.
+     * 
+     * @param securityValueByMarket
+     */
+    public void setSecurityValueByMarket(BigDecimal securityValueByMarket) {
+        this.securityValueByMarket = securityValueByMarket;
     }
 
 }

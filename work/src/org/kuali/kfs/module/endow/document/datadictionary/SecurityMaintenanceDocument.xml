@@ -96,6 +96,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="unitsHeld" />   
         <bean parent="MaintainableFieldDefinition"
+              p:name="securityValueByMarket" />               
+        <bean parent="MaintainableFieldDefinition"
               p:name="valuationDate" />
         <bean parent="MaintainableFieldDefinition"
               p:name="unitValueSource" />                                       
@@ -136,10 +138,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="dividendPayDate" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="dividendAmount" />                                                                                                      
-        <bean parent="MaintainableFieldDefinition"
-              p:name="foreignWithholdPercentage"
-              p:defaultValue="0" />   
+              p:name="dividendAmount" />                                                                                                        
         <bean parent="MaintainableFieldDefinition"
               p:name="classCode.reportingGroup.name" 
               p:unconditionallyReadOnly="true"/> 

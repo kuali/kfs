@@ -73,6 +73,7 @@
     </documentType>
     <documentType>
       <name>EHA</name>
+      <label>Endowment Holding Adjustment</label>
       <parent>ET</parent>
       <docHandler> ${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler </docHandler>
     </documentType>

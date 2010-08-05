@@ -99,10 +99,7 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
         
         doc.getDocumentHeader().setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
         doc.getDocumentHeader().setDocumentDescription(REFERENCE_DOCUMENT_DESCRIPTION);
-        
-        doc.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-        doc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
-        
+     
         doc.setSecurityId("000000000");
         doc.setHoldingMonthEndDate(new KualiInteger(1));
         doc.setSecurityUnitValue(ZERO_AMOUNT);

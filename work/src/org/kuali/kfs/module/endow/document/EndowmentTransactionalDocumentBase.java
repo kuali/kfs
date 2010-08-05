@@ -203,7 +203,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
         super.doRouteStatusChange(statusChangeEvent);        
           
-        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
             dateTimeService = SpringContext.getBean(DateTimeService.class);
             businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -211,10 +211,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             String documentId = getDocumentHeader().getDocumentNumber();
             String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
             Date approvedDate =  dateTimeService.getCurrentSqlDate();
-            
-//          System.out.println(">>> this is a test in doRouteStatusChange: doucmentId="+documentId+
-//                            ", documentType="+documentType+", approvedDate="+approvedDate.toString());
-          
+        
             //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T 
             PendingTransactionDocumentEntry entry = new PendingTransactionDocumentEntry();
             entry.setDocumentNumber(documentId);

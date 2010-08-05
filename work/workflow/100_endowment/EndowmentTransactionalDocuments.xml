@@ -82,6 +82,12 @@
       	<label>Endowment To GL Transfer Of Funds</label>
       	<parent>ET</parent>
       	<docHandler> ${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
-    </documentType>     
+    </documentType> 
+    <documentType>
+    	<name>GLET</name>
+        <label>GL To Endowment Transfer Of Funds</label>
+        <parent>ET</parent>
+        <docHandler> ${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>    
 </documentTypes>
 </data>

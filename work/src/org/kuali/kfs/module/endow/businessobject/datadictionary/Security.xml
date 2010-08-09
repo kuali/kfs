@@ -556,9 +556,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="dividendPayDate" /> 
               <bean parent="FieldDefinition"
-                    p:attributeName="dividendAmount" /> 
-              <bean parent="FieldDefinition"
-                    p:attributeName="securityValueByMarket" />  
+                    p:attributeName="dividendAmount" />  
               <bean parent="FieldDefinition"
                     p:attributeName="classCode.reportingGroup.name" /> 
               <bean parent="FieldDefinition"

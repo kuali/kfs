@@ -18,7 +18,11 @@ package org.kuali.kfs.module.external.kc.service;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO;
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
+
+
+
+
 
 public interface BudgetCategoryService {
 

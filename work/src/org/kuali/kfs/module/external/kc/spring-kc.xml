@@ -37,14 +37,14 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-	            <entry key="org.kuali.kfs.module.external.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.module.external.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.dto.BudgetCategoryDTO" />
+	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.dto.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">
              <list>
-	            <value>org.kuali.kfs.module.external.kc.KcUnit</value> 
-       			<value>org.kuali.kfs.module.external.kc.BudgetCategory</value>
+	            <value>org.kuali.kfs.integration.kc.KcUnit</value> 
+       			<value>org.kuali.kfs.integration.kc.BudgetCategory</value>
              </list>
         </property>
  		<property name="dataDictionaryPackages">
@@ -61,7 +61,7 @@
  	</bean>
     <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
 
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.KcKfsModuleServiceImpl" abstract="true">
+    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
 	</bean>
 	
@@ -126,7 +126,6 @@
   	<bean id="budgetCategoryDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
-
 	<bean id="budgetCategoryDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
 		<property name="lookupableHelperService">

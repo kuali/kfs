@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.external.kc;
+package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
@@ -39,9 +40,9 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         return (T) getBusinessObjectFromClass(getExternalizableBusinessObjectImplementation(businessObjectClass));
     }
      
-    public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
+     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
         BusinessObject object = null;
-        if (! externalizedWebBOs.containsValue(businessObjectClass)) return super.getExternalizableBusinessObjectsList(businessObjectClass, fieldValues);
+        if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObjectsList(businessObjectClass, fieldValues);
         List returnList = new ArrayList();
         object = getBusinessObjectFromClass( getExternalizableBusinessObjectImplementation(businessObjectClass));   
         returnList.add(object);
@@ -118,7 +119,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
 
     public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
         int classModifiers = externalizableBusinessObjectInterface.getModifiers();
-        if (! externalizedWebBOs.containsValue(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
+       if (! externalizedWebBOs.containsKey(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
         
         if (!Modifier.isInterface(classModifiers) && !Modifier.isAbstract(classModifiers)) {
             // the interface is really a non-abstract class
@@ -149,7 +150,8 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
               for (Class webo : webos) {
                   if (ebos.containsKey(webo)) {
                       externalizedWebBOs.put(webo, ebos.get(webo));
-                  }
+                      externalizedWebBOs.put(ebos.get(webo), ebos.get(webo));
+                   }
               }
           }
           super.setModuleConfiguration(moduleConfiguration);
@@ -163,6 +165,15 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         // TODO Auto-generated method stub
         return super.isExternalizableBusinessObjectLookupable(boClass);
     }
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizableBusinessObjectInquirable(java.lang.Class)
+     */
+    @Override
+    public boolean isExternalizableBusinessObjectInquirable(Class boClass) {
+        // TODO Auto-generated method stub
+        return super.isExternalizableBusinessObjectInquirable(boClass);
+    }
+
 
     /**
      * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizable(java.lang.Class)
@@ -182,5 +193,25 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         return super.isResponsibleFor(arg0);
     }
 
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getExternalizableBusinessObjectDictionaryEntry(java.lang.Class)
+     */
+    @Override
+    public BusinessObjectEntry getExternalizableBusinessObjectDictionaryEntry(Class businessObjectInterfaceClass) {
+        return super.getExternalizableBusinessObjectDictionaryEntry(businessObjectInterfaceClass);
+        /*
+        // TODO Auto-generated method stub
+        if (! externalizedWebBOs.containsKey(businessObjectInterfaceClass)) super.getExternalizableBusinessObjectDictionaryEntry(businessObjectInterfaceClass);
+        Class boClass = businessObjectInterfaceClass;
+        if(businessObjectInterfaceClass.isInterface())
+         boClass = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);           
+        if (boClass == null) return null;
+         BusinessObjectEntry businessObjectEntry = KNSServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntryForConcreteClass(boClass.getName());
+  
+       // List <String>names = (List<String>) businessObjectEntry.getAttributeNames();
+        String desc = businessObjectEntry.getObjectDescription();
+        return businessObjectEntry;
+        */     
+    }
    
 }

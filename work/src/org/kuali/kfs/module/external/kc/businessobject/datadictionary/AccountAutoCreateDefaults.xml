@@ -133,7 +133,7 @@
 <!-- Attribute Definitions -->
  	<!-- Most attributes derived from Account; Define KC specific attributes here -->	
     <bean id="AccountAutoCreateDefaults-kcUnit" parent="AccountAutoCreateDefaults-kcUnit-parentBean"/>
-  	<bean id="AccountAutoCreateDefaults-kcUnit-parentBean" abstract="true"  parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.module.external.kc.KcUnit" p:sourceAttributeName="unitNumber"> 
+  	<bean id="AccountAutoCreateDefaults-kcUnit-parentBean" abstract="true"  parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.kc.KcUnit" p:sourceAttributeName="unitNumber"> 
     	<property name="name" value="kcUnit"/>
     	<property name="label" value="KC Unit"/>
     	<property name="shortLabel" value="KC Unit"/>

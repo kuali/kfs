@@ -147,10 +147,12 @@
                 <value>org/kuali/kfs/integration/kc/businessobject/datadictionary</value>
             </list>
         </property>
-    </bean>
-
-    <bean id="kcModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
-        <property name="moduleConfiguration" ref="kcExternalModuleConfiguration" />
-    </bean>
-
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+  	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO" /> 
+            </map>
+        </property> 
+ 
+    </bean>   	
 </beans>

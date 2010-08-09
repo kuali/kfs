@@ -678,6 +678,7 @@
 	<field-descriptor name="fundSaleGainLossOffsetTranCode" column="SALE_GAIN_LOSS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fundCashDepositOffsetTranCode" column="CSH_DPST_OFST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="distributeGainsAndLossesIndicator" column="DSTRB_GAIN_LOSS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="allowFractionalShares" column="FRXNL_SHS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
  	<reference-descriptor name="security" class-ref="org.kuali.kfs.module.endow.businessobject.Security" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

@@ -84,7 +84,10 @@
               p:required="true" />              
         <bean parent="MaintainableFieldDefinition"
               p:name="incrementValuationDays"
-              p:required="true" />                    
+              p:required="true" />  
+        <bean parent="MaintainableFieldDefinition"
+              p:name="allowFractionalShares"
+              p:defaultValue="false" />              
         <bean parent="MaintainableFieldDefinition"
               p:name="fundKEMID"
               p:required="true" 

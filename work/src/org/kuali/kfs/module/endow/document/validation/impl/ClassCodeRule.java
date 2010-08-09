@@ -79,6 +79,7 @@ public class ClassCodeRule extends MaintenanceDocumentRuleBase {
 
             String endTransactionTypeCode = classCode.getEndowmentTransactionCode().getEndowmentTransactionTypeCode();
 
+            // If the Class Code is a Liability, the ETRAN code must be a Liability Type Code.
             if (EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCode.getClassCodeType())) {
                 if (ObjectUtils.isNotNull(classCode.getEndowmentTransactionCode()) && !(EndowConstants.EndowmentTransactionTypeCodes.LIABILITY_TYPE_CODE.equalsIgnoreCase(classCode.getEndowmentTransactionCode().getEndowmentTransactionTypeCode()))) {
                     putFieldError(EndowPropertyConstants.CLASS_CODE_SEC_END_TRANSACTION_CODE, EndowKeyConstants.ClassCodeConstants.ERROR_CLASS_CODE_TYPE_LIABILITY_MUST_HAVE_SEC_ETRAN_TYPE_LIABILITY);
@@ -141,6 +142,7 @@ public class ClassCodeRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        // If the class Code is C (Cash Equivalents) or L (Liabilities), the tax lot indicator must be No.
         if (EndowConstants.ClassCodeTypes.CASH_EQUIVALENTS.equalsIgnoreCase(classCode.getClassCodeType()) || EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCode.getClassCodeType())) {
             if (classCode.isTaxLotIndicator()) {
 
@@ -152,7 +154,8 @@ public class ClassCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method validates that the valuation method is Unit for class code with class code type P=Pooled Investment.
+     * This method validates that the valuation method is Unit for class code with class code type P=Pooled Investment or B=Bond or
+     * L=Liability.
      * 
      * @param classCode
      * @return true if valuation method is Unit for class code type P, false otherwise
@@ -160,7 +163,8 @@ public class ClassCodeRule extends MaintenanceDocumentRuleBase {
     public boolean validateValuationMethodForPooledInvestments(ClassCode classCode) {
         boolean success = true;
 
-        if (EndowConstants.ClassCodeTypes.POOLED_INVESTMENT.equalsIgnoreCase(classCode.getClassCodeType())) {
+        // If class code type ="P" or "B" or "L", the value of END_SEC_VLTN_MTHD.VLTN_MTHD must be "U"
+        if (EndowConstants.ClassCodeTypes.POOLED_INVESTMENT.equalsIgnoreCase(classCode.getClassCodeType()) || EndowConstants.ClassCodeTypes.BOND.equalsIgnoreCase(classCode.getClassCodeType()) || EndowConstants.ClassCodeTypes.LIABILITY.equalsIgnoreCase(classCode.getClassCodeType())) {
             if (!EndowConstants.ValuationMethod.UNITS.equalsIgnoreCase(classCode.getValuationMethod())) {
 
                 putFieldError(EndowPropertyConstants.CLASS_CODE_VALUATION_METHOD, EndowKeyConstants.ClassCodeConstants.ERROR_CLASS_CODE_TYPE_POOLED_INVESTMENT_MUST_HAVE_VLTN_MTHD_UNITS);

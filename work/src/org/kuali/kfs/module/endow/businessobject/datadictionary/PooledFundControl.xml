@@ -32,6 +32,7 @@
         <ref bean="PooledFundControl-fundCashDepositOffsetTranCode" />
         <ref bean="PooledFundControl-cashDepositOffsetTranCode.name" />
         <ref bean="PooledFundControl-distributeGainsAndLossesIndicator" />
+        <ref bean="PooledFundControl-allowFractionalShares" />
         <ref bean="PooledFundControl-active" />
         <ref bean="PooledFundControl-kemid.kemidAndShortTitle"/>
         <ref bean="PooledFundControl-assetPurchaseOffsetTranCode.codeAndDescription" />
@@ -221,6 +222,13 @@
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>  
+  <bean id="PooledFundControl-allowFractionalShares" parent="PooledFundControl-allowFractionalShares-parentBean" />
+  
+  <bean id="PooledFundControl-allowFractionalShares-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="allowFractionalShares" />
+    <property name="label" value="Allow Fractional Shares" />
+    <property name="shortLabel" value="Allow Fractional Shares" />
+  </bean> 
  
   <bean id="PooledFundControl-pooledSecurityIDAndDescription" parent="PooledFundControl-pooledSecurityIDAndDescription-parentBean" />
 
@@ -266,7 +274,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="pooledFundDescription" />                     
               <bean parent="FieldDefinition"
-                    p:attributeName="incrementValuationDays" />              
+                    p:attributeName="incrementValuationDays" />   
+              <bean parent="FieldDefinition"
+             		p:attributeName="allowFractionalShares" /> 
 			  <bean parent="FieldDefinition"
               		p:attributeName="kemid.kemidAndShortTitle" />   
         	  <bean parent="FieldDefinition"
@@ -278,7 +288,7 @@
         	  <bean parent="FieldDefinition"
               		p:attributeName="cashDepositOffsetTranCode.codeAndDescription" />
         	  <bean parent="FieldDefinition"
-             		p:attributeName="distributeGainsAndLossesIndicator" />                               
+             		p:attributeName="distributeGainsAndLossesIndicator" />     
               <bean parent="FieldDefinition"
              	    p:attributeName="active" />              		         		            		
             </list>
@@ -316,6 +326,8 @@
               p:attributeName="pooledSecurityID" />
         <bean parent="FieldDefinition"
               p:attributeName="pooledFundDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="allowFractionalShares" />              
         <bean parent="FieldDefinition"
               p:attributeName="fundKEMID" />   
         <bean parent="FieldDefinition"

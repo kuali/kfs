@@ -36,6 +36,8 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
     private String fundSaleGainLossOffsetTranCode;
     private String fundCashDepositOffsetTranCode;
     private boolean distributeGainsAndLossesIndicator;
+    private boolean allowFractionalShares;
+
     private boolean active;
 
     private Security security;
@@ -359,6 +361,24 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
      */
     public void setPooledSecurityIDAndDescription(String pooledSecurityIDAndDescription) {
 
+    }
+
+    /**
+     * Gets the allowFractionalShares.
+     * 
+     * @return allowFractionalShares
+     */
+    public boolean isAllowFractionalShares() {
+        return allowFractionalShares;
+    }
+
+    /**
+     * Sets the allowFractionalShares.
+     * 
+     * @param allowFractionalShares
+     */
+    public void setAllowFractionalShares(boolean allowFractionalShares) {
+        this.allowFractionalShares = allowFractionalShares;
     }
 
 }

@@ -162,7 +162,7 @@
 	<bean id="Requisition-addAccountingLineDefaultValidation-parentBean" parent="CompositeValidation"  abstract="true" scope="protoptype">
 		<property name="validations">
 			<list>
-				<bean parent="Requisition-addAccountingLineDefault-failFastValidation" scope="true" />
+				<bean parent="Requisition-addAccountingLineDefault-failFastValidation" scope="prototype" />
 				<bean parent="Requisition-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -432,7 +432,7 @@
             <list>
                 <!-- These are the validations from within the loop of items in newProcessItemValidation in
                      PurchasingAccountsPayableDocumentRuleBase -->
-                <bean parent="Requisition-newProcessItem-itemCollectionValidation" scope="true" />	  		
+                <bean parent="Requisition-newProcessItem-itemCollectionValidation" scope="prototype" />	  		
                 <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase -->			                
                 <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase -->
 			    <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />

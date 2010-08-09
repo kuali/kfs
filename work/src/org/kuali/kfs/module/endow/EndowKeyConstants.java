@@ -37,6 +37,8 @@ public class EndowKeyConstants {
         public static final String GENERATE_SECURITY_ID_QUESTION_ID = "GenerateSecurityQuestionID";
         public static final String ERROR_ENTERED_SECURITY_ID_SHOULD_BE_8_CHARS = "error.document.security.id";
         public static final String EROR_NEW_SECURITY_CLASS_CODE_TYPE_MUST_EQUAL_OLD_SEC_CLASS_CODE_TYPE = "error.document.security.classCode.newClassCodeTypeMustEqOldType";
+        public static final String ERROR_SECURITY_VAL_BY_MKT_MUST_BE_EMPTY_WHEN_VAL_MTHD_UNITS = "error.document.security.valueByMarket.mustBeEmptyWhenValMthdUnits";
+        public static final String ERROR_SECURITY_UNIT_VAL_MUST_BE_EMPTY_WHEN_VAL_MTHD_MARKET = "error.document.security.unitValue.mustBeEmptyWhenValMthdMarket";
     }
 
     public static class EndowmentTransactionConstants {
@@ -270,11 +272,11 @@ public class EndowKeyConstants {
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_COST_INVALID = "error.document.holdingTaxLotRebalance.cost.invalid";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_UNITS_COST_ZERO = "error.document.holdingTaxLotRebalance.unitsAndCost.zero";
     }
-    
+
     public static final class EndowmentAccountingLineParser {
         public static final String ERROR_INVALID_FILE_FORMAT = "error.endowmentAccountingLineParser.invalidFileFormat";
         public static final String ERROR_INVALID_PROPERTY_VALUE = "error.endowmentAccountingLineParser.invalidPropertyValue";
     }
-    
+
     public static final String ERROR_ENDOW_ACCOUNTING_LINES_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.endowmentAccountingLinesDocument.endowmentaccountinglineimport.general";
 }

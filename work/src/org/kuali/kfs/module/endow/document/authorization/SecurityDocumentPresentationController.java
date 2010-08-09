@@ -70,6 +70,8 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
             fields.add(EndowPropertyConstants.REPORTING_GROUP_DESC);
             fields.add(EndowPropertyConstants.ACCRUAL_METHOD_DESC);
             fields.add(EndowPropertyConstants.SECURITY_NEXT_FISCAL_YEAR_DISTRIBUTION_AMOUNT);
+            fields.add(EndowPropertyConstants.SECURITY_VALUE_BY_MARKET);
+
         }
         // if action is not new or copy the userEnteredSecurityIDprefix shall not be displayed
         else {

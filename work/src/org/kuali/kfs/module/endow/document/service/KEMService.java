@@ -34,14 +34,12 @@ public interface KEMService {
 
 
     /**
-     * Computes the market value.
+     * Computes the market value as the Sum of the HLDG _MVAL for all records for the Security in END_CURR_TAX_LOT_BAL_T.
      * 
-     * @param units the number of units
-     * @param unitValue the unit value
-     * @param classCodeType
-     * @return the computed market value
+     * @param securityId
+     * @return the market value for the given security
      */
-    public BigDecimal getMarketValue(BigDecimal units, BigDecimal unitValue, String classCodeType);
+    public BigDecimal getMarketValue(String securityId);
 
     /**
      * Gets the current system process date.
@@ -73,13 +71,15 @@ public interface KEMService {
 
     /**
      * Gets the AVAILABLE_CASH_PERCENT system parameter
+     * 
      * @return AVAILABLE_CASH_PERCENT value
      */
     public BigDecimal getAvailableCashPercent();
-    
+
     /**
      * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * 
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
-    public Date getFiscalYearEndDayAndMonth();    
+    public Date getFiscalYearEndDayAndMonth();
 }

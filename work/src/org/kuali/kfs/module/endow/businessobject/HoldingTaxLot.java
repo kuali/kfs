@@ -325,11 +325,8 @@ public class HoldingTaxLot extends PersistableBusinessObjectBase {
      */
     public BigDecimal getMarketValue() {
 
-        Security security = this.getSecurity();
-        String classCodeType = security.getClassCode() != null ? security.getClassCode().getClassCodeType() : KFSConstants.EMPTY_STRING;
-
         KEMService kemService = SpringContext.getBean(KEMService.class);
-        BigDecimal marketValue = kemService.getMarketValue(this.units, security.getUnitValue(), classCodeType);
+        BigDecimal marketValue = kemService.getMarketValue(this.getSecurityId());
 
         return marketValue;
     }

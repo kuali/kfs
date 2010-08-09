@@ -27,41 +27,30 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep;
-import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
+import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.validation.impl.TicklerRule;
-import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KEMServiceImpl implements KEMService {
 
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
+    private CurrentTaxLotService currentTaxLotService;
 
     private static Logger log = org.apache.log4j.Logger.getLogger(KEMServiceImpl.class);
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.math.BigDecimal, java.math.BigDecimal,
-     *      java.lang.String)
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.lang.String)
      */
-    public BigDecimal getMarketValue(BigDecimal units, BigDecimal unitValue, String classCodeType) {
+    public BigDecimal getMarketValue(String securityId) {
 
-        BigDecimal marketValue = BigDecimal.ZERO;
+        BigDecimal marketValue = currentTaxLotService.getHoldingMarketValueSumForSecurity(securityId);
 
-        if (ObjectUtils.isNotNull(units) && ObjectUtils.isNotNull(unitValue)) {
-            if (EndowConstants.ClassCodeTypes.BOND.equalsIgnoreCase(classCodeType)) {
-                marketValue = KEMCalculationRoundingHelper.divide(units.multiply(unitValue), new BigDecimal(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-            }
-            else {
-                marketValue = KEMCalculationRoundingHelper.multiply(units, unitValue, EndowConstants.Scale.SECURITY_MARKET_VALUE);
-            }
-        }
         return marketValue;
     }
 
@@ -130,8 +119,7 @@ public class KEMServiceImpl implements KEMService {
     /**
      * @see org.kuali.kfs.module.endow.document.service.KEMService#getCurrentSystemProcessDate()
      */
-    public String getCurrentSystemProcessDateFormated() throws Exception 
-    {
+    public String getCurrentSystemProcessDateFormated() throws Exception {
         return getDateTimeService().toDateString(getCurrentDate());
     }
 
@@ -186,40 +174,41 @@ public class KEMServiceImpl implements KEMService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getAvailableCashPercent()
-     * Gets the AVAILABLE_CASH_PERCENT system parameter
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getAvailableCashPercent() Gets the AVAILABLE_CASH_PERCENT system
+     *      parameter
      * @return AVAILABLE_CASH_PERCENT value
      */
     public BigDecimal getAvailableCashPercent() {
         BigDecimal availableCashPercent = BigDecimal.ZERO;
-        
+
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String systemParameterAvailablePercent = parameterService.getParameterValue(AvailableCashUpdateStep.class, EndowParameterKeyConstants.AvailableCashUpdateConstants.AVAILABLE_CASH_PERCENT);
         availableCashPercent = new BigDecimal(systemParameterAvailablePercent);
-        
+
         return availableCashPercent;
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth()
-     * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() Gets the
+     *      FISCAL_YEAR_END_DAY_AND_MONTH system parameter
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
     public Date getFiscalYearEndDayAndMonth() {
         Date fiscalDate = null;
-        
+
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String yearEndDateAndMonth = parameterService.getParameterValue(Batch.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH);
-        
+
         Calendar calendar = Calendar.getInstance();
         yearEndDateAndMonth = yearEndDateAndMonth.concat("/") + calendar.get(Calendar.YEAR);
-        
+
         try {
             fiscalDate = getDateTimeService().convertToDate(yearEndDateAndMonth);
-        } catch (ParseException pe) {
+        }
+        catch (ParseException pe) {
             return null;
         }
-        
+
         return fiscalDate;
     }
 
@@ -257,6 +246,15 @@ public class KEMServiceImpl implements KEMService {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the currentTaxLotService.
+     * 
+     * @param currentTaxLotService
+     */
+    public void setCurrentTaxLotService(CurrentTaxLotService currentTaxLotService) {
+        this.currentTaxLotService = currentTaxLotService;
     }
 
 }

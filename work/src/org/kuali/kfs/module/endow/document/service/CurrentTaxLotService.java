@@ -40,45 +40,58 @@ public interface CurrentTaxLotService {
      * 
      * @param currentTaxLotBalance
      */
-    public void updateCurrentTaxLotBalance(CurrentTaxLotBalance currentTaxLotBalance);  
-    
+    public void updateCurrentTaxLotBalance(CurrentTaxLotBalance currentTaxLotBalance);
+
     /**
      * clears all the records from the CurrentTaxLotBalance table.
      */
     public void clearAllCurrentTaxLotRecords();
-    
+
     /**
      * Method to copy HoldingTaxLot record to currentTaxLotBalance record
+     * 
      * @param holdingTaxLot
      * @return currentTaxLotBalance
      */
     public CurrentTaxLotBalance copyHoldingTaxLotToCurrentTaxLotBalance(HoldingTaxLot holdingTaxLot);
-    
+
     /**
      * Method to get the security unit value for the current balance tax lot record
+     * 
      * @param securityId
      * @return securityUnitValue
      */
     public BigDecimal getCurrentTaxLotBalanceSecurityUnitValue(String securityId);
-    
+
     /**
      * Method to calculate Next Twelve Months Estimated value
+     * 
      * @param securityId
      * @return nextTwelveMonthsEstimatedValue
      */
     public BigDecimal getNextTwelveMonthsEstimatedValue(HoldingTaxLot holdingTaxLot, String securityId);
-    
+
     /**
      * Method to calculate remainder of fiscal year estimated income
+     * 
      * @param securityId
      * @return remainderOfFiscalYearEstimatedIncome
      */
     public BigDecimal getRemainderOfFiscalYearEstimatedIncome(HoldingTaxLot holdingTaxLot, String securityId);
-    
+
     /**
      * Method to calculate next fiscal year investment income
+     * 
      * @param securityId
      * @return nextFiscalyearInvestmentIncome
      */
-    public BigDecimal getNextFiscalYearInvestmentIncome(HoldingTaxLot holdingTaxLot, String securityId);    
+    public BigDecimal getNextFiscalYearInvestmentIncome(HoldingTaxLot holdingTaxLot, String securityId);
+
+    /**
+     * Gets the Sum of the HLDG _MVAL for all records for the Security in END_CURR_TAX_LOT_BAL_T.
+     * 
+     * @param securityId the security for which we return the sum
+     * @return the Sum of the HLDG _MVAL for all records for the Security
+     */
+    public BigDecimal getHoldingMarketValueSumForSecurity(String securityId);
 }

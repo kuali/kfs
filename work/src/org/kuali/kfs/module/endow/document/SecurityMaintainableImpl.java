@@ -17,15 +17,12 @@ package org.kuali.kfs.module.endow.document;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.ParseException;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,11 +32,8 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class SecurityMaintainableImpl extends KualiMaintainableImpl {
@@ -86,7 +80,7 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
                 newSecurity.setPreviousUnitValueDate(oldSecurity.getValuationDate());
             }
 
-            // when dividend amount is changed take the new value times 4 and pply to income rate
+            // when dividend amount is changed take the new value times 4 and apply to income rate
             if (!ObjectUtils.equals(newSecurity.getDividendAmount(), oldSecurity.getDividendAmount())) {
                 if (newSecurity.getDividendAmount() == null) {
                     newSecurity.setIncomeRate(null);
@@ -128,6 +122,7 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
         newSecurity.setPreviousUnitValueDate(null);
         newSecurity.setCarryValue(null);
         newSecurity.setMarketValue(BigDecimal.ZERO);
+        newSecurity.setSecurityValueByMarket(BigDecimal.ZERO);
         newSecurity.setLastTransactionDate(null);
         newSecurity.setIncomeNextPayDate(null);
         // newSecurity.setIncomeRate(null);
@@ -137,24 +132,6 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
         newSecurity.setDividendPayDate(null);
         newSecurity.setDividendAmount(null);
         newSecurity.setNextFiscalYearDistributionAmount(null);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterPost(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.util.Map)
-     */
-    @Override
-    public void processAfterPost(MaintenanceDocument maintDoc, Map<String, String[]> parameters) {
-        super.processAfterPost(maintDoc, parameters);
-
-        initializeAttributes(maintDoc);
-
-        // compute and set market value or unit value depending on valuation method
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction())) {
-
-            SecurityService securityService = SpringContext.getBean(SecurityService.class);
-            securityService.computeValueBasedOnValuationMethod(newSecurity);
-        }
     }
 
     /**

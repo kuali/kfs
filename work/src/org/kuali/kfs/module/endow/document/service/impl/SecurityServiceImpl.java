@@ -48,11 +48,11 @@ public class SecurityServiceImpl implements SecurityService {
         Security security = null;
         if (StringUtils.isNotBlank(id)) {
             Map criteria = new HashMap();
-            
+
             if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(Security.class, EndowPropertyConstants.SECURITY_ID)) {
                 id = id.toUpperCase();
             }
-            
+
             criteria.put("id", id);
 
             security = (Security) businessObjectService.findByPrimaryKey(Security.class, criteria);
@@ -109,19 +109,17 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     /**
-     * Computes the market value based on the unit value.
+     * Computes the market value.
      * 
      * @param security the security for which we calculate the market value
      * @return the computed market value
      */
     public BigDecimal getSecurityMarketValue(Security security) {
         BigDecimal marketValue = BigDecimal.ZERO;
-        BigDecimal unitsHeld = security.getUnitsHeld();
-        BigDecimal unitValue = security.getUnitValue();
-        ClassCode classCode = security.getClassCode();
+        String securityId = security.getId();
 
-        if (ObjectUtils.isNotNull(classCode)) {
-            marketValue = kemService.getMarketValue(unitsHeld, unitValue, classCode.getClassCodeType());
+        if (ObjectUtils.isNotNull(securityId)) {
+            marketValue = kemService.getMarketValue(securityId);
         }
 
         return marketValue;

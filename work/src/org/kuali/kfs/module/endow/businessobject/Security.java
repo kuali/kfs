@@ -71,9 +71,8 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
     // digit is computed using the mod10 method
     private String userEnteredSecurityIDprefix;
 
-    // this field is not saved in the database but computed based on unitsHeld and unitValue
-    // if valuation method is units then the unit value entered is stored in db, if valuation method is market value than the
-    // marketValue is entered by the user and the unit value is computed and stored in the db
+    // this field is not saved in the database but computed based on Sum of the HLDG _MVAL for all records for the Security in
+    // END_CURR_TAX_LOT_BAL_T
     private BigDecimal marketValue;
 
     private ClassCode classCode;
@@ -658,12 +657,11 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
         super.afterLookup(persistenceBroker);
 
         KEMService kemService = SpringContext.getBean(KEMService.class);
-        String classCodeType = this.getClassCode() != null ? this.getClassCode().getClassCodeType() : KFSConstants.EMPTY_STRING;
 
         // after a lookup is performed for Securities the market values is computed for display and the UserEnteredSecurityIDprefix
         // is retrieved and set so that we don't get a required field error
-        BigDecimal marketValue = kemService.getMarketValue(this.unitsHeld, this.unitValue, classCodeType);
         String securityID = this.getId();
+        BigDecimal marketValue = kemService.getMarketValue(this.id);
 
         this.setMarketValue(marketValue);
         // set user entered security ID prefix based on the security ID so that we don't get a required field error.

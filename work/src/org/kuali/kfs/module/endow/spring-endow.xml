@@ -276,6 +276,9 @@
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>
+	    <property name="currentTaxLotBalanceDao">
+			<ref bean="currentTaxLotBalanceDao" />
+		</property>
  	</bean>
  
     <bean id="endowModuleService" parent="endowModuleService-parentBean"/>
@@ -404,7 +407,10 @@
 		</property>	
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>				
+		</property>	
+		<property name="currentTaxLotService">
+			<ref bean="currentTaxLotService" />
+		</property>		
 	</bean>
 		
 	<bean id="holdingTaxLotLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.HoldingTaxLotLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
@@ -667,4 +673,8 @@
             <ref bean="transactionArchiveLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="currentTaxLotBalanceDao" parent="platformAwareDao"
+		class="org.kuali.kfs.module.endow.dataaccess.impl.CurrentTaxLotBalanceDaoOjb">
+	</bean>
 </beans>

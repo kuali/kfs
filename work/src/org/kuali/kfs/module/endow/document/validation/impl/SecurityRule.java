@@ -70,6 +70,8 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             isValid &= checkClassCode();
             isValid &= checkCustomRequiredFields();
             isValid &= checkUnitValue();
+            isValid &= checkValuesBasedOnValuationMethod();
+
         }
 
         return isValid;
@@ -189,6 +191,39 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             String oldClassCodeType = oldSecurity.getClassCode().getClassCodeType();
             if (!oldClassCodeType.equalsIgnoreCase(newSecurity.getClassCode().getClassCodeType())) {
                 putFieldError(EndowPropertyConstants.SECURITY_CLASS_CODE, EndowKeyConstants.SecurityConstants.EROR_NEW_SECURITY_CLASS_CODE_TYPE_MUST_EQUAL_OLD_SEC_CLASS_CODE_TYPE);
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Checks the following two rules: 5. If the class code for the security has a valuation method of U (Unit Value), the user can
+     * only enter a value in the SEC_UNIT_VAL. No entry is allowed in the SEC_VAL_BY_MKT field. 8. If the class code for the
+     * security has a valuation method of M (Market Value), the user can only enter a value in the SEC_ SEC_VAL_BY_MKT field. No
+     * entry is allowed in the SEC_UNIT_VAL field.
+     * 
+     * @return
+     */
+    private boolean checkValuesBasedOnValuationMethod() {
+
+        boolean isValid = true;
+
+        newSecurity.refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
+        ClassCode classCode = newSecurity.getClassCode();
+
+        // If the class code for the security has a valuation method of U (Unit Value), the user can only enter a value in the
+        // SEC_UNIT_VAL. No entry is allowed in the SEC_VAL_BY_MKT field.
+        if (classCode != null && EndowConstants.ValuationMethod.UNITS.equalsIgnoreCase((classCode.getValuationMethod()))) {
+            if (newSecurity.getMarketValue() != null) {
+                putFieldError(EndowPropertyConstants.SECURITY_VALUE_BY_MARKET, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_VAL_BY_MKT_MUST_BE_EMPTY_WHEN_VAL_MTHD_UNITS);
+            }
+        }
+        // If the class code for the security has a valuation method of M (Market Value), the user can only enter a value in the
+        // SEC_ SEC_VAL_BY_MKT field. No entry is allowed in the SEC_UNIT_VAL field.
+        if (classCode != null && EndowConstants.ValuationMethod.MARKET.equalsIgnoreCase((classCode.getValuationMethod()))) {
+            if (newSecurity.getUnitValue() != null) {
+                putFieldError(EndowPropertyConstants.SECURITY_UNIT_VALUE, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_UNIT_VAL_MUST_BE_EMPTY_WHEN_VAL_MTHD_MARKET);
             }
         }
 

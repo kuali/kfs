@@ -84,6 +84,7 @@ public class EndowPropertyConstants {
     public static final String SECURITY_CLASS_CODE_REF = "classCode";
     public static final String SECURITY_SUBCLASS_CODE_REF = "subclassCode";
     public static final String SECURITY_FREQUENCY_CODE_REF = "frequencyCode";
+    public static final String SECURITY_VALUE_BY_MARKET = "securityValueByMarket";
 
     public static final String REPORTING_GROUP_DESC = "classCode.reportingGroup.securityReportingGrpDesc";
     public static final String ACCRUAL_METHOD_DESC = "classCode.accrualMethod.accrualMethodDesc";

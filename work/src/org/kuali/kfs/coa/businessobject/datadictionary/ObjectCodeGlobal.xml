@@ -37,9 +37,9 @@
         <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
         <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
         <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>     
-        <!-- <ref bean="ObjectCode-rschBudgetCategoryCode"/> -->
-        <ref bean="ObjectCode-rschOnCampusIndicator"/>
-        <ref bean="ObjectCode-rschObjectCodeDescription"/>
+        <ref bean="ObjectCodeGlobal-rschBudgetCategoryCode"/>
+        <ref bean="ObjectCodeGlobal-rschOnCampusIndicator"/>
+        <ref bean="ObjectCodeGlobal-rschObjectCodeDescription"/>
       </list>
     </property>  
     <property name="relationships">

@@ -22,12 +22,12 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 public interface BudgetCategory extends ExternalizableBusinessObject {
     
     public String getBudgetCategoryCode();    
-    public void setBudgetCategoryCode(String budgetCategoryCode);
+//    public void setBudgetCategoryCode(String budgetCategoryCode);
           
     public String getBudgetCategoryTypeCode();        
-    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode);
+//    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode);
     
     public String getDescription();
-    public void setDescription(String description);
+//   public void setDescription(String description);
 
 }

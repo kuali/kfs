@@ -204,7 +204,7 @@
   <bean id="ObjectCode-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
   <bean id="ObjectCode-rschObjectCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rschObjectCodeDescription"/>
-    <property name="label" value="Object Code Description for RSCH"/>
+    <property name="label" value="Object Code Description"/>
     <property name="shortLabel" value="RschObjectCodeDescription"/>
     <property name="maxLength" value="200"/>
     <property name="control">

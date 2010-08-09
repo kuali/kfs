@@ -1,0 +1,2 @@
+alter table END_POOL_FND_CTRL_T drop column PF_BATCH_ID; 
+alter table END_POOL_FND_CTRL_T add FRXNL_SHS_IND VARCHAR2(1) DEFAULT 'N' NOT NULL; 

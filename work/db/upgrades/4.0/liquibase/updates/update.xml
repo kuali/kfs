@@ -183,4 +183,6 @@
 <include file="updates/2010-07-27-5898-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-07-27-5869-1-CB_PRTG_T.xml"/>
 <include file="updates/2010-08-04-5578i-1-END_ENDOW_ACCT_LINES_T.xml"/>
+<include file="updates/2010-08-09-5476k-1-END_POOL_FND_CTRL_T.xml"/>
+<include file="updates/2010-08-09-5476l-1-END_SEC_T.xml"/>
 </databaseChangeLog>

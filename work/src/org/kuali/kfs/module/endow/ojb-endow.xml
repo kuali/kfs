@@ -512,6 +512,7 @@
 	<field-descriptor name="dividendAmount" column="SEC_DVDND_AMT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="commitmentAmount" column="CMTMNT_AMT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="nextFiscalYearDistributionAmount" column="NXT_FSCL_YR_DSTRB_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="securityValueByMarket" column="SEC_VAL_BY_MKT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	
 	<reference-descriptor name="classCode" class-ref="org.kuali.kfs.module.endow.businessobject.ClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

@@ -307,10 +307,19 @@ def evaluateList(table, cols, vals)
             newDate = ""
             dateArray = (token =~ /(?i)TO_DATE[^0-9]+([0-9]+)[^0-9]+([0-9]+)[^0-9]+([0-9]+).*/)
             if (dateArray.matches()) {
-                month = (dateArray[0][1].size() == 2) ? dateArray[0][1] : "0" + dateArray[0][1]
-                day = (dateArray[0][2].size() == 2) ? dateArray[0][2] : "0" + dateArray[0][2]
-                newDate = dateArray[0][3] + '-' + month + "-" + day
-                table.getChanges() << new Column(name : tokenType, valueDate : newDate )
+                  if (vals[i+1].toUpperCase().startsWith('\'YYYY-MM-DD\'') == true) {
+                    month = (dateArray[0][2].size() == 2) ? dateArray[0][2] : "0" + dateArray[0][2]
+                    day = (dateArray[0][3].size() == 2) ? dateArray[0][3] : "0" + dateArray[0][3]
+                    newDate = dateArray[0][1] + '-' + month + "-" + day
+                    table.getChanges() << new Column(name : tokenType, valueDate : newDate )
+
+                } else {      
+
+                    month = (dateArray[0][1].size() == 2) ? dateArray[0][1] : "0" + dateArray[0][1]
+                    day = (dateArray[0][2].size() == 2) ? dateArray[0][2] : "0" + dateArray[0][2]
+                    newDate = dateArray[0][3] + '-' + month + "-" + day
+                    table.getChanges() << new Column(name : tokenType, valueDate : newDate )     
+                }
             } else {
                 // TO_DATE('', 'mm/dd/yyyy'),
                 newDate = ""
@@ -473,7 +482,7 @@ def checkAlters(line,tables)
          table = new Table(tableName: liquibaseTableName)
          tables << table
          println "modify " + matcher[0][4]
-         if (matcher[0][4] != null) {
+         if ((matcher[0][4] != null ) && (matcher[0][4] != '')) {
               table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), defaultValue : matcher[0][4])
          } else {
              table.getChanges() << new AlterColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase())
@@ -510,7 +519,7 @@ def checkAlters(line,tables)
              return true
             
          }
-         defaultMatch = (matcher[0][3] =~ /(?i)[ ]*FOREIGN KEY[ ]+\((.+)\)[ ]+REFERENCES[ ]+([a-zA-Z1-9_-]+)[ ]+[(](.+)\).*/)
+         defaultMatch = (matcher[0][3] =~ /(?i)[ ]*FOREIGN KEY[ ]*\((.+)\)[ ]*REFERENCES[ ]+([a-zA-Z1-9_-]+)[ ]*[(](.+)\).*/)
          if (defaultMatch.matches()) {
              println(" alter Foreign " + matcher[0][1] + " key " + matcher[0][2] + " on " + defaultMatch[0][1])
              liquibaseBaseColumnNames = defaultMatch[0][1]
@@ -618,7 +627,7 @@ def checkCreateTableLines(line, table)
         matcher = (line =~ /(?i)^CREATE TABLE ([a-zA-Z1-9_-]+).*/)
         if (matcher.matches() == true) return
      
-        matcher = (line =~ /(?i)^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ \t]+([^ ]+\(.+\))(.*)/)  //  <name>  <type>(<size>)
+        matcher = (line =~ /(?i)^[^a-zA-Z]*([a-zA-Z0-9_-]+)[ \t]+([^ ]+\(.+\))(.*),/)  //  <name>  <type>(<size>)
         if (matcher.matches()) {
              println( matcher.getCount() + "cols " + matcher[0][1] + "val " + matcher[0][2])
              liquibaseColumnName = matcher[0][1]
@@ -654,6 +663,9 @@ def checkCreateTableLines(line, table)
              }
              return
          }
+         matcher = (line =~ /\);/)
+         if (matcher.matches()) return
+         
          println "*** cannot decode " + line
 }
 

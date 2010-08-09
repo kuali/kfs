@@ -29,7 +29,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class PooledFundControl extends PersistableBusinessObjectBase implements Inactivateable {
     private String pooledSecurityID;
     private String pooledFundDescription;
-    private String batchID;
     private Integer incrementValuationDays;
     private String fundKEMID;
     private String fundAssetPurchaseOffsetTranCode;
@@ -104,25 +103,6 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
      */
     public void setPooledFundDescription(String pooledFundDescription) {
         this.pooledFundDescription = pooledFundDescription;
-    }
-
-
-    /**
-     * Gets the batchID.
-     * 
-     * @return batchID
-     */
-    public String getBatchID() {
-        return batchID;
-    }
-
-    /**
-     * Sets the batchID.
-     * 
-     * @param batchID
-     */
-    public void setBatchID(String batchID) {
-        this.batchID = batchID;
     }
 
     /**

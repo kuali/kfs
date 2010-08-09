@@ -671,7 +671,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="pooledFundDescription" column="POOL_FND_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="batchID" column="PF_BATCH_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="incrementValuationDays" column="INCRM_VLTN_DAYS" jdbc-type="INTEGER"/>
 	<field-descriptor name="fundKEMID" column="KEMID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fundAssetPurchaseOffsetTranCode" column="AST_PURCH_OFST_CD" jdbc-type="VARCHAR"/>

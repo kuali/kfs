@@ -53,8 +53,9 @@
 	            <td colspan="8" class="tab-subhead" style="border-right: none;border-left: none;" >
 	            &nbsp;
 	            </td>
-	            <c:if test="${isSource}">
-                <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+	            <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+	            <c:if test="${isSource and (not readOnly)}">
+                
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideSourceEndowImport() {
@@ -84,10 +85,9 @@
 						<html:file size="30" property="${importFile}" style="font:10px;height:16px;" />
 						<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
-				</td>
+
 				</c:if>
-				<c:if test="${not isSource}">
-				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+				<c:if test="${not isSource and (not readOnly)}">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideTargetEndowImport() {
@@ -117,8 +117,9 @@
 						<html:file size="30" property="${importFile}" style="font:10px;height:16px;" />
 						<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
-				</td>
+				
 				</c:if>
+				</td>
 	    </tr>
 	    
 	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">

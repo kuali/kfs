@@ -77,8 +77,9 @@
 	            <td colspan="5" class="tab-subhead" style="border-right: none;border-left: none;" >
 	            &nbsp;
 	            </td>
-	            <c:if test="${isSource}">
-                <td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+				
+				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+			    <c:if test="${isSource and (not readOnly)}">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideSourceTranImport() {
@@ -108,10 +109,8 @@
 						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
 						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
-				</td>
 				</c:if>
-				<c:if test="${not isSource}">
-				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
+				<c:if test="${not isSource and (not readOnly)}">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideTargetTranImport() {
@@ -141,8 +140,9 @@
 						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
 						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
+					</c:if>
 				</td>
-				</c:if>
+				
 	    </tr>
 	    
 	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">
@@ -174,9 +174,8 @@
             <c:if test="${hasUnits}">
            		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
             </c:if>	
-            <c:if test="${not readOnly}">
-                <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
-            </c:if>
+
+            <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
 		</tr>
         <c:if test="${not readOnly}">
             <tr>

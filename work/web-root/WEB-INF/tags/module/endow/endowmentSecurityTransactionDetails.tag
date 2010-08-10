@@ -126,7 +126,7 @@
 						/>
 				</c:if>
 				<br/>
-				<div id="registration.description" style="height:20px;">
+				<div id="registration.description" class="fineprint">
             		<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="document.${securityType}.registrationCodeObj.name" readOnly="true" />
             	</div>		
             </td> 

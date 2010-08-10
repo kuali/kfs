@@ -787,15 +787,14 @@ public class LaborCorrectionAction extends CorrectionAction {
 
         laborCorrectionForm.setPersistedOriginEntriesMissing(false);
         List<LaborOriginEntry> laborSearchResults = laborCorrectionDocumentService.retrievePersistedInputOriginEntries(document, recordCountFunctionalityLimit);
-        List<OriginEntryFull> searchResults = new ArrayList();
-        searchResults.addAll(laborSearchResults);
-        if (searchResults == null) {
+        if (laborSearchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
             laborCorrectionForm.setRestrictedFunctionalityMode(true);
             updateDocumentSummary(document, null, true);
         }
         else {
-            laborCorrectionForm.setAllEntries(searchResults);
+            List<OriginEntryFull> searchResults = new ArrayList();
+            searchResults.addAll(laborSearchResults);
             laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(searchResults));
 
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);

@@ -1320,7 +1320,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * Show all entries for Manual edit with groupId and persist these entries to the DB
      */
     
-    //TODO: Shawn - need to check - this method is using for docHandler, but commented out 
+    //TODO: need to check - this method is using for docHandler, but commented out 
     protected void loadPersistedInputGroup(CorrectionForm correctionForm) throws Exception {
 
         GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();

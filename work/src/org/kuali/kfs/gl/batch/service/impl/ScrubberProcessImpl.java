@@ -1110,7 +1110,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      * Get all the transaction descriptions from the param table
      */
     protected void setDescriptions() {
-        //TODO: Shawn - might need to use constants
+        //TODO: move to constants class?
         offsetDescription = "GENERATED OFFSET";
         capitalizationDescription = "GENERATED CAPITALIZATION";
         liabilityDescription = "GENERATED LIABILITY";

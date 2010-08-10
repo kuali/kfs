@@ -67,7 +67,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      * @see org.kuali.kfs.gl.batch.service.CollectorScrubberService#removeTempGroups(java.util.Collection)
      */
     
-    //TODO: Shawn - need to delete couple files
+    //TODO: need to delete files
     public void removeTempGroups(Collection<CollectorScrubberStatus> allStatusObjectsFromCollectorExecution) {
     }
 

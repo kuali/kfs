@@ -39,6 +39,10 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
     private String referenceFinancialSystemOriginationCode;
     private String referenceFinancialDocumentNumber;
     private String financialDocumentAccountingLineText;
+    private String taxNQIId;
+    private Boolean taxOtherExemptIndicator;
+    private Boolean taxUSAIDPerDiemIndicator;
+    protected KualiDecimal taxSpecialW4Amount;
 
     private TaxIncomeClassCode incomeClass;
 
@@ -254,6 +258,78 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
     }
 
     /**
+     * Gets the taxNQIId attribute.
+     * 
+     * @return Returns the taxNQIId.
+     */
+    public String getTaxNQIId() {
+        return taxNQIId;
+    }
+
+    /**
+     * Gets the taxOtherExemptIndicator attribute.
+     * 
+     * @return Returns the taxOtherExemptIndicator.
+     */
+    public Boolean getTaxOtherExemptIndicator() {
+        return taxOtherExemptIndicator;
+    }
+
+    /**
+     * Gets the taxUSAIDPerDiemIndicator attribute.
+     * 
+     * @return Returns the taxUSAIDPerDiemIndicator.
+     */
+    public Boolean getTaxUSAIDPerDiemIndicator() {
+        return taxUSAIDPerDiemIndicator;
+    }
+
+    /**
+     * Gets the taxSpecialW4Amount attribute.
+     * 
+     * @return Returns the taxSpecialW4Amount.
+     */
+    public KualiDecimal getTaxSpecialW4Amount() {
+        return taxSpecialW4Amount;
+    }
+
+    /**
+     * Sets the taxNQIId attribute value.
+     * 
+     * @param taxNQIId The taxNQIId to set.
+     */
+    public void setTaxNQIId(String taxNQIId) {
+        this.taxNQIId = taxNQIId;
+    }
+
+    /**
+     * Sets the taxOtherExemptIndicator attribute value.
+     * 
+     * @param taxOtherExemptIndicator The taxOtherExemptIndicator to set.
+     */
+    public void setTaxOtherExemptIndicator(Boolean taxOtherExemptIndicator) {
+        this.taxOtherExemptIndicator = taxOtherExemptIndicator;
+    }
+
+    /**
+     * Sets the taxUSAIDPerDiemIndicator attribute value.
+     * 
+     * @param taxUSAIDPerDiemIndicator The taxUSAIDPerDiemIndicator to set.
+     */
+    public void setTaxUSAIDPerDiemIndicator(Boolean taxUSAIDPerDiemIndicator) {
+        this.taxUSAIDPerDiemIndicator = taxUSAIDPerDiemIndicator;
+    }
+
+    /**
+     * Sets the taxSpecialW4Amount attribute value.
+     * 
+     * @param taxSpecialW4Amount The taxSpecialW4Amount to set.
+     */
+    public void setTaxSpecialW4Amount(KualiDecimal taxSpecialW4Amount) {
+        this.taxSpecialW4Amount = taxSpecialW4Amount;
+    }
+
+    /**
      * Gets the incomeClass attribute.
      * 
      * @return Returns the incomeClass
@@ -293,6 +369,7 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);

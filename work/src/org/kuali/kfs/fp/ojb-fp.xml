@@ -1316,6 +1316,10 @@
     <field-descriptor name="referenceFinancialSystemOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentAccountingLineText" column="FDOC_ACCTG_LN_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="taxSpecialW4Amount" column="SPCL_W4_INC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="taxUSAIDPerDiemIndicator" column="USAID_DIEM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="taxOtherExemptIndicator" column="INC_TAX_EXMPT_CD_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="taxNQIId" column="NQI_CUST_TAX_ID" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="incomeClass" class-ref="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="incomeClassCode" />

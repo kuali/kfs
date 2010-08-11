@@ -23,24 +23,12 @@ public interface KcUnit extends ExternalizableBusinessObject {
       
     public String getUnitNumber();
 
-    public void setUnitNumber(String unitNumber);
-
     public String getParentUnitNumber();
 
-    public void setParentUnitNumber(String parentUnitNumber);
-
-    public String getOrganizationId();
-
-    public void setOrganizationId(String organizationId);
+     public String getOrganizationId();
 
     public String getUnitName();
 
-
-    public void setUnitName(String unitName);
-
     public List<String> getUnitAdministrators();
-
-
-    public void setUnitAdministrators(List<String> unitAdministrators);
      
 }

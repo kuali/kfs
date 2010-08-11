@@ -186,4 +186,5 @@
 <include file="updates/2010-08-09-5476k-1-END_POOL_FND_CTRL_T.xml"/>
 <include file="updates/2010-08-09-5476l-1-END_SEC_T.xml"/>
 <include file="updates/2010-08-09-5477f-1-END_ETRANS_GL_LNK_T.xml"/>
+<include file="updates/2010-08-10-5926-1-FP_DV_NRA_TAX_T.xml"/>
 </databaseChangeLog>

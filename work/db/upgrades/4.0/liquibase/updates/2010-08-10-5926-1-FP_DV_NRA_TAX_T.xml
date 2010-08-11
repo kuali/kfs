@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Sam' id='5926-1-1' failOnError='true'>
+    <comment>Add new fields to table FP_DV_NRA_TAX_T   </comment>
+    <addColumn tableName='FP_DV_NRA_TAX_T'>
+      <column name='SPCL_W4_INC_AMT' type='NUMBER(19,2)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Sam' id='5926-1-2' failOnError='true'>
+    <comment>Add new fields to table FP_DV_NRA_TAX_T   </comment>
+    <addColumn tableName='FP_DV_NRA_TAX_T'>
+      <column name='USAID_DIEM_IND' type='VARCHAR2(1)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Sam' id='5926-1-3' failOnError='true'>
+    <comment>Add new fields to table FP_DV_NRA_TAX_T   </comment>
+    <addColumn tableName='FP_DV_NRA_TAX_T'>
+      <column name='INC_TAX_EXMPT_CD_OTHR_IND' type='VARCHAR2(1)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Sam' id='5926-1-4' failOnError='true'>
+    <comment>Add new fields to table FP_DV_NRA_TAX_T   </comment>
+    <addColumn tableName='FP_DV_NRA_TAX_T'>
+      <column name='NQI_CUST_TAX_ID' type='VARCHAR2(50)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

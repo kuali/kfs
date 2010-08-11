@@ -59,7 +59,8 @@
         <property name="jobNames">
             <list>
 				<value>availableCashUpdatesJob</value>
-				<value>currentTaxLotBalancesUpdateJob</value>				
+				<value>currentTaxLotBalancesUpdateJob</value>	
+				<value>createAccrualTransactionsJob</value>			
             </list>
         </property>
     </bean>
@@ -229,6 +230,41 @@
 			<ref bean="KEMIDService" />
 		</property>		
 	</bean>
+ 	<bean id="createAccrualTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createAccrualTransactionsStep" />
+			</list>
+		</property>
+	</bean>	
+	<bean id="createAccrualTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep" parent="step">
+		<property name="createAccrualTransactionsService">
+			<ref bean="createAccrualTransactionsService" />
+		</property>
+	</bean>
+	
+	<bean id="createAccrualTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>
+		<property name="securityDao">
+			<ref bean="securityDao" />
+		</property>
+		
+	</bean>
+	
+	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
  	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>
 
  	<bean id="typeRestrictionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TypeRestrictionCodeServiceImpl">

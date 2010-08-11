@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao;
@@ -55,5 +59,41 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
 
         return (Collection<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
     }
+
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
+
+        List result = new ArrayList();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
+        criteria.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE, 0);
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(HoldingTaxLot.class, criteria);
+
+        // set the selection attributes
+        query.setAttributes(new String[] { "sum(" + EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE + ")" });
+
+        List groupByList = new ArrayList();
+
+        groupByList.add(EndowPropertyConstants.KEMID);
+        groupByList.add(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE);
+        groupByList.add(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR);
+
+        // add the group criteria into the selection statement
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        query.addGroupBy(groupBy);
+
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+
+        while (iter.hasNext()) {
+            Object collectionEntry = iter.next();
+        }
+
+        return result;
+    }
+
 
 }

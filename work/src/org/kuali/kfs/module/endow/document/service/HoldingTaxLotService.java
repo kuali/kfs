@@ -139,4 +139,11 @@ public interface HoldingTaxLotService {
      * @return a list of tax lots
      */
     public List<HoldingTaxLot> getAllTaxLots();
+    
+    /**
+     * This method...
+     * @param securityId
+     * @return
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 }

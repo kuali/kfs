@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 
@@ -43,5 +45,13 @@ public interface HoldingTaxLotDao {
      * @param incomePrincipalIndicator
      * @return a collection of tax lots that meet the criteria
      */
-    public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator);    
+    public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator);
+
+    /**
+     * This method...
+     * 
+     * @param securityId
+     * @return
+     */
+    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 }

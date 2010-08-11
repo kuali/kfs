@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.kc.KcConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.service.ParameterService;
 public class ObjectCodeDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     
     /**
-     * Hide the research admin attributes 
+     * Determins whether to display the research admin attributes or not
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenSectionIds(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -35,8 +35,8 @@ public class ObjectCodeDocumentPresentationController extends FinancialSystemMai
         Set<String> hiddenSectionIds = super.getConditionallyHiddenSectionIds(businessObject);
         
         //  consult the system param on whether to hide the research admin attributes tab
-        if (!"Y".equalsIgnoreCase(SpringContext.getBean(ParameterService.class).getParameterValue(ObjectCode.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND))) {
-            hiddenSectionIds.add(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES);
+        if (!"Y".equalsIgnoreCase(SpringContext.getBean(ParameterService.class).getParameterValue(ObjectCode.class, KFSConstants.ObjectCodeConstants.PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND))) {
+            hiddenSectionIds.add(KFSConstants.ObjectCodeConstants.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES);
         }
 
         return hiddenSectionIds;

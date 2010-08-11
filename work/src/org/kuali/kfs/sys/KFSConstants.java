@@ -822,6 +822,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     public static class ObjectCodeConstants {
         public static final String INACTIVE_OBJECT_LEVEL_QUESTION_ID = "InactiveObjectLevelQuestion";
+        public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
+        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
     }
 
     public static final String MONTH1 = "01";

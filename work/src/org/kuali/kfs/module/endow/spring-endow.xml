@@ -60,7 +60,8 @@
             <list>
 				<value>availableCashUpdatesJob</value>
 				<value>currentTaxLotBalancesUpdateJob</value>	
-				<value>createAccrualTransactionsJob</value>			
+				<value>createAccrualTransactionsJob</value>		
+				<value>rollProcessDateJob</value>	
             </list>
         </property>
     </bean>
@@ -230,6 +231,7 @@
 			<ref bean="KEMIDService" />
 		</property>		
 	</bean>
+	
  	<bean id="createAccrualTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -316,6 +318,31 @@
 			<ref bean="currentTaxLotBalanceDao" />
 		</property>
  	</bean>
+  	
+ 	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="rollProcessDateStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rollProcessDateStep" class="org.kuali.kfs.module.endow.batch.RollProcessDateStep" parent="step">
+		<property name="rollProcessDateService">
+			<ref bean="rollProcessDateService" />
+		</property>
+	</bean>
+	
+	<bean id="rollProcessDateService" class="org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImpl">
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+	</bean>
+ 	<!--  end core batch jobs --> 
+ 
  
     <bean id="endowModuleService" parent="endowModuleService-parentBean"/>
  

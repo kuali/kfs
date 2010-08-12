@@ -44,7 +44,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     private BusinessObjectService businessObjectService;
     protected SecurityService securityService;
     protected KEMService kEMService;
-    protected HoldingTaxLotService holdingTaxLotService;
     private CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
 
     /**
@@ -499,24 +498,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the holdingTaxLotService.
-     * 
-     * @return holdingTaxLotService
-     */
-    public HoldingTaxLotService getHoldingTaxLotService() {
-        return holdingTaxLotService;
-    }
-
-    /**
-     * Sets the holdingTaxLotService.
-     * 
-     * @param holdingTaxLotService
-     */
-    public void setHoldingTaxLotService(HoldingTaxLotService holdingTaxLotService) {
-        this.holdingTaxLotService = holdingTaxLotService;
     }
 
     /**

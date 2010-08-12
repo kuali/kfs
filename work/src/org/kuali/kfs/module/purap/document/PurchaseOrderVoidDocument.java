@@ -59,7 +59,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
        KualiWorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
-       if (workFlowDocument.stateIsCanceled() || ( workFlowDocument.stateIsFinal())) {
+       if (workFlowDocument.stateIsCanceled()) {
            setSourceAccountingLines(new ArrayList());
            setGeneralLedgerPendingEntries(new ArrayList());        
        }
@@ -85,9 +85,10 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
             // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
            
+            
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-
+            
             // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.VOID);
 

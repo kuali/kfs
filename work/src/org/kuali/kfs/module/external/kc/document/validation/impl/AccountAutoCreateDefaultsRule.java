@@ -247,7 +247,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             
         }
         // Check KcUnit required field      
-       UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
+       UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
        UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
        if (unitDTO == null) result = false;
               return result;

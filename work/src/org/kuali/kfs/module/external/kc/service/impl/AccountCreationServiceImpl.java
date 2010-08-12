@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.external.kc.KcConstants;
@@ -367,7 +366,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // if the matching defaults is null, try the parents in the hierarchy
         if (defaults == null) {
             //TODO: verify the KC service name and name space URI from KC
-            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName("KC", "unitServiceSOAP"));
+            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
             List<String> parentUnits = unitService.getParentUnits(unitNumber);
                        
             if (parentUnits != null) {

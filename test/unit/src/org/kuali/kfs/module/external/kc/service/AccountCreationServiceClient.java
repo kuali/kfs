@@ -102,7 +102,7 @@ public class AccountCreationServiceClient extends TestCase
     }
     
     /**
-     * This method tests the remote Service without using KSB
+     * This method tests the remote Service without using KSB so the server should be up before testing
      */
     public void testCreateAccountServiceSoap() 
     {   

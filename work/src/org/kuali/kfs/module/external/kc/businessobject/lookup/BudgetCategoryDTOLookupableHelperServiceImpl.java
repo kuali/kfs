@@ -47,7 +47,7 @@ public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupabl
      
         //TODO: budgetCategoryServiceSOAP should be up
         List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//        BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName("KC", "budgetCategorytServiceSOAP"));
+//        BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE));
 //        budgetCategoryList = budgetCategoryService.lookupBudgetCategories(parameters);
 //        
 //        return budgetCategoryList;

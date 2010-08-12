@@ -25,8 +25,7 @@ import junit.framework.TestCase;
 
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl;
 
 public class AccountCreationServiceClient extends TestCase
 {
@@ -40,7 +39,8 @@ public class AccountCreationServiceClient extends TestCase
     protected void setUp() throws Exception 
     {
         // Initialize service objects.
-        accountCreationService = SpringContext.getBean(AccountCreationService.class);
+        //accountCreationService = SpringContext.getBean(AccountCreationService.class);
+        accountCreationService = new AccountCreationServiceImpl();
         
         // Initialize objects.
         accountParameters = new AccountParametersDTO();

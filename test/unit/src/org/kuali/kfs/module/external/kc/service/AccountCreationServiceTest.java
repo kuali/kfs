@@ -108,7 +108,7 @@ public class AccountCreationServiceTest extends KualiTestBase
  
         AccountCreationStatusDTO creationStatus = accountCreationService.createAccount(accountParameters);
     
-        System.out.println("account number: " + creationStatus.getAccountNumber()); 
+        System.out.println("++++++++++++++++++++++++++++++++++ account number: " + creationStatus.getAccountNumber()); 
         
         assertTrue(creationStatus.getStatus().equals("success"));
     }

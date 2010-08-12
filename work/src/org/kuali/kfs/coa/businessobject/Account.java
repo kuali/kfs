@@ -36,6 +36,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -1003,8 +1005,26 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
 
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        // **** This fix is temporary until Jonathan's fix is reflected to Rice
+        //accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        //return accountFiscalOfficerUser;
+        PersonService<Person> personService = KIMServiceLocator.getPersonService();
+        accountFiscalOfficerUser = personService.getPerson(accountFiscalOfficerSystemIdentifier);
         return accountFiscalOfficerUser;
+    }
+    
+    /**
+     * This fix is temporary until Jonathan's fix is reflected to Rice
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     */
+    public void refreshReferenceObject(String referenceObjectName) {
+        if (referenceObjectName.equals("accountFiscalOfficerUser") ||
+            referenceObjectName.equals("accountSupervisoryUser") ||
+            referenceObjectName.equals("accountManagerUser")) {
+            getAccountFiscalOfficerUser();
+        } else {
+            super.refreshReferenceObject(referenceObjectName);
+        }
     }
 
    /**

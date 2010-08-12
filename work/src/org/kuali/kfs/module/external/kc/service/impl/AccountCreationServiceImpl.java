@@ -120,6 +120,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 
         Account account = new Account();
         
+        //* Account: required but off campus indicator, closed, fringe benefit indicator, fringe benefit COA, endowment                 
         account.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
         account.setOrganizationCode(defaults.getOrganizationCode());
         account.setAccountNumber(parameters.getAccountNumber());  // what if account number is null? 
@@ -128,7 +129,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountExpirationDate(new java.sql.Date(parameters.getExpirationDate().getTime()));
         account.setAccountEffectiveDate(new java.sql.Date(parameters.getEffectiveDate().getTime()));
         
-        // set the right address based on system parameter ACCOUNT_ADDRESS_TYPE
+        // set the right address based on the system parameter ACCOUNT_ADDRESS_TYPE
         List<String> addressTypes = parameterService.getParameterValues(Account.class, KcConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE);
         for (String addressType : addressTypes) {
             if (addressType.equals(KcConstants.AccountCreationService.ADMIN_ADDRESS_TYTPE) && !parameters.getDefaultAddressStreetAddress().isEmpty()) {         
@@ -167,10 +168,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         // fringe benefit
         account.setAccountsFringesBnftIndicator(defaults.isAccountsFringesBnftIndicator());
-//        account.setFringeBenefitsChartOfAccount(new Chart());
-//        if (defaults.getFringeBenefitsChartOfAccount() != null) {
-//            account.getFringeBenefitsChartOfAccount().setChartOfAccountsCode(defaults.getFringeBenefitsChartOfAccount().getChartOfAccountsCode());
-//        }
+
         account.setReportsToAccountNumber(defaults.getReportsToAccountNumber());              
         account.setReportsToChartOfAccountsCode(defaults.getReportsToChartOfAccountsCode());
 
@@ -182,9 +180,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setEndowmentIncomeChartOfAccounts(null);
         account.setEndowmentIncomeAccountNumber(null);
         
+        //* Accounts Responsibility: required - fiscal officer principal name, account supervisor principal name, account manager principla name, budget record level, account sufficient funds         
         account.setAccountFiscalOfficerSystemIdentifier(defaults.getAccountFiscalOfficerSystemIdentifier()); 
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
-        account.setAccountFiscalOfficerUser(personService.getPerson(defaults.getAccountFiscalOfficerSystemIdentifier()));
         
         account.setAccountsSupervisorySystemsIdentifier(defaults.getAccountsSupervisorySystemsIdentifier());
         account.setAccountManagerSystemIdentifier(defaults.getAccountManagerSystemIdentifier());
@@ -192,7 +189,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setContinuationFinChrtOfAcctCd(defaults.getContinuationFinChrtOfAcctCd());
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
-        // income stream account
         account.setIncomeStreamAccountNumber(defaults.getIncomeStreamAccountNumber());
         account.setIncomeStreamChartOfAccounts(new Chart());
         account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getChartOfAccountsCode());
@@ -207,32 +203,30 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setFinPreencumSufficientFundIndicator(defaults.isFinPreencumSufficientFundIndicator());
         account.setFinancialObjectivePrsctrlIndicator(defaults.isFinancialObjectivePrsctrlIndicator());  
 
+        //* Contract and Grants: not required 
         account.setContractControlChartOfAccounts(new Chart());
-        account.getContractControlChartOfAccounts().setChartOfAccountsCode(defaults.getContractControlFinCoaCode());
-        
+        account.getContractControlChartOfAccounts().setChartOfAccountsCode(defaults.getContractControlFinCoaCode());        
         account.setContractControlAccountNumber(defaults.getContractControlAccountNumber());                            
         account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
-        account.setFinancialIcrSeriesIdentifier(defaults.getFinancialIcrSeriesIdentifier()); 
-        
+        account.setFinancialIcrSeriesIdentifier(defaults.getFinancialIcrSeriesIdentifier());         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
-        account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
-        
+        account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());        
         account.setAccountCfdaNumber(parameters.getCfdaNumber());
         
+        //* Guidelines and Purpose: required 
         account.setAccountGuideline(new AccountGuideline());
         account.getAccountGuideline().setAccountExpenseGuidelineText(parameters.getExpenseGuidelineText());
         account.getAccountGuideline().setAccountIncomeGuidelineText(parameters.getIncomeGuidelineText());
         account.getAccountGuideline().setAccountPurposeText(parameters.getPurposeText());
                 
+        //* Account Description: not required 
 //        account.setAccountDescription(new AccountDescription()); 
 //        account.getAccountDescription().setCampusDescription(null);
 //        account.getAccountDescription().setOrganizationDescription(null);
 //        account.getAccountDescription().setResponsibilityCenterDescription(null);
 //        account.getAccountDescription().getBuilding().setCampusCode(null);
-//        account.getAccountDescription().setBuildingCode(null);
-        
-        account.refreshNonUpdateableReferences();
+//        account.getAccountDescription().setBuildingCode(null);        
         
         return account;
     }
@@ -249,16 +243,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         //create a new maintenance document
         MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) createCGAccountMaintenanceDocument(accountCreationStatus);
-        
+ 
         if (ObjectUtils.isNotNull(maintenanceAccountDocument)) {           
             // set document header description...
             maintenanceAccountDocument.getDocumentHeader().setDocumentDescription(KcConstants.AccountCreationService.AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION);
                                    
-            // set the account object in the maintenance document.
-//            account.refreshNonUpdateableReferences();
-//            account.refreshReferenceObject("accountFiscalOfficerUser");
+            // set the account object in the maintenance document.         
             maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-            
+                        
             // the maintenance document will now be routed based on the system parameter value for routing.
             createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountCreationStatus);
         }

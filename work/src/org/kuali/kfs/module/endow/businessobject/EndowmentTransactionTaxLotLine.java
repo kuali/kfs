@@ -41,6 +41,7 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private BigDecimal lotLongTermGainLoss;
     private BigDecimal lotShortTermGainLoss;
     private Date lotAcquiredDate;
+    private boolean newLotIndicator;
 
     private EndowmentTransactionLine transactionLine;
     private KEMID kemidObjRef;
@@ -330,6 +331,24 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     public void setIpIndicator(String ipIndicator) {
         this.ipIndicator = ipIndicator;
     }
+    
+    /**
+     * Gets the newLotIndicator.
+     * 
+     * @return newLotIndicator
+     */
+    public boolean getNewLotIndicator(){
+        return newLotIndicator;
+    }
+
+    /**
+     * Sets the newLotIndicator.
+     * 
+     * @param newLotIndicator
+     */
+    public void setNewLotIndicator (boolean newLotIndicator){
+        this.newLotIndicator = newLotIndicator;
+    }
 
     /**
      * Gets the kemidObjRef.
@@ -403,3 +422,4 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
         this.ipIndicatorObjRef = ipIndicatorObjRef;
     }
 }
+

@@ -1584,6 +1584,7 @@
 	<field-descriptor name="lotLongTermGainLoss" column="LOT_LT_GAIN_LOSS" jdbc-type="DECIMAL" />
 	<field-descriptor name="lotShortTermGainLoss" column="LOT_ST_GAIN_LOSS" jdbc-type="DECIMAL" />
 	<field-descriptor name="lotAcquiredDate" column="LOT_ACQD_DT" jdbc-type="DATE"/>
+	<field-descriptor name="newLotIndicator" column="NEW_LOT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>	
 	

@@ -24,6 +24,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="EndowmentTransactionTaxLotLine-transactionHoldingLotNumber" />
         <ref bean="EndowmentTransactionTaxLotLine-lotUnits" />
         <ref bean="EndowmentTransactionTaxLotLine-lotHoldingCost" />
+        <ref bean="EndowmentTransactionTaxLotLine-newLotIndicator" />
       </list>
     </property>
   </bean>
@@ -97,6 +98,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="lotShortTermGainLoss" />
     <property name="label" value="Short Term Gain/Loss" />
     <property name="shortLabel" value="Short Term Gain/Loss" />
+  </bean>
+  
+  <bean id="EndowmentTransactionTaxLotLine-newLotIndicator" parent="EndowmentTransactionTaxLotLine-newLotIndicator-parentBean" />
+
+  <bean id="EndowmentTransactionTaxLotLine-newLotIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="newLotIndicator" />
+    <property name="label" value="New Tax Lot Indicator" />
+    <property name="shortLabel" value="New Lot Indicator" />
   </bean>
   
 </beans>

@@ -801,7 +801,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     KualiDecimal accountAmount = KualiDecimal.ZERO;
                     if(item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)){
                         accountAmount = item.getExtendedPrice();
-                        if(!item.getItemSalesTaxAmount().isZero()){
+                        if((item.getItemTaxAmount() != null) && !item.getItemTaxAmount().isZero()){
                             accountAmount = accountAmount.add(item.getItemSalesTaxAmount());
                         }
                     }else{

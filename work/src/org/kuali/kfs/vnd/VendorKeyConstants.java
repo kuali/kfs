@@ -71,6 +71,8 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_CONTRACT_ORG_EXCLUDED_WITH_APO_LIMIT = "error.vendorContractOrg.excludedWithApoLimit";
     public static final String ERROR_VENDOR_CONTRACT_ORG_NOT_EXCLUDED_NO_APO_LIMIT = "error.vendorContractOrg.notExcludedNoApoLimit";
     public static final String ERROR_VENDOR_CONTRACT_NOT_ALLOWED = "error.vendorContract.notAllowed";
+    public static final String ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED = "error.vendorContract.b2b.limit.exceeded";
+    public static final String ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED_DB = "error.vendorContract.b2b.limit.exceeded.db";
 
     // Vendor Maintenance Commodity Code
     public static final String ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND = "error.vendorCommodityCode.require.one.defaultIndicator";

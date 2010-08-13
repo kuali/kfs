@@ -1059,9 +1059,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             valid &= validateVendorContractPOLimitAndExcludeFlagCombination(contract);
             valid &= validateVendorContractBeginEndDates(contract);
+            valid &= processContractB2BValidation(document, contract, i);
 
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
+        
+        
         return valid;
     }
 
@@ -1178,6 +1181,56 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * Validates vendor contracts against single B2B restriction on a vendor/campus basis. Only one B2B contract allowed per vendor/campus
+     * 
+     * @param document MaintenanceDocument
+     * @return boolean false or true
+     */
+    private boolean processContractB2BValidation(MaintenanceDocument document, VendorContract contract, int contractPos) {
+        boolean valid = true;
+        List<Integer> indexOfB2BContracts = new ArrayList();
+        //list of contracts already associated with vendor
+        List<VendorContract> contracts = newVendor.getVendorContracts();
+        if (ObjectUtils.isNull(contracts)) {
+            return valid;
+        }
+        //find all b2b contracts for comparison
+        if(contractPos == -1){
+            if(contract.getVendorB2bIndicator()){
+                for (int i = 0; i < contracts.size(); i++) {
+                    VendorContract vndrContract = contracts.get(i);            
+                    if(vndrContract.getVendorB2bIndicator()){
+                        //check for duplicate campus; vendor is implicitly the same    
+                        if(contract.getVendorCampusCode().equals(vndrContract.getVendorCampusCode())){
+                            valid &= false;
+                            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_B2B_INDICATOR, VendorKeyConstants.ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED, contract.getVendorCampusCode());
+                        }
+                    }
+                }
+            }
+        } else
+        {
+            if(contract.getVendorB2bIndicator()){
+                for (int i = 0; i < contracts.size(); i++) {
+                    VendorContract vndrContract = contracts.get(i);            
+                    if(vndrContract.getVendorB2bIndicator()){
+                        //make sure we're not checking contracts against themselves
+                        if(i != contractPos){
+                            //check for duplicate campus; vendor is implicitly the same    
+                            if(contract.getVendorCampusCode().equals(vndrContract.getVendorCampusCode())){
+                                valid &= false;
+                                String [] errorArray = new String []{contract.getVendorContractName(), contract.getVendorCampusCode()};
+                                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_B2B_INDICATOR, VendorKeyConstants.ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED_DB, errorArray);
+                            }                            
+                        }
+                    }
+                }
+            }
+        } 
+       return valid;
+    }
+    
+    /**
      * Validates business rules for VendorDetail document collection add lines. Add lines are the initial lines on a collections,
      * i.e. the ones next to the "Add" button
      * 
@@ -1190,16 +1243,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         // this incoming bo needs to be refreshed because it doesn't have its subobjects setup
         bo.refreshNonUpdateableReferences();
-
+        
         if (bo instanceof VendorAddress) {
             VendorAddress address = (VendorAddress) bo;
             success &= checkAddressCountryEmptyStateZip(address);
             VendorDetail vendorDetail = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
-
         }
         if (bo instanceof VendorContract) {
             VendorContract contract = (VendorContract) bo;
             success &= validateVendorContractBeginEndDates(contract);
+            success &= processContractB2BValidation(document,contract, -1);
         }
         if (bo instanceof VendorContractOrganization) {
             VendorContractOrganization contractOrg = (VendorContractOrganization) bo;

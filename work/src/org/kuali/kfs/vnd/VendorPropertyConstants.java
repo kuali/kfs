@@ -85,6 +85,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_CONTRACT_BEGIN_DATE = "vendorContractBeginningDate";
     public static final String VENDOR_CONTRACT_END_DATE = "vendorContractEndDate";
     public static final String VENDOR_CONTRACT_NAME = "vendorContractName";
+    public static final String VENDOR_CONTRACT_B2B_INDICATOR = "vendorB2bIndicator";
 
     // Vendor contract organizations
     public static final String VENDOR_CONTRACT_ORGANIZATION = "vendorContractOrganizations";

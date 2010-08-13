@@ -331,13 +331,12 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     public void setIpIndicator(String ipIndicator) {
         this.ipIndicator = ipIndicator;
     }
-    
+
     /**
-     * Gets the newLotIndicator.
-     * 
-     * @return newLotIndicator
+     * Gets the newLotIndicator attribute. 
+     * @return Returns the newLotIndicator.
      */
-    public boolean getNewLotIndicator(){
+    public boolean isNewLotIndicator() {
         return newLotIndicator;
     }
 

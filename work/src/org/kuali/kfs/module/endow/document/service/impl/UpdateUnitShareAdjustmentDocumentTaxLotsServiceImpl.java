@@ -84,6 +84,9 @@ public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements Upda
                     transLine.getTaxLotLines().add(endowmentTransactionTaxLotLine);
 
                     taxLotsTotalUnits = taxLotsTotalUnits.add(holdingTaxLot.getUnits());
+
+                    // set the new lot indicator
+                    endowmentTransactionTaxLotLine.setNewLotIndicator(false);
                 }
             }
 

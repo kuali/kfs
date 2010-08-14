@@ -47,7 +47,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
 
         // get the source transaction line and compute the unit value by dividing the source amount by the source number of units
         EndowmentSourceTransactionLine sourceTransactionLine = (EndowmentSourceTransactionLine) document.getSourceTransactionLines().get(0);
-        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getTargetTransactionSecurity();
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
 
         if (ObjectUtils.isNotNull(sourceTransactionLine)) {
             BigDecimal sourceAmount = sourceTransactionLine.getTransactionAmount().bigDecimalValue();
@@ -72,17 +72,20 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
                 taxLotLine.setDocumentNumber(document.getDocumentNumber());
                 taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                 taxLotLine.setTransactionHoldingLotNumber(1);
-                taxLotLine.setKemid(transLine.getKemid());
-                taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
-                taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
-                taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
             }
 
+            taxLotLine.setKemid(transLine.getKemid());
+            taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
+            taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
+            taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
             taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
             taxLotLine.setLotHoldingCost(targetAmount);
 
             // set the tax lot acquired date
             setTaxLotAcquiredDate(taxLotLine, document, transLine);
+
+            // set the new tax lot indicator
+            setNewLotIndicator(taxLotLine, document);
 
             if (newLine) {
                 transLine.getTaxLotLines().add(taxLotLine);
@@ -106,7 +109,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
      * @param transLine the transaction line the tax lot is related to
      */
     private void setTaxLotAcquiredDate(EndowmentTransactionTaxLotLine taxLotLine, SecurityTransferDocument document, EndowmentTransactionLine transLine) {
-        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getTargetTransactionSecurity();
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
@@ -131,6 +134,37 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
         // if security tax lot indicator is 'Yes' set the lot acquired date to be the current date
         else {
             taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+        }
+    }
+
+    /**
+     * Sets the new lot indicator for the tax lot: -- if the security tax lot indicator is No then I think we should set the field
+     * to 'N'. When the batch process runs we might need to create a new entry on the holding tax lot table in case no entry is
+     * found for the given KEMID, security ID, registration code, holding ip indicator, and holding lot number = 1. In case there is
+     * an entry we will just update that one; -- if the security tax lot is Yes then the field should be set to 'Y'.We are always
+     * creating a new field with the lot number being the next sequential lot number.
+     * 
+     * @param taxLotLine
+     * @param document
+     */
+    private void setNewLotIndicator(EndowmentTransactionTaxLotLine taxLotLine, SecurityTransferDocument document) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
+        Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
+
+        if (ObjectUtils.isNotNull(security)) {
+            // if the security tax lot indicator is No then I think we should set the field to 'N'. When the batch process runs we
+            // might need to create a new entry on the holding tax lot table in case no entry is found for the given KEMID, security
+            // ID, registration code, holding ip indicator, and holding lot number = 1. In case there is an entry we will just
+            // update that one
+            if (!security.getClassCode().isTaxLotIndicator()) {
+
+                taxLotLine.setNewLotIndicator(false);
+            }
+            // if the security tax lot is Yes then the field should be set to 'Y'.We are always creating a new field with the lot
+            // number being the next sequential lot number.
+            else {
+                taxLotLine.setNewLotIndicator(true);
+            }
         }
     }
 

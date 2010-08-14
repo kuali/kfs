@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.document.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
@@ -30,6 +29,7 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements UpdateHoldingAdjustmentDocumentTaxLotsService {
@@ -49,27 +49,27 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
             List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
-            //Retrieve the tax lot records
+            // Retrieve the tax lot records
             if (isUpdate) {
                 holdingTaxLots = retrieveTaxLotLineForUpdate(transLine, endowmentTransactionSecurity);
             }
             else {
                 holdingTaxLots = retrieveAllTaxLotsWithPositiveCost(transLine, endowmentTransactionSecurity);
             }
-            
-            //create a record for each lot in holding lot table
+
+            // create a record for each lot in holding lot table
             createEndowmentHoldingLotRecord(holdingAdjustmentDocument, transLine, holdingTaxLots);
 
-            //lot holding cost calculations..
+            // lot holding cost calculations..
             if (transLine.getTaxLotLines() != null) {
                 calculateLotHoldingCostForUnitAdjustmentAmount(transLine, isSource);
-           }
-            
-           //Update Transaction Amount field with absolute value of the lot holding cost
+            }
+
+            // Update Transaction Amount field with absolute value of the lot holding cost
             updateTransactionAmountWithLotHoldingCost(transLine);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService#updateTransactionLineTaxLotsByTransactionAmount(boolean,
      *      org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument,
@@ -82,42 +82,43 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
             List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
-            //Retrieve the tax lot records
+            // Retrieve the tax lot records
             if (isUpdate) {
                 holdingTaxLots = retrieveTaxLotLineForUpdate(transLine, endowmentTransactionSecurity);
             }
             else {
                 holdingTaxLots = retrieveAllTaxLotsWithPositiveCost(transLine, endowmentTransactionSecurity);
             }
-            
-            //create a record for each lot in holding lot table
+
+            // create a record for each lot in holding lot table
             createEndowmentHoldingLotRecord(holdingAdjustmentDocument, transLine, holdingTaxLots);
 
-            //lot holding cost calculations..
+            // lot holding cost calculations..
             if (transLine.getTaxLotLines() != null) {
                 BigDecimal taxLotsTotalUnits = BigDecimal.ZERO;
                 taxLotsTotalUnits = calculateTotalLotsTotalUnits(holdingTaxLots);
                 calculateLotHoldingCostForTransactionAmount(transLine, isSource, taxLotsTotalUnits);
-           }
+            }
         }
     }
-    
+
     /**
      * Helper method to calculate the TotalLots total units
+     * 
      * @param holdingTaxLots
      * @return taxLotsTotalUnits
      */
     protected BigDecimal calculateTotalLotsTotalUnits(List<HoldingTaxLot> holdingTaxLots) {
-        
+
         BigDecimal taxLotsTotalUnits = BigDecimal.ZERO;
-        
+
         for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
             taxLotsTotalUnits = taxLotsTotalUnits.add(holdingTaxLot.getUnits());
         }
-        
+
         return taxLotsTotalUnits;
     }
-    
+
     /**
      * Adjusts the oldest tax lot units if the transaction line units do not match the total of the tax lot units.
      * 
@@ -140,8 +141,9 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
     }
 
     /**
-     * Helper method to retrieve all the tax lot records with units greater than zero from 
-     * endowment holding tax lot table for a specific lot number
+     * Helper method to retrieve all the tax lot records with units greater than zero from endowment holding tax lot table for a
+     * specific lot number
+     * 
      * @param transLine The endowment transaction line
      * @param endowmentTransactionSecurity endowment transaction security
      * @return holdingTaxLots
@@ -161,9 +163,10 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         transLine.getTaxLotLines().clear();
         return holdingTaxLots;
     }
-    
+
     /**
      * Helper method to retrieve all tax lots with positive cost holding tax lot lines
+     * 
      * @param transLine The endowment transaction line
      * @param endowmentTransactionSecurity endowment transaction security
      * @return holdingTaxLots
@@ -179,6 +182,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
 
     /**
      * Helper method to update the transaction amount with the total holding cost
+     * 
      * @param transLine The endowment transaction line
      */
     protected void updateTransactionAmountWithLotHoldingCost(EndowmentTransactionLine transLine) {
@@ -187,14 +191,15 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : transLine.getTaxLotLines()) {
             totalHoldingCost = totalHoldingCost.add(endowmentTransactionTaxLotLine.getLotHoldingCost());
         }
-        
+
         transLine.setTransactionAmount(new KualiDecimal(totalHoldingCost.toString()));
     }
-    
+
     /**
-     *  Helper method to calculate lot holding cost when unit adjustment amount given
-     *  @param  transLine
-     *  @param  isSource
+     * Helper method to calculate lot holding cost when unit adjustment amount given
+     * 
+     * @param transLine
+     * @param isSource
      */
     protected void calculateLotHoldingCostForUnitAdjustmentAmount(EndowmentTransactionLine transLine, boolean isSource) {
         BigDecimal holdingCost = BigDecimal.ZERO;
@@ -207,11 +212,12 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
             }
         }
     }
-    
+
     /**
-     *  Helper method to calculate lot holding cost when transaction amount given
-     *  @param  transLine
-     *  @param  isSource
+     * Helper method to calculate lot holding cost when transaction amount given
+     * 
+     * @param transLine
+     * @param isSource
      */
     protected void calculateLotHoldingCostForTransactionAmount(EndowmentTransactionLine transLine, boolean isSource, BigDecimal taxLotsTotalUnits) {
         BigDecimal totalUnits = BigDecimal.ZERO;
@@ -221,7 +227,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
             if (endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber().compareTo(1) != 0) {
                 oldestTaxLot = endowmentTransactionTaxLotLine;
             }
-            
+
             BigDecimal percentage = KEMCalculationRoundingHelper.divide(endowmentTransactionTaxLotLine.getLotUnits(), taxLotsTotalUnits, 5);
             endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(percentage, transLine.getTransactionAmount().bigDecimalValue(), 0));
 
@@ -235,15 +241,16 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         BigDecimal transLineUnits = transLine.getTransactionUnits().bigDecimalValue();
         adjustTaxLotsUnits(totalUnits, transLineUnits, oldestTaxLot, isSource);
     }
-    
+
     /**
-     *  Helper method to create a record for each lot in endowment holding lot table 
-     *  @param  holdingAdjustmentDocument
-     *  @param  transLine
-     *  @param  holdingTaxLots
+     * Helper method to create a record for each lot in endowment holding lot table
+     * 
+     * @param holdingAdjustmentDocument
+     * @param transLine
+     * @param holdingTaxLots
      */
     protected void createEndowmentHoldingLotRecord(HoldingAdjustmentDocument holdingAdjustmentDocument, EndowmentTransactionLine transLine, List<HoldingTaxLot> holdingTaxLots) {
-        
+
         if (holdingTaxLots != null) {
             for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
                 EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = new EndowmentTransactionTaxLotLine();
@@ -254,10 +261,13 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
                 // set it just for future computation
                 endowmentTransactionTaxLotLine.setLotUnits(holdingTaxLot.getUnits());
                 transLine.getTaxLotLines().add(endowmentTransactionTaxLotLine);
+
+                // set new lot indicator
+                endowmentTransactionTaxLotLine.setNewLotIndicator(false);
             }
         }
     }
-    
+
     /**
      * Adjusts the oldest tax lot units if the transaction line units do not match the total of the tax lot units.
      * 

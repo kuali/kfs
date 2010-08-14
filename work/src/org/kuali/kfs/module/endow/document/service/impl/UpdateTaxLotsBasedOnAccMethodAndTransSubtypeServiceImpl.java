@@ -190,6 +190,9 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
                 taxLotLine.setIpIndicator(holdingTaxLot.getIncomePrincipalIndicator());
                 taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
 
+                // set the new lot indicator
+                taxLotLine.setNewLotIndicator(false);
+
                 // add the new tax lot line to the transaction line tax lots
                 addTaxLotLine(transLine, taxLotLine);
                 lotsMap.put(taxLotLine.getTransactionHoldingLotNumber(), holdingTaxLot);

@@ -72,6 +72,9 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
         // set the tax lot acquired date
         setTaxLotAcquiredDate(taxLotLine, aiDocument, transLine);
 
+        // set the new lot indicator
+        setNewLotIndicator(taxLotLine, aiDocument);
+
         if (newLine) {
             transLine.getTaxLotLines().add(taxLotLine);
         }
@@ -117,6 +120,37 @@ public class UpdateAssetIncreaseDocumentTaxLotsServiceImpl implements UpdateAsse
         // if security tax lot indicator is 'Yes' set the lot acquired date to be the current date
         else {
             taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+        }
+    }
+
+    /**
+     * Sets the new lot indicator for the tax lot: -- if the security tax lot indicator is No then I think we should set the field
+     * to 'N'. When the batch process runs we might need to create a new entry on the holding tax lot table in case no entry is
+     * found for the given KEMID, security ID, registration code, holding ip indicator, and holding lot number = 1. In case there is
+     * an entry we will just update that one; -- if the security tax lot is Yes then the field should be set to 'Y'.We are always
+     * creating a new field with the lot number being the next sequential lot number.
+     * 
+     * @param taxLotLine
+     * @param aiDocument
+     */
+    private void setNewLotIndicator(EndowmentTransactionTaxLotLine taxLotLine, AssetIncreaseDocument aiDocument) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = aiDocument.getTargetTransactionSecurity();
+        Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
+
+        if (ObjectUtils.isNotNull(security)) {
+            // if the security tax lot indicator is No then I think we should set the field to 'N'. When the batch process runs we
+            // might need to create a new entry on the holding tax lot table in case no entry is found for the given KEMID, security
+            // ID, registration code, holding ip indicator, and holding lot number = 1. In case there is an entry we will just
+            // update that one
+            if (!security.getClassCode().isTaxLotIndicator()) {
+
+                taxLotLine.setNewLotIndicator(false);
+            }
+            // if the security tax lot is Yes then the field should be set to 'Y'.We are always creating a new field with the lot
+            // number being the next sequential lot number.
+            else {
+                taxLotLine.setNewLotIndicator(true);
+            }
         }
     }
 

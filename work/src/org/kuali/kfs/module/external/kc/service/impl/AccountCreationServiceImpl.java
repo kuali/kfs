@@ -165,7 +165,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountTypeCode(defaults.getAccountTypeCode());        
         account.setSubFundGroupCode(defaults.getSubFundGroupCode());
         
-        // fringe benefit
         account.setAccountsFringesBnftIndicator(defaults.isAccountsFringesBnftIndicator());
 
         account.setReportsToAccountNumber(defaults.getReportsToAccountNumber());              

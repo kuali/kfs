@@ -37,8 +37,8 @@
   	<bean id="DonorMaintenanceDocument-EditDonor" parent="DonorMaintenanceDocument-EditDonor-parentBean"/>
 
   	<bean id="DonorMaintenanceDocument-EditDonor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    	<property name="id" value="Edit Donor Statement Code"/>
-    	<property name="title" value="Edit Donor Statement Code"/>
+    	<property name="id" value="Edit Donor Record"/>
+    	<property name="title" value="Edit Donor Record"/>
     	<property name="maintainableItems">
       		<list>
         		<bean parent="MaintainableFieldDefinition" p:name="donorID" p:required="true"/>

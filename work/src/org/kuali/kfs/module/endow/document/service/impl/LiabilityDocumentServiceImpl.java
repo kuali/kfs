@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
@@ -46,21 +47,26 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     public void updateLiabilityIncreaseTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase document, EndowmentTransactionLine transLine) {
-        EndowmentTransactionTaxLotLine taxLotLine = obtainTaxLotLine(transLine);
-
-        // Update the Cost to -ve
-        taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
-
+        EndowmentTransactionSecurity endowmentTransactionSecurity = null;
         String securityID = null;
         String registrationCode = null;
+
         if (isSource) {
+            endowmentTransactionSecurity = document.getSourceTransactionSecurity();
             securityID = document.getSourceTransactionSecurity().getSecurityID();
             registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
         }
         else {
+            endowmentTransactionSecurity = document.getTargetTransactionSecurity();
             securityID = document.getTargetTransactionSecurity().getSecurityID();
             registrationCode = document.getTargetTransactionSecurity().getRegistrationCode();
         }
+
+        EndowmentTransactionTaxLotLine taxLotLine = obtainTaxLotLine(transLine, endowmentTransactionSecurity);
+
+        // Update the Cost to -ve
+        taxLotLine.setLotHoldingCost(taxLotLine.getLotHoldingCost().negate());
+
 
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
 
@@ -83,22 +89,26 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     public void updateLiabilityDecreaseTransactionLineTaxLots(boolean isSource, EndowmentTaxLotLinesDocumentBase document, EndowmentTransactionLine transLine) {
-        EndowmentTransactionTaxLotLine taxLotLine = obtainTaxLotLine(transLine);
-
-        BigDecimal postiveUnitValue = taxLotLine.getLotUnits();
-        // Negate the Units for Liability
-        taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
-
+        EndowmentTransactionSecurity endowmentTransactionSecurity = null;
         String securityID = null;
         String registrationCode = null;
+
         if (isSource) {
+            endowmentTransactionSecurity = document.getSourceTransactionSecurity();
             securityID = document.getSourceTransactionSecurity().getSecurityID();
             registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
         }
         else {
+            endowmentTransactionSecurity = document.getTargetTransactionSecurity();
             securityID = document.getTargetTransactionSecurity().getSecurityID();
             registrationCode = document.getTargetTransactionSecurity().getRegistrationCode();
         }
+
+        EndowmentTransactionTaxLotLine taxLotLine = obtainTaxLotLine(transLine, endowmentTransactionSecurity);
+
+        BigDecimal postiveUnitValue = taxLotLine.getLotUnits();
+        // Negate the Units for Liability
+        taxLotLine.setLotUnits(taxLotLine.getLotUnits().negate());
 
         HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), securityID, registrationCode, 1, transLine.getTransactionIPIndicatorCode());
         if (ObjectUtils.isNotNull(holdingTaxLot)) {
@@ -117,7 +127,7 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
         }
     }
 
-    private EndowmentTransactionTaxLotLine obtainTaxLotLine(EndowmentTransactionLine transLine) {
+    private EndowmentTransactionTaxLotLine obtainTaxLotLine(EndowmentTransactionLine transLine, EndowmentTransactionSecurity endowmentTransactionSecurity) {
         EndowmentTransactionTaxLotLine taxLotLine = null;
 
         if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
@@ -139,6 +149,15 @@ public class LiabilityDocumentServiceImpl extends EndowmentTransactionLinesDocum
         // Updating data in case of refresh
         taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
         taxLotLine.setLotHoldingCost(transLine.getTransactionAmount().bigDecimalValue());
+
+        // set kemid, security, regostration code, ip indicator
+        taxLotLine.setKemid(transLine.getKemid());
+        taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
+        taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
+        taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
+
+        // set the new lot indicator
+        taxLotLine.setNewLotIndicator(false);
 
         return taxLotLine;
     }

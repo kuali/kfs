@@ -53,6 +53,7 @@
 	<documentType>
 		<name>DonorMaintenanceDocument</name>
 		<parent>EndowmentSimpleMaintenanceDocument</parent>
+		<label>Donor Maintenance Document</label>
 	</documentType>	
 	<documentType>
 		<name>DonorStatementCodeMaintenanceDocument</name>

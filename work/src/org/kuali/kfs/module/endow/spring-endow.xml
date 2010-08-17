@@ -138,7 +138,15 @@
 		<property name="securityDao">
 			<ref bean="securityDao" />
 		</property>
-		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
 	</bean>
 	
 	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">

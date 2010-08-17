@@ -53,5 +53,5 @@ public interface HoldingTaxLotDao {
      * @param securityId
      * @return
      */
-    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
+    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 }

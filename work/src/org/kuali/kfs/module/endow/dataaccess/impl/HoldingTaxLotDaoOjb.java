@@ -63,7 +63,7 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
      */
-    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
+    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
 
         List result = new ArrayList();
 
@@ -74,7 +74,8 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
         ReportQueryByCriteria query = QueryFactory.newReportQuery(HoldingTaxLot.class, criteria);
 
         // set the selection attributes
-        query.setAttributes(new String[] { "sum(" + EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE + ")" });
+        String attributeList[] = { EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, "sum(" + EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE + ")" };
+        query.setAttributes(attributeList);
 
         List groupByList = new ArrayList();
 
@@ -86,13 +87,9 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
-        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
 
-        while (iter.hasNext()) {
-            Object collectionEntry = iter.next();
-        }
 
-        return result;
     }
 
 

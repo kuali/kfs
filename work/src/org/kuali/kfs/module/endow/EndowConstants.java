@@ -299,4 +299,8 @@ public class EndowConstants extends JSTLConstants {
     public static final class HoldingTaxLotRebalanceCodes {
         public static final String RESULTS_ACTIONS_LINK = "Rebalance";
     }
+    
+    //Batch
+    public static final String ACCRUAL_TRANSACTIONS_CASH_INCREASE_DOC_DESC = "Accrued Income Distribution";
+    
 }

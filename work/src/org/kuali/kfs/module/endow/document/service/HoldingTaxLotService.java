@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
@@ -145,5 +146,5 @@ public interface HoldingTaxLotService {
      * @param securityId
      * @return
      */
-    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
+    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -334,7 +335,7 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     @Transactional
-    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
+    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
 
 
         return holdingTaxLotDao.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);

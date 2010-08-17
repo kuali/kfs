@@ -111,7 +111,8 @@
               p:name="carryValue"
               p:unconditionallyReadOnly="true" /> 
         <bean parent="MaintainableFieldDefinition"
-              p:name="marketValue" />
+              p:name="marketValue"
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="lastTransactionDate"
               p:unconditionallyReadOnly="true" />

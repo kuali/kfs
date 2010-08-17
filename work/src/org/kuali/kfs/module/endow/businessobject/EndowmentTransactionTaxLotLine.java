@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class provides an implementation for the Tax Lot Lines in the Endowment transactional documents.
@@ -49,7 +49,17 @@ public class EndowmentTransactionTaxLotLine extends PersistableBusinessObjectBas
     private RegistrationCode registrationCodeObjRef;
     private IncomePrincipalIndicator ipIndicatorObjRef;
 
-
+    /**
+     * Constructs a EndowmentTransactionTaxLotLine.java.
+     */
+    public EndowmentTransactionTaxLotLine()
+    {
+        lotUnits             = new BigDecimal(BigInteger.ZERO, 4);
+        lotHoldingCost       = new BigDecimal(BigInteger.ZERO, 2);
+        lotLongTermGainLoss  = new BigDecimal(BigInteger.ZERO, 2);
+        lotShortTermGainLoss = new BigDecimal(BigInteger.ZERO, 2);
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

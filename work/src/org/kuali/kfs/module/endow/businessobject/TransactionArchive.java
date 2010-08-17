@@ -16,12 +16,15 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Business Object for Holding Tax Lot table
@@ -49,7 +52,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     private Date postedDate;
     
     // Reference objects:
-    protected TransactionArchiveSecurity archiveSecurity;
+    protected List<TransactionArchiveSecurity> archiveSecurities;
     protected EndowmentTransactionCode etranObj;
     protected TransactionTypeCode typeCodeObj;
     protected KEMID kemidObj;
@@ -57,6 +60,14 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     // Transient members:
     private transient BigDecimal greaterAmount;
     private transient BigDecimal lessAmount;
+    
+    public TransactionArchive()
+    {
+        archiveSecurities   = new TypedArrayList(TransactionArchiveSecurity.class);
+        principalCashAmount = new BigDecimal(BigInteger.ZERO, 2);
+        incomeCashAmount    = new BigDecimal(BigInteger.ZERO, 2);
+        corpusAmount        = new BigDecimal(BigInteger.ZERO, 2);
+    }
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -73,7 +84,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
 
     /**
      * 
-     * This method...
+     * This method returns a multi-line field.
      * @return
      */
     public String getKemidResults() {
@@ -88,7 +99,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     
     /**
      * 
-     * This method...
+     * This method returns a multi-line field.
      * @return
      */
     public String getTransactionTypeResults() {
@@ -103,7 +114,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     
     /**
      * 
-     * This method...
+     * This method returns a multi-line field.
      * @return
      */
     public String getEtranCodeResults() {
@@ -118,11 +129,13 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     
     /**
      * 
-     * This method...
+     * This method returns a multi-line field.
      * @return
      */
     public String getSecurityResults() {
         String result = "";
+        
+        TransactionArchiveSecurity archiveSecurity = getArchiveSecurity();
         if (ObjectUtils.isNotNull(archiveSecurity)) {
             result += "[" + archiveSecurity.getSecurityId() + "," + " ,";
             result += archiveSecurity.getSecurity().getDescription() + "]";
@@ -225,15 +238,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * @return Returns the archiveSecurity.
      */
     public TransactionArchiveSecurity getArchiveSecurity() {
-        return archiveSecurity;
-    }
-
-    /**
-     * Sets the archiveSecurity attribute value.
-     * @param archiveSecurity The archiveSecurity to set.
-     */
-    public void setArchiveSecurity(TransactionArchiveSecurity archiveSecurity) {
-        this.archiveSecurity = archiveSecurity;
+        return !archiveSecurities.isEmpty() ? archiveSecurities.get(0) : null;
     }
 
     /**
@@ -490,6 +495,22 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      */
     public void setPostedDate(Date postedDate) {
         this.postedDate = postedDate;
+    }
+
+    /**
+     * Gets the archiveSecurities attribute. 
+     * @return Returns the archiveSecurities.
+     */
+    public List<TransactionArchiveSecurity> getArchiveSecurities() {
+        return archiveSecurities;
+    }
+
+    /**
+     * Sets the archiveSecurities attribute value.
+     * @param archiveSecurities The archiveSecurities to set.
+     */
+    public void setArchiveSecurities(List<TransactionArchiveSecurity> archiveSecurities) {
+        this.archiveSecurities = archiveSecurities;
     }
     
 }

@@ -2611,11 +2611,11 @@
         <foreignkey field-ref="typeCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="archiveSecurity" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-        <foreignkey field-ref="lineNumber" />
-        <foreignkey field-ref="lineTypeCode" />
-    </reference-descriptor>
+    <collection-descriptor name="archiveSecurities" element-class-ref="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="lineNumber" />
+        <inverse-foreignkey field-ref="lineTypeCode" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" table="END_TRAN_ARCHV_SEC_T">

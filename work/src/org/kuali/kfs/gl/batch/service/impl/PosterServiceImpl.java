@@ -533,7 +533,7 @@ public class PosterServiceImpl implements PosterService {
 
                     Collection<IndirectCostRecoveryRateDetail> automatedEntries = indirectCostRecoveryRateDetailDao.getActiveRateDetailsByRate(et.getUniversityFiscalYear(), icrGenerationMetadata.getFinancialIcrSeriesIdentifier());
                     int automatedEntriesCount = automatedEntries.size();
-
+          
                     if (automatedEntriesCount > 0) {
                         for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
                             IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
@@ -563,7 +563,6 @@ public class PosterServiceImpl implements PosterService {
                                 warnings.add(new Message("DEBIT OR CREDIT CODE NOT FOUND", Message.TYPE_FATAL));
                                 reportWriterService.writeError(et, warnings);
                             }
-
                             generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, icrGenerationMetadata);
                             
                             reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
@@ -639,6 +638,15 @@ public class PosterServiceImpl implements PosterService {
             e.setChartOfAccountsCode(icrRateDetail.getChartOfAccountsCode());
             // TODO Reporting thing line 1946
         }
+        // take care of infinite recursive error case - do not generate entries
+        if  ((et.getAccountNumber().equals(e.getAccountNumber() )) &&
+                ( et.getChartOfAccountsCode().equals(e.getChartOfAccountsCode())) &&
+                (et.getSubAccountNumber().equals(e.getSubAccountNumber()))) {
+            List<Message> warnings = new ArrayList<Message>();
+            warnings.add(new Message("Infinite recursive encumbrance error " +  et.getChartOfAccountsCode() + " " + et.getAccountNumber() + " " + et.getSubAccountNumber() , Message.TYPE_WARNING));
+            reportWriterService.writeError(et, warnings);
+            return;
+        } 
 
         e.setFinancialDocumentTypeCode(parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
         e.setFinancialSystemOriginationCode(parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));

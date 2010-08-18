@@ -254,7 +254,7 @@
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid"
 						onblur="loadTransactionLineKEMIDShortTitle('${transLines}[${ctr}].kemid', 'document.${transLines}[${ctr}].kemidObj.ShortTitle.div');"                	
-                	 />&nbsp;
+                	    readOnly="${readOnly}"/>&nbsp;
                 	<c:if test="${not readOnly}">
                 		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />

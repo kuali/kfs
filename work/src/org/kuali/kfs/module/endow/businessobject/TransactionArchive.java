@@ -54,7 +54,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     // Reference objects:
     protected List<TransactionArchiveSecurity> archiveSecurities;
     protected EndowmentTransactionCode etranObj;
-    protected TransactionTypeCode typeCodeObj;
+//  protected TransactionTypeCode typeCodeObj;
     protected KEMID kemidObj;
     
     // Transient members:
@@ -102,7 +102,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * This method returns a multi-line field.
      * @return
      */
-    public String getTransactionTypeResults() {
+ /*   public String getTransactionTypeResults() {
         String result = "";
         if (ObjectUtils.isNotNull(typeCodeObj)) {
             result += "[" + typeCode + "," + " ,";
@@ -111,7 +111,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
         
         return result;
     }
-    
+ */   
     /**
      * 
      * This method returns a multi-line field.
@@ -173,18 +173,19 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * Gets the typeCodeObj attribute. 
      * @return Returns the typeCodeObj.
      */
-    public TransactionTypeCode getTypeCodeObj() {
+ /*   public TransactionTypeCode getTypeCodeObj() {
         return typeCodeObj;
     }
-
+*/
     /**
      * Sets the typeCodeObj attribute value.
      * @param typeCodeObj The typeCodeObj to set.
      */
-    public void setTypeCodeObj(TransactionTypeCode typeCodeObj) {
+ /*   public void setTypeCodeObj(TransactionTypeCode typeCodeObj) {
         this.typeCodeObj = typeCodeObj;
     }
-
+*/
+    
     /**
      * Gets the kemidObj attribute. 
      * @return Returns the kemidObj.

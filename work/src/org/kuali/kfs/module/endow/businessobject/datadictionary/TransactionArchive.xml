@@ -51,7 +51,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="TransactionArchive-archiveSecurity.etranCode" />
         <ref bean="TransactionArchive-kemidResults" />
         <ref bean="TransactionArchive-etranCodeResults" />
-        <ref bean="TransactionArchive-transactionTypeResults" />
         <ref bean="TransactionArchive-securityResults" />
       </list>
     </property>
@@ -277,21 +276,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
-  <bean id="TransactionArchive-transactionTypeResults" parent="TransactionArchive-transactionTypeResults-parentBean" />
-  <bean id="TransactionArchive-transactionTypeResults-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionTypeResults" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Transaction Type" />
-    <property name="shortLabel" value="Transaction Type" />
-    <property name="maxLength" value="11" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
-  </bean>  
-  
-  
   <bean id="TransactionArchive-etranCodeResults" parent="TransactionArchive-etranCodeResults-parentBean" />
   <bean id="TransactionArchive-etranCodeResults-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="etranCodeResults" />
@@ -363,12 +347,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="TransactionArchive-typeCode" parent="TransactionArchive-typeCode-parentBean" />
-  <bean id="TransactionArchive-typeCode-parentBean" abstract="true" parent="TransactionTypeCode-codeAndDescription">
+  <bean id="TransactionArchive-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="typeCode" />
-    <property name="label" value="Transaction Type" />
-    <property name="shortLabel" value="Transaction Type" />
+    <property name="label" value="Transaction Document Type" />
+    <property name="shortLabel" value="Transaction Document Type" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.EndowmentTransactionTypeValuesFinder" 
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.EndowmentTransactionDocumentTypeValuesFinder" 
             p:includeKeyInLabel="true" />
     </property>
   </bean>
@@ -536,8 +520,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="kemidResults" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionTypeResults" />
         <bean parent="FieldDefinition"
               p:attributeName="postedDate" />
         <bean parent="FieldDefinition"

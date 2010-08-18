@@ -2586,7 +2586,7 @@
     <field-descriptor name="lineNumber" column="FDOC_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="lineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="description" column="TRAN_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="typeCode" column="TRAN_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="typeCode" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="subTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="srcTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="kemid" column="TRAN_KEMID" jdbc-type="VARCHAR" />
@@ -2605,10 +2605,6 @@
     
     <reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="kemid" />
-    </reference-descriptor>
-    
-    <reference-descriptor name="typeCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="typeCode" />
     </reference-descriptor>
     
     <collection-descriptor name="archiveSecurities" element-class-ref="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

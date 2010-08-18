@@ -84,20 +84,22 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         
         BudgetAdjustmentParametersDTO.Details detail = new BudgetAdjustmentParametersDTO.Details();
       
-        detail.setLineType("T");
+        detail.setLineType("F");
         detail.setChart("BL");
-        detail.setAccount("4631640");
-        detail.setObjectCode("5000");
+        detail.setAccount("2231473");
+        detail.setObjectCode("5197");
         detail.setAmount("0.00");
         detail.setCurrentBudgetAdjustAmount("100.00");
         detail.setBaseBudgetAdjustAmount("0");
         details.add(detail);
  
         BudgetAdjustmentParametersDTO.Details detailF = new BudgetAdjustmentParametersDTO.Details();
-        detailF.setLineType("F");
+        detailF.setLineType("T");
         detailF.setChart("BL");
-        detailF.setAccount("4331300");
-        detailF.setObjectCode("0701");
+        detailF.setAccount("0142900");
+        //detailF.setObjectCode("1697");
+        //detailF.setAccount("4631640");
+        detailF.setObjectCode("5000");
         detailF.setAmount("0.00");
         detailF.setCurrentBudgetAdjustAmount("100.00");
         detailF.setBaseBudgetAdjustAmount("0");
@@ -109,7 +111,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     /**
      * This method tests the service locally
      */
-    public void NotestBudgetAdjustmentServiceLocally() 
+    public void testBudgetAdjustmentServiceLocally() 
     {  
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
@@ -124,10 +126,10 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
         assertTrue(status.getErrorMessages().isEmpty());
 
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
+      //  TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
      // the document should be blanket approved.....
-         status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
-        assertTrue(status.getErrorMessages().isEmpty());
+      //   status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
+    //    assertTrue(status.getErrorMessages().isEmpty());
 
         TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, "I");
 //      // the document should be submitted....

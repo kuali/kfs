@@ -94,7 +94,7 @@
 
   <bean id="ClassCode-securityAccrualMethod-parentBean" abstract="true" parent="AccrualMethod-code">
     <property name="name" value="securityAccrualMethod" />
-    <property name="label" value="Acrrual Method" />
+    <property name="label" value="Accrual Method" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.AccrualMethodValuesFinder"
@@ -105,7 +105,7 @@
 
   <bean id="ClassCode-accrualMethod.name-parentBean" abstract="true" parent="AccrualMethod-name">
     <property name="name" value="accrualMethod.name" />
-    <property name="label" value="Acrrual Method" />
+    <property name="label" value="Accrual Method" />
   </bean>
   <bean id="ClassCode-securityEndowmentTransactionCode" parent="ClassCode-securityEndowmentTransactionCode-parentBean" />
 

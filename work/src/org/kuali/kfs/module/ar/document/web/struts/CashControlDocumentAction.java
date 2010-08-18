@@ -35,14 +35,8 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -67,6 +61,12 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         super.loadDocument(kualiDocumentFormBase);
         CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
+
+        // now that the form has been originally loaded, we need to set a few Form variables that are used by
+        // JSP JSTL expressions because they are used directly and immediately upon initial form display
+        if (cashControlDocument != null && cashControlDocument.getCustomerPaymentMediumCode() != null) {
+            ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()));
+        }
 
         // get the PaymentApplicationDocuments by reference number
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {

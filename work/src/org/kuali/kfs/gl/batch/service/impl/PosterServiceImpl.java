@@ -641,9 +641,11 @@ public class PosterServiceImpl implements PosterService {
         // take care of infinite recursive error case - do not generate entries
         if  ((et.getAccountNumber().equals(e.getAccountNumber() )) &&
                 ( et.getChartOfAccountsCode().equals(e.getChartOfAccountsCode())) &&
-                (et.getSubAccountNumber().equals(e.getSubAccountNumber()))) {
+                (et.getSubAccountNumber().equals(e.getSubAccountNumber())) &&
+                (et.getObjectCode().equals(e.getFinancialObjectCode())) &&
+                (et.getSubObjectCode().equals(e.getFinancialSubObjectCode()))) {
             List<Message> warnings = new ArrayList<Message>();
-            warnings.add(new Message("Infinite recursive encumbrance error " +  et.getChartOfAccountsCode() + " " + et.getAccountNumber() + " " + et.getSubAccountNumber() , Message.TYPE_WARNING));
+            warnings.add(new Message("Infinite recursive encumbrance error " +  et.getChartOfAccountsCode() + " " + et.getAccountNumber() + " " + et.getSubAccountNumber() + " " + et.getObjectCode() + " " + et.getSubObjectCode(), Message.TYPE_WARNING));
             reportWriterService.writeError(et, warnings);
             return;
         } 

@@ -379,4 +379,65 @@ public class HoldingTaxLot extends PersistableBusinessObjectBase {
     public void setKemidObj(KEMID kemidObj) {
         this.kemidObj = kemidObj;
     }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((incomePrincipalIndicator == null) ? 0 : incomePrincipalIndicator.hashCode());
+        result = prime * result + ((kemid == null) ? 0 : kemid.hashCode());
+        result = prime * result + ((lotNumber == null) ? 0 : lotNumber.hashCode());
+        result = prime * result + ((registrationCode == null) ? 0 : registrationCode.hashCode());
+        result = prime * result + ((securityId == null) ? 0 : securityId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        HoldingTaxLot other = (HoldingTaxLot) obj;
+        if (incomePrincipalIndicator == null) {
+            if (other.incomePrincipalIndicator != null)
+                return false;
+        }
+        else if (!incomePrincipalIndicator.equals(other.incomePrincipalIndicator))
+            return false;
+        if (kemid == null) {
+            if (other.kemid != null)
+                return false;
+        }
+        else if (!kemid.equals(other.kemid))
+            return false;
+        if (lotNumber == null) {
+            if (other.lotNumber != null)
+                return false;
+        }
+        else if (!lotNumber.equals(other.lotNumber))
+            return false;
+        if (registrationCode == null) {
+            if (other.registrationCode != null)
+                return false;
+        }
+        else if (!registrationCode.equals(other.registrationCode))
+            return false;
+        if (securityId == null) {
+            if (other.securityId != null)
+                return false;
+        }
+        else if (!securityId.equals(other.securityId))
+            return false;
+        return true;
+    }
+    
 }

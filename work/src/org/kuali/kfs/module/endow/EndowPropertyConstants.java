@@ -497,6 +497,7 @@ public class EndowPropertyConstants {
 
     // Transaction Document
     public static final String TRANSACTION_LINE_DESCRIPTION = "transactionLineDescription";
+    public static final String TRANSACTION_DOCUMENT_NUMBER = "documentNumber";
 
     public static final String TRANSACTION_SECURITY_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_SECURITY_LINE_TYPE_CODE = "securityLineTypeCode";
@@ -536,6 +537,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
     public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
+    public static final String HOLDING_TAX_LOT_REBAL_KEMID = "kemid";
 
     // Transaction Archive/Security
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";

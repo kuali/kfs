@@ -58,7 +58,8 @@
         <property name="jobNames">
             <list>
 				<value>availableCashUpdatesJob</value>
-				<value>currentTaxLotBalancesUpdateJob</value>	
+				<value>currentTaxLotBalancesUpdateJob</value>
+                <value>endowmenteDocPostingJob</value>
 				<value>createAccrualTransactionsJob</value>			
 				<value>rollProcessDateJob</value>	
             </list>
@@ -162,7 +163,49 @@
 			<ref bean="businessObjectService" />
 		</property>
  	</bean>
- 
+    
+    <bean id="endowmenteDocPostingJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+<!--                <ref bean="generateTransactionArchiveRecord" />-->
+<!--                <ref bean="updateCashBalance" />-->
+<!--                <ref bean="updateHoldingTaxLotRecords"/>-->
+<!--                <ref bean="updateSecurityRecord" />-->
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="endowmenteDocPostingStep" class="org.kuali.kfs.module.endow.batch.EndowmenteDocPostingStep" parent="step">
+        <property name="endowmenteDocPostingService">
+            <ref bean="endowmenteDocPostingService" />
+        </property>
+    </bean>
+    
+    <bean id="endowmenteDocPostingService" class="org.kuali.kfs.module.endow.batch.service.impl.EndowmenteDocPostingServiceImpl">
+        <property name="pendingTransactionDocumentService">
+            <ref bean="pendingTransactionDocumentService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="kemService">
+            <ref bean="kemService" />
+        </property>         
+    </bean>
+    
+    <bean id="pendingTransactionDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.PendingTransactionDocumentServiceImpl">
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+    
  	<bean id="currentTaxLotBalancesUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -170,6 +213,7 @@
 			</list>
 		</property>
 	</bean>
+    
 	<bean id="currentTaxLotBalanceUpdateStep" class="org.kuali.kfs.module.endow.batch.CurrentTaxLotBalanceUpdateStep" parent="step">
 		<property name="currentTaxLotBalanceUpdateService">
 			<ref bean="currentTaxLotBalanceUpdateService" />
@@ -493,7 +537,7 @@
 		</property>		
 		<property name="endowmentTransactionCodeService">
 			<ref bean="endowmentTransactionCodeService" />
-		</property>					
+		</property>			
 	</bean>
 	
 	<bean id="endowmentTransactionLinesDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionLinesDocumentServiceImpl">

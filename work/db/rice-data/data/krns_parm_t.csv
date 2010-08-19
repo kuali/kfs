@@ -613,3 +613,5 @@ dress is a PO type address.","A","KFS"
 "KFS-COA","Account","ACCOUNT_ADDRESS_TYPE","KFS606","1","CONFG","ADMIN;PAYMENT;DEFAULT","Defines the cascading order for extracting the addresses","A","KFS"
 "KFS-COA","ObjectCode","ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND","KFS607","1","CONFG","Y","Set this value to Y if you are using both Research Admin System and KFS and wish for KC budgets to use KFS Object Codes. This will cause the Research Admin Attributes tab to appear on the Object Code document. Set this value to N if you are not using Research Admin System and KFS or if you wish Research Admin System to maintain a distinct list of object codes.","A","KFS"
 "KR-WKFLW","All","KIM_PRIORITY_ON_DOC_TYP_PERMS_IND","KFS608","1","CONFG","Y","Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.","A","KFS"
+"KFS-PURAP","ElectronicInvoiceReject","OVERRIDE_DOCUMENT_TITLE_IND","KFS609","1","CONFG","N","Indicator related default document titles. Set to ""N"" if accepting the Kuali default document title, related to Contract Manager Assignment, as listed in the Document Search results.","A","KFS"
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Travis' id='5578m-1-1' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA </comment>
+    <modifyColumn tableName='END_TRAN_ARCHV_T'>
+      <column name='TRAN_ETRAN_CD' type='VARCHAR2(9)' defaultValue='NULL' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Travis' id='5578m-1-2' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA </comment>
+    <modifyColumn tableName='END_TRAN_ARCHV_T'>
+      <column name='TRAN_INC_CSH_AMT' type='NUMBER(19,2)' defaultValue='NULL' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Travis' id='5578m-1-3' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA </comment>
+    <modifyColumn tableName='END_TRAN_ARCHV_T'>
+      <column name='TRAN_PRIN_CSH_AMT' type='NUMBER(19,2)' defaultValue='NULL' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Travis' id='5578m-1-4' failOnError='true'>
+    <comment>Endowment request: create transactional document basic tables in KULDBA </comment>
+    <modifyColumn tableName='END_TRAN_ARCHV_SEC_T'>
+      <column name='TRAN_SEC_REGIS_CD' type='VARCHAR2(4)' defaultValue='NULL' />
+    </modifyColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

@@ -527,9 +527,7 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="percentOfIncomeToPayToKemid" 
                     p:required="true"
-                    p:defaultValue="1" />
-              <bean parent="MaintainableFieldDefinition" 
-                    p:name="incomeAmountToPayToKemid" />   
+                    p:defaultValue="1" />  
               <bean parent="MaintainableFieldDefinition" 
                     p:name="startDate" 
                     p:required="true"

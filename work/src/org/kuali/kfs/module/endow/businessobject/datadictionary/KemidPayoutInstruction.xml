@@ -26,7 +26,6 @@
         		<ref bean="KemidPayoutInstruction-payoutIncomeSequenceNumber" />
 		        <ref bean="KemidPayoutInstruction-payIncomeToKemid" />
 		        <ref bean="KemidPayoutInstruction-percentOfIncomeToPayToKemid"/>
-		        <ref bean="KemidPayoutInstruction-incomeAmountToPayToKemid"/>
 		        <ref bean="KemidPayoutInstruction-startDate"/>
 		        <ref bean="KemidPayoutInstruction-endDate"/>
         		<ref bean="KemidPayoutInstruction-newCollectionRecord"/>	     
@@ -81,25 +80,7 @@
   		<property name="name" value="payIncomeToKemid" />
     	<property name="label" value="Pay Income to KEMID" />
     	<property name="required" value="true" />
-  	</bean>
-    <bean id="KemidPayoutInstruction-incomeAmountToPayToKemid" parent="KemidPayoutInstruction-incomeAmountToPayToKemid-parentBean" />
-
- 	<bean id="KemidPayoutInstruction-incomeAmountToPayToKemid-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="incomeAmountToPayToKemid" />
-    	<property name="label" value="Income Amount to Pay to KEMID" />
-    	<property name="shortLabel" value="Income Amount to Pay to KEMID" />
-    	<property name="maxLength" value="22" />
-        <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern"
-                  p:precision="19"
-                  p:scale="2"/>
-        </property>
-        <property name="required" value="true" />
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="24"/>
-        </property>
-  	</bean>
-  	
+  	</bean>  	
   	<bean id="KemidPayoutInstruction-startDate" parent="KemidPayoutInstruction-startDate-parentBean" />
 		        
   	<bean id="KemidPayoutInstruction-startDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -136,8 +117,6 @@
               				      p:attributeName="payIncomeToKemid" />
               				<bean parent="FieldDefinition" 
               				      p:attributeName="percentOfIncomeToPayToKemid" />
-              				<bean parent="FieldDefinition" 
-              				      p:attributeName="incomeAmountToPayToKemid" />
               				<bean parent="FieldDefinition" 
               				      p:attributeName="startDate" />
               				<bean parent="FieldDefinition" 

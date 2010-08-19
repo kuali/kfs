@@ -191,7 +191,6 @@ public class EndowPropertyConstants {
     public static final String KEMID_PAY_INC_TO_KEMID = "payIncomeToKemid";
     public static final String KEMID_PAY_INC_TO_KEMID_OBJ_REF = "payIncomeToKemidObjRef";
     public static final String KEMID_PAY_INC_PERCENT_OF_INC_TO_PAY_TO_KEMID = "percentOfIncomeToPayToKemid";
-    public static final String KEMID_PAY_INC_AMOUNT = "incomeAmountToPayToKemid";
     public static final String KEMID_PAY_INC_START_DATE = "startDate";
     public static final String KEMID_PAY_INC_END_DATE = "endDate";
 

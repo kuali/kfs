@@ -33,7 +33,6 @@ public class KemidPayoutInstruction extends PersistableBusinessObjectBase {
     private KualiInteger payoutIncomeSequenceNumber;
     private String payIncomeToKemid;
     private KualiDecimal percentOfIncomeToPayToKemid;
-    private KualiDecimal incomeAmountToPayToKemid;
     private Date startDate;
     private Date endDate;
 
@@ -71,26 +70,6 @@ public class KemidPayoutInstruction extends PersistableBusinessObjectBase {
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-
-    /**
-     * Gets the incomeAmountToPayToKemid.
-     * 
-     * @return incomeAmountToPayToKemid
-     */
-    public KualiDecimal getIncomeAmountToPayToKemid() {
-        return incomeAmountToPayToKemid;
-    }
-
-
-    /**
-     * Sets the incomeAmountToPayToKemid.
-     * 
-     * @param incomeAmountToPayToKemid
-     */
-    public void setIncomeAmountToPayToKemid(KualiDecimal incomeAmountToPayToKemid) {
-        this.incomeAmountToPayToKemid = incomeAmountToPayToKemid;
     }
 
 

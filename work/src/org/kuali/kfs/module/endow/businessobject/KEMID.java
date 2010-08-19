@@ -1027,4 +1027,13 @@ public class KEMID extends PersistableBusinessObjectBase {
     public String getHistoricalBalances() {
         return EndowConstants.LOOKUP_LINK;
     }
+
+    /**
+     * Gets the Ticklers link text.
+     * 
+     * @return the text to be displayed for the ticklers link
+     */
+    public String getTicklers() {
+        return EndowConstants.LOOKUP_LINK;
+    }
 }

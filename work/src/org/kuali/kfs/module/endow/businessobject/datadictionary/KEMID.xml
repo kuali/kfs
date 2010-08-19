@@ -69,6 +69,7 @@
         <ref bean="KEMID-currentAvailableFunds" />
         <ref bean="KEMID-currentBalances" />
         <ref bean="KEMID-historicalBalances" />
+        <ref bean="KEMID-ticklers" />
       </list>
     </property>
     <property name="collections">
@@ -495,6 +496,17 @@
       <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
+  <bean id="KEMID-ticklers" parent="KEMID-ticklers-parentBean" />
+
+  <bean id="KEMID-ticklers-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="ticklers"/>
+    <property name="label" value="Ticklers"/>
+    <property name="shortLabel" value="Value"/>
+    <property name="maxLength" value="22"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
+    </property>
+  </bean>  
   
 <!-- Business Object Inquiry Definition -->
 
@@ -901,6 +913,16 @@
             </list>
           </property>
         </bean> 
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Ticklers" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="ticklers" />                                     
+            </list>
+          </property>
+        </bean>         
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.endow.businessobject.inquiry.KemidInquirableImpl"/>

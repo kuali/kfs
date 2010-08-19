@@ -36,6 +36,7 @@ import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.businessobject.KemidSourceOfFunds;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.Tickler;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
@@ -240,9 +241,10 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         KEMID kemid = (KEMID) businessObject;
 
-        // if the attribute is currentAvailableFunds, currentBalances or historicalBalances then we build the lookup links for
-        // Current Available Funds, Current Balances and Historical Balances
-        if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equals(attributeName) || EndowPropertyConstants.KEMID_CURRENT_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equals(attributeName)) {
+        // if the attribute is currentAvailableFunds, currentBalances, historicalBalances, ticklers then we build the lookup links
+        // for
+        // Current Available Funds, Current Balances, Historical Balances and Ticklers
+        if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equals(attributeName) || EndowPropertyConstants.KEMID_CURRENT_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
 
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
@@ -261,15 +263,32 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
                 params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDHistoricalBalance.class.getName());
             }
 
+            // if ticklers set the BO to be Tickler
+            if (EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
+                params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Tickler.class.getName());
+            }
+
             params.put(KNSConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-            params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(kemid.getKemid()));
+
+            if (EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
+                params.put(EndowPropertyConstants.TICKLER_LOOKUP_KEMID, UrlFactory.encode(kemid.getKemid()));
+            }
+            else {
+                params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(kemid.getKemid()));
+            }
             params.put(KFSConstants.SUPPRESS_ACTIONS, "true");
             String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
 
             Map<String, String> fieldList = new HashMap<String, String>();
-            fieldList.put(EndowPropertyConstants.KEMID, kemid.getKemid());
+
+            if (EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
+                fieldList.put(EndowPropertyConstants.TICKLER_LOOKUP_KEMID, kemid.getKemid());
+            }
+            else {
+                fieldList.put(EndowPropertyConstants.KEMID, kemid.getKemid());
+            }
 
             return getHyperLink(Security.class, fieldList, url);
         }

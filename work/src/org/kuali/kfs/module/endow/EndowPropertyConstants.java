@@ -137,6 +137,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_CURRENT_AVAILABLE_FUNDS = "currentAvailableFunds";
     public static final String KEMID_CURRENT_BALANCES = "currentBalances";
     public static final String KEMID_HISTORICAL_BALANCES = "historicalBalances";
+    public static final String KEMID_TICKLERS = "ticklers";
 
     public static final String KEMID_AGREEMENTS_SECTION = "agreements";
     public static final String KEMID_SOURCE_OF_FUNDS_SECTION = "sourcesOfFunds";
@@ -490,6 +491,7 @@ public class EndowPropertyConstants {
     public static final String TICKLER_RECIPIENT_GROUPID = "groupId";
     public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.groupName";
     public static final String TICKLER_LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
+    public static final String TICKLER_LOOKUP_KEMID = "kemIds.kemId";
 
     // Transaction Line
     public static final String TRANSACTION_LINE_DOCUMENT_NUMBER = "documentNumber";

@@ -18,10 +18,16 @@ package org.kuali.kfs.module.endow.businessobject.inquiry;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
+import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
+import org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalBalance;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
@@ -29,11 +35,17 @@ import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.businessobject.KemidSourceOfFunds;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class KemidInquirableImpl extends KfsInquirableImpl {
 
@@ -209,7 +221,7 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
         try {
             Date currentProcessDate = dateTimeService.convertToSqlDate(currentProcessDateString);
             for (KemidCombineDonorStatement combineDonorStatement : kemidCombineDonorStatements) {
-                if (combineDonorStatement.getTerminateCombineDate()==null || combineDonorStatement.getTerminateCombineDate().compareTo(currentProcessDate) < 0) {
+                if (combineDonorStatement.getTerminateCombineDate() == null || combineDonorStatement.getTerminateCombineDate().compareTo(currentProcessDate) < 0) {
                     activeKemidCombineDonorStatement.add(combineDonorStatement);
                 }
             }
@@ -219,6 +231,51 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
         catch (ParseException ex) {
 
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.lang.String, boolean)
+     */
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+        KEMID kemid = (KEMID) businessObject;
+
+        // if the attribute is currentAvailableFunds, currentBalances or historicalBalances then we build the lookup links for
+        // Current Available Funds, Current Balances and Historical Balances
+        if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equals(attributeName) || EndowPropertyConstants.KEMID_CURRENT_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equals(attributeName)) {
+
+            Properties params = new Properties();
+            params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+
+            // the only difference between the two links is the BO class
+            // if currentAvailableFunds set the BO class to be KEMIDCurrentAvailableBalance
+            if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equals(attributeName)) {
+                params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDCurrentAvailableBalance.class.getName());
+            }
+            // if currentBalances set the BO to be KEMIDCurrentBalance
+            if (EndowPropertyConstants.KEMID_CURRENT_BALANCES.equals(attributeName)) {
+                params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDCurrentBalance.class.getName());
+            }
+            // if historicalBalances set the BO to be KEMIDHistoricalBalance
+            if (EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equals(attributeName)) {
+                params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDHistoricalBalance.class.getName());
+            }
+
+            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(kemid.getKemid()));
+            params.put(KFSConstants.SUPPRESS_ACTIONS, "true");
+            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+
+            Map<String, String> fieldList = new HashMap<String, String>();
+            fieldList.put(EndowPropertyConstants.KEMID, kemid.getKemid());
+
+            return getHyperLink(Security.class, fieldList, url);
+        }
+
+
+        return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }
 
 

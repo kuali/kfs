@@ -16,22 +16,13 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -70,7 +61,7 @@ public class KEMID extends PersistableBusinessObjectBase {
     private CloseCode reasonClosed;
     private TypeCode type;
     private TypeRestrictionCode typeRestrictionCodeForIncomeRestrictionCode;
-    private TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode;    
+    private TypeRestrictionCode typeRestrictionCodeForPrincipalRestrictionCode;
     private CAECode incomeCAE;
     private CAECode principalCAE;
     private ResponsibleAdministrationCode responsibleAdministration;
@@ -193,7 +184,7 @@ public class KEMID extends PersistableBusinessObjectBase {
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-    
+
     /**
      * This method gets incomeRestrictionCode
      * 
@@ -981,7 +972,7 @@ public class KEMID extends PersistableBusinessObjectBase {
         String kemIdLabel = kemID + " - " + shortTitle;
         return kemIdLabel;
     }
-    
+
     /**
      * Gets the typeRestrictionCodeForIncomeRestrictionCode description.
      * 
@@ -1008,5 +999,32 @@ public class KEMID extends PersistableBusinessObjectBase {
         }
         else
             return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Gets the Current Available Funds link text.
+     * 
+     * @return the text to be displayed for the current Available Funds link
+     */
+    public String getCurrentAvailableFunds() {
+        return EndowConstants.LOOKUP_LINK;
+    }
+
+    /**
+     * Gets the Current Balances link text.
+     * 
+     * @return the text to be displayed for the current balances link
+     */
+    public String getCurrentBalances() {
+        return EndowConstants.LOOKUP_LINK;
+    }
+
+    /**
+     * Gets the Historical Balances link text.
+     * 
+     * @return the text to be displayed for the historical balances link
+     */
+    public String getHistoricalBalances() {
+        return EndowConstants.LOOKUP_LINK;
     }
 }

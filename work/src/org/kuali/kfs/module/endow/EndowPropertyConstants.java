@@ -133,6 +133,11 @@ public class EndowPropertyConstants {
     public static final String KEMID_FEES_TAB = "kemidFees";
     public static final String KEMID_CLOSED = "closed_ind";
 
+    // links
+    public static final String KEMID_CURRENT_AVAILABLE_FUNDS = "currentAvailableFunds";
+    public static final String KEMID_CURRENT_BALANCES = "currentBalances";
+    public static final String KEMID_HISTORICAL_BALANCES = "historicalBalances";
+
     public static final String KEMID_AGREEMENTS_SECTION = "agreements";
     public static final String KEMID_SOURCE_OF_FUNDS_SECTION = "sourcesOfFunds";
     public static final String KEMID_BENEFITTING_ORGS_SECTION = "benefittingOrganizations";
@@ -556,6 +561,6 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_ACCOUNTING_LINE_NBR = "accountingLineNumber";
     public static final String ENDOWMENT_ACCOUNTING_LINE_ORG_REF_ID = "organizationReferenceId";
     public static final String ENDOWMENT_ACCOUNTING_LINE_AMOUNT = "amount";
-        
+
     public static final String DOCUMENT_NUMBER = "documentNumber";
 }

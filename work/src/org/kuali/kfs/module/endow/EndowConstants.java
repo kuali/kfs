@@ -152,6 +152,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
 
         public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_DAY_AND_MONTH";
+        
+        public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES";
     }
 
     public static class KemidValueOptions {

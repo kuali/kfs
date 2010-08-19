@@ -16,33 +16,49 @@
 package org.kuali.kfs.module.endow.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionType;
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentTransactionDocumentTypeValuesFinder.class);
+    
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
-        // get the document type names from the system parameter
-        // use DocumentTypeService.getfindByName(String name).getLabel() to get Label
-        // construct keyValue pair, which in fact is name-label pair.
+    public List<KeyLabelPair> getKeyValues() {
         
-   
-        List labels = new ArrayList();
+        LOG.info("Enter getKeyValues()");
+        
+        // Create service objects.
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        ParameterService parameterService       = SpringContext.getBean(ParameterService.class);
+        
+        // Create label and initialize with the first entry being blank.
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
+        
+        // Read in parameter values.
+        List<String> documentTypeNames =
+            parameterService.getParameterValues(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
+        
+        for (String documentTypeName : documentTypeNames) {
+            String label = documentTypeService.findByName(documentTypeName).getLabel();
+            LOG.info(documentTypeName);
+            LOG.info(label);
+            labels.add(new KeyLabelPair(documentTypeName, label));
+        }
 
-
+        LOG.info("Exit getKeyValues()");
+        
         return labels;
     }
-
 }

@@ -1036,4 +1036,13 @@ public class KEMID extends PersistableBusinessObjectBase {
     public String getTicklers() {
         return EndowConstants.LOOKUP_LINK;
     }
+    
+    /**
+     * Gets the Recurring Transfers link text.
+     * 
+     * @return the text to be displayed for the recurring transfers link
+     */
+    public String getRecurringTransfers() {
+        return EndowConstants.LOOKUP_LINK;
+    }
 }

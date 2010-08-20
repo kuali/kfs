@@ -70,6 +70,7 @@
         <ref bean="KEMID-currentBalances" />
         <ref bean="KEMID-historicalBalances" />
         <ref bean="KEMID-ticklers" />
+        <ref bean="KEMID-recurringTransfers" />
       </list>
     </property>
     <property name="collections">
@@ -479,7 +480,7 @@
   <bean id="KEMID-currentBalances-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="currentBalances"/>
     <property name="label" value="Current Balances"/>
-    <property name="shortLabel" value="Value"/>
+    <property name="shortLabel" value="Curr Bal"/>
     <property name="maxLength" value="22"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="22"/>
@@ -490,7 +491,7 @@
   <bean id="KEMID-historicalBalances-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="historicalBalances"/>
     <property name="label" value="Historical Balances"/>
-    <property name="shortLabel" value="Value"/>
+    <property name="shortLabel" value="Hist Bal"/>
     <property name="maxLength" value="22"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="22"/>
@@ -501,12 +502,23 @@
   <bean id="KEMID-ticklers-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="ticklers"/>
     <property name="label" value="Ticklers"/>
-    <property name="shortLabel" value="Value"/>
+    <property name="shortLabel" value="Ticklers"/>
     <property name="maxLength" value="22"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>  
+  <bean id="KEMID-recurringTransfers" parent="KEMID-recurringTransfers-parentBean" />
+
+  <bean id="KEMID-recurringTransfers-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="recurringTransfers"/>
+    <property name="label" value="Recurring Transfer Transactions"/>
+    <property name="shortLabel" value="Recurring Transfers"/>
+    <property name="maxLength" value="22"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
+    </property>
+  </bean>   
   
 <!-- Business Object Inquiry Definition -->
 
@@ -920,6 +932,16 @@
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="ticklers" />                                     
+            </list>
+          </property>
+        </bean> 
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Recurring Transfer Transactions" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="recurringTransfers" />                                     
             </list>
           </property>
         </bean>         

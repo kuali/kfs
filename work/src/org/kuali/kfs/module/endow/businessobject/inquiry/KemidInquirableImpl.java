@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
@@ -244,7 +245,8 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
         // if the attribute is currentAvailableFunds, currentBalances, historicalBalances, ticklers then we build the lookup links
         // for
         // Current Available Funds, Current Balances, Historical Balances and Ticklers
-        if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equals(attributeName) || EndowPropertyConstants.KEMID_CURRENT_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equals(attributeName) || EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
+        if (EndowPropertyConstants.KEMID_CURRENT_AVAILABLE_FUNDS.equalsIgnoreCase(attributeName) || EndowPropertyConstants.KEMID_CURRENT_BALANCES.equalsIgnoreCase(attributeName) || EndowPropertyConstants.KEMID_HISTORICAL_BALANCES.equalsIgnoreCase(attributeName) || EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
+            // || EndowPropertyConstants.KEMID_RECURRING_TRANSFERS.equalsIgnoreCase(attributeName)) {
 
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
@@ -268,6 +270,11 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
                 params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Tickler.class.getName());
             }
 
+            // if ticklers set the BO to be EndowmentRecurringCashTransfer
+            // if (EndowPropertyConstants.KEMID_RECURRING_TRANSFERS.equals(attributeName)) {
+            // params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, EndowmentRecurringCashTransfer.class.getName());
+            // }
+
             params.put(KNSConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
@@ -275,6 +282,9 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
             if (EndowPropertyConstants.KEMID_TICKLERS.equals(attributeName)) {
                 params.put(EndowPropertyConstants.TICKLER_LOOKUP_KEMID, UrlFactory.encode(kemid.getKemid()));
             }
+            // else if (EndowPropertyConstants.KEMID_RECURRING_TRANSFERS.equalsIgnoreCase(attributeName)) {
+            // params.put(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID, UrlFactory.encode(kemid.getKemid()));
+            // }
             else {
                 params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(kemid.getKemid()));
             }

@@ -138,6 +138,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_CURRENT_BALANCES = "currentBalances";
     public static final String KEMID_HISTORICAL_BALANCES = "historicalBalances";
     public static final String KEMID_TICKLERS = "ticklers";
+    public static final String KEMID_RECURRING_TRANSFERS = "recurringTransfers";
 
     public static final String KEMID_AGREEMENTS_SECTION = "agreements";
     public static final String KEMID_SOURCE_OF_FUNDS_SECTION = "sourcesOfFunds";
@@ -565,4 +566,7 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_ACCOUNTING_LINE_AMOUNT = "amount";
 
     public static final String DOCUMENT_NUMBER = "documentNumber";
+    
+    // Endowment Recurring Cash Transfer
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Travis' id='5955-1-1' failOnError='true'>
+    <comment>Create Parameter: TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES </comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='nmspc_cd' value='KFS-ENDOW' />
+      <column name='parm_dtl_typ_cd' value='EndowmentTransactionCode' />
+      <column name='parm_nm' value='TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES' />
+      <column name='obj_id' type='UUID' valueNumeric='SYS_GUID' />
+      <column name='ver_nbr' valueNumeric='1' />
+      <column name='parm_typ_cd' value='CONFG' />
+      <column name='txt' value='EAD;EAI;ECDD;ECI;ECT;ECA;EUSA;ELD;ELI;EST;EHA;EGLT;GLET' />
+      <column name='parm_desc_txt' value='The values of this parameter represent a complete list of document type names for the endowment transactional documents that can be posted to the endowment transaction archive table The application maps this list to the document types that have been registered with the Workflow Engine' />
+      <column name='cons_cd' value='A' />
+      <column name='appl_nmspc_cd' value='KFS' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

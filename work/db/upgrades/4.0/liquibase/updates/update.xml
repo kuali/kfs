@@ -190,4 +190,6 @@
 <include file="updates/2010-08-13-5578k-1-END_TRAN_HLDG_LOT_T.xml"/>
 <include file="updates/2010-08-18-5578l-1-END_TRAN_ARCHV_SEC_T.xml"/>
 <include file="updates/2010-08-19-5578m-1-END_TRAN_ARCHV_T.xml"/>
+<include file="updates/2010-08-19-5476m-1-END_KEMID_PAY_INC_T.xml"/>
+<include file="updates/2010-08-19-5955-1-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

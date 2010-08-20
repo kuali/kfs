@@ -36,8 +36,6 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
      */
     public List<KeyLabelPair> getKeyValues() {
         
-        LOG.info("Enter getKeyValues()");
-        
         // Create service objects.
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         ParameterService parameterService       = SpringContext.getBean(ParameterService.class);
@@ -52,12 +50,8 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
         
         for (String documentTypeName : documentTypeNames) {
             String label = documentTypeService.findByName(documentTypeName).getLabel();
-            LOG.info(documentTypeName);
-            LOG.info(label);
             labels.add(new KeyLabelPair(documentTypeName, label));
         }
-
-        LOG.info("Exit getKeyValues()");
         
         return labels;
     }

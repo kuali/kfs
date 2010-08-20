@@ -2640,4 +2640,118 @@
     <field-descriptor name="documentType" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
  	<field-descriptor name="approvedDate" column="APPROVED_DT" jdbc-type="DATE"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" table="END_REC_CSH_XFR_T">
+	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="sourceKemid" column="SRC_KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="transactionType" column="TRAN_DOC_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceEtranCode" column="SRC_ETRAN_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceLineDescription" column="SRC_LN_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="sourceIncomeOrPrincipal" column="SRC_IP_IND_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="frequencyCode" column="FREQ_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="nextProcessDate" column="NXT_PROC_DT" jdbc-type="DATE"/>
+	<field-descriptor name="lastProcessDate" column="LST_PROC_DT" jdbc-type="DATE"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="sourceKemid" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="etranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="sourceEtranCode" />
+	</reference-descriptor>	
+	
+	<reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="sourceIncomeOrPrincipal" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="frequencyCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.FrequencyCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="frequencyCode"/>
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget" table="END_REC_CSH_XFR_KEMID_TGT_T">
+	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="targetKemid" column="TGT_KEMID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="targetEtranCode" column="TGT_ETRAN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="targetLineDescription" column="TGT_DESC" jdbc-type="VARCHAR" />	
+	<field-descriptor name="targetIncomeOrPrincipal" column="TGT_IP_IND_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetAmount" column="TGT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="targetPercent" column="TGT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="targetUseEtranCode" column="TGT_USE_ETRAN_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="targetKemid" />
+	</reference-descriptor>
+
+	<reference-descriptor name="etranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="targetEtranCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="incomePrincipalIndicator" class-ref="org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="targetIncomeOrPrincipal" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="useEtranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="targetUseEtranCode" />
+	</reference-descriptor>		
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget" table="END_REC_CSH_XFR_GL_TGT_T">
+	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="targetChartOfAccountsCode" column="TGT_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="targetAccountsNumber" column="TGT_ACCT_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="targetFinancialObjectCode" column="TGT_FIN_OBJ_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetFdocLineAmount" column="TGT_FDOC_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="targetSubAccountNumber" column="TGT_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetFinancialSubObjectCode" column="TGT_SUB_OBJ_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetProjectCode" column="TGT_PROJECT_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetPercent" column="TGT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="targetUseEtranCode" column="TGT_USE_ETRAN_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+    <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetChartOfAccountsCode" />
+    </reference-descriptor>
+
+	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetChartOfAccountsCode" />
+        <foreignkey field-ref="targetAccountsNumber" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetChartOfAccountsCode" />
+        <foreignkey field-ref="targetFinancialObjectCode" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetChartOfAccountsCode" />
+        <foreignkey field-ref="targetAccountsNumber" />
+        <foreignkey field-ref="targetSubAccountNumber" />
+    </reference-descriptor>
+    
+	<reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetChartOfAccountsCode" />
+        <foreignkey field-ref="targetAccountsNumber" />
+        <foreignkey field-ref="targetFinancialObjectCode" />
+        <foreignkey field-ref="targetFinancialSubObjectCode" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="projectCode" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="targetProjectCode" />
+    </reference-descriptor>
+
+	<reference-descriptor name="etranCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="targetUseEtranCode" />
+	</reference-descriptor>	
+</class-descriptor>
 </descriptor-repository>

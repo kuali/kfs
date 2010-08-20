@@ -168,10 +168,6 @@
         <property name="steps">
             <list>
                 <ref bean="endowmenteDocPostingStep" />
-<!--                <ref bean="generateTransactionArchiveRecord" />-->
-<!--                <ref bean="updateCashBalance" />-->
-<!--                <ref bean="updateHoldingTaxLotRecords"/>-->
-<!--                <ref bean="updateSecurityRecord" />-->
             </list>
         </property>
     </bean>

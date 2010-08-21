@@ -65,7 +65,7 @@ public class AccountingLineViewDebitCreditAmountFieldDefinition extends Maintain
      */
     protected Field createFieldForPropertyName(String propertyName, Class<? extends AccountingLine> accountingLineClass) {
         Field realField = FieldUtils.getPropertyField(accountingLineClass, propertyName, false);
-        FieldBridge.setupField(realField, this);
+        FieldBridge.setupField(realField, this, null);
         if (useShortLabels) {
             BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
             realField.setFieldLabel(boEntry.getAttributeDefinition(propertyName).getShortLabel());

@@ -209,7 +209,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
      */
     public Field getKNSFieldForDefinition(Class<? extends AccountingLine> accountingLineClass) {
         Field realField = FieldUtils.getPropertyField(accountingLineClass, getName(), false);
-        FieldBridge.setupField(realField, this);
+        FieldBridge.setupField(realField, this, null);
         if (isHidden()) {
             realField.setFieldType(Field.HIDDEN);
         }

@@ -39,7 +39,9 @@ public class FinancialSystemDocumentDaoOjb extends DocumentDaoOjb implements Fin
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
         ArrayList <Document> tempList =  new ArrayList(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-        for (Document doc : tempList) addAdHocs(doc);
+        for (Document doc : tempList) {
+            documentAdHocService.addAdHocs(doc);
+        }
         return tempList;
     }
 

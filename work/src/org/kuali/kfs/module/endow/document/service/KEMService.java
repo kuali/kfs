@@ -18,6 +18,8 @@ package org.kuali.kfs.module.endow.document.service;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.kuali.rice.kns.util.KualiInteger;
+
 /**
  * This interface provides utility methods for the KEM module like mod10 calculation.
  */
@@ -40,6 +42,19 @@ public interface KEMService {
      * @return the market value for the given security
      */
     public BigDecimal getMarketValue(String securityId);
+
+    /**
+     * Gets the market value as the HLDG _MVAL for the record in END_CURR_TAX_LOT_BAL_T for the given kemid, securityId,
+     * registrationCode, lotNumber, ipIndicator.
+     * 
+     * @param kemid
+     * @param securityId
+     * @param registrationCode
+     * @param lotNumber
+     * @param ipIndicator
+     * @return the market value for the given kemid, securityId, registrationCode, lotNumber, ipIndicator.
+     */
+    public BigDecimal getMarketValue(String kemid, String securityId, String registrationCode, KualiInteger lotNumber, String ipIndicator);
 
     /**
      * Gets the current system process date.

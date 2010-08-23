@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep;
+import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -35,6 +36,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KEMServiceImpl implements KEMService {
 
@@ -51,6 +54,20 @@ public class KEMServiceImpl implements KEMService {
 
         BigDecimal marketValue = currentTaxLotService.getHoldingMarketValueSumForSecurity(securityId);
 
+        return marketValue;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.lang.String, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiInteger, java.lang.String)
+     */
+    public BigDecimal getMarketValue(String kemid, String securityId, String registrationCode, KualiInteger lotNumber, String ipIndicator) {
+        BigDecimal marketValue = BigDecimal.ZERO;
+
+        CurrentTaxLotBalance currentTaxLotBalance = currentTaxLotService.getByPrimaryKey(kemid, securityId, registrationCode, lotNumber, ipIndicator);
+
+        if (ObjectUtils.isNotNull(currentTaxLotBalance) && currentTaxLotBalance.getHoldingMarketValue() != null) {
+            marketValue = currentTaxLotBalance.getHoldingMarketValue();
+        }
         return marketValue;
     }
 

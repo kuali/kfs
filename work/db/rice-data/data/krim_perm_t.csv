@@ -267,4 +267,4 @@
 "98","98","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of Receiving Transactional Documents.","Y"
 "99","99","1","10","KFS-PURAP","Initiate Document","Authorizes the initiation of the Electronic Invoice Reject Document.","Y"
 "1101","1101","1","2","KFS-SYS","Copy Document","Allows access to the Copy button on KFS Financial System Documents.","Y"
-"1102","89016BA281BFAA04E0404F8189D858DE",1,"10","KFS-AR","Initiate Document","Authorizes the initiation of the the Organization Options","Y"
+"1102","1102","1","10","KFS-AR","Initiate Document","Authorizes the initiation of the the Organization Options","Y"

@@ -22,10 +22,12 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 
 public class CalculateProcessDateUsingFrequencyCodeService {
 
     private DateTimeService dateTimeService;
+    protected KEMService kEMService;
     
     /**
      * This method uses frequency code to derive the next processing date
@@ -35,7 +37,8 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     public Date calculateProcessDate(String frequencyCode) {
         
-        Date processDate = dateTimeService.getCurrentSqlDate();
+    //    Date processDate = dateTimeService.getCurrentSqlDate();
+        Date processDate = kEMService.getCurrentDate();
         
         String frequencyType = frequencyCode.substring(0, 1);
         
@@ -77,6 +80,14 @@ public class CalculateProcessDateUsingFrequencyCodeService {
         return dateTimeService;
     }
 
+    protected KEMService getKEMService() {
+        return kEMService;
+    }
+    
+    public void setKEMService(KEMService kEMService) {
+        this.kEMService = kEMService;
+    }
+    
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date

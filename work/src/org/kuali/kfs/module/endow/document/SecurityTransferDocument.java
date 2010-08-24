@@ -32,12 +32,4 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
         initializeSubType();
     }
 
-    /**
-     * @see org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase#prepareForSave()
-     */
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-    }
-
 }

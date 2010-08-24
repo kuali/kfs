@@ -40,7 +40,7 @@
          headingTitle="Holding Adjustment Details"
          summaryTitle="Holding Adjustment Details" />
 
-    <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="true"/>      
+    <endow:endowmentSecurityDetailsSection showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="true" showLabels="false"/>      
 
     <endow:endowmentTransactionLinesSection hasSource="true" hasTarget="true" hasUnits="false" isTransAmntReadOnly="false"/>   
     

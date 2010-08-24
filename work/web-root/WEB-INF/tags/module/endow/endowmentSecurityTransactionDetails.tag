@@ -24,18 +24,11 @@
 <%@ attribute name="showSource" required="true" %>
 <%@ attribute name="showTarget" required="true" %>
 <%@ attribute name="showRegistrationCode" required="true" %>
-<%@ attribute name="openTabByDefault" required="true" %>
+<%@ attribute name="showLabels" required="true" %>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<kul:tab tabTitle="Security Details" defaultOpen="${openTabByDefault}" tabErrorKey="${EndowConstants.TRANSACTION_SECURITY_TAB_ERRORS}">
-
-
- <c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />
-
- <div class="tab-container" align=center>
-	<h3>Security Details</h3>
-	<table cellpadding="0" cellspacing="0" class="datatable" summary="Security Details2" style='table-layout:fixed'>
+	<table cellpadding="0" cellspacing="0" class="datatable" summary="Security Details2" >
 	
 	<c:choose>
 		<c:when  test="${showSource}">  
@@ -47,6 +40,19 @@
 			<c:set var="securityType" value="targetTransactionSecurity" /> 
 		</c:when>
 	</c:choose>
+	<c:set var="ClassCodeAttributes" value="${DataDictionary.ClassCode.attributes}" />
+	 
+	<c:if test="${showLabels}">
+		<tr>
+	            <td colspan="1" class="tab-subhead" style="border-right: none;" align="left">
+	            <c:if test="${showSource}">From</c:if>
+	            <c:if test="${showTarget}">To</c:if>
+	            </td>    
+	            <td colspan="4" class="tab-subhead" style="border-right: none;border-left: none;" >
+	            &nbsp;
+	            </td>
+	    </tr>
+    </c:if>
 		
 		<tr>
          	<kul:htmlAttributeHeaderCell
@@ -132,20 +138,5 @@
             </td> 
             </c:if>
         </tr>
-       
-    <%--
-    <c:if  test="${showTarget}">  
-		<tr>
-            <kul:htmlAttributeHeaderCell attributeEntry="${securityTransactionAttributes.securityId}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${securityTransactionAttributes.registrationCode}"/>
-		</tr>
       
-        <tr>
-            <td class="infoline"><kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.securityId}" property="targetTransactionSecurity.securityId" /></td>
-            <td class="infoline"><kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="targetTransactionSecurity.registrationCode" /></td> 
-        </tr>
-    </c:if>
-	--%>
 	</table>
-</div>
-</kul:tab>

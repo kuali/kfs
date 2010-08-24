@@ -40,7 +40,7 @@
          headingTitle="Asset Decrease Details"
          summaryTitle="Asset Decrease Details" />
 
-    <endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="true"/>          
+    <endow:endowmentSecurityDetailsSection showTarget="false" showSource="true" showRegistrationCode="true" openTabByDefault="true" showLabels="false"/>          
          
     <endow:endowmentTransactionLinesSection hasSource="true" hasTarget="false" hasUnits="true" isTransAmntReadOnly="false"/>     
     

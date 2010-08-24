@@ -42,7 +42,7 @@
          summaryTitle="Liability Decrease Details"
          />
 
-    <endow:endowmentSecurityTransactionDetails showSource="true" showTarget="false" showRegistrationCode="true" openTabByDefault="true" />  
+    <endow:endowmentSecurityDetailsSection showSource="true" showTarget="false" showRegistrationCode="true" openTabByDefault="true" showLabels="false"/>  
                   
 	<endow:endowmentTransactionLinesSection hasSource="true" hasTarget="false" hasUnits="true" isTransAmntReadOnly="false"/> 
                    

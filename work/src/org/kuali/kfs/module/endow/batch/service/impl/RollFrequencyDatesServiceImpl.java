@@ -41,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RollFrequencyDatesServiceImpl.class);
+    
     protected ParameterService parameterService;
     protected KEMService kemService;
     protected BusinessObjectService businessObjectService;
@@ -57,7 +59,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      */
     public boolean updateFrequencyDate() {
         
-        System.out.println("RollFrequencyDatesServiceImpl----------------------------------------------------");
+        LOG.info("Begin roll frequncy dates ..."); 
 
         // get the current date
         Date currentDate = kemService.getCurrentDate();

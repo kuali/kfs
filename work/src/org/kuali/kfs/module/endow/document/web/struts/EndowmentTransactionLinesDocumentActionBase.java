@@ -105,6 +105,21 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     }
 
     /**
+     * Cancels import.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward cancelImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    /**
      * @param mapping
      * @param form
      * @param request

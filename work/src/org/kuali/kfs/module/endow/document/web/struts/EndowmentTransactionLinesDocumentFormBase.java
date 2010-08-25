@@ -51,14 +51,20 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     protected boolean showIncomeTotalUnits = true;
     protected boolean showPrincipalTotalUnits = true;
     protected boolean showTransactionAmount = true;
-    protected boolean showUnitAdjustmentAmount = false; //default -> do not show
-    
+    protected boolean showUnitAdjustmentAmount = false; // default -> do not show
+
     // the income or principal box value will be set on tag file using the property.
     // if set to true, income or principal drop-down box will be readonly with value set to P-Principal
     protected boolean fieldValueToPrincipal = false;
 
     // show the etran code on the document...
     protected boolean showETranCode = true;
+
+    // show the import button on source transaction lines
+    protected boolean showSourceImport = true;
+
+    // show the import button on target transaction lines
+    protected boolean showTargetImport = true;
 
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
@@ -376,7 +382,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setShowTransactionAmount(boolean showTransactionAmount) {
         this.showTransactionAmount = showTransactionAmount;
     }
-    
+
     /**
      * Gets showUnitAdjustmentAmount.
      * 
@@ -393,5 +399,41 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setShowUnitAdjustmentAmount(boolean showUnitAdjustmentAmount) {
         this.showUnitAdjustmentAmount = showUnitAdjustmentAmount;
+    }
+
+    /**
+     * Gets the showSourceImport.
+     * 
+     * @return showSourceImport
+     */
+    public boolean isShowSourceImport() {
+        return showSourceImport;
+    }
+
+    /**
+     * Sets the showSourceImport.
+     * 
+     * @param showSourceImport
+     */
+    public void setShowSourceImport(boolean showSourceImport) {
+        this.showSourceImport = showSourceImport;
+    }
+
+    /**
+     * Gets the showTargetImport.
+     * 
+     * @return showTargetImport
+     */
+    public boolean isShowTargetImport() {
+        return showTargetImport;
+    }
+
+    /**
+     * Sets the showTargetImport.
+     * 
+     * @param showTargetImport
+     */
+    public void setShowTargetImport(boolean showTargetImport) {
+        this.showTargetImport = showTargetImport;
     }
 }

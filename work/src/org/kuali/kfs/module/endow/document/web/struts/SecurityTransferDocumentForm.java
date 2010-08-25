@@ -24,6 +24,7 @@ public class SecurityTransferDocumentForm extends EndowmentTransactionLinesDocum
     public SecurityTransferDocumentForm() {
         super();
 
+        showSourceImport = false;
         // transaction amount is read only for this document; the filed is empty initially
         newSourceTransactionLine.setTransactionAmount(null);
         newTargetTransactionLine.setTransactionAmount(null);

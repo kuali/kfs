@@ -24,6 +24,7 @@
 <%@ attribute name="isSource" required="true" %>
 <%@ attribute name="hasUnits" required="true" %>
 <%@ attribute name="isTransAmntReadOnly" required="true" %>
+<%@ attribute name="showImport" required="false" %>
 
 <c:set var="sourceGroupLabel" value="${KualiForm.sourceGroupLabelName}" />
 <c:set var="targetGroupLabel" value="${KualiForm.targetGroupLabelName}" />
@@ -34,6 +35,8 @@
 <c:set var="setFieldValueToPrincipal" value="${KualiForm.fieldValueToPrincipal}" />
 <c:set var="showETranCode" value="${KualiForm.showETranCode}" />
 <c:set var="showUnitAdjustmentAmount" value="${KualiForm.showUnitAdjustmentAmount}" />
+<c:set var="showSourceImport" value="${KualiForm.showSourceImport}" />
+<c:set var="showTargetImport" value="${KualiForm.showTargetImport}" />
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -79,7 +82,7 @@
 	            </td>
 				
 				<td colspan="2" class="tab-subhead" align="right" nowrap="nowrap" style="border-left: none;">
-			    <c:if test="${isSource and (not readOnly)}">
+			    <c:if test="${isSource and (not readOnly) and showSourceImport}">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideSourceTranImport() {
@@ -99,7 +102,7 @@
                       		'<html:file size="30" property="transactionLineImportFile" />' +
                       		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
-                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                      		'<html:image property="methodToCall.cancelImport" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideSourceTranImport();return false;" />' +
                     		'<\/div>');
                 		//-->
@@ -110,7 +113,7 @@
 						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</c:if>
-				<c:if test="${not isSource and (not readOnly)}">
+				<c:if test="${not isSource and (not readOnly) and showTargetImport}">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideTargetTranImport() {
@@ -130,7 +133,7 @@
                       		'<html:file size="30" property="transactionLineImportFile" />' +
                       		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
-                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                      		'<html:image property="methodToCall.cancelImport" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideTargetTranImport();return false;" />' +
                     		'<\/div>');
                 		//-->
@@ -362,3 +365,4 @@
 			</c:if>
 		</tr>
 		</c:if>
+</table>		

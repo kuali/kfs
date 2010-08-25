@@ -75,7 +75,7 @@
                       		'<html:file size="30" property="${importFile}" />' +
                       		'<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported accounting lines" title="add imported accounting lines" />' +
-                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                      		'<html:image property="methodToCall.cancelImport" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideSourceEndowImport();return false;" />' +
                     		'<\/div>');
                 		//-->
@@ -107,7 +107,7 @@
                       		'<html:file size="30" property="${importFile}" />' +
                       		'<html:image property="methodToCall.${uploadAccountingLines}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported accounting lines" title="add imported accounting lines" />' +
-                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                      		'<html:image property="methodToCall.cancelImport" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideTargetEndowImport();return false;" />' +
                     		'<\/div>');
                 		//-->

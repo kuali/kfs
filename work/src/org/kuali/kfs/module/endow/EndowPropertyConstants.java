@@ -313,6 +313,9 @@ public class EndowPropertyConstants {
     // KEMID Fee Method
     public static final String FEE_METHOD_CODE = "feeMethodCode";
     public static final String FEE_METHOD_FREQUENCY_CODE = "feeFrequencyCode";
+    public static final String FEE_NEXT_PRCESS_DATE = "feeNextProcessDate";
+    public static final String FEE_LAST_PRCESS_DATE = "feeLastProcessDate";
+    public static final String FEE_FREQUENCY_CODE = "feeFrequencyCode"; 
 
     // KEMID Fee Class Code
     public static final String FEE_CLASS_CODE = "classCode";

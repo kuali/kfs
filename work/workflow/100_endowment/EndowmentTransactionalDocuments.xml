@@ -88,6 +88,12 @@
         <label>GL To Endowment Transfer Of Funds</label>
         <parent>ET</parent>
         <docHandler> ${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
+    </documentType>
+        <documentType>
+        <name>ECR</name>
+        <label>Endowment Corporate Reorganization</label>
+        <parent>ET</parent>
+        <docHandler> ${application.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler </docHandler>
     </documentType>    
 </documentTypes>
 </data>

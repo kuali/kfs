@@ -2641,7 +2641,7 @@
  	<field-descriptor name="approvedDate" column="APPROVED_DT" jdbc-type="DATE"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" table="END_REC_CSH_XFR_T">
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" table="END_REC_CSH_XFT_T">
 	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="sourceKemid" column="SRC_KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionType" column="TRAN_DOC_TYP_CD" jdbc-type="VARCHAR" />

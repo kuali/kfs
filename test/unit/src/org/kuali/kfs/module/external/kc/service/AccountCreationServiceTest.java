@@ -46,7 +46,7 @@ public class AccountCreationServiceTest extends KualiTestBase
         // Initialize objects.
         accountParameters = new AccountParametersDTO();
         accountParameters.setUnit("BL");
-        accountParameters.setAccountNumber("1234567");
+        accountParameters.setAccountNumber("1234568");
         accountParameters.setAccountName("KC Award");
         accountParameters.setHigherEdFunctionCode("IPR");
         accountParameters.setIndirectCostTypeCode("");
@@ -124,7 +124,7 @@ public class AccountCreationServiceTest extends KualiTestBase
             //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceSOAP"); // error
             
             AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);   
-            System.out.println("account number: " + creationStatus.getAccountNumber());        
+            System.out.println("++++++++++++++++++++++++++++++++++ account number: " + creationStatus.getAccountNumber());
             assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {
@@ -134,3 +134,5 @@ public class AccountCreationServiceTest extends KualiTestBase
 
     
 }
+
+

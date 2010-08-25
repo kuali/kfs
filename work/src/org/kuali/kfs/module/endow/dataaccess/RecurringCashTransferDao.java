@@ -17,23 +17,14 @@ package org.kuali.kfs.module.endow.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 
-public interface SecurityDao {
-
+public interface RecurringCashTransferDao {
     /**
-     * Gets all the securities for which the next income pay date is current date.
-     * 
-     * @return
-     */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate();
-    
-    /**
-     * Gets securities  whose next income pay date is equal to or less than the current date
+     * Gets EndowmentRecurringCashTransfer whose next income pay date is equal to or less than the current date
      * and whose frequency code is valid 
      * 
-     * @return List<Security>
+     * @return List<EndowmentRecurringCashTransfer>
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate();
-
+    public List<EndowmentRecurringCashTransfer> getAllRecurringCashTransferWithNextPayDateEqualOrLessCurrentDate();
 }

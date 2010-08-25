@@ -62,6 +62,7 @@
                 <value>endowmenteDocPostingJob</value>
 				<value>createAccrualTransactionsJob</value>			
 				<value>rollProcessDateJob</value>	
+				<value>rollFrequencyDatesJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -265,6 +266,66 @@
 			<ref bean="parameterService" />
 		</property>	
 	</bean>
+	
+	<bean id="rollFrequencyDatesJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="rollFrequencyDatesStep" />
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="rollFrequencyDatesStep" class="org.kuali.kfs.module.endow.batch.RollFrequencyDatesStep" parent="step">
+		<property name="rollFrequencyDatesService">
+			<ref bean="rollFrequencyDatesService" />
+		</property>
+	</bean>
+	
+	<bean id="rollFrequencyDatesService" class="org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImpl">
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+		<property name="calculateProcessDateUsingFrequencyCodeService">
+			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
+		</property>	
+		<property name="securityDao">
+			<ref bean="securityDao" />
+		</property>	
+		<property name="feeMethodDao">
+			<ref bean="feeMethodDao" />
+		</property>	
+		<property name="ticklerDao">
+			<ref bean="ticklerDao" />
+		</property>	
+		<property name="recurringCashTransferDao">
+			<ref bean="recurringCashTransferDao" />
+		</property>			
+	</bean>
+	
+	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
+	<bean id="ticklerDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TicklerDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
+	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">

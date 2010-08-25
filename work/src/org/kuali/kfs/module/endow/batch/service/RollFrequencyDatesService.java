@@ -13,27 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.dataaccess;
+package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.List;
-
-import org.kuali.kfs.module.endow.businessobject.Security;
-
-public interface SecurityDao {
-
-    /**
-     * Gets all the securities for which the next income pay date is current date.
-     * 
-     * @return
-     */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate();
+public interface RollFrequencyDatesService {
     
     /**
-     * Gets securities  whose next income pay date is equal to or less than the current date
-     * and whose frequency code is valid 
-     * 
-     * @return List<Security>
+     * Updates some date fields based on the frequency for the activity 
+     * @return true if the fields are updated successfully; false otherwise
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate();
+    public boolean updateFrequencyDate();
 
 }

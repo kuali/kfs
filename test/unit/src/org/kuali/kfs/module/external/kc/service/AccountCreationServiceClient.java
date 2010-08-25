@@ -45,7 +45,7 @@ public class AccountCreationServiceClient extends TestCase
         // Initialize objects.
         accountParameters = new AccountParametersDTO();
         accountParameters.setUnit("BL");
-        accountParameters.setAccountNumber("1234567");
+        accountParameters.setAccountNumber("1234571");
         accountParameters.setAccountName("KC Award");
         accountParameters.setHigherEdFunctionCode("IPR");
         accountParameters.setIndirectCostTypeCode("");
@@ -107,7 +107,8 @@ public class AccountCreationServiceClient extends TestCase
     public void testCreateAccountServiceSoap() 
     {   
         try {
-            URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
+            //URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
+            URL url = new URL("https://test.kfs.kuali.org/kfs-cnv/remoting/accountCreationServiceSOAP?wsdl");
             QName qName = new QName("KFS", "accountCreationServiceSOAP");
             
             Service service = Service.create(url, qName);

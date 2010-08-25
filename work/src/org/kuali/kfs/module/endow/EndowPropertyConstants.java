@@ -313,9 +313,8 @@ public class EndowPropertyConstants {
     // KEMID Fee Method
     public static final String FEE_METHOD_CODE = "feeMethodCode";
     public static final String FEE_METHOD_FREQUENCY_CODE = "feeFrequencyCode";
-    public static final String FEE_NEXT_PRCESS_DATE = "feeNextProcessDate";
-    public static final String FEE_LAST_PRCESS_DATE = "feeLastProcessDate";
-    public static final String FEE_FREQUENCY_CODE = "feeFrequencyCode"; 
+    public static final String FEE_METHOD_NEXT_PROCESS_DATE = "feeNextProcessDate";
+    public static final String FEE_METHOD_LAST_PROCESS_DATE = "feeLastProcessDate";
 
     // KEMID Fee Class Code
     public static final String FEE_CLASS_CODE = "classCode";
@@ -572,4 +571,6 @@ public class EndowPropertyConstants {
     
     // Endowment Recurring Cash Transfer
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE = "nextProcessDate";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE = "frequencyCode";
 }

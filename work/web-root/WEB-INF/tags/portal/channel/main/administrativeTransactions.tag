@@ -60,6 +60,7 @@
 	</ul>	   
     <strong>Endowment</strong><br />
     <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Corporate Reorganization" url="endowCorporateReorganizationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECR" /></li>
         <li><portal:portalLink displayTitle="true" title="Corpus Adjustment" url="endowCorpusAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECA" /></li>
         <li><portal:portalLink displayTitle="true" title="Holding Adjustment" url="endowHoldingAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EHA" /></li>         
         <li><portal:portalLink displayTitle="true" title="Holding History Value Adjustment" url="endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EHVA" /></li>

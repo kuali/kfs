@@ -27,7 +27,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 public class CalculateProcessDateUsingFrequencyCodeService {
 
     private DateTimeService dateTimeService;
-    protected KEMService kEMService;
+    protected KEMService kemService;
     
     /**
      * This method uses frequency code to derive the next processing date
@@ -38,7 +38,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
     public Date calculateProcessDate(String frequencyCode) {
         
     //    Date processDate = dateTimeService.getCurrentSqlDate();
-        Date processDate = kEMService.getCurrentDate();
+        Date processDate = kemService.getCurrentDate();
         
         String frequencyType = frequencyCode.substring(0, 1);
         
@@ -80,14 +80,14 @@ public class CalculateProcessDateUsingFrequencyCodeService {
         return dateTimeService;
     }
 
-    protected KEMService getKEMService() {
-        return kEMService;
+    public KEMService getKemService() {
+        return kemService;
     }
-    
-    public void setKEMService(KEMService kEMService) {
-        this.kEMService = kEMService;
+
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
-    
+
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date
@@ -96,6 +96,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     private Date calculateNextWeekDate(String dayOfWeekFromFrequencyCode) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(kemService.getCurrentDate());
         
         int daysToAdd = 0;
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);  // today's day of the week
@@ -141,6 +142,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     private Date calculateNextSemiMonthlyDate(String dayOfSemiMonthly) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(kemService.getCurrentDate());
         
         int dayOfMonthToSet = Integer.parseInt(dayOfSemiMonthly);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
@@ -158,6 +160,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
         int dayInMonthToSet;
         
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(kemService.getCurrentDate());
         setCalendarWithDays(calendar, dayOfMonth);
         
         return new java.sql.Date(calendar.getTimeInMillis());
@@ -171,6 +174,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     private Date calculateNextProcessDate(String month, String dayOfMonth) {
         Calendar calendar = setCaledarWithMonth(month);
+        calendar.setTime(kemService.getCurrentDate());
         setCalendarWithDays(calendar, dayOfMonth);
         
         return new java.sql.Date(calendar.getTimeInMillis());
@@ -183,6 +187,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     private Calendar setCaledarWithMonth(String month) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(kemService.getCurrentDate());
         int calendarMonth = 1;
         
         if (EndowConstants.FrequencyMonths.JANUARY.equalsIgnoreCase(month)) {

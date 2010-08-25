@@ -482,6 +482,7 @@
     
 	<bean id="calculateProcessDateUsingFrequencyCodeService" class="org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService" scope="prototype">
 		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="kemService" ref="kemService"/>
 	</bean>	
 	
 	<bean id="typeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TypeCodeServiceImpl">

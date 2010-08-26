@@ -13,6 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+function loadRegistrationInfoFromTo( registrationCodeFieldName ) 
+{
+    var registrationCode = DWRUtil.getValue( registrationCodeFieldName ).toUpperCase();
+    var splitWords = registrationCodeFieldName.split(".");
+    var registrationCodeField = "registration.description";
+    
+    if (splitWords.length > 2) {
+        registrationCodeField = splitWords[1] + "." + registrationCodeField;
+    }
+
+    clearRecipients(registrationCodeField, "");
+ 
+    if (registrationCode != '') 
+    {
+        var dwrReply = {
+            callback:function(data) {
+            if ( data != null && typeof data == 'object' ) 
+            {
+                setRecipientValue( registrationCodeFieldName, data.code);               
+                setRecipientValue( registrationCodeField, data.name);
+            } 
+            else 
+            {
+                setRecipientValue( registrationCodeField, wrapError( "Registration not found" ), true );            
+            } },
+            errorHandler:function( errorMessage ) 
+            { 
+                setRecipientValue( registrationCodeField, wrapError( "Registration not found" ), true );
+            }
+        };
+        RegistrationCodeService.getByPrimaryKey( registrationCode, dwrReply );
+    }
+}
+
 function loadRegistrationInfo( registrationCodeFieldName ) 
 {
     var registrationCode = DWRUtil.getValue( registrationCodeFieldName ).toUpperCase();

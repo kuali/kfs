@@ -13,11 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function loadSecurityInfo( securityIdFieldName) 
+function loadSecurityInfoFromTo( securityIdFieldName ) 
+{
+    var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
+    
+    // Selecting the type of Security - Source or Target
+    var securityType= null;
+    if( securityIdFieldName.match("target") != null)
+        securityType = 'target';
+    else
+        securityType = 'source';
+        
+    var securityCodeField = securityType + "TransactionSecurity.security.description";
+    var classCodeField = "document." + securityType + "TransactionSecurity.security.securityClassCode";
+    var transactionCodeField = "document." + securityType + "TransactionSecurity.security.classCode.securityEndowmentTransactionCode";
+    var taxLotIndicatorField = "document." + securityType + "TransactionSecurity.security.classCode.taxLotIndicator";
+    
+    clearRecipients(securityCodeField, "");
+    clearRecipients(classCodeField, "-");
+    clearRecipients(transactionCodeField, "-");
+    clearRecipients(taxLotIndicatorField, "-");
+ 
+    if (securityId != '') 
+    {
+        var dwrReply = {
+            callback:function(data) {
+            if ( data != null && typeof data == 'object' ) 
+            {
+                setRecipientValue( securityIdFieldName, data[4]);               
+                setRecipientValue( securityCodeField, data[0]);
+                setRecipientValue( classCodeField, data[1]);
+                setRecipientValue( transactionCodeField, data[2] );
+                setRecipientValue( taxLotIndicatorField, data[3] );
+            } 
+            else 
+            {
+                setRecipientValue( securityCodeField, wrapError( "Security description not found" ), true );            
+            } },
+            errorHandler:function( errorMessage ) 
+            { 
+                setRecipientValue( securityCodeField, wrapError( "Security description not found" ), true );
+            }
+        };
+        EndowmentTransactionDocumentService.getSecurity( securityId, dwrReply );
+    }
+}
+
+function loadSecurityInfo( securityIdFieldName ) 
 {
 	var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
 	
-	//Selecting the type of Security - Source or Target
+	// Selecting the type of Security - Source or Target
 	var securityType= null;
 	if( securityIdFieldName.match("target") != null)
 		securityType = 'target';

@@ -42,6 +42,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES = "RETRANSMIT_TRANSMISSION_METHOD_TYPES";
     public static final String PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES = "PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES";
     public static final String PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT = "ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT";
+    public static final String PURAP_ITEM_TYPE_TRDI = "TRDI";
     
     public static final String PURAP_PDP_PREQ_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_PREQ_RESET_NOTE = "RESET_NOTE";

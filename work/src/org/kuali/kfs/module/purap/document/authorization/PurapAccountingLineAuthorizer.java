@@ -239,8 +239,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
 
         // This call determines a new special case in which an item marked for trade-in cannot have editable accounting lines
-        // once the calculate button image is clicked. The itemTypeCode in this special case is "ITEM" and will probably never be
-        // in the restrictedItemTypesList, so the "else if" is added.
+        // once the calculate button image is clicked, even if the accounting line has not been saved yet.
         boolean retval = true;
         retval = isEditableBasedOnTradeInRestriction(accountingDocument, accountingLine);
         
@@ -254,12 +253,11 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
 
     /**
-     * There is a new restriction levied on the code where methods are needing to determine the editability
-     * of an accounting line based on properties of the item to which they are attached. Some of those methods
-     * do not have both pieces of information readily available, and must use a looping search to find the
-     * item matching the accounting line.
+     * Find the item to which an accounting line belongs. Convenience/Utility method.
      * 
-     * Convenience/Utility method.
+     * Some methods that require an accounting line with a purApItem attached were getting accounting lines
+     * passed in that did not yet have a purApItem. I needed a way to match the accounting line to the 
+     * proper item.
      * 
      * @param accountingDocument the document holding both the accounting line and the item to which the
      * accounting line is attached
@@ -273,6 +271,9 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         scan: {
             if (accountingDocument instanceof PurchasingAccountsPayableDocumentBase) {
                 listItems = ((PurchasingAccountsPayableDocumentBase) accountingDocument).getItems();
+
+                // loop through all items in the document to see if the item has an accounting line that
+                // matches the one passed in
                 for (PurApItem oneItem : listItems) {
                     List<PurApAccountingLine> acctLines = oneItem.getSourceAccountingLines();
                     for (PurApAccountingLine oneAcctLine : acctLines) {
@@ -292,10 +293,13 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
 
     /**
-     * This method handles a newly discovered restriction on accounting lines assigned to items with trade-in
-     * indicators. If the accounting Line is for a trade-in item type, and the accounting line has contents, 
-     * the user is not allowed to change the contents of the calculated values, according to KFSMI-5723 
-     * - note that the itemTypeCode may not necessarily be TRDI!
+     * Handles a restriction on accounting lines assigned to trade-in items.
+     * If the accounting Line is for a trade-in item type, and the accounting line has contents, 
+     * the user is not allowed to change the contents of the calculated values. 
+     * 
+     * The trade-in may not yet have a sequence number, so the old way of relying solely on sequence 
+     * number (in method super.approvedForUnqualifiedEditing() is incomplete, and needs this extra check 
+     * for trade-ins.
      * 
      * @param accountingLine the accounting line being examined
      * @return whether the accounting line is editable according to the trade-in/non-empty restriction
@@ -303,21 +307,28 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     private boolean isEditableBasedOnTradeInRestriction(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         boolean retval = true;
         // if the accounting Line is for a trade-In, and the line has contents, the user is not allowed to
-        // change the contents of the calculated values, according to KFSMI-5723 - note that the itemTypeCode may
-        // not necessarily be TRDI, and will probably be "ITEM", so itemTypeCode does not always tell the truth.
+        // change the contents of the calculated values
         if ((accountingLine != null) && (accountingLine instanceof PurApAccountingLine)) {
             PurApItem purApItem = (((PurApAccountingLine) accountingLine)).getPurapItem();
+
+            // this small block is to allow for another way to get to the purApItem if the
+            // incoming accounting line does not yet have a purApItem attached. Calling it is not
+            // completely necessary any more, unless/until the functional team members decide to
+            // add more item types to the read-only accounting lines list.
             if (purApItem == null) {
                 purApItem = findTheItemForAccountingLine(accountingDocument, accountingLine);
             }
+
             if (purApItem != null) {
                 String itemTypeCode = purApItem.getItemTypeCode();
-                if (purApItem.getItemAssignedToTradeInIndicator()) {
+                if (itemTypeCode.toUpperCase().equalsIgnoreCase(PurapParameterConstants.PURAP_ITEM_TYPE_TRDI)) {
                     // does the line have any contents? if so, then the user cannot edit them
                     if ((accountingLine.getChartOfAccountsCode() != null) || (accountingLine.getAccountNumber() != null) || (accountingLine.getFinancialObjectCode() != null)) {
                         retval = false;
                     }
                 }
+                // there has been a call to "if (purApItem.getItemAssignedToTradeInIndicator()) {" here
+                // that required the earlier use of findTheItemForAccountingLine()
             }
         }
         return retval;
@@ -340,9 +351,9 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
      * Determines if the given line is editable, no matter what a KIM check would say about line editability.  In the default case,
      * any accounting line is editable - minus KIM check - when the document is PreRoute, or if the line is a new line
      * 
-     * This overriding implementation is required because the Purap module has a new restriction as of KFSMI-5723 that requires
-     * that an accounting line for a Trade-In item cannot be manually editable, even if not yet saved. Therefore, the base 
-     * implementation that determines editability on the sequence number (if no sequence number, must be editable) has to be 
+     * This overriding implementation is required because the Purap module has a new restriction that requires
+     * that an accounting line for a Trade-In item cannot be manually editable, even if not yet saved ("not yet saved" means it has 
+     * no sequence number). Therefore, the base implementation that determines editability on the sequence number alone has to be 
      * preceded by a check that declares ineligible for editing if it is a trade-in. 
      * 
      * @see org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer#allowAccountingLinesAreEditable(AccountingDocument, AccountingLine)

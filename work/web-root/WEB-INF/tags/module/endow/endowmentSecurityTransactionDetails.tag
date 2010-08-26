@@ -76,6 +76,7 @@
 			<c:if test="${showRegistrationCode}">
 	          	<kul:htmlAttributeHeaderCell
 					attributeEntry="${securityTransactionAttributes.registrationCode}"
+                    forceRequired="true"
 					useShortLabel="false"
 				/>            
 			</c:if>					
@@ -86,7 +87,7 @@
             <td class="infoline">
 	            <kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.securityID}" 
 	            	property="document.${securityType}.securityID" 
-	            	onblur="loadSecurityInfo(this.name);"
+	            	onblur="loadSecurityInfoFromTo(this.name);"
 	            	readOnly="${readOnly}"
 	            	/>
 	            &nbsp;
@@ -95,7 +96,7 @@
 						fieldConversions="id:document.${securityType}.securityID" />
 				</c:if>
 				<br/>
-				<div id="security.description" class="fineprint">
+				<div id="${securityType}.security.description" class="fineprint">
             		 <kul:htmlControlAttribute attributeEntry="${sourceSecurityTransactionAttributes.securityID}" property="document.${securityType}.security.description" readOnly="true" />
             	</div>	
             </td>
@@ -122,7 +123,7 @@
             <td class="infoline">
             	<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" 
             			property="document.${securityType}.registrationCode"
-            			onblur="loadRegistrationInfo(this.name);"
+            			onblur="loadRegistrationInfoFromTo(this.name);"
             			readOnly="${readOnly}" 
             	/>
                 &nbsp;
@@ -132,7 +133,7 @@
 						/>
 				</c:if>
 				<br/>
-				<div id="registration.description" class="fineprint">
+				<div id="${securityType}.registration.description" class="fineprint">
             		<kul:htmlControlAttribute attributeEntry="${securityTransactionAttributes.registrationCode}" property="document.${securityType}.registrationCodeObj.name" readOnly="true" />
             	</div>		
             </td> 

@@ -44,9 +44,13 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
 
         CorporateReorganizationDocument corporateReorganizationDocument = (CorporateReorganizationDocument) transLineDocument;
 
+        // Validate source security id and registration code.
         isValid &= validateSecurity(isValid, corporateReorganizationDocument, true);
-
         isValid &= validateRegistration(isValid, corporateReorganizationDocument, true);
+        
+        // Validate target security id and registration code.
+        isValid &= validateSecurity(isValid, corporateReorganizationDocument, false);
+        isValid &= validateRegistration(isValid, corporateReorganizationDocument, false);
 
         // there can be only one source transaction line
         isValid &= validateOnlyOneSourceTransactionLine(true, corporateReorganizationDocument, line, -1);
@@ -56,7 +60,7 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
         }
 
         if (isValid) {
-            isValid &= validateSecurityTransferTransactionLine(true, corporateReorganizationDocument, line, -1, -1);
+            isValid &= validateCorpReorganizationTransferTransactionLine(true, corporateReorganizationDocument, line, -1, -1);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -104,7 +108,7 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
      * @param index
      * @return
      */
-    protected boolean validateSecurityTransferTransactionLine(boolean isAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int transLineIndex, int taxLotIndex) {
+    protected boolean validateCorpReorganizationTransferTransactionLine(boolean isAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int transLineIndex, int taxLotIndex) {
         boolean isValid = super.validateTransactionLine(endowmentTransactionLinesDocument, line, transLineIndex);
 
         if (isValid) {
@@ -115,7 +119,7 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
             isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
 
             if (line instanceof EndowmentSourceTransactionLine) {
-                // Validate if Sufficient Units are Avaiable
+                // Validate if Sufficient Units are Available
                 isValid &= validateSufficientUnits(isAdd, endowmentTransactionLinesDocument, line, transLineIndex, taxLotIndex);
             }
 
@@ -142,11 +146,11 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
             // Validate Registration code.
             isValid &= validateRegistration(isValid, corporateReorganizationDocument, true);
 
-            // Validate atleast one Source Tx was entered.
+            // Validate at least one Source Tx was entered.
             if (!transactionLineSizeGreaterThanZero(corporateReorganizationDocument, true))
                 return false;
 
-            // Validate atleast one Target Tx was entered.
+            // Validate at least one Target Tx was entered.
             if (!transactionLineSizeGreaterThanZero(corporateReorganizationDocument, false))
                 return false;
 
@@ -158,7 +162,7 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
             // Validate All the Transaction Lines.
             for (int i = 0; i < txLines.size(); i++) {
                 EndowmentTransactionLine txLine = txLines.get(i);
-                isValid &= validateSecurityTransferTransactionLine(false, corporateReorganizationDocument, txLine, i, -1);
+                isValid &= validateCorpReorganizationTransferTransactionLine(false, corporateReorganizationDocument, txLine, i, -1);
                 isValid &= validateTaxLots(corporateReorganizationDocument, txLine, i);
                 isValid &= validateTotalUnits(corporateReorganizationDocument, txLine, i);
             }
@@ -192,7 +196,7 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
     public boolean processRefreshTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine, Number index) {
         boolean isValid = super.processRefreshTransactionLineRules(endowmentTransactionLinesDocument, endowmentTransactionLine, index);
         if (isValid) {
-            isValid &= validateSecurityTransferTransactionLine(false, endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index, -1);
+            isValid &= validateCorpReorganizationTransferTransactionLine(false, endowmentTransactionLinesDocument, endowmentTransactionLine, (Integer) index, -1);
         }
         return isValid;
     }
@@ -207,8 +211,18 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
         boolean isValid = true;
         isValid &= validateTransactionLine(endowmentTaxLotLinesDocument, endowmentTransactionLine, (Integer) index);
         if (isValid) {
-            isValid &= validateSecurityTransferTransactionLine(false, endowmentTaxLotLinesDocument, endowmentTransactionLine, (Integer) index, (Integer) numberX);
+            isValid &= validateCorpReorganizationTransferTransactionLine(false, endowmentTaxLotLinesDocument, endowmentTransactionLine, (Integer) index, (Integer) numberX);
         }
         return isValid;
     }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#hasEtranCode(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument)
+     */
+    @Override
+    protected boolean hasEtranCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
+
+        return false;
+    }
+
 }

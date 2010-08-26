@@ -63,14 +63,33 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
 
         // get the current date
         Date currentDate = kemService.getCurrentDate();
-         
+                
         // update SEC_INC_NXT_PAY_DT in END_SEC_T
+        updateSecurityIncomeNextPayDates(currentDate);
+                       
+        // update TKLR_NXT_DUE_DT in END_TKLR_T
+        updateTicklerNextDueDates(currentDate);
+        
+        // update FEE_NXT_PROC_DT, FEE_LST_PROC_DT in END_FEE_MTHD_T
+        updateFeeProcessDates(currentDate);
+        
+        // update NXT_PROC_DT, LST_PROC_DT in END_REC_CHS_XFR_T
+        updateProcessDates(currentDate);
+        
+        return true;
+    }
+
+    /**
+     * This method updates SEC_INC_NXT_PAY_DT in END_SEC_T
+     * @param currentDate
+     */
+    protected void updateSecurityIncomeNextPayDates(Date currentDate) {
+        
         List<Security> securityRecords = securityDao.getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate();
         for (Security security : securityRecords) {
             Date icomeNextPayDate = security.getIncomeNextPayDate();            
             if (icomeNextPayDate != null && icomeNextPayDate.compareTo(currentDate) <= 0 ) {
                 String frequencyCode = security.getIncomePayFrequency();           
-                //calculate the next date for the frequency code and then save it
                 if (frequencyCode != null && !frequencyCode.isEmpty()) {
                     Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode);
                     if (nextDate != null) {
@@ -80,8 +99,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
-                
-        // update TKLR_NXT_DUE_DT in END_TKLR_T
+        LOG.info("Updated Security Income Next Pay Dates"); 
+    }
+    
+    /**
+     * This method updates TKLR_NXT_DUE_DT in END_TKLR_T
+     * @param currentDate
+     */
+    protected void updateTicklerNextDueDates(Date currentDate) {
+        
         List<Tickler> TicklerRecords = ticklerDao.getAllTicklerWithNextPayDateEqualOrLessCurrentDate();
         for (Tickler tickler : TicklerRecords) {
             Date nextDueDate = tickler.getNextDueDate();            
@@ -96,8 +122,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        LOG.info("Updated Tickler Next Due Dates");
+    }
+    
+    /**
+     * This method updates FEE_NXT_PROC_DT, FEE_LST_PROC_DT in END_FEE_MTHD_T
+     * @param currentDate
+     */
+    protected void updateFeeProcessDates(Date currentDate) {
         
-        // update FEE_NXT_PROC_DT, FEE_LST_PROC_DT in END_FEE_MTHD_T
         List<FeeMethod> feeMethodRecords = feeMethodDao.getAllFeeMethodWithNextPayDateEqualOrLessCurrentDate();
         for (FeeMethod feeMethod : feeMethodRecords) {
             Date feeNextProcessDate = feeMethod.getFeeNextProcessDate();            
@@ -113,8 +146,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        LOG.info("Updated Fee Next Process Dates and Fee Last Process Dates");
+    }
+    
+    /**
+     * This method updates NXT_PROC_DT, LST_PROC_DT in END_REC_CHS_XFR_T
+     * @param currentDate
+     */
+    protected void updateProcessDates(Date currentDate) {
         
-        // update NXT_PROC_DT, LST_PROC_DT in END_REC_CHS_XFR_T
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getAllRecurringCashTransferWithNextPayDateEqualOrLessCurrentDate();
         for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {
             Date nextProcessDate = recurringCashTransfer.getNextProcessDate();            
@@ -130,10 +170,9 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
-        
-        return true;
+        LOG.info("Updated Next Process Dates and Last Process Dates");
     }
-
+    
     /**
      * Sets the parameterService attribute value.
      * @param parameterService The parameterService to set.

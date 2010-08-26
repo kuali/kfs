@@ -48,10 +48,10 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected BusinessObjectService businessObjectService;
     protected CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService; 
     
-    private SecurityDao securityDao;
-    private FeeMethodDao feeMethodDao;
-    private TicklerDao ticklerDao;
-    private RecurringCashTransferDao recurringCashTransferDao;
+    protected SecurityDao securityDao;
+    protected FeeMethodDao feeMethodDao;
+    protected TicklerDao ticklerDao;
+    protected RecurringCashTransferDao recurringCashTransferDao;
     
     /**
      * Updates some date fields based on the frequency for the activity 

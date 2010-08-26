@@ -206,8 +206,8 @@ public class KEMServiceImpl implements KEMService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() Gets the
-     *      FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() 
+     *  Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
     public Date getFiscalYearEndDayAndMonth() {
@@ -229,6 +229,19 @@ public class KEMServiceImpl implements KEMService {
         return fiscalDate;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.org.kuali.kfs.module.endow.document.service.KEMService#getTotalNumberOfPaymentsForFiscalYear()
+     */
+    public long getTotalNumberOfPaymentsForFiscalYear() {
+        long totalNumberOfPayments = 0 ;
+        
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String totalPayments = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);
+        
+        totalNumberOfPayments = Long.parseLong(totalPayments);
+        return totalNumberOfPayments;
+    }
+    
     /**
      * Gets the dateTimeService.
      * 

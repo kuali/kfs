@@ -97,4 +97,11 @@ public interface KEMService {
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
     public Date getFiscalYearEndDayAndMonth();
+    
+    /**
+     * Gets the DISTRIBUTION_TIMES_PER_YEAR system parameter
+     * 
+     * @return DISTRIBUTION_TIMES_PER_YEAR value
+     */
+    public long getTotalNumberOfPaymentsForFiscalYear();
 }

@@ -29,11 +29,10 @@ public interface SecurityDao {
     public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate();
     
     /**
-     * Gets securities  whose next income pay date is equal to or less than the current date
-     * and whose frequency code is valid 
+     * Gets securities whose next income pay date is equal to the current date and whose frequency code is valid 
      * 
      * @return List<Security>
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate();
+    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate();
 
 }

@@ -30,9 +30,9 @@ public class TicklerDaoOjb extends PlatformAwareDaoBaseOjb implements TicklerDao
     protected KEMService kemService;
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.TicklerDao#getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.TicklerDao#getAllSecuritiesWithNextPayDateEqualToCurrentDate()
      */
-    public List<Tickler> getAllTicklerWithNextPayDateEqualOrLessCurrentDate() {
+    public List<Tickler> getTicklerWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(EndowPropertyConstants.TICKLER_NEXT_DUE_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.TICKLER_FREQUENCY);

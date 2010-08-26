@@ -38,9 +38,9 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEquaOrLesslCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEquaTolCurrentDate()
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate() {
+    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY);

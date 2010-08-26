@@ -21,10 +21,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 
 public interface RecurringCashTransferDao {
     /**
-     * Gets EndowmentRecurringCashTransfer whose next income pay date is equal to or less than the current date
-     * and whose frequency code is valid 
+     * Gets EndowmentRecurringCashTransfer whose next income pay date is equal to the current date and whose frequency code is valid 
      * 
      * @return List<EndowmentRecurringCashTransfer>
      */
-    public List<EndowmentRecurringCashTransfer> getAllRecurringCashTransferWithNextPayDateEqualOrLessCurrentDate();
+    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
 }

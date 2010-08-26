@@ -30,9 +30,9 @@ public class FeeMethodDaoOjb extends PlatformAwareDaoBaseOjb implements FeeMetho
     protected KEMService kemService;
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.FeeMethodDao#getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.FeeMethodDao#getSecuritiesWithNextPayDateEqualToCurrentDate()
      */
-    public List<FeeMethod> getAllFeeMethodWithNextPayDateEqualOrLessCurrentDate() {
+    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);

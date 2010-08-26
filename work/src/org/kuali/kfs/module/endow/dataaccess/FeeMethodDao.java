@@ -22,10 +22,9 @@ import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 public interface FeeMethodDao {
     
     /**
-     * Gets FeeMethod whose next income pay date is equal to or less than the current date
-     * and whose frequency code is valid 
+     * Gets FeeMethod whose next income pay date is equal to the current date and whose frequency code is valid 
      * 
      * @return List<FeeMethod>
      */
-    public List<FeeMethod> getAllFeeMethodWithNextPayDateEqualOrLessCurrentDate();
+    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate();
 }

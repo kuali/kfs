@@ -30,9 +30,9 @@ public class RecurringCashTransferDaoOjb extends PlatformAwareDaoBaseOjb impleme
     protected KEMService kemService;
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.TicklerDao#getAllSecuritiesWithNextPayDateEqualOrLessCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.TicklerDao#getAllSecuritiesWithNextPayDateEqualToCurrentDate()
      */
-    public List<EndowmentRecurringCashTransfer> getAllRecurringCashTransferWithNextPayDateEqualOrLessCurrentDate() {
+    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE);

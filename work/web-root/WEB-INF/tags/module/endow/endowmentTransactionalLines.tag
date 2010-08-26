@@ -175,7 +175,7 @@
             	<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.unitAdjustmentAmount}"/>
             </c:if>
             <c:if test="${hasUnits}">
-           		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}"/>
+           		<kul:htmlAttributeHeaderCell attributeEntry="${lineAttributes.transactionUnits}" forceRequired="true"/>
             </c:if>	
 
             <kul:htmlAttributeHeaderCell literalLabel="Actions"/>

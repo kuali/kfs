@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.service.impl.exception.FormatException;
@@ -30,13 +31,13 @@ public interface FormatService {
      * This method gets all customer profiles
      * @return
      */
-    public List getAllCustomerProfiles();
+    public List<CustomerProfile> getAllCustomerProfiles();
 
     /**
      * This method gets all disbursement number ranges
      * @return
      */
-    public List getAllDisbursementNumberRanges();
+    public List<DisbursementNumberRange> getAllDisbursementNumberRanges();
 
     /**
      * This method gets the format process by campus code and returns the start date for that process.

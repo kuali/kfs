@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
- * This class...
+ * This class collects the summary information for payment Format Process
  */
 public class FormatProcessSummary extends TransientBusinessObjectBase {
 
@@ -45,13 +45,13 @@ public class FormatProcessSummary extends TransientBusinessObjectBase {
      */
     public FormatProcessSummary() {
         super();
-        processSummaryList = new ArrayList();
+        processSummaryList = new ArrayList<ProcessSummary>();
         totalCount = KualiInteger.ZERO;
         totalAmount = KualiDecimal.ZERO;
     }
 
     /**
-     * Add the paymentdetail info to our summary list
+     * Add the payment detail info to our summary list
      * 
      * @param paymentGroup
      */
@@ -90,7 +90,7 @@ public class FormatProcessSummary extends TransientBusinessObjectBase {
      * @param pdd
      */
     public void save() {
-        for (Iterator iter = processSummaryList.iterator(); iter.hasNext();) {
+        for (Iterator<ProcessSummary> iter = processSummaryList.iterator(); iter.hasNext();) {
             ProcessSummary ps = (ProcessSummary) iter.next();
             
             SpringContext.getBean(BusinessObjectService.class).save(ps);
@@ -104,7 +104,7 @@ public class FormatProcessSummary extends TransientBusinessObjectBase {
      */
     private ProcessSummary findProcessSummary(PaymentGroup paymentGroup) {
 
-        for (Iterator iter = processSummaryList.iterator(); iter.hasNext();) {
+        for (Iterator<ProcessSummary> iter = processSummaryList.iterator(); iter.hasNext();) {
             ProcessSummary processSummary = (ProcessSummary) iter.next();
             
             if(ObjectUtils.equals(processSummary.getCustomer(), paymentGroup.getBatch().getCustomerProfile()) && ObjectUtils.equals(processSummary.getDisbursementType(), paymentGroup.getDisbursementType()) && (processSummary.getSortGroupId().intValue()==SpringContext.getBean(PaymentGroupService.class).getSortGroupId(paymentGroup)) && ObjectUtils.equals(processSummary.getProcess(), paymentGroup.getProcess())) {
@@ -134,9 +134,10 @@ public class FormatProcessSummary extends TransientBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap<String, List<ProcessSummary>> m = new LinkedHashMap<String, List<ProcessSummary>>();
 
         m.put(PdpPropertyConstants.FormatProcessSummary.PROCESS_SUMMARY, this.processSummaryList);
 

@@ -243,9 +243,6 @@
 	    <property name="currentTaxLotBalanceDao">
 			<ref bean="currentTaxLotBalanceDao" />
 		</property>
-		<property name="calculateProcessDateUsingFrequencyCodeService">
-			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
-		</property>
  	</bean>
  	
  	 	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">

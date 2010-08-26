@@ -282,9 +282,6 @@
 	</bean>
 	
 	<bean id="rollFrequencyDatesService" class="org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImpl">
-		<property name="kemService">
-			<ref bean="kemService" />
-		</property>	
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>	

@@ -239,6 +239,11 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-annotation_1.0_spec-1.1.1.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-jaxws_2.1_spec-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

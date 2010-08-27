@@ -81,9 +81,9 @@ are intended for use only by Kuali Foundation developers.
     	<touch file="${rice.project.directory}/pom.xml" />
 	</target>
   
-	<target name="update-rice-dev" depends="update-rice-basic,dist-local" />
+	<target name="update-rice-dev" depends="update-rice-basic,extract-rice-libraries,build-eclipse-classpath,dist-local" />
   
-	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
+	<target name="update-rice" depends="update-rice-dev,update-rice-extended" />
   
 	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-server-war" />
   
@@ -98,9 +98,9 @@ are intended for use only by Kuali Foundation developers.
         <maven goals="install" modulePath="/${rice.api.module.name}" />
         <maven goals="install" modulePath="/${rice.impl.module.name}" />
     	<delete verbose="true">
-      		<fileset dir="${basedir}" includes="${lib.directory}/rice-*.jar" />
+      		<fileset dir="${basedir}" includes="${build.kfs.lib.directory}/rice-*.jar" />
     	</delete>
-    	<copy todir="${lib.directory}" verbose="true" overwrite="true">
+    	<copy todir="${build.kfs.lib.directory}" verbose="true" overwrite="true">
       		<chainedmapper>
         		<flattenmapper />
       			<mapper type="glob" from="*${rice.version}.jar" to="*${kfs.rice.version}.jar" />
@@ -165,6 +165,76 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     		 basedir="${rice.project.directory}/${licenses.directory}" />
   	</target>
 		
+	
+	<target name="extract-rice-libraries" depends="init-properties,init-additional-properties">
+		<delete verbose="true" failonerror="false">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</delete>
+
+		<unzip dest="${build.rice.lib.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
+		    <mapper type="flatten"/>
+		</unzip>
+	</target>
+	
+	<target name="build-eclipse-classpath" depends="init-properties,init-additional-properties">
+		<!-- this property is here to make it easy to test without replacing the classpath -->
+		<property name="classpath.file" value=".classpath"/>
+    	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />
+
+		<!-- KFS Jars -->
+		<path id="kfs.library.jars">
+			<fileset dir="${build.kfs.lib.directory}"  includes="*.jar" excludes="${runtime.only.jars}" />
+			<fileset dir="${build.rice.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
+			<fileset dir="${build.server.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
+			<fileset dir="${build.appserver.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
+			<fileset dir="${test.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
+			<fileset dir="${build.directory}"  includes="log4j*.jar" />
+		</path>		  		
+		<for param="jarname">
+			<path refid="kfs.library.jars" />
+			<sequential>
+				<propertyregex property="file" 
+							 	input="@{jarname}" 
+							 	regexp="${basedir}/" 
+							 	replace="" 
+							 	override="true" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}" />
+]]></echo>
+			</sequential>
+		</for>
+
+		<path id="kfs.runtime.library.jars">
+			<fileset dir="${build.kfs.lib.directory}" includes="${runtime.only.jars}" />
+			<fileset dir="${build.rice.lib.directory}" includes="${runtime.only.jars}" />
+			<fileset dir="${build.server.lib.directory}" includes="${runtime.only.jars}" />
+			<fileset dir="${drivers.directory}" />
+			<fileset dir="${build.appserver.directory}" includes="${runtime.only.jars}" />
+			<fileset dir="${test.lib.directory}" includes="${runtime.only.jars}" />
+		</path>		  		
+		<for param="jarname">
+			<path refid="kfs.runtime.library.jars" />
+			<sequential>
+				<propertyregex property="file" 
+							 	input="@{jarname}" 
+							 	regexp="${basedir}/" 
+							 	replace="" 
+							 	override="true" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+]]></echo>
+			</sequential>
+		</for>
+		<!-- Testing Jars -->
+
+    	<echo append="true" file="${classpath.file}" message="${classpath.suffix}" />
+	</target>
+<!--	
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">
 		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task">
 			<classpath>
@@ -176,14 +246,14 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		</taskdef>
 		
     	<delete dir="${dddoc.directory}" failonerror="false" />
-    <!-- setup destination directories -->
+    <!- setup destination directories ->
     	<mkdir dir="${dddoc.directory}" />
 		<xsddoc file="work/src/org/kuali/kfs/sys/spring/datadictionary/dd.xsd"
 		         out="${dddoc.directory}"
 		    doctitle="Data Dictionary Custom Tags Schema"
 		     verbose="true"/>
 	</target>
-	
+-->	
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="--offline" />

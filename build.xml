@@ -276,8 +276,9 @@
 
 	<target name="init-make-references" depends="init-properties">
 		<path id="compile.source.classpath">
+			<fileset dir="${build.kfs.lib.directory}" includes="*.jar" />
+			<fileset dir="${build.rice.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.server.lib.directory}" includes="*-api.jar" />
-			<fileset dir="${lib.directory}" includes="*.jar" />
 			<fileset dir="${build.appserver.directory}" includes="*.jar" /> <!-- should not be needed but commons logging is here -->	
 			<pathelement location="${build.directory}/${log4j.library.file}" />
 		</path>
@@ -347,7 +348,7 @@
 				<include name="${source.directory}/${ojb.logging.file}" />
 				<include name="${source.directory}/${ojb.repository.file}" />
 				<include name="${webinf.directory}/${web.file}" />
-				<include name="${lib.directory}/${log4j.library.file}" />
+				<include name="${lib.directory}/*" />
 				<include name="${war.directory}/**/**" />
 				<include name="${test.directory}/**/**" />
 				<include name="*.war" />
@@ -457,7 +458,7 @@
 				<include name="${spring.ide.support.datadictionary.files}"/>
 				<exclude name="**/conversion/**"/>
 			</patternset>
-			<fileset dir="${lib.directory}">
+			<fileset dir="${build.kfs.lib.directory}">
 				<include name="${rice.name}-*-*.jar" />
 			</fileset>
 		</unjar>
@@ -480,6 +481,17 @@
   	</target>
 	
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
+		<mkdir dir="${lib.directory}" />
+		
+		<copy todir="${lib.directory}" verbose="true">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+			<fileset dir="${build.kfs.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</copy>
+		
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 	    <if>
 	        <isset property="institutional.configuration" />

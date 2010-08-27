@@ -23,11 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
@@ -43,6 +45,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     private BusinessObjectService businessObjectService;
     protected SecurityService securityService;
     protected KEMService kEMService;
+    protected CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
 
     /**
@@ -328,9 +331,21 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      */
     protected long getTotalDaysToLastPayment(Date lastPaymentDate) {
         long totalDays = 0;
-
-        // TODO need to implement the logic here..
-        return totalDays;
+        long MILLISECS_PER_DAY = (1000*60*60*24) ; // total milliseconds in a day
+        
+        Calendar currentDateCalendar = Calendar.getInstance();
+        currentDateCalendar.setTime(kEMService.getCurrentDate());
+        currentDateCalendar.set(Calendar.HOUR, 0);
+        currentDateCalendar.set(Calendar.MINUTE, 0);
+        currentDateCalendar.set(Calendar.SECOND, 0);
+        
+        Calendar lastPaymentDateCalendar = Calendar.getInstance();
+        lastPaymentDateCalendar.setTime(lastPaymentDate);
+        lastPaymentDateCalendar.set(Calendar.HOUR, 0);
+        lastPaymentDateCalendar.set(Calendar.MINUTE, 0);
+        lastPaymentDateCalendar.set(Calendar.SECOND, 0);
+        
+        return (lastPaymentDateCalendar.getTimeInMillis() - currentDateCalendar.getTimeInMillis()) / MILLISECS_PER_DAY ;
     }
 
     /**
@@ -339,10 +354,275 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected Date getLastPaymentDate(String incomePayFrequency, Date fiscalYearEndDate) {
         Date lastPaymentDate = null;
 
-        // TODO need to implement the logic here..
+        String frequencyType = incomePayFrequency.substring(0, 1);
+        
+        Date currentDate = kEMService.getCurrentDate();
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
+            return fiscalYearEndDate;
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
+            return calculateLastPaymentWeekDate(currentDate, fiscalYearEndDate);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
+            String dayOfSemiMonthly =  incomePayFrequency.substring(1, 3);
+            return calculateLastPaymentSemiMonthlyDate(currentDate, fiscalYearEndDate, dayOfSemiMonthly);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
+            String dayOfMonth =  incomePayFrequency.substring(1, 3);
+            return calculateLastPaymentMonthlyDate(currentDate, fiscalYearEndDate, dayOfMonth);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return calculateLastPaymentQuarterlyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return calculateLastPaymentSemiAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return calculateLastPaymentAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+        
         return lastPaymentDate;
     }
 
+    /**
+     * Method to calculate the last payment date for WEEKLY frequency code
+     * @param currentDate, fiscalYearEndDate
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentWeekDate(Date currentDate, Date fiscalYearEndDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 7);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, -7);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+    
+    /**
+     * Method to calculate the last payment date for semimonthly frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfSemiMonthly
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentSemiMonthlyDate(Date currentDate, Date fiscalYearEndDate, String dayOfSemiMonthly) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        
+        int dayOfMonthToSet = Integer.parseInt(dayOfSemiMonthly);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 15);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, -15);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+    
+    /**
+     * Method to calculate the last payment date for semimonthly frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentMonthlyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        
+        int dayOfMonthToSet = Integer.parseInt(dayOfMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 1);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, -1);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * Method to calculate the last payment date for quarterly frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentQuarterlyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 3);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, -3);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * Method to calculate the last payment date for SemiAnnually frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentSemiAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 6);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, -6);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * Method to calculate the last payment date for Annually frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected Date calculateLastPaymentAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.YEAR, 1);            
+        }
+        
+        if (calendar.getTime().after(fiscalYearEndDate)) {
+            calendar.add(Calendar.YEAR, -1);
+        }
+        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * This method will check the current month and set the calendar to that month
+     * @param month month to set the calendar, currentDate currentDate
+     * @return calendar calendar is set to the month selected
+     */
+    protected Calendar setCaledarWithMonth(String month, Date currentDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        
+        int calendarMonth = 1;
+        
+        if (EndowConstants.FrequencyMonths.JANUARY.equalsIgnoreCase(month)) {
+            calendarMonth = Calendar.JANUARY;
+        } else if (EndowConstants.FrequencyMonths.FEBRUARY.equalsIgnoreCase(month)) {
+            calendarMonth = Calendar.FEBRUARY;
+          } else if (EndowConstants.FrequencyMonths.MARCH.equalsIgnoreCase(month)) {
+              calendarMonth = Calendar.MARCH;
+            } else if (EndowConstants.FrequencyMonths.APRIL.equalsIgnoreCase(month)) {
+                calendarMonth = Calendar.APRIL;
+              } else if (EndowConstants.FrequencyMonths.MAY.equalsIgnoreCase(month)) {
+                  calendarMonth = Calendar.MAY;
+                } else if (EndowConstants.FrequencyMonths.JUNE.equalsIgnoreCase(month)) {
+                    calendarMonth = Calendar.JUNE;
+                  } else if (EndowConstants.FrequencyMonths.JULY.equalsIgnoreCase(month)) {
+                      calendarMonth = Calendar.JULY;
+                    } else if (EndowConstants.FrequencyMonths.AUGUST.equalsIgnoreCase(month)) {
+                        calendarMonth = Calendar.AUGUST;
+                      } else if (EndowConstants.FrequencyMonths.SEPTEMBER.equalsIgnoreCase(month)) {
+                          calendarMonth = Calendar.SEPTEMBER;
+                        } else if (EndowConstants.FrequencyMonths.OCTOBER.equalsIgnoreCase(month)) {
+                            calendarMonth = Calendar.OCTOBER;
+                          } else if (EndowConstants.FrequencyMonths.NOVEMBER.equalsIgnoreCase(month)) {
+                              calendarMonth = Calendar.NOVEMBER;
+                            } else if (EndowConstants.FrequencyMonths.DECEMBER.equalsIgnoreCase(month)) {
+                                calendarMonth = Calendar.DECEMBER;
+                              }
+        
+        calendar.set(Calendar.MONTH, calendarMonth);
+        
+        return calendar;
+    }
+    
+    /**
+     * This method will check the current month and set the calendar to that month
+     * @param month, dayOfMonth month to set the calendar, dayOfMonth day of the month to set to
+     * @return calendar calendar is set to the month selected
+     */
+    protected void setCalendarWithDays(Calendar calendar, String dayOfMonth) {
+        int dayInMonthToSet;
+        int calendarMonth = calendar.get(Calendar.MONTH);
+        
+        if (StringUtils.equalsIgnoreCase(dayOfMonth, EndowConstants.FrequencyMonthly.MONTH_END)) { // month end for the month so need to get max days...
+            dayInMonthToSet = checkMaximumDaysInMonth(calendar.get(Calendar.MONTH));
+        } else {
+            dayInMonthToSet = Integer.parseInt(dayOfMonth);
+            
+            if (dayInMonthToSet > 29 && calendarMonth == Calendar.FEBRUARY) {
+                dayInMonthToSet = checkMaximumDaysInFebruary();
+            } else if (dayInMonthToSet > 30 && (calendarMonth == Calendar.APRIL || calendarMonth == Calendar.JUNE ||
+                       calendarMonth == Calendar.SEPTEMBER || calendarMonth == Calendar.NOVEMBER)) {
+                       dayInMonthToSet = 30;
+                       dayInMonthToSet = checkMaximumDaysInMonth(calendarMonth);                       
+              }
+          }
+            
+        calendar.set(Calendar.DAY_OF_MONTH, dayInMonthToSet);
+    }
+    
+    /**
+     * This method will check and return either maximum days in the month as 28 or 29 for leap year.
+     * It first sets the month to February and then checks the maximum days..
+     * @return maxDays Maximum number of days in the month of February for calendar.
+     */
+    protected int checkMaximumDaysInFebruary() {
+        int maxDays;      
+        Calendar februaryMonthlyDateCalendar = Calendar.getInstance();
+        februaryMonthlyDateCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
+        maxDays = februaryMonthlyDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        return maxDays;
+    }
+    
+    /**
+     * This method will check and return maximum days in a month.
+     * @param monthNumber The number of the month to test for maximum days..
+     * @return maxDays Maximum number of days in the month of February for calendar.
+     */
+    protected int checkMaximumDaysInMonth(int monthNumber) {
+        int maxDays;   
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, monthNumber);
+        maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        return maxDays;
+    }
+    
     /**
      * calculates the remainder of fiscal year estimated income for pooled funds
      * 
@@ -356,8 +636,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         Date nextIncomeDueDate = security.getIncomeNextPayDate();
         Date fiscalYearEndDate = getFiscalYearEndDate();
 
-        String incomePayFrequency = security.getIncomePayFrequency();
-
         // BONDS - rule 4.a
         if (nextIncomeDueDate.after(fiscalYearEndDate)) {
             return BigDecimal.ZERO;
@@ -365,9 +643,12 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
         // rule 4.b
         if (nextIncomeDueDate.before(fiscalYearEndDate)) {
+            String incomePayFrequency = security.getIncomePayFrequency();
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
-            long paymentsRemaining = getTotalPaymentsRemaining(lastPaymentDate);
-            long totalNumberOfPayments = getTotalPaymentsForFiscalYear(fiscalYearEndDate, incomePayFrequency);
+
+            long paymentsRemaining = getTotalPaymentsRemaining(lastPaymentDate, fiscalYearEndDate, incomePayFrequency);
+            
+            long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
 
             amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
             amount = amount.multiply(BigDecimal.valueOf(paymentsRemaining));
@@ -380,30 +661,151 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
     /**
      * Helper method to calculate the remaining payments till the last payment date for the fiscal year
+     * @param lastPaymentDate, fiscalYearEndDate, incomePayFrequency
+     * @return totalPaymentsRemaining
      */
-    protected int getTotalPaymentsRemaining(Date lastPaymentDate) {
-        int totalPaymentsRemaining = 0;
-
+    protected long getTotalPaymentsRemaining(Date lastPaymentDate, Date fiscalYearEndDate, String incomePayFrequency) {
+        long totalPaymentsRemaining = 0;
+        long totalDaysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate);
+        
         // TODO need to implement the logic here..
+
+        String frequencyType = incomePayFrequency.substring(0, 1);
+        
+        Date currentDate = kEMService.getCurrentDate();
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
+            return totalDaysToLastPayment;
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
+            return (totalDaysToLastPayment / 7);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
+            return (totalDaysToLastPayment / 15);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
+            String dayOfMonth =  incomePayFrequency.substring(1, 3);
+            return getNumberOfPaymentsRemainingForMonthlyFrequency(currentDate, fiscalYearEndDate, dayOfMonth);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return getNumberOfPaymentsRemainingForQuarterlyFrequency(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return getNumberOfPaymentsRemainingForSemiAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
+            String month = incomePayFrequency.substring(1, 2);
+            String dayOfMonth =  incomePayFrequency.substring(2, 4);
+            
+            return getNumberOfPaymentsRemainingForAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+        }
+        
         return totalPaymentsRemaining;
     }
 
     /**
-     * Helper method to calculate the total number of payments for the fiscal year
-     * 
-     * @param fiscalYearEndDate
-     * @param incomePayFrequency
-     * @return numberOfPayments
+     * Method to calculate the last payment date for monthly frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return totalPayments
      */
-    protected int getTotalPaymentsForFiscalYear(Date fiscalYearEndDate, String incomePayFrequency) {
-        int numberOfPayments = 0;
-
-        // TODO need to implement the logic here..
-        return numberOfPayments;
-
+    protected long getNumberOfPaymentsRemainingForMonthlyFrequency(Date currentDate, Date fiscalYearEndDate, String dayOfMonth) {
+        long totalPayments = 0;
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        
+        int dayOfMonthToSet = Integer.parseInt(dayOfMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 1);
+            
+            if (calendar.getTime().before(fiscalYearEndDate)) {
+                totalPayments =+ 1;
+            }
+        }
+        
+        return totalPayments;
     }
+    
+    /**
+     * Method to calculate the last payment date for quarterly frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected long getNumberOfPaymentsRemainingForQuarterlyFrequency(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        long totalPayments = 0;
 
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 3);  
+            
+            if (calendar.getTime().before(fiscalYearEndDate)) {
+                totalPayments =+ 1;
+            }
+        }
+        
+        return totalPayments;
+    }
+    
+    /**
+     * Method to calculate the last payment date for SemiAnnually frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected long getNumberOfPaymentsRemainingForSemiAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        long totalPayments = 0;
 
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.MONTH, 6);            
+            
+            if (calendar.getTime().before(fiscalYearEndDate)) {
+                totalPayments =+ 1;
+            }
+        }
+        
+        return totalPayments;
+    }
+    
+    /**
+     * Method to calculate the last payment date for Annually frequency code
+     * @param currentDate, fiscalYearEndDate, dayOfMonth
+     * @return lastPaymentDate
+     */
+    protected long getNumberOfPaymentsRemainingForAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+        long totalPayments = 0;
+
+        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        setCalendarWithDays(calendar, dayOfMonth);
+        
+        while (calendar.getTime().before(fiscalYearEndDate)) {
+            calendar.add(Calendar.YEAR, 1);  
+            
+            if (calendar.getTime().before(fiscalYearEndDate)) {
+                totalPayments =+ 1;
+            }            
+        }
+        
+        return totalPayments;
+    }
+    
     /**
      * calculates the remainder of fiscal year estimated income for stocks
      * 
@@ -436,7 +838,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
             long quarterOfFiscalYear = getQuarterOfFiscalYear(nextIncomeDueDate);
 
-            long totalNumberOfPayments = getTotalPaymentsForFiscalYear(fiscalYearEndDate, incomePayFrequency);
+            long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
 
             amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
 
@@ -517,6 +919,22 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         this.securityService = securityService;
     }
 
+    /**
+     * gets the calculateProcessDateUsingFrequencyCodeService.
+     * @param calculateProcessDateUsingFrequencyCodeService
+     */
+    protected CalculateProcessDateUsingFrequencyCodeService getCalculateProcessDateUsingFrequencyCodeService() {
+        return calculateProcessDateUsingFrequencyCodeService;
+    }
+    
+    /**
+     * Sets the calculateProcessDateUsingFrequencyCodeService.
+     * @param calculateProcessDateUsingFrequencyCodeService
+     */
+    public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
+        this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
+    }
+    
     /**
      * gets the kEMService.
      * 

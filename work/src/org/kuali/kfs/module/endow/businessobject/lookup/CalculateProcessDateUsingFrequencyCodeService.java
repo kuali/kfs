@@ -94,7 +94,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param dayOfWeek
      * @return next processing date
      */
-    private Date calculateNextWeekDate(String dayOfWeekFromFrequencyCode) {
+    protected Date calculateNextWeekDate(String dayOfWeekFromFrequencyCode) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(kemService.getCurrentDate());
         
@@ -140,7 +140,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param dayOfSemiMonthly
      * @return next processing date
      */
-    private Date calculateNextSemiMonthlyDate(String dayOfSemiMonthly) {
+    protected Date calculateNextSemiMonthlyDate(String dayOfSemiMonthly) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(kemService.getCurrentDate());
         
@@ -156,7 +156,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param dayOfMonth
      * @return next processing date
      */
-    private Date calculateNextMonthlyDate(String dayOfMonth) {
+    protected Date calculateNextMonthlyDate(String dayOfMonth) {
         int dayInMonthToSet;
         
         Calendar calendar = Calendar.getInstance();
@@ -172,7 +172,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param frequencyType frequency code for quarterly, month, dayOfMonth
      * @return next processing date
      */
-    private Date calculateNextProcessDate(String month, String dayOfMonth) {
+    protected Date calculateNextProcessDate(String month, String dayOfMonth) {
         Calendar calendar = setCaledarWithMonth(month);
         calendar.setTime(kemService.getCurrentDate());
         setCalendarWithDays(calendar, dayOfMonth);
@@ -185,7 +185,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param month month to set the calendar
      * @return calendar calendar is set to the month selected
      */
-    private Calendar setCaledarWithMonth(String month) {
+    protected Calendar setCaledarWithMonth(String month) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(kemService.getCurrentDate());
         int calendarMonth = 1;
@@ -226,7 +226,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param month, dayOfMonth month to set the calendar, dayOfMonth day of the month to set to
      * @return calendar calendar is set to the month selected
      */
-    private void setCalendarWithDays(Calendar calendar, String dayOfMonth) {
+    protected void setCalendarWithDays(Calendar calendar, String dayOfMonth) {
         int dayInMonthToSet;
         int calendarMonth = calendar.get(Calendar.MONTH);
         
@@ -252,7 +252,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * It first sets the month to February and then checks the maximum days..
      * @return maxDays Maximum number of days in the month of February for calendar.
      */
-    private int checkMaximumDaysInFebruary() {
+    protected int checkMaximumDaysInFebruary() {
         int maxDays;      
         Calendar februaryMonthlyDateCalendar = Calendar.getInstance();
         februaryMonthlyDateCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -266,7 +266,7 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param monthNumber The number of the month to test for maximum days..
      * @return maxDays Maximum number of days in the month of February for calendar.
      */
-    private int checkMaximumDaysInMonth(int monthNumber) {
+    protected int checkMaximumDaysInMonth(int monthNumber) {
         int maxDays;   
         
         Calendar calendar = Calendar.getInstance();

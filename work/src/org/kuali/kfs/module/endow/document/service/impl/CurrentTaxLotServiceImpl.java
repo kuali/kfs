@@ -668,8 +668,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         long totalPaymentsRemaining = 0;
         long totalDaysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate);
         
-        // TODO need to implement the logic here..
-
         String frequencyType = incomePayFrequency.substring(0, 1);
         
         Date currentDate = kEMService.getCurrentDate();
@@ -879,7 +877,26 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected int getQuarterOfFiscalYear(Date nextIncomeDueDate) {
         int quarterOfFiscalYear = 0;
 
-        // TODO need to implement the logic here..
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(nextIncomeDueDate);
+        int quarterMonth = calendar.get(Calendar.MONTH);
+        
+        if (quarterMonth >= 0 && quarterMonth <= 2) {
+            return 1;  //first quarter
+        }
+        
+        if (quarterMonth >= 3 && quarterMonth <= 5) {
+            return 2; //second quarter
+        }
+        
+        if (quarterMonth >= 6 && quarterMonth <= 8) {
+            return 3; //third quarter
+        }   
+        
+        if (quarterMonth >= 9 && quarterMonth <= 11) {
+            return 4; //fourth quarter
+        }  
+        
         return quarterOfFiscalYear;
     }
 

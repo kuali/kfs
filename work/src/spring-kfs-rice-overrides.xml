@@ -128,6 +128,7 @@
     <property name="businessObjectDao">
       <ref bean="businessObjectDao" />
     </property>
+    <property name="documentAdHocService" ref="documentAdHocService"/>
   </bean>
 
   <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />

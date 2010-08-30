@@ -57,7 +57,7 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar" />
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch3.jar" />
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch4.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar" />
@@ -125,6 +125,16 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/batik-1.6.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-dbcp-1.4.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-pool-1.5.4.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
@@ -219,17 +229,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-dbcp-1.2.1.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-httpclient-3.0.1.jar">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-pool-1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

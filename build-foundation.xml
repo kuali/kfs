@@ -87,14 +87,13 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-server-war" />
   
-	<target name="update-rice-jars" depends="init-property-files,init-additional-properties">
-	    <if>
-	        <isset property="clean.rice" />
-	        <then>
-                <maven goals="clean:clean" modulePath="/${rice.api.module.name}" />
-                <maven goals="clean:clean" modulePath="/${rice.impl.module.name}" />
-            </then>
-        </if>
+	<target name="clean-rice-maven" depends="init-property-files,init-additional-properties" if="clean.rice">
+        <maven goals="clean:clean" modulePath="/${rice.api.module.name}" />
+        <maven goals="clean:clean" modulePath="/${rice.impl.module.name}" />
+        <maven goals="clean:clean" modulePath="/${rice.web.module.name}" />
+	</target>
+	
+	<target name="update-rice-jars" depends="init-property-files,init-additional-properties,clean-rice-maven">
         <maven goals="install" modulePath="/${rice.api.module.name}" />
         <maven goals="install" modulePath="/${rice.impl.module.name}" />
     	<delete verbose="true">
@@ -112,13 +111,7 @@ are intended for use only by Kuali Foundation developers.
     	</copy>
 	</target>
   
-    <target name="update-rice-server-war" depends="init-property-files,init-additional-properties">
-	    <if>
-	        <isset property="clean.rice" />
-	        <then>
-                <maven goals="clean:clean" modulePath="/${rice.web.module.name}" />
-            </then>
-        </if>
+    <target name="update-rice-server-war" depends="init-property-files,init-additional-properties,clean-rice-maven">
         <maven goals="package" modulePath="/${rice.web.module.name}" />
     	<delete dir="${build.appserver.directory}" includes="${rice.server.war.file.name.prefix}*.war" />
         <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.war.file.name}" 

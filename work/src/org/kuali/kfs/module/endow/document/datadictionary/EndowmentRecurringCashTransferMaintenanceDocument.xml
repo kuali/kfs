@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="EndowmentRecurringCashTransferMaintenanceDocument" parent="EndowmentRecurringCashTransferMaintenanceDocument-parentBean" />
+
+  <bean id="EndowmentRecurringCashTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" />
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableSections" >
+      <list>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+
+
+
+
+      </list>
+    </property>
+    <!--  ask Philip or Poonam -->
+    <property name="lockingKeys" >
+      <list>
+        <value>transferNumber</value>
+      </list>
+    </property>    
+
+    <property name="documentTypeName" value="Recurring Cash Transfer Maintenance Document" />
+<!--  <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.endow.document.validation.impl.  " /> -->     
+    <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.RecurringCashTransferTransactionRule" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+<!-- ???   <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.  " /> -->
+    <!--  ask to Philip or Poonam? "webScriptFiles" ??-->
+    <!--
+    <property name="webScriptFiles" >
+      <list>
+        <value>../dwr/interface/RegistrationCodeService.js</value>
+        <value>../scripts/module/endow/registrationCode.js</value>
+        <value>../dwr/interface/PooledFundControlService.js</value>
+        <value>../scripts/module/endow/pooledFundControl.js</value>
+        <value>../dwr/interface/FrequencyCodeService.js</value>
+        <value>../scripts/module/endow/frequencyCode.js</value>          
+      </list>
+    </property>
+    
+    -->
+     
+    <property name="workflowAttributes">
+    	<ref bean="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes" />
+    </property>    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+  <bean id="ACIModelMaintenanceDocument-EditACIModel" parent="ACIModelMaintenanceDocument-EditACIModel-parentBean" />
+
+  <bean id="ACIModelMaintenanceDocument-EditACIModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Automated Cash Investment Model" />
+    <property name="title" value="Edit Automated Cash Investment Model" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="aciModelID"
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.NextACIModelIDFinder"
+              p:unconditionallyReadOnly="true" /> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="aciModelName"
+              p:required="true" />             
+        <bean parent="MaintainableFieldDefinition"
+              p:name="ipIndicator"
+              p:required="true" />                    
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment1SecurityID"
+              p:required="true" 
+              p:webUILeaveFieldFunction="loadInvestment1Desc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment1.pooledFundDescription"
+              p:unconditionallyReadOnly="true" />                            
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment1RegistrationCode"
+              p:required="true" 
+              p:webUILeaveFieldFunction="loadInvestment1RegistrationCodeDesc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment1RegistrationCodeObj.name"
+              p:unconditionallyReadOnly="true" />                                         
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment1Percent"
+              p:required="true"/>               
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment2SecurityID"
+              p:webUILeaveFieldFunction="loadInvestment2Desc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment2.pooledFundDescription"
+              p:unconditionallyReadOnly="true" />                            
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment2RegistrationCode"
+              p:webUILeaveFieldFunction="loadInvestment2RegistrationCodeDesc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment2RegistrationCodeObj.name"
+              p:unconditionallyReadOnly="true" />                                         
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment2Percent"/>              
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment3SecurityID"
+              p:webUILeaveFieldFunction="loadInvestment3Desc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment3.pooledFundDescription"
+              p:unconditionallyReadOnly="true" />                            
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment3RegistrationCode"
+              p:webUILeaveFieldFunction="loadInvestment3RegistrationCodeDesc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment3RegistrationCodeObj.name"
+              p:unconditionallyReadOnly="true" />                                         
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment3Percent"/>               
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment4SecurityID"
+              p:webUILeaveFieldFunction="loadInvestment4Desc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment4.pooledFundDescription"
+              p:unconditionallyReadOnly="true" />                            
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment4RegistrationCode"
+              p:webUILeaveFieldFunction="loadInvestment4RegistrationCodeDesc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment4RegistrationCodeObj.name"
+              p:unconditionallyReadOnly="true" />                                         
+        <bean parent="MaintainableFieldDefinition"
+              p:name="investment4Percent"/>  
+        <bean parent="MaintainableFieldDefinition"
+              p:name="aciFrequencyCode"
+              p:required="true"
+              p:webUILeaveFieldFunction="loadACIFrequencyCodeDesc"/>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="aciFrequencyCodeObj.name"
+              p:unconditionallyReadOnly="true" />                 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:defaultValue="true" />              
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes" parent="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes-parentBean" />
+	
+  <bean id="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
+  </bean>
+ </beans>

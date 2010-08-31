@@ -18,9 +18,13 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentRecurringCashTransfer.class);
+    
     private String transferNumber;
     private String sourceKemid;
     private String transactionType;
@@ -30,6 +34,7 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
     private String frequencyCode;
     private Date nextProcessDate;
     private Date lastProcessDate;
+    private boolean active;
 
     private KEMID kemidObj;
     private EndowmentTransactionCode etranCodeObj;
@@ -138,6 +143,14 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
 
     public void setFrequencyCodeObj(FrequencyCode frequencyCodeObj) {
         this.frequencyCodeObj = frequencyCodeObj;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     protected LinkedHashMap toStringMapper() {

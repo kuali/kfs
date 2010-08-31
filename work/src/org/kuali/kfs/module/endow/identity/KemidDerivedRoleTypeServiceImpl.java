@@ -15,8 +15,19 @@
  */
 package org.kuali.kfs.module.endow.identity;
 
+import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
 public class KemidDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+    private KEMIDService kemidService;
+
+    public void setKemidService(KEMIDService kemidService) {
+        this.kemidService = kemidService;
+    }
+
+    public KEMIDService getKemidService() {
+        return kemidService;
+    }
+
 
 }

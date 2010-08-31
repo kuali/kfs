@@ -717,4 +717,17 @@
     <bean id="currentTaxLotBalanceDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.endow.dataaccess.impl.CurrentTaxLotBalanceDaoOjb">
 	</bean>
+	
+	<bean id="kemidDerivedRoleTypeService"
+		class="org.kuali.kfs.module.endow.identity.KemidDerivedRoleTypeServiceImpl">
+		<property name="kemidService">
+			<ref bean="KEMIDService" />
+		</property>
+	</bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="kemidDerivedRoleTypeService"
+	      p:localServiceName="kemidDerivedRoleTypeService" />
+	  </property>
+	</bean>
 </beans>

@@ -27,7 +27,25 @@ public class CorporateReorganizationDocumentForm extends EndowmentTransactionLin
         newSourceTransactionLine.setTransactionAmount(null);
         newTargetTransactionLine.setTransactionAmount(null);
         
+        // Don't show the Etran code field.
         setShowETranCode(false);
+        
+        // Don't show the import and add button on the target transaction lines.
+        setShowTargetImport(false);
+        setShowTargetAdd(false);
+        
+        // Don't show the import button on the source transaction lines.
+        setShowSourceImport(false);
+        
+        // Make the KEMID field on the target transaction lines read only.
+        setTargetKemidReadOnly(true);
+        
+        // Make the income/principal indicator on the target transaction lines read only.
+        setTargetIncomePrincipalIndicatorReadOnly(true);
+        
+        // Don't want to show all the added target transaction lines since
+        // only one target transaction exists.  We just want one line to show-up.
+        setShowTargetTransLines(false);
     }
 
     @Override

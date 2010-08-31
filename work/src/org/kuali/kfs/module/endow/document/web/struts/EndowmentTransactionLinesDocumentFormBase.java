@@ -65,7 +65,31 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     // show the import button on target transaction lines
     protected boolean showTargetImport = true;
+    
+    // show the add button on the source transaction lines
+    protected boolean showSourceAdd = true;
+    
+    // show the add button on the target transaction lines
+    protected boolean showTargetAdd = true;
 
+    // make the KEMID field on the source transaction lines read only.
+    protected boolean sourceKemidReadOnly = false;
+    
+    // make the KEMID field on the target transaction lines read only.
+    protected boolean targetKemidReadOnly = false;
+    
+    // make the income/principal indicator on the source transaction lines read only.
+    protected boolean sourceIncomePrincipalIndicatorReadOnly = false;
+    
+    // make the income/principal indicator on the target transaction lines read only.
+    protected boolean targetIncomePrincipalIndicatorReadOnly = false;
+    
+    // show all the added source transaction lines on the form.
+    protected boolean showSourceTransLines = true;
+    
+    // show all the added target transaction lines on the form.
+    protected boolean showTargetTransLines = true;
+    
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -436,4 +460,133 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setShowTargetImport(boolean showTargetImport) {
         this.showTargetImport = showTargetImport;
     }
+
+    /**
+     * Gets the showSourceAdd attribute. 
+     * @return Returns the showSourceAdd.
+     */
+    public boolean isShowSourceAdd() {
+        return showSourceAdd;
+    }
+
+    /**
+     * Sets the showSourceAdd attribute value.
+     * @param showSourceAdd The showSourceAdd to set.
+     */
+    public void setShowSourceAdd(boolean showSourceAdd) {
+        this.showSourceAdd = showSourceAdd;
+    }
+
+    /**
+     * Gets the showTargetAdd attribute. 
+     * @return Returns the showTargetAdd.
+     */
+    public boolean isShowTargetAdd() {
+        return showTargetAdd;
+    }
+
+    /**
+     * Sets the showTargetAdd attribute value.
+     * @param showTargetAdd The showTargetAdd to set.
+     */
+    public void setShowTargetAdd(boolean showTargetAdd) {
+        this.showTargetAdd = showTargetAdd;
+    }
+
+    /**
+     * Gets the sourceKemidReadOnly attribute. 
+     * @return Returns the sourceKemidReadOnly.
+     */
+    public boolean isSourceKemidReadOnly() {
+        return sourceKemidReadOnly;
+    }
+
+    /**
+     * Sets the sourceKemidReadOnly attribute value.
+     * @param sourceKemidReadOnly The sourceKemidReadOnly to set.
+     */
+    public void setSourceKemidReadOnly(boolean sourceKemidReadOnly) {
+        this.sourceKemidReadOnly = sourceKemidReadOnly;
+    }
+
+    /**
+     * Gets the targetKemidReadOnly attribute. 
+     * @return Returns the targetKemidReadOnly.
+     */
+    public boolean isTargetKemidReadOnly() {
+        return targetKemidReadOnly;
+    }
+
+    /**
+     * Sets the targetKemidReadOnly attribute value.
+     * @param targetKemidReadOnly The targetKemidReadOnly to set.
+     */
+    public void setTargetKemidReadOnly(boolean targetKemidReadOnly) {
+        this.targetKemidReadOnly = targetKemidReadOnly;
+    }
+
+    /**
+     * Gets the targetIncomePrincipalIndicatorReadOnly attribute. 
+     * @return Returns the targetIncomePrincipalIndicatorReadOnly.
+     */
+    public boolean isTargetIncomePrincipalIndicatorReadOnly() {
+        return targetIncomePrincipalIndicatorReadOnly;
+    }
+
+    /**
+     * Sets the targetIncomePrincipalIndicatorReadOnly attribute value.
+     * @param targetIncomePrincipalIndicatorReadOnly The targetIncomePrincipalIndicatorReadOnly to set.
+     */
+    public void setTargetIncomePrincipalIndicatorReadOnly(boolean targetIncomePrincipalIndicatorReadOnly) {
+        this.targetIncomePrincipalIndicatorReadOnly = targetIncomePrincipalIndicatorReadOnly;
+    }
+
+    /**
+     * Gets the sourceIncomePrincipalIndicatorReadOnly attribute. 
+     * @return Returns the sourceIncomePrincipalIndicatorReadOnly.
+     */
+    public boolean isSourceIncomePrincipalIndicatorReadOnly() {
+        return sourceIncomePrincipalIndicatorReadOnly;
+    }
+
+    /**
+     * Sets the sourceIncomePrincipalIndicatorReadOnly attribute value.
+     * @param sourceIncomePrincipalIndicatorReadOnly The sourceIncomePrincipalIndicatorReadOnly to set.
+     */
+    public void setSourceIncomePrincipalIndicatorReadOnly(boolean sourceIncomePrincipalIndicatorReadOnly) {
+        this.sourceIncomePrincipalIndicatorReadOnly = sourceIncomePrincipalIndicatorReadOnly;
+    }
+
+    /**
+     * Gets the showSourceTransLines attribute. 
+     * @return Returns the showSourceTransLines.
+     */
+    public boolean isShowSourceTransLines() {
+        return showSourceTransLines;
+    }
+
+    /**
+     * Sets the showSourceTransLines attribute value.
+     * @param showSourceTransLines The showSourceTransLines to set.
+     */
+    public void setShowSourceTransLines(boolean showSourceTransLines) {
+        this.showSourceTransLines = showSourceTransLines;
+    }
+
+    /**
+     * Gets the showTargetTransLines attribute. 
+     * @return Returns the showTargetTransLines.
+     */
+    public boolean isShowTargetTransLines() {
+        return showTargetTransLines;
+    }
+
+    /**
+     * Sets the showTargetTransLines attribute value.
+     * @param showTargetTransLines The showTargetTransLines to set.
+     */
+    public void setShowTargetTransLines(boolean showTargetTransLines) {
+        this.showTargetTransLines = showTargetTransLines;
+    }
+    
 }

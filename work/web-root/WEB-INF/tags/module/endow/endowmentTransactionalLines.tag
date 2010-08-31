@@ -37,6 +37,14 @@
 <c:set var="showUnitAdjustmentAmount" value="${KualiForm.showUnitAdjustmentAmount}" />
 <c:set var="showSourceImport" value="${KualiForm.showSourceImport}" />
 <c:set var="showTargetImport" value="${KualiForm.showTargetImport}" />
+<c:set var="showSourceAdd" value="${KualiForm.showSourceAdd and isSource}" />
+<c:set var="showTargetAdd" value="${KualiForm.showTargetAdd and not isSource}" />
+<c:set var="sourceIncomePrincipalIndicatorReadOnly" value="${KualiForm.sourceIncomePrincipalIndicatorReadOnly and isSource}" />
+<c:set var="targetIncomePrincipalIndicatorReadOnly" value="${KualiForm.targetIncomePrincipalIndicatorReadOnly and not isSource}" />
+<c:set var="sourceKemidReadOnly" value="${KualiForm.sourceKemidReadOnly and isSource}" />
+<c:set var="targetKemidReadOnly" value="${KualiForm.targetKemidReadOnly and not isSource}" />
+<c:set var="showSourceTransLines" value="${KualiForm.showSourceTransLines and isSource}" />
+<c:set var="showTargetTransLines" value="${KualiForm.showTargetTransLines and not isSource}" />
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -189,16 +197,28 @@
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row" colspan="2"/>
             </c:if>   
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" 
-                		property="${newTransactionLine}.kemid"
-                		onblur="loadTransactionLineKEMIDShortTitle('${newTransactionLine}.kemid', '${newTransactionLine}.kemidObj.ShortTitle.div');"
-	            		readOnly="${readOnly}"/>&nbsp;
-	                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
-					                fieldConversions="kemid:${newTransactionLine}.kemid" />
-				    <br/>
-					<div id="${newTransactionLine}.kemidObj.ShortTitle.div" class="fineprint">
-            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
-            		</div>					                
+                  <c:choose>
+                    <c:when test="${targetKemidReadOnly or sourceKemidReadOnly}">
+                	  <kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" 
+                		  property="${newTransactionLine}.kemid"
+                		  onblur="loadTransactionLineKEMIDShortTitle('${newTransactionLine}.kemid', '${newTransactionLine}.kemidObj.ShortTitle.div');"
+	            		  readOnly="true"/>&nbsp;
+                    </c:when>
+                  
+                    <c:otherwise>
+                      <kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" 
+                          property="${newTransactionLine}.kemid"
+                          onblur="loadTransactionLineKEMIDShortTitle('${newTransactionLine}.kemid', '${newTransactionLine}.kemidObj.ShortTitle.div');"
+                          readOnly="false"/>&nbsp;
+                          <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
+                                      fieldConversions="kemid:${newTransactionLine}.kemid" />
+                    </c:otherwise>
+                  </c:choose>              
+                                    
+				  <br/>
+				  <div id="${newTransactionLine}.kemidObj.ShortTitle.div" class="fineprint">
+            	    <kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newTransactionLine}.kemidObj.shortTitle" readOnly="true" />
+            	  </div>					                
 				</td>
 				<c:if test="${showETranCode}">				
 	                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.etranCode}"
@@ -218,7 +238,7 @@
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" readOnly="true"/></td>
 				</c:if>
 				<c:if test="${not setFieldValueToPrincipal}">
-                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode"/></td>
+                	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${newTransactionLine}.transactionIPIndicatorCode" readOnly="${targetIncomePrincipalIndicatorReadOnly or readOnly}"/></td>
 				</c:if>
 				<c:if test="${KualiForm.showTransactionAmount}">
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${newTransactionLine}.transactionAmount" styleClass="right" readOnly="${isTransAmntReadOnly}"/></td>
@@ -229,22 +249,31 @@
                 <c:if test="${hasUnits}">
                 	<td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionUnits}" property="${newTransactionLine}.transactionUnits" styleClass="right"/></td>
                 </c:if>
-                
-	                <td class="infoline">
-	                  	<c:if test="${isSource && KualiForm.showFromTransactionLine}">
-		                	<div align="center">
-		                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
-		                	</div>
-	                	</c:if>
-	                	<c:if test="${not isSource}">
-		                	<div align="center">
-		                		<html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
-		                	</div>
-	                	</c:if>
-	                </td>
+                <c:choose>
+                  <c:when test="${showTargetAdd or showSourceAdd}">
+                    <td class="infoline">
+                        <c:if test="${isSource && KualiForm.showFromTransactionLine}">
+                            <div align="center">
+                                <html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+                            </div>
+                        </c:if>
+                        <c:if test="${not isSource}">
+                            <div align="center">
+                                <html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+                            </div>
+                        </c:if>
+                    </td>
+                   </c:when>
+                   <c:otherwise>
+                    <td class="infoline">
+                      <div align="center">&nbsp;</div>
+                    </td>
+                   </c:otherwise>
+                </c:choose>
             </tr>
         </c:if>
       
+        <c:if test="${showTargetTransLines or showSourceTransLines}">
         <logic:iterate id="item" name="KualiForm" property="${transLines}" indexId="ctr">
             <tr>
 		    <c:if test="${showIncomeTotalAmount}">            
@@ -257,8 +286,8 @@
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].kemid"
 						onblur="loadTransactionLineKEMIDShortTitle('${transLines}[${ctr}].kemid', 'document.${transLines}[${ctr}].kemidObj.ShortTitle.div');"                	
-                	    readOnly="${readOnly}"/>&nbsp;
-                	<c:if test="${not readOnly}">
+                	    readOnly="${readOnly or targetKemidReadOnly or sourceKemidReadOnly}"/>&nbsp;
+                	<c:if test="${not readOnly and (not (targetKemidReadOnly or sourceKemidReadOnly))}">
                 		<kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"
 				                    fieldConversions="kemid:${transLines}[${ctr}].kemid" />
                     </c:if>	
@@ -287,7 +316,7 @@
 	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="true"/></td>					
 				</c:if>
 				<c:if test="${not setFieldValueToPrincipal}">
-	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly}"/></td>
+	                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionIPIndicatorCode}" property="${transLines}[${ctr}].transactionIPIndicatorCode" readOnly="${readOnly or targetIncomePrincipalIndicatorReadOnly}"/></td>
 				</c:if>
 				<c:if test="${KualiForm.showTransactionAmount}">
                 	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.transactionAmount}" property="${transLines}[${ctr}].transactionAmount" readOnly="${readOnly or isTransAmntReadOnly}" styleClass="right"/></td>
@@ -301,16 +330,23 @@
                 <td class="datacell">
                 <div align="center">
                 <c:if test="${not readOnly}" >
-                <c:if test="${hasUnits}">
-               		<html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
+                
+                <c:choose>
+                    <c:when test="${showTargetAdd or showSourceAdd}">
+                      <c:if test="${hasUnits}">
+               		    <html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
+                      </c:if>
+                	  <html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
+                	  <html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
+                    </c:when>
+                </c:choose>
                 </c:if>
-                	<html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
-                	<html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
-                </c:if>
+                    
                 </div>
                 </td>
             </tr>
         </logic:iterate>
+        </c:if>
         <c:if test="${showIncomeTotalAmount or showPrincipalTotalAmount}" >
         <tr>
 				<td class="total-line" colspan="5">

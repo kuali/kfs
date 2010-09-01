@@ -188,6 +188,16 @@ class AddColumn extends AlterColumn {
     }
 }
 
+class RenameColumn implements LiquibaseCommonTableInterface {
+    Map attributes = [:]
+    RenameColumn(Map attribs) {
+        attributes = attribs
+    }
+    void modification(table, xml) {
+        xml.renameColumn(this.getAttributes())
+    }
+}
+
 class SequenceCreate  implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   Map constraintsAttributes = [:]
@@ -534,6 +544,18 @@ def checkAlters(line,tables)
              return true
          }
     }
+    matcher = (line =~ /(?i)[ ]*ALTER TABLE ([^ ]+) ADD ([^ ]+) ([^ ;]+) DEFAULT ['"]*([^ ;'"]+)['"]* NOT NULL.*/)
+    if (matcher.matches()) {
+         println "add line " + matcher[0][1] + ":" + matcher[0][2] + " NOT NULL"
+         table = new Table( tableName: matcher[0][1] )
+         table.getChanges() << new AddColumn( name : matcher[0][2], type : matcher[0][3].toUpperCase(), nullable : false, defaultValue : matcher[0][4].toUpperCase() )
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "VARCHAR2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql", replace : "varchar2", with : "VARCHAR")
+         table.getModSqls() << new ModSql(dbms: "mysql" ,replace : "NUMBER", with : "DECIMAL")
+         tables << table
+         return true              
+    }
+  
     matcher = (line =~ /(?i)[ ]*ALTER TABLE ([^ ]+) ADD ([^ ]+) ([^ ;]+) NOT NULL.*/)
     if (matcher.matches()) {
          println "add line " + matcher[0][1] + ":" + matcher[0][2] + " NOT NULL"
@@ -557,6 +579,14 @@ def checkAlters(line,tables)
          return true              
     }
 
+    matcher = (line =~ /(?i)[ ]*ALTER TABLE ([^ ]+) RENAME COLUMN ([^ ]+) TO ([^ ;]+).*/)
+    if (matcher.matches()) {
+         println "Rename line " + matcher[0][1] + ": old " + matcher[0][2] + "->" + matcher[0][3]
+         table = new Table( tableName: matcher[0][1] )
+         table.getChanges() << new RenameColumn(tableName: matcher[0][1],  oldColumnName : matcher[0][2], newColumnName : matcher[0][3].toUpperCase() )
+         tables << table
+         return true              
+    }
 
     return false
 }

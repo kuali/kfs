@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Muddu' id='5476n-1-1' failOnError='false'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.  alter table END_FEE_MTHD_T change column FEE_BY_TRAN_TYP FEE_BY_TRAN_DOC_TYP varchar(1);</comment>
+    <renameColumn tableName='END_FEE_MTHD_T' oldColumnName='FEE_BY_TRAN_TYP' newColumnName='FEE_BY_TRAN_DOC_TYP' columnDataType='varchar(1)'/>
+  </changeSet>
+
+  <changeSet author='Muddu' id='5476n-1-2' failOnError='true'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.</comment>
+    <addColumn tableName='END_FEE_MTHD_T'>
+      <column name='FEE_MIN_THRSHLD' type='NUMBER(4,2)' />
+    </addColumn>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='varchar2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5476n-1-3' failOnError='true'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.</comment>
+    <createTable tableName='END_FEE_TRAN_DOC_TYP_T'>
+      <column name='FEE_MTHD' type='VARCHAR2(12)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='DOC_TYP_NM' type='VARCHAR2(64)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='INCL' type='VARCHAR2(1)' defaultValue='Y'>
+        <constraints nullable='false' />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+        <constraints nullable='false' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValue='1'>
+        <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Muddu' id='5476n-1-4' failOnError='true'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.</comment>
+    <addPrimaryKey tableName='END_FEE_TRAN_DOC_TYP_T' constraintName='END_FEE_TRAN_DOC_TYP_PK' columnNames='FEE_MTHD, DOC_TYP_NM' />
+  </changeSet>
+  <changeSet author='Muddu' id='5476n-1-5' failOnError='true'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.</comment>
+    <addForeignKeyConstraint constraintName='END_FEE_TRAN_DOC_TYP_TR1' baseTableName='END_FEE_TRAN_DOC_TYP_T' baseColumnNames='FEE_MTHD' referencedTableName='END_FEE_MTHD_T' referencedColumnNames='FEE_MTHD' />
+  </changeSet>
+  <changeSet author='Muddu' id='5476n-1-6' failOnError='false'>
+    <comment>need to make column changes to END_FEE_MTHD_T table.</comment>
+    <dropTable tableName='END_FEE_TRAN_TYP_T' />
+  </changeSet>
+</databaseChangeLog>

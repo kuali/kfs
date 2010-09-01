@@ -71,7 +71,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             isValid &= checkCustomRequiredFields();
             isValid &= checkUnitValue();
             isValid &= checkValuesBasedOnValuationMethod();
-
+            isValid &= checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed();            
         }
 
         return isValid;
@@ -230,4 +230,22 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
         return isValid;
     }
 
+    protected boolean checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed() {
+
+        boolean isValid = true;
+        
+        newSecurity.refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
+        ClassCode classCode = newSecurity.getClassCode();
+
+        if (classCode.getClassCodeType() != null && classCode.getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.POOLED_INVESTMENT)) {
+            String incomePayFrequencyCode = newSecurity.getIncomePayFrequency();
+            
+            if (StringUtils.isEmpty(incomePayFrequencyCode)) {
+                isValid = false;
+                putFieldError(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_INCOME_PAY_FREQUENCY_CODE_NOT_ENTERED);
+            }
+        }
+        
+        return isValid;
+    }
 }

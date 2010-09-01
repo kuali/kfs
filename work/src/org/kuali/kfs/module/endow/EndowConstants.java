@@ -223,6 +223,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String FEE_RATE_DEFINITION_CODE_FOR_VALUE = "V";
         public static final KualiDecimal FEE_RATE_DEFAULT_VALUE = new KualiDecimal("99999999999999999.99");
         public static final int FEE_RATE_MAX_SCALE = 4;
+        public static final String ENDOWMENT_HISTORY_VALUE_ADJUSTMENT = "EHVA";
     }
 
     // Fee Balances Types values...

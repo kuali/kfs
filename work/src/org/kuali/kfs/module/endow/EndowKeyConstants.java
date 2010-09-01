@@ -39,6 +39,7 @@ public class EndowKeyConstants {
         public static final String EROR_NEW_SECURITY_CLASS_CODE_TYPE_MUST_EQUAL_OLD_SEC_CLASS_CODE_TYPE = "error.document.security.classCode.newClassCodeTypeMustEqOldType";
         public static final String ERROR_SECURITY_VAL_BY_MKT_MUST_BE_EMPTY_WHEN_VAL_MTHD_UNITS = "error.document.security.valueByMarket.mustBeEmptyWhenValMthdUnits";
         public static final String ERROR_SECURITY_UNIT_VAL_MUST_BE_EMPTY_WHEN_VAL_MTHD_MARKET = "error.document.security.unitValue.mustBeEmptyWhenValMthdMarket";
+        public static final String ERROR_SECURITY_INCOME_PAY_FREQUENCY_CODE_NOT_ENTERED = "error.document.security.mustEnterFrequnecyCode.whenPooledFundClasscodeUsed";
     }
 
     public static class EndowmentTransactionConstants {
@@ -107,6 +108,7 @@ public class EndowKeyConstants {
         public static final String ERROR_DUPLICATE_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.duplicateEntered";
         public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_TRANSACTIONS_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForTransactions";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.noRecord";
+        public static final String ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED = "error.document.feeMethod.feeByTransactionType.invalid";
         public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
         public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_BALANCE_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForBalance";

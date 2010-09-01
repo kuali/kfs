@@ -45,7 +45,10 @@ public class CorporateReorganizationDocumentForm extends EndowmentTransactionLin
         
         // Don't want to show all the added target transaction lines since
         // only one target transaction exists.  We just want one line to show-up.
-        setShowTargetTransLines(false);
+        //setShowTargetTransLines(true);
+        
+        setShowTargetBalance(false);
+        setShowTargetDelete(false);
     }
 
     @Override

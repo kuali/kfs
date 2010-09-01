@@ -23,6 +23,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.CorporateReorganizationDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
@@ -37,6 +38,59 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
     private HoldingTaxLotService taxLotService;
     private SecurityService securityService;
     private KEMService kemService;
+
+    public void updateTransactionLineTaxLots(CorporateReorganizationDocument document, EndowmentTransactionLine transLine) {
+        // calculate the transaction line amount
+
+        // get the source transaction line and compute the unit value by dividing the source amount by the source number of units
+        EndowmentSourceTransactionLine sourceTransactionLine = (EndowmentSourceTransactionLine) document.getSourceTransactionLines().get(0);
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
+
+        if (ObjectUtils.isNotNull(sourceTransactionLine)) {
+            BigDecimal sourceAmount = sourceTransactionLine.getTransactionAmount().bigDecimalValue();
+            BigDecimal sourceUnits = sourceTransactionLine.getTransactionUnits().bigDecimalValue();
+            BigDecimal unitValue = KEMCalculationRoundingHelper.divide(sourceAmount, sourceUnits, 5);
+
+            BigDecimal targetAmount = KEMCalculationRoundingHelper.multiply(transLine.getTransactionUnits().bigDecimalValue(), unitValue, 2);
+            // set transaction line target amount
+            transLine.setTransactionAmount(new KualiDecimal(targetAmount));
+
+            EndowmentTransactionTaxLotLine taxLotLine = null;
+            boolean newLine = false;
+
+            if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
+                // there is only one tax lot line per each transaction line
+                taxLotLine = transLine.getTaxLotLines().get(0);
+            }
+            else {
+                // create and set a new tax lot line
+                newLine = true;
+                taxLotLine = new EndowmentTransactionTaxLotLine();
+                taxLotLine.setDocumentNumber(document.getDocumentNumber());
+                taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
+                taxLotLine.setTransactionHoldingLotNumber(1);
+            }
+
+            taxLotLine.setKemid(transLine.getKemid());
+            taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
+            taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
+            taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
+            taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
+            taxLotLine.setLotHoldingCost(targetAmount);
+
+            // set the tax lot acquired date
+            setTaxLotAcquiredDate(taxLotLine, document, transLine);
+
+            // set the new tax lot indicator
+            setNewLotIndicator(taxLotLine, document);
+
+            if (newLine) {
+                transLine.getTaxLotLines().add(taxLotLine);
+            }
+
+        }
+        
+    }
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.UpdateSecurityTransferTargetTaxLotsService#updateTransactionLineTaxLots(org.kuali.kfs.module.endow.document.SecurityTransferDocument,
@@ -167,6 +221,56 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             }
         }
     }
+    
+    private void setTaxLotAcquiredDate(EndowmentTransactionTaxLotLine taxLotLine, CorporateReorganizationDocument document, EndowmentTransactionLine transLine) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
+
+        Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
+
+        // if security tax lot indicator is 'No' and a tax lot exists for the kemid, security, registration code and income
+        // principal indicator - set the lot acquired date to be the tax lot holding acquired date if units and cost is not zero;
+        // otherwise set the date to be the current date
+        if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
+            HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), 1, transLine.getTransactionIPIndicatorCode());
+            if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                if (holdingTaxLot.getUnits().equals(KualiDecimal.ZERO) && holdingTaxLot.getCost().equals(KualiDecimal.ZERO)) {
+                    taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+                }
+                else {
+                    taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
+                }
+            }
+            else {
+                taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+            }
+
+        }
+        // if security tax lot indicator is 'Yes' set the lot acquired date to be the current date
+        else {
+            taxLotLine.setLotAcquiredDate(kemService.getCurrentDate());
+        }
+    }
+    
+    private void setNewLotIndicator(EndowmentTransactionTaxLotLine taxLotLine, CorporateReorganizationDocument document) {
+        EndowmentTransactionSecurity endowmentTransactionSecurity = document.getSourceTransactionSecurity();
+        Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
+
+        if (ObjectUtils.isNotNull(security)) {
+            // if the security tax lot indicator is No then I think we should set the field to 'N'. When the batch process runs we
+            // might need to create a new entry on the holding tax lot table in case no entry is found for the given KEMID, security
+            // ID, registration code, holding ip indicator, and holding lot number = 1. In case there is an entry we will just
+            // update that one
+            if (!security.getClassCode().isTaxLotIndicator()) {
+
+                taxLotLine.setNewLotIndicator(false);
+            }
+            // if the security tax lot is Yes then the field should be set to 'Y'.We are always creating a new field with the lot
+            // number being the next sequential lot number.
+            else {
+                taxLotLine.setNewLotIndicator(true);
+            }
+        }
+    }
 
     /**
      * Gets the taxLotService.
@@ -221,5 +325,4 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }
-
 }

@@ -45,6 +45,12 @@
 <c:set var="targetKemidReadOnly" value="${KualiForm.targetKemidReadOnly and not isSource}" />
 <c:set var="showSourceTransLines" value="${KualiForm.showSourceTransLines and isSource}" />
 <c:set var="showTargetTransLines" value="${KualiForm.showTargetTransLines and not isSource}" />
+<c:set var="showSourceRefresh" value="${KualiForm.showSourceRefresh and isSource}" />
+<c:set var="showTargetRefresh" value="${KualiForm.showTargetRefresh and not isSource}" />
+<c:set var="showSourceBalance" value="${KualiForm.showSourceBalance and isSource}" />
+<c:set var="showTargetBalance" value="${KualiForm.showTargetBalance and not isSource}" />
+<c:set var="showSourceDelete" value="${KualiForm.showSourceDelete and isSource}" />
+<c:set var="showTargetDelete" value="${KualiForm.showTargetDelete and not isSource}" />
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -330,16 +336,15 @@
                 <td class="datacell">
                 <div align="center">
                 <c:if test="${not readOnly}" >
-                
-                <c:choose>
-                    <c:when test="${showTargetAdd or showSourceAdd}">
-                      <c:if test="${hasUnits}">
-               		    <html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
-                      </c:if>
-                	  <html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
-                	  <html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
-                    </c:when>
-                </c:choose>
+                  <c:if test="${hasUnits and (showTargetRefresh or showSourceRefresh)}">
+                    <html:image property="${methodToCallRefreshTaxLotLines}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
+                  </c:if>
+                  <c:if test="${showTargetBalance or showSourceBalance}">
+                    <html:image property="${methodToCallBalanceInquiry}.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-balinquiry.gif" title="Balance Inquiry for Line ${ctr+1}" alt="Balance Inquiry for Line ${ctr+1}" styleClass="tinybutton"/>
+                  </c:if>
+                  <c:if test="${showTargetDelete or showSourceDelete}">
+                    <html:image property="${methodToCallDelete}.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete Transaction Line ${ctr+1}" alt="Delete Transaction Line  ${ctr+1}" styleClass="tinybutton"/>
+                  </c:if>
                 </c:if>
                     
                 </div>

@@ -90,6 +90,13 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     // show all the added target transaction lines on the form.
     protected boolean showTargetTransLines = true;
     
+    protected boolean showSourceRefresh = true;
+    protected boolean showTargetRefresh = true;
+    protected boolean showSourceBalance = true;
+    protected boolean showTargetBalance = true;
+    protected boolean showSourceDelete  = true;
+    protected boolean showTargetDelete  = true;
+    
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -587,6 +594,102 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      */
     public void setShowTargetTransLines(boolean showTargetTransLines) {
         this.showTargetTransLines = showTargetTransLines;
+    }
+
+    /**
+     * Gets the showSourceRefresh attribute. 
+     * @return Returns the showSourceRefresh.
+     */
+    public boolean isShowSourceRefresh() {
+        return showSourceRefresh;
+    }
+
+    /**
+     * Sets the showSourceRefresh attribute value.
+     * @param showSourceRefresh The showSourceRefresh to set.
+     */
+    public void setShowSourceRefresh(boolean showSourceRefresh) {
+        this.showSourceRefresh = showSourceRefresh;
+    }
+
+    /**
+     * Gets the showTargetRefresh attribute. 
+     * @return Returns the showTargetRefresh.
+     */
+    public boolean isShowTargetRefresh() {
+        return showTargetRefresh;
+    }
+
+    /**
+     * Sets the showTargetRefresh attribute value.
+     * @param showTargetRefresh The showTargetRefresh to set.
+     */
+    public void setShowTargetRefresh(boolean showTargetRefresh) {
+        this.showTargetRefresh = showTargetRefresh;
+    }
+
+    /**
+     * Gets the showSourceBalance attribute. 
+     * @return Returns the showSourceBalance.
+     */
+    public boolean isShowSourceBalance() {
+        return showSourceBalance;
+    }
+
+    /**
+     * Sets the showSourceBalance attribute value.
+     * @param showSourceBalance The showSourceBalance to set.
+     */
+    public void setShowSourceBalance(boolean showSourceBalance) {
+        this.showSourceBalance = showSourceBalance;
+    }
+
+    /**
+     * Gets the showTargetBalance attribute. 
+     * @return Returns the showTargetBalance.
+     */
+    public boolean isShowTargetBalance() {
+        return showTargetBalance;
+    }
+
+    /**
+     * Sets the showTargetBalance attribute value.
+     * @param showTargetBalance The showTargetBalance to set.
+     */
+    public void setShowTargetBalance(boolean showTargetBalance) {
+        this.showTargetBalance = showTargetBalance;
+    }
+
+    /**
+     * Gets the showSourceDelete attribute. 
+     * @return Returns the showSourceDelete.
+     */
+    public boolean isShowSourceDelete() {
+        return showSourceDelete;
+    }
+
+    /**
+     * Sets the showSourceDelete attribute value.
+     * @param showSourceDelete The showSourceDelete to set.
+     */
+    public void setShowSourceDelete(boolean showSourceDelete) {
+        this.showSourceDelete = showSourceDelete;
+    }
+
+    /**
+     * Gets the showTargetDelete attribute. 
+     * @return Returns the showTargetDelete.
+     */
+    public boolean isShowTargetDelete() {
+        return showTargetDelete;
+    }
+
+    /**
+     * Sets the showTargetDelete attribute value.
+     * @param showTargetDelete The showTargetDelete to set.
+     */
+    public void setShowTargetDelete(boolean showTargetDelete) {
+        this.showTargetDelete = showTargetDelete;
     }
     
 }

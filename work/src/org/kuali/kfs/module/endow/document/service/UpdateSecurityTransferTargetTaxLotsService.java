@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.document.CorporateReorganizationDocument;
 import org.kuali.kfs.module.endow.document.SecurityTransferDocument;
 
 public interface UpdateSecurityTransferTargetTaxLotsService {
@@ -27,5 +28,7 @@ public interface UpdateSecurityTransferTargetTaxLotsService {
      * @param transLine the transaction line for which we update the tax lots
      */
     public void updateTransactionLineTaxLots(SecurityTransferDocument document, EndowmentTransactionLine transLine);
+    
+    public void updateTransactionLineTaxLots(CorporateReorganizationDocument document, EndowmentTransactionLine transLine);
 
 }

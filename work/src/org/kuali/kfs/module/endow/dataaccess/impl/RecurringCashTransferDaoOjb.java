@@ -34,7 +34,7 @@ public class RecurringCashTransferDaoOjb extends PlatformAwareDaoBaseOjb impleme
      */
     public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE);
         return (List<EndowmentRecurringCashTransfer>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EndowmentRecurringCashTransfer.class, criteria));
     }

@@ -34,7 +34,7 @@ public class FeeMethodDaoOjb extends PlatformAwareDaoBaseOjb implements FeeMetho
      */
     public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);
         return (List<FeeMethod>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(FeeMethod.class, criteria));
     }

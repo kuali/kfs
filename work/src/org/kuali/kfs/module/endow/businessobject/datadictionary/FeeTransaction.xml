@@ -42,10 +42,10 @@
 
  	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="name" value="transactionTypeCode" />
-    	<property name="label" value="Transaction Type" />
+    	<property name="label" value="Transaction Document Type" />
         <property name="forceUppercase" value="true" />
         <property name="required" value="true" />
-    	<property name="shortLabel" value="Fee Transaction Code" />
+    	<property name="shortLabel" value="Fee Transaction Docuemnt Code" />
     	<property name="maxLength" value="1" />
     	<property name="validationPattern">
       		<bean parent="AnyCharacterValidationPattern" 
@@ -108,7 +108,7 @@
 	<bean id="FeeTransaction-lookupDefinition" parent="FeeTransaction-lookupDefinition-parentBean" />
 
   	<bean id="FeeTransaction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    	<property name="title" value="Fee Transaction Type Lookup" />    
+    	<property name="title" value="Fee Transaction Document Type Lookup" />    
     	<property name="defaultSort">
 	      	<bean parent="SortDefinition" />
     	</property>

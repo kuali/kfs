@@ -56,6 +56,7 @@ public class FeeMethod extends KualiCodeBase {
     private BigDecimal secondFeeRate;
     private KualiDecimal secondFeeBreakpoint;
     private BigDecimal thirdFeeRate;
+    private KualiDecimal minimumFeeThreshold;    
     private KualiDecimal minimumFeeToCharge;
     private String feeTypeCode;
     private String feeBaseCode;
@@ -704,5 +705,19 @@ public class FeeMethod extends KualiCodeBase {
             return KFSConstants.EMPTY_STRING;
         }
         return getCode() + "-" + getName();
+    }
+    /**
+     * gets the minimumFeeThreshold. returns minimumFeeThreshold.
+     */    
+    public KualiDecimal getMinimumFeeThreshold() {
+        return minimumFeeThreshold;
+    }
+
+    /**
+     * Sets the minimumFeeThreshold attribute value.
+     * @param minimumFeeThreshold The minimumFeeThreshold to set.
+     */
+    public void setMinimumFeeThreshold(KualiDecimal minimumFeeThreshold) {
+        this.minimumFeeThreshold = minimumFeeThreshold;
     }
 }

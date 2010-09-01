@@ -127,10 +127,13 @@
               p:required="false" p:defaultValue="99999999999999999.99" />
         <bean parent="MaintainableFieldDefinition"
               p:name="thirdFeeRate"
-              p:required="false" p:defaultValue="0.0000" />  
+              p:required="false" p:defaultValue="0.0000" /> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="minimumFeeThreshold"
+              p:required="false" p:defaultValue="0.00" />  
         <bean parent="MaintainableFieldDefinition"
               p:name="minimumFeeToCharge"
-              p:required="false" p:defaultValue="0.00" />  
+              p:required="false" p:defaultValue="0.00" />
         <bean parent="MaintainableFieldDefinition"
               p:name="feeTypeCode"
               p:required="true" p:lookupReadOnly="true" 
@@ -313,13 +316,13 @@
 
   <bean id="FeeMethodMaintenanceDocument-editTransactionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Transaction Types" />
-    <property name="title" value="Transaction Type" />
+    <property name="title" value="Transaction Document Type" />
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="feeTransactions" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeTransaction"/>
-          <property name="summaryTitle" value="Fee Transaction Type" />
+          <property name="summaryTitle" value="Fee Transaction Document Type" />
           <property name="summaryFields">
             <list>
 		        <bean parent="MaintainableFieldDefinition"

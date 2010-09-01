@@ -32,6 +32,7 @@
         <ref bean="FeeMethod-secondFeeBreakpoint" />
         <ref bean="FeeMethod-thirdFeeRate" />
         <ref bean="FeeMethod-minimumFeeToCharge" />
+        <ref bean="FeeMethod-minimumFeeThreshold" />
         <ref bean="FeeMethod-feeTypeCode" />
         <ref bean="FeeMethod-feeType.description" />
         <ref bean="FeeMethod-feeBaseCode" />
@@ -240,7 +241,21 @@
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="7" p:size="7"/>
     </property>
 	<property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>    
-  </bean>  
+  </bean> 
+  <bean id="FeeMethod-minimumFeeThreshold" parent="FeeMethod-minimumFeeThreshold-parentBean" />
+
+  <bean id="FeeMethod-minimumFeeThreshold-parentBean" abstract="true" parent="FeeRate">
+    <property name="name" value="minimumFeeThreshold" />
+    <property name="label" value="Do Not Charge Fee if Less Than" />
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="4" p:scale="2" p:allowNegative="false"/>
+    </property>
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="7" p:size="7"/>
+    </property>
+	<property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>    
+  </bean> 
   <bean id="FeeMethod-feeTypeCode" parent="FeeMethod-feeTypeCode-parentBean" />
   
   <bean id="FeeMethod-feeTypeCode-parentBean" abstract="true" parent="FeeTypeCode-code">
@@ -345,7 +360,7 @@
     
   <bean id="FeeMethod-feeByTransactionType-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 	<property name="name" value="feeByTransactionType" />
-    <property name="label" value="Select by Transaction Type" />
+    <property name="label" value="Select by Transaction Document Type" />
   </bean>
   <bean id="FeeMethod-feeByETranCode" parent="FeeMethod-feeByETranCode-parentBean" />
     
@@ -441,8 +456,8 @@
   
   <bean id="FeeMethod-feeTransactions.transactionTypeCode-parentBean" abstract="true" parent="FeeTransaction-transactionTypeCode">
   	<property name="name" value="feeTransactions.transactionTypeCode" />
-  	<property name="label" value="Transaction Type" />
-	<property name="shortLabel" value="Transaction Type"/>  	
+  	<property name="label" value="Transaction Document Type" />
+	<property name="shortLabel" value="Transaction Document Type"/>  	
   </bean>  
   <bean id="FeeMethod-feeTransactions.include" parent="FeeMethod-feeTransactions.include-parentBean" />        
     
@@ -500,9 +515,11 @@
 		        <bean parent="FieldDefinition"
 		              p:attributeName="secondFeeBreakpoint" />                                                                         
 		        <bean parent="FieldDefinition"
-		              p:attributeName="thirdFeeRate" />                                                                         
+		              p:attributeName="thirdFeeRate" />
 		        <bean parent="FieldDefinition"
-		              p:attributeName="minimumFeeToCharge" />                                                                         
+		              p:attributeName="minimumFeeThreshold" />
+		        <bean parent="FieldDefinition"
+		              p:attributeName="minimumFeeToCharge" />
 		        <bean parent="FieldDefinition"
 		              p:attributeName="feeType.codeAndDescription" />                                                                         
 		        <bean parent="FieldDefinition"
@@ -592,7 +609,7 @@
     	  </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Transaction Type" />
+          <property name="title" value="Transaction Document Type" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

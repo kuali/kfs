@@ -291,7 +291,8 @@
 	<field-descriptor name="secondFeeRate" column="FEE_RT_2" jdbc-type="DECIMAL"/>	
 	<field-descriptor name="secondFeeBreakpoint" column="FEE_BRK_2" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="thirdFeeRate" column="FEE_RT_3" jdbc-type="DECIMAL"/>
-	<field-descriptor name="minimumFeeToCharge" column="FEE_MIN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>	
+	<field-descriptor name="minimumFeeThreshold" column="FEE_MIN_THRSHLD" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>	
+	<field-descriptor name="minimumFeeToCharge" column="FEE_MIN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="feeTypeCode" column="FEE_TYP_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="feeBaseCode" column="FEE_BASE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="feeExpenseETranCode" column="FEE_EXP_ETRAN_CD" jdbc-type="VARCHAR"/>
@@ -300,7 +301,7 @@
 	<field-descriptor name="feeBalanceTypeCode" column="FEE_BAL_TYP_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="feeByClassCode" column="FEE_BY_CLS_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>	
 	<field-descriptor name="feeBySecurityCode" column="FEE_BY_SEC_ID" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="feeByTransactionType" column="FEE_BY_TRAN_TYP" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="feeByTransactionType" column="FEE_BY_TRAN_DOC_TYP" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="feeByETranCode" column="FEE_BY_ETRAN_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

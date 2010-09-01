@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
@@ -35,9 +32,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -47,6 +44,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -114,6 +112,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         doc.setNonAppliedHolding(null);
         
         documentService.saveDocument(doc);
+        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
+        workflowDocumentActions.indexDocument(new Long(doc.getDocumentNumber()));
         
         return doc;
     }
@@ -138,6 +138,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
         documentService.saveDocument(cashControlDocument);
+        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
+        workflowDocumentActions.indexDocument(new Long(cashControlDocument.getDocumentNumber()));
 
     }
 

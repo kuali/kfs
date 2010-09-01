@@ -88,6 +88,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -315,6 +316,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     po.setDefaultValuesForAPO();
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
+                    
+                    final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
+                    workflowDocumentActions.indexDocument(new Long(po.getDocumentNumber()));
                     return null;
                 }
             };

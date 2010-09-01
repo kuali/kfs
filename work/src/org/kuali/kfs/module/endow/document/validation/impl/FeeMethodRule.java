@@ -114,6 +114,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         rulesPassed &= recordExistsInEndowmentTransactionCode(feeMethod); // rule #12 and rule#14
         rulesPassed &= checkCorpusToMarketTolerance(feeMethod); // rule #16
         rulesPassed &= checkFeeRateAndBreakpointAmounts(feeMethod); // rule #17, rule #18, rule #19
+        rulesPassed &= validFeeTransactionTypeEntered(feeMethod); // rule #20
         rulesPassed &= checkFrequencyCodeNotChangedIfFeeMethodUsedOnAnyKemid(document);
 
         return rulesPassed;
@@ -899,4 +900,32 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         return isValid;
     }
+    
+    /**
+     * This method will check if Fee Transaction Type collection does not have type as EHVA
+     * 
+     * @param feeMethod
+     * @return true if Fee Transaction Type code is not EHVA else return false
+     */
+    private boolean validFeeTransactionTypeEntered(FeeMethod feeMethod) {
+        boolean valid = true;
+
+        if (feeMethod.getFeeByTransactionType()) {
+            valid = true;
+            List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
+
+            for (FeeTransaction feeTransactionsRecord : feeTransactions) {
+                if (feeTransactionsRecord.getTransactionTypeCode().equals(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (!valid) {
+                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+            }
+        }
+
+        return valid;
+    }
+    
 }

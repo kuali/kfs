@@ -42,7 +42,7 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
      */
     public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY);
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }

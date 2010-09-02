@@ -696,6 +696,21 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         isValid &= validateSecurityClassTypeCode(document, isSource, EndowConstants.ClassCodeTypes.LIABILITY);
         return isValid;
     }
+    
+    /**
+     * 
+     * This method...
+     * @param document
+     * @return
+     */
+    protected boolean validateNonDuplicateSecurityCodes(EndowmentSecurityDetailsDocumentBase document) {
+        
+        Security sourceSecurity = getSecurityForValidation(document, true);
+        Security targetSecurity = getSecurityForValidation(document, true);
+        
+        //return !(sourceSecurity.getId().equalsIgnoreCase(targetSecurity.getId()));
+        return true;
+    }
 
     /**
      * Validates that the KEMID has sufficient units in the tax lots to perform the transaction.

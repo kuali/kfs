@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.web.struts;
 import static org.kuali.kfs.module.endow.EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME;
 import static org.kuali.kfs.module.endow.EndowConstants.EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME;
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME;
+import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
@@ -138,11 +140,9 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         
         EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
         EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
-        EndowmentSecurityDetailsDocumentBase securityDocument = (EndowmentSecurityDetailsDocumentBase)endowmentDocument;
 
         EndowmentSourceTransactionLine sourceTransLine = (EndowmentSourceTransactionLine) documentForm.getNewSourceTransactionLine();
         EndowmentTargetTransactionLine targetTransLine = (EndowmentTargetTransactionLine) documentForm.getNewTargetTransactionLine();
-
         
         boolean rulePassed = true;
 
@@ -151,28 +151,61 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
         if (rulePassed) {
             
+            EndowmentSecurityDetailsDocumentBase securityDocument = (EndowmentSecurityDetailsDocumentBase)endowmentDocument;
             EndowmentTransactionSecurity sourceTranSecurity = securityDocument.getSourceTransactionSecurity();
-            EndowmentTransactionSecurity targetTranSecurity = securityDocument.getTargetTransactionSecurity();
             
-            // Get the ETran from the Security BO class code.
+            // Get the etran from the Security BO class code.
             Security sourceSecurity = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(sourceTranSecurity.getSecurityID());
             String sourceEtran = ObjectUtils.isNotNull(sourceSecurity) ? sourceSecurity.getClassCode().getSecurityEndowmentTransactionCode() : "";
-  
-            Security targetSecurity = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(targetTranSecurity.getSecurityID());
-            String targetEtran = ObjectUtils.isNotNull(targetSecurity) ? targetSecurity.getClassCode().getSecurityEndowmentTransactionCode() : "";
             
-            // Add accountingLine
-            // SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(transLine);
+            // Add the transaction line.
             sourceTransLine.setEtranCode(sourceEtran);
             insertTransactionLine(true,  documentForm, sourceTransLine);
             
             fillInTargetTransactionLine(targetTransLine, sourceTransLine);
-            targetTransLine.setEtranCode(targetEtran);
+            documentForm.setNewTargetTransactionLine(targetTransLine);
             
-            insertTransactionLine(false, documentForm, targetTransLine);
-            
-            // clear the used newTargetLine
+            // Clear the used newTargetLine
             documentForm.setNewSourceTransactionLine(new EndowmentSourceTransactionLine());
+            
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#insertTargetTransactionLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertTargetTransactionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+
+        EndowmentTargetTransactionLine transLine = (EndowmentTargetTransactionLine) documentForm.getNewTargetTransactionLine();
+
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine));
+
+        if (rulePassed) {
+
+            EndowmentSecurityDetailsDocumentBase securityDocument = (EndowmentSecurityDetailsDocumentBase)endowmentDocument;
+            EndowmentTransactionSecurity targetTranSecurity = securityDocument.getTargetTransactionSecurity();
+            
+            // Get the etran from the Security BO class code.
+            Security targetSecurity = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(targetTranSecurity.getSecurityID());
+            String targetEtran = ObjectUtils.isNotNull(targetSecurity) ? targetSecurity.getClassCode().getSecurityEndowmentTransactionCode() : "";
+            
+            // Set the etran code.
+            transLine.setEtranCode(targetEtran);
+            
+            // Add the transaction line.
+            insertTransactionLine(false, documentForm, transLine);
+
+            // Clear the used newTargetLine
             documentForm.setNewTargetTransactionLine(new EndowmentTargetTransactionLine());
         }
 
@@ -191,17 +224,33 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         int selectedLine = this.getSelectedLine(request);
         
         EndowmentTransactionLine sourceTransLine = endowmentDocument.getSourceTransactionLines().get(selectedLine);
-        EndowmentTransactionLine targetTransLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
+//        EndowmentTransactionLine targetTransLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
 
         boolean sourceRulePassed = true;
         boolean targetRulePassed = true;
         
         // Check any business rules
         sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, sourceTransLine, selectedLine));
-        sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, targetTransLine, selectedLine));
+//        sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, targetTransLine, selectedLine));
         if (sourceRulePassed && targetRulePassed) {
             updateTransactionLineTaxLots(false, true,  endowmentDocument, sourceTransLine);
-            updateTransactionLineTaxLots(false, false, endowmentDocument, targetTransLine);
+            
+            List<EndowmentTransactionLine> targetTransactionLines = documentForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines();
+            
+            // If there are no target transaction lines, then we know that nothing
+            // has been added, therefore just update the new line portion; otherwise,
+            // update the line in the list.
+            EndowmentTransactionLine targetTransLine = null;
+            if (!targetTransactionLines.isEmpty()) {
+                targetTransLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
+                fillInTargetTransactionLine((EndowmentTargetTransactionLine)targetTransLine, (EndowmentSourceTransactionLine)sourceTransLine);
+                updateTransactionLineTaxLots(false, false, endowmentDocument, targetTransLine);
+            }
+            else {
+                targetTransLine = documentForm.getNewTargetTransactionLine();
+                fillInTargetTransactionLine((EndowmentTargetTransactionLine)targetTransLine, (EndowmentSourceTransactionLine)sourceTransLine);
+                documentForm.setNewTargetTransactionLine(targetTransLine);
+            }
         }
 
         if (endowmentDocument instanceof AmountTotaling)
@@ -223,16 +272,9 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
 
     private void fillInTargetTransactionLine(EndowmentTargetTransactionLine targetTransLine, EndowmentSourceTransactionLine sourceTransLine) {
-        
-        // Some defensive code to make sure we don't encounter a NPE.
-        if (targetTransLine == null) {
-            targetTransLine = new EndowmentTargetTransactionLine();
-        }
-        
-        // Create a copy of the Target Transaction Line from the Source Transaction Line.
-        targetTransLine.setTransactionIPIndicatorCode(sourceTransLine.getTransactionIPIndicatorCode());
+        // Copy relevant source fields over to the target fields.
+        targetTransLine.setTransactionIPIndicatorCode(sourceTransLine.getTransactionIPIndicatorCode());       
         targetTransLine.setTransactionAmount(sourceTransLine.getTransactionAmount());
-        targetTransLine.setEtranCode(sourceTransLine.getEtranCode());
         targetTransLine.setKemid(sourceTransLine.getKemid());
     }
 

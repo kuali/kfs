@@ -32,7 +32,7 @@ public class CorporateReorganizationDocumentForm extends EndowmentTransactionLin
         
         // Don't show the import and add button on the target transaction lines.
         setShowTargetImport(false);
-        setShowTargetAdd(false);
+        setShowTargetAdd(true);
         
         // Don't show the import button on the source transaction lines.
         setShowSourceImport(false);
@@ -82,9 +82,6 @@ public class CorporateReorganizationDocumentForm extends EndowmentTransactionLin
     @Override
     public void setNewTargetTransactionLine(EndowmentTransactionLine newTargetTransactionLine) {
         super.setNewTargetTransactionLine(newTargetTransactionLine);
-
-        // transaction amount is read only for this document; the filed is empty initially
-        newTargetTransactionLine.setTransactionAmount(null);
     }
 
     /**
@@ -97,4 +94,17 @@ public class CorporateReorganizationDocumentForm extends EndowmentTransactionLin
         else
             return true;
     }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentFormBase#getShowToTransactionLine()
+     */
+    @Override
+    public boolean getShowToTransactionLine() {
+        CorporateReorganizationDocument document = getCorporateReorganizationDocument();
+        if (document.getTargetTransactionLines() != null && document.getTargetTransactionLines().size() > 0)
+            return false;
+        else
+            return true;
+    }
+    
 }

@@ -215,6 +215,17 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public boolean getShowFromTransactionLine() {
         return true;
     }
+    
+    /**
+     * Tells whether the target transaction lines add transaction line section should be displayed. By default this returns true for
+     * all documents. If a document needs to handle this in a more special way than this method should be overridden in the document
+     * Form class.
+     * 
+     * @return true
+     */
+    public boolean getShowToTransactionLine() {
+        return true;
+    }
 
     /**
      * Gets the sourceGroupLabelName attribute.
@@ -691,5 +702,5 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public void setShowTargetDelete(boolean showTargetDelete) {
         this.showTargetDelete = showTargetDelete;
     }
-    
+
 }

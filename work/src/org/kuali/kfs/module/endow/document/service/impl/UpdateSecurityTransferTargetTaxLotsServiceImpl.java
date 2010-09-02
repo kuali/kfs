@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
@@ -52,8 +53,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             BigDecimal unitValue = KEMCalculationRoundingHelper.divide(sourceAmount, sourceUnits, 5);
 
             BigDecimal targetAmount = KEMCalculationRoundingHelper.multiply(transLine.getTransactionUnits().bigDecimalValue(), unitValue, 2);
-            // set transaction line target amount
-            transLine.setTransactionAmount(new KualiDecimal(targetAmount));
+            transLine.setTransactionAmount(new KualiDecimal(sourceAmount));
 
             EndowmentTransactionTaxLotLine taxLotLine = null;
             boolean newLine = false;
@@ -61,26 +61,53 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
                 // there is only one tax lot line per each transaction line
                 taxLotLine = transLine.getTaxLotLines().get(0);
-            }
-            else {
+            } else {
                 // create and set a new tax lot line
                 newLine = true;
                 taxLotLine = new EndowmentTransactionTaxLotLine();
                 taxLotLine.setDocumentNumber(document.getDocumentNumber());
                 taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
-                taxLotLine.setTransactionHoldingLotNumber(1);
             }
 
-            Security security = endowmentTransactionSecurity.getSecurity();
+            Security security  = endowmentTransactionSecurity.getSecurity();
+            String securityId  = endowmentTransactionSecurity.getSecurityID();
+            String regCode     = endowmentTransactionSecurity.getRegistrationCode();
+            String ipIndicator = transLine.getTransactionIPIndicatorCode();
+            String kemid       = transLine.getKemid();
             
-            taxLotLine.setKemid(transLine.getKemid());
-            taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
-            taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
-            taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
+            // Step 6.
+            if (!security.getClassCode().isTaxLotIndicator()) {
+                taxLotLine.setTransactionHoldingLotNumber(1);
+                HoldingTaxLot taxLot = taxLotService.getByPrimaryKey(kemid, securityId, regCode, 1, ipIndicator);
+                if (taxLot != null) {
+                    if (taxLot.getUnits().compareTo(BigDecimal.ZERO) == 0 && 
+                        taxLot.getCost().compareTo(BigDecimal.ZERO)  == 0) {
+                        taxLotLine.setLotAcquiredDate(kemService.getCurrentProcessDate());
+                    } else {                        
+                        taxLotLine.setLotAcquiredDate(taxLot.getAcquiredDate());
+                    }
+                } else {
+                    taxLotLine.setLotAcquiredDate(kemService.getCurrentProcessDate());
+                }
+            // Step 7.    
+            } else {
+                List<HoldingTaxLot> taxLots = taxLotService.getAllTaxLots(kemid, securityId, regCode, ipIndicator);
+                int lotNumber = 1;
+                for (HoldingTaxLot taxLot : taxLots) {
+                    if (lotNumber < taxLot.getLotNumber().intValue()) {
+                        lotNumber = taxLot.getLotNumber().intValue();
+                    }
+                }
+                taxLotLine.setTransactionHoldingLotNumber(Integer.valueOf(lotNumber));
+                taxLotLine.setLotAcquiredDate(kemService.getCurrentProcessDate());
+            }
+
             taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
-            
             taxLotLine.setLotHoldingCost(sourceAmount);
-//            taxLotLine.setLotHoldingCost(targetAmount);
+            taxLotLine.setKemid(kemid);
+            taxLotLine.setSecurityID(securityId);
+            taxLotLine.setRegistrationCode(regCode);
+            taxLotLine.setIpIndicator(ipIndicator);
 
             // set the tax lot acquired date
             setTaxLotAcquiredDate(taxLotLine, document, transLine);
@@ -91,9 +118,7 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
             if (newLine) {
                 transLine.getTaxLotLines().add(taxLotLine);
             }
-
         }
-        
     }
 
     /**

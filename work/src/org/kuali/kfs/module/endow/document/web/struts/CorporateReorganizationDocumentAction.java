@@ -206,7 +206,9 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
             insertTransactionLine(false, documentForm, transLine);
 
             // Clear the used newTargetLine
-            documentForm.setNewTargetTransactionLine(new EndowmentTargetTransactionLine());
+            EndowmentTargetTransactionLine ettl = new EndowmentTargetTransactionLine();
+            ettl.setTransactionAmount(null);
+            documentForm.setNewTargetTransactionLine(ettl);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -263,9 +263,9 @@
                                 <html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
                             </div>
                         </c:if>
-                        <c:if test="${not isSource}">
+                        <c:if test="${not isSource && KualiForm.showToTransactionLine}">
                             <div align="center">
-                                <html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
+                               <html:image property="${methodToCallAdd}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add Transaction Line" title="add" styleClass="tinybutton"/>
                             </div>
                         </c:if>
                     </td>

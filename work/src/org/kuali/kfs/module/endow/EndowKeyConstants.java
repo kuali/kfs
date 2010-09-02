@@ -186,6 +186,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_SECURITY_INVALID = "error.document.transaction.security.invalid";
         public static final String ERROR_TRANSACTION_SECURITY_INACTIVE = "error.document.transaction.security.inactive";
         public static final String ERROR_TRANSACTION_SECURITY_CLASS_CODE_MISMATCH = "error.document.transaction.security.classCode.mismatch";
+        public static final String ERROR_TRANSACTION_SECURITY_CODE_EQUAL = "error.document.transaction.security.code.equal";
         public static final String ERROR_TRANSACTION_DETAILS_SUB_TYPE_REQUIRED = "error.document.transaction.detail.subtype.required";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INVALID = "error.document.transaction.registrationCode.invalid";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_INACTIVE = "error.document.transaction.registrationCode.inactive";

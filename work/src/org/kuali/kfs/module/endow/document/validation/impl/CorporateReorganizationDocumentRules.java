@@ -54,6 +54,9 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
 
         // there can be only one source transaction line
         isValid &= validateOnlyOneSourceTransactionLine(true, corporateReorganizationDocument, line, -1);
+        
+        // Source and target security lines cannot be the same.
+        isValid &= validateNonDuplicateSecurityCodes(corporateReorganizationDocument);
 
         if (isValid) {
             isValid &= super.processAddTransactionLineRules(corporateReorganizationDocument, line);

@@ -706,9 +706,11 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     protected boolean validateNonDuplicateSecurityCodes(EndowmentSecurityDetailsDocumentBase document) {
         
         Security sourceSecurity = getSecurityForValidation(document, true);
-        Security targetSecurity = getSecurityForValidation(document, true);
+        Security targetSecurity = getSecurityForValidation(document, false);
         
-        //return !(sourceSecurity.getId().equalsIgnoreCase(targetSecurity.getId()));
+        if (sourceSecurity.getId().equalsIgnoreCase(targetSecurity.getId())) {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document, false) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CODE_EQUAL);
+        }
         return true;
     }
 

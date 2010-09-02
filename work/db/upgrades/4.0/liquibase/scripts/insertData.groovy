@@ -201,22 +201,13 @@ class RenameColumn implements LiquibaseCommonTableInterface {
 class SequenceCreate  implements LiquibaseCommonTableInterface {
   Map attributes = [:]
   Map constraintsAttributes = [:]
-  SequenceCreate(Map attribs) {
-    attributes = attribs.findAll{it.key in ['incrementBy', 'minValue', 'maxValue', 'ordered','startValue']}
-    constraintsAttributes = attribs.findAll{it.key in ['nullable']}
-  }
 
   void modification(table, xml) {
-      if (table.getAttributes().find("dbms") == "oracle") {
-        xml.createSequence(table.attributes['sequenceName'] ) {
-            table.getChanges().each { change ->
-                 xml.column(change.getAttributes()) {
-                     if(change.getConstraintsAttributes()) {
-                         xml.constraints(change.getConstraintsAttributes())
-                     }
-                 }
-             }
-        }
+      
+      if (table.getAttributes().get("dbms") == "oracle") {
+        def seqAttributes = attributes
+        seqAttributes['sequenceName'] = table.attributes['sequenceName']
+        xml.createSequence(seqAttributes) 
     } else {
         xml.createTable( tableName :  table.attributes['sequenceName'] ) {
             xml.column(name : "id", type :"bigint(19)", autoIncrement : true) {
@@ -728,18 +719,20 @@ def checkCreateTable(rawlines, tables)
 
 def checkSequence(rawlines, tables)
 {
-    matcher = (rawlines[0] =~ /^[ ]*CREATE[ ]+SEQUENCE[ ]+([a-zA-Z1-9_-]+).*/)
+    matcher = (rawlines[0] =~ /(?i)^[ ]*CREATE[ ]+SEQUENCE[ ]+([a-zA-Z1-9_-]+).*/)
+    //matcher = (rawlines[0] =~ /(?i)^[ ]*CREATE.*/)
     if (matcher.matches() == false) return false
      println "create Sequence " + matcher[0][1]
-     table = new Table( sequenceName : matcher[0][1], dbms: oracle)
+     table = new Table( sequenceName : matcher[0][1], dbms: "oracle")
      tables << table
+   
      sequenceCreate = new SequenceCreate()
      table.changes << sequenceCreate
      rawlines.each() { line ->
          checkSequenceColumns( line, sequenceCreate)
      }
 
-     table = new Table( sequenceName : matcher[0][1], dbms: mysql)
+     table = new Table( sequenceName : matcher[0][1], dbms: "mysql")
      tables << table
      sequenceCreate = new SequenceCreate()
      table.changes << sequenceCreate
@@ -752,16 +745,16 @@ def checkSequenceColumns(line, sequenceCreate)
 {
     line = line.replaceFirst( /;/,"")
     tokens = line.tokenize()
-     if (tokens[0] == "MINVALUE") {
+     if (tokens[0].toUpperCase() == "MINVALUE") {
        sequenceCreate.getAttributes().put( "minValue" ,tokens[1])
-    } else if (tokens[0] == "START") {
+    } else if (tokens[0].toUpperCase() == "START") {
        sequenceCreate.getAttributes().put( "startValue" , tokens[2])
-    } else if (tokens[0] == "INCREMENT") {
+    } else if (tokens[0].toUpperCase() == "INCREMENT") {
          sequenceCreate.getAttributes().put( "incrementBy" , tokens[2])
-    } else if (tokens[0] == "NOCACHE") {
+    } else if (tokens[0].toUpperCase() == "NOCACHE") {
        // return new Column(nocache : "")
-    } else if (tokens[0] == "ORDER") {
-        if (tokens[1] == "NOCYCLE" ) {
+    } else if (tokens[0].toUpperCase() == "ORDER") {
+        if (tokens[1].toUpperCase() == "NOCYCLE" ) {
              sequenceCreate.getAttributes().put("ordered" , "true")
         } else {
              sequenceCreate.getAttributes().put( "ordered" , "false")

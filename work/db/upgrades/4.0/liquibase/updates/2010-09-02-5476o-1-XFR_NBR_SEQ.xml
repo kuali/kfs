@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Shawn' id='5476o-1-1' failOnError='true' dbms='oracle'>
+    <comment></comment>
+    <createSequence sequenceName='XFR_NBR_SEQ' incrementBy='1' startValue='1' ordered='true' />
+  </changeSet>
+  <changeSet author='Shawn' id='5476o-1-2' failOnError='true' dbms='mysql'>
+    <comment></comment>
+    <createTable tableName='XFR_NBR_SEQ'>
+      <column name='id' type='bigint(19)' autoIncrement='true'>
+        <constraints primaryKey='true' primaryKeyName='id' nullable='false' />
+      </column>
+    </createTable>
+    <sql>ALTER TABLE XFR_NBR_SEQ auto_increment=1</sql>
+  </changeSet>
+</databaseChangeLog>

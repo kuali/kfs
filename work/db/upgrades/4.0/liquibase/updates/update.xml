@@ -193,4 +193,5 @@
 <include file="updates/2010-08-19-5476m-1-END_KEMID_PAY_INC_T.xml"/>
 <include file="updates/2010-08-19-5955-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-01-5476n-1-END_FEE_TRAN_DOC_T.xml"/>
+<include file="updates/2010-09-02-5476o-1-XFR_NBR_SEQ.xml"/>
 </databaseChangeLog>

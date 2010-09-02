@@ -224,15 +224,12 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         int selectedLine = this.getSelectedLine(request);
         
         EndowmentTransactionLine sourceTransLine = endowmentDocument.getSourceTransactionLines().get(selectedLine);
-//        EndowmentTransactionLine targetTransLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
 
         boolean sourceRulePassed = true;
-        boolean targetRulePassed = true;
         
         // Check any business rules
         sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, sourceTransLine, selectedLine));
-//        sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, targetTransLine, selectedLine));
-        if (sourceRulePassed && targetRulePassed) {
+        if (sourceRulePassed) {
             updateTransactionLineTaxLots(false, true,  endowmentDocument, sourceTransLine);
             
             List<EndowmentTransactionLine> targetTransactionLines = documentForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines();

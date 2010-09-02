@@ -71,12 +71,16 @@ public class UpdateSecurityTransferTargetTaxLotsServiceImpl implements UpdateSec
                 taxLotLine.setTransactionHoldingLotNumber(1);
             }
 
+            Security security = endowmentTransactionSecurity.getSecurity();
+            
             taxLotLine.setKemid(transLine.getKemid());
             taxLotLine.setSecurityID(endowmentTransactionSecurity.getSecurityID());
             taxLotLine.setRegistrationCode(endowmentTransactionSecurity.getRegistrationCode());
             taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
             taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
-            taxLotLine.setLotHoldingCost(targetAmount);
+            
+            taxLotLine.setLotHoldingCost(sourceAmount);
+//            taxLotLine.setLotHoldingCost(targetAmount);
 
             // set the tax lot acquired date
             setTaxLotAcquiredDate(taxLotLine, document, transLine);

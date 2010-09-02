@@ -31,7 +31,7 @@ public class ObjectCodeCurrentInactivationBlockingDetectionServiceImpl extends I
     private UniversityDateService universityDateService;
     
     @Override
-    protected Map<String, Object> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
+    protected Map<String, String> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         ObjectCode blockedObjectCode = (ObjectCode) blockedBo;
         if (universityDateService.getCurrentFiscalYear().equals(blockedObjectCode.getUniversityFiscalYear())) {
             return super.buildInactivationBlockerQueryMap(blockedBo, inactivationBlockingMetadata);

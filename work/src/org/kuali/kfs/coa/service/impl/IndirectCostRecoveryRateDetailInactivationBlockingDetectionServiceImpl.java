@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
@@ -32,7 +33,7 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
     protected PersistenceService persistenceService;
     
     @Override
-    protected Map<String, Object> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
+    protected Map<String, String> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         Class boClass = blockedBo.getClass();
         if (!(Account.class.isAssignableFrom(boClass) || SubAccount.class.isAssignableFrom(boClass) || ObjectCode.class.isAssignableFrom(boClass) || SubObjectCode.class.isAssignableFrom(boClass))) {
             throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjCd");
@@ -46,7 +47,18 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
         else {
             fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ParameterValues.YES);
         }
-        return fieldValues;
+        return convertFieldValuesToStrings(fieldValues);
+    }
+    
+    protected Map<String, String> convertFieldValuesToStrings(Map<String, Object> fieldValues) {
+        Map<String, String> newFieldValues = new HashMap<String, String>();
+        for (String key : fieldValues.keySet()) {
+            final Object value = fieldValues.get(key);
+            if (value != null) {
+                newFieldValues.put(key, value.toString());
+            }
+        }
+        return newFieldValues;
     }
 
     public void setPersistenceService(PersistenceService persistenceService) {

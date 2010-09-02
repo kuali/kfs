@@ -33,7 +33,7 @@ public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends In
     /**
      * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#addBlockableRowProperty(java.util.Map, org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
      */
-    @Override
+    //@Override
     protected void addBlockableRowProperty(Map<String, Object> queryMap, BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         // do nothing, do not use active indicator
     }

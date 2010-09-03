@@ -19,7 +19,7 @@
     <documentType>
       <name>ECR</name>
       <parent>ET</parent>
-      <docHandler> ${application.url}/corporateReorganizationDocument.do?methodToCall=docHandler </docHandler>
+      <docHandler> ${application.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler </docHandler>
     </documentType>
   </documentTypes>
 </data>

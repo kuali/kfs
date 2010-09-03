@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Shawn' id='5476p-1-1' failOnError='true'>
+    <comment>have some wrong table names.</comment>
+    <renameTable oldTableName='END_REC_CSH_XFT_T' newTableName='END_REC_CSH_XFR_T' />
+  </changeSet>
+  <changeSet author='Shawn' id='5476p-1-2' failOnError='true'>
+    <comment>have some wrong table names.</comment>
+    <renameTable oldTableName='END_REC_CSH_XFT_KEMID_TGT_T' newTableName='END_REC_CSH_XFR_KEMID_TGT_T' />
+  </changeSet>
+  <changeSet author='Shawn' id='5476p-1-3' failOnError='true'>
+    <comment>have some wrong table names.</comment>
+    <renameTable oldTableName='END_REC_CSH_XFT_GL_TGT_T' newTableName='END_REC_CSH_XFR_GL_TGT_T' />
+  </changeSet>
+</databaseChangeLog>

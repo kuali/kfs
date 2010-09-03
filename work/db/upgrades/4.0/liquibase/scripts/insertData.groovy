@@ -82,6 +82,18 @@ class CreateTable implements LiquibaseCommonTableInterface {
       
 }
 
+class RenameTable implements LiquibaseCommonTableInterface {
+      Map attributes = [:]
+  RenameTable(Map  attribs) {
+    attributes = attribs.findAll{it.key in ['oldTableName', 'newTableName']}
+  }
+  
+  void modification(table, xml) {
+      xml.renameTable( this.getAttributes() ) 
+  }
+      
+}
+
 
 class UpdateColumn implements LiquibaseCommonTableInterface {
   Map attributes = [:]
@@ -716,6 +728,19 @@ def checkCreateTable(rawlines, tables)
     return true
 }
 
+def checkRenameTable(line, table)
+{
+    matcher = (line =~ /(?i)^ALTER TABLE ([a-zA-Z1-9_-]+) RENAME TO ([a-zA-Z1-9_-]+).*/)
+    if (matcher.matches() == true) {
+        println "rename Table " + matcher[0][1] + " to " + matcher[0][2]
+        table = new Table( tableName : matcher[0][1])
+        table.changes << new RenameTable(oldTableName : matcher[0][1], newTableName : matcher[0][2] )
+        tables << table
+        return true
+    }     
+    return false
+}
+
 
 def checkSequence(rawlines, tables)
 {
@@ -813,6 +838,7 @@ def processLine(rawlines)
     if (checkAlters(rawlines.join(" "),tables) == true) return
     if (checkDropTable(rawlines.join(" "), tables) == true) return
     if (checkCreateTable(rawlines, tables) == true) return
+    if (checkRenameTable(rawlines.join(" "), tables) == true) return
     if (checkSequence(rawlines, tables) == true) return
     if (checkView(rawlines, tables) == true) return
      println "***Invalid line " + rawlines.join(" ")

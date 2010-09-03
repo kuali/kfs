@@ -334,11 +334,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition" 
                     p:name="transactionTypeCode" 
-                    p:required="true" 
-                    p:webUILeaveFieldFunction="loadFeeTransactionTypeDesc" />
-              <bean parent="MaintainableFieldDefinition" 
-                    p:name="transactionType.description" 
-                    p:unconditionallyReadOnly="true" />
+                    p:required="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="include" p:required="false" 
                     p:defaultValue="true" />              

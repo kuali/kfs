@@ -514,7 +514,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         // process add line for feeTransaction collection
         if (collectionName.equalsIgnoreCase(EndowPropertyConstants.FEE_TRANSACTION_TYPE_COLLECTION_NAME)) {
             FeeTransaction feeTransaction = (FeeTransaction) bo;
-            bo.refreshReferenceObject(EndowPropertyConstants.FEE_TRANSACTION_TYPE_REF);
+        //    bo.refreshReferenceObject(EndowPropertyConstants.FEE_TRANSACTION_ARCHIVE_REF);
 
             if (isEmptyFeeTransactionTypeCode(bo)) {
                 return false;
@@ -522,9 +522,9 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             if (duplicateFeeTransactionTypeCode(feeMethod, bo)) {
                 return false;
             }
-            if (!validateFeeTransactionTypeCode(bo)) {
-                isValid = false;
-            }
+        //    if (!validateFeeTransactionTypeCode(bo)) {
+        //        isValid = false;
+       //     }
         }
 
         // process add line for feeEndowmentTransaction collection
@@ -921,7 +921,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!valid) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED);
             }
         }
 

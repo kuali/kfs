@@ -21,7 +21,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -513,5 +515,21 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public void setArchiveSecurities(List<TransactionArchiveSecurity> archiveSecurities) {
         this.archiveSecurities = archiveSecurities;
     }
+    /**
+     * Gets the code and description 
+     * @return Returns code + " - " + description  
+     */
+    public String getCodeAndDescription() {
+        if (StringUtils.isEmpty(typeCode)) {
+            return KFSConstants.EMPTY_STRING;
+        }
+        return typeCode + " - " + description;
+    }
+    
+    /**
+     * Sets the codeAndDescription attribute value.
+     * @param set codeAndDescription 
+     */
+    public void setCodeAndDescription(String codeAndDescription) {}
     
 }

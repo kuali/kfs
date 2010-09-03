@@ -840,7 +840,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
             amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
 
-
             if (quarterOfFiscalYear == 1) {
                 return amount;
             }
@@ -989,8 +988,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
                 }
             }
         }
+        
         return sum;
     }
-
-
 }

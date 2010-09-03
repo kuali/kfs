@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.TransactionTypeCode;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.FeeMethodCodeBase;
 
 /**
@@ -29,7 +29,7 @@ public class FeeTransaction extends FeeMethodCodeBase {
     
     private String transactionTypeCode;
     
-    private TransactionTypeCode transactionType;
+ //   private TransactionArchive transactionArchive;
     
     /**
      * Default constructor.
@@ -69,20 +69,20 @@ public class FeeTransaction extends FeeMethodCodeBase {
     }
             
     /**
-     * This method gets the transactionType.
+     * This method gets the transactionArchive.
      * 
-     * @return transactionType
+     * @return transactionArchive
      */
-    public TransactionTypeCode getTransactionType() {
-        return transactionType;
-    }
+ //   public TransactionArchive getTransactionArchive() {
+ //       return transactionArchive;
+ //   }
 
     /**
-     * This method sets the transactionType.
+     * This method sets the transactionArchive.
      * 
-     * @param transactionType
+     * @param transactionArchive
      */
-    public void setTransactionType(TransactionTypeCode transactionType) {
-        this.transactionType = transactionType;
-    }
+ //   public void setTransactionArchive(TransactionArchive transactionArchive) {
+ //       this.transactionArchive = transactionArchive;
+ //   }
 }

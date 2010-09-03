@@ -52,6 +52,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="TransactionArchive-kemidResults" />
         <ref bean="TransactionArchive-etranCodeResults" />
         <ref bean="TransactionArchive-securityResults" />
+        <ref bean="TransactionArchive-codeAndDescription" />
       </list>
     </property>
   </bean>
@@ -376,7 +377,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
   
-    <bean id="TransactionArchive-incomeCashAmount" parent="TransactionArchive-incomeCashAmount-parentBean" />
+  <bean id="TransactionArchive-incomeCashAmount" parent="TransactionArchive-incomeCashAmount-parentBean" />
   <bean id="TransactionArchive-incomeCashAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="incomeCashAmount" />
     <property name="forceUppercase" value="true" />
@@ -394,7 +395,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="23" />
     </property>
   </bean>
-  
+  	<bean id="TransactionArchive-codeAndDescription" parent="TransactionArchive-codeAndDescription-parentBean"/>
+
+  <bean id="TransactionArchive-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="codeAndDescription"/>
+    <property name="label" value="Transaction Type Code and Description"/>
+    <property name="shortLabel" value="Code and Description"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      	<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+  </bean>	
+
 <!-- Business Object Inquiry Definition -->
 
   <bean id="TransactionArchive-inquiryDefinition" parent="TransactionArchive-inquiryDefinition-parentBean" />

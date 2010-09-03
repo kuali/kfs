@@ -454,6 +454,7 @@ public class EndowPropertyConstants {
     public static final String FEE_CLASS_CODE_REF = "classCode";
     public static final String FEE_SECURITY_REF = "security";
     public static final String FEE_TRANSACTION_TYPE_REF = "transactionType";
+    public static final String FEE_TRANSACTION_ARCHIVE_REF = "transactionArchive";    
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE_REF = "endowmentTransaction";
     public static final String FEE_CLASS_CODE_ATTRIBUTE = "feeClassCode";
     public static final String FEE_SECURITY_CODE_ATTRIBUTE = "securityCode";

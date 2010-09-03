@@ -25,8 +25,6 @@
         		<ref bean="FeeTransaction-feeMethodCode" />
         		<ref bean="FeeTransaction-transactionTypeCode" />
 		        <ref bean="FeeTransaction-include" />
-		        <ref bean="FeeTransaction-transactionType.description" />
-		        <ref bean="FeeTransaction-transactionType.codeAndDescription" />
         		<ref bean="FeeTransaction-newCollectionRecord" />		        
       		</list>
     	</property>
@@ -40,37 +38,15 @@
 	</bean>
 	<bean id="FeeTransaction-transactionTypeCode" parent="FeeTransaction-transactionTypeCode-parentBean" />
 
- 	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="TransactionArchive-typeCode">
     	<property name="name" value="transactionTypeCode" />
     	<property name="label" value="Transaction Document Type" />
         <property name="forceUppercase" value="true" />
         <property name="required" value="true" />
-    	<property name="shortLabel" value="Fee Transaction Docuemnt Code" />
-    	<property name="maxLength" value="1" />
-    	<property name="validationPattern">
-      		<bean parent="AnyCharacterValidationPattern" 
-      			  p:allowWhitespace="true" />
-    	</property>
-    	<property name="control">
-      		<bean parent="TextControlDefinition" 
-      			  p:size="2" />
-    	</property>
   	</bean>
 	<bean id="FeeTransaction-include" parent="FeeTransaction-include-parentBean" />
 
 	<bean id="FeeTransaction-include-parentBean" abstract="true" parent="FeeMethodCodeBase-include">
-  	</bean>
-  	<bean id="FeeTransaction-transactionType.codeAndDescription" parent="FeeTransaction-transactionType.codeAndDescription-parentBean" />
-  
-  	<bean id="FeeTransaction-transactionType.codeAndDescription-parentBean" abstract="true" parent="TransactionTypeCode-codeAndDescription">
-  		<property name="name" value="transactionType.codeAndDescription" />
-    	<property name="label" value="Transaction Type" />
-  	</bean>
-	<bean id="FeeTransaction-transactionType.description" parent="FeeTransaction-transactionType.description-parentBean" />
-		        
-  	<bean id="FeeTransaction-transactionType.description-parentBean" abstract="true" parent="TransactionTypeCode-description">
-  		<property name="name" value="transactionType.description" />
-    	<property name="label" value="Transaction Type Description" />
   	</bean>
 	<bean id="FeeTransaction-newCollectionRecord" parent="FeeTransaction-newCollectionRecord-parentBean"/>
 

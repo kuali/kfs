@@ -291,11 +291,18 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTransactionLine(int)
      */
     public EndowmentTargetTransactionLine getTargetTransactionLine(int index) {
-        if (index >= getTargetTransactionLines().size()) {
-            return (EndowmentTargetTransactionLine) getTargetTransactionLines().get(index);
+//        if (index >= getTargetTransactionLines().size()) {
+//            return (EndowmentTargetTransactionLine) getTargetTransactionLines().get(index);
+//        }
+//        else
+//            return null;
+        if (targetTransactionLines != null && !targetTransactionLines.isEmpty()) {                
+            if (index < targetTransactionLines.size()) {
+                return (EndowmentTargetTransactionLine) getTargetTransactionLines().get(index);
+            }
         }
-        else
-            return null;
+        
+        return null;
     }
 
 

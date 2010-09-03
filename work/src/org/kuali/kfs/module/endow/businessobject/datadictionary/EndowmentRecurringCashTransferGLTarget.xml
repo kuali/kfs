@@ -33,6 +33,7 @@
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetProjectCode"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetPercent"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetUseEtranCode"/>
+		<ref bean="EndowmentRecurringCashTransferGLTarget-active"/>
       </list>
     </property>
   </bean>
@@ -41,7 +42,6 @@
   <bean id="EndowmentRecurringCashTransferGLTarget-transferNumber-parentBean" abstract="true" parent="EndowmentRecurringCashTransfer-transferNumber">
   </bean>  
   
-  <!--  Question to Philipi or Poonam - Auto Assigned by the system -->
   <bean id="EndowmentRecurringCashTransferGLTarget-targetSequenceNumber" parent="EndowmentRecurringCashTransferGLTarget-targetSequenceNumber-parentBean"/>
   <bean id="EndowmentRecurringCashTransferGLTarget-targetSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="targetSequenceNumber"/>
@@ -51,8 +51,6 @@
 	<property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>
     </property>
-	
-
   </bean>  
   
   <bean id="EndowmentRecurringCashTransferGLTarget-targetChartOfAccountsCode" parent="EndowmentRecurringCashTransferGLTarget-targetChartOfAccountsCode-parentBean"/>
@@ -122,4 +120,9 @@
     <property name="label" value="Target Use Etran Code"/>
     <property name="required" value="false"/>
   </bean>  
+  
+  <bean id="EndowmentRecurringCashTransferGLTarget-active" parent="EndowmentRecurringCashTransferGLTarget-active-parentBean" />
+  <bean id="EndowmentRecurringCashTransferGLTarget-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean> 
 </beans>

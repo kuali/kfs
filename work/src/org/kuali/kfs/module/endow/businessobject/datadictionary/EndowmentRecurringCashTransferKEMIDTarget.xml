@@ -31,6 +31,7 @@
         <ref bean="EndowmentRecurringCashTransferKEMIDTarget-targetAmount"/>
         <ref bean="EndowmentRecurringCashTransferKEMIDTarget-targetPercent"/>
         <ref bean="EndowmentRecurringCashTransferKEMIDTarget-targetUseEtranCode"/>
+        <ref bean="EndowmentRecurringCashTransferKEMIDTarget-active"/>
       </list>
     </property>
   </bean>
@@ -107,5 +108,10 @@
     <property name="name" value="targetUseEtranCode" />
     <property name="label" value="Target Use Etran Code"/>
     <property name="required" value="false"/>
-  </bean>  
+  </bean>
+  
+  <bean id="EndowmentRecurringCashTransferKEMIDTarget-active" parent="EndowmentRecurringCashTransferKEMIDTarget-active-parentBean" />
+  <bean id="EndowmentRecurringCashTransferKEMIDTarget-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>    
 </beans>

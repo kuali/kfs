@@ -30,6 +30,7 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
 
     private String transferNumber;
     private String targetSequenceNumber;
+    private String sourceKemid;
     private String targetChartOfAccountsCode;
     private String targetAccountsNumber;
     private String targetFinancialObjectCode;
@@ -39,7 +40,9 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     private String targetProjectCode;
     private KualiDecimal targetPercent;
     private String targetUseEtranCode;
+    private boolean active;
     
+    private EndowmentRecurringCashTransfer endowmentRecurringCashTransfer;
     private Chart chart;
     private Account account;
     private ObjectCodeCurrent objectCode;
@@ -48,6 +51,21 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     private ProjectCode projectCode;
     private EndowmentTransactionCode etranCodeObj;
     
+    /**
+     * Default constructor.
+     */
+    public EndowmentRecurringCashTransferGLTarget() {
+        //setTargetSequenceNumber(Integer.toString(getEndowmentRecurringCashTransfer().getGlTarget().size() + 1));
+    }
+    
+    public EndowmentRecurringCashTransfer getEndowmentRecurringCashTransfer() {
+        return endowmentRecurringCashTransfer;
+    }
+
+    public void setEndowmentRecurringCashTransfer(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+        this.endowmentRecurringCashTransfer = endowmentRecurringCashTransfer;
+    }
+
     public String getTransferNumber() {
         return transferNumber;
     }
@@ -196,6 +214,22 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getSourceKemid() {
+        return sourceKemid;
+    }
+
+    public void setSourceKemid(String sourceKemid) {
+        this.sourceKemid = sourceKemid;
     }
 
 }

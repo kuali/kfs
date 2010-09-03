@@ -17,9 +17,11 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.endow.businessobject.defaultvalue.NextTransferNumberFinder;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase {
     
@@ -40,6 +42,19 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
     private FrequencyCode frequencyCodeObj;
+    
+    private List<EndowmentRecurringCashTransferKEMIDTarget> kemidTarget;
+    private List<EndowmentRecurringCashTransferGLTarget> glTarget;
+    
+    /**
+     * Default constructor.
+     */
+    public EndowmentRecurringCashTransfer() {
+        kemidTarget = new TypedArrayList(EndowmentRecurringCashTransferKEMIDTarget.class);
+        glTarget = new TypedArrayList(EndowmentRecurringCashTransferGLTarget.class);
+        
+        setTransferNumber(NextTransferNumberFinder.getLongValue().toString());
+    }
     
     public String getTransferNumber() {
         return transferNumber;
@@ -158,4 +173,21 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
         m.put("transferNumber", this.transferNumber);
         return m;
     }
+    
+    public List<EndowmentRecurringCashTransferKEMIDTarget> getKemidTarget() {
+        return kemidTarget;
+    }
+
+    public void setKemidTarget(List<EndowmentRecurringCashTransferKEMIDTarget> kemidTarget) {
+        this.kemidTarget = kemidTarget;
+    }
+
+    public List<EndowmentRecurringCashTransferGLTarget> getGlTarget() {
+        return glTarget;
+    }
+
+    public void setGlTarget(List<EndowmentRecurringCashTransferGLTarget> glTarget) {
+        this.glTarget = glTarget;
+    }
+
 }

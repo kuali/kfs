@@ -2656,8 +2656,8 @@
  	<field-descriptor name="approvedDate" column="APPROVED_DT" jdbc-type="DATE"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" table="END_REC_CSH_XFT_T">
-	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" table="END_REC_CSH_XFR_T">
+	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="XFR_NBR_SEQ"/>
 	<field-descriptor name="sourceKemid" column="SRC_KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionType" column="TRAN_DOC_TYP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="sourceEtranCode" column="SRC_ETRAN_CD" jdbc-type="VARCHAR" />
@@ -2670,6 +2670,16 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
+    <collection-descriptor name="kemidTarget" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <inverse-foreignkey field-ref="transferNumber" />
+        <inverse-foreignkey field-ref="sourceKemid" />
+    </collection-descriptor>
+
+    <collection-descriptor name="glTarget" element-class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <inverse-foreignkey field-ref="transferNumber" />
+        <inverse-foreignkey field-ref="sourceKemid" />
+    </collection-descriptor>
+    
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="sourceKemid" />
 	</reference-descriptor>
@@ -2688,11 +2698,12 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget" table="END_REC_CSH_XFR_KEMID_TGT_T">
-	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="XFR_NBR_SEQ"/>
+	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="TGT_SEQ_NBR_SEQ"/>
 	<field-descriptor name="targetKemid" column="TGT_KEMID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="sourceKemid" column="SRC_KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="targetEtranCode" column="TGT_ETRAN_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="targetLineDescription" column="TGT_DESC" jdbc-type="VARCHAR" />	
+	<field-descriptor name="targetLineDescription" column="TGT_LN_DESC" jdbc-type="VARCHAR" />	
 	<field-descriptor name="targetIncomeOrPrincipal" column="TGT_IP_IND_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="targetAmount" column="TGT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="targetPercent" column="TGT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
@@ -2720,7 +2731,8 @@
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget" table="END_REC_CSH_XFR_GL_TGT_T">
 	<field-descriptor name="transferNumber" column="XFR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="targetSequenceNumber" column="TGT_SEQ_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="TGT_SEQ_NBR_SEQ"/>
+	<field-descriptor name="sourceKemid" column="SRC_KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="targetChartOfAccountsCode" column="TGT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="targetAccountsNumber" column="TGT_ACCT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="targetFinancialObjectCode" column="TGT_FIN_OBJ_CD" jdbc-type="VARCHAR" />

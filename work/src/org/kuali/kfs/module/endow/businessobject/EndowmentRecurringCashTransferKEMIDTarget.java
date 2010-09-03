@@ -24,6 +24,7 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
 
     private String transferNumber;
     private String targetSequenceNumber;
+    private String sourceKemid;
     private String targetKemid;
     private String targetEtranCode;
     private String targetLineDescription;
@@ -31,12 +32,29 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
     private KualiDecimal targetAmount;
     private KualiDecimal targetPercent;
     private String targetUseEtranCode;
+    private boolean active;
     
+    private EndowmentRecurringCashTransfer endowmentRecurringCashTransfer;
     private KEMID kemidObj;
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
     private EndowmentTransactionCode useEtranCodeObj;
     
+    /**
+     * Default constructor.
+     */
+    public EndowmentRecurringCashTransferKEMIDTarget() {
+        //setTargetSequenceNumber(Integer.toString(getEndowmentRecurringCashTransfer().getKemidTarget().size() + 1));
+    }
+    
+    public EndowmentRecurringCashTransfer getEndowmentRecurringCashTransfer() {
+        return endowmentRecurringCashTransfer;
+    }
+
+    public void setEndowmentRecurringCashTransfer(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+        this.endowmentRecurringCashTransfer = endowmentRecurringCashTransfer;
+    }
+
     public String getTransferNumber() {
         return transferNumber;
     }
@@ -145,6 +163,22 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getSourceKemid() {
+        return sourceKemid;
+    }
+
+    public void setSourceKemid(String sourceKemid) {
+        this.sourceKemid = sourceKemid;
     }
 
 }

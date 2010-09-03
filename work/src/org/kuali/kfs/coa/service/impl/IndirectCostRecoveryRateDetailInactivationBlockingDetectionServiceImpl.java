@@ -34,7 +34,7 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
     
     @Override
     protected Map<String, String> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
-        Class boClass = blockedBo.getClass();
+        Class<? extends BusinessObject> boClass = blockedBo.getClass();
         if (!(Account.class.isAssignableFrom(boClass) || SubAccount.class.isAssignableFrom(boClass) || ObjectCode.class.isAssignableFrom(boClass) || SubObjectCode.class.isAssignableFrom(boClass))) {
             throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjCd");
         }
@@ -50,6 +50,11 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
         return convertFieldValuesToStrings(fieldValues);
     }
     
+    /**
+     * Converts the map of PKs - which is a Map of <String, Object> to a Map of <String, String> by turning any objects inside into Strings...
+     * @param fieldValues field values to convert
+     * @return the Map of fieldValues converted to a Map of <String, String>
+     */
     protected Map<String, String> convertFieldValuesToStrings(Map<String, Object> fieldValues) {
         Map<String, String> newFieldValues = new HashMap<String, String>();
         for (String key : fieldValues.keySet()) {

@@ -229,8 +229,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         //return (new CashIncreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashIncreaseDocument);        
     }
     
-    protected boolean validateECDD(CashDecreaseDocument cashDecreaseDocument) {        
-        return (new CashDecreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashDecreaseDocument);        
+    protected boolean validateECDD(CashDecreaseDocument cashDecreaseDocument) {
+        return true;
+        //return (new CashDecreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashDecreaseDocument);        
     }
     
     public boolean isBlanketApprove() {        

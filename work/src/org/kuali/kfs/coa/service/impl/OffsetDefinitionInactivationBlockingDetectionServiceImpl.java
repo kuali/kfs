@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
 
@@ -29,12 +33,48 @@ import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
  * of that BO, without regard to active status, because the OD bo does not have an active status on it.
  */
 public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends InactivationBlockingDetectionServiceImpl {
-
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionInactivationBlockingDetectionServiceImpl.class);
     /**
-     * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#addBlockableRowProperty(java.util.Map, org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
+     * Overriding to let blocking records through
+     * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#listAllBlockerRecords(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
      */
-    //@Override
-    protected void addBlockableRowProperty(Map<String, Object> queryMap, BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
-        // do nothing, do not use active indicator
+    public Collection<BusinessObject> listAllBlockerRecords(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
+        Collection<BusinessObject> blockingRecords = new ArrayList<BusinessObject>();
+
+        Map<String, String> queryMap = buildInactivationBlockerQueryMap(blockedBo, inactivationBlockingMetadata);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Checking for blocker records for object: " + blockedBo);
+            LOG.debug("    With Metadata: " + inactivationBlockingMetadata);
+            LOG.debug("    Resulting Query Map: " + queryMap);
+        }
+
+        if (queryMap != null) {
+            Collection<? extends BusinessObject> potentialBlockingRecords = businessObjectService.findMatching(
+                    inactivationBlockingMetadata.getBlockingReferenceBusinessObjectClass(), queryMap);
+            for (Iterator<? extends BusinessObject> iterator = potentialBlockingRecords.iterator(); iterator.hasNext();) {
+                Inactivateable businessObject = (Inactivateable) iterator.next();
+                blockingRecords.add((BusinessObject) businessObject);
+            }
+        }
+
+        return blockingRecords;
+    }
+    
+    /**
+     * Overriding to say that any record of the same PK is blocking..
+     * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#hasABlockingRecord(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
+     */
+    public boolean hasABlockingRecord(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
+        boolean hasBlockingRecord = false;
+
+        Map<String, String> queryMap = buildInactivationBlockerQueryMap(blockedBo, inactivationBlockingMetadata);
+        if (queryMap != null) {
+            Collection<? extends BusinessObject> potentialBlockingRecords = businessObjectService.findMatching(
+                    inactivationBlockingMetadata.getBlockingReferenceBusinessObjectClass(), queryMap);
+            return !potentialBlockingRecords.isEmpty();
+        }
+
+        // if queryMap were null, means that we couldn't perform a query, and hence, need to return false
+        return hasBlockingRecord;
     }
 }

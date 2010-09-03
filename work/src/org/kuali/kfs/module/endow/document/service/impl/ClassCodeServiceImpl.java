@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -40,6 +43,27 @@ public class ClassCodeServiceImpl implements ClassCodeService {
         }
 
         return classCode;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.ClassCodeService#getClassCodesForAccrualProcessing()
+     */
+    public Collection<ClassCode> getClassCodesForAccrualProcessing() {
+
+        Collection<ClassCode> classCodes = null;
+
+        String[] accrualMethodsForCriteria = new String[] { EndowConstants.AccrualMethod.AUTOMATED_CASH_MANAGEMENT, EndowConstants.AccrualMethod.TIME_DEPOSITS, EndowConstants.AccrualMethod.TREASURY_NOTES_AND_BONDS, EndowConstants.AccrualMethod.DIVIDENDS };
+        Map criteria = new HashMap();
+
+        for (int i = 0; i < accrualMethodsForCriteria.length; i++) {
+            criteria.put(EndowPropertyConstants.CLASS_CODE_SEC_ACCRUAL_METHOD, accrualMethodsForCriteria[i]);
+            Collection<ClassCode> tmpClassCodes = businessObjectService.findMatching(ClassCode.class, criteria);
+            classCodes.addAll(tmpClassCodes);
+            criteria.clear();
+        }
+
+        return classCodes;
     }
 
     /**

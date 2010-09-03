@@ -63,6 +63,7 @@
 				<value>createAccrualTransactionsJob</value>			
 				<value>rollProcessDateJob</value>	
 				<value>rollFrequencyDatesJob</value>
+				<value>accrualProcessingJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -306,6 +307,37 @@
 		</property>			
 	</bean>
 	
+ 	<bean id="accrualProcessingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="accrualProcessingStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="step">
+		<property name="accrualProcessingService">
+			<ref bean="accrualProcessingService" />
+		</property>
+	</bean>
+	
+	<bean id="accrualProcessingService" class="org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl">
+		<property name="securityService">
+			<ref bean="securityService" />
+		</property>
+		<property name="classCodeService">
+			<ref bean="classCodeService" />
+		</property>
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+	    <property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
+	
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>
@@ -438,6 +470,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
+		<property name="securityDao">
+			<ref bean="securityDao" />
+		</property>
 	</bean>
 	
 	<bean id="kemService" class="org.kuali.kfs.module.endow.document.service.impl.KEMServiceImpl">

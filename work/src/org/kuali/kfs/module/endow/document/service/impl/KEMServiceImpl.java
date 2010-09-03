@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +59,8 @@ public class KEMServiceImpl implements KEMService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.lang.String, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiInteger, java.lang.String)
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMarketValue(java.lang.String, java.lang.String,
+     *      java.lang.String, org.kuali.rice.kns.util.KualiInteger, java.lang.String)
      */
     public BigDecimal getMarketValue(String kemid, String securityId, String registrationCode, KualiInteger lotNumber, String ipIndicator) {
         BigDecimal marketValue = BigDecimal.ZERO;
@@ -206,8 +208,8 @@ public class KEMServiceImpl implements KEMService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() 
-     *  Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() Gets the
+     *      FISCAL_YEAR_END_DAY_AND_MONTH system parameter
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
     public Date getFiscalYearEndDayAndMonth() {
@@ -233,15 +235,31 @@ public class KEMServiceImpl implements KEMService {
      * @see org.kuali.kfs.module.endow.document.service.org.kuali.kfs.module.endow.document.service.KEMService#getTotalNumberOfPaymentsForFiscalYear()
      */
     public long getTotalNumberOfPaymentsForFiscalYear() {
-        long totalNumberOfPayments = 0 ;
-        
+        long totalNumberOfPayments = 0;
+
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String totalPayments = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);
-        
+
         totalNumberOfPayments = Long.parseLong(totalPayments);
         return totalNumberOfPayments;
     }
-    
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getNumberOfDaysInCalendarYear()
+     */
+    public int getNumberOfDaysInCalendarYear() {
+        Date currentDate = getCurrentDate();
+        Calendar calendar = Calendar.getInstance();
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        calendar.setTime(currentDate);
+        gregorianCalendar.setTime(currentDate);
+        if (gregorianCalendar.isLeapYear(calendar.YEAR)) {
+            return 366;
+        }
+        else
+            return 365;
+    }
+
     /**
      * Gets the dateTimeService.
      * 

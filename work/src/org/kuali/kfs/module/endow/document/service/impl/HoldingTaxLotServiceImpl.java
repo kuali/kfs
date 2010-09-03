@@ -334,11 +334,20 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
         this.kEMService = kEMService;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
+     */
     @Transactional
     public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
 
-
         return holdingTaxLotDao.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(java.lang.String)
+     */
+    public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId) {
+        return holdingTaxLotDao.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(securityId);
     }
 
 

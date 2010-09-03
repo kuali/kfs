@@ -17,6 +17,8 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.Security;
 
@@ -60,5 +62,13 @@ public interface SecurityService {
      * @return a Security
      */
     public Security getByPrimaryKey(String id);
+
+    /**
+     * Gets all the Securities with the class code in the classCodes array and the units held greater than zero.
+     * 
+     * @param classCodes
+     * @return All securities that meet the criteria
+     */
+    public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes);
 
 }

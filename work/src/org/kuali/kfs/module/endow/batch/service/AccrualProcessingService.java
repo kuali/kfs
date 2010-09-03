@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation.
+ * Copyright 2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.service;
+package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.Collection;
+/**
+ * Provides methods to perform batch accrual processing.
+ */
+public interface AccrualProcessingService {
 
-import org.kuali.kfs.module.endow.businessobject.ClassCode;
-
-public interface ClassCodeService {
-
-    /**
-     * Gets a class code by primary key.
-     * 
-     * @param code
-     * @return a Class Code
-     */
-    public ClassCode getByPrimaryKey(String code);
-
-    /**
-     * Gets all class codes with accrual method: Automated Cash Management, Time Deposits, Trea
-     */
-    public Collection<ClassCode> getClassCodesForAccrualProcessing();
+    public boolean processAccruals();
 }

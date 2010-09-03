@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -36,7 +37,7 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
         criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEquaTolCurrentDate()
      */
@@ -46,7 +47,16 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
         criteria.addNotNull(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY);
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }
-    
+
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getSecuritiesByClassCodeWithUnitsGreaterThanZero(java.lang.String[])
+     */
+    public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes) {
+        Criteria criteria = new Criteria();
+        criteria.addIn(EndowPropertyConstants.SECURITY_CLASS_CODE, classCodes);
+        criteria.addGreaterThan(EndowPropertyConstants.SECURITY_UNITS_HELD, 0);
+        return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
+    }
 
     /**
      * This method...

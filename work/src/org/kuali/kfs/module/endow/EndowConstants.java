@@ -25,7 +25,7 @@ public class EndowConstants extends JSTLConstants {
 
     public static final int NUMBER_OF_MONTHS_REMAINING = 6;
     public static final int NUMBER_OF_DAYS_IN_YEAR = 365;
-    
+
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
     public static final String NEW_SOURCE_ACC_LINE_PROPERTY_NAME = "newSourceAccouningLine";
@@ -106,11 +106,14 @@ public class EndowConstants extends JSTLConstants {
 
     // Acrrual Method values
     public static class AccrualMethod {
+        public static final String AUTOMATED_CASH_MANAGEMENT = "A";
         public static final String MORTGAGE_30 = "3";
         public static final String MORTGAGE_60 = "6";
         public static final String DISCOUNT_BONDS = "B";
         public static final String TIME_DEPOSITS = "M";
         public static final String TREASURY_NOTES_AND_BONDS = "T";
+        public static final String DIVIDENDS = "D";
+        public static final String NONR = "N";
     }
 
     public static class ValuationMethod {
@@ -152,7 +155,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
 
         public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_DAY_AND_MONTH";
-        
+
         public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES";
         
         public static final String BLANKET_APPROVE = "BLANKET_APPROVE"; 
@@ -300,12 +303,12 @@ public class EndowConstants extends JSTLConstants {
         public static final String EXPENSE_NOT_EXPENDITURE = "ES";
         public static final String INCOME_NOT_CASH = "IC";
     }
-    
+
     public static final class HoldingTaxLotRebalanceCodes {
         public static final String RESULTS_ACTIONS_LINK = "Rebalance";
     }
-    
-    //Batch
+
+    // Batch
     public static final String ACCRUAL_TRANSACTIONS_CASH_INCREASE_DOC_DESC = "Accrued Income Distribution";
-    
+
 }

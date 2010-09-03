@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +26,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
@@ -40,6 +42,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     private KEMService kemService;
     private BusinessObjectService businessObjectService;
+    private SecurityDao securityDao;
+
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getByPrimaryKey(java.lang.String)
@@ -187,5 +191,21 @@ public class SecurityServiceImpl implements SecurityService {
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.SecurityService#getSecuritiesByClassCodeWithUnitsGreaterThanZero(java.util.List)
+     */
+    public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes) {
+
+        return securityDao.getSecuritiesByClassCodeWithUnitsGreaterThanZero(classCodes);
+    }
+
+    /**
+     * Sets the securityDao.
+     * 
+     * @param securityDao
+     */
+    public void setSecurityDao(SecurityDao securityDao) {
+        this.securityDao = securityDao;
+    }
 
 }

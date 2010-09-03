@@ -234,8 +234,6 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      * @param principalId The principal id which is KFS-SYS System user to run the process under.
      * @param annotation The annotation to be set as note in the note of the document.
      * @param documentCompareDate The document create date to compare to
-     * @param outputPrintStreamFortAutoDisapprovalJob The output file
-     * @param outputErrorFileForAutoDisapprovalJob The error file to capture any errors during execution.
      */
     protected boolean processAutoDisapproveDocuments(String principalId, String annotation, Date documentCompareDate) {
         boolean success = true;

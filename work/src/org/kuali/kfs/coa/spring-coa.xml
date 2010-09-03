@@ -430,9 +430,6 @@
 	<bean
 		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"
 		class="org.kuali.kfs.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">
-    	<property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
@@ -446,9 +443,6 @@
     
 	<bean name="objectCodeCurrentInactivationBlockingDetectionService"
 		class="org.kuali.kfs.coa.service.impl.ObjectCodeCurrentInactivationBlockingDetectionServiceImpl">
-    	<property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
@@ -462,9 +456,6 @@
     
     <bean name="offsetDefinitionInactivationBlockingDetectionService"
     	class="org.kuali.kfs.coa.service.impl.OffsetDefinitionInactivationBlockingDetectionServiceImpl">
-    	<property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>

@@ -64,7 +64,6 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
      */
     public boolean processDeleteTransactionLineRules(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine endowmentTransactionLine) {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -699,18 +698,23 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
     
     /**
      * 
-     * This method...
+     * This method validates that the source and target security lines are
+     * different from each other.
+     *  
      * @param document
-     * @return
+     * @return True if source and target security codes are different
      */
     protected boolean validateNonDuplicateSecurityCodes(EndowmentSecurityDetailsDocumentBase document) {
         
         Security sourceSecurity = getSecurityForValidation(document, true);
         Security targetSecurity = getSecurityForValidation(document, false);
-        
-        if (sourceSecurity.getId().equalsIgnoreCase(targetSecurity.getId())) {
-            putFieldError(getEndowmentTransactionSecurityPrefix(document, false) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CODE_EQUAL);
+
+        if (sourceSecurity != null && targetSecurity != null) {
+            if (sourceSecurity.getId().equalsIgnoreCase(targetSecurity.getId())) {
+                putFieldError(getEndowmentTransactionSecurityPrefix(document, false) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CODE_EQUAL);
+            }
         }
+        
         return true;
     }
 

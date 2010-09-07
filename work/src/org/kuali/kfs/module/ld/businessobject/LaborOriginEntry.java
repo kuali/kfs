@@ -24,24 +24,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -798,7 +797,11 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             sb.append(' ');
         }
 
-        return sb.toString();
+        // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
+        Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(sb);
+        String returnString = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
+        
+        return returnString;
     }
 
     /**
@@ -810,6 +813,10 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
         Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
         int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID); 
+        
+        // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
+        Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(line);
+        line = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
         
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, entryLength, ' ');

@@ -469,6 +469,14 @@
 	  </property>
 	</bean>
 	
+	<bean id="yearEndPendingEntryService" parent="yearEndPendingEntryService-parentBean" />
+    
+    <bean id="yearEndPendingEntryService-parentBean" abstract="true" class="org.kuali.kfs.fp.document.service.impl.YearEndPendingEntryServiceImpl">
+		<property name="universityDateService" ref="universityDateService" />
+		<property name="sufficientFundsService" ref="sufficientFundsService" />
+		<property name="offsetDefinitionService" ref="offsetDefinitionService" />
+    </bean>
+	
 	<!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />

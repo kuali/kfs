@@ -18,13 +18,13 @@ package org.kuali.kfs.sys.document.service;
 import java.util.Collection;
 
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * This class is the financial system specific document service interface
  */
-public interface FinancialSystemDocumentService extends DocumentService {
+public interface FinancialSystemDocumentService {
 
-    public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode) throws WorkflowException;
+    public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException;
 
 }

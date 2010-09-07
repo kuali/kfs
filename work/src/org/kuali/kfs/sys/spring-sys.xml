@@ -803,5 +803,17 @@
 	
 	<bean id="filePurgeService" class="org.kuali.kfs.sys.batch.service.impl.FilePurgeServiceImpl">
 		<property name="parameterService" ref="parameterService" />
-	</bean> 
+	</bean>
+	
+	<bean id="financialSystemDocumentDao" parent="financialSystemDocumentDao-parentBean" />
+	<bean id="financialSystemDocumentDao-parentBean" abstract="true" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
+		<property name="documentAdHocService" ref="documentAdHocService" />
+	</bean>
+	
+	<bean id="financialSystemDocumentService" parent="financialSystemDocumentService-parentBean" />
+	<bean id="financialSystemDocumentService-parentBean" abstract="true" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
+		<property name="documentService" ref="documentService" />
+		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
+		
+	</bean>
 </beans>

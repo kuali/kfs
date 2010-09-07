@@ -87,7 +87,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-    private FinancialSystemDocumentService documentService;
+    private DocumentService documentService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
     private WorkflowDocumentService workflowDocumentService;
@@ -729,7 +729,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Gets the documentService attribute.
      * @return Returns the documentService.
      */
-    public FinancialSystemDocumentService getDocumentService() {
+    public DocumentService getDocumentService() {
         return documentService;
     }
 
@@ -737,7 +737,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Sets the documentService attribute.
      * @param documentService The documentService to set.
      */
-    public void setDocumentService(FinancialSystemDocumentService documentService) {
+    public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 

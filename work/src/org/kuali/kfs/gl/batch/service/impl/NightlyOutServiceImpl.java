@@ -110,11 +110,6 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             
             OriginEntryFull entry = new OriginEntryFull(pendingEntry);
             
-            // KFSMI-5288: Don't want any control characters in output files. They potentially disrupt further processing
-            if (ObjectUtils.isNotNull(entry.getTransactionLedgerEntryDescription())) {
-              entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().replaceAll("\\p{Cntrl}", " "));
-            }
-            
             // write entry to reports
             entryListReport.writeEntry(entry, pendingEntryListReportWriterService);
             nightlyOutLedgerSummaryReport.summarizeEntry(entry);

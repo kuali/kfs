@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLin
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
+import org.kuali.kfs.module.ld.document.service.LaborPendingEntryConverterService;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,16 +56,16 @@ public class LaborPendingEntryGenerator {
      */
     public static List<LaborLedgerPendingEntry> generateExpensePendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<LaborLedgerPendingEntry> expensePendingEntries = new ArrayList<LaborLedgerPendingEntry>();
-        LaborLedgerPendingEntry expensePendingEntry = LaborPendingEntryConverter.getExpensePendingEntry(document, accountingLine, sequenceHelper);
+        LaborLedgerPendingEntry expensePendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpensePendingEntry(document, accountingLine, sequenceHelper);
         expensePendingEntries.add(expensePendingEntry);
 
         // if the AL's pay FY and period do not match the University fiscal year and period need to create a reversal entry for
         // current period
         if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
-            LaborLedgerPendingEntry expenseA21PendingEntry = LaborPendingEntryConverter.getExpenseA21PendingEntry(document, accountingLine, sequenceHelper);
+            LaborLedgerPendingEntry expenseA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21PendingEntry(document, accountingLine, sequenceHelper);
             expensePendingEntries.add(expenseA21PendingEntry);
 
-            LaborLedgerPendingEntry expenseA21ReversalPendingEntry = LaborPendingEntryConverter.getExpenseA21ReversalPendingEntry(document, accountingLine, sequenceHelper);
+            LaborLedgerPendingEntry expenseA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21ReversalPendingEntry(document, accountingLine, sequenceHelper);
             expensePendingEntries.add(expenseA21ReversalPendingEntry);
         }
 
@@ -122,15 +123,15 @@ public class LaborPendingEntryGenerator {
      */
     public static List<LaborLedgerPendingEntry> generateBenefitPendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         List<LaborLedgerPendingEntry> benefitPendingEntries = new ArrayList<LaborLedgerPendingEntry>();
-        LaborLedgerPendingEntry benefitPendingEntry = LaborPendingEntryConverter.getBenefitPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+        LaborLedgerPendingEntry benefitPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
         benefitPendingEntries.add(benefitPendingEntry);
 
         // if the AL's pay FY and period do not match the University fiscal year and period
         if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
-            LaborLedgerPendingEntry benefitA21PendingEntry = LaborPendingEntryConverter.getBenefitA21PendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+            LaborLedgerPendingEntry benefitA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21PendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
             benefitPendingEntries.add(benefitA21PendingEntry);
 
-            LaborLedgerPendingEntry benefitA21ReversalPendingEntry = LaborPendingEntryConverter.getBenefitA21ReversalPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+            LaborLedgerPendingEntry benefitA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21ReversalPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
             benefitPendingEntries.add(benefitA21ReversalPendingEntry);
         }
 
@@ -184,7 +185,7 @@ public class LaborPendingEntryGenerator {
 
             KualiDecimal clearingAmount = sourceAmount.subtract(targetAmount);
             if (clearingAmount.isNonZero()) {
-                benefitClearingPendingEntries.add(LaborPendingEntryConverter.getBenefitClearingPendingEntry(document, sequenceHelper, accountNumber, chartOfAccountsCode, benefitTypeCode, clearingAmount));
+                benefitClearingPendingEntries.add(SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitClearingPendingEntry(document, sequenceHelper, accountNumber, chartOfAccountsCode, benefitTypeCode, clearingAmount));
             }
         }
 

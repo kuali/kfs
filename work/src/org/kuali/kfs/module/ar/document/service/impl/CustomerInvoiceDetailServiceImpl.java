@@ -325,8 +325,18 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
         updateAccountsReceivableObjectCode(customerInvoiceDetail);
     }
-
-
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForErrorCorrection(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
+     */
+    public void prepareCustomerInvoiceDetailForErrorCorrection(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
+        // negate unit price
+        customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
+        
+        //clear the old CustomerInvoiceDocument
+        customerInvoiceDetail.setCustomerInvoiceDocument(null);
+    }
+    
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }

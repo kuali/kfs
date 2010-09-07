@@ -1054,7 +1054,7 @@ public enum PurchasingDocumentFixture {
         return (PurchaseOrderDocument) createPurchasingDocument(PurchaseOrderDocument.class, purapFixture);
     }
 
-    private PurchasingDocument createPurchasingDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
+    public PurchasingDocument createPurchasingDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
         PurchasingDocument doc = (PurchasingDocument) purapFixture.createPurchasingAccountsPayableDocument(clazz);
         doc.setDocumentFundingSourceCode(this.fundingSourceCode);
         doc.setRequisitionSourceCode(this.requisitionSourceCode);

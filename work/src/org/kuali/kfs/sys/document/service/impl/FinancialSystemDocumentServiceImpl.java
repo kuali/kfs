@@ -19,44 +19,47 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class is a Financial System specific Document Service class to allow for the {@link #findByDocumentHeaderStatusCode(Class, String)} method.
  */
-public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl implements FinancialSystemDocumentService {
+public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocumentService {
+    private FinancialSystemDocumentDao financialSystemDocumentDao;
+    private DocumentService documentService;
     
     /**
      * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class, java.lang.String)
      */
-    public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode) throws WorkflowException {
-        Collection foundDocuments = ((FinancialSystemDocumentDao) getDocumentDao()).findByDocumentHeaderStatusCode(clazz, statusCode);
-        Collection returnDocuments = new ArrayList();
-        for (Iterator iter = foundDocuments.iterator(); iter.hasNext();) {
+    public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException {
+        Collection<T> foundDocuments = getFinancialSystemDocumentDao().findByDocumentHeaderStatusCode(clazz, statusCode);
+        Collection<T> returnDocuments = new ArrayList<T>();
+        for (Iterator<T> iter = foundDocuments.iterator(); iter.hasNext();) {
             Document doc = (Document) iter.next();
-            returnDocuments.add(getByDocumentHeaderId(doc.getDocumentNumber()));
+            returnDocuments.add((T)getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber()));
         }
         return returnDocuments;
     }
 
-    /**
-     * @see org.kuali.rice.kns.service.impl.DocumentServiceImpl#setDocumentDao(org.kuali.rice.kns.dao.DocumentDao)
-     */
-    @Override
-    public void setDocumentDao(DocumentDao documentDao) {
-        if (!FinancialSystemDocumentDao.class.isAssignableFrom(documentDao.getClass())) {
-            throw new IllegalArgumentException("document dao class being used '" + documentDao.getClass() + "' is not sub class or interface of '" + FinancialSystemDocumentDao.class + "'");
-        }
-        super.setDocumentDao(documentDao);
+    public FinancialSystemDocumentDao getFinancialSystemDocumentDao() {
+        return financialSystemDocumentDao;
     }
+
+    public void setFinancialSystemDocumentDao(FinancialSystemDocumentDao financialSystemDocumentDao) {
+        this.financialSystemDocumentDao = financialSystemDocumentDao;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    
 }

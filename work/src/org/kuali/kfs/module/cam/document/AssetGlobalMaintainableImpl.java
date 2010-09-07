@@ -67,7 +67,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
-    private static final String REQUIRES_REVIEW = "RequiresReview";
+    
+    protected static final String REQUIRES_REVIEW = "RequiresReview";
 
     /**
      * Lock on purchase order document since post processor will update PO document by adding notes.
@@ -93,11 +94,17 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_REVIEW.equals(nodeName)) {
-            return !((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
-        }
+        if (REQUIRES_REVIEW.equals(nodeName)) return !isAccountAndOrganizationReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
+
+    /**
+     * check whether or not isCapitalAssetBuilderOriginIndicator
+     */
+    protected boolean isAccountAndOrganizationReviewRequired(){
+        return ((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
+    }
+
 
     /**
      * Get Asset from AssetGlobal

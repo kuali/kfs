@@ -168,7 +168,7 @@
 	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="LaborExpenseTransferDocument-accountLineTotalsMatchValidation" scope="prototpye">
+				<bean parent="LaborExpenseTransferDocument-accountLineTotalsMatchValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

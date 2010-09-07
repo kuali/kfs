@@ -1703,6 +1703,18 @@
 		</property>
 	</bean>
 	
-	<bean id="laborEnterpriseFeederFileSetType" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeederFileSetType"></bean>	
+	<bean id="laborEnterpriseFeederFileSetType" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeederFileSetType"></bean>
+	
+	<bean id="laborPendingEntryConverterService" parent="laborPendingEntryConverterService-parentBean" />
+	
+	<bean id="laborPendingEntryConverterService-parentBean" abstract="true" class="org.kuali.kfs.module.ld.document.service.impl.LaborPendingEntryConverterServiceImpl">
+		<property name="homeOriginationService" ref="homeOriginationService" />
+		<property name="laborBenefitsCalculationService" ref="laborBenefitsCalculationService" />
+		<property name="optionsService" ref="optionsService" />
+		<property name="objectCodeService" ref="objectCodeService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="yearEndPendingEntryService" ref="yearEndPendingEntryService" />
+	</bean>	
 	
 </beans>

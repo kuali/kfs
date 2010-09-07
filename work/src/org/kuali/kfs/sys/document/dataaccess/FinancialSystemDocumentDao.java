@@ -17,13 +17,13 @@ package org.kuali.kfs.sys.document.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * This class is the financial system document dao interface
  */
-public interface FinancialSystemDocumentDao extends DocumentDao {
+public interface FinancialSystemDocumentDao {
 
-    public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode);
+    public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode);
 
 }

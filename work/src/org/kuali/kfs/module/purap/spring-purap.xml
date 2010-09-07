@@ -210,7 +210,9 @@
 		<property name="purapService" ref="purapService"/>
 	</bean>
 
-    <bean id="accountsPayableService" class="org.kuali.kfs.module.purap.document.service.impl.AccountsPayableServiceImpl">
+    <bean id="accountsPayableService"  parent="accountsPayableService-parentBean"/>
+
+    <bean id="accountsPayableService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.AccountsPayableServiceImpl">
     	<property name="purapAccountingService" ref="purapAccountingService" />
         <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" />
         <property name="documentService" ref="documentService" />

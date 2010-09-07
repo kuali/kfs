@@ -100,12 +100,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             // TODO:- do we need it???
         //    boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
            boolean isSaved = true; 
-            
-            // KFSMI-5288: Don't want any control characters in output files. They potentially disrupt further processing
-            if (ObjectUtils.isNotNull(entry.getTransactionLedgerEntryDescription())) {
-                entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().replaceAll("\\p{Cntrl}", " "));
-            }
-
+           
             try {
                 outputFilePs.printf("%s\n", entry.getLine());
                 nightlyOutLedgerSummaryReport.summarizeEntry(entry);

@@ -147,7 +147,9 @@
 		</property>
 	</bean>
 	
-	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
+	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean"/> 
+
+	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>		

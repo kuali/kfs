@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
@@ -57,6 +59,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class OriginEntryFull extends PersistableBusinessObjectBase implements Transaction, OriginEntryInformation, FlexibleAccountUpdateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryFull.class);
     private static OriginEntryFieldUtil originEntryFieldUtil;
+    
+    public static final Pattern MATCH_CONTROL_CHARACTERS = Pattern.compile("\\p{Cntrl}");
+    public static final String REPLACE_MATCHED_CONTROL_CHARACTERS = " ";
     
  // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
     // KFSMI-3308 - changed to 20
@@ -181,6 +186,10 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
         List<Message> returnList = new ArrayList<Message>(); 
         final Map<String, Integer> pMap = getOriginEntryFieldUtil().getFieldBeginningPositionMap();
+        
+        // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
+        Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(line);
+        line = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
         
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
@@ -373,7 +382,12 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         while (GeneralLedgerConstants.getSpaceAllOriginEntryFields().length() > sb.toString().length()) {
             sb.append(' ');
         }
-        return sb.toString();
+        
+        // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
+        Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(sb);
+        String returnString = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
+        
+        return returnString;
     }
 
     public boolean isTransactionScrubberOffsetGenerationIndicator() {

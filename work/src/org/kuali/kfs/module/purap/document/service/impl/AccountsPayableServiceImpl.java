@@ -67,6 +67,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Transactional
 public class AccountsPayableServiceImpl implements AccountsPayableService {
 
@@ -233,117 +234,118 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * Generates a list of replacement accounts for expired or closed accounts, as well as expired/closed accounts
-     * without a continuation account.
+     * Gets the replacement account for the specified closed account. 
+     * In this case it's the continuation account of the the specified account.
+     * 
+     * @param account the specified account which is closed.
+     * @document the document the account is associated with.    
+     * @return the replacement account for the specified account.
+     */
+    protected Account getReplaceAccountForClosedAccount(Account account, AccountsPayableDocument document) {
+        if (account == null) return null; // this should never happen        
+        Account continueAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+        return continueAccount;
+    }
+
+    /**
+     * Gets the replacement account for the specified expired account. 
+     * In this case it's the continuation account of the the specified account.
+     * 
+     * @param account the specified account which is expired.
+     * @document the document the account is associated with.    
+     * @return the replacement account for the specified account.
+     */
+    protected Account getReplaceAccountForExpiredAccount(Account account, AccountsPayableDocument document) {
+        if (account == null) return null; // this should never happen        
+        Account continueAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+        return continueAccount;
+    }
+    
+    /**
+     * Generates a list of replacement accounts for expired or closed accounts, as well as for expired/closed accounts without a continuation account.
      * 
      * @param document  The accounts payable document from which we're obtaining the purchase order id to be used
      *                  to obtain the purchase order document, whose accounts we'll use to generate the list of
      *                  replacement accounts for expired or closed accounts.
-     * @return          The HashMap where the keys are the string representations of the chart
-     *                  and account of the original account and the values are the ExpiredOrClosedAccountEntry.
+     * @return          The HashMap where the keys are the string representations of the chart and account 
+     *                  of the original account and the values are the ExpiredOrClosedAccountEntry.
      */
-    protected HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {
-
-        HashMap<String, ExpiredOrClosedAccountEntry> list = new HashMap<String, ExpiredOrClosedAccountEntry>();
-        ExpiredOrClosedAccountEntry entry = null;
-        ExpiredOrClosedAccount originalAcct = null;
-        ExpiredOrClosedAccount replaceAcct = null;
-        String chartAccount = null;
-        Integer POID = document.getPurchaseOrderIdentifier();
-
+    protected HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {     
+        // retrieve po from apdoc
         PurchaseOrderDocument po = document.getPurchaseOrderDocument();
-        if (po == null && document instanceof VendorCreditMemoDocument){
-            if (((VendorCreditMemoDocument)document).getPaymentRequestDocument() != null){
-                po = ((VendorCreditMemoDocument)document).getPaymentRequestDocument().getPurchaseOrderDocument();
-            }
+        if (po == null && document instanceof VendorCreditMemoDocument) {
+            PaymentRequestDocument preq = ((VendorCreditMemoDocument)document).getPaymentRequestDocument();
+            if (preq == null)   return null; // this should never happen 
+            po = ((VendorCreditMemoDocument)document).getPaymentRequestDocument().getPurchaseOrderDocument();
         }
+        if (po == null) return null; // this should never happen 
 
-        if (po != null) {
-            // get list of active accounts
-            List<SourceAccountingLine> accountList = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
+        // initialize
+        List<SourceAccountingLine> acctLines = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
+        HashMap<String, ExpiredOrClosedAccountEntry> eocAcctMap = new HashMap<String, ExpiredOrClosedAccountEntry>();
 
-            // loop through accounts
-            for (SourceAccountingLine poAccountingLine : accountList) {
-
-                Account account = accountService.getByPrimaryId(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber());
-
-                entry = new ExpiredOrClosedAccountEntry();
-
-                originalAcct = new ExpiredOrClosedAccount(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber(), poAccountingLine.getSubAccountNumber());
-
-                if (!account.isActive()) {
-
-                    // 1. if the account is closed, get the continuation account and add it to the list
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
-
-                    if (continuationAccount == null) {
-                        replaceAcct = new ExpiredOrClosedAccount();
-                        originalAcct.setContinuationAccountMissing(true);
-
-                        entry.setOriginalAccount(originalAcct);
-                        entry.setReplacementAccount(replaceAcct);
-
-                        list.put(createChartAccountString(originalAcct), entry);
-                    }
-                    else {
-                        replaceAcct = new ExpiredOrClosedAccount(continuationAccount.getChartOfAccountsCode(), continuationAccount.getAccountNumber(), poAccountingLine.getSubAccountNumber());
-
-                        entry.setOriginalAccount(originalAcct);
-                        entry.setReplacementAccount(replaceAcct);
-
-                        list.put(createChartAccountString(originalAcct), entry);
-                    }
-                    // 2. if the account is expired and the current date is <= 90 days from the expiration date, do nothing
-                    // 3. if the account is expired and the current date is > 90 days from the expiration date, get the continuation
-                    // account and add it to the list
+        // loop through accounting lines
+        for (SourceAccountingLine acctLine : acctLines) {
+            Account account = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
+            Account repAccount = null;
+            boolean replace = false;            
+            
+            // 1. if the account is closed, get the continuation account as replacement
+            if (!account.isActive()) {
+                repAccount = getReplaceAccountForClosedAccount(account, document);         
+                replace = true;
+            }            
+            // 2. if the account is C&G and is expired for more than 90 days, get the continuation account as replacement
+            else if (account.isExpired()) {
+                // retrieve extension limit (grace period)
+                String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                int expirationExtensionDaysInt = 90; // default to 90 days (approximately 3 months)
+                if (expirationExtensionDays.trim().length() > 0) {
+                    expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
                 }
-                else if (account.isExpired()) {
-                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
-                    String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
-                    int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
-
-                    if (expirationExtensionDays.trim().length() > 0) {
-
-                        expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
-                    }
-                    
-                    // if account is C&G and expired then add to list.
-                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > expirationExtensionDaysInt)) {
-
-                        if (continuationAccount == null) {
-                            replaceAcct = new ExpiredOrClosedAccount();
-                            originalAcct.setContinuationAccountMissing(true);
-
-                            entry.setOriginalAccount(originalAcct);
-                            entry.setReplacementAccount(replaceAcct);
-
-                            list.put(createChartAccountString(originalAcct), entry);
-                        }
-                        else {
-                            replaceAcct = new ExpiredOrClosedAccount(continuationAccount.getChartOfAccountsCode(), continuationAccount.getAccountNumber(), poAccountingLine.getSubAccountNumber());
-
-                            entry.setOriginalAccount(originalAcct);
-                            entry.setReplacementAccount(replaceAcct);
-
-                            list.put(createChartAccountString(originalAcct), entry);
-                        }
-                    }
-
-                    // if account is not C&G, use the same account, do not replace
+                // if account is C&G and expired beyond grace period then get replacement
+                if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > expirationExtensionDaysInt)) {
+                    repAccount = getReplaceAccountForExpiredAccount(account, document); 
+                    replace = true;
                 }
+                // otherwise if the account is not C&G, or it's expired within the grace period, do nothing         
             }
-        }
-        return list;
+            
+            // if replacement needed, set up ExpiredOrClosedAccount entry and add it to the eocAcctMap
+            if (replace) {
+                ExpiredOrClosedAccountEntry eocAcctEntry = new ExpiredOrClosedAccountEntry();
+                ExpiredOrClosedAccount originAcct = new ExpiredOrClosedAccount(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber(), acctLine.getSubAccountNumber());
+                ExpiredOrClosedAccount replaceAcct = null;
+                if (repAccount == null) {
+                    replaceAcct = new ExpiredOrClosedAccount();
+                    originAcct.setContinuationAccountMissing(true);
+                }
+                else {
+                    replaceAcct = new ExpiredOrClosedAccount(repAccount.getChartOfAccountsCode(), repAccount.getAccountNumber(), acctLine.getSubAccountNumber());
+                }
+                eocAcctEntry.setOriginalAccount(originAcct);
+                eocAcctEntry.setReplacementAccount(replaceAcct);
+                eocAcctMap.put(createChartAccountString(originAcct), eocAcctEntry);                 
+            }               
+        }           
+
+        return eocAcctMap;      
     }
 
+    /**
+     * Generates a list of replacement accounts for expired or closed accounts, as well as for expired/closed accounts without a continuation account.
+     * 
+     * @param document  The purchase order document whose accounts we'll use to generate the list of
+     *                  replacement accounts for expired or closed accounts.
+     * @return          The HashMap where the keys are the string representations of the chart and account 
+     *                  of the original account and the values are the ExpiredOrClosedAccountEntry.
+     */
     public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po) {
-
         HashMap<String, ExpiredOrClosedAccountEntry> list = new HashMap<String, ExpiredOrClosedAccountEntry>();
         ExpiredOrClosedAccountEntry entry = null;
         ExpiredOrClosedAccount originalAcct = null;
         ExpiredOrClosedAccount replaceAcct = null;
         String chartAccount = null;
-
 
         if (po != null) {
             // get list of active accounts
@@ -351,15 +353,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
             // loop through accounts
             for (SourceAccountingLine poAccountingLine : accountList) {
-
                 Account account = accountService.getByPrimaryId(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber());
-
                 entry = new ExpiredOrClosedAccountEntry();
-
                 originalAcct = new ExpiredOrClosedAccount(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber(), poAccountingLine.getSubAccountNumber());
 
                 if (!account.isActive()) {
-
                     // 1. if the account is closed, get the continuation account and add it to the list
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
 

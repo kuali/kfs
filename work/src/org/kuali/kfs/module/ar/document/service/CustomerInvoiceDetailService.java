@@ -131,12 +131,21 @@ public interface CustomerInvoiceDetailService {
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail);
 
     /**
-     * This method is used make sure the amounts are calculated correctly and the correct AR object code is in place
+     * This method is used to make sure the amounts are calculated correctly and the correct AR object code is in place
      * 
      * @param customerInvoiceDetail
+     * @param customerInvoiceDocument
      */
     public void prepareCustomerInvoiceDetailForAdd(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
 
+    /**
+     * Updates the specified customerInvoiceDetail as part of the process needed when the associated customerInvoiceDocument is being corrected.
+     * 
+     * @param customerInvoiceDetail the specified customerInvoiceDetail to be updated.
+     * @param customerInvoiceDocument the associated customerInvoiceDocument being corrected.
+     */
+    public void prepareCustomerInvoiceDetailForErrorCorrection(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
+    
     /**
      * @param customerInvoiceDocument
      * @return

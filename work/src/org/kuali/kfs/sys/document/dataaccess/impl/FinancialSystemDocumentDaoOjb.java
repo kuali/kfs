@@ -23,26 +23,38 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
+import org.kuali.rice.kns.dao.BusinessObjectDao;
 import org.kuali.rice.kns.dao.impl.DocumentDaoOjb;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentAdHocService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * This class is the KFS specific document dao implementation
  */
-public class FinancialSystemDocumentDaoOjb extends DocumentDaoOjb implements FinancialSystemDocumentDao {
+public class FinancialSystemDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements FinancialSystemDocumentDao {
+    
+    protected DocumentAdHocService documentAdHocService;
 
-    public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode) {
+    public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KNSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, statusCode);
 
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
-        ArrayList <Document> tempList =  new ArrayList(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-        for (Document doc : tempList) {
-            documentAdHocService.addAdHocs(doc);
-        }
+        ArrayList<T> tempList =  new ArrayList<T>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        for (Document doc : tempList) getDocumentAdHocService().addAdHocs(doc);
         return tempList;
+    }
+
+    public DocumentAdHocService getDocumentAdHocService() {
+        return documentAdHocService;
+    }
+
+    public void setDocumentAdHocService(DocumentAdHocService documentAdHocService) {
+        this.documentAdHocService = documentAdHocService;
     }
 
 }

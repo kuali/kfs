@@ -59,7 +59,12 @@ public class ClassCodeServiceImpl implements ClassCodeService {
         for (int i = 0; i < accrualMethodsForCriteria.length; i++) {
             criteria.put(EndowPropertyConstants.CLASS_CODE_SEC_ACCRUAL_METHOD, accrualMethodsForCriteria[i]);
             Collection<ClassCode> tmpClassCodes = businessObjectService.findMatching(ClassCode.class, criteria);
-            classCodes.addAll(tmpClassCodes);
+            if (classCodes == null) {
+                classCodes = tmpClassCodes;
+            }
+            else {
+                classCodes.addAll(tmpClassCodes);
+            }
             criteria.clear();
         }
 

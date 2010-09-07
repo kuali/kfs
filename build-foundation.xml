@@ -91,11 +91,13 @@ are intended for use only by Kuali Foundation developers.
         <maven goals="clean:clean" modulePath="/${rice.api.module.name}" />
         <maven goals="clean:clean" modulePath="/${rice.impl.module.name}" />
         <maven goals="clean:clean" modulePath="/${rice.web.module.name}" />
+        <maven goals="clean:clean" modulePath="/${rice.sampleapp.module.name}" />
 	</target>
 	
 	<target name="update-rice-jars" depends="init-property-files,init-additional-properties,clean-rice-maven">
         <maven goals="install" modulePath="/${rice.api.module.name}" />
         <maven goals="install" modulePath="/${rice.impl.module.name}" />
+        <maven goals="install" modulePath="/${rice.sampleapp.module.name}" />
     	<delete verbose="true">
       		<fileset dir="${basedir}" includes="${build.kfs.lib.directory}/rice-*.jar" />
     	</delete>

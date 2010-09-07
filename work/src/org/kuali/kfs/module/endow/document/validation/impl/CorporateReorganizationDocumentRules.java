@@ -170,12 +170,8 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
                 isValid &= validateTotalUnits(corporateReorganizationDocument, txLine, i);
             }
 
-            //TODO: DO I NEED THESE?
-//            // Validate the source & target units are equal.
-//            isValid &= validateSourceTargetUnitsEqual(corporateReorganizationDocument);
-//
-//            // Validate the source & target amounts are equal.
-//            isValid &= validateSourceTargetAmountEqual(corporateReorganizationDocument);
+//            isValid = &= validateSourceTransSecurityEtranEqual(corporateReorganizationDocument);
+//            isValid = &= validateTargetTransSecurityEtranEqual(corporateReorganizationDocument);
 
         }
 
@@ -227,5 +223,5 @@ public class CorporateReorganizationDocumentRules extends EndowmentTransactionLi
 
         return false;
     }
-
+    
 }

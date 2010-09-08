@@ -232,6 +232,14 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         // Check any business rules
         sourceRulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME, endowmentDocument, sourceTransLine, selectedLine));
         if (sourceRulePassed) {
+            
+            // Verify that the source security etran code hasen't changed. 
+            // If it has changed, then update the source transaction line.
+            String securityEtranCode = getSecurityEtranCode(true, form);
+            if (!securityEtranCode.equals(sourceTransLine.getEtranCode())) {
+                sourceTransLine.setEtranCode(securityEtranCode);
+            }
+            
             updateTransactionLineTaxLots(false, true,  endowmentDocument, sourceTransLine);
             
             List<EndowmentTransactionLine> targetTransactionLines = documentForm.getEndowmentTransactionLinesDocumentBase().getTargetTransactionLines();
@@ -264,9 +272,33 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
      */
     @Override
     public ActionForward refreshTargetTaxLots(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.refreshTargetTaxLots(mapping, form, request, response);
         
-        return actionForward;
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        int selectedLine = this.getSelectedLine(request);
+        EndowmentTransactionLine transLine = endowmentDocument.getTargetTransactionLines().get(selectedLine);
+
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, endowmentDocument, transLine, selectedLine));
+
+        if (rulePassed) {
+            
+            // Verify that the target security etran code hasen't changed.
+            // If it has changed, then update the target transaction line.
+            String securityEtranCode = getSecurityEtranCode(false, form);
+            if (!securityEtranCode.equals(transLine.getEtranCode())) {
+                transLine.setEtranCode(securityEtranCode);
+            }
+            
+            updateTransactionLineTaxLots(false, false, endowmentDocument, transLine);
+        }
+
+        if (endowmentDocument instanceof AmountTotaling)
+            ((FinancialSystemDocumentHeader) documentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) endowmentDocument).getTotalDollarAmount());
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
       }
 
 
@@ -275,6 +307,34 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         targetTransLine.setTransactionIPIndicatorCode(sourceTransLine.getTransactionIPIndicatorCode());       
         targetTransLine.setTransactionAmount(sourceTransLine.getTransactionAmount());
         targetTransLine.setKemid(sourceTransLine.getKemid());
+    }
+    
+    private String getSecurityEtranCode(boolean isSource, ActionForm form) {
+        
+        String etranCode = "";
+        
+        EndowmentTransactionLinesDocumentFormBase documentForm = (EndowmentTransactionLinesDocumentFormBase) form;
+        EndowmentTransactionLinesDocument endowmentDocument = (EndowmentTransactionLinesDocument) documentForm.getDocument();
+        
+        if (isSource) {
+            EndowmentSecurityDetailsDocumentBase securityDocument = (EndowmentSecurityDetailsDocumentBase)endowmentDocument;
+            EndowmentTransactionSecurity sourceTranSecurity = securityDocument.getSourceTransactionSecurity();
+            
+            // Get the etran from the Security BO class code.
+            Security sourceSecurity = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(sourceTranSecurity.getSecurityID());
+            etranCode = ObjectUtils.isNotNull(sourceSecurity) ? sourceSecurity.getClassCode().getSecurityEndowmentTransactionCode() : "";
+            
+        }
+        else {
+            EndowmentSecurityDetailsDocumentBase securityDocument = (EndowmentSecurityDetailsDocumentBase)endowmentDocument;
+            EndowmentTransactionSecurity targetTranSecurity = securityDocument.getTargetTransactionSecurity();
+            
+            // Get the etran from the Security BO class code.
+            Security targetSecurity = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(targetTranSecurity.getSecurityID());
+            etranCode = ObjectUtils.isNotNull(targetSecurity) ? targetSecurity.getClassCode().getSecurityEndowmentTransactionCode() : "";
+        }
+        
+        return etranCode;
     }
 
     /**

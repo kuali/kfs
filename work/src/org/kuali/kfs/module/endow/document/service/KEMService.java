@@ -68,9 +68,9 @@ public interface KEMService {
     public Date getCurrentSystemProcessDateObject();
 
     /**
-     * Gets the current date based on a system parameter USE_PROCESS_DATE: <br>
-     * 1) If USE_PROCESS_DATE == true, get the value from CURRENT_SYSTEM_PROCESS_DATE. <br>
-     * 2) If USE_PROCESS_DATE == false, get the current date from the local system using standard Java API.
+     * Gets the current date based on a system parameter USE_PROCESS_DATE_IND: <br>
+     * 1) If USE_PROCESS_DATE_IND = Y (true), get the value from CURRENT_PROCESS_DATE. <br>
+     * 2) If USE_PROCESS_DATE_IND = N (false), get the current date from the local system using standard Java API.
      * 
      * @return the current date
      */

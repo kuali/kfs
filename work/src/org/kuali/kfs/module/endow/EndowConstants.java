@@ -140,7 +140,7 @@ public class EndowConstants extends JSTLConstants {
 
         public static final String DISTRIBUTION_TIMES_PER_YEAR = "DISTRIBUTION_TIMES_PER_YEAR";
 
-        public static final String USE_PROCESS_DATE = "USE_PROCESS_DATE";
+        public static final String USE_PROCESS_DATE = "USE_PROCESS_DATE_IND";
         public static final String CURRENT_PROCESS_DATE = "CURRENT_PROCESS_DATE";
 
         public static final String ASSETS_ENTRAN_TYPE = "ASSETS_ENTRAN_TYPE";

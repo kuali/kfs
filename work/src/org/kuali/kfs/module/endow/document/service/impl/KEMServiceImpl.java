@@ -250,9 +250,11 @@ public class KEMServiceImpl implements KEMService {
     public int getNumberOfDaysInCalendarYear() {
         Date currentDate = getCurrentDate();
         Calendar calendar = Calendar.getInstance();
+
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         calendar.setTime(currentDate);
         gregorianCalendar.setTime(currentDate);
+
         if (gregorianCalendar.isLeapYear(calendar.YEAR)) {
             return 366;
         }

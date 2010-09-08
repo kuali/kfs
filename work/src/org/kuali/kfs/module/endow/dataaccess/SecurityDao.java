@@ -36,9 +36,10 @@ public interface SecurityDao {
     public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate();
 
     /**
-     * This method...
-     * @param classCodes
-     * @return
+     * Gets all securities with a class code in the list given as input and with the number of units greater than zero.
+     * 
+     * @param classCodes the list of class codes to use to retrieve securities
+     * @return all securities that meet the criteria
      */
     public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes);
 

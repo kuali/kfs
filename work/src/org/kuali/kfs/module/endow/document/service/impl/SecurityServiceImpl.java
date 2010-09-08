@@ -154,6 +154,14 @@ public class SecurityServiceImpl implements SecurityService {
         return unitValue;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.SecurityService#getSecuritiesByClassCodeWithUnitsGreaterThanZero(java.util.List)
+     */
+    public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes) {
+
+        return securityDao.getSecuritiesByClassCodeWithUnitsGreaterThanZero(classCodes);
+    }
+
 
     /**
      * Gets the kemService.
@@ -189,14 +197,6 @@ public class SecurityServiceImpl implements SecurityService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.service.SecurityService#getSecuritiesByClassCodeWithUnitsGreaterThanZero(java.util.List)
-     */
-    public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes) {
-
-        return securityDao.getSecuritiesByClassCodeWithUnitsGreaterThanZero(classCodes);
     }
 
     /**

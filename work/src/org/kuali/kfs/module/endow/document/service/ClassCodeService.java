@@ -30,7 +30,7 @@ public interface ClassCodeService {
     public ClassCode getByPrimaryKey(String code);
 
     /**
-     * Gets all class codes with accrual method: Automated Cash Management, Time Deposits, Trea
+     * Gets all class codes with accrual method: Automated Cash Management, Time Deposits, Treasury Notes and Bonds, Dividends
      */
     public Collection<ClassCode> getClassCodesForAccrualProcessing();
 }

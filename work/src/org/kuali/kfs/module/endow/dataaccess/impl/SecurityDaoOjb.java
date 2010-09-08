@@ -59,7 +59,7 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
     }
 
     /**
-     * This method...
+     * Sets the kemService.
      * 
      * @param kemService
      */

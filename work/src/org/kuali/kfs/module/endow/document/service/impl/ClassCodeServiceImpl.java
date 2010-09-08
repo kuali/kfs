@@ -54,7 +54,7 @@ public class ClassCodeServiceImpl implements ClassCodeService {
         Collection<ClassCode> classCodes = null;
 
         String[] accrualMethodsForCriteria = new String[] { EndowConstants.AccrualMethod.AUTOMATED_CASH_MANAGEMENT, EndowConstants.AccrualMethod.TIME_DEPOSITS, EndowConstants.AccrualMethod.TREASURY_NOTES_AND_BONDS, EndowConstants.AccrualMethod.DIVIDENDS };
-        Map criteria = new HashMap();
+        Map<String, String> criteria = new HashMap<String, String>();
 
         for (int i = 0; i < accrualMethodsForCriteria.length; i++) {
             criteria.put(EndowPropertyConstants.CLASS_CODE_SEC_ACCRUAL_METHOD, accrualMethodsForCriteria[i]);

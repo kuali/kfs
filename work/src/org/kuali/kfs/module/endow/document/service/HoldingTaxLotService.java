@@ -144,10 +144,10 @@ public interface HoldingTaxLotService {
     public List<HoldingTaxLot> getAllTaxLots();
 
     /**
-     * This method...
+     * Get all tax lots for the given security that have an accrued income greater than zero.
      * 
-     * @param securityId
-     * @return
+     * @param securityId the id of the security for which to retrieve the tax lots
+     * @return all tax lots that meet the criteria
      */
     public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 

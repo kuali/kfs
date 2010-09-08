@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * 
  */
 public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     private HoldingTaxLotDao holdingTaxLotDao;
@@ -245,6 +245,22 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
+     */
+    @Transactional
+    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
+
+        return holdingTaxLotDao.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(java.lang.String)
+     */
+    public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId) {
+        return holdingTaxLotDao.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(securityId);
+    }
+
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService
@@ -333,22 +349,5 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     public void setkEMService(KEMService kEMService) {
         this.kEMService = kEMService;
     }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
-     */
-    @Transactional
-    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
-
-        return holdingTaxLotDao.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(java.lang.String)
-     */
-    public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId) {
-        return holdingTaxLotDao.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(securityId);
-    }
-
 
 }

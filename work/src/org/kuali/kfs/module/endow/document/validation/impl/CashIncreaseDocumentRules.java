@@ -26,7 +26,7 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
         CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) document;
 
         // Validate at least one Tx was entered.

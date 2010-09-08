@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
@@ -43,6 +44,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
@@ -62,6 +64,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     private DocumentService documentService;
     private KualiConfigurationService configService;
     private KualiRuleService kualiRuleService;
+    protected ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService#createAccrualTransactions()
@@ -89,7 +92,15 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         if (counter == 100) {
                             // TODO figure out if/how we use the ad hoc recipients list
 
-                            documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
+                            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
+                            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+
+                            if (blanketAppriovalIndicator) {
+                                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
+                            }
+                            else {
+                                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
+                            }
 
                             cashIncreaseDocument = createNewCashIncreaseDocument(security.getId());
                             counter = 0;
@@ -195,8 +206,10 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      */
     private CashIncreaseDocument createNewCashIncreaseDocument(String securityId) {
         try {
+
             CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
-            cashIncreaseDocument.getDocumentHeader().setDocumentDescription(EndowConstants.ACCRUAL_TRANSACTIONS_CASH_INCREASE_DOC_DESC);
+            String documentDescription = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
+            cashIncreaseDocument.getDocumentHeader().setDocumentDescription(documentDescription);
             cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
             cashIncreaseDocument.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
 
@@ -290,7 +303,21 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         this.configService = configService;
     }
 
+    /**
+     * Sets the kualiRuleService.
+     * 
+     * @param kualiRuleService
+     */
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
+    }
+
+    /**
+     * Sets the parameterService.
+     * 
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -157,8 +157,12 @@ public class EndowConstants extends JSTLConstants {
         public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
 
         public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "DOCUMENT_TYPES";
-        
-        public static final String BLANKET_APPROVE = "BLANKET_APPROVE"; 
+
+        public static final String BLANKET_APPROVE = "BLANKET_APPROVE";
+
+        public static final String DESCRIPTION = "DESCRIPTION";
+
+        public static final String BLANKET_APPROVAL_IND = "BLANKET_APPROVAL_IND";
     }
 
     public static class KemidValueOptions {
@@ -307,8 +311,5 @@ public class EndowConstants extends JSTLConstants {
     public static final class HoldingTaxLotRebalanceCodes {
         public static final String RESULTS_ACTIONS_LINK = "Rebalance";
     }
-
-    // Batch
-    public static final String ACCRUAL_TRANSACTIONS_CASH_INCREASE_DOC_DESC = "Accrued Income Distribution";
 
 }

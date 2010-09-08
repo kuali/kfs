@@ -64,7 +64,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
             taxLotsService.updateTransactionLineTaxLots(isUpdate, corporateReorganizationDocument, transLine);
         }
 
-        // TODO:  WHAT TO DO ABOUT THIS?
         if (transLine instanceof EndowmentTargetTransactionLine) {
             UpdateSecurityTransferTargetTaxLotsService taxLotsService = SpringContext.getBean(UpdateSecurityTransferTargetTaxLotsService.class);
             taxLotsService.updateTransactionLineTaxLots(corporateReorganizationDocument, transLine);

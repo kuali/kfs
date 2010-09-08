@@ -64,6 +64,7 @@
 				<value>rollProcessDateJob</value>	
 				<value>rollFrequencyDatesJob</value>
 				<value>accrualProcessingJob</value>
+				<value>pooledFundControlTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -305,6 +306,24 @@
 		<property name="recurringCashTransferDao">
 			<ref bean="recurringCashTransferDao" />
 		</property>			
+	</bean>	
+		
+	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
+	<bean id="ticklerDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TicklerDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
+	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
 	</bean>
 	
  	<bean id="accrualProcessingJob" parent="scheduledJobDescriptor">
@@ -336,21 +355,38 @@
 	    <property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	</bean>	
-	
-	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
+	</bean>		
+		
+	<bean id="pooledFundControlTransactionsJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pooledFundControlTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="pooledFundControlTransactionsStep" class="org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep" parent="step">
+		<property name="pooledFundControlTransactionsService">
+			<ref bean="pooledFundControlTransactionsService" />
+		</property>
 	</bean>
 	
-	<bean id="ticklerDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TicklerDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
+	<bean id="pooledFundControlTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
+		<property name="parameterService">
+    	 	<ref bean="parameterService" />
+		</property>
+		<property name="pooledFundControlTransactionsDao">
+			<ref bean="pooledFundControlTransactionsDao" />
+		</property>			
 	</bean>
-	
-	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
+
+	<bean id="pooledFundControlTransactionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundControlTransactionsDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>
 		</property>	

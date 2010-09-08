@@ -20,11 +20,7 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
  * Parameter name constants for system parameters used by the kfs endowment.
  */
 public class EndowParameterKeyConstants implements ParameterKeyConstants {
-  //  public static final String USE_PROCESS_DATE = "USE_PROCESS_DATE";
-  //  public static final String CURRENT_PROCESS_DATE = "CURRENT_PROCESS_DATE";
-  //  public static final String CURRENT_SYSTEM_PROCESS_DATE = "CURRENT_SYSTEM_PROCESS_DATE";
-    
-    public static class AvailableCashUpdateConstants {
+     public static class AvailableCashUpdateConstants {
         public static final String AVAILABLE_CASH_PERCENT = "AVAILABLE_CASH_PERCENT";
     }
 }

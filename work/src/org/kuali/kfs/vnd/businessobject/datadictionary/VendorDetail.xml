@@ -72,6 +72,7 @@
         <ref bean="VendorDetail-vendorHeader.vendorDebarredIndicator"/>
         <ref bean="VendorDetail-vendorHeader.vendorForeignIndicator"/>
         <ref bean="VendorDetail-vendorHeader.vendorTypeCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorSupplierDiversitiesAsString"/>
         <ref bean="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode"/>
         <ref bean="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode"/>
         <ref bean="VendorDetail-vendorAliases.vendorAliasName"/>
@@ -479,21 +480,27 @@
   <bean id="VendorDetail-vendorHeader.vendorForeignIndicator-parentBean" abstract="true" parent="VendorHeader-vendorForeignIndicator">
     <property name="name" value="vendorHeader.vendorForeignIndicator"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorTypeCode" parent="VendorDetail-vendorHeader.vendorTypeCode-parentBean"/>
 
+  <bean id="VendorDetail-vendorHeader.vendorTypeCode" parent="VendorDetail-vendorHeader.vendorTypeCode-parentBean"/>
   <bean id="VendorDetail-vendorHeader.vendorTypeCode-parentBean" abstract="true" parent="VendorHeader-vendorTypeCode">
     <property name="name" value="vendorHeader.vendorTypeCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean"/>
 
+  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversitiesAsString" parent="VendorDetail-vendorHeader.vendorSupplierDiversitiesAsString-parentBean"/>
+  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversitiesAsString-parentBean" abstract="true" parent="VendorHeader-vendorSupplierDiversitiesAsString">
+    <property name="name" value="vendorHeader.vendorSupplierDiversitiesAsString"/>
+  </bean>
+
+  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean"/>
   <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean" abstract="true" parent="VendorSupplierDiversity-vendorSupplierDiversityCode">
     <property name="name" value="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode"/>
   </bean>
-  <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" parent="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean"/>
 
+  <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" parent="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean"/>
   <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode">
     <property name="name" value="vendorShippingSpecialConditions.vendorShippingSpecialConditionCode"/>
   </bean>
+
   <bean id="VendorDetail-vendorAliases.vendorAliasName" parent="VendorDetail-vendorAliases.vendorAliasName-parentBean"/>
 
   <bean id="VendorDetail-vendorAliases.vendorAliasName-parentBean" abstract="true" parent="VendorAlias-vendorAliasName">
@@ -1018,7 +1025,7 @@
         <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="vendorStateForLookup"/>
         <bean parent="FieldDefinition" p:attributeName="vendorCommodities"/>
-        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversities"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString"/>
       </list>
     </property>
   </bean>

@@ -101,7 +101,7 @@
     <field-descriptor name="vendorSoldToAssignedIdentifier" column="VNDR_SOLD_TO_ASND_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorFirstLastNameIndicator" column="VNDR_1ST_LST_NM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="taxableIndicator" column="COLLECT_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </reference-descriptor>
     <reference-descriptor name="soldToVendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

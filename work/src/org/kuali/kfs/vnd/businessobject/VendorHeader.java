@@ -234,6 +234,30 @@ public class VendorHeader extends PersistableBusinessObjectBase {
         this.vendorSupplierDiversities = vendorSupplierDiversities;
     }
 
+    /**
+     * Used by the Spring Framework to correctly retrieve the vendor supplier diversities as a single
+     * attribute. The vendorSupplierDiversities is a collection of diversities, and without this method, 
+     * there was no way to get a single attribute for it.
+     * 
+     * @return the vendor supplier diversities as a single attribute
+     */
+    public String getVendorSupplierDiversitiesAsString() {
+        StringBuilder sb = new StringBuilder("vendorSupplierDiversities=[");
+
+        boolean first = true;
+        for (VendorSupplierDiversity vsd : vendorSupplierDiversities) {
+            if (!first) {
+                sb.append(", ");
+            } else {
+                first = false;
+            }
+            sb.append(vsd.getVendorSupplierDiversityCode().toString());
+        }
+        sb.append(']');
+
+        return sb.toString();
+    }
+
     public List<VendorTaxChange> getVendorTaxChanges() {
 
         return vendorTaxChanges;
@@ -264,8 +288,8 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }

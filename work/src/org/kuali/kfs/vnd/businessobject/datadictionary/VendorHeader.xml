@@ -30,11 +30,16 @@
         <ref bean="VendorHeader-vendorTaxNumber" />
         <ref bean="VendorHeader-vendorTaxTypeCode" />
         <ref bean="VendorHeader-vendorTypeCode" />
-        <ref bean="VendorHeader-vendorSupplierDiversities" />
+        <ref bean="VendorHeader-vendorSupplierDiversitiesAsString" />
         <ref bean="VendorHeader-vendorW8BenReceivedIndicator" />
         <ref bean="VendorHeader-vendorW9ReceivedIndicator" />
         <ref bean="VendorHeader-vendorDebarredIndicator" />
         <ref bean="VendorHeader-vendorForeignIndicator" />
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="vendorSupplierDiversities" p:label="Supplier Diversities" p:shortLabel="Supplier Diversities"/>
       </list>
     </property>
   </bean>
@@ -165,10 +170,10 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.VendorTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorHeader-vendorSupplierDiversities" parent="VendorHeader-vendorSupplierDiversities-parentBean" />
+  <bean id="VendorHeader-vendorSupplierDiversitiesAsString" parent="VendorHeader-vendorSupplierDiversitiesAsString-parentBean" />
 
-  <bean id="VendorHeader-vendorSupplierDiversities-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorSupplierDiversities" />
+  <bean id="VendorHeader-vendorSupplierDiversitiesAsString-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorSupplierDiversitiesAsString" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Vendor Supplier Diversity" />
     <property name="shortLabel" value="Supplier Diversity" />

@@ -31,6 +31,7 @@
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetSubAccountNumber"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetFinancialSubObjectCode"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetProjectCode"/>
+        <ref bean="EndowmentRecurringCashTransferGLTarget-targetOrgReferenceId"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetPercent"/>
         <ref bean="EndowmentRecurringCashTransferGLTarget-targetUseEtranCode"/>
 		<ref bean="EndowmentRecurringCashTransferGLTarget-active"/>
@@ -101,6 +102,16 @@
 	<property name="name" value="targetProjectCode" />
    	<property name="label" value="Target ProjectCode"/>
    	<property name="required" value="false" />
+  </bean>  
+  
+  <bean id="EndowmentRecurringCashTransferGLTarget-targetOrgReferenceId" parent="EndowmentRecurringCashTransferGLTarget-targetOrgReferenceId-parentBean"/>
+  <bean id="EndowmentRecurringCashTransferGLTarget-targetOrgReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="targetOrgReferenceId" />
+   	<property name="label" value="Org Ref Id"/>
+   	<property name="required" value="false" />
+	<property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
   </bean>  
 
   <bean id="EndowmentRecurringCashTransferGLTarget-targetPercent" parent="EndowmentRecurringCashTransferGLTarget-targetPercent-parentBean"/>

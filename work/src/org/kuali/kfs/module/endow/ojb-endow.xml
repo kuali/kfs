@@ -2740,6 +2740,7 @@
 	<field-descriptor name="targetSubAccountNumber" column="TGT_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="targetFinancialSubObjectCode" column="TGT_SUB_OBJ_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="targetProjectCode" column="TGT_PROJECT_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="targetOrgReferenceId" column="TGT_ORG_REF_ID" jdbc-type="VARCHAR" /> 
 	<field-descriptor name="targetPercent" column="TGT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="targetUseEtranCode" column="TGT_USE_ETRAN_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

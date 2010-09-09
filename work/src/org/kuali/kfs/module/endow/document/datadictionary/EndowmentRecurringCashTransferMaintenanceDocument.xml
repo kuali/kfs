@@ -20,7 +20,7 @@
   <bean id="EndowmentRecurringCashTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
   
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer" /> 
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.endow.document.EndowmentRecurringCashTransferMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
       	<ref bean="EndowmentRecurringCashTransferMaintenanceDocument-RecurringCashTransfer"/>
@@ -30,10 +30,23 @@
     </property>
     <property name="defaultExistenceChecks" >
       <list>
+		<bean parent="ReferenceDefinition" p:attributeName="sourceKemid" p:attributeToHighlightOnFail="sourceKemid"/>
+		<bean parent="ReferenceDefinition" p:attributeName="frequencyCode" p:attributeToHighlightOnFail="frequencyCode"/>
 
+<!-- 
+		<bean parent="ReferenceDefinition" p:attributeName="targetKemid" p:attributeToHighlightOnFail="targetKemid"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetChartOfAccountsCode" p:attributeToHighlightOnFail="targetChartOfAccountsCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetAccountsNumber" p:attributeToHighlightOnFail="targetAccountsNumber"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetSubAccountNumber" p:attributeToHighlightOnFail="targetSubAccountNumber"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetFinancialObjectCode" p:attributeToHighlightOnFail="targetFinancialObjectCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetFinancialSubObjectCode" p:attributeToHighlightOnFail="targetFinancialSubObjectCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetProjectCode" p:attributeToHighlightOnFail="targetProjectCode"/>
+		
+ -->
+ 		
       </list>
     </property>
-    <!--  ask Philip or Poonam -->
+    
     <property name="lockingKeys" >
       <list>
         <value>transferNumber</value>
@@ -42,7 +55,7 @@
 
     <property name="documentTypeName" value="RecurringCashTransferMaintenanceDocument" />
 <!--  <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.endow.document.validation.impl.  " /> -->     
-    <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.RecurringCashTransferTransactionRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.EndowmentRecurringCashTransferTransactionRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 <!-- ???   <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.  " /> -->
      
@@ -58,11 +71,11 @@
     <property name="title" value="Edit Recurring Cash Transfer"/>
     <property name="maintainableItems">
 	  <list>
-  	    <bean parent="MaintainableFieldDefinition" p:name="transferNumber" p:unconditionallyReadOnly="true"/>
+	    <bean parent="MaintainableFieldDefinition" p:name="transferNumber" p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.NextTransferNumberFinder" p:unconditionallyReadOnly="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="sourceKemid" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="transactionType" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="sourceEtranCode" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="sourceLineDescription" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="sourceLineDescription" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="sourceIncomeOrPrincipal" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="nextProcessDate" p:required="false"/>
@@ -87,7 +100,7 @@
 			  <bean parent="MaintainableFieldDefinition" p:name="targetSequenceNumber" p:unconditionallyReadOnly="true"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetKemid" p:required="true"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetEtranCode" p:required="true"/>
-			  <bean parent="MaintainableFieldDefinition" p:name="targetLineDescription" p:required="true"/>
+			  <bean parent="MaintainableFieldDefinition" p:name="targetLineDescription" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetIncomeOrPrincipal" p:required="true"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetAmount" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetPercent" p:required="false"/>
@@ -119,6 +132,7 @@
 			  <bean parent="MaintainableFieldDefinition" p:name="targetFinancialObjectCode" p:required="true"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetFinancialSubObjectCode" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetProjectCode" p:required="false"/>
+			  <bean parent="MaintainableFieldDefinition" p:name="targetOrgReferenceId" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetFdocLineAmount" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetPercent" p:required="false"/>
 			  <bean parent="MaintainableFieldDefinition" p:name="targetUseEtranCode" p:required="false"/>

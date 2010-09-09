@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow;
 
 import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -163,6 +164,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String DESCRIPTION = "DESCRIPTION";
 
         public static final String BLANKET_APPROVAL_IND = "BLANKET_APPROVAL_IND";
+        
+        public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";
     }
 
     public static class KemidValueOptions {
@@ -311,5 +314,10 @@ public class EndowConstants extends JSTLConstants {
     public static final class HoldingTaxLotRebalanceCodes {
         public static final String RESULTS_ACTIONS_LINK = "Rebalance";
     }
+
+    //Transaction Types in Recurring Cash Transfer doc
+    public static final String ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE = "ECT";
+    public static final String ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE = "EGLT";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";
 
 }

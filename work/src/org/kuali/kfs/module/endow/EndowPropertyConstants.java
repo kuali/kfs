@@ -579,4 +579,7 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE = "nextProcessDate";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE = "frequencyCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE = "transactionType";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_KEMID = "targetKemid";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT = "targetAmount";
 }

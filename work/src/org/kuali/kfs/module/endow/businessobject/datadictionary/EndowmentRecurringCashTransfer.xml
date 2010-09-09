@@ -65,15 +65,8 @@
   	<property name="maxLength" value="5"/>
   	<property name="required" value="true"/>
   	<property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
+	  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TransactionTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    
-    <!-- 
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrgTypeValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    
-     -->
   </bean>  
 
   <bean id="EndowmentRecurringCashTransfer-sourceEtranCode" parent="EndowmentRecurringCashTransfer-sourceEtranCode-parentBean"/>
@@ -99,12 +92,16 @@
     <property name="name" value="sourceIncomeOrPrincipal"/>
     <property name="label" value="Source Income Or Principal"/>
     <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.IncomePrincipalIndicatorValuesFinder" p:includeKeyInLabel="false" />
+    </property>
+    
   </bean>  
 
   <bean id="EndowmentRecurringCashTransfer-frequencyCode" parent="EndowmentRecurringCashTransfer-frequencyCode-parentBean"/>
   <bean id="EndowmentRecurringCashTransfer-frequencyCode-parentBean" abstract="true" parent="FrequencyCode-code">
     <property name="name" value="frequencyCode"/>
-    <property name="label" value="Source Income Or Principal"/>
+    <property name="label" value="Frequency Code"/>
     <property name="required" value="true"/>
   </bean>  
 

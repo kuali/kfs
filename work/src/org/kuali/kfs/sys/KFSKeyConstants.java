@@ -942,4 +942,7 @@ public class KFSKeyConstants {
     public static final String ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.accountingdocument.accountinglineimport.general";
     
     public static final String ERROR_LINEPARSER_INVALID_FILE_FORMAT = "error.lineparser.invalid.file.format";
+    
+    // Recurring Cash Transfer Maintenance Errors
+    public static final String ERROR_TRANSACTION_TYPE_INVALID = "error.document.transactionType.invalid";
 }

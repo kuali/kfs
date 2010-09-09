@@ -38,6 +38,7 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     private String targetSubAccountNumber;
     private String targetFinancialSubObjectCode;
     private String targetProjectCode;
+    private String targetOrgReferenceId; 
     private KualiDecimal targetPercent;
     private String targetUseEtranCode;
     private boolean active;
@@ -231,5 +232,14 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     public void setSourceKemid(String sourceKemid) {
         this.sourceKemid = sourceKemid;
     }
+    
+    public String getTargetOrgReferenceId() {
+        return targetOrgReferenceId;
+    }
+
+    public void setTargetOrgReferenceId(String targetOrgReferenceId) {
+        this.targetOrgReferenceId = targetOrgReferenceId;
+    }
+
 
 }

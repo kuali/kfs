@@ -15,6 +15,8 @@ k * Copyright 2009 The Kuali Foundation.
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
+
 public class EndowKeyConstants {
 
     public static class SecurityReportingGroupConstants {
@@ -22,7 +24,7 @@ public class EndowKeyConstants {
     }
 
     public static class ClassCodeConstants {
-        public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_ASSET_OR_LIABILITY = "error.document.classCode.endowmentTransactionType.assesOrLiability";
+        public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_ASSET_OR_LIABILITY = "error.docreument.classCode.endowmentTransactionType.assesOrLiability";
         public static final String ERROR_INCOME_ENDOWMENT_TRANSACTION_POST_TYPE_INCOME = "error.document.classCode.incomeEndowmentTransactionType.income";
         public static final String ERROR_CLASS_CODE_TYPE_CASH_EQ_REP_GRPCASH_EQ = "error.document.classCode.classCodeTypeCashEqMustHaveRepGrpCashEq";
         public static final String ERROR_CLASS_CODE_TYPE_POOLED_INVESTMENT_MUST_HAVE_VLTN_MTHD_UNITS = "error.document.classCode.classCodeTypePooledInvestmentsMustHaveVltnMthdUnits";
@@ -282,4 +284,10 @@ public class EndowKeyConstants {
     }
 
     public static final String ERROR_ENDOW_ACCOUNTING_LINES_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.endowmentAccountingLinesDocument.endowmentaccountinglineimport.general";
+
+    public static final class EndowmentRecurringCashTransfer {
+        public static final String ERROR_DOCUMENT_TARGETOBJECT_EXIST = "error.document.targetObject.exist";
+    }
+    
+
 }

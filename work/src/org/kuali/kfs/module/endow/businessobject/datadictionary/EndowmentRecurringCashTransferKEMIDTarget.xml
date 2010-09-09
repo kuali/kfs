@@ -82,6 +82,9 @@
     <property name="name" value="targetIncomeOrPrincipal"/>
     <property name="label" value="Target Income Or Principal"/>
     <property name="required" value="true"/>
+    <property name="control" >
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.IncomePrincipalIndicatorValuesFinder" p:includeKeyInLabel="false" />
+    </property>
   </bean>  
 
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-targetAmount" parent="EndowmentRecurringCashTransferKEMIDTarget-targetAmount-parentBean"/>

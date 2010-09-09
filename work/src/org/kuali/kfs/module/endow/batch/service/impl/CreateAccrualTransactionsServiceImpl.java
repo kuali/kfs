@@ -22,6 +22,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,6 +48,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,61 +77,51 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         for (Security security : securities) {
 
-            Iterator iter = holdingTaxLotService.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
+            Map<String, List<HoldingTaxLot>> map = holdingTaxLotService.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
 
-            if (iter.hasNext()) {
+            for (String registrationCode : map.keySet()) {
 
                 // 4. create new CashIncreaseDocument
 
-                CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId());
+                CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
 
                 // keep a counter to create a new document if there are more that 100 transaction lines
                 int counter = 0;
                 try {
-                    while (iter.hasNext()) {
+                    for (HoldingTaxLot holdingTaxLot : map.get(registrationCode)) {
 
                         // if we have already 100 transaction lines on the current document then create a new document
                         if (counter == 100) {
                             // TODO figure out if/how we use the ad hoc recipients list
-
                             String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
                             boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
 
                             if (blanketAppriovalIndicator) {
-                                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
+                                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
                             }
                             else {
-                                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
+                                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
                             }
 
-                            cashIncreaseDocument = createNewCashIncreaseDocument(security.getId());
+                            cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
                             counter = 0;
-                        }
-                        Object[] collectionEntry = (Object[]) iter.next();
-                        String registrationCode = collectionEntry[0].toString();
-                        String kemid = collectionEntry[1].toString();
-                        BigDecimal totalAccruedIncome = new BigDecimal(collectionEntry[2].toString());
-
-                        // set the registration code
-                        if (cashIncreaseDocument.getTargetTransactionSecurity().getRegistrationCode() == null) {
-                            cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode(registrationCode);
                         }
 
                         // Create a new transaction line
                         EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
                         endowmentTransactionLine.setTransactionLineNumber(counter + 1);
                         endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
-                        endowmentTransactionLine.setKemid(kemid);
+                        endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
                         endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
                         endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-                        // endowmentTransactionLine.setTransactionAmount(new KualiDecimal(totalAccruedIncome));
+                        endowmentTransactionLine.setTransactionAmount(new KualiDecimal(holdingTaxLot.getCurrentAccrual()));
 
                         // TODO add transaction line validation
                         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
-                        // cashIncreaseDocument.validateBusinessRules(new
+                                                // cashIncreaseDocument.validateBusinessRules(new
                         // AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument,
                         // endowmentTransactionLine));
-
+                        
                         if (rulesPassed) {
                             cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
                         }
@@ -137,8 +129,18 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         counter++;
 
                     }
-                    // documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Barch process.", null);
-                    documentService.saveDocument(cashIncreaseDocument);
+
+
+                    String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
+                    boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+
+                    if (blanketAppriovalIndicator) {
+                        documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                    }
+                    else {
+                        documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                    }
+
                 }
                 catch (WorkflowException ex) {
                     throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
@@ -204,7 +206,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param securityId
      * @return a new CashIncreaseDocument
      */
-    private CashIncreaseDocument createNewCashIncreaseDocument(String securityId) {
+    private CashIncreaseDocument createNewCashIncreaseDocument(String securityId, String registrationCode) {
         try {
 
             CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
@@ -216,6 +218,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             // set security details
             EndowmentTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
             targetTransactionSecurity.setSecurityID(securityId);
+            targetTransactionSecurity.setRegistrationCode(registrationCode);
             cashIncreaseDocument.setTargetTransactionSecurity(targetTransactionSecurity);
 
             return cashIncreaseDocument;

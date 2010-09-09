@@ -152,6 +152,9 @@
 		<property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>
 	
 	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">

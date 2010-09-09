@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +61,16 @@ public class KEMIDServiceImpl implements KEMIDService {
             isTrueEndowment = true;
         }
         return isTrueEndowment;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMIDService#getByCashSweepId(java.lang.Integer)
+     */
+    public Collection<KEMID> getByCashSweepId(Integer cashSweepId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(EndowPropertyConstants.KEMID_CASH_SWEEP_MDL_ID, cashSweepId.toString());
+        
+        return (Collection<KEMID>)businessObjectService.findMatching(KEMID.class, fieldValues);
     }
 
     /**

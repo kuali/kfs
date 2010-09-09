@@ -65,6 +65,7 @@
 				<value>rollFrequencyDatesJob</value>
 				<value>accrualProcessingJob</value>
 				<value>pooledFundControlTransactionsJob</value>
+                <value>createCashSweepTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -391,6 +392,34 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+    
+    <!-- Create Cash Sweep Transactions Job -->
+    <bean id="createCashSweepTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="createCashSweepTransactionsStep" />
+            </list>
+        </property>
+    </bean>
+    <bean id="createCashSweepTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep" parent="step">
+        <property name="createCashSweepTransactionsService">
+            <ref bean="createCashSweepTransactionsService" />
+        </property>
+    </bean>
+    <bean id="createCashSweepTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl">
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="kemService">
+            <ref bean="kemService" />
+        </property>
+        <property name="kemidService">
+            <ref bean="KEMIDService" />
+        </property> 
+    </bean>
 	
  	<!--  end core batch jobs --> 
     

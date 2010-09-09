@@ -132,6 +132,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_COMBINE_DONOR_STATEMENTS_TAB = "kemidCombineDonorStatements";
     public static final String KEMID_FEES_TAB = "kemidFees";
     public static final String KEMID_CLOSED = "closed_ind";
+    public static final String KEMID_CASH_SWEEP_MDL_ID = "cashSweepModelId";
 
     // links
     public static final String KEMID_CURRENT_AVAILABLE_FUNDS = "currentAvailableFunds";

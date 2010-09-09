@@ -19,7 +19,8 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.external.kc.service.KcUnit;
+
+import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable {

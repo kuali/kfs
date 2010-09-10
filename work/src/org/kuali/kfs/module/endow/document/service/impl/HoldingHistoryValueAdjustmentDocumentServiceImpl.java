@@ -21,51 +21,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This class provides service for Security maintenance
  */
-public class HoldingHistoryServiceImpl implements HoldingHistoryService {
+public class HoldingHistoryValueAdjustmentDocumentServiceImpl implements HoldingHistoryValueAdjustmentDocumentService {
 
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getHoldingHistoryBySecuritIdAndMonthEndId(java.lang.String, KualiInteger)
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService#getHoldingHistoryValueAdjustmentDocument(String)
      */
-    public Collection<HoldingHistory> getHoldingHistoryBySecuritIdAndMonthEndId(String securityId, KualiInteger monthEndId) {
+    public Collection<HoldingHistoryValueAdjustmentDocument> getHoldingHistoryValueAdjustmentDocument(String transactionPosted) {
 
-        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        Collection<HoldingHistoryValueAdjustmentDocument> holdingHistoryValueAdjustmentDocument = new ArrayList();
         
-        if (StringUtils.isNotBlank(securityId)) {
+        if (StringUtils.isNotBlank(transactionPosted)) {
             Map criteria = new HashMap();
             
-            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(HoldingHistory.class, EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID)) {
-                securityId = securityId.toUpperCase();
-            }
-            
-            criteria.put("securityId", securityId);
-            criteria.put("monthEndDateId", monthEndId);            
-            holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
+            criteria.put("transactionPosted", transactionPosted);            
+            holdingHistoryValueAdjustmentDocument = businessObjectService.findMatching(HoldingHistoryValueAdjustmentDocument.class, criteria);
         }
-        return holdingHistory;
         
+        return holdingHistoryValueAdjustmentDocument;
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#saveHoldingHistory(HoldingHistory)
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService#saveHoldingHistory(HoldingHistoryValueAdjustmentDocument)
      */
-    public boolean saveHoldingHistory(HoldingHistory holdingHistoryRecord) {
+    public boolean saveHoldingHistory(HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument) {
        boolean success = true;
        
        try {
-           businessObjectService.save(holdingHistoryRecord);
+           businessObjectService.save(holdingHistoryValueAdjustmentDocument);
        }
        catch (Exception ex) {
            success = false;

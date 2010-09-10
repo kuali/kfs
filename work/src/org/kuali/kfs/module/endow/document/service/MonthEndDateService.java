@@ -16,28 +16,21 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.util.Collection;
+import java.util.Date;
 
-import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
- * HoldingHistoryService interface to provide the method to get holding history records
+ * MonthEndDateService interface to provide the method to get month end date id
  */
-public interface HoldingHistoryService {
+public interface MonthEndDateService {
 
     /**
-     * gets holding history records matching security id and month end id
+     * gets month end id
      * 
-     * @param securityId, monthEndId
-     * @return List<HoldingHistory> List of HoldingHistory records matched on securityId and monthEndId
+     * @param monthEndDate
+     * @return monthEndDateId
      */
-    public Collection<HoldingHistory> getHoldingHistoryBySecuritIdAndMonthEndId(String securityId, KualiInteger monthEndId);
-
-    /**
-     * saves holding history records
-     * 
-     * @param List<HoldingHistory> List of HoldingHistory record to save
-     * @return boolean true is successful else false
-     */
-    public boolean saveHoldingHistory(HoldingHistory holdingHistoryRecord);
+    public KualiInteger getMonthEndId(Date monthEndDate);
 }

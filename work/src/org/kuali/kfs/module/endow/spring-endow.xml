@@ -64,6 +64,7 @@
 				<value>rollProcessDateJob</value>	
 				<value>rollFrequencyDatesJob</value>
 				<value>accrualProcessingJob</value>
+				<value>holdingHisgtoryMarketValueUpdateJob</value>
 				<value>pooledFundControlTransactionsJob</value>
                 <value>createCashSweepTransactionsJob</value>
             </list>
@@ -395,6 +396,24 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+ 	<bean id="holdingHisgtoryMarketValueUpdateJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="holdingHistoryMarketValuesStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="holdingHistoryMarketValuesStep" class="org.kuali.kfs.module.endow.batch.HoldingHistoryMarketValuesStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="holdingHistoryMarketValuesExceptionReportWriterService" />
+			</list>
+		</property>
+		<property name="holdingHistoryMarketValuesUpdateService">
+			<ref bean="holdingHistoryMarketValuesUpdateService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
+	</bean>
     
     <!-- Create Cash Sweep Transactions Job -->
     <bean id="createCashSweepTransactionsJob" parent="scheduledJobDescriptor">
@@ -422,6 +441,35 @@
         <property name="kemidService">
             <ref bean="KEMIDService" />
         </property> 
+    </bean>
+	
+	<bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="holdingHistoryService">
+			<ref bean="holdingHistoryService"/>
+		</property>
+		<property name="monthEndDateService">
+			<ref bean="monthEndDateService"/>
+		</property>
+		<property name="holdingHistoryValueAdjustmentDocumentService">
+			<ref bean="holdingHistoryValueAdjustmentDocumentService" />
+		</property>
+		<property name="holdingHistoryMarketValuesExceptionReportWriterService">
+			<ref bean="holdingHistoryMarketValuesExceptionReportWriterService" />
+		</property>		
+	</bean>
+	<bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException"/>
+        <property name="title" value="HOLDING HISTORY MARKET VALUES UPDATE JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="holdingHistoryMarketValueExceptionReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
     </bean>
 	
  	<!--  end core batch jobs --> 
@@ -833,4 +881,27 @@
 	      p:localServiceName="kemidDerivedRoleTypeService" />
 	  </property>
 	</bean>
+	
+	<bean id="monthEndDateService" class="org.kuali.kfs.module.endow.document.service.impl.MonthEndDateServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+	</bean>
+	<bean id="holdingHistoryValueAdjustmentDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.HoldingHistoryValueAdjustmentDocumentServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+	</bean>
+	<bean id="holdingHistoryMarketValueExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Document Type"/>
+    			<entry key="columnHeading2" value="Security Id"/>
+    			<entry key="columnHeading3" value="KEMID"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="3" />
+	</bean>
+	
 </beans>

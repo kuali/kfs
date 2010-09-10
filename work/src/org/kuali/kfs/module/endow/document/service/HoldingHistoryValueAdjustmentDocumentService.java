@@ -17,27 +17,26 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 
 /**
  * HoldingHistoryService interface to provide the method to get holding history records
  */
-public interface HoldingHistoryService {
+public interface HoldingHistoryValueAdjustmentDocumentService {
 
     /**
-     * gets holding history records matching security id and month end id
+     * gets holding history value adjustment records matching transactionPosted flag
      * 
-     * @param securityId, monthEndId
+     * @param transactionPosted
      * @return List<HoldingHistory> List of HoldingHistory records matched on securityId and monthEndId
      */
-    public Collection<HoldingHistory> getHoldingHistoryBySecuritIdAndMonthEndId(String securityId, KualiInteger monthEndId);
-
+    public Collection<HoldingHistoryValueAdjustmentDocument> getHoldingHistoryValueAdjustmentDocument(String transactionPosted);
+    
     /**
-     * saves holding history records
+     * saves HoldingHistoryValueAdjustmentDocument record
      * 
-     * @param List<HoldingHistory> List of HoldingHistory record to save
+     * @param holdingHistoryValueAdjustmentDocument HoldingHistoryValueAdjustmentDocument record to save
      * @return boolean true is successful else false
      */
-    public boolean saveHoldingHistory(HoldingHistory holdingHistoryRecord);
+    public boolean saveHoldingHistory(HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument);
 }

@@ -17,61 +17,46 @@ package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class provides service for Security maintenance
+ * This class provides service for MonthEndDateService
  */
-public class HoldingHistoryServiceImpl implements HoldingHistoryService {
+public class MonthEndDateServiceImpl implements MonthEndDateService {
 
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getHoldingHistoryBySecuritIdAndMonthEndId(java.lang.String, KualiInteger)
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getMonthEndId(Date)
      */
-    public Collection<HoldingHistory> getHoldingHistoryBySecuritIdAndMonthEndId(String securityId, KualiInteger monthEndId) {
+    public KualiInteger getMonthEndId(Date monthEndDate) {
 
-        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        KualiInteger monthEndId = new KualiInteger("0");
         
-        if (StringUtils.isNotBlank(securityId)) {
+        if (ObjectUtils.isNotNull(monthEndDate)) {
             Map criteria = new HashMap();
             
-            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(HoldingHistory.class, EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID)) {
-                securityId = securityId.toUpperCase();
+            criteria.put("monthEndDate", monthEndDate);
+            Collection<MonthEndDate> monthEndDateRecords = businessObjectService.findMatching(MonthEndDate.class, criteria);
+
+            for (MonthEndDate monthEndDateRecord : monthEndDateRecords) {
+                monthEndId = monthEndDateRecord.getMonthEndDateId();
             }
-            
-            criteria.put("securityId", securityId);
-            criteria.put("monthEndDateId", monthEndId);            
-            holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
         }
-        return holdingHistory;
         
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#saveHoldingHistory(HoldingHistory)
-     */
-    public boolean saveHoldingHistory(HoldingHistory holdingHistoryRecord) {
-       boolean success = true;
-       
-       try {
-           businessObjectService.save(holdingHistoryRecord);
-       }
-       catch (Exception ex) {
-           success = false;
-       }
-       
-       return success;
+        return monthEndId;
     }
     
     /**

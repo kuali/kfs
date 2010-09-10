@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +33,6 @@ import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -248,33 +245,10 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     /**
      * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
      */
-    @Transactional
-    public Map<String, List<HoldingTaxLot>> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
-        Map<String, List<HoldingTaxLot>> result = new HashMap<String, List<HoldingTaxLot>>();
+    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
 
-        Iterator iter = holdingTaxLotDao.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);
+        return holdingTaxLotDao.getTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(securityId);
 
-        while (iter.hasNext()) {
-            Object[] collectionEntry = (Object[]) iter.next();
-            String registrationCode = collectionEntry[0].toString();
-            String kemid = collectionEntry[1].toString();
-            BigDecimal totalAccruedIncome = new BigDecimal(collectionEntry[2].toString());
-
-            HoldingTaxLot holdingTaxLot = new HoldingTaxLot();
-            holdingTaxLot.setKemid(kemid);
-            holdingTaxLot.setCurrentAccrual(totalAccruedIncome);
-
-            if (result.containsKey(holdingTaxLot.getRegistrationCode())) {
-                result.get(holdingTaxLot.getRegistrationCode()).add(holdingTaxLot);
-            }
-            else {
-                List<HoldingTaxLot> taxLots = new ArrayList<HoldingTaxLot>();
-                taxLots.add(holdingTaxLot);
-                result.put(holdingTaxLot.getRegistrationCode(), taxLots);
-            }
-        }
-
-        return result;
     }
 
     /**

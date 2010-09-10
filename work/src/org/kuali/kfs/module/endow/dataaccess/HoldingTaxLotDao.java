@@ -48,18 +48,18 @@ public interface HoldingTaxLotDao {
     public Collection<HoldingTaxLot> getAllTaxLotsWithPositiveCost(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator);
 
     /**
-     * This method...
-     * 
-     * @param securityId
-     * @return
-     */
-    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
-
-    /**
      * Gets all the tax lots for the given security that have units greater than zero.
      * 
      * @param securityId
      * @return all tax lots that meet the criteria
      */
     public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId);
+
+    /**
+     * Gets all the tax lots for the given security that have accrued income greater than zero.
+     * 
+     * @param securityId
+     * @return
+     */
+    public List<HoldingTaxLot> getTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 }

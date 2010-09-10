@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PRO
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -77,18 +78,59 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         for (Security security : securities) {
 
-            Map<String, List<HoldingTaxLot>> map = holdingTaxLotService.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
+            List<HoldingTaxLot> taxLots = holdingTaxLotService.getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
 
-            for (String registrationCode : map.keySet()) {
+            // a map from registration code to taxlots
+            Map<String, List<HoldingTaxLot>> regCodeMap = new HashMap<String, List<HoldingTaxLot>>();
+
+            for (HoldingTaxLot holdingTaxLot : taxLots) {
+                String registrationCode = holdingTaxLot.getRegistrationCode();
+                if (regCodeMap.containsKey(registrationCode)) {
+                    regCodeMap.get(registrationCode).add(holdingTaxLot);
+                }
+                else {
+                    List<HoldingTaxLot> tmpTaxLots = new ArrayList<HoldingTaxLot>();
+                    tmpTaxLots.add(holdingTaxLot);
+                    regCodeMap.put(registrationCode, tmpTaxLots);
+                }
+            }
+
+            for (String registrationCode : regCodeMap.keySet()) {
 
                 // 4. create new CashIncreaseDocument
 
                 CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
 
+                // group them by kemid and ip indicator
+                Map<String, List<HoldingTaxLot>> kemidIpMap = new HashMap<String, List<HoldingTaxLot>>();
+
+                for (HoldingTaxLot holdingTaxLot : taxLots) {
+                    String kemidAndIp = holdingTaxLot.getKemid() + holdingTaxLot.getIncomePrincipalIndicator();
+                    if (kemidIpMap.containsKey(kemidAndIp)) {
+                        kemidIpMap.get(kemidAndIp).add(holdingTaxLot);
+                    }
+                    else {
+                        List<HoldingTaxLot> tmpTaxLots = new ArrayList<HoldingTaxLot>();
+                        tmpTaxLots.add(holdingTaxLot);
+                        kemidIpMap.put(kemidAndIp, tmpTaxLots);
+                    }
+                }
+
+
                 // keep a counter to create a new document if there are more that 100 transaction lines
                 int counter = 0;
                 try {
-                    for (HoldingTaxLot holdingTaxLot : map.get(registrationCode)) {
+                    for (String keimdIp : kemidIpMap.keySet()) {
+
+                        KualiDecimal totalAmount = KualiDecimal.ZERO;
+                        String kemid = null;
+
+                        for (HoldingTaxLot lot : kemidIpMap.get(keimdIp)) {
+                            totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
+                            if (kemid == null) {
+                                kemid = lot.getKemid();
+                            }
+                        }
 
                         // if we have already 100 transaction lines on the current document then create a new document
                         if (counter == 100) {
@@ -111,17 +153,17 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
                         endowmentTransactionLine.setTransactionLineNumber(counter + 1);
                         endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
-                        endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
+                        endowmentTransactionLine.setKemid(kemid);
                         endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
                         endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-                        endowmentTransactionLine.setTransactionAmount(new KualiDecimal(holdingTaxLot.getCurrentAccrual()));
+                        endowmentTransactionLine.setTransactionAmount(totalAmount);
 
-                        // TODO add transaction line validation
+                        // TODO handle validation errors
                         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
-                                                // cashIncreaseDocument.validateBusinessRules(new
+                        // cashIncreaseDocument.validateBusinessRules(new
                         // AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument,
                         // endowmentTransactionLine));
-                        
+
                         if (rulesPassed) {
                             cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
                         }
@@ -145,7 +187,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 catch (WorkflowException ex) {
                     throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
                 }
-
             }
         }
 

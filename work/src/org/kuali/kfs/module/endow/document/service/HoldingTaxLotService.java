@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 
@@ -150,7 +148,7 @@ public interface HoldingTaxLotService {
      * @param securityId the id of the security for which to retrieve the tax lots
      * @return all tax lots that meet the criteria
      */
-    public Map<String, List<HoldingTaxLot>> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
+    public List<HoldingTaxLot> getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId);
 
     /**
      * Gets all the tax lots for the given security that have units greater than zero.
@@ -159,4 +157,5 @@ public interface HoldingTaxLotService {
      * @return all tax lots that meet the criteria
      */
     public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId);
+
 }

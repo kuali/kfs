@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao;
@@ -60,35 +57,17 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
         return (Collection<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
     }
 
+    
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
      */
-    public Iterator getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
-
-        List result = new ArrayList();
+    public List<HoldingTaxLot> getTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(String securityId) {
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
         criteria.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE, 0);
 
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(HoldingTaxLot.class, criteria);
-
-        // set the selection attributes
-        String attributeList[] = { EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE, EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, "sum(" + EndowPropertyConstants.HOLDING_TAX_LOT_ACRD_INC_DUE + ")" };
-        query.setAttributes(attributeList);
-
-        List groupByList = new ArrayList();
-
-        groupByList.add(EndowPropertyConstants.KEMID);
-        groupByList.add(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE);
-        groupByList.add(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR);
-
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
-
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-
+        return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
 
     }
 

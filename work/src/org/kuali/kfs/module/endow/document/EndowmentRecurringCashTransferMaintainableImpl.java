@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -43,6 +44,10 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
             if (checkTransactionType(endowmentRecurringCashTransfer.getTransactionType(), collectionName)){
                 super.addNewLineToCollection(collectionName);
             }
+        } else {
+            GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_REQUIRED, EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE);
+            GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
         }
     }
 
@@ -50,12 +55,16 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
         
         if (transactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
             if (!collectionName.equals(KEMID_TARGET)){
+                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_TRANSACTION_TYPE_INVALID);
+                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 return false;
             } 
         } else {
             if (!collectionName.equals(GL_TARGET)){
+                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_TRANSACTION_TYPE_INVALID);
+                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 return false;
             } 
         }

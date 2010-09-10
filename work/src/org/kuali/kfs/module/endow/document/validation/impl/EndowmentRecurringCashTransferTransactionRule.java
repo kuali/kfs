@@ -103,13 +103,13 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
             success &= checkAccount(endowmentRecurringCashTransferGLTarget);
 
             success &= checkSubAccount(endowmentRecurringCashTransferGLTarget);
-            
+
             success &= checkObjectCode(endowmentRecurringCashTransferGLTarget);
-            
+
             success &= checkSubObjectCode(endowmentRecurringCashTransferGLTarget);
-            
+
             success &= checkProjectCode(endowmentRecurringCashTransferGLTarget);
-            
+
             success &= checkGlAmountPercentEtranCodeField(endowmentRecurringCashTransferGLTarget);
         }
 
@@ -132,18 +132,19 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private boolean checkTargetExistence(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
         // just checking existence will be enough
         // because document type and related target object is already checked.
-        if (endowmentRecurringCashTransfer.getKemidTarget().size() < 1 || endowmentRecurringCashTransfer.getGlTarget().size() < 1) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TARGETOBJECT_EXIST);
+        if (endowmentRecurringCashTransfer.getKemidTarget().size() < 1 && endowmentRecurringCashTransfer.getGlTarget().size() < 1) {
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TARGETOBJECT_EXIST);
             return false;
         }
         return true;
     }
 
     private boolean checkFrequencyCodeReferenceExists(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
-        endowmentRecurringCashTransfer.refreshReferenceObject(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE);
+        // endowmentRecurringCashTransfer.refreshReferenceObject(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE);
+        endowmentRecurringCashTransfer.refreshReferenceObject("frequencyCodeObj");
         if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getFrequencyCodeObj())) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(EndowmentRecurringCashTransfer.class.getName()).getAttributeDefinition(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE).getLabel();
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         return true;
@@ -157,10 +158,23 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
 
     private void setNextProcessDate(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
 
-        if (ObjectUtils.isNotNull(endowmentRecurringCashTransfer.getNextProcessDate())) {
+        if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getNextProcessDate())) {
             CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
+            int DAY = 1000 * 60 * 60 * 24;
             Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
-            endowmentRecurringCashTransfer.setNextProcessDate(nextDate);
+            // TODO: Let's ask about this
+            endowmentRecurringCashTransfer.setNextProcessDate(new Date(nextDate.getDate() + DAY));
+        }
+    }
+
+    private void setLastProcessDate(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+
+        if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getLastProcessDate())) {
+            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
+            int DAY = 1000 * 60 * 60 * 24;
+            Date lastDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
+            // TODO: Let's ask about this
+            endowmentRecurringCashTransfer.setNextProcessDate(new Date(lastDate.getDate() - DAY));
         }
     }
 
@@ -180,10 +194,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     // EndowmentRecurringCashTransferKEMIDTarget rules
 
     private boolean checkTargetKemidReferenceExists(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget) {
-        endowmentRecurringCashTransferKEMIDTarget.refreshReferenceObject(EndowPropertyConstants.KEMID);
+        endowmentRecurringCashTransferKEMIDTarget.refreshReferenceObject("kemidObj");
         if (ObjectUtils.isNull(endowmentRecurringCashTransferKEMIDTarget.getKemidObj())) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(EndowmentRecurringCashTransfer.class.getName()).getAttributeDefinition(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_KEMID).getLabel();
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_KEMID, RiceKeyConstants.ERROR_EXISTENCE, label);
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_KEMID, RiceKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         return true;
@@ -192,11 +206,11 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private boolean checkGeneralLedgerAccount(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget) {
         Map objectKeys = new HashMap();
         objectKeys.put(EndowPropertyConstants.KEMID, endowmentRecurringCashTransferKEMIDTarget.getTargetKemid());
-        objectKeys.put(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD, endowmentRecurringCashTransferKEMIDTarget.getIncomePrincipalIndicator());
+        objectKeys.put(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD, endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal());
         KemidGeneralLedgerAccount kemidGeneralLedgerAccount = (KemidGeneralLedgerAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KemidGeneralLedgerAccount.class, objectKeys);
         if (ObjectUtils.isNull(kemidGeneralLedgerAccount)) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(EndowmentRecurringCashTransfer.class.getName()).getAttributeDefinition(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD).getLabel();
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD, RiceKeyConstants.ERROR_EXISTENCE, label);
+            putFieldError(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD, RiceKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
@@ -206,7 +220,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private boolean checkKemidAmountPercentEtranCodeField(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget) {
         if (ObjectUtils.isNotNull(endowmentRecurringCashTransferKEMIDTarget.getTargetAmount())) {
             if (ObjectUtils.isNotNull(endowmentRecurringCashTransferKEMIDTarget.getTargetPercent()) || ObjectUtils.isNotNull(endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode())) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT, RiceKeyConstants.ERROR_EXISTENCE);
+                // TODO: need to fix error msg
+                putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT, RiceKeyConstants.ERROR_EXISTENCE);
                 return false;
             }
         }
@@ -223,12 +238,13 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         }
 
         if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED);
             return false;
         }
 
         return true;
     }
-
 
     private boolean checkKemidPercentForSameEtranCode(List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargetList) {
         List<String> etranCodeList = new ArrayList();
@@ -239,18 +255,21 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
             }
         }
 
-        for (String etranCode : etranCodeList) {
-            KualiDecimal totalTarget = KualiDecimal.ZERO;
+        if (etranCodeList.size() > 0) {
+            for (String etranCode : etranCodeList) {
+                KualiDecimal totalTarget = KualiDecimal.ZERO;
 
-            for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargetList) {
-                if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())) {
-                    totalTarget.add(kemidTarget.getTargetPercent());
+                for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargetList) {
+                    if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())) {
+                        totalTarget.add(kemidTarget.getTargetPercent());
+                    }
                 }
-            }
 
-            if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
-                // need to add msg here witn etran code...
-                return false;
+                if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+                    // TODO: need to fix error msg
+                    putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN);
+                    return false;
+                }
             }
         }
         return true;
@@ -260,9 +279,11 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     // EndowmentRecurringCashTransferGLTarget rules
 
     private boolean checkChart(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget) {
-        endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.CHART);
         Chart chart = endowmentRecurringCashTransferGLTarget.getChart();
         if (ObjectUtils.isNull(chart) || !chart.isActive()) {
+            // TODO: need to fix error msg (not active or null)
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_COA_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -274,6 +295,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         Account account = endowmentRecurringCashTransferGLTarget.getAccount();
         if (ObjectUtils.isNull(account) || account.isClosed()) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
         return true;
@@ -284,6 +307,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         SubAccount subAccount = endowmentRecurringCashTransferGLTarget.getSubAccount();
         if (ObjectUtils.isNull(subAccount) || !subAccount.isActive()) {
+            // TODO: need to fix error msg (not active or not exist)
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -293,6 +318,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         objectKeys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, endowmentRecurringCashTransferGLTarget.getTargetSubAccountNumber());
         subAccount = (SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, objectKeys);
         if (ObjectUtils.isNull(subAccount)) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -303,6 +330,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         ObjectCode objectCode = endowmentRecurringCashTransferGLTarget.getObjectCode();
         if (ObjectUtils.isNull(objectCode) || !objectCode.isActive()) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -312,6 +341,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         objectKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, endowmentRecurringCashTransferGLTarget.getTargetFinancialObjectCode());
         objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, objectKeys);
         if (ObjectUtils.isNull(objectCode)) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -322,6 +353,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.SUB_OBJECT_CODE);
         SubObjectCode subObjectCode = endowmentRecurringCashTransferGLTarget.getSubObjectCode();
         if (ObjectUtils.isNull(subObjectCode) || !subObjectCode.isActive()) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -333,6 +366,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         objectKeys.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, endowmentRecurringCashTransferGLTarget.getTargetFinancialSubObjectCode());
         subObjectCode = (SubObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjectCode.class, objectKeys);
         if (ObjectUtils.isNull(subObjectCode)) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
 
@@ -343,6 +378,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         endowmentRecurringCashTransferGLTarget.refreshReferenceObject(KFSPropertyConstants.PROJECT_CODE);
         ProjectCode projectCode = endowmentRecurringCashTransferGLTarget.getProjectCode();
         if (ObjectUtils.isNull(projectCode) || !projectCode.isActive()) {
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
             return false;
         }
         return true;
@@ -351,6 +387,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private boolean checkGlAmountPercentEtranCodeField(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget) {
         if (ObjectUtils.isNotNull(endowmentRecurringCashTransferGLTarget.getTargetFdocLineAmount())) {
             if (ObjectUtils.isNotNull(endowmentRecurringCashTransferGLTarget.getTargetPercent()) || ObjectUtils.isNotNull(endowmentRecurringCashTransferGLTarget.getTargetUseEtranCode())) {
+                putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_AMOUNT_SPECIFIED_PERCENT_OR_ETRAN);
                 return false;
             }
         }
@@ -367,6 +404,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         }
 
         if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+            // TODO: need to fix error msg
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED);
             return false;
         }
 
@@ -382,34 +421,23 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
                 etranCodeList.add(glTarget.getTargetUseEtranCode());
             }
         }
+        if (etranCodeList.size() > 0) {
+            for (String etranCode : etranCodeList) {
+                KualiDecimal totalTarget = KualiDecimal.ZERO;
 
-        for (String etranCode : etranCodeList) {
-            KualiDecimal totalTarget = KualiDecimal.ZERO;
-
-            for (EndowmentRecurringCashTransferGLTarget glTarget : glTargetList) {
-                if (ObjectUtils.isNotNull(glTarget.getTargetPercent())) {
-                    totalTarget.add(glTarget.getTargetPercent());
+                for (EndowmentRecurringCashTransferGLTarget glTarget : glTargetList) {
+                    if (ObjectUtils.isNotNull(glTarget.getTargetPercent())) {
+                        totalTarget.add(glTarget.getTargetPercent());
+                    }
                 }
-            }
 
-            if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
-                // need to add msg here witn etran code...
-                return false;
+                if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+                    // TODO: need to fix error msg
+                    putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN);
+                    return false;
+                }
             }
         }
         return true;
     }
-
-
-    // Map objectKeys = new HashMap();
-    // objectKeys.put(EndowPropertyConstants.KEMID, endowmentRecurringCashTransferKEMIDTarget.getTargetKemid());
-    // objectKeys.put(EndowPropertyConstants.KEMID_GL_ACCOUNT_IP_INDICATOR_CD,
-    // endowmentRecurringCashTransferKEMIDTarget.getIncomePrincipalIndicator());
-    // KemidGeneralLedgerAccount kemidGeneralLedgerAccount = (KemidGeneralLedgerAccount)
-    // SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KemidGeneralLedgerAccount.class, objectKeys);
-    // if (ObjectUtils.isNull(kemidGeneralLedgerAccount)){
-    // return false;
-    // }
-
-
 }

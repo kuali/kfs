@@ -287,6 +287,10 @@ public class EndowKeyConstants {
 
     public static final class EndowmentRecurringCashTransfer {
         public static final String ERROR_DOCUMENT_TARGETOBJECT_EXIST = "error.document.targetObject.exist";
+        public static final String ERROR_DOCUMENT_AMOUNT_SPECIFIED_PERCENT_OR_ETRAN = "error.document.amount.specified.percent.or.etran";
+        public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED = "error.document.total.percent.cannot.exceed";
+        public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN = "error.document.total.percent.cannot.exceed.specified.etran";
+        
     }
     
 

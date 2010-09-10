@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.rice.kns.util.KualiDecimal;
+
 
 public class EndowPropertyConstants {
 
@@ -582,4 +584,24 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE = "transactionType";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_KEMID = "targetKemid";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT = "targetAmount";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT = "targetPercent";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE = "targetUseEtranCode";
+    
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_COA_CODE = "targetChartOfAccountsCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ACCOUNT_NUMBER = "targetAccountsNumber";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE = "targetFinancialObjectCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_FDOC_LINE_AMOUNT = "targetFdocLineAmount";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_ACCOUNT_NUMBER = "targetSubAccountNumber";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_OBJECT_CODE = "targetFinancialSubObjectCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE = "targetProjectCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ORG_REF_ID = "targetOrgReferenceId";
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

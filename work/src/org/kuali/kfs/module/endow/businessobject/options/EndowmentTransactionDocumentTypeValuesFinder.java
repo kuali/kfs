@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
@@ -46,7 +46,7 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
         
         // Read in parameter values.
         List<String> documentTypeNames =
-            parameterService.getParameterValues(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
+            parameterService.getParameterValues(TransactionArchive.class, EndowConstants.EndowmentSystemParameter.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
         
         for (String documentTypeName : documentTypeNames) {
             String label = documentTypeService.findByName(documentTypeName).getLabel();

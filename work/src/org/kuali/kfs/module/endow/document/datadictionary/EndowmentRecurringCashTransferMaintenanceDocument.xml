@@ -30,8 +30,8 @@
     </property>
     <property name="defaultExistenceChecks" >
       <list>
-		<bean parent="ReferenceDefinition" p:attributeName="sourceKemid" p:attributeToHighlightOnFail="sourceKemid"/>
-		<bean parent="ReferenceDefinition" p:attributeName="frequencyCode" p:attributeToHighlightOnFail="frequencyCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="kemidObj" p:attributeToHighlightOnFail="sourceKemid"/>
+		<bean parent="ReferenceDefinition" p:attributeName="frequencyCodeObj" p:attributeToHighlightOnFail="frequencyCode"/>
 
 <!-- 
 		<bean parent="ReferenceDefinition" p:attributeName="targetKemid" p:attributeToHighlightOnFail="targetKemid"/>

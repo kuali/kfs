@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -118,81 +117,102 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
 
                 // keep a counter to create a new document if there are more that 100 transaction lines
+                List<HoldingTaxLot> taxLotsForUpdate = new ArrayList<HoldingTaxLot>();
                 int counter = 0;
-                try {
-                    for (String keimdIp : kemidIpMap.keySet()) {
 
-                        KualiDecimal totalAmount = KualiDecimal.ZERO;
-                        String kemid = null;
+                for (String kemidIp : kemidIpMap.keySet()) {
 
-                        for (HoldingTaxLot lot : kemidIpMap.get(keimdIp)) {
-                            totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
-                            if (kemid == null) {
-                                kemid = lot.getKemid();
-                            }
+                    KualiDecimal totalAmount = KualiDecimal.ZERO;
+                    String kemid = null;
+
+                    for (HoldingTaxLot lot : kemidIpMap.get(kemidIp)) {
+                        totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
+                        if (kemid == null) {
+                            kemid = lot.getKemid();
                         }
-
-                        // if we have already 100 transaction lines on the current document then create a new document
-                        if (counter == 100) {
-                            // TODO figure out if/how we use the ad hoc recipients list
-                            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
-                            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
-
-                            if (blanketAppriovalIndicator) {
-                                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                            }
-                            else {
-                                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                            }
-
-                            cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
-                            counter = 0;
-                        }
-
-                        // Create a new transaction line
-                        EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                        endowmentTransactionLine.setTransactionLineNumber(counter + 1);
-                        endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
-                        endowmentTransactionLine.setKemid(kemid);
-                        endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
-                        endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-                        endowmentTransactionLine.setTransactionAmount(totalAmount);
-
-                        // TODO handle validation errors
-                        boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
-                        // cashIncreaseDocument.validateBusinessRules(new
-                        // AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument,
-                        // endowmentTransactionLine));
-
-                        if (rulesPassed) {
-                            cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
-                        }
-
-                        counter++;
-
                     }
 
+                    taxLotsForUpdate.addAll(kemidIpMap.get(kemidIp));
+                    // if we have already 100 transaction lines on the current document then create a new document
+                    if (counter == 100) {
+                        // submit the current ECI doc and update the values in the tax lots used already
+                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
 
-                    String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
-                    boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+                        cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
+                        counter = 0;
+                    }
 
-                    if (blanketAppriovalIndicator) {
-                        documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                    // Create a new transaction line
+                    EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
+                    endowmentTransactionLine.setTransactionLineNumber(counter + 1);
+                    endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
+                    endowmentTransactionLine.setKemid(kemid);
+                    endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
+                    endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
+                    endowmentTransactionLine.setTransactionAmount(totalAmount);
+
+                    boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
+
+                    if (rulesPassed) {
+                        cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
                     }
                     else {
-                        documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                        // TODO write error in the exception report
+                        extractGlobalVariableErrors();
                     }
 
+                    counter++;
+
                 }
-                catch (WorkflowException ex) {
-                    throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
-                }
+
+                // submit the current ECI doc and update the values in the tax lots used already
+                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
+
             }
         }
 
         return success;
     }
 
+    /**
+     * Submits the ECI doc and updates the values in the tax lots list.
+     * 
+     * @param cashIncreaseDocument
+     * @param taxLotsForUpdate
+     */
+    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
+        // TODO figure out if/how we use the ad hoc recipients list
+        String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
+        boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+
+        try {
+            if (blanketAppriovalIndicator) {
+                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+            }
+            else {
+                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+            }
+        }
+        catch (WorkflowException ex) {
+            throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
+        }
+
+        // set accrued income to zero and copy current value in prior accrued income
+
+        for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
+            taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
+            taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
+        }
+
+        // save changes
+        businessObjectService.save(taxLotsForUpdate);
+    }
+
+    /**
+     * Extracts errors for error report writing.
+     * 
+     * @return false if error messages exist, true otherwise.
+     */
     protected boolean extractGlobalVariableErrors() {
         boolean result = true;
 

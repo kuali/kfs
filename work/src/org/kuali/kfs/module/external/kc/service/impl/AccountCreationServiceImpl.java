@@ -111,7 +111,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 //        accountCreationStatus.setErrorMessages(new ArrayList<String>());
 //        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
 //        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
-        
+//        accountCreationStatus.setDocumentNumber("1111");       
         return accountCreationStatus;
     }
     

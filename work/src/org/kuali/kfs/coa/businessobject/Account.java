@@ -1089,7 +1089,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     /**
      * @param accountGuideline The accountGuideline to set.
-     * @deprecated
      */
     public void setAccountGuideline(AccountGuideline accountGuideline) {
         this.accountGuideline = accountGuideline;

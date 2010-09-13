@@ -72,7 +72,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     public AccountCreationStatusDTO createAccount(AccountParametersDTO accountParameters) {
         
-        /*
         AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
         accountCreationStatus.setErrorMessages(new ArrayList<String>());
         accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
@@ -106,13 +105,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
             accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
         }
-        */
         
         // for test 
-        AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
-        accountCreationStatus.setErrorMessages(new ArrayList<String>());
-        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
-        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+//        AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
+//        accountCreationStatus.setErrorMessages(new ArrayList<String>());
+//        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
+//        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+        
         return accountCreationStatus;
     }
     

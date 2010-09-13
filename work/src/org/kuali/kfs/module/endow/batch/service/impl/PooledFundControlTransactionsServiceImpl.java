@@ -18,6 +18,8 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
@@ -65,24 +67,24 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         //* job 1
         createCashDocument1();
         
-        //* job 2
-        createCashDocument2();
-        
-        //* job 3
-        createCashDocument3();
-        
-        //* job 4
-        createCashDocument4();
+//        //* job 2
+//        createCashDocument2();
+//        
+//        //* job 3
+//        createCashDocument3();
+//        
+//        //* job 4
+//        createCashDocument4();
         
         return true;
     }
     
     protected void createCashDocument1() {
         
-        List<String> trnsactionTypeCodes = new ArrayList<String>();
-        trnsactionTypeCodes.add("EAI");
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(trnsactionTypeCodes);
-        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(trnsactionTypeCodes);
+        List<String> transactionTypeCodes = new ArrayList<String>();
+        transactionTypeCodes.add("EAI");
+        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
+        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
@@ -93,20 +95,22 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 } 
             }   
             //create a cash document
-            if (totalAmount > 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount));
-            } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount));
-            }
+//            if (totalAmount > 0) {
+//                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+//            } else if (totalAmount < 0) {
+//                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+//            }
+            
+createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
         }
     }
 
     protected void createCashDocument2() {
         
-        List<String> trnsactionTypeCodes = new ArrayList<String>();
-        trnsactionTypeCodes.add("EAD");
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(trnsactionTypeCodes);
-        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(trnsactionTypeCodes);
+        List<String> transactionTypeCodes = new ArrayList<String>();
+        transactionTypeCodes.add("EAD");
+        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
+        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
@@ -118,19 +122,19 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }   
             //create a cash document
             if (totalAmount > 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount));
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_BLANKET_APPROVAL);
             } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount));
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_BLANKET_APPROVAL);
             }
         }         
     }
     
     protected void createCashDocument3() {
         
-        List<String> trnsactionTypeCodes = new ArrayList<String>();
-        trnsactionTypeCodes.add("EAD");
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(trnsactionTypeCodes);
-        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(trnsactionTypeCodes);
+        List<String> transactionTypeCodes = new ArrayList<String>();
+        transactionTypeCodes.add("EAD");
+        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
+        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
@@ -143,21 +147,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is “recovering” (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount > 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount));
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL);
             } else if (totalAmount < 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount));
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL);
             }
         }      
     }
     
     protected void createCashDocument4() {
         
-        List<String> trnsactionTypeCodes = new ArrayList<String>();
-        trnsactionTypeCodes.add("ECI");
-        trnsactionTypeCodes.add("ECD");
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(trnsactionTypeCodes);
-        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(trnsactionTypeCodes);
-        List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchive(trnsactionTypeCodes);
+        List<String> transactionTypeCodes = new ArrayList<String>();
+        transactionTypeCodes.add("ECI");
+        transactionTypeCodes.add("ECDD");
+        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
+        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
+        List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchive(transactionTypeCodes);
         
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             float totalAmount = 0;            
@@ -174,35 +178,39 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }                  
             //create a cash document
                if (totalAmount > 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount));
+                   createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_BLANKET_APPROVAL);
             } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount));
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_BLANKET_APPROVAL);
             }
         }                
     }
     
-    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount) {
+ 
+    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
 
+        LOG.info("Creating ECI ..."); 
+        
         try {
             CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECI"));
 
-            //cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.retrieveParameter("KFS-ENDOW", "All", EndowConstants.EndowmentSystemParameter.POOLED_FUND_VALUE).getParameterValue());
-            cashIncreaseDocument.getDocumentHeader().setDocumentDescription("Pooled Fund Control");
+            cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
             cashIncreaseDocument.setTransactionSubTypeCode("C");
         
             EndowmentTargetTransactionSecurity endowmentTargetTransactionSecurity = new EndowmentTargetTransactionSecurity();
             endowmentTargetTransactionSecurity.setSecurityLineTypeCode("T");
             endowmentTargetTransactionSecurity.setSecurityID(pooledFundControl.getPooledSecurityID());
-            endowmentTargetTransactionSecurity.setRegistrationCode("0AI");  // pooledFundControl.getPooledRegistrationCode()
+            endowmentTargetTransactionSecurity.setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
             cashIncreaseDocument.getTargetTransactionSecurity().setSecurityLineTypeCode("T");
             cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());
-            cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode("0AI");  // pooledFundControl.getPooledRegistrationCode()
+            cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
             cashIncreaseDocument.setTargetTransactionSecurities(new TypedArrayList(EndowmentTargetTransactionSecurity.class));
             cashIncreaseDocument.getTargetTransactionSecurities().add(endowmentTargetTransactionSecurity);
 
             EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+            endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
             endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());  
-            endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+            //endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+            endowmentTargetTransactionLine.setEtranCode("75720"); 
             endowmentTargetTransactionLine.setTransactionIPIndicatorCode("I");
             endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
             cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
@@ -212,10 +220,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // validate and route it according to the BLANKET_APPROVAL parameter
             if (validateECI(cashIncreaseDocument)) {
                 try {
-                    if (isBlanketApprove()) {
-                        documentService.blanketApproveDocument(cashIncreaseDocument, "", null);
+                    if (isBlanketApprove(paramBlanketApproval)) {
+                        documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashIncreaseDocument, "", null);
+                        documentService.approveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -232,26 +240,28 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 
     }
     
-    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount) {
+    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
 
+        LOG.info("Creating ECDD ..."); 
+        
         try {
-            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECI"));
+            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECDD"));
 
-            //cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.retrieveParameter("KFS-ENDOW", "All", EndowConstants.EndowmentSystemParameter.POOLED_FUND_VALUE).getParameterValue());
-            cashDecreaseDocument.getDocumentHeader().setDocumentDescription("Pooled Fund Control");
+            cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
             cashDecreaseDocument.setTransactionSubTypeCode("C");
         
             EndowmentSourceTransactionSecurity endowmentSourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
             endowmentSourceTransactionSecurity.setSecurityLineTypeCode("F");
             endowmentSourceTransactionSecurity.setSecurityID(pooledFundControl.getPooledSecurityID());
-            endowmentSourceTransactionSecurity.setRegistrationCode("0AI");  // pooledFundControl.getPooledRegistrationCode()
+            endowmentSourceTransactionSecurity.setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
             cashDecreaseDocument.getSourceTransactionSecurity().setSecurityLineTypeCode("F");
             cashDecreaseDocument.getSourceTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());
-            cashDecreaseDocument.getSourceTransactionSecurity().setRegistrationCode("0AI");  // pooledFundControl.getPooledRegistrationCode()
+            cashDecreaseDocument.getSourceTransactionSecurity().setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
             cashDecreaseDocument.setSourceTransactionSecurities(new TypedArrayList(EndowmentSourceTransactionSecurity.class));
             cashDecreaseDocument.getSourceTransactionSecurities().add(endowmentSourceTransactionSecurity);
 
             EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
+            endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
             endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());  
             endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
             endowmentSourceTransactionLine.setTransactionIPIndicatorCode("I");
@@ -263,10 +273,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // validate and route it according to the BLANKET_APPROVAL parameter
             if (validateECDD(cashDecreaseDocument)) {
                 try {
-                    if (isBlanketApprove()) {
-                        documentService.blanketApproveDocument(cashDecreaseDocument, "", null);
+                    if (isBlanketApprove(paramBlanketApproval)) {
+                        documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashDecreaseDocument, "", null);
+                        documentService.approveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -279,17 +289,15 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         } catch (Exception e) {
           //TODO: generate the error message
           e.printStackTrace();
-        }
-        
-    }
-    
+        }       
+    }    
     /**
      * validate the ECI business rules 
      * @param cashIncreaseDocument
      * @return boolean
      */
     protected boolean validateECI(CashIncreaseDocument cashIncreaseDocument) {        
-        return (new CashIncreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashIncreaseDocument);        
+        return (new CashIncreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashIncreaseDocument);   
     }
     
     /**
@@ -298,16 +306,15 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @return boolean
      */
     protected boolean validateECDD(CashDecreaseDocument cashDecreaseDocument) {
-        return (new CashDecreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashDecreaseDocument);        
+        return (new CashDecreaseDocumentRules()).processCustomRouteDocumentBusinessRules(cashDecreaseDocument);
     }
     
     /**
      * check if it is blanket approval
      * @return boolean
      */
-    public boolean isBlanketApprove() {        
-        //return (parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVE)).equalsIgnoreCase("Y") ? true : false;
-        return true;
+    public boolean isBlanketApprove(String paramBlanketApprovalInd) {        
+        return parameterService.getIndicatorParameter(PooledFundControlTransactionsStep.class, paramBlanketApprovalInd);
     }
     
     /**

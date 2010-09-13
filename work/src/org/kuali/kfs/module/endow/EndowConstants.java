@@ -144,10 +144,10 @@ public class EndowConstants extends JSTLConstants {
         public static final String USE_PROCESS_DATE = "USE_PROCESS_DATE_IND";
         public static final String CURRENT_PROCESS_DATE = "CURRENT_PROCESS_DATE";
 
-        public static final String ASSETS_ENTRAN_TYPE = "ASSETS_ENTRAN_TYPE";
-        public static final String EXPENSES_ENTRAN_TYPE = "EXPENSES_ENTRAN_TYPE";
-        public static final String INCOME_ENTRAN_TYPE = "INCOME_ENTRAN_TYPE";
-        public static final String LIABILITIES_ENTRAN_TYPE = "LIABILITIES_ENTRAN_TYPE";
+        public static final String ASSETS_ENTRAN_TYPE = "ASSET_TYPE";
+        public static final String EXPENSES_ENTRAN_TYPE = "EXPENSE_TYPE";
+        public static final String INCOME_ENTRAN_TYPE = "INCOME_TYPE";
+        public static final String LIABILITIES_ENTRAN_TYPE = "LIABILITY_TYPE";
 
         public static final String KEMID_VALUE = "KEMID_VALUE";
         public static final String PARAMETER_APPLICATION_NAMESPACE_CODE = "KFS";

@@ -67,6 +67,7 @@
 				<value>holdingHisgtoryMarketValueUpdateJob</value>
 				<value>pooledFundControlTransactionsJob</value>
                 <value>createCashSweepTransactionsJob</value>
+                <value>createAutomatedCashInvestmentTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -255,7 +256,7 @@
 		</property>
  	</bean>
  	
- 	 	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
+ 	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="rollProcessDateStep" />
@@ -468,7 +469,27 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
+    
+	<!-- just a hook for createAutomatedCashInvestmentTransactionsJob -->    
+    <bean id="createAutomatedCashInvestmentTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createAutomatedCashInvestmentTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="createAutomatedCashInvestmentTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep" parent="step">
+		<property name="createAutomatedCashInvestmentTransactionsService">
+			<ref bean="createAutomatedCashInvestmentTransactionsService" />
+		</property>
+	</bean>
 	
+	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+	</bean>
+
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">

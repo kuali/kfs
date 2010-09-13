@@ -180,5 +180,4 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
     public void setSourceKemid(String sourceKemid) {
         this.sourceKemid = sourceKemid;
     }
-
 }

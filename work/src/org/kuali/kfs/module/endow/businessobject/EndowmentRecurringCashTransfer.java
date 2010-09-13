@@ -37,7 +37,9 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
     private Date nextProcessDate;
     private Date lastProcessDate;
     private boolean active;
-
+    private Integer targetKemidNextSeqNumber;
+    private Integer targetGlNextSeqNumber;
+    
     private KEMID kemidObj;
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
@@ -190,4 +192,35 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
         this.glTarget = glTarget;
     }
 
+    public Integer getTargetKemidNextSeqNumber() {
+        return targetKemidNextSeqNumber;
+    }
+
+    public void setTargetKemidNextSeqNumber(Integer targetKemidNextSeqNumber) {
+        this.targetKemidNextSeqNumber = targetKemidNextSeqNumber;
+    }
+    
+    public Integer incrementTargetKemidNextSeqNumber() {
+        if (this.targetKemidNextSeqNumber == null) {
+            this.targetKemidNextSeqNumber = 0;
+        }
+        this.targetKemidNextSeqNumber += 1;
+        return targetKemidNextSeqNumber;
+    }
+
+    public Integer getTargetGlNextSeqNumber() {
+        return targetGlNextSeqNumber;
+    }
+
+    public void setTargetGlNextSeqNumber(Integer targetGlNextSeqNumber) {
+        this.targetGlNextSeqNumber = targetGlNextSeqNumber;
+    }
+    
+    public Integer incrementTargetGlNextSeqNumber() {
+        if (this.targetGlNextSeqNumber == null) {
+            this.targetGlNextSeqNumber = 0;
+        }
+        this.targetGlNextSeqNumber += 1;
+        return targetGlNextSeqNumber;
+    }
 }

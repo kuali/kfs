@@ -32,18 +32,6 @@
       <list>
 		<bean parent="ReferenceDefinition" p:attributeName="kemidObj" p:attributeToHighlightOnFail="sourceKemid"/>
 		<bean parent="ReferenceDefinition" p:attributeName="frequencyCodeObj" p:attributeToHighlightOnFail="frequencyCode"/>
-
-<!-- 
-		<bean parent="ReferenceDefinition" p:attributeName="targetKemid" p:attributeToHighlightOnFail="targetKemid"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetChartOfAccountsCode" p:attributeToHighlightOnFail="targetChartOfAccountsCode"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetAccountsNumber" p:attributeToHighlightOnFail="targetAccountsNumber"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetSubAccountNumber" p:attributeToHighlightOnFail="targetSubAccountNumber"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetFinancialObjectCode" p:attributeToHighlightOnFail="targetFinancialObjectCode"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetFinancialSubObjectCode" p:attributeToHighlightOnFail="targetFinancialSubObjectCode"/>
-		<bean parent="ReferenceDefinition" p:attributeName="targetProjectCode" p:attributeToHighlightOnFail="targetProjectCode"/>
-		
- -->
- 		
       </list>
     </property>
     
@@ -81,6 +69,7 @@
 		<bean parent="MaintainableFieldDefinition" p:name="nextProcessDate" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="lastProcessDate" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="targetKemidNextSeqNumber"/>
 	  </list>
 	</property>
   </bean>

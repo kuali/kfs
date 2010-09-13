@@ -596,6 +596,8 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE = "targetProjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ORG_REF_ID = "targetOrgReferenceId";
     
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
     
     
     

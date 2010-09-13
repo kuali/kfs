@@ -240,6 +240,4 @@ public class EndowmentRecurringCashTransferGLTarget extends PersistableBusinessO
     public void setTargetOrgReferenceId(String targetOrgReferenceId) {
         this.targetOrgReferenceId = targetOrgReferenceId;
     }
-
-
 }

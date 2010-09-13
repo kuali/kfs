@@ -35,6 +35,8 @@
         <ref bean="EndowmentRecurringCashTransfer-nextProcessDate"/>
         <ref bean="EndowmentRecurringCashTransfer-lastProcessDate"/>
         <ref bean="EndowmentRecurringCashTransfer-active"/> 
+        <ref bean="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber"/>
+        
       </list>
     </property>
   </bean>
@@ -120,6 +122,36 @@
   <bean id="EndowmentRecurringCashTransfer-active" parent="EndowmentRecurringCashTransfer-active-parentBean"/>
   <bean id="EndowmentRecurringCashTransfer-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
    	<property name="name" value="active"/>
+  </bean>
+  
+  <bean id="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber" parent="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber-parentBean"/>
+  <bean id="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="targetKemidNextSeqNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="targetKemidNextSeqNumber"/>
+    <property name="shortLabel" value="targetKemidNextSeqNumber"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
+  <bean id="EndowmentRecurringCashTransfer-targetGlNextSeqNumber" parent="EndowmentRecurringCashTransfer-targetGlNextSeqNumber-parentBean"/>
+  <bean id="EndowmentRecurringCashTransfer-targetGlNextSeqNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="targetGlNextSeqNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="targetGlNextSeqNumber"/>
+    <property name="shortLabel" value="targetGlNextSeqNumber"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
   </bean>
   
 <!-- Business Object Lookup Definition -->

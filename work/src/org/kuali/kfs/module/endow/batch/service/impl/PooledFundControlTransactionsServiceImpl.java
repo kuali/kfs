@@ -49,7 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PooledFundControlTransactionsServiceImpl implements PooledFundControlTransactionsService {
     
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RollFrequencyDatesServiceImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PooledFundControlTransactionsServiceImpl.class);
     
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
@@ -95,13 +95,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 } 
             }   
             //create a cash document
-//            if (totalAmount > 0) {
-//                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
-//            } else if (totalAmount < 0) {
-//                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
-//            }
-            
-createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+            if (totalAmount > 0) {
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+            } else if (totalAmount < 0) {
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+            }
         }
     }
 
@@ -185,7 +183,6 @@ createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSyste
         }                
     }
     
- 
     protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
 
         LOG.info("Creating ECI ..."); 
@@ -223,7 +220,7 @@ createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSyste
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashIncreaseDocument, "Approved by the batch job", null);
+                        documentService.routeDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -276,7 +273,7 @@ createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSyste
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashDecreaseDocument, "Approved by the batch job", null);
+                        documentService.routeDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -291,6 +288,7 @@ createECI(pooledFundControl, new KualiDecimal(12), EndowConstants.EndowmentSyste
           e.printStackTrace();
         }       
     }    
+    
     /**
      * validate the ECI business rules 
      * @param cashIncreaseDocument

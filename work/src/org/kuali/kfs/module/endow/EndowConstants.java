@@ -139,7 +139,7 @@ public class EndowConstants extends JSTLConstants {
     public static class EndowmentSystemParameter {
         public static final String POOLED_FUND_VALUE = "POOLED FUND VALUE";
 
-        public static final String DISTRIBUTION_TIMES_PER_YEAR = "DISTRIBUTION_TIMES_PER_YEAR";
+        public static final String DISTRIBUTION_TIMES_PER_YEAR = "DISTRIBUTIONS_PER_YEAR";
 
         public static final String USE_PROCESS_DATE = "USE_PROCESS_DATE_IND";
         public static final String CURRENT_PROCESS_DATE = "CURRENT_PROCESS_DATE";

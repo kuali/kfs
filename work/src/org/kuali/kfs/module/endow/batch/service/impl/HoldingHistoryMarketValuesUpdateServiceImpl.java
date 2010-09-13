@@ -17,34 +17,22 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.HoldingHistoryMarketValuesUpdateService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
-import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -54,22 +42,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHistoryMarketValuesUpdateService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryMarketValuesUpdateServiceImpl.class);
     public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
-    public static final String REPORT_LINE_FORMAT = "          %s          %s          %s";
-    public static final String REASON_REPORT_LINE_FORMAT = "  Reason: %s";    
     
     private DocumentService documentService;
     private HoldingHistoryService holdingHistoryService;
-    private MonthEndDateService monthEndDateService;
     private HoldingHistoryValueAdjustmentDocumentService holdingHistoryValueAdjustmentDocumentService;
 
     private PersonService<Person> personService;
     private ReportWriterService holdingHistoryMarketValuesExceptionReportWriterService;
     
+    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
+    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues;
+    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason;    
+    
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
      */
     public HoldingHistoryMarketValuesUpdateServiceImpl() {
-        
+        holdingHistoryMarketValueExceptionReportHeader = new EndowmentExceptionReportHeader();
+        holdingHistoryMarketValueExceptionRowValues = new EndowmentExceptionReportHeader();
+        holdingHistoryMarketValueExceptionRowReason = new EndowmentExceptionReportHeader();                
     }
 
     /**
@@ -81,20 +72,16 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         
         LOG.debug("processUpdateHistoryMarketValues() started");
         
+        //writes the exception report header
         holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
-        
-        EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader = new EndowmentExceptionReportHeader();
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading1("Documnet Type");
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading2("Security Id");
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading3("KEMID");
         
         holdingHistoryMarketValuesExceptionReportWriterService.writeTableHeader(holdingHistoryMarketValueExceptionReportHeader);
         
-     //   holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, "Document Type", "Security ID", "KEMID");
-    //    holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, "-------------", "-----------", "-----");
-    //    holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
-        
-    //    success = processUpdateHoldingHistoryMarketValues();
+        //update the market values for the holding history value adjustment documents.
+        success = processUpdateHoldingHistoryMarketValues();
         
         return success;
     }
@@ -112,7 +99,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
             String documentHeaderId = holdingHistoryValueAdjustmentDocument.getDocumentNumber();
 
             Document document = findDocumentForMarketValueUpdate(documentHeaderId);
-            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
             
             if (document != null) {
                 if (document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
@@ -122,21 +108,18 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
                             //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
                             holdingHistoryValueAdjustmentDocument.setTransactionPosted(true);
                             if (!holdingHistoryValueAdjustmentDocumentService.saveHoldingHistory(holdingHistoryValueAdjustmentDocument)) {
-                                holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, documentTypeName, holdingHistoryValueAdjustmentDocument.getSecurityId(), "");
-                                holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Unable to set Transaction Posted flag in Holding History Value Adjustment");
+                                writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to set Transaction Posted flag in Holding History Value Adjustment Document.");
                             }
                         }
                      }
                 }
                 else {
-                 //   holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, documentTypeName, holdingHistoryValueAdjustmentDocument.getSecurityId(), "");
-                 //   holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Holding History Value Adjustment document status is NOT FINAL. - Skipped updating the Market Values");
+                    writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Holding History Value Adjustment document status is NOT FINAL. - Skipped updating the Market Values.");
                 }
             }
             else {
                 LOG.error("Document is NULL.  It should never have been null");
-                String message = ("Error: Document with id: ").concat(documentHeaderId).concat(" - Document is NULL.  It should never have been null");
-                holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(message);                         
+                writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to find if the document status is FINAL.  The document does not exist in the workflow.");                
             }
         }
         
@@ -150,55 +133,92 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * @return true if transactionPosted is true, else return false
      */
     protected boolean checkIfDocumentEligibleForUpdate(Document document) {
-        boolean documentEligible = false;
+        boolean documentEligible = true;
+        
+        HoldingHistoryValueAdjustmentDocument ehva = (HoldingHistoryValueAdjustmentDocument) document;
+
+        getExceptionReportTableRowValues(ehva);
         
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
      
         if (!documentTypeName.equalsIgnoreCase(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
-            HoldingHistoryValueAdjustmentDocument ehva = (HoldingHistoryValueAdjustmentDocument) document;
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, documentTypeName, ehva.getSecurityId(), "");
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Document Type: " + documentTypeName + " - only document types EHVA are allowed to be processed.");
-            return documentEligible;
+            writeTableRowAndTableReason(ehva, "Document Type = " + documentTypeName + " - only document types EHVA are allowed to be processed by this job.");
+
+            return false;
         }
         
-        HoldingHistoryValueAdjustmentDocument ehva = (HoldingHistoryValueAdjustmentDocument) document;
-        if (ehva.isTransactionPosted()) {
-            LOG.info("processUpdateHistoryMarketValues Exceptions:  The market values for document: " + document.getDocumentHeader().getDocumentNumber() + " is NOT Updated.");
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, ehva.getDocumentTitle(), ehva.getSecurityId(), "");
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Not Processed.  Transaction Posted Flag is marked Y already in Holding History Value Adjustment");
-        }
-        else {
-            documentEligible = true;
-           }
-     
         return documentEligible;
     }
     
+    /**
+     * writes out the table row values for document type, secuityId, kemId and then writes the reason row and inserts a blank line
+     * @param ehva the holding history value adjustment document
+     * @param reasonMessage the reason message
+     */
+    protected void writeTableRowAndTableReason(HoldingHistoryValueAdjustmentDocument ehva, String reasonMessage) {
+        getExceptionReportTableRowValues(ehva);
+        
+        holdingHistoryMarketValuesExceptionReportWriterService.writeTableRow(holdingHistoryMarketValueExceptionRowValues);            
+        setExceptionReportTableRowReason(reasonMessage);
+        holdingHistoryMarketValuesExceptionReportWriterService.writeTableRow(holdingHistoryMarketValueExceptionRowReason);            
+        holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * gets the values for document type, securityId, and kemdId that will be written to the exception report
+     * @param ehva
+     */
+    protected void getExceptionReportTableRowValues(HoldingHistoryValueAdjustmentDocument ehva) {
+        String documentTypeName = ehva.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading1(documentTypeName);
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading2(ehva.getSecurityId());
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading3(holdingHistoryService.getKemIdFromHoldingHistory(ehva.getSecurityId()));
+    }
+    
+    /**
+     * sets the exception message with the passed in value.
+     * @param reasonForException The reason that will be set in the exception report
+     */
+    protected void setExceptionReportTableRowReason(String reasonForException) {
+        
+        holdingHistoryMarketValueExceptionRowReason.setColumnHeading1("Reason: " + reasonForException);
+        holdingHistoryMarketValueExceptionRowReason.setColumnHeading2("");
+        holdingHistoryMarketValueExceptionRowReason.setColumnHeading3("");
+    }
+
+    /**
+     * This method updates the holding history records.
+     * The monthEndDateId is retrieved from END_ME_DT_T using the monthEndDate.  The holding history records 
+     * are fetched for matching securityId and monthEndDateId.  The market value is updated on each holding history
+     * record and then the record will be saved.
+     * @param ehva
+     * @return true if the market value is updated else false
+     */
     protected boolean updateHoldingHistoryRecords(HoldingHistoryValueAdjustmentDocument ehva) {
         boolean success = true;
         
-        KualiInteger monthEndDateId = monthEndDateService.getMonthEndId(ehva.getMonthEndDate().getMonthEndDate());
+        getExceptionReportTableRowValues(ehva);
         
-        if (monthEndDateId.equals(new KualiInteger("0"))) {
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, ehva.getDocumentTitle(), ehva.getSecurityId(), "");
-            holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Unable to get Month End Date for MonthEndDate: " + ehva.getMonthEndDate().getMonthEndDate().toString() + " in the END_ME_DT_T table.");
-            return false;    
-        }
-        
-        Collection<HoldingHistory> holdingHistoryRecords = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(ehva.getSecurityId(), monthEndDateId);
+        Collection<HoldingHistory> holdingHistoryRecords = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(ehva.getSecurityId(), ehva.getHoldingMonthEndDate());
 
         for (HoldingHistory holdingHistoryRecord : holdingHistoryRecords) {
             holdingHistoryRecord.setSecurityUnitVal(ehva.getSecurityUnitValue());
             holdingHistoryRecord.setMarketValue(getMarketValue(ehva));
             if (!holdingHistoryService.saveHoldingHistory(holdingHistoryRecord)) {
-                holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REPORT_LINE_FORMAT, ehva.getDocumentTitle(), holdingHistoryRecord.getSecurityId(), holdingHistoryRecord.getKemid());
-                holdingHistoryMarketValuesExceptionReportWriterService.writeFormattedMessageLine(REASON_REPORT_LINE_FORMAT, "Unable to save Holding History record.");
+                writeTableRowAndTableReason(ehva, "Unable to update the market value and save Holding History record.");                
             }
         }
         
         return success;
     }
     
+    /**
+     * This method calculates the market value.  If the class type code = B (Bonds) then market value = [Units X Unit Value]/100
+     * else Units x Unit Value
+     * @param ehva
+     * @return marketValue The calculated market value
+     */
     protected BigDecimal getMarketValue(HoldingHistoryValueAdjustmentDocument ehva) {
         BigDecimal marketValue = BigDecimal.ZERO;
         
@@ -290,22 +310,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         this.holdingHistoryService = holdingHistoryService;
     }
 
-    /**
-     * Gets the monthEndDateService attribute. 
-     * @return Returns the monthEndDateService.
-     */
-    public MonthEndDateService getMonthEndDateService() {
-        return monthEndDateService;
-    }
-
-    /**
-     * Sets the monthEndDateService attribute value.
-     * @param monthEndDateService The monthEndDateService to set.
-     */
-    public void setMonthEndDateService(MonthEndDateService monthEndDateService) {
-        this.monthEndDateService = monthEndDateService;
-    }
-    
     /**
      * Gets the holdingHistoryValueAdjustmentDocumentService attribute. 
      * @return Returns the holdingHistoryValueAdjustmentDocumentService.

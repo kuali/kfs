@@ -39,4 +39,11 @@ public interface HoldingHistoryValueAdjustmentDocumentService {
      * @return boolean true is successful else false
      */
     public boolean saveHoldingHistory(HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument);
+
+    /**
+     * get HoldingHistoryValueAdjustmentDocument using documentNumber field as primary key
+     * @param documentNumber documentNumber to query on
+     * @return holdingHistoryValueAdjustmentDocument
+     */
+    public Collection<HoldingHistoryValueAdjustmentDocument> getHoldingHistoryValueAdjustmentDocumentByDocumentNumber(String documentNumber);
 }

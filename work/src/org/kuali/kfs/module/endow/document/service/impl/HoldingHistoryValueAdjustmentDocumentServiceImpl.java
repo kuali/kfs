@@ -67,6 +67,22 @@ public class HoldingHistoryValueAdjustmentDocumentServiceImpl implements Holding
     }
     
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService#saveHoldingHistory#getHoldingHistoryValueAdjustmentDocumentByDocumentNumber(String)
+     */
+    public Collection<HoldingHistoryValueAdjustmentDocument> getHoldingHistoryValueAdjustmentDocumentByDocumentNumber(String documentNumber) {    
+        Collection<HoldingHistoryValueAdjustmentDocument> holdingHistoryValueAdjustmentDocument = new ArrayList();
+
+        if (StringUtils.isNotBlank(documentNumber)) {
+            Map criteria = new HashMap();
+            
+            criteria.put("documentNumber", documentNumber);            
+            holdingHistoryValueAdjustmentDocument = businessObjectService.findMatching(HoldingHistoryValueAdjustmentDocument.class, criteria); // .findMatching(HoldingHistoryValueAdjustmentDocument.class, criteria);
+        }
+        
+        return holdingHistoryValueAdjustmentDocument;
+    }
+    
+    /**
      * This method gets the businessObjectService.
      * 
      * @return businessObjectService

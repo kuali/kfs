@@ -40,4 +40,11 @@ public interface HoldingHistoryService {
      * @return boolean true is successful else false
      */
     public boolean saveHoldingHistory(HoldingHistory holdingHistoryRecord);
+    
+    /**
+     * gets the distinct kemid from Holding History records for a given security id
+     * @param securityId
+     * @return kemid
+     */
+    public String getKemIdFromHoldingHistory(String securityId);
 }

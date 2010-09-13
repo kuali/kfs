@@ -54,6 +54,7 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
             criteria.put("monthEndDateId", monthEndId);            
             holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
         }
+        
         return holdingHistory;
         
     }
@@ -72,6 +73,32 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
        }
        
        return success;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getKemIdFromHoldingHistory(String)
+     */
+    public String getKemIdFromHoldingHistory(String securityId) {
+        String kemId = "";
+        
+        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        
+        if (StringUtils.isNotBlank(securityId)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(HoldingHistory.class, EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID)) {
+                securityId = securityId.toUpperCase();
+            }
+            
+            criteria.put("securityId", securityId);
+            holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
+        }
+        
+        for (HoldingHistory holdingHistoryRecord : holdingHistory) {
+            kemId = holdingHistoryRecord.getKemid();
+        }
+        
+        return kemId;
     }
     
     /**

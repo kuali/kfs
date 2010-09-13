@@ -450,9 +450,6 @@
 		<property name="holdingHistoryService">
 			<ref bean="holdingHistoryService"/>
 		</property>
-		<property name="monthEndDateService">
-			<ref bean="monthEndDateService"/>
-		</property>
 		<property name="holdingHistoryValueAdjustmentDocumentService">
 			<ref bean="holdingHistoryValueAdjustmentDocumentService" />
 		</property>

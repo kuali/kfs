@@ -291,7 +291,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null); 
             }
             else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
-                getDocumentService().approveDocument(maintenanceAccountDocument, "", null);
+                getDocumentService().routeDocument(maintenanceAccountDocument, "", null);
             }         
             // set the document number
             accountCreationStatus.setDocumentNumber(maintenanceAccountDocument.getDocumentNumber());            

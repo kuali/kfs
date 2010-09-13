@@ -77,15 +77,16 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
             success &= checkGeneralLedgerAccount(endowmentRecurringCashTransferKEMIDTarget);
 
             success &= checkKemidAmountPercentEtranCodeField(endowmentRecurringCashTransferKEMIDTarget);
+    
             
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             kemidIndex++;
         }
-
+        
         success &= checkKemidAllPercent(endowmentRecurringCashTransfer.getKemidTarget());
 
         success &= checkKemidPercentForSameEtranCode(endowmentRecurringCashTransfer.getKemidTarget());
-
+        
         // GLTarget rules
         int glIndex = 0;
         for (EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget : endowmentRecurringCashTransfer.getGlTarget()) {
@@ -230,7 +231,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
             }
         }
         if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET + "[" + 0 + "]";
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             return false;
         }
         return true;
@@ -255,7 +259,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
                     }
                 }
                 if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+                    String errorPath = MAINTAINABLE_ERROR_PREFIX + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET + "[" + 0 + "]";
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                     return false;
                 }
             }
@@ -380,7 +387,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         }
 
         if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET + "[" + 0 + "]";
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             return false;
         }
         return true;
@@ -406,7 +416,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
                 }
 
                 if (totalTarget.isGreaterThan(new KualiDecimal(100))) {
+                    String errorPath = MAINTAINABLE_ERROR_PREFIX + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET + "[" + 0 + "]";
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                     return false;
                 }
             }

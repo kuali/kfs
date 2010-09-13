@@ -156,7 +156,14 @@ public class EndowConstants extends JSTLConstants {
         public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
         public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
         public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "DOCUMENT_TYPES";
-        public static final String BLANKET_APPROVE = "BLANKET_APPROVE";
+        public static final String GAIN_LOSS_BLANKET_APPROVAL = "GAIN_LOSS_BLANKET_APPROVAL_IND";
+        public static final String GAIN_LOSS_DESCRIPTION = "GAIN_LOSS_DESCRIPTION";
+        public static final String INCOME_BLANKET_APPROVAL = "INCOM_BLANKET_APPROVAL_IND";
+        public static final String INCOME_DESCRIPTION = "INCOME_DESCRIPTION";
+        public static final String PURCHASE_BLANKET_APPROVAL = "PURCHASE_BLANKET_APPROVAL_IND";
+        public static final String PURCHASE_DESCRIPTION = "PURCHASE_DESCRIPTION";
+        public static final String SALE_BLANKET_APPROVAL = "SALE_BLANKET_APPROVAL_IND";
+        public static final String SALE_DESCRIPTION = "SALE_DESCRIPTION";        
         public static final String DESCRIPTION = "DESCRIPTION";
         public static final String BLANKET_APPROVAL_IND = "BLANKET_APPROVAL_IND";
         public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";

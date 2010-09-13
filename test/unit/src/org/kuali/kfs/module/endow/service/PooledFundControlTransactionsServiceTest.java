@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
 import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = kfs)
 public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
 
     protected PooledFundControlTransactionsService pooledFundControlTransactionsService;

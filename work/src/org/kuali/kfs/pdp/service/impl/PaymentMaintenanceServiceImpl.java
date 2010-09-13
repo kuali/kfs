@@ -490,7 +490,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pgh.setOrigPmtSpecHandling(pg.getPymtSpecialHandling());
                     pgh.setBank(pg.getBank());
                     pgh.setOrigPaymentDate(pg.getPaymentDate());
-                    pgh.setOrigDisburseDate(new Timestamp(pg.getDisbursementDate().getTime()));
+                    //put a check for null since disbursement date was not set in testMode / dev
+                    if (ObjectUtils.isNotNull(pg.getDisbursementDate())) {
+                        pgh.setOrigDisburseDate(new Timestamp(pg.getDisbursementDate().getTime()));
+                    }
                     pgh.setOrigAchBankRouteNbr(pg.getAchBankRoutingNbr());
                     pgh.setOrigDisburseNbr(pg.getDisbursementNbr());
                     pgh.setOrigAdviceEmail(pg.getAdviceEmailAddress());

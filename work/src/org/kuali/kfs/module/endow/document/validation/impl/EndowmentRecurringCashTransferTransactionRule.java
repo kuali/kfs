@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferG
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -58,6 +60,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         // general rules
         success &= checkTargetExistence(endowmentRecurringCashTransfer);
 
+        if (ObjectUtils.isNotNull(endowmentRecurringCashTransfer.getTransactionType())){
+            success &= checkTransactionType(endowmentRecurringCashTransfer);
+        }
+        
         success &= checkFrequencyCodeReferenceExists(endowmentRecurringCashTransfer);
         
         if (ObjectUtils.isNotNull(endowmentRecurringCashTransfer.getFrequencyCode())){
@@ -138,7 +144,20 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         }
         return true;
     }
-
+    
+    private boolean checkTransactionType(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+        if (endowmentRecurringCashTransfer.getTransactionType().equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
+            if (endowmentRecurringCashTransfer.getGlTarget().size() > 0){
+                putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_TRANSACTION_TYPE_INVALID);
+                return false;
+            }
+        } else if (endowmentRecurringCashTransfer.getKemidTarget().size() > 0){
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_TRANSACTION_TYPE_INVALID);
+            return false;
+        }
+        return true;
+    }
+    
     private boolean checkFrequencyCodeReferenceExists(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
         endowmentRecurringCashTransfer.refreshReferenceObject("frequencyCodeObj");
         if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getFrequencyCodeObj())) {

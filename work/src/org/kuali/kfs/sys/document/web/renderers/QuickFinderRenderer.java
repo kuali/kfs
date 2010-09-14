@@ -130,21 +130,21 @@ public class QuickFinderRenderer extends FieldRendererBase {
         nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         nameBuf.append(".");
         
-        nameBuf.append("((<>))."); // hide return link
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL+"."); // hide return link
         
-        nameBuf.append("(([]))."); // extra button source
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL+"."); // extra button source
         
-        nameBuf.append("((**))."); // extra button params
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM5_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM5_RIGHT_DEL+"."); // extra button params
         
-        nameBuf.append("((^^))."); // supress actions
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM7_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM7_RIGHT_DEL+"."); // supress actions
         
-        nameBuf.append("((&&))."); // read only fields
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM8_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM8_RIGHT_DEL+"."); // read only fields
         
-        nameBuf.append("((/");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM10_LEFT_DEL);
         nameBuf.append(getField().getReferencesToRefresh());
-        nameBuf.append("/)).");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM10_RIGHT_DEL+".");
         
-        nameBuf.append("((~~))."); // auto-search
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM9_LEFT_DEL+KNSConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL+"."); // auto-search
         
         nameBuf.append("anchor"); // anchor
         

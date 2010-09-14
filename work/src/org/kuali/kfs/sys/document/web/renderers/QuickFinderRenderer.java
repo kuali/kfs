@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.util.RendererUtil;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Renders a quick field for an element
@@ -114,17 +115,20 @@ public class QuickFinderRenderer extends FieldRendererBase {
         StringBuilder nameBuf = new StringBuilder();
         nameBuf.append("methodToCall.performLookup.");
         
-        nameBuf.append("(!!");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL);
         nameBuf.append(getField().getQuickFinderClassNameImpl());
-        nameBuf.append("!!).");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        nameBuf.append(".");
         
-        nameBuf.append("(((");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL);
         nameBuf.append(getField().getFieldConversions());
-        nameBuf.append("))).");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        nameBuf.append(".");
         
-        nameBuf.append("((#");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL);
         nameBuf.append(getField().getLookupParameters());
-        nameBuf.append("#)).");
+        nameBuf.append(KNSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        nameBuf.append(".");
         
         nameBuf.append("((<>))."); // hide return link
         

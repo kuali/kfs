@@ -68,6 +68,7 @@
 				<value>pooledFundControlTransactionsJob</value>
                 <value>createCashSweepTransactionsJob</value>
                 <value>createAutomatedCashInvestmentTransactionsJob</value>
+                <value>createPooledFundDistributionTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -490,6 +491,26 @@
 		</property>	
 	</bean>
 
+
+	<!-- just a hook for createPooledFundDistributionTransactionsJob -->    
+    <bean id="createPooledFundDistributionTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createPooledFundDistributionTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="createPooledFundDistributionTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreatePooledFundDistributionTransactionsStep" parent="step">
+		<property name="createPooledFundDistributionTransactionsService">
+			<ref bean="createPooledFundDistributionTransactionsService" />
+		</property>
+	</bean>
+	
+	<bean id="createPooledFundDistributionTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreatePooledFundDistributionTransactionsServiceImpl">		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+	</bean>
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">

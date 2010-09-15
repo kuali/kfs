@@ -1263,7 +1263,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class Reserch {
         public static final String KC_NAMESPACE_URI = "KC";
         public static final String KC_BUDGET_CATEGORY_SERVICE = "budgetCategorytServiceSOAP";
-        public static final String KC_UNIT_SERVICE = "unitServiceSOAP";
+        public static final String KC_UNIT_SERVICE = "institutionalUnitSoapService";
     }
 }
 

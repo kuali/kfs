@@ -40,6 +40,7 @@ import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -73,6 +74,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      */
     public boolean createAccrualTransactions() {
         boolean success = true;
+        String maxNumberOfLinesString = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES);
+        int maxNumberOfTranLines = Integer.parseInt(maxNumberOfLinesString);
+
         List<Security> securities = getAllSecuritiesWithNextPayDateEqualCurrentDate();
 
         for (Security security : securities) {
@@ -133,8 +137,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     }
 
                     taxLotsForUpdate.addAll(kemidIpMap.get(kemidIp));
-                    // if we have already 100 transaction lines on the current document then create a new document
-                    if (counter == 100) {
+                    // if we have already reached the maximum number of transaction lines on the current document then create a new
+                    // document
+                    if (counter == maxNumberOfTranLines) {
                         // submit the current ECI doc and update the values in the tax lots used already
                         submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
 
@@ -157,6 +162,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
                     }
                     else {
+                        System.out.println("Security :" + security.getId() + " regis code : " + registrationCode + " kemid " + kemid + " etran code " + security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode() + "totalAmount =" + totalAmount);
                         // TODO write error in the exception report
                         extractGlobalVariableErrors();
                     }
@@ -200,7 +206,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         // set accrued income to zero and copy current value in prior accrued income
 
         for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
-            taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
+            // taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
             taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
         }
 
@@ -238,6 +244,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 else {
                     errorString = errorKeyString;
                 }
+                System.out.println(errorString);
                 while (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }

@@ -163,10 +163,11 @@ public class EndowConstants extends JSTLConstants {
         public static final String PURCHASE_BLANKET_APPROVAL = "PURCHASE_BLANKET_APPROVAL_IND";
         public static final String PURCHASE_DESCRIPTION = "PURCHASE_DESCRIPTION";
         public static final String SALE_BLANKET_APPROVAL = "SALE_BLANKET_APPROVAL_IND";
-        public static final String SALE_DESCRIPTION = "SALE_DESCRIPTION";        
+        public static final String SALE_DESCRIPTION = "SALE_DESCRIPTION";
         public static final String DESCRIPTION = "DESCRIPTION";
         public static final String BLANKET_APPROVAL_IND = "BLANKET_APPROVAL_IND";
         public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";
+        public static final String MAXIMUM_TRANSACTION_LINES = "MAXIMUM_TRANSACTION_LINES";
     }
 
     public static class KemidValueOptions {
@@ -316,13 +317,13 @@ public class EndowConstants extends JSTLConstants {
         public static final String RESULTS_ACTIONS_LINK = "Rebalance";
     }
 
-    //Transaction Types in Recurring Cash Transfer doc
+    // Transaction Types in Recurring Cash Transfer doc
     public static final String ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE = "ECT";
     public static final String ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE = "EGLT";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";
 
-    
-    //HoldingHistoryValueAdjustmentDocument constants
+
+    // HoldingHistoryValueAdjustmentDocument constants
     public static final class HoldingHistoryValueAdjustmentDocument {
         public static final String TRANSACTION_POSTED_NO = "N";
         public static final String TRANSACTION_POSTED_YES = "Y";

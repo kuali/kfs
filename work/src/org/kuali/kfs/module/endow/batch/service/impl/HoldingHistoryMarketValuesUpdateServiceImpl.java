@@ -33,6 +33,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -94,7 +95,13 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         boolean success = true;
         
         Collection<HoldingHistoryValueAdjustmentDocument> holdingHistoryValueAdjustmentDocuments = holdingHistoryValueAdjustmentDocumentService.getHoldingHistoryValueAdjustmentDocument(EndowConstants.HoldingHistoryValueAdjustmentDocument.TRANSACTION_POSTED_NO);
-
+        
+        if (holdingHistoryValueAdjustmentDocuments.isEmpty()) {
+            setExceptionReportTableRowReason("There are no records in Holding History Value Adjustment Documents table.  The market values updates process is not executed");
+            holdingHistoryMarketValuesExceptionReportWriterService.writeTableRow(holdingHistoryMarketValueExceptionRowReason);
+            return success;
+        }
+        
         for (HoldingHistoryValueAdjustmentDocument holdingHistoryValueAdjustmentDocument : holdingHistoryValueAdjustmentDocuments) {
             String documentHeaderId = holdingHistoryValueAdjustmentDocument.getDocumentNumber();
 
@@ -108,17 +115,20 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
                             //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
                             holdingHistoryValueAdjustmentDocument.setTransactionPosted(true);
                             if (!holdingHistoryValueAdjustmentDocumentService.saveHoldingHistory(holdingHistoryValueAdjustmentDocument)) {
+                                holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");
                                 writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to set Transaction Posted flag in Holding History Value Adjustment Document.");
                             }
                         }
                      }
                 }
                 else {
+                    holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");                    
                     writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Holding History Value Adjustment document status is NOT FINAL. - Skipped updating the Market Values.");
                 }
             }
             else {
                 LOG.error("Document is NULL.  It should never have been null");
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");                
                 writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to find if the document status is FINAL.  The document does not exist in the workflow.");                
             }
         }
@@ -142,6 +152,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
      
         if (!documentTypeName.equalsIgnoreCase(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
+            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");            
             writeTableRowAndTableReason(ehva, "Document Type = " + documentTypeName + " - only document types EHVA are allowed to be processed by this job.");
 
             return false;
@@ -202,11 +213,26 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         
         Collection<HoldingHistory> holdingHistoryRecords = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(ehva.getSecurityId(), ehva.getHoldingMonthEndDate());
 
+        if (holdingHistoryRecords.isEmpty()) {
+            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");            
+            writeTableRowAndTableReason(ehva, "There are no Holding History records to match the Holding History Value Adjustment document's security id and monthEndDateID.  The process is not executed");
+            return false;
+        }
+        // process the holding history records
         for (HoldingHistory holdingHistoryRecord : holdingHistoryRecords) {
             holdingHistoryRecord.setSecurityUnitVal(ehva.getSecurityUnitValue());
-            holdingHistoryRecord.setMarketValue(getMarketValue(ehva));
+
+            BigDecimal marketValue = getMarketValue(ehva);
+            if (ObjectUtils.isNull(marketValue)) {
+                return false;
+            }
+            
+            holdingHistoryRecord.setMarketValue(marketValue);
+            
             if (!holdingHistoryService.saveHoldingHistory(holdingHistoryRecord)) {
-                writeTableRowAndTableReason(ehva, "Unable to update the market value and save Holding History record.");                
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading3(holdingHistoryRecord.getKemid());
+                writeTableRowAndTableReason(ehva, "Unable to update the market value and save Holding History record.");
+                return false;
             }
         }
         
@@ -221,16 +247,24 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      */
     protected BigDecimal getMarketValue(HoldingHistoryValueAdjustmentDocument ehva) {
         BigDecimal marketValue = BigDecimal.ZERO;
-        
-        BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), ehva.getSecurity().getUnitsHeld(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-        
-        if (ehva.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.BOND)) {
-            tmpValue = KEMCalculationRoundingHelper.divide(tmpValue, BigDecimal.valueOf(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+        try {
+            BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), null, EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            
+//            BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), ehva.getSecurity().getUnitsHeld(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            
+            if (ehva.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.BOND)) {
+                tmpValue = KEMCalculationRoundingHelper.divide(tmpValue, BigDecimal.valueOf(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            }
+            
+            marketValue = marketValue.add(tmpValue);  
+        }
+        catch (Exception ex) {
+            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");
+            writeTableRowAndTableReason(ehva, "Reason: " + ex.getMessage() + " - Unable to update the market value.");
+            return null;
         }
         
-        marketValue = marketValue.add(tmpValue);  
-        
-        return marketValue;
+        return marketValue;        
     }
     
     /**

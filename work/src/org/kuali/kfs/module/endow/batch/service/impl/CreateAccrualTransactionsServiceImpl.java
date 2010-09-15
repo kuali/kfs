@@ -42,6 +42,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -187,31 +188,42 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param taxLotsForUpdate
      */
     private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
-        // TODO figure out if/how we use the ad hoc recipients list
-        String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
-        boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
 
-        try {
-            if (blanketAppriovalIndicator) {
-                documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+        boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
+
+        if (rulesPassed) {
+
+            // TODO figure out if/how we use the ad hoc recipients list
+            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
+            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+
+            try {
+                if (blanketAppriovalIndicator) {
+                    documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                }
+                else {
+                    documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                }
+
+                // set accrued income to zero and copy current value in prior accrued income
+
+                for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
+                    // taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
+                    taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
+                }
+
+                // save changes
+                businessObjectService.save(taxLotsForUpdate);
             }
-            else {
-                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+            catch (WorkflowException ex) {
+                System.out.println("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process." + ex.toString());
             }
         }
-        catch (WorkflowException ex) {
-            throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
+        else {
+            System.out.println("Routing validation errors");
+            // TODO write error in the exception report
+            extractGlobalVariableErrors();
         }
-
-        // set accrued income to zero and copy current value in prior accrued income
-
-        for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
-            // taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
-            taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
-        }
-
-        // save changes
-        businessObjectService.save(taxLotsForUpdate);
     }
 
     /**

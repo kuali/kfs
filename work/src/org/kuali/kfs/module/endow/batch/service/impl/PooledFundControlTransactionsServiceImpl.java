@@ -64,21 +64,24 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         
         LOG.info("Begin Generate Pooled Fund Control Transactions ..."); 
        
-        //* job 1
+        // job 1
         createCashDocument1();
         
-//        //* job 2
-//        createCashDocument2();
-//        
-//        //* job 3
-//        createCashDocument3();
-//        
-//        //* job 4
-//        createCashDocument4();
+        // job 2
+        createCashDocument2();
+        
+        // job 3
+        createCashDocument3();
+        
+        // job 4
+        createCashDocument4();
         
         return true;
     }
     
+    /**
+     * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for transaction type EAI
+     */
     protected void createCashDocument1() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
@@ -99,10 +102,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
             } else if (totalAmount < 0) {
                 createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
-            }
+            }            
         }
     }
 
+    /**
+     * Creates an ECI or an ECDD eDoc according to the total amount of holding cost  for transaction type EAD
+     */
     protected void createCashDocument2() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
@@ -127,6 +133,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         }         
     }
     
+    /**
+     * Creates an ECI or an ECDD eDoc according to the total amount of gain/loss for transaction type EAD
+     */
     protected void createCashDocument3() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
@@ -152,6 +161,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         }      
     }
     
+    /**
+     * Creates an ECI or an ECDD eDoc according to the total amount of income/principle cash for transaction type ECI and ECDD
+     */
     protected void createCashDocument4() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
@@ -183,6 +195,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         }                
     }
     
+    /**
+     * This method creates an ECI document 
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param paramDescriptionName
+     * @param paramBlanketApproval
+     */
     protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
 
         LOG.info("Creating ECI ..."); 
@@ -220,7 +239,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.routeDocument(cashIncreaseDocument, "Approved by the batch job", null);
+                        documentService.approveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -237,6 +256,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 
     }
     
+    /**
+     * This method creates an ECDD document
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param paramDescriptionName
+     * @param paramBlanketApproval
+     */
     protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
 
         LOG.info("Creating ECDD ..."); 
@@ -273,7 +299,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.routeDocument(cashDecreaseDocument, "Approved by the batch job", null);
+                        documentService.approveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message

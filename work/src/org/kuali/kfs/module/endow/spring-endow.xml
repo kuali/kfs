@@ -509,11 +509,20 @@
         </property>
     </bean>
     <bean id="createCashSweepTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl">
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
+        <property name="calculateProcessDateUsingFrequencyCodeService">
+            <ref bean="calculateProcessDateUsingFrequencyCodeService" />
         </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
+        </property>
+        <property name="kualiRuleService">
+            <ref bean="kualiRuleService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
         </property>
         <property name="kemService">
             <ref bean="kemService" />
@@ -522,7 +531,8 @@
             <ref bean="KEMIDService" />
         </property> 
     </bean>
-	
+	<!-- End of Create Cash Sweep Transactions Job -->
+    
 	<bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />

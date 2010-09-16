@@ -267,7 +267,7 @@ public class EndowPropertyConstants {
     public static final String GL_LINK_OBJECT_CD = "object";
     public static final String GL_LINK_FINANCIAL_OBJECT_CODE = "financialObjectCode";
 
-    // Poole Fund Control
+    // Pooled Fund Control
     public static final String POOL_SECURITY_ID = "pooledSecurityID";
     public static final String DISTRIBUTE_GAINS_LOSSES_IND = "distributeGainsAndLossesIndicator";
 
@@ -275,6 +275,7 @@ public class EndowPropertyConstants {
     public static final String VALUE_EFFECTIVE_DATE = "valueEffectiveDate";
     public static final String VALUATION_DATE = "valuationDate";
     public static final String INCOME_DISTRIBUTION_PER_UNIT = "incomeDistributionPerUnit";
+    public static final String INCOME_DISTRIBUTION_COMPLETE = "incomeDistributionComplete";
     public static final String LONG_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT = "longTermGainLossDistributionPerUnit";
     public static final String SHORT_TERM_GAIN_LOSS_DISTRIBUTION_PER_UNIT = "shortTermGainLossDistributionPerUnit";
     public static final String DISTRIBUTE_INCOME_ON_DATE = "distributeIncomeOnDate";

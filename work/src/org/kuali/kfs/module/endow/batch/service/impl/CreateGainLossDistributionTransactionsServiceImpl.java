@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep;
+import org.kuali.kfs.module.endow.batch.CreatePooledFundDistributionTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
@@ -146,10 +146,10 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                     String documentDescription = "";
 
                     if (isShortTerm) {
-                        documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
+                        documentDescription = parameterService.getParameterValue(CreatePooledFundDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
                     }
                     else {
-                        documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
+                        documentDescription = parameterService.getParameterValue(CreatePooledFundDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
                     }
 
                     HoldingAdjustmentDocument holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription);
@@ -175,6 +175,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                     }
 
                     // route document
+                    validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
 
                 }
             }
@@ -238,6 +239,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         EndowmentTransactionLine endowmentTransactionLine = null;
         boolean isLoss = true;
 
+
         if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == -1) {
             // loss
             isLoss = true;
@@ -253,6 +255,8 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
 
         // populate transaction line
+        // endowmentTransactionLine.setTransactionAmount(null);
+        endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
         endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
         endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
         endowmentTransactionLine.setTransactionIPIndicatorCode(holdingTaxLot.getIncomePrincipalIndicator());
@@ -293,7 +297,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         if (rulesPassed) {
 
             // TODO figure out if/how we use the ad hoc recipients list
-            String blanketApproval = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL_IND);
+            String blanketApproval = parameterService.getParameterValue(CreatePooledFundDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL_IND);
             boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
 
             try {

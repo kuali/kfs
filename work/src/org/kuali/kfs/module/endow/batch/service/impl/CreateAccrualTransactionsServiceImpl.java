@@ -325,13 +325,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         return result;
     }
 
-    private List<HoldingTaxLot> getAllTaxLotsWithHoldingAccruedIncomeGreaterThanZero(String securityId) {
-        List<HoldingTaxLot> result = new ArrayList<HoldingTaxLot>();
-
-
-        return result;
-    }
-
     /**
      * Sets the businessObjectService.
      * 

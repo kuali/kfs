@@ -70,6 +70,7 @@
                 <value>createAutomatedCashInvestmentTransactionsJob</value>
                 <value>createPooledFundDistributionTransactionsJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
+                <value>createGainLossTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -315,6 +316,43 @@
 			<ref bean="recurringCashTransferDao" />
 		</property>			
 	</bean>	
+	
+	<bean id="createGainLossTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createGainLossTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="step">
+		<property name="createGainLossTransactionsService">
+			<ref bean="createGainLossTransactionsService" />
+		</property>
+	</bean>
+	
+	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
+		<property name="pooledFundValueService">
+			<ref bean="PooledFundValueService" />
+		</property>
+    	<property name="holdingTaxLotService">
+    	 <ref bean="holdingTaxLotService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+	</bean>
 		
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
 		<property name="kemService">
@@ -572,7 +610,16 @@
 	<bean id="PooledFundValueService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundValueServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>				
+		</property>		
+		<property name="pooledFundValueDao">
+			<ref bean="pooledFundValueDao" />
+		</property>		
+	</bean>
+	
+    <bean id="pooledFundValueDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundValueDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
 	</bean>
 	
 	<bean id="RegistrationCodeService" class="org.kuali.kfs.module.endow.document.service.impl.RegistrationCodeServiceImpl">

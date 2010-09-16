@@ -168,6 +168,9 @@ public class EndowConstants extends JSTLConstants {
         public static final String BLANKET_APPROVAL_IND = "BLANKET_APPROVAL_IND";
         public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";
         public static final String MAXIMUM_TRANSACTION_LINES = "MAXIMUM_TRANSACTION_LINES";
+        public static final String SHORT_TERM_GAIN_LOSS_DESCRIPTION = "SHORT_TERM_GAIN_LOSS_DESCRIPTION";
+        public static final String LONG_TERM_GAIN_LOSS_DESCRIPTION = "LONG_TERM_GAIN_LOSS_DESCRIPTION";
+        public static final String GAIN_LOSS_BLANKET_APPROVAL_IND = "GAIN_LOSS_BLANKET_APPROVAL_IND";
     }
 
     public static class KemidValueOptions {

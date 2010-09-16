@@ -20,23 +20,23 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
+import org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class PooledFundValueServiceImpl implements PooledFundValueService {
     private BusinessObjectService businessObjectService;
+    private PooledFundValueDao pooledFundValueDao;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getByPrimaryKey(java.lang.String)
@@ -53,7 +53,8 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#calculateValueEffectiveDateForAjax(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#calculateValueEffectiveDateForAjax(java.lang.String,
+     *      java.lang.String)
      */
     public String calculateValueEffectiveDateForAjax(String valuationDate, String pooledSecurityID) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -105,64 +106,86 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    public boolean isValuationDateTheLatest (String pooledSecurityID, Date theValuationDate) {
-        boolean isLatest = true;          
-        
+
+    public boolean isValuationDateTheLatest(String pooledSecurityID, Date theValuationDate) {
+        boolean isLatest = true;
+
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, pooledSecurityID);
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Collection<PooledFundValue> pooledFundValues = 
-            businessObjectService.findMatching(PooledFundValue.class, fieldValues);
-        
+        Collection<PooledFundValue> pooledFundValues = businessObjectService.findMatching(PooledFundValue.class, fieldValues);
+
         if (pooledFundValues.isEmpty())
-            return true;      
-        
+            return true;
+
         Calendar calendar = Calendar.getInstance();
         Calendar theCalendar = Calendar.getInstance();
         theCalendar.setTime(theValuationDate);
-        
-        for(PooledFundValue pooledFundValue : pooledFundValues) {
+
+        for (PooledFundValue pooledFundValue : pooledFundValues) {
             Date valuationDate = pooledFundValue.getValuationDate();
             calendar.setTime(valuationDate);
-            if (theCalendar.before(calendar)){
-                 isLatest = false;
-                break;                
-            }           
-        }  
-    
-        return isLatest;           
+            if (theCalendar.before(calendar)) {
+                isLatest = false;
+                break;
+            }
+        }
+
+        return isLatest;
     }
-    
-    public Date getLastestValueEffectiveDate(String pooledSecurityID){
+
+    public Date getLastestValueEffectiveDate(String pooledSecurityID) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, pooledSecurityID);
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Collection<PooledFundValue> pooledFundValues = 
-            businessObjectService.findMatching(PooledFundValue.class, fieldValues);
-        
+        Collection<PooledFundValue> pooledFundValues = businessObjectService.findMatching(PooledFundValue.class, fieldValues);
+
         if (pooledFundValues.isEmpty())
             return null;
-        
+
         PooledFundValue thePooledFundValue = pooledFundValues.iterator().next();
         Date theLastestValueEffectiveDate = thePooledFundValue.getValueEffectiveDate();
-        
+
         Calendar calendar = Calendar.getInstance();
         Calendar theLatestCalendar = Calendar.getInstance();
         theLatestCalendar.setTime(theLastestValueEffectiveDate);
         Date valueEffectiveDate = null;
-        for(PooledFundValue pooledFundValue : pooledFundValues) {
+        for (PooledFundValue pooledFundValue : pooledFundValues) {
             valueEffectiveDate = pooledFundValue.getValueEffectiveDate();
             calendar.setTime(valueEffectiveDate);
-            if (theLatestCalendar.before(calendar)){
-                theLatestCalendar = calendar;              
-            }           
-        } 
+            if (theLatestCalendar.before(calendar)) {
+                theLatestCalendar = calendar;
+            }
+        }
 
         return new java.sql.Date(theLatestCalendar.getTime().getTime());
- 
+
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#getPooledFundValueWhereSTProcessOnDateIsCurrentDate()
+     */
+    public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate() {
+
+        return pooledFundValueDao.getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#getPooledFundValueWhereLTProcessOnDateIsCurrentDate()
+     */
+    public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate() {
+
+        return pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
+    }
+
+    /**
+     * Sets the pooledFundValueDao.
+     * 
+     * @param pooledFundValueDao
+     */
+    public void setPooledFundValueDao(PooledFundValueDao pooledFundValueDao) {
+        this.pooledFundValueDao = pooledFundValueDao;
+    }
 }

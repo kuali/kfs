@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation.
+ * Copyright 2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,42 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.service;
+package org.kuali.kfs.module.endow.dataaccess;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 
-public interface PooledFundValueService {
-
-    public Date calculateValueEffectiveDate(Date valuationDate, String pooledSecurityID);
-
-    public PooledFundValue getByPrimaryKey(String id);
+public interface PooledFundValueDao {
 
     /**
-     * Computes the valueEffectiveDate for the AJAX call by getting the valuationDate as a String and returning the
-     * valueEffectiveDate as String
-     * 
-     * @param valuationDate
-     * @param pooledSecurityID
-     * @return the valueEffectiveDate as String
-     */
-    public String calculateValueEffectiveDateForAjax(String valuationDate, String pooledSecurityID);
-
-    public boolean isValuationDateTheLatest(String pooledSecurityID, Date theValuationDate);
-
-    public Date getLastestValueEffectiveDate(String pooledSecurityID);
-
-    /**
-     * Gets PooledFundValue entries where the short term process on date is equal to current date.
+     * Gets PooledFundValue entries where the ST_PROC_ON_DT is equal to current date and ST_PROC_COMPLT = No.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
 
     /**
-     * Gets PooledFundValue entries where the long term process on date is equal to current date.
+     * Gets PooledFundValue entries where the LT_PROC_ON_DT is equal to current date and LT_PROC_COMPLT = No.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */

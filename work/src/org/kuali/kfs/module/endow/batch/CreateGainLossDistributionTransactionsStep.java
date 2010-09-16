@@ -17,34 +17,27 @@ package org.kuali.kfs.module.endow.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
+import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
-/**
- * Batch step that executes the Create Accrual Transactions step.
- */
-public class CreateAccrualTransactionsStep extends AbstractStep {
+public class CreateGainLossDistributionTransactionsStep extends AbstractStep {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateAccrualTransactionsStep.class);
-
-    private CreateAccrualTransactionsService createAccrualTransactionsService;
+    private CreateGainLossDistributionTransactionsService createGainLossTransactionsService;
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return createAccrualTransactionsService.createAccrualTransactions();
-
+        return createGainLossTransactionsService.processGainLossDistribution();
     }
 
     /**
-     * Sets the createAccrualTransactionsService.
+     * Sets the createGainLossTransactionsService.
      * 
-     * @param createAccrualTransactionsService
+     * @param createGainLossTransactionsService
      */
-    public void setCreateAccrualTransactionsService(CreateAccrualTransactionsService createAccrualTransactionsService) {
-        this.createAccrualTransactionsService = createAccrualTransactionsService;
+    public void setCreateGainLossTransactionsService(CreateGainLossDistributionTransactionsService createGainLossTransactionsService) {
+        this.createGainLossTransactionsService = createGainLossTransactionsService;
     }
-
 
 }

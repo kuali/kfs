@@ -280,6 +280,8 @@ public class EndowPropertyConstants {
     public static final String DISTRIBUTE_INCOME_ON_DATE = "distributeIncomeOnDate";
     public static final String DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE = "distributeLongTermGainLossOnDate";
     public static final String DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE = "distributeShortTermGainLossOnDate";
+    public static final String ST_GAIN_LOSS_DISTR_COMPL = "shortTermGainLossDistributionComplete";
+    public static final String LT_GAIN_LOSS_DISTR_COMPL = "longTermGainLossDistributionComplete";
 
 
     // Cash Sweep Model
@@ -457,7 +459,7 @@ public class EndowPropertyConstants {
     public static final String FEE_CLASS_CODE_REF = "classCode";
     public static final String FEE_SECURITY_REF = "security";
     public static final String FEE_TRANSACTION_TYPE_REF = "transactionType";
-    public static final String FEE_TRANSACTION_ARCHIVE_REF = "transactionArchive";    
+    public static final String FEE_TRANSACTION_ARCHIVE_REF = "transactionArchive";
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE_REF = "endowmentTransaction";
     public static final String FEE_CLASS_CODE_ATTRIBUTE = "feeClassCode";
     public static final String FEE_SECURITY_CODE_ATTRIBUTE = "securityCode";
@@ -551,7 +553,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
     public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
     public static final String HOLDING_TAX_LOT_REBAL_KEMID = "kemid";
-    
+
     // Transaction Archive/Security
     public static final String TRANSACTION_ARCHIVE_SECURITY_ID = "securityId";
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
@@ -560,7 +562,7 @@ public class EndowPropertyConstants {
 
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
-    
+
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
     public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
 
@@ -576,7 +578,7 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_ACCOUNTING_LINE_AMOUNT = "amount";
 
     public static final String DOCUMENT_NUMBER = "documentNumber";
-    
+
     // Endowment Recurring Cash Transfer
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE = "nextProcessDate";
@@ -586,7 +588,7 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_AMOUNT = "targetAmount";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT = "targetPercent";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE = "targetUseEtranCode";
-    
+
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_COA_CODE = "targetChartOfAccountsCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ACCOUNT_NUMBER = "targetAccountsNumber";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE = "targetFinancialObjectCode";
@@ -595,15 +597,9 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_OBJECT_CODE = "targetFinancialSubObjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE = "targetProjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ORG_REF_ID = "targetOrgReferenceId";
-    
+
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
-    
-    
-    
-    
-    
-    
-    
-    
+
+
 }

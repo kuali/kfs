@@ -85,7 +85,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected void createCashDocument1() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
-        transactionTypeCodes.add("EAI");
+        transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE);
         List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
@@ -112,7 +112,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected void createCashDocument2() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
-        transactionTypeCodes.add("EAD");
+        transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
         List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
@@ -139,7 +139,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected void createCashDocument3() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
-        transactionTypeCodes.add("EAD");
+        transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
         List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
      
@@ -167,8 +167,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected void createCashDocument4() {
         
         List<String> transactionTypeCodes = new ArrayList<String>();
-        transactionTypeCodes.add("ECI");
-        transactionTypeCodes.add("ECDD");
+        transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+        transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
         List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getPooledFundControlTransactions(transactionTypeCodes);
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurity(transactionTypeCodes);
         List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchive(transactionTypeCodes);
@@ -194,7 +194,116 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }
         }                
     }
-    
+
+// ** hard-coded for test
+//    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
+//
+//        LOG.info("Creating ECI ..."); 
+//        
+//        try {
+//            CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECI"));
+//
+//            cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
+//            cashIncreaseDocument.setTransactionSubTypeCode("C");
+//        
+//            EndowmentTargetTransactionSecurity endowmentTargetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+//            endowmentTargetTransactionSecurity.setSecurityLineTypeCode("T");
+//            endowmentTargetTransactionSecurity.setSecurityID("99PLTF021");
+//            endowmentTargetTransactionSecurity.setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
+//            cashIncreaseDocument.getTargetTransactionSecurity().setSecurityLineTypeCode("T");
+//            cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID("99PLTF021");
+//            cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
+//            cashIncreaseDocument.setTargetTransactionSecurities(new TypedArrayList(EndowmentTargetTransactionSecurity.class));
+//            cashIncreaseDocument.getTargetTransactionSecurities().add(endowmentTargetTransactionSecurity);
+//
+//            EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+//            endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
+//            endowmentTargetTransactionLine.setKemid("037A014184");  
+//            endowmentTargetTransactionLine.setEtranCode("75720"); 
+//            endowmentTargetTransactionLine.setTransactionIPIndicatorCode("P");
+//            endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
+//            cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
+//            cashIncreaseDocument.setNextTargetLineNumber(new Integer(1));
+//            cashIncreaseDocument.getTargetTransactionLines().add(endowmentTargetTransactionLine);
+//
+//            // validate and route it according to the BLANKET_APPROVAL parameter
+//            if (validateECI(cashIncreaseDocument)) {
+//                try {
+//                    if (isBlanketApprove(paramBlanketApproval)) {
+//                        documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
+//                    } else {
+//                        documentService.approveDocument(cashIncreaseDocument, "Submitted by the batch job", null);
+//                    }
+//                    LOG.info(cashIncreaseDocument.getDocumentNumber() + "------------------" + cashIncreaseDocument.getDocumentHeader().getDocumentDescription()); 
+//                } catch (WorkflowException e) {
+//                  //TODO: generate the error message
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                //TODO: generate the error message
+//            }
+//    
+//        } catch (Exception e) {
+//          //TODO: generate the error message
+//          e.printStackTrace();
+//        }
+//                
+//    }
+// ** hard-coded for test   
+//    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
+//
+//        LOG.info("Creating ECDD ..."); 
+//        
+//        try {
+//            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECDD"));
+//
+//            cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
+//            cashDecreaseDocument.setTransactionSubTypeCode("C");
+//        
+//            EndowmentSourceTransactionSecurity endowmentSourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
+//            endowmentSourceTransactionSecurity.setSecurityLineTypeCode("F");
+//            endowmentSourceTransactionSecurity.setSecurityID("99PLTF021");
+//            endowmentSourceTransactionSecurity.setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
+//            cashDecreaseDocument.getSourceTransactionSecurity().setSecurityLineTypeCode("F");
+//            cashDecreaseDocument.getSourceTransactionSecurity().setSecurityID("99PLTF021");
+//            cashDecreaseDocument.getSourceTransactionSecurity().setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
+//            cashDecreaseDocument.setSourceTransactionSecurities(new TypedArrayList(EndowmentSourceTransactionSecurity.class));
+//            cashDecreaseDocument.getSourceTransactionSecurities().add(endowmentSourceTransactionSecurity);
+//
+//            EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
+//            endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
+//            endowmentSourceTransactionLine.setKemid("037A014184");  
+//            endowmentSourceTransactionLine.setEtranCode("75720");
+//            endowmentSourceTransactionLine.setTransactionIPIndicatorCode("I");
+//            endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
+//            cashDecreaseDocument.setSourceTransactionLines(new TypedArrayList(EndowmentSourceTransactionLine.class));
+//            cashDecreaseDocument.setNextSourceLineNumber(new Integer(1));
+//            cashDecreaseDocument.getSourceTransactionLines().add(endowmentSourceTransactionLine);
+//
+//            // validate and route it according to the BLANKET_APPROVAL parameter
+//            if (validateECDD(cashDecreaseDocument)) {
+//                try {
+//                    if (isBlanketApprove(paramBlanketApproval)) {
+//                        //documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
+//                        documentService.routeDocument(cashDecreaseDocument, "Approved by the batch job", null);
+//                    } else {
+//                        documentService.approveDocument(cashDecreaseDocument, "Submitted by the batch job", null);
+//                    }
+//                    LOG.info(cashDecreaseDocument.getDocumentNumber() + "-----------------------" + cashDecreaseDocument.getDocumentHeader().getDocumentDescription()); 
+//                } catch (WorkflowException e) {
+//                  //TODO: generate the error message
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                //TODO: generate the error message
+//            }
+//    
+//        } catch (Exception e) {
+//          //TODO: generate the error message
+//          e.printStackTrace();
+//        }       
+//    } 
+
     /**
      * This method creates an ECI document 
      * @param pooledFundControl
@@ -239,7 +348,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashIncreaseDocument, "Approved by the batch job", null);
+                        documentService.routeDocument(cashIncreaseDocument, "Submitted by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message
@@ -253,7 +362,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
           //TODO: generate the error message
           e.printStackTrace();
         }
-                
+               
     }
     
     /**
@@ -299,7 +408,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     if (isBlanketApprove(paramBlanketApproval)) {
                         documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
                     } else {
-                        documentService.approveDocument(cashDecreaseDocument, "Approved by the batch job", null);
+                        documentService.routeDocument(cashDecreaseDocument, "Submitted by the batch job", null);
                     }    
                 } catch (WorkflowException e) {
                   //TODO: generate the error message

@@ -69,6 +69,7 @@
                 <value>createCashSweepTransactionsJob</value>
                 <value>createAutomatedCashInvestmentTransactionsJob</value>
                 <value>createPooledFundDistributionTransactionsJob</value>
+                <value>createRecurringCashTransferTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -511,6 +512,43 @@
 			<ref bean="parameterService" />
 		</property>	
 	</bean>
+	
+	<!-- Create Recurring Cash Transfer Transactions Job -->
+	
+	<bean id="createRecurringCashTransferTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="createRecurringCashTransferTransactionsStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+			<map>
+				<entry key="createAccrualTransactionsJob" value="hardDependency" />
+				<entry key="createPooledFundDistributionTransactionsJob" value="hardDependency" />  
+			</map>
+		</property>
+    </bean>
+    
+    <bean id="createRecurringCashTransferTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep" parent="step">
+        <property name="createRecurringCashTransferTransactionsService">
+            <ref bean="createRecurringCashTransferTransactionsService" />
+        </property>
+    </bean>
+    <bean id="createRecurringCashTransferTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateRecurringCashTransferTransactionsServiceImpl">
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="kemService">
+            <ref bean="kemService" />
+        </property>
+        <property name="kemidService">
+            <ref bean="KEMIDService" />
+        </property> 
+    </bean>
+	
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">

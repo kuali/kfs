@@ -71,6 +71,7 @@
                 <value>createPooledFundDistributionTransactionsJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
                 <value>createGainLossTransactionsJob</value>
+                <value>createIncomeDistributionJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -403,6 +404,7 @@
 		</property>
 	</bean>		
 		
+	<!-- pooledFundControlTransactionsJob -->
 	<bean id="pooledFundControlTransactionsJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -437,6 +439,43 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+	
+	<!-- createIncomeDistributionJob -->
+	<bean id="createIncomeDistributionJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createIncomeDistributionStep" />
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="createIncomeDistributionStep" class="org.kuali.kfs.module.endow.batch.IncomeDistributionForPooledFundStep" parent="step">
+		<property name="incomeDistributionForPooledFundService">
+			<ref bean="incomeDistributionForPooledFundService" />
+		</property>
+	</bean>
+	
+	<bean id="incomeDistributionForPooledFundService" class="org.kuali.kfs.module.endow.batch.service.impl.IncomeDistributionForPooledFundServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
+		<property name="parameterService">
+    	 	<ref bean="parameterService" />
+		</property>
+		<property name="incomeDistributionForPooledFundDao">
+			<ref bean="incomeDistributionForPooledFundDao" />
+		</property>			
+	</bean>
+
+	<bean id="incomeDistributionForPooledFundDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.IncomeDistributionForPooledFundDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+	
  	<bean id="holdingHisgtoryMarketValueUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

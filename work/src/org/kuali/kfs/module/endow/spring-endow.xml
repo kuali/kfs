@@ -62,16 +62,17 @@
                 <value>endowmenteDocPostingJob</value>
 				<value>createAccrualTransactionsJob</value>			
 				<value>rollProcessDateJob</value>	
+				<value>updateHistoryCashJob</value>
 				<value>rollFrequencyDatesJob</value>
 				<value>accrualProcessingJob</value>
 				<value>holdingHisgtoryMarketValueUpdateJob</value>
 				<value>pooledFundControlTransactionsJob</value>
                 <value>createCashSweepTransactionsJob</value>
                 <value>createAutomatedCashInvestmentTransactionsJob</value>
-                <value>createPooledFundDistributionTransactionsJob</value>
-                <value>createRecurringCashTransferTransactionsJob</value>
                 <value>createGainLossTransactionsJob</value>
                 <value>createIncomeDistributionJob</value>
+                <value>createRecurringCashTransferTransactionsJob</value>
+
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -260,6 +261,43 @@
 		</property>
  	</bean>
  	
+ 	<bean id="createGainLossTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="createGainLossTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="step">
+		<property name="createGainLossTransactionsService">
+			<ref bean="createGainLossTransactionsService" />
+		</property>
+	</bean>
+	
+	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
+		<property name="pooledFundValueService">
+			<ref bean="PooledFundValueService" />
+		</property>
+    	<property name="holdingTaxLotService">
+    	 <ref bean="holdingTaxLotService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+	</bean>
+ 	
  	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -280,6 +318,26 @@
 		</property>	
 		<property name="parameterService">
 			<ref bean="parameterService" />
+		</property>	
+	</bean>
+	
+	<bean id="updateHistoryCashJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="updateHistoryCashStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="updateHistoryCashStep" class="org.kuali.kfs.module.endow.batch.UpdateHistoryCashStep" parent="step">
+		<property name="updateHistoryCashService">
+			<ref bean="updateHistoryCashService" />
+		</property>
+	</bean>
+	
+	<bean id="updateHistoryCashService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHistoryCashServiceImpl">
+		<property name="kemService">
+			<ref bean="kemService" />
 		</property>	
 	</bean>
 	
@@ -317,44 +375,7 @@
 			<ref bean="recurringCashTransferDao" />
 		</property>			
 	</bean>	
-	
-	<bean id="createGainLossTransactionsJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="createGainLossTransactionsStep" />
-			</list>
-		</property>
-	</bean>
-	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="step">
-		<property name="createGainLossTransactionsService">
-			<ref bean="createGainLossTransactionsService" />
-		</property>
-	</bean>
-	
-	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
-		<property name="pooledFundValueService">
-			<ref bean="PooledFundValueService" />
-		</property>
-    	<property name="holdingTaxLotService">
-    	 <ref bean="holdingTaxLotService" />
-		</property>		
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="kualiRuleService">
-			<ref bean="kualiRuleService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>		
-	</bean>
-		
+			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>
@@ -579,27 +600,6 @@
 		</property>	
 	</bean>
 
-
-	<!-- just a hook for createPooledFundDistributionTransactionsJob -->    
-    <bean id="createPooledFundDistributionTransactionsJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="createPooledFundDistributionTransactionsStep" />
-			</list>
-		</property>
-	</bean>
-	<bean id="createPooledFundDistributionTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreatePooledFundDistributionTransactionsStep" parent="step">
-		<property name="createPooledFundDistributionTransactionsService">
-			<ref bean="createPooledFundDistributionTransactionsService" />
-		</property>
-	</bean>
-	
-	<bean id="createPooledFundDistributionTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreatePooledFundDistributionTransactionsServiceImpl">		
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>	
-	</bean>
-	
 	<!-- Create Recurring Cash Transfer Transactions Job -->
 	
 	<bean id="createRecurringCashTransferTransactionsJob" parent="scheduledJobDescriptor">
@@ -611,7 +611,8 @@
         <property name="dependencies">
 			<map>
 				<entry key="createAccrualTransactionsJob" value="hardDependency" />
-				<entry key="createPooledFundDistributionTransactionsJob" value="hardDependency" />  
+				<entry key="createGainLossTransactionsJob" value="hardDependency" />
+				<entry key="createIncomeDistributionJob" value="hardDependency" />  
 			</map>
 		</property>
     </bean>

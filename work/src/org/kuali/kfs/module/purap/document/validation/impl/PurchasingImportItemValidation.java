@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
@@ -164,7 +165,7 @@ public class PurchasingImportItemValidation extends PurchasingAccountsPayableImp
         if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {            
             String uomCode = item.getItemUnitOfMeasureCode();
             Map<String,String> fieldValues = new HashMap<String,String>();
-            fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, uomCode);
+            fieldValues.put(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, uomCode);
             if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                 String[] errorParams = { uomCode, "" + item.getItemLineNumber() };
                 GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE, errorParams);

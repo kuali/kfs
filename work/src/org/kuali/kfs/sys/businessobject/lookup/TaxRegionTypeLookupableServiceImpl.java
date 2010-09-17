@@ -15,24 +15,18 @@
  */
 package org.kuali.kfs.sys.businessobject.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
-import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
@@ -46,11 +40,12 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject,
      *      java.util.Map, java.lang.String, java.util.List)
      */
+    @SuppressWarnings("rawtypes")
     // KFSMI-5158
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions restrictions) {
         
-        if (getParameters().containsValue(ArConstants.CREATE_TAX_REGION_FROM_LOOKUP_PARM)) {
+        if (getParameters().containsValue(KFSConstants.TaxRegionConstants.CREATE_TAX_REGION_FROM_LOOKUP_PARM)) {
             Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegion.class.getName());
@@ -69,6 +64,7 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
        }
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);

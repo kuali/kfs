@@ -28,9 +28,7 @@ public class PurapKeyConstants {
     public static final String ERROR_INVALID_CHART_OF_ACCOUNTS_CODE = "error.document.purap.invalidChartOfAccountsCode";
     public static final String ERROR_INVALID_ORGANIZATION_CODE = "error.document.purap.invalidOrganizationCode";
     public static final String ERROR_INVALID_COA_ORG_CODE = "error.document.purap.invalidCoaOrgCode";
-    public static final String ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS = "error.document.purap.cannot.inactivate.used.in.system.parameters";
-    public static final String ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS = "error.document.purap.cannot.inactivate.used.by.active.records";
-    
+
     // Purchase Order & Requisition
     public static final String WARNING_REQUESTOR_NAME_TRUNCATED = "warning.requestor.name.truncated";
     public static final String WARNING_DELIVERY_TO_NAME_TRUNCATED = "warning.delivery.to.name.truncated";

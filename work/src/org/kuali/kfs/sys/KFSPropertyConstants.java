@@ -1224,5 +1224,7 @@ public class KFSPropertyConstants {
     public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
     public static final String PRINCIPAL_ID = "principalId";
     public static final String ELECTRONIC_PAYMENT_CLAIMS = "electronicPaymentClaims";
+    public static final String ITEM_UNIT_OF_MEASURE_DESCRIPTION = "itemUnitOfMeasureDescription";
+    public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
 }
 

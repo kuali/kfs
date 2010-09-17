@@ -17,10 +17,10 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -65,7 +65,7 @@ public class PurchaseOrderVendorChoiceRule extends MaintenanceDocumentRuleBase {
         if ((apoParameterValues.contains(newVendorChoice.getPurchaseOrderVendorChoiceCode()) || b2bParameterValues.contains(newVendorChoice.getPurchaseOrderVendorChoiceCode())) && ! newVendorChoice.isActive() && oldVendorChoice.isActive()) {
             success = false;
             String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newVendorChoice.getClass());
-            putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
+            putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         return success;
     }

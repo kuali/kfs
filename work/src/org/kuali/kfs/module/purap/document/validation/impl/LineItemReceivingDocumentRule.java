@@ -155,17 +155,17 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
                 String uomCode = item.getItemUnitOfMeasureCode();
                 if (StringUtils.isEmpty(uomCode)) {
                     valid = false;
-                    String attributeLabel = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
-                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + item.getItemUnitOfMeasureCode());
+                    String attributeLabel = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + item.getItemUnitOfMeasureCode());
                 }
                 else {
                     // Find out whether the unit of measure code has existed in the database
                     Map<String, String> fieldValues = new HashMap<String, String>();
-                    fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, item.getItemUnitOfMeasureCode());
+                    fieldValues.put(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, item.getItemUnitOfMeasureCode());
                     if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                         // This is the case where the unit of measure code on the item does not exist in the database.
                         valid = false;
-                        GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID, item.getItemUnitOfMeasureCode());
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID, item.getItemUnitOfMeasureCode());
                     }
                 }
             }

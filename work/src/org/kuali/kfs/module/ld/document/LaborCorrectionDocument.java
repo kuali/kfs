@@ -23,6 +23,7 @@ import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.batch.LaborCorrectionProcessScrubberStep;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
@@ -56,7 +57,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
             // this code is performed asynchronously
             // First, save the origin entries to the origin entry table
             LaborCorrectionDocumentService laborCorrectionDocumentService = SpringContext.getBean(LaborCorrectionDocumentService.class);
-            OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+            OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringContext.getBean(LaborOriginEntryGroupService.class);; 
             LaborCorrectionDocument doc = laborCorrectionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
             String correctionType = doc.getCorrectionTypeCode();

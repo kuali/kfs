@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
@@ -101,7 +101,8 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
         AttributeSet qualification = new AttributeSet();
         
         RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
-        String roleId = roleService.getRoleIdByName(PurapConstants.PURAP_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
+        // String roleId = roleService.getRoleIdByName(KfsParameterConstants.PURCHASING_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
+        String roleId = roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.PURCHASING, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
         
         qualification.put(KfsKimAttributes.CONTRACT_MANAGER_CODE, String.valueOf(contractManagerCode));
         Collection<RoleMembershipInfo> roleMemberships = roleService.getRoleMembers(Collections.singletonList(roleId), qualification);
@@ -117,7 +118,7 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.contractManagerCode != null) {

@@ -53,7 +53,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     private Map fieldValues;
 
     private LaborOriginEntryService laborOriginEntryService;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
 
     @Override
@@ -68,7 +68,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();

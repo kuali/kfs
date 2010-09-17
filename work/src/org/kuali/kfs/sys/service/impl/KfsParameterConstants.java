@@ -15,13 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class KfsParameterConstants extends ParameterConstants {

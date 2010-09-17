@@ -18,9 +18,7 @@ package org.kuali.kfs.module.ld.batch.service;
 import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_SCRUBBER_VALID;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,18 +26,13 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.LaborGeneralLedgerEntryForTesting;
 import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
-import org.kuali.kfs.module.ld.util.LedgerBalanceForTesting;
-import org.kuali.kfs.module.ld.util.LedgerEntryForTesting;
-import org.kuali.kfs.module.ld.util.OriginEntryGroupForTesting;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -49,7 +42,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext
 public class LaborPosterServiceTest extends KualiTestBase {
@@ -58,14 +50,16 @@ public class LaborPosterServiceTest extends KualiTestBase {
     private String fieldNames;
     private String deliminator;
     private OriginEntryGroup groupToPost;
+    @SuppressWarnings("rawtypes")
     private Map fieldValues, groupFieldValues;
 
     private LaborOriginEntryService laborOriginEntryService;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
     private LaborPosterService laborPosterService;
     private PersistenceService persistenceService;
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -78,7 +72,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborPosterService = SpringContext.getBean(LaborPosterService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);

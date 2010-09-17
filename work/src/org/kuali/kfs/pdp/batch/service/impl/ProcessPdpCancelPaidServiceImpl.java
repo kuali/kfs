@@ -24,7 +24,6 @@ import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.batch.service.ProcessPdpCancelPaidService;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;

@@ -17,10 +17,10 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.FundingSource;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -64,7 +64,7 @@ public class FundingSourceRule extends MaintenanceDocumentRuleBase {
         if (parameterValues.contains(newFundingSource.getFundingSourceCode()) && ! newFundingSource.isActive() && oldFundingSource.isActive()) {
             success = false;
             String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newFundingSource.getClass());
-            putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
+            putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         return success;
     }

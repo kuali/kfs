@@ -978,7 +978,9 @@
             <ref bean="kualiModuleService" />
         </property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
-		<property name="batchLaborFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
+		<!--<property name="batchLaborFileDirectoryName" value="${staging.directory}/ld/originEntry"/>-->
+		<property name="nightlyOutFileName" value="gl_glentry_kfs" />
+		<property name="backupFileName" value="gl_glbackup" />
 	</bean>
 
 	<bean id="glNightlyOutService" class="org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl">

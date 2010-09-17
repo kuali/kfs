@@ -17,7 +17,7 @@ package org.kuali.kfs.vnd.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.OwnershipType;
@@ -59,12 +59,12 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
         List<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES);
         List<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES);
         OwnershipType newBo = (OwnershipType)getNewBo();
-        OwnershipType oldBo= (OwnershipType)getOldBo();
+        OwnershipType oldBo = (OwnershipType) getOldBo();
 
         if ((feinParameterValues.contains(newBo.getVendorOwnershipCode()) || ssnParameterValues.contains(newBo.getVendorOwnershipCode())) && ! newBo.isActive() && oldBo.isActive()) {
             success = false;
             String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newBo.getClass());
-            putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
+            putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         return success;
     }

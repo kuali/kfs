@@ -42,6 +42,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PDP = "KFS-PDP";
         public static final String ENDOWMENT = "KFS-ENDOW";
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
+        public static final String PURCHASING = "KFS-PURAP";
     }
     
     public static class DocumentTypeAttributes {
@@ -1088,6 +1089,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TAX_REGION_TYPE_CODE_COUNTY = "CNTY";
         public static final String TAX_REGION_TYPE_CODE_POSTAL_CODE = "POST";
         public static final String TAX_REGION_TYPE_CODE_STATE = "ST";
+        public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
     }
     
     public static final class SubAccountType {

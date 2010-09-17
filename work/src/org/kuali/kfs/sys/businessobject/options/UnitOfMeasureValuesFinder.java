@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Value Finder for Units Of Measure.
@@ -37,7 +37,7 @@ public class UnitOfMeasureValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        Collection<UnitOfMeasure> results = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(UnitOfMeasure.class, PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_DESCRIPTION, true);
+        Collection<UnitOfMeasure> results = SpringContext.getBean(KeyValuesService.class).findAllOrderBy(UnitOfMeasure.class, KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_DESCRIPTION, true);
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
         for (UnitOfMeasure uom : results) {

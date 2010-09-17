@@ -17,7 +17,6 @@ package org.kuali.kfs.vnd.document.authorization;
 
 import java.util.Set;
 
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;

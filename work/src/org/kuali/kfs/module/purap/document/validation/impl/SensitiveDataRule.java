@@ -18,9 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -61,7 +61,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         if (oldSensitiveData.isActive() && !newSensitiveData.isActive()) {
             if (hasABlockingRecord(newSensitiveData.getSensitiveDataCode())) {
                 String documentLabel = "SensitiveData"; //SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newSensitiveData.getClass());
-                putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS, documentLabel);
+                putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS, documentLabel);
                 return false;
             }
         }

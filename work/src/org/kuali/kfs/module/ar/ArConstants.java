@@ -139,8 +139,6 @@ public class ArConstants {
     }
     
     
-    public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
-
     public static final String LOCKBOX_DOCUMENT_DESCRIPTION = "Created by Lockbox ";
     public static final String LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER = "Lockbox: Remittance for INVALID invoice number ";
     public static final String LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER = "Lockbox: Remittance for CLOSED invoice number ";

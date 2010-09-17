@@ -30,22 +30,16 @@ public interface OriginEntryGroupService {
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
      */
     public void createBackupGroup();
-
-    public void createLaborBackupGroup();
-
-    public File createLaborGroup(String fileName);
+    
+    public File createGroup(String fileName);
 
     public boolean getGroupExists(String groupId);
     
     public String getNewestScrubberErrorFileName();
     
-    public String getNewestScrubberErrorLaborFileName();
-    
     public File[] getAllFileInBatchDirectory();
     
-    public File[] getAllLaborFileInBatchDirectory();
-    
-    public File getLaborFileWithFileName(String fileName);
+    public File getFileWithFileName(String fileName);
     
     public void deleteFile(String fileName);
 }

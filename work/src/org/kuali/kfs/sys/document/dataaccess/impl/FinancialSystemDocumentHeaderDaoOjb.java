@@ -16,14 +16,11 @@
 package org.kuali.kfs.sys.document.dataaccess.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;

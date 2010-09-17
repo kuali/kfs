@@ -24,7 +24,6 @@ import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUM
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
-import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
 import static org.kuali.kfs.module.purap.PurapPropertyConstants.ITEM_UNIT_PRICE;
 
 import java.io.BufferedReader;
@@ -47,6 +46,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.exception.InfrastructureException;
@@ -63,8 +63,8 @@ public class ItemParserBase implements ItemParser {
      * The default format defines the expected item property names and their order in the import file.
      * Please update this if the import file format changes (i.e. adding/deleting item properties, changing their order).
      */
-    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_COMMODITY_CODE, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
-    protected static final String[] COMMODITY_CODE_DISABLED_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
+    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_COMMODITY_CODE, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
+    protected static final String[] COMMODITY_CODE_DISABLED_FORMAT = {ITEM_QUANTITY, KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
     
     private Integer lineNo = 0;
 
@@ -108,6 +108,7 @@ public class ItemParserBase implements ItemParser {
      * @param attributeName the name of the specified attribute
      * @return the attribute label for the specified attribute
      */
+    @SuppressWarnings("rawtypes")
     protected String getAttributeLabel( Class clazz, String attributeName ) {
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(clazz, attributeName);
         if (StringUtils.isBlank(label)) {
@@ -196,7 +197,7 @@ public class ItemParserBase implements ItemParser {
                     throw new ItemParserException("empty property value for " + key + " (line " + lineNo + ")", ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE, errorParams);                    
                 }
                 else */
-                if (key.equals(ITEM_UNIT_OF_MEASURE_CODE)) {
+                if (key.equals(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE)) {
                     value = value.toUpperCase(); // force UOM code to uppercase
                 }
                 try {

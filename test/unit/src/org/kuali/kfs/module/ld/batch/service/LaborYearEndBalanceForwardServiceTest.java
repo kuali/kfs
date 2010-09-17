@@ -18,19 +18,15 @@ package org.kuali.kfs.module.ld.batch.service;
 import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.LaborOriginEntryForTesting;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -47,8 +43,9 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
     private String deliminator;
     private Integer fiscalYear;
 
-    private Map fieldValues, groupFieldValues;
-    private OriginEntryGroupService originEntryGroupService;
+    private Map<String, Object> fieldValues;
+    private Map<String, String> groupFieldValues;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
     private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
     private PersistenceService persistenceService;
@@ -66,12 +63,12 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
         fiscalYear = Integer.valueOf(properties.getProperty("oldFiscalYear"));
 
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborYearEndBalanceForwardService = SpringContext.getBean(LaborYearEndBalanceForwardService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
 
-        groupFieldValues = new HashMap();
+        groupFieldValues = new HashMap<String, String>();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);
         //businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 

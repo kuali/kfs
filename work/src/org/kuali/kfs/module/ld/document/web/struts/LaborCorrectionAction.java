@@ -59,6 +59,7 @@ import org.kuali.kfs.module.ld.businessobject.options.CorrectionLaborGroupEntrie
 import org.kuali.kfs.module.ld.businessobject.options.LaborOriginEntryFieldFinder;
 import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -98,7 +99,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
         // Init our services once
         if (originEntryGroupService == null) {
-            CorrectionAction.originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+            CorrectionAction.originEntryGroupService = (OriginEntryGroupService)SpringContext.getBean(LaborOriginEntryGroupService.class);;
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
             CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
             CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
@@ -1162,7 +1163,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                 if (values.size() > 0) {
                     //TODO:- need to change using file
                     //OriginEntryGroup g = CorrectionAction.originEntryGroupService.getNewestScrubberErrorGroup();
-                    String newestScrubberErrorFileName = CorrectionAction.originEntryGroupService.getNewestScrubberErrorLaborFileName();
+                    String newestScrubberErrorFileName = CorrectionAction.originEntryGroupService.getNewestScrubberErrorFileName();
                     //if (g != null) {
                     if (newestScrubberErrorFileName != null) {
                         document.setCorrectionInputFileName(newestScrubberErrorFileName);

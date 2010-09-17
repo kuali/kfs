@@ -34,7 +34,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
-import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
@@ -45,7 +44,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
     
     // List of account-related BO classes which have chartOfAccountsCode and accountNumber as (part of) the primary keys.
     // This list shall include all subclasses of such classes as well.
-    public static final Class[] ACCOUNT_CLASSES = {Account.class, SubAccount.class, A21SubAccount.class, AwardAccount.class, PriorYearAccount.class,  
+    public static final Class[] ACCOUNT_CLASSES = { Account.class, SubAccount.class, A21SubAccount.class, PriorYearAccount.class,
         AccountDelegate.class, AccountDescription.class, AccountGlobalDetail.class, AccountGuideline.class, SubObjectCode.class, SubObjectCodeCurrent.class};
     public static HashSet<Class> accountClasses;    
     static {

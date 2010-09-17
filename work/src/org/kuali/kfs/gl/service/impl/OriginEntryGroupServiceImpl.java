@@ -22,27 +22,12 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
-import org.kuali.kfs.gl.dataaccess.OriginEntryGroupDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.integration.ld.LaborModuleService;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,19 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
 
-    private DateTimeService dateTimeService;
-    private String batchFileDirectoryName;
-    private String batchLaborFileDirectoryName;
-    private KualiModuleService kualiModuleService;
-
-    /**
-     * Constructs a OriginEntryGroupServiceImpl instance
-     */
-    public OriginEntryGroupServiceImpl() {
-        super();
-    }
+    protected DateTimeService dateTimeService;
+    protected String batchFileDirectoryName;
+    protected KualiModuleService kualiModuleService;
+    protected String nightlyOutFileName;
+    protected String backupFileName;
 
     /**
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getNewestScrubberErrorFileName()
@@ -98,37 +77,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return newestFile.getName();
     }
 
-    /**
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getNewestScrubberErrorLaborFileName()
-     */
-    public String getNewestScrubberErrorLaborFileName() {
-        File newestFile = null;
-
-        File[] files = null;
-        // can add filter here: listFiles(filter); -- check out originEntryTestBase from Jeff
-        if (new File(batchLaborFileDirectoryName) == null) {
-            return null;
-        }
-        files = new File(batchLaborFileDirectoryName).listFiles(new ScrubberErrorFilenameFilter());
-        List<File> fileList = Arrays.asList(files);
-        if (fileList.size() > 0) {
-            for (File eachFile : fileList) {
-                if (newestFile == null) {
-                    newestFile = eachFile;
-                }
-                else {
-                    if (newestFile.lastModified() < eachFile.lastModified()) {
-                        newestFile = eachFile;
-                    }
-                }
-            }
-        }
-        else {
-            return null;
-        }
-
-        return newestFile.getName();
-    }
 
     /**
      * Retrieves all groups to be created today, and creates backup group versions of them
@@ -138,19 +86,18 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void createBackupGroup() {
         LOG.debug("createBackupGroup() started");
         // check file from nightly out
-        String nightlyOutFileName = GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File nightlyOutFile = new File(batchFileDirectoryName + File.separator + nightlyOutFileName);
         if (!nightlyOutFile.exists()) {
             LOG.warn("nightlyOutFile doesn't exist :" + nightlyOutFileName);
         }
 
-        String backupFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String backupFile = batchFileDirectoryName + File.separator + backupFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream backupPs = null;
         try {
-            backupPs = new PrintStream(backupFileName);
+            backupPs = new PrintStream(backupFile);
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException("backupFile doesn't exist " + backupFileName);
+            throw new RuntimeException("backupFile doesn't exist " + backupFile);
         }
 
         // get all done files from originEntry Directory
@@ -160,39 +107,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         backupPs.close();
     }
 
-    /**
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#createLaborBackupGroup()
-     */
-    public void createLaborBackupGroup() {
-        LOG.debug("createLaborBackupGroup() started");
-
-        // Get the groups that need to be added
-        Date today = dateTimeService.getCurrentSqlDate();
-
-        // check file from nightly out
-        String laborNightlyOutFileName = LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        File laborNightlyOutFile = new File(batchLaborFileDirectoryName + File.separator + laborNightlyOutFileName);
-        if (!laborNightlyOutFile.exists()) {
-            LOG.warn("laborNightlyOutFile doesn't exist :" + laborNightlyOutFileName);
-        }
-
-        String laborBackupFileName = LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        File laborBackupFile = new File(batchLaborFileDirectoryName + File.separator + laborBackupFileName);
-
-        PrintStream laborBackupPs = null;
-        try {
-            laborBackupPs = new PrintStream(laborBackupFile);
-        }
-        catch (FileNotFoundException e) {
-            throw new RuntimeException("laborBackupFile doesn't exist " + laborBackupFile);
-        }
-
-        // get all done files from originEntry Directory
-        File[] doneFileList = new File(batchLaborFileDirectoryName).listFiles(new DoneFileFilter());
-        // build output file with doneFileList and print stream
-        buildBackupFileOutput(doneFileList, laborBackupPs);
-        laborBackupPs.close();
-    }
 
     /*
      * buildBackupFileOuput with doneFileList and PrintStream
@@ -224,15 +138,23 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
                 }
 
                 doneFile.delete();
+                postProcessDataFile(dataFile);
+                
             }
         }
     }
+    
+    protected void postProcessDataFile( File dataFile )
+    {
+        // do nothing.  A hook for institution extension.
+    }
+
 
     /**
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#createLaborGroup(java.lang.String)
+     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#createGroup(java.lang.String)
      */
-    public File createLaborGroup(String fileName) {
-        return new File(batchLaborFileDirectoryName + File.separator + fileName);
+    public File createGroup(String fileName) {
+        return new File(batchFileDirectoryName + File.separator + fileName);
     }
 
     /**
@@ -260,16 +182,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return returnFiles;
     }
 
-    /**
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getAllLaborFileInBatchDirectory()
-     */
-    public File[] getAllLaborFileInBatchDirectory() {
-        File[] returnFiles = null;
-        if (new File(batchLaborFileDirectoryName) != null) {
-            returnFiles = new File(batchLaborFileDirectoryName).listFiles(new DateAndDoneFileFilter());
-        }
-        return returnFiles;
-    }
 
     /**
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteFile(java.lang.String)
@@ -284,8 +196,8 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /**
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getLaborFileWithFileName(java.lang.String)
      */
-    public File getLaborFileWithFileName(String fileName) {
-        return new File(batchLaborFileDirectoryName + File.separator + fileName);
+    public File getFileWithFileName(String fileName) {
+        return new File(batchFileDirectoryName + File.separator + fileName);
     }
 
     protected class ScrubberErrorFilenameFilter implements FilenameFilter {
@@ -318,7 +230,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     protected File getDataFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
-            throw new IllegalArgumentException("DOne file name must end with " + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+            throw new IllegalArgumentException("Done file name must end with " + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
         }
         String dataFileAbsPath = StringUtils.removeEnd(doneFileAbsPath, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File dataFile = new File(dataFileAbsPath);
@@ -333,9 +245,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
-    public void setBatchLaborFileDirectoryName(String batchLaborFileDirectoryName) {
-        this.batchLaborFileDirectoryName = batchLaborFileDirectoryName;
-    }
 
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
@@ -344,4 +253,26 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }
+
+    public void setNightlyOutFileName(String nightlyOutFileName) {
+        this.nightlyOutFileName = nightlyOutFileName;
+    }
+
+    public void setBackupFileName(String backupFileName) {
+        this.backupFileName = backupFileName;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    protected String getBatchFileDirectoryName() {
+        return batchFileDirectoryName;
+    }
+
+    protected KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+    
+    
 }

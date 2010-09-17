@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
-
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -28,14 +24,11 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
-import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -56,7 +49,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private PostTransaction laborGLLedgerEntryPoster;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
 
     @Override
@@ -74,11 +67,11 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
 
         laborGLLedgerEntryPoster = SpringContext.getBean(PostTransaction.class,"laborGLLedgerEntryPoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         laborGeneralLedgerEntryService = SpringContext.getBean(LaborGeneralLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-        //TODO:- commented out
+        // TODO:- commented out
         //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 
@@ -89,7 +82,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
     }
 
     public void testPost() throws Exception {
-        //TODO:- need to change using file
+        // TODO:- need to change using file
 //        int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
 //        int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
 //        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));

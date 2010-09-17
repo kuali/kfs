@@ -31,6 +31,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
 import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -55,7 +56,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private PostTransaction laborLedgerBalancePoster;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
 
     @Override
     public void setUp() throws Exception {
@@ -71,7 +72,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
 
         laborLedgerBalancePoster = SpringContext.getBean(PostTransaction.class,"laborLedgerBalancePoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         //TODO:- commented out
         //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);

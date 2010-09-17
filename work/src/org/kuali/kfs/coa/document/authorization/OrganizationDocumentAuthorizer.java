@@ -19,22 +19,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Document Authorizer for the Organization document.

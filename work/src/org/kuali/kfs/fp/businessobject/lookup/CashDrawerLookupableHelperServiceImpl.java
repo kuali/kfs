@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.bo.BusinessObject;

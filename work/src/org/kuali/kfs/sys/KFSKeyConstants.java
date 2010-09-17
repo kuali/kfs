@@ -943,6 +943,10 @@ public class KFSKeyConstants {
     
     public static final String ERROR_LINEPARSER_INVALID_FILE_FORMAT = "error.lineparser.invalid.file.format";
     
+    // inactivation of system params
+    public static final String ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS = "error.document.cannot.inactivate.used.in.system.parameters";
+    public static final String ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS = "error.document.cannot.inactivate.used.by.active.records";
+
     // Recurring Cash Transfer Maintenance Errors
     public static final String ERROR_TRANSACTION_TYPE_INVALID = "error.document.transactionType.invalid";
 }

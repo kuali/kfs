@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +22,10 @@ import java.util.Properties;
 
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
-import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -47,7 +42,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
     private OriginEntryGroup group1;
 
     private LaborOriginEntryService laborOriginEntryService;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
     private VerifyTransaction laborPosterTransactionValidator;
     private PersistenceService persistenceService;
@@ -65,7 +60,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
 
         laborPosterTransactionValidator = SpringContext.getBean(VerifyTransaction.class,"laborPosterTransactionValidator");
         laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
 
@@ -106,7 +101,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
     }
 
     private List<Integer> getExpectedDataList(String propertyKeyPrefix, int numberOfInputData) {
-        List expectedDataList = new ArrayList();
+        List<Integer> expectedDataList = new ArrayList<Integer>();
         for (int i = 1; i <= numberOfInputData; i++) {
             String propertyKey = propertyKeyPrefix + i;
             expectedDataList.add(Integer.valueOf(properties.getProperty(propertyKey)));

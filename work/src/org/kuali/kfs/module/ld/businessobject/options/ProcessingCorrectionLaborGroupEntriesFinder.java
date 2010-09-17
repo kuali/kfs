@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -39,8 +40,8 @@ public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
 
-        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-        File[] fileList = originEntryGroupService.getAllLaborFileInBatchDirectory();
+        LaborOriginEntryGroupService originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);;
+        File[] fileList = originEntryGroupService.getAllFileInBatchDirectory();
         if (fileList != null) {
             for (File file : fileList) {
                 String fileName = file.getName();

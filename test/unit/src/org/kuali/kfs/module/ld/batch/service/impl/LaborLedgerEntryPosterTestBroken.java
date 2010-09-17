@@ -26,10 +26,10 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
+import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
 import org.kuali.kfs.module.ld.util.LaborTestDataPreparator;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -49,13 +49,13 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
     private String fieldNames;
     private String deliminator;
     private List<String> keyFieldList;
-    private Map fieldValues;
+    private Map<String, Object> fieldValues;
     private OriginEntryGroup group1;
     private Date today;
 
     private BusinessObjectService businessObjectService;
     private PostTransaction laborLedgerEntryPoster;
-    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryGroupService originEntryGroupService;
     private LaborLedgerEntryService laborLedgerEntryService;
     
     private static final String MOCK_REPORT_WRITER_BEAN_NAME = "mockReportWriterService";
@@ -74,7 +74,7 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
 
         laborLedgerEntryPoster = SpringContext.getBean(PostTransaction.class,"laborLedgerEntryPoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
+        originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class); 
         laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         //TODO:- commented out
@@ -104,6 +104,7 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
             operationType.put(operation, numberOfOperation);
         }
 
+        @SuppressWarnings("rawtypes")
         Collection returnValues = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
         assertEquals(numberOfTestData, returnValues.size());
 

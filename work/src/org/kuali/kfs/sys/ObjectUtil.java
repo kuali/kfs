@@ -285,6 +285,7 @@ public class ObjectUtil {
 
         try {
             if (skipReferenceFields) {
+                @SuppressWarnings("rawtypes")
                 Class propertyType = property.getType();
                 if (propertyType == null || PersistableBusinessObjectBase.class.isAssignableFrom(propertyType) || List.class.isAssignableFrom(propertyType)) {
                     return;

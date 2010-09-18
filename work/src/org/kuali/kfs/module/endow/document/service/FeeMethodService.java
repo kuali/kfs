@@ -53,4 +53,7 @@ public interface FeeMethodService {
      */
     public boolean isFeeMethodUsedOnAnyKemid(String feeMethodCode);
 
+    /**
+     * Gets FeeMethod records
+     */
 }

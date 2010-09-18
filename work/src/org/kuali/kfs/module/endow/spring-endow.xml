@@ -72,7 +72,7 @@
                 <value>createGainLossTransactionsJob</value>
                 <value>createIncomeDistributionJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
-
+                <value>processFeeTransactionsJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -636,7 +636,44 @@
             <ref bean="KEMIDService" />
         </property> 
     </bean>
-	
+	<!-- processFeeTransactionsJob configuration -->	
+ 	<bean id="processFeeTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="processFeeTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="processFeeTransactionsStep" class="org.kuali.kfs.module.endow.batch.ProcessFeeTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="processFeeTransactionsExceptionReportsWriterService" />
+			</list>
+		</property>
+		<property name="processFeeTransactionsService">
+			<ref bean="processFeeTransactionsService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
+	</bean>	
+	<bean id="processFeeTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImpl">
+		<property name="kemidFeeService">
+			<ref bean="kemidFeeService" />
+		</property>
+		<property name="processFeeTransactionsExceptionReportsWriterService">
+			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
+		</property>		
+	</bean>
+	<bean id="processFeeTransactionsExceptionReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsUpdatesException"/>
+        <property name="title" value="BATCH PROCESS FEE TRANSACTIONS UPDATE JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsExceptionReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>	
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">
@@ -1077,5 +1114,26 @@
 	    </property>
 	    <property name="columnCount" value="3" />
 	</bean>
-	
+	<bean id="processFeeTransactionsExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Fee Method"/>
+    			<entry key="columnHeading2" value="KEMID"/>
+    			<entry key="columnHeading3" value="Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="3" />
+	</bean>
+	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.document.service.impl.KemidFeeServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>
+    	<property name="parameterService">
+    	 	<ref bean="parameterService" />
+		</property>
+	</bean>	
 </beans>

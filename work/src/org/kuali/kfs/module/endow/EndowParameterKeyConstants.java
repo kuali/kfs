@@ -22,5 +22,6 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
 public class EndowParameterKeyConstants implements ParameterKeyConstants {
      public static class AvailableCashUpdateConstants {
         public static final String AVAILABLE_CASH_PERCENT = "AVAILABLE_CASH_PERCENT";
-    }
+     }
+     public static final String FISCAL_YEAR_END_MONTH_AND_DAY = "FISCAL_YEAR_END_MONTH_AND_DAY";     
 }

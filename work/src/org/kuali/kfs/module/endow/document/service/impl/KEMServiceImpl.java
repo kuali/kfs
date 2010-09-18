@@ -212,17 +212,18 @@ public class KEMServiceImpl implements KEMService {
      *      FISCAL_YEAR_END_DAY_AND_MONTH system parameter
      * @return FISCAL_YEAR_END_DAY_AND_MONTH value
      */
-    public Date getFiscalYearEndDayAndMonth() {
-        Date fiscalDate = null;
+    public java.sql.Date getFiscalYearEndDayAndMonth() {
+        java.sql.Date fiscalDate = null;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String yearEndDateAndMonth = parameterService.getParameterValue(Batch.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String yearEndDateAndMonth = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH);
 
         Calendar calendar = Calendar.getInstance();
-        yearEndDateAndMonth = yearEndDateAndMonth.concat("/") + calendar.get(Calendar.YEAR);
+        
+        yearEndDateAndMonth =  yearEndDateAndMonth.substring(0, 2).concat("/").concat(yearEndDateAndMonth.substring(2, 4)).concat("/") + calendar.get(Calendar.YEAR);
 
         try {
-            fiscalDate = getDateTimeService().convertToDate(yearEndDateAndMonth);
+            fiscalDate = getDateTimeService().convertToSqlDate(yearEndDateAndMonth);
         }
         catch (ParseException pe) {
             return null;
@@ -262,6 +263,24 @@ public class KEMServiceImpl implements KEMService {
             return 365;
     }
 
+    /**
+     * Gets the first day after the fiscal year end day and month as set in the system parameter.
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getFirstDayAfterFiscalYearEndDayAndMonth()
+     * @return Date
+     */
+    public java.sql.Date getFirstDayAfterFiscalYearEndDayAndMonth() {
+        Date fiscalYearEndDate = getFiscalYearEndDayAndMonth();
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fiscalYearEndDate);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);        
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+    
     /**
      * Gets the dateTimeService.
      * 

@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.HoldingHistoryMarketValuesUpdateService;
+import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
@@ -37,7 +38,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements the HoldingHistoryMarketValuesUpdateServices.
+ * This class implements the ProcessFeeTransactionsService.
  */
 @Transactional
 public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHistoryMarketValuesUpdateService {

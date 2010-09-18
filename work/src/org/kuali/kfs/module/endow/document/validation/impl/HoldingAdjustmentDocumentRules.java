@@ -33,6 +33,7 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
@@ -105,12 +106,10 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         if (isValid) {
                isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
         }       
-        if (isValid) {
-            isValid &= validateTransactionAmountGreaterThanZero(line, getErrorPrefix(line, index));
-        }
+        
         return isValid;
     }
-
+    
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
      */

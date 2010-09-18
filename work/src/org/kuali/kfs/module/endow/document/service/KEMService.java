@@ -111,4 +111,10 @@ public interface KEMService {
      * @return the number of days in the calendar year
      */
     public int getNumberOfDaysInCalendarYear();
+    
+    /**
+     * Gets the first day after the fiscal year End Day and Month system parameter.
+     * 
+     */
+    public java.sql.Date getFirstDayAfterFiscalYearEndDayAndMonth();
 }

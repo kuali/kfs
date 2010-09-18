@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
@@ -210,7 +211,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             final KualiDecimal totalAmount = glpeService.getOffsetToCashAmount(cashControlDocument).negated();
             // add additional GLPE's based on bank code
-            if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, totalAmount, cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
+            if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, totalAmount, cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, ArPropertyConstants.CashControlDocumentFields.BANK_CODE)) {
                 AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
                 bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
                 cashControlDocument.addPendingEntry(bankOffsetEntry);

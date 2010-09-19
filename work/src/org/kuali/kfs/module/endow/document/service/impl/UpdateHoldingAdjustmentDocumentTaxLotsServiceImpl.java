@@ -249,6 +249,12 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
      * @param transLine
      * @param holdingTaxLots
      */
+    /**
+     * This method...
+     * @param holdingAdjustmentDocument
+     * @param transLine
+     * @param holdingTaxLots
+     */
     protected void createEndowmentHoldingLotRecord(HoldingAdjustmentDocument holdingAdjustmentDocument, EndowmentTransactionLine transLine, List<HoldingTaxLot> holdingTaxLots) {
 
         if (holdingTaxLots != null) {
@@ -257,6 +263,12 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
                 endowmentTransactionTaxLotLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
                 endowmentTransactionTaxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                 endowmentTransactionTaxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
+                
+                endowmentTransactionTaxLotLine.setSecurityID(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID());
+                endowmentTransactionTaxLotLine.setRegistrationCode(holdingAdjustmentDocument.getSourceTransactionSecurity().getRegistrationCode());
+                endowmentTransactionTaxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
+                endowmentTransactionTaxLotLine.setKemid(transLine.getKemid());
+                
                 endowmentTransactionTaxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
                 // set it just for future computation
                 endowmentTransactionTaxLotLine.setLotUnits(holdingTaxLot.getUnits());

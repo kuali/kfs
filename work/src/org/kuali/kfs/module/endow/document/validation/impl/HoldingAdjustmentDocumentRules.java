@@ -102,7 +102,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
 
         boolean isValid = !checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(line, index);
-        isValid &= !checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(line, index);
+     //   isValid &= !checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(line, index);
         if (isValid) {
                isValid &= super.validateTransactionLine(endowmentTransactionLinesDocument, line, index);
         }       

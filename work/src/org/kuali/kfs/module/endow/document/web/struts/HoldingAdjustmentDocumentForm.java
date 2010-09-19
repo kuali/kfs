@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 
 /**
  * HoldingAdjustmentDocumentForm class
@@ -44,12 +44,12 @@ public class HoldingAdjustmentDocumentForm extends EndowmentTransactionLinesDocu
     }
 
     /**
-     * Gets the EndowmentUnitShareAdjustmentDocument document
+     * Gets the HoldingAdjustmentDocument document
      * 
      * @return document
      */
-    public EndowmentUnitShareAdjustmentDocument getEndowmentUnitShareAdjustmentDocument() {
-        return (EndowmentUnitShareAdjustmentDocument) getDocument();
+    public HoldingAdjustmentDocument getHoldingAdjustmentDocument() {
+        return (HoldingAdjustmentDocument) getDocument();
     }
 
     /**

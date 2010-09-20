@@ -232,6 +232,7 @@
 
 	<bean id="organizationReversionService"
 		class="org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl">
+		<property name="parameterService" ref="parameterService" />
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>

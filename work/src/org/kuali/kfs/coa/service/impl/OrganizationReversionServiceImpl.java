@@ -21,15 +21,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.dataaccess.OrganizationReversionDao;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -42,7 +46,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
     private OrganizationReversionDao organizationReversionDao;
     private BusinessObjectService businessObjectService;
-
+    private ParameterService parameterService;
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String)
@@ -93,6 +97,15 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         return organizationReversionDao.getCategories();
     }
 
+    
+    /**
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#getOrganizationReversionDetaiFromSystemParameters()
+     */
+    public String  getOrganizationReversionDetaiFromSystemParameters() {
+        return parameterService.getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM);
+    }
+    
+
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#isCategoryActive(java.lang.String)
      */
@@ -120,6 +133,16 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         return category.isActive();
     }
 
+    /**
+     * 
+     * This method injects the ParameterService
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+ 
     /**
      * 
      * This method injects the OrganizationReversionDao

@@ -661,7 +661,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private boolean getPurchaseBlanketApprovalIndicator() {
-      String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+      String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
       return (EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false);
     }
     
@@ -671,7 +671,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private boolean getSaleBlanketApprovalIndicator() {
-        String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_BLANKET_APPROVAL);
+        String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false);
     }
     

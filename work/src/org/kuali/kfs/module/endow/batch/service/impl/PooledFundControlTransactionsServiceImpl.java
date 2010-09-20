@@ -99,9 +99,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }   
             //create a cash document
             if (totalAmount > 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
             } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_BLANKET_APPROVAL);
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
             }            
         }
     }
@@ -126,9 +126,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }   
             //create a cash document
             if (totalAmount > 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_BLANKET_APPROVAL);
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
             } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_BLANKET_APPROVAL);
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
             }
         }         
     }
@@ -154,9 +154,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is “recovering” (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount > 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL);
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             } else if (totalAmount < 0) {
-                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL);
+                createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             }
         }      
     }
@@ -188,9 +188,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }                  
             //create a cash document
                if (totalAmount > 0) {
-                   createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_BLANKET_APPROVAL);
+                   createECI(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
             } else if (totalAmount < 0) {
-                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_BLANKET_APPROVAL);
+                createECDD(pooledFundControl, new KualiDecimal(totalAmount), EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
             }
         }                
     }

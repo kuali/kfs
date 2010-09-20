@@ -1119,9 +1119,13 @@
     			<entry key="columnHeading1" value="Document Type"/>
     			<entry key="columnHeading2" value="Security Id"/>
     			<entry key="columnHeading3" value="KEMID"/>
+    			<entry key="columnHeading4" value="Registration Code"/>
+    			<entry key="columnHeading5" value="Month End Date Id"/>
+    			<entry key="columnHeading6" value="IP Indicator"/>
+    			<entry key="columnHeading7" value="Tax Lot Number"/>
     		</map>
 	    </property>
-	    <property name="columnCount" value="3" />
+	    <property name="columnCount" value="7" />
 	</bean>
 	<bean id="processFeeTransactionsExceptionReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />

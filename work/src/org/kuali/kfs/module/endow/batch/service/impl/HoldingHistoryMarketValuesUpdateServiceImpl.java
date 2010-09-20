@@ -49,7 +49,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
     private HoldingHistoryService holdingHistoryService;
     private HoldingHistoryValueAdjustmentDocumentService holdingHistoryValueAdjustmentDocumentService;
 
-    private PersonService<Person> personService;
     private ReportWriterService holdingHistoryMarketValuesExceptionReportWriterService;
     
     EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
@@ -79,6 +78,10 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading1("Documnet Type");
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading2("Security Id");
         holdingHistoryMarketValueExceptionReportHeader.setColumnHeading3("KEMID");
+        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading4("Registration Code");
+        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading5("Month End Date Id"); 
+        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading6("IP Indicator"); 
+        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading7("Tax Lot Number");        
         
         holdingHistoryMarketValuesExceptionReportWriterService.writeTableHeader(holdingHistoryMarketValueExceptionReportHeader);
         
@@ -116,27 +119,38 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
                             //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
                             holdingHistoryValueAdjustmentDocument.setTransactionPosted(true);
                             if (!holdingHistoryValueAdjustmentDocumentService.saveHoldingHistory(holdingHistoryValueAdjustmentDocument)) {
-                                holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");
+                                setUnwantedReportColumnsToBlank();                                
                                 writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to set Transaction Posted flag in Holding History Value Adjustment Document.");
                             }
                         }
                      }
                 }
                 else {
-                    holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");                    
+                    setUnwantedReportColumnsToBlank();                    
                     writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Holding History Value Adjustment document status is NOT FINAL. - Skipped updating the Market Values.");
                 }
             }
             else {
                 LOG.error("Document is NULL.  It should never have been null");
-                holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");                
+                setUnwantedReportColumnsToBlank();                
                 writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to find if the document status is FINAL.  The document does not exist in the workflow.");                
             }
         }
         
         return success;
     }
-        
+      
+    /**
+     * Sets the unneeded columns to null
+     */
+    protected void setUnwantedReportColumnsToBlank() {
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading3(""); 
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading4("");                    
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading5("");                    
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading6("");                    
+        holdingHistoryMarketValueExceptionRowValues.setColumnHeading7("");                    
+    }
+    
     /**
      * This method will check the document's transaction posted boolean field to see if the document is
      * eligible for market value update process.
@@ -153,7 +167,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
      
         if (!documentTypeName.equalsIgnoreCase(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
-            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");            
+            setUnwantedReportColumnsToBlank();            
             writeTableRowAndTableReason(ehva, "Document Type = " + documentTypeName + " - only document types EHVA are allowed to be processed by this job.");
 
             return false;
@@ -172,6 +186,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         
         holdingHistoryMarketValuesExceptionReportWriterService.writeTableRow(holdingHistoryMarketValueExceptionRowValues);            
         setExceptionReportTableRowReason(reasonMessage);
+        
         holdingHistoryMarketValuesExceptionReportWriterService.writeTableRow(holdingHistoryMarketValueExceptionRowReason);            
         holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
     }
@@ -197,6 +212,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         holdingHistoryMarketValueExceptionRowReason.setColumnHeading1("Reason: " + reasonForException);
         holdingHistoryMarketValueExceptionRowReason.setColumnHeading2("");
         holdingHistoryMarketValueExceptionRowReason.setColumnHeading3("");
+        setUnwantedReportColumnsToBlank();
     }
 
     /**
@@ -215,7 +231,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         Collection<HoldingHistory> holdingHistoryRecords = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(ehva.getSecurityId(), ehva.getHoldingMonthEndDate());
 
         if (holdingHistoryRecords.isEmpty()) {
-            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");            
+            setUnwantedReportColumnsToBlank();            
             writeTableRowAndTableReason(ehva, "There are no Holding History records to match the Holding History Value Adjustment document's security id and monthEndDateID.  The process is not executed");
             return false;
         }
@@ -232,7 +248,11 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
             
             if (!holdingHistoryService.saveHoldingHistory(holdingHistoryRecord)) {
                 holdingHistoryMarketValueExceptionRowValues.setColumnHeading3(holdingHistoryRecord.getKemid());
-                writeTableRowAndTableReason(ehva, "Unable to update the market value and save Holding History record.");
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading4(holdingHistoryRecord.getRegistrationCode());
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading5(holdingHistoryRecord.getMonthEndDateId().toString());
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading6(holdingHistoryRecord.getIncomePrincipal().getName());
+                holdingHistoryMarketValueExceptionRowValues.setColumnHeading7(holdingHistoryRecord.getLotNumber().toString());                
+                writeTableRowAndTableReason(ehva, "Unable to save Holding History record.");
                 return false;
             }
         }
@@ -251,8 +271,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         try {
             BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), null, EndowConstants.Scale.SECURITY_MARKET_VALUE);
             
-//            BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), ehva.getSecurity().getUnitsHeld(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-            
             if (ehva.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.BOND)) {
                 tmpValue = KEMCalculationRoundingHelper.divide(tmpValue, BigDecimal.valueOf(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             }
@@ -260,7 +278,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
             marketValue = marketValue.add(tmpValue);  
         }
         catch (Exception ex) {
-            holdingHistoryMarketValueExceptionRowValues.setColumnHeading3("");
+            setUnwantedReportColumnsToBlank();            
             writeTableRowAndTableReason(ehva, "Reason: " + ex.getMessage() + " - Unable to update the market value.");
             return null;
         }
@@ -303,15 +321,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
     public DocumentService getDocumentService() {
         return documentService;
     }   
-    
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService<Person> getPersonService() {
-        if(personService==null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
-    }
     
     /**
      * Gets the holdingHistoryMarketValuesExceptionReportWriterService attribute. 

@@ -27,6 +27,9 @@
         <ref bean="EndowmentExceptionReportHeader-columnHeading2"/>
         <ref bean="EndowmentExceptionReportHeader-columnHeading3"/>
         <ref bean="EndowmentExceptionReportHeader-columnHeading4"/>
+        <ref bean="EndowmentExceptionReportHeader-columnHeading5"/>
+        <ref bean="EndowmentExceptionReportHeader-columnHeading6"/>
+        <ref bean="EndowmentExceptionReportHeader-columnHeading7"/>
       </list>
     </property>
   </bean>
@@ -55,5 +58,22 @@
   	<property name="name" value="columnHeading4"/>
   	<property name="maxLength" value="20"/>
   </bean>
-  
+  <bean id="EndowmentExceptionReportHeader-columnHeading5" parent="EndowmentExceptionReportHeader-columnHeading5-parentBean"/>
+
+  <bean id="EndowmentExceptionReportHeader-columnHeading5-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading5"/>
+  	<property name="maxLength" value="20"/>
+  </bean>  
+  <bean id="EndowmentExceptionReportHeader-columnHeading6" parent="EndowmentExceptionReportHeader-columnHeading6-parentBean"/>
+
+  <bean id="EndowmentExceptionReportHeader-columnHeading6-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading6"/>
+  	<property name="maxLength" value="20"/>
+  </bean> 
+     <bean id="EndowmentExceptionReportHeader-columnHeading7" parent="EndowmentExceptionReportHeader-columnHeading7-parentBean"/>
+
+  <bean id="EndowmentExceptionReportHeader-columnHeading7-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading7"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
 </beans>

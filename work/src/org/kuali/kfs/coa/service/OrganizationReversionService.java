@@ -65,4 +65,12 @@ public interface OrganizationReversionService {
      * @return true if the given category name represents an active category; false otherwise
      */
     public boolean isCategoryActiveByName(String categoryName);
+    
+    /**
+     * 
+     * This method looks up the default object code to populate the Organization Reversion object code if the 
+     * "carry Forward by Object Code" box is not checked.
+     * @return system parameter default value for Organization Reversion detail
+     */
+    public String getOrganizationReversionDetaiFromSystemParameters();
 }

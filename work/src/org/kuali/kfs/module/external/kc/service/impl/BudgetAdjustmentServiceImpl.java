@@ -104,6 +104,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         // set required values to AccountCreationStatus
         if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.BudgetAdjustmentService.STATUS_KC_BA_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
             routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);  
+            budgetAdjustmentCreationStatus.setDocumentNumber(budgetAdjustmentDoc.getDocumentNumber());
         }      
         return budgetAdjustmentCreationStatus;
     }

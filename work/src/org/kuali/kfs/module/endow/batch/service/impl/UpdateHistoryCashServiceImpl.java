@@ -48,7 +48,7 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
             KualiInteger monthEndDateId = appendNewMonthEndDate(currentDate);
             LOG.info("UpdateHistoryCash batch process has appended "+monthEndDateId+":"+currentDate+" to END_ME_DT_T table.");
             //Append the records in the END_CRNT_CSH_T table to the END_HIST_CSH_T table
-            return appendNewHistoricalCashRecord(monthEndDateId); 
+            return appendNewHistoricalCashRecords(monthEndDateId); 
         }
         else {
             
@@ -67,7 +67,7 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
     }
     
     
-    private boolean appendNewHistoricalCashRecord (KualiInteger monthEndDateId){
+    private boolean appendNewHistoricalCashRecords(KualiInteger monthEndDateId){
         Collection<KemidCurrentCash> kemidCurrentCashRecords = 
                 businessObjectService.findAll(KemidCurrentCash.class);
         int counter = 0;

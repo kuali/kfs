@@ -303,7 +303,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         if (rulesPassed) {
 
             // TODO figure out if/how we use the ad hoc recipients list
-            String blanketApproval = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_BLANKET_APPROVAL_IND);
+            String blanketApproval = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
 
             try {

@@ -147,7 +147,7 @@
     <property name="name" value="payeeEmailAddress"/>
     <property name="label" value="Email Address"/>
     <property name="shortLabel" value="Email Address"/>
-    <property name="maxLength" value="43"/>
+    <property name="maxLength" value="200"/>
     <property name="validationPattern">
       <bean parent="EmailAddressValidationPattern"/>
     </property>

@@ -492,7 +492,7 @@
     <property name="name" value="adviceEmailAddress"/>
     <property name="label" value="ACH Advice E-mail Address"/>
     <property name="shortLabel" value="Advice E-mail Address"/>
-    <property name="maxLength" value="50"/>
+    <property name="maxLength" value="200"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>

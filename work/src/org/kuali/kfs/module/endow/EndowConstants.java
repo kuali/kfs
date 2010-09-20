@@ -171,6 +171,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String SHORT_TERM_GAIN_LOSS_DESCRIPTION = "SHORT_TERM_GAIN_LOSS_DESCRIPTION";
         public static final String LONG_TERM_GAIN_LOSS_DESCRIPTION = "LONG_TERM_GAIN_LOSS_DESCRIPTION";
         public static final String GAIN_LOSS_BLANKET_APPROVAL_IND = "GAIN_LOSS_NO_ROUTE_IND";
+        public static final String ALLOW_NEGATIVE_BALANCE = "ALLOW_NEGATIVE_BALANCE";
+        
     }
 
     public static class KemidValueOptions {

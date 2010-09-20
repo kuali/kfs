@@ -635,6 +635,15 @@
         <property name="kemidService">
             <ref bean="KEMIDService" />
         </property> 
+        <property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+        <property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
     </bean>
 	<!-- processFeeTransactionsJob configuration -->	
  	<bean id="processFeeTransactionsJob" parent="scheduledJobDescriptor">

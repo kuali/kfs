@@ -195,6 +195,8 @@
 <include file="updates/2010-09-01-5476n-1-END_FEE_TRAN_DOC_T.xml"/>
 <include file="updates/2010-09-02-5476o-1-XFR_NBR_SEQ.xml"/>
 <include file="updates/2010-09-03-5476p-1-END_REC_CSH_XFT_T.xml"/>
-<include file="updates/2010-09-13-5555-1-krew_doc_typ_t.xml"/>
+<include file="updates/2010-09-13-5986-krew_doc_typ_t.xml"/>
 <include file="updates/2010-09-13-5475f-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-16-5975-1-PDP_ACH_BNK_T.xml"/>
+<include file="updates/2010-09-17-5475g-1-KRNS_PARM_T.xml"/>
 </databaseChangeLog>

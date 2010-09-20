@@ -1,0 +1,1065 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5475g-1-1' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <delete tableName='KRNS_PARM_T'>
+      <where>NMSPC_CD='KFS-ENDOW'</where>
+    </delete>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-2' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundValue' />
+      <column name='PARM_NM' value='DISTRIBUTIONS_PER_YEAR' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='2' />
+      <column name='PARM_DESC_TXT' value='The number of times per year that the institution will distribute income to the account holders' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-3' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name='PARM_NM' value='ASSET_TYPE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='AS' />
+      <column name='PARM_DESC_TXT' value='The value of this parameter is used to map the Asset Endowment Transaction Type to the Assets code defined in the Basic Accounting Category table' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-4' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name='PARM_NM' value='EXPENSE_TYPE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='EX' />
+      <column name='PARM_DESC_TXT' value='The value of this parameter is used to map the Expense Endowment Transaction Type to the Expenses code defined in the Basic Accounting Category table' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-5' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name='PARM_NM' value='INCOME_TYPE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='IN' />
+      <column name='PARM_DESC_TXT' value='The value of this parameter is used to map the Income Endowment Transaction Type to the Income code defined in the Basic Accounting Category table' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-6' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentTransactionCode' />
+      <column name='PARM_NM' value='LIABILITY_TYPE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='LI' />
+      <column name='PARM_DESC_TXT' value='The value of this parameter is used to map the Liabilities Endowment Transaction Type to the Liabilities code defined in the Basic Accounting Category table' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-7' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='KEMID' />
+      <column name='PARM_NM' value='KEMID_VALUE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Manual' />
+      <column name='PARM_DESC_TXT' value='The creation of a new KEMID value will be dependent upon the institutional parameter chosen for the KEMID_VALUE: 1 If the parameter is Automatic,each KEMID initiated will be sequentially numbered by the system based on a database sequence and beginning with the value the sequence has been configured to start with 2 If the parameter is Automatic,each KEMID initiated will be sequentially numbered by the system based on a database sequence and beginning with the value the sequence has been configured to start with' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-8' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='TAX_LOTS_ACCOUNTING_METHOD' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Average Balance' />
+      <column name='PARM_DESC_TXT' value='This parameter is used to identify the institutional selection for tracking security Tax Lots and transactions involving cash The possible values for this parameter are: Average Balance,FIFO First In - First Out or LIFO Last In - First Out' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-9' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAccrualTransactionsStep' />
+      <column name='PARM_NM' value='NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Accrual transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-10' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAccrualTransactionsStep' />
+      <column name='PARM_NM' value='DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Accrued Income Distribution' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Accrual Transactions batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-11' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentRecurringCashTransfer' />
+      <column name='PARM_NM' value='DOCUMENT_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='ECT;EGLT' />
+      <column name='PARM_DESC_TXT' value='The values of this parameter represent a complete list of document type names supported by the endowment recurring cash transfer maintenance documents The application maps this list to the document types that have been registered with the Workflow Engine' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-12' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentRecurringCashTransfer' />
+      <column name='PARM_NM' value='ALLOW_NEGATIVE_BALANCE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='If Y,then the Target transaction amount can exceed the calculated cash equivalents balance' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-13' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='EndowmentToGLTransferOfFunds' />
+      <column name='PARM_NM' value='GL_OBJECT_SUB_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='MT; TN' />
+      <column name='PARM_DESC_TXT' value='The KFS object subtypes that are allowed for the KEM to GL Cash Transfer transaction types' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-14' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='GLToEndowmentTransferOfFunds' />
+      <column name='PARM_NM' value='GL_OBJECT_SUB_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='MT; TN' />
+      <column name='PARM_DESC_TXT' value='The KFS object subtypes that are allowed for the GL to KEM Cash Transfer transaction types' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-15' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CashTransfer' />
+      <column name='PARM_NM' value='CASH_OBJECT_SUB_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='MT; TN' />
+      <column name='PARM_DESC_TXT' value='The KFS object subtypes that are allowed for the KEM to KEM Cash Transfer transaction type' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-16' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='SecurityTransfer' />
+      <column name='PARM_NM' value='HOLDING_OBJECT_SUB_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='MT; TN' />
+      <column name='PARM_DESC_TXT' value='The KFS object subtypes that are allowed for the KEM to KEM Holding Transfer transaction type' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-17' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='Batch' />
+      <column name='PARM_NM' value='FISCAL_YEAR_END_MONTH_AND_DAY' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='0630' />
+      <column name='PARM_DESC_TXT' value='The month and day marking the last date of the fiscal year 0630 means June 30th' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-18' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='Batch' />
+      <column name='PARM_NM' value='MAXIMUM_TRANSACTION_LINES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='1000' />
+      <column name='PARM_DESC_TXT' value='The maximum number of transaction lines that the institution prefers for the eDocs that are generated automatically as a result of a nightly batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-19' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='USE_PROCESS_DATE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='If USE_PROCESS_DATE_IND=Y,get the value from CURRENT_PROCESS_DATE If USE_PROCESS_DATE_IND=N,get the current date from the local system using standard Java API' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-20' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='All' />
+      <column name='PARM_NM' value='CURRENT_PROCESS_DATE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='SYSDATE' />
+      <column name='PARM_DESC_TXT' value='The Current Process Date' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-21' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='TransactionArchive' />
+      <column name='PARM_NM' value='DOCUMENT_TYPES' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='EAD;EAI;ECDD;ECI;ECT;ECA;EUSA;ELD;ELI;EST;EHA;EGLT;GLET' />
+      <column name='PARM_DESC_TXT' value='The values of this parameter represent a complete list of document type names for the endowment transactional documents that can be posted to the endowment transaction archive table The application maps this list to the document types that have been registered with the Workflow Engine' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-22' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Control Purchase transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-23' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='SALE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Control Sale transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-24' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='GAIN_LOSS_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Control Sale Gain Loss transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-25' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='INCOM_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Control Income Distribution transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-26' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Net Pooled Fund Purchases' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Pooled Fund Control Purchase batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-27' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='SALE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Net Pooled Fund Sales at Book' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Pooled fund Control Sale batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-28' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='GAIN_LOSS_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Net Pooled Fund Sale Gains and Losses' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Pooled fund Control Sale Gain Loss batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-29' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='PooledFundControlTransactionsStep' />
+      <column name='PARM_NM' value='INCOME_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Net Pooled Fund Income Distributions' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Pooled fund Control Income Distribution batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-30' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateCashSweepTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Cash Sweep Purchase transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-31' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateCashSweepTransactionsStep' />
+      <column name='PARM_NM' value='SALE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Cash Sweep Sale eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-32' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateCashSweepTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Increase Cash Sweep Investments' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the asset purchase eDocs produced as a result of the Cash Sweep batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-33' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateCashSweepTransactionsStep' />
+      <column name='PARM_NM' value='SALE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Decrease Cash Sweep Investments' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the asset sale eDocs produced as a result of the Cash Sweep batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-34' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAutomatedCashInvestmentTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated ACI Purchase eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-35' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAutomatedCashInvestmentTransactionsStep' />
+      <column name='PARM_NM' value='SALE_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated ACI Sale eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-36' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAutomatedCashInvestmentTransactionsStep' />
+      <column name='PARM_NM' value='PURCHASE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Purchase Pooled Funds' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the asset purchase eDocs produced as a result of the ACI batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-37' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateAutomatedCashInvestmentTransactionsStep' />
+      <column name='PARM_NM' value='SALE_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Sell Pooled Funds' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the asset sale eDocs produced as a result of the ACI batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-38' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateGainLossDistributionTransactionsStep' />
+      <column name='PARM_NM' value='GAIN_LOSS_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled fund Gain loss Distribution eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-39' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='IncomeDistributionForPooledFundStep' />
+      <column name='PARM_NM' value='INCOME_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Income transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-40' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateGainLossDistributionTransactionsStep' />
+      <column name='PARM_NM' value='LONG_TERM_GAIN_LOSS_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Distribute Long Term Gains and Losses' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the holding adjustment eDocs produced as a result of the Pooled Fund Distribution batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-41' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateGainLossDistributionTransactionsStep' />
+      <column name='PARM_NM' value='SHORT_TERM_GAIN_LOSS_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Distribute Short Term Gains and Losses' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the holding adjustment eDocs produced as a result of the Pooled Fund Distribution batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-42' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='IncomeDistributionForPooledFundStep' />
+      <column name='PARM_NM' value='INCOME_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Distribute Pooled Fund Income' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the holding adjustment eDocs produced as a result of the Pooled Fund Distribution batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-43' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='IncomeDistributionForPooledFundStep' />
+      <column name='PARM_NM' value='INCOME_TRANSFER_NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Pooled Fund Income Transfer transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-44' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='IncomeDistributionForPooledFundStep' />
+      <column name='PARM_NM' value='INCOME_TRANSFER_DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Transfer Pooled Fund Income' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the holding adjustment eDocs produced as a result of the Pooled Fund Income Transfer batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-45' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='IncomeDistributionForPooledFundStep' />
+      <column name='PARM_NM' value='INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='59990' />
+      <column name='PARM_DESC_TXT' value='The Endowment Transaction Code that the system will use to process the transfer of distributed income according to the KEMID payout instructions' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-46' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='AvailableCashUpdateStep' />
+      <column name='PARM_NM' value='AVAILABLE_CASH_PERCENT' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='90' />
+      <column name='PARM_DESC_TXT' value='Used to calculate the percent of the market value of pooled funds considered available for spending' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-47' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateRecurringCashTransferTransactionsStep' />
+      <column name='PARM_NM' value='NO_ROUTE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='Flag to specify if an automatically system generated Recurring Cash Transfer transaction eDoc will be submitted without routing for approval Yes or for manual approval through workflow No' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-48' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateRecurringCashTransferTransactionsStep' />
+      <column name='PARM_NM' value='DESCRIPTION' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Recurring Cash Transfer Transaction' />
+      <column name='PARM_DESC_TXT' value='The standard description to be used for the batch header of the eDocs produced as a result of the Recurring Cash Transfer batch process' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Bonnie' id='5475g-1-49' failOnError='true'>
+    <comment>we have to update all endowment system parameters on kuldba again.</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='APPL_NMSPC_CD' value='KFS' />
+      <column name='PARM_DTL_TYP_CD' value='CreateRecurringCashTransferTransactionsStep' />
+      <column name='PARM_NM' value='ALLOW_NEGATIVE_BALANCE_IND' />
+      <column name='PARM_TYP_CD' value='CONFG' />
+      <column name='TXT' value='Y' />
+      <column name='PARM_DESC_TXT' value='If Y,then the Target transaction amount can exceed the calculated cash equivalents balance' />
+      <column name='CONS_CD' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

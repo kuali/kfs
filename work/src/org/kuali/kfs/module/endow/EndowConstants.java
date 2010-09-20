@@ -158,7 +158,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "DOCUMENT_TYPES";
         public static final String GAIN_LOSS_BLANKET_APPROVAL = "GAIN_LOSS_NO_ROUTE_IND";
         public static final String GAIN_LOSS_DESCRIPTION = "GAIN_LOSS_DESCRIPTION";
-        public static final String INCOME_BLANKET_APPROVAL = "INCOM_NO_ROUTE_IND";
+        public static final String INCOME_BLANKET_APPROVAL = "INCOME_NO_ROUTE_IND";
         public static final String INCOME_DESCRIPTION = "INCOME_DESCRIPTION";
         public static final String PURCHASE_BLANKET_APPROVAL = "PURCHASE_NO_ROUTE_IND";
         public static final String PURCHASE_DESCRIPTION = "PURCHASE_DESCRIPTION";

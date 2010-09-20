@@ -556,7 +556,13 @@
             </list>
         </property>
     </bean>
-    <bean id="createCashSweepTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep" parent="step">
+    <bean id="createCashSweepTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep" parent="wrappedStep">
+        <property name="wrappingBatchServices">
+            <list>
+                <ref bean="createCashSweepExceptionReportWriterService" />
+                <ref bean="createCashSweepProcessedReportWriterService" />
+            </list>
+        </property>
         <property name="createCashSweepTransactionsService">
             <ref bean="createCashSweepTransactionsService" />
         </property>
@@ -582,7 +588,32 @@
         </property>
         <property name="kemidService">
             <ref bean="KEMIDService" />
+        </property>
+        <property name="createCashSweepExceptionReportWriterService">
+            <ref bean="createCashSweepExceptionReportWriterService" />
         </property> 
+    </bean>
+    <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="createCashSweepExceptionReport"/>
+        <property name="title" value="CREATE CASH SWEEP JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createCashSweepExceptionReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+        <bean id="createCashSweepProcessedReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="createCashSweepProcessedReport"/>
+        <property name="title" value="CREATE CASH SWEEP JOB PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createCashSweepProcessedReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
     </bean>
 	<!-- End of Create Cash Sweep Transactions Job -->
     
@@ -1181,6 +1212,37 @@
 	    </property>
 	    <property name="columnCount" value="3" />
 	</bean>
+	<bean id="createCashSweepExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value="Document Type"/>
+                <entry key="columnHeading2" value="Security Id"/>
+                <entry key="columnHeading3" value="KEMID"/>
+                <entry key="columnHeading4" value="Income Amount"/>
+                <entry key="columnHeading5" value="Income Units"/>
+                <entry key="columnHeading6" value="Principle Amount"/>
+                <entry key="columnHeading7" value="Principle Units"/>
+            </map>
+        </property>
+        <property name="columnCount" value="7" />
+    </bean>
+        <bean id="createCashSweepProcessedReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value="Document Type"/>
+                <entry key="columnHeading2" value="eDoc Number"/>
+                <entry key="columnHeading3" value="Security Id"/>
+                <entry key="columnHeading4" value="KEMID"/>
+                <entry key="columnHeading5" value="Income Amount"/>
+                <entry key="columnHeading6" value="Income Units"/>
+                <entry key="columnHeading7" value="Principle Amount"/>
+                <entry key="columnHeading8" value="Principle Units"/>
+            </map>
+        </property>
+        <property name="columnCount" value="8" />
+    </bean>
 	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.document.service.impl.KemidFeeServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

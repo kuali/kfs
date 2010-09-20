@@ -28,6 +28,8 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
+import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
+import org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -42,23 +44,26 @@ import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTransactionsService {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
     
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
+    private ReportWriterService createCashSweepExceptionReportWriterService;
     private BusinessObjectService businessObjectService;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
@@ -66,10 +71,45 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private KEMIDService kemidService;
     private KEMService kemService;
     
+    EndowmentExceptionReportHeader createCashSweepExceptionReportHeader;
+    EndowmentProcessedReportHeader createCashSweepProcessedReportHeader;
+    
+    public CreateCashSweepTransactionsServiceImpl() {
+        createCashSweepExceptionReportHeader = new EndowmentExceptionReportHeader();
+//        createCashSweepExceptionReportHeader.setColumnHeading1("Document Type");
+//        createCashSweepExceptionReportHeader.setColumnHeading2("Security Id");
+//        createCashSweepExceptionReportHeader.setColumnHeading3("KEMID");
+//        createCashSweepExceptionReportHeader.setColumnHeading4("Income Amount");
+//        createCashSweepExceptionReportHeader.setColumnHeading5("Income Units");
+//        createCashSweepExceptionReportHeader.setColumnHeading6("Principle Amount");
+//        createCashSweepExceptionReportHeader.setColumnHeading7("Principle Units");
+        
+        createCashSweepProcessedReportHeader = new EndowmentProcessedReportHeader();
+//        createCashSweepProcessedReportHeader.setColumnHeading1("Document Type");
+//        createCashSweepProcessedReportHeader.setColumnHeading2("eDoc Number");
+//        createCashSweepProcessedReportHeader.setColumnHeading3("Security Id");
+//        createCashSweepProcessedReportHeader.setColumnHeading4("KEMID");
+//        createCashSweepProcessedReportHeader.setColumnHeading5("Income Amount");
+//        createCashSweepProcessedReportHeader.setColumnHeading6("Income Units");
+//        createCashSweepProcessedReportHeader.setColumnHeading7("Principle Amount");
+//        createCashSweepProcessedReportHeader.setColumnHeading8("Principle Units");
+    }
+    
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService#createCashSweepTransactions()
      */
     public boolean createCashSweepTransactions() {
+        
+        createCashSweepExceptionReportWriterService.writeNewLines(1);
+        createCashSweepExceptionReportHeader.setColumnHeading1("Document Type");
+        createCashSweepExceptionReportHeader.setColumnHeading2("Security Id");
+        createCashSweepExceptionReportHeader.setColumnHeading3("KEMID");
+        createCashSweepExceptionReportHeader.setColumnHeading4("Income Amount");
+        createCashSweepExceptionReportHeader.setColumnHeading5("Income Units");
+        createCashSweepExceptionReportHeader.setColumnHeading6("Principle Amount");
+        createCashSweepExceptionReportHeader.setColumnHeading7("Principle Units");
+        
+        createCashSweepExceptionReportWriterService.writeTableHeader(createCashSweepExceptionReportHeader);
         
         LOG.info("Starting \"Create Cash Sweep Transactions\" batch job...");
         Collection<CashSweepModel> cashSweepModels = getCashSweepModelMatchingCurrentDate();
@@ -220,7 +260,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
-            if (currentCash.compareTo(cashLimit) < 0) {
+            if (currentCash != null && currentCash.compareTo(cashLimit) < 0) {
                 
                 // If this is null that means we need to create a new eDoc.
                 if (assetDecreaseDoc == null) {
@@ -282,7 +322,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
-            if (currentCash.compareTo(cashLimit) > 0) {
+            if (currentCash != null && currentCash.compareTo(cashLimit) > 0) {
                 
                 // If this is null that means we need to create a new eDoc.
                 if (assetIncreaseDoc == null) {
@@ -558,6 +598,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private BigDecimal getKemidCurrentPrincipalCash(KEMID kemid) {
         KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
+        
+        if (kemidCurrentCash == null) {
+            return null;
+        }
+        
         return kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue();
      }
 
@@ -569,6 +614,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private BigDecimal getKemidCurrentIncomeCash(KEMID kemid) {
        KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
+       
+       if (kemidCurrentCash == null) {
+           return null;
+       }
        return kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
     }
     
@@ -785,6 +834,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
         this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
+    }
+
+    /**
+     * Sets the createCashSweepExceptionReportWriterService attribute value.
+     * @param createCashSweepExceptionReportWriterService The createCashSweepExceptionReportWriterService to set.
+     */
+    public void setCreateCashSweepExceptionReportWriterService(ReportWriterService createCashSweepExceptionReportWriterService) {
+        this.createCashSweepExceptionReportWriterService = createCashSweepExceptionReportWriterService;
     }
     
 }

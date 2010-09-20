@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="EndowmentProcessedReportHandler" parent="EndowmentProcessedReportHandler-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader"/>
+    <property name="objectLabel" value="Endowment Exception Report Header"/>
+    <property name="attributes">
+      <list>
+      	<ref bean="EndowmentProcessedReportHandler-columnHeading1"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading2"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading3"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading4"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading5"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading6"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading7"/>
+        <ref bean="EndowmentProcessedReportHandler-columnHeading8"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading1" parent="EndowmentProcessedReportHandler-columnHeading1-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading1-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading1"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading2" parent="EndowmentProcessedReportHandler-columnHeading2-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading2-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading2"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading3" parent="EndowmentProcessedReportHandler-columnHeading3-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading3-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading3"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading4" parent="EndowmentProcessedReportHandler-columnHeading4-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading4-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading4"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
+  
+    <bean id="EndowmentProcessedReportHandler-columnHeading5" parent="EndowmentProcessedReportHandler-columnHeading5-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading5-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="columnHeading5"/>
+    <property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading6" parent="EndowmentProcessedReportHandler-columnHeading6-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading6-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="columnHeading6"/>
+    <property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading7" parent="EndowmentProcessedReportHandler-columnHeading7-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading7-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="columnHeading7"/>
+    <property name="maxLength" value="20"/>
+  </bean>
+  
+  <bean id="EndowmentProcessedReportHandler-columnHeading8" parent="EndowmentProcessedReportHandler-columnHeading8-parentBean"/>
+  <bean id="EndowmentProcessedReportHandler-columnHeading8-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="columnHeading8"/>
+    <property name="maxLength" value="20"/>
+  </bean>
+  
+</beans>

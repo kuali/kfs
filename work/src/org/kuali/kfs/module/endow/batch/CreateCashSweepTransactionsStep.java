@@ -18,17 +18,25 @@ package org.kuali.kfs.module.endow.batch;
 import java.util.Date;
 
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class CreateCashSweepTransactionsStep extends AbstractStep {
+public class CreateCashSweepTransactionsStep extends AbstractWrappedBatchStep {
 
     private CreateCashSweepTransactionsService createCashSweepTransactionsService;
-    
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 
-        return createCashSweepTransactionsService.createCashSweepTransactions();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = createCashSweepTransactionsService.createCashSweepTransactions();                
+                
+                return success;            
+            }
+        };
     }
-
+    
     /**
      * Sets the createCashSweepTransactionsService attribute value.
      * @param createCashSweepTransactionsService The createCashSweepTransactionsService to set.
@@ -36,5 +44,4 @@ public class CreateCashSweepTransactionsStep extends AbstractStep {
     public void setCreateCashSweepTransactionsService(CreateCashSweepTransactionsService createCashSweepTransactionsService) {
         this.createCashSweepTransactionsService = createCashSweepTransactionsService;
     }
-    
 }

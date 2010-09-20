@@ -15,17 +15,22 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * PreRules checks for the {@link OrganizationReversion} that needs to occur while still in the Struts processing. This includes defaults
  */
 public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 
-
+    private transient OrganizationReversionService organizationReversionService;
     public OrganizationReversionPreRules() {
 
     }
@@ -40,7 +45,7 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
         OrganizationReversion orgRev = (OrganizationReversion) document.getNewMaintainableObject().getBusinessObject();
         // copy year and chart to detail records
         copyKeyAttributesToDetail(orgRev);
-
+        copyDefaultObjectcodeIfNoCarryForwardByObjectCode(orgRev);
         return true;
     }
 
@@ -65,5 +70,26 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
         }
 
     }
-
+    
+    /**
+     * 
+     * This copies the object code from system parameter to the Organization Reversion object code field if the 
+     * "Carry Forward by Object Code" indicator is set to true
+     * @param orgRev
+     */
+    protected void copyDefaultObjectcodeIfNoCarryForwardByObjectCode(OrganizationReversion orgRev) {
+        if (orgRev.isCarryForwardByObjectCodeIndicator() == true) return; 
+        
+        if (organizationReversionService == null) {
+            organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
+        }
+        String objectCode = organizationReversionService.getOrganizationReversionDetaiFromSystemParameters();
+        
+        List<OrganizationReversionDetail> details = orgRev.getOrganizationReversionDetail();
+        for (OrganizationReversionDetail dtl : details) {
+            if (ObjectUtils.isNull(dtl.getOrganizationReversionObjectCode()))  {
+                dtl.setOrganizationReversionObjectCode(objectCode);
+            }
+        }
+    }       
 }

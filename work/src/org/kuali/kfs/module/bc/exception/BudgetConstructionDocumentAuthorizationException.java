@@ -36,7 +36,7 @@ public class BudgetConstructionDocumentAuthorizationException extends Authorizat
      */
     public BudgetConstructionDocumentAuthorizationException(String userId, String action, String documentId, String reason, boolean isPickListMode) {
 
-        super(userId, action, documentId.toString() + ": " + reason, "user '" + userId + "' is not authorized to " + action + " document '" + documentId + ": " + reason + "'");
+        super(userId, action, documentId.toString() + ": " + reason, "user '" + userId + "' is not authorized to " + action + " document '" + documentId + ": " + reason + "'", null);
         this.isPickListMode = isPickListMode;
     }
 

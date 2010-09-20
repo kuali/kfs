@@ -246,22 +246,17 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
             // loss
             isLoss = true;
             endowmentTransactionLine = new EndowmentSourceTransactionLine();
-            // endowmentTransactionLine.setUnitAdjustmentAmount(new
-            // KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate()));
-            endowmentTransactionLine.setTransactionAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate()));
+            endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate()));
 
         }
         if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == 1) {
             // gain
             isLoss = false;
             endowmentTransactionLine = new EndowmentTargetTransactionLine();
-            // endowmentTransactionLine.setUnitAdjustmentAmount(new
-            // KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit()));
-            endowmentTransactionLine.setTransactionAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit()));
+            endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit()));
         }
 
         // populate transaction line
-        //endowmentTransactionLine.setTransactionAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit()));
         endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
         endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
         endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());

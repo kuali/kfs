@@ -38,7 +38,7 @@ public interface PooledFundValueService {
 
     public boolean isValuationDateTheLatest(String pooledSecurityID, Date theValuationDate);
 
-    public Date getLastestValueEffectiveDate(String pooledSecurityID);
+    public Date getLatestValueEffectiveDate(String pooledSecurityID);
 
     /**
      * Gets PooledFundValue entries where the short term process on date is equal to current date.

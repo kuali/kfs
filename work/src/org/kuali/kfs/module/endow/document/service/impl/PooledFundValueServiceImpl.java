@@ -135,7 +135,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
         return isLatest;
     }
 
-    public Date getLastestValueEffectiveDate(String pooledSecurityID) {
+    public Date getLatestValueEffectiveDate(String pooledSecurityID) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, pooledSecurityID);
 

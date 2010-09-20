@@ -56,7 +56,7 @@ public class PooledFundValueLookupableHelperService extends KualiLookupableHelpe
         String pooledSecurityID = pooledFundValue.getPooledSecurityID();
         Date valueEffectiveDate = pooledFundValue.getValueEffectiveDate();
         PooledFundValueService pooledFundValueService = SpringContext.getBean(PooledFundValueService.class);
-        Date theLatestEffectiveDate = pooledFundValueService.getLastestValueEffectiveDate(pooledSecurityID);
+        Date theLatestEffectiveDate = pooledFundValueService.getLatestValueEffectiveDate(pooledSecurityID);
         if(valueEffectiveDate != null && valueEffectiveDate.equals(theLatestEffectiveDate)){
             htmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }

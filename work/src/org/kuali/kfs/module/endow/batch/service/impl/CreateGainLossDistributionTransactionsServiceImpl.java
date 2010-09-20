@@ -38,6 +38,7 @@ import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
+import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -66,6 +67,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private KualiConfigurationService configService;
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
+    private UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService;
 
     private ReportWriterService gainLossDistributionExceptionReportWriterService;
 
@@ -286,6 +288,10 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
 
         // populate transaction line
+
+        // the transaction amount has to be null when the unitAdjustmentamount is entered
+        endowmentTransactionLine.setTransactionAmount(null);
+
         endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
         endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
         endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
@@ -297,15 +303,16 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
         if (rulesPassed) {
             if (isLoss) {
-                holdingAdjustmentDocument.getSourceTransactionLines().add(endowmentTransactionLine);
+                holdingAdjustmentDocument.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
             }
             else {
-                holdingAdjustmentDocument.getTargetTransactionLines().add(endowmentTransactionLine);
+                holdingAdjustmentDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLine);
             }
+            updateHoldingAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLotsByUnitAdjustmentAmount(false, holdingAdjustmentDocument, endowmentTransactionLine, isLoss);
             result = true;
         }
         else {
-            System.out.println("Security :" + pooledFundValue.getPooledSecurityID() + " regis code : " + holdingTaxLot.getRegistrationCode() + " kemid " + holdingTaxLot.getKemid() + " etran code " + pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode() + "units adjustment =" + pooledFundValue.getShortTermGainLossDistributionPerUnit());
+
             writeTableRow(pooledFundValue.getPooledSecurityID(), holdingTaxLot.getKemid());
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
@@ -528,6 +535,15 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      */
     public ReportWriterService getGainLossDistributionExceptionReportWriterService() {
         return gainLossDistributionExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the updateHoldingAdjustmentDocumentTaxLotsService.
+     * 
+     * @param updateHoldingAdjustmentDocumentTaxLotsService
+     */
+    public void setUpdateHoldingAdjustmentDocumentTaxLotsService(UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService) {
+        this.updateHoldingAdjustmentDocumentTaxLotsService = updateHoldingAdjustmentDocumentTaxLotsService;
     }
 
 }

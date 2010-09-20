@@ -301,7 +301,11 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>	
+		<property name="updateHoldingAdjustmentDocumentTaxLotsService">
+			<ref bean="updateHoldingAdjustmentDocumentService" />
+		</property>	
+			
 		<property name="gainLossDistributionExceptionReportWriterService">
 			<ref bean="gainLossDistributionExceptionReportWriterService" />
 		</property>		

@@ -46,12 +46,12 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
         if (ValidateLastDayOfMonth.validateLastDayOfMonth(currentDate)){
             //Append a new record to the END_ME_DT_T TABLE
             KualiInteger monthEndDateId = appendNewMonthEndDate(currentDate);
-            System.out.println (">>>Hello, has append "+monthEndDateId+":"+currentDate+" to END_ME_DT_T table.");
+            LOG.info("UpdateHistoryCash batch process has appended "+monthEndDateId+":"+currentDate+" to END_ME_DT_T table.");
             //Append the records in the END_CRNT_CSH_T table to the END_HIST_CSH_T table
             return appendNewHistoricalCashRecord(monthEndDateId); 
         }
         else {
-            System.out.println (">>>Hello, "+currentDate+" is NOT the last day of the month. Update History Cash batch process will do nothing.");
+            
             LOG.info(currentDate+" is NOT the last day of the month. Update History Cash batch process will do nothing.");
             return true;
         }        
@@ -70,6 +70,7 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
     private boolean appendNewHistoricalCashRecord (KualiInteger monthEndDateId){
         Collection<KemidCurrentCash> kemidCurrentCashRecords = 
                 businessObjectService.findAll(KemidCurrentCash.class);
+        int counter = 0;
         for (KemidCurrentCash kemidCurrentCashRecord : kemidCurrentCashRecords) {
             KemidHistoricalCash newKemidHistoricalCash = new KemidHistoricalCash();            
             newKemidHistoricalCash.setMonthEndDateId(monthEndDateId);
@@ -77,7 +78,9 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
             newKemidHistoricalCash.setHistoricalIncomeCash(kemidCurrentCashRecord.getCurrentIncomeCash());
             newKemidHistoricalCash.setHistoricalPrincipalCash(kemidCurrentCashRecord.getCurrentPrincipalCash());        
             businessObjectService.save(newKemidHistoricalCash);
+            counter++;            
         }
+        LOG.info ("UpdateHistoryCash batch process has appended "+counter+" records to the END_HIST_CSH_T table.");
         return true;
   
     }
@@ -110,29 +113,6 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
         this.businessObjectService = businessObjectService;
     }
     
-/*   
-    public Date LastDayOfMonth(){
-        // Get a calendar instance         
-        Calendar calendar = Calendar.getInstance(); 
-        
-        // Get the last date of the current month. To get the last date for a 
-        // specific month you can set the calendar month using calendar object 
-        // calendar.set(Calendar.MONTH, theMonth) method. 
-        int lastDate = calendar.getActualMaximum(Calendar.DATE); 
-        
-        // Set the calendar date to the last date of the month so then we can 
-        // get the last day of the month    
-        calendar.set(Calendar.DATE, lastDate); 
-        int lastDay = calendar.get(Calendar.DAY_OF_WEEK); 
-        
-        // Print the current date and the last date of the month 
-        System.out.println("Last Date: " + calendar.getTime());
-        
-        // The lastDay will be in a value from 1 to 7 where 1 = Monday and 7 = 
-        // Saturday respectively. 
-        System.out.println("Last Day : " + lastDay); 
-        return calendar.getTime();
-    }  
-*/    
+ 
 
 }

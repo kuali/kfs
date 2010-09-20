@@ -1474,6 +1474,22 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash" table="END_HIST_CSH_T">
+	<field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="monthEndDateId" column="ME_DT_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/>	
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="historicalIncomeCash" column="HIST_INC_CSH" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="historicalPrincipalCash" column="HIST_PRIN_CSH" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	
+	<reference-descriptor name="kemidObjRef" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
+	</reference-descriptor>
+	<reference-descriptor name="monthEndDate" class-ref="org.kuali.kfs.module.endow.businessobject.MonthEndDate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="monthEndDateId" />
+	</reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.DonorLabel" table="END_DONR_LBL_SEL_T">
 	<field-descriptor name="code" column="DONR_LBL_SEL" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

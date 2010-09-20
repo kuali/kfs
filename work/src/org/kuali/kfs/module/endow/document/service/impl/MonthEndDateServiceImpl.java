@@ -60,6 +60,25 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
     }
     
     /**
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getNextMonthEndIdForNewRecord()
+     */
+    public KualiInteger getNextMonthEndIdForNewRecord(){
+        //Search END_ME_DT_T, get all records, find the last one with the biggest MonthEndId.
+        //Increase it by one and then return this as the next new MonthEndId that should be used
+        //for inserting a new record.
+        KualiInteger largestMonthEndId= new KualiInteger("0");
+        KualiInteger monthEndId = new KualiInteger("0");
+        Collection<MonthEndDate> monthEndDateRecords = businessObjectService.findAll(MonthEndDate.class);
+        for (MonthEndDate monthEndDateRecord : monthEndDateRecords) {
+            monthEndId = monthEndDateRecord.getMonthEndDateId();
+            if (monthEndId.isGreaterThan(largestMonthEndId)){
+                largestMonthEndId = monthEndId;
+            }                
+        }
+        return largestMonthEndId.add(new KualiInteger("1"));
+    }
+    
+    /**
      * This method gets the businessObjectService.
      * 
      * @return businessObjectService

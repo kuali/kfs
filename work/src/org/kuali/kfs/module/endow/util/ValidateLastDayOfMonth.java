@@ -16,15 +16,15 @@
 package org.kuali.kfs.module.endow.util;
 
 import java.util.Calendar; 
-import java.sql.Date;
+
 
 public class ValidateLastDayOfMonth {
 
-    public static boolean validateLastDayOfMonth (Date theDate) {
+    public static boolean validateLastDayOfMonth (java.sql.Date sqlDate) {
         boolean isLastDayOfMonth = true;
         
         Calendar calendar = Calendar.getInstance(); 
-        calendar.setTime(theDate);
+        calendar.setTime(sqlDate);
         int theDay = calendar.get(Calendar.DAY_OF_MONTH);
         int lastDate = calendar.getActualMaximum(Calendar.DATE); 
         if (theDay == lastDate)
@@ -35,6 +35,10 @@ public class ValidateLastDayOfMonth {
         return isLastDayOfMonth;
     }
     
+    public static boolean validateLastDayOfMonth (java.util.Date utilDate){
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return validateLastDayOfMonth(sqlDate);        
+    }
 }
 
 

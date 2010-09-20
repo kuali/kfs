@@ -33,4 +33,13 @@ public interface MonthEndDateService {
      * @return monthEndDateId
      */
     public KualiInteger getMonthEndId(Date monthEndDate);
+    
+    
+    /**
+     * gets the next month end id for the new record
+     * 
+     * @return monthEndDateId
+     */
+    public KualiInteger getNextMonthEndIdForNewRecord();
+    
 }

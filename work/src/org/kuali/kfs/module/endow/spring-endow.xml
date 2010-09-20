@@ -361,6 +361,12 @@
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="monthEndDateService">
+			<ref bean="monthEndDateService" />
+		</property>	
 	</bean>
 	
 	<bean id="rollFrequencyDatesJob" parent="unscheduledJobDescriptor">

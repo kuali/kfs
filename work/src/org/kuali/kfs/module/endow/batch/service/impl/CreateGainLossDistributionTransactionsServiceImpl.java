@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
+import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -38,6 +39,7 @@ import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -55,6 +57,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CreateGainLossDistributionTransactionsServiceImpl implements CreateGainLossDistributionTransactionsService {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateGainLossDistributionTransactionsServiceImpl.class);
+
     private PooledFundValueService pooledFundValueService;
     private HoldingTaxLotService holdingTaxLotService;
     private DocumentService documentService;
@@ -63,11 +67,36 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
 
+    private ReportWriterService gainLossDistributionExceptionReportWriterService;
+
+    private EndowmentExceptionReportHeader gainLossDistributionExceptionReportHeader;
+    private EndowmentExceptionReportHeader gainLossDistributionExceptionRowValues;
+    private EndowmentExceptionReportHeader gainLossDistributionExceptionRowReason;
+
+    /**
+     * Constructs a CreateGainLossDistributionTransactionsServiceImpl.java.
+     */
+    public CreateGainLossDistributionTransactionsServiceImpl() {
+        gainLossDistributionExceptionReportHeader = new EndowmentExceptionReportHeader();
+        gainLossDistributionExceptionRowValues = new EndowmentExceptionReportHeader();
+        gainLossDistributionExceptionRowReason = new EndowmentExceptionReportHeader();
+    }
+
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService#processGainLossDistribution()
      */
     public boolean processGainLossDistribution() {
         boolean result = true;
+
+        LOG.debug("processGainLossDistribution() started");
+
+        // writes the exception report header
+        gainLossDistributionExceptionReportWriterService.writeNewLines(1);
+        gainLossDistributionExceptionReportHeader.setColumnHeading1("Documnet Type");
+        gainLossDistributionExceptionReportHeader.setColumnHeading2("Security ID");
+        gainLossDistributionExceptionReportHeader.setColumnHeading3("KEMID");
+
+        gainLossDistributionExceptionReportWriterService.writeTableHeader(gainLossDistributionExceptionReportHeader);
 
         // process short term gain/loss
         result &= processShortTermGainLossDistribution();
@@ -202,8 +231,8 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
             holdingAdjustmentDocument.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.NON_CASH);
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            writeTableReason("WorkflowException while creating a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.");
+            gainLossDistributionExceptionReportWriterService.writeNewLines(1);
         }
 
         return holdingAdjustmentDocument;
@@ -277,8 +306,12 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
         else {
             System.out.println("Security :" + pooledFundValue.getPooledSecurityID() + " regis code : " + holdingTaxLot.getRegistrationCode() + " kemid " + holdingTaxLot.getKemid() + " etran code " + pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode() + "units adjustment =" + pooledFundValue.getShortTermGainLossDistributionPerUnit());
-            // TODO write error in the exception report
-            extractGlobalVariableErrors();
+            writeTableRow(pooledFundValue.getPooledSecurityID(), holdingTaxLot.getKemid());
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeTableReason(errorMessage);
+            }
+            gainLossDistributionExceptionReportWriterService.writeNewLines(1);
         }
 
         return result;
@@ -322,13 +355,18 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 businessObjectService.save(pooledFundValue);
             }
             catch (WorkflowException ex) {
-                System.out.println("WorkflowException while routing a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process." + ex.toString());
+                writeTableRow(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID(), "");
+                writeTableReason("WorkflowException while routing a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.");
+                gainLossDistributionExceptionReportWriterService.writeNewLines(1);
             }
         }
         else {
-            System.out.println("Routing validation errors");
-            // TODO write error in the exception report
-            extractGlobalVariableErrors();
+            writeTableRow(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID(), "");
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeTableReason(errorMessage);
+            }
+            gainLossDistributionExceptionReportWriterService.writeNewLines(1);
         }
     }
 
@@ -337,8 +375,8 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return false if error messages exist, true otherwise.
      */
-    protected boolean extractGlobalVariableErrors() {
-        boolean result = true;
+    protected List<String> extractGlobalVariableErrors() {
+        List<String> result = new ArrayList<String>();
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
@@ -366,8 +404,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 while (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }
-                // batchErrors.addError(customerName, errorProperty, Object.class, "", errorString);
-                result = false;
+                result.add(errorString);
             }
         }
 
@@ -384,6 +421,33 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private String getHoldingAdjustmentDocumentTypeName() {
         return "EHA";
     }
+
+    /**
+     * Writes out the table row values for document type, secuityId, kemId
+     * 
+     * @param securityId
+     * @param kemid
+     */
+    protected void writeTableRow(String securityId, String kemid) {
+
+        gainLossDistributionExceptionRowValues.setColumnHeading1(getHoldingAdjustmentDocumentTypeName());
+        gainLossDistributionExceptionRowValues.setColumnHeading2(securityId);
+        gainLossDistributionExceptionRowValues.setColumnHeading3(kemid);
+        gainLossDistributionExceptionReportWriterService.writeTableRow(gainLossDistributionExceptionRowValues);
+
+    }
+
+    /**
+     * Writes the reason row and inserts a blank line.
+     * 
+     * @param reasonMessage
+     */
+    protected void writeTableReason(String reasonMessage) {
+        gainLossDistributionExceptionRowReason.setColumnHeading1("Reason:");
+        gainLossDistributionExceptionRowReason.setColumnHeading2(reasonMessage);
+        gainLossDistributionExceptionReportWriterService.writeTableRow(gainLossDistributionExceptionRowReason);
+    }
+
 
     /**
      * Sets the pooledFundValueService.
@@ -446,6 +510,24 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Sets the gainLossDistributionExceptionReportWriterService.
+     * 
+     * @param gainLossDistributionExceptionReportWriterService
+     */
+    public void setGainLossDistributionExceptionReportWriterService(ReportWriterService gainLossDistributionExceptionReportWriterService) {
+        this.gainLossDistributionExceptionReportWriterService = gainLossDistributionExceptionReportWriterService;
+    }
+
+    /**
+     * Gets the gainLossDistributionExceptionReportWriterService.
+     * 
+     * @return gainLossDistributionExceptionReportWriterService
+     */
+    public ReportWriterService getGainLossDistributionExceptionReportWriterService() {
+        return gainLossDistributionExceptionReportWriterService;
     }
 
 }

@@ -268,10 +268,16 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="step">
+	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="gainLossDistributionExceptionReportWriterService" />
+			</list>
+		</property>
 		<property name="createGainLossTransactionsService">
 			<ref bean="createGainLossTransactionsService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>	
 	</bean>
 	
 	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
@@ -296,7 +302,23 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
+		<property name="gainLossDistributionExceptionReportWriterService">
+			<ref bean="gainLossDistributionExceptionReportWriterService" />
+		</property>		
+		
 	</bean>
+	
+	<bean id="gainLossDistributionExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="gainLossDistributionExceptionReportWriterService"/>
+        <property name="title" value="DISTRIBUTION OF GAINS AND LOSSES JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="gainLossDistributionExceptionReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
  	
  	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -1134,6 +1156,17 @@
     			<entry key="columnHeading1" value="Fee Method"/>
     			<entry key="columnHeading2" value="KEMID"/>
     			<entry key="columnHeading3" value="Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="3" />
+	</bean>
+	<bean id="gainLossDistributionExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Document Type"/>
+    			<entry key="columnHeading2" value="Security ID"/>
+    			<entry key="columnHeading3" value="KEMID"/>
     		</map>
 	    </property>
 	    <property name="columnCount" value="3" />

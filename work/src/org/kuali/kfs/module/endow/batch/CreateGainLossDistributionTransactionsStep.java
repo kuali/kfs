@@ -15,20 +15,28 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class CreateGainLossDistributionTransactionsStep extends AbstractStep {
+public class CreateGainLossDistributionTransactionsStep extends AbstractWrappedBatchStep {
 
     private CreateGainLossDistributionTransactionsService createGainLossTransactionsService;
+    protected String batchFileDirectoryName;
 
     /**
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return createGainLossTransactionsService.processGainLossDistribution();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = createGainLossTransactionsService.processGainLossDistribution();
+
+                return success;
+            }
+        };
     }
 
     /**
@@ -38,6 +46,10 @@ public class CreateGainLossDistributionTransactionsStep extends AbstractStep {
      */
     public void setCreateGainLossTransactionsService(CreateGainLossDistributionTransactionsService createGainLossTransactionsService) {
         this.createGainLossTransactionsService = createGainLossTransactionsService;
+    }
+
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 }

@@ -73,6 +73,7 @@
                 <value>createIncomeDistributionJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
                 <value>processFeeTransactionsJob</value>
+                <value>updateCorpusJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -746,6 +747,37 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>	
+    
+    <!-- updateCorpusJob configuration -->
+    <bean id="updateCorpusJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="updateCorpusStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="updateCorpusStep" class="org.kuali.kfs.module.endow.batch.UpdateCorpusStep" parent="step">
+        <property name="updateCorpusService">
+            <ref bean="updateCorpusService" />
+        </property>
+    </bean>
+
+    <bean id="updateCorpusService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>			    
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>		
+    </bean>
+    
  	<!--  end core batch jobs --> 
     
     <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">

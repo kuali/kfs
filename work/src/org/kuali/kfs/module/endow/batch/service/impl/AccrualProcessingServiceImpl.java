@@ -286,7 +286,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
                     businessObjectService.save(holdingTaxLot);
                 }
 
-                LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Dividends is " + holdingTaxLots.size());
+                LOG.info("Number of tax lots that have accrual amount updated for security id = " + security.getId() + " with accrual method = Dividends is " + holdingTaxLots.size());
             }
         }
     }

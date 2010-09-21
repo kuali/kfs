@@ -132,10 +132,16 @@
 			</list>
 		</property>
 	</bean>	
-	<bean id="createAccrualTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep" parent="step">
+	<bean id="createAccrualTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="accrualTransactionsExceptionReportWriterService" />
+			</list>
+		</property>
 		<property name="createAccrualTransactionsService">
 			<ref bean="createAccrualTransactionsService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
 	<bean id="createAccrualTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl">
@@ -163,7 +169,22 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+	    <property name="accrualTransactionsExceptionReportWriterService">
+			<ref bean="accrualTransactionsExceptionReportWriterService" />
+		</property>
 	</bean>
+	
+	<bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="accrualTransactionsExceptionReportWriterService"/>
+        <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="accrualTransactionsExceptionReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
 	
 	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">
 		<property name="kemService">
@@ -1259,7 +1280,7 @@
         </property>
         <property name="columnCount" value="7" />
     </bean>
-        <bean id="createCashSweepProcessedReportHeader" parent="businessObjectReportHelper">
+    <bean id="createCashSweepProcessedReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
@@ -1275,6 +1296,19 @@
         </property>
         <property name="columnCount" value="8" />
     </bean>
+    <bean id="accrualTransactionsExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value="Document Type"/>
+                <entry key="columnHeading3" value="Security Id"/>
+                <entry key="columnHeading4" value="KEMID"/>
+                <entry key="columnHeading5" value="Transaction Amount"/>
+            </map>
+        </property>
+        <property name="columnCount" value="4" />
+    </bean>
+    
 	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.document.service.impl.KemidFeeServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

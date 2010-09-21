@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
+import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
@@ -40,6 +41,7 @@ import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -70,11 +72,39 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     private KualiRuleService kualiRuleService;
     protected ParameterService parameterService;
 
+    private ReportWriterService accrualTransactionsExceptionReportWriterService;
+
+    private EndowmentExceptionReportHeader accrualTransactionsExceptionReportHeader;
+    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowValues;
+    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowReason;
+
+    /**
+     * Constructs a CreateAccrualTransactionsServiceImpl.java.
+     */
+    public CreateAccrualTransactionsServiceImpl() {
+        accrualTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
+        accrualTransactionsExceptionRowValues = new EndowmentExceptionReportHeader();
+        accrualTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();
+
+    }
+
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService#createAccrualTransactions()
      */
     public boolean createAccrualTransactions() {
         boolean success = true;
+
+        LOG.debug("createAccrualTransactions() started");
+
+        // writes the exception report header
+        accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+        accrualTransactionsExceptionReportHeader.setColumnHeading1("Documnet Type");
+        accrualTransactionsExceptionReportHeader.setColumnHeading2("Security ID");
+        accrualTransactionsExceptionReportHeader.setColumnHeading3("KEMID");
+        accrualTransactionsExceptionReportHeader.setColumnHeading4("Transaction Amount");
+
+        accrualTransactionsExceptionReportWriterService.writeTableHeader(accrualTransactionsExceptionReportHeader);
+
         String maxNumberOfLinesString = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES);
         int maxNumberOfTranLines = Integer.parseInt(maxNumberOfLinesString);
 
@@ -102,10 +132,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             for (String registrationCode : regCodeMap.keySet()) {
 
                 // 4. create new CashIncreaseDocument
-
                 CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
 
-                // group them by kemid and ip indicator
+                // group tax lots by kemid and ip indicator
                 Map<String, List<HoldingTaxLot>> kemidIpMap = new HashMap<String, List<HoldingTaxLot>>();
 
                 for (HoldingTaxLot holdingTaxLot : taxLots) {
@@ -120,9 +149,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     }
                 }
 
-
-                // keep a counter to create a new document if there are more that 100 transaction lines
                 List<HoldingTaxLot> taxLotsForUpdate = new ArrayList<HoldingTaxLot>();
+                // keep a counter to create a new document if there are more that maximum number of allowed transaction lines per
+                // document
                 int counter = 0;
 
                 for (String kemidIp : kemidIpMap.keySet()) {
@@ -132,6 +161,8 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
                     for (HoldingTaxLot lot : kemidIpMap.get(kemidIp)) {
                         totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
+
+                        // initialize kemid
                         if (kemid == null) {
                             kemid = lot.getKemid();
                         }
@@ -148,135 +179,58 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         counter = 0;
                     }
 
-                    // Create a new transaction line
-                    EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                    endowmentTransactionLine.setTransactionLineNumber(counter + 1);
-                    endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
-                    endowmentTransactionLine.setKemid(kemid);
-                    endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
-                    endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-                    endowmentTransactionLine.setTransactionAmount(totalAmount);
-
-                    boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
-
-                    if (rulesPassed) {
-                        cashIncreaseDocument.getTargetTransactionLines().add(endowmentTransactionLine);
+                    // add a new transaction line
+                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount)) {
+                        counter++;
                     }
-                    else {
-                        System.out.println("Security :" + security.getId() + " regis code : " + registrationCode + " kemid " + kemid + " etran code " + security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode() + "totalAmount =" + totalAmount);
-                        // TODO write error in the exception report
-                        extractGlobalVariableErrors();
-                    }
-
-                    counter++;
-
                 }
 
                 // submit the current ECI doc and update the values in the tax lots used already
                 submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
 
             }
+
+            LOG.debug("createAccrualTransactions() done");
         }
 
         return success;
     }
 
     /**
-     * Submits the ECI doc and updates the values in the tax lots list.
+     * Creates and adds a new transaction line to the cash increase document.
      * 
      * @param cashIncreaseDocument
-     * @param taxLotsForUpdate
+     * @param security
+     * @param kemid
+     * @param totalAmount
+     * @return true if transaction line successfully added, false otherwise
      */
-    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
+    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount) {
+        boolean success = true;
 
-        boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
+        // Create a new transaction line
+        EndowmentTransactionLine endowmentTransactionLine = new EndowmentTargetTransactionLine();
+        endowmentTransactionLine.setDocumentNumber(cashIncreaseDocument.getDocumentNumber());
+        endowmentTransactionLine.setKemid(kemid);
+        endowmentTransactionLine.setEtranCode(security.getClassCode().getSecurityIncomeEndowmentTransactionPostCode());
+        endowmentTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
+        endowmentTransactionLine.setTransactionAmount(totalAmount);
+
+        boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashIncreaseDocument, endowmentTransactionLine));
 
         if (rulesPassed) {
-
-            // TODO figure out if/how we use the ad hoc recipients list
-            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
-            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
-
-            try {
-                if (blanketAppriovalIndicator) {
-                    documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                }
-                else {
-                    documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                }
-
-                // set accrued income to zero and copy current value in prior accrued income
-
-                for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
-                    // taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
-                    taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
-                }
-
-                // save changes
-                businessObjectService.save(taxLotsForUpdate);
-            }
-            catch (WorkflowException ex) {
-                System.out.println("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process." + ex.toString());
-            }
+            cashIncreaseDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLine);
         }
         else {
-            System.out.println("Routing validation errors");
-            // TODO write error in the exception report
-            extractGlobalVariableErrors();
-        }
-    }
-
-    /**
-     * Extracts errors for error report writing.
-     * 
-     * @return false if error messages exist, true otherwise.
-     */
-    protected boolean extractGlobalVariableErrors() {
-        boolean result = true;
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-
-        Set<String> errorKeys = errorMap.keySet();
-        List<ErrorMessage> errorMessages = null;
-        Object[] messageParams;
-        String errorKeyString;
-        String errorString;
-
-        for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
-            for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
-                messageParams = errorMessage.getMessageParameters();
-
-                // MessageFormat.format only seems to replace one
-                // per pass, so I just keep beating on it until all are gone.
-                if (StringUtils.isBlank(errorKeyString)) {
-                    errorString = errorMessage.getErrorKey();
-                }
-                else {
-                    errorString = errorKeyString;
-                }
-                System.out.println(errorString);
-                while (errorString.matches("^.*\\{\\d\\}.*$")) {
-                    errorString = MessageFormat.format(errorString, messageParams);
-                }
-                // batchErrors.addError(customerName, errorProperty, Object.class, "", errorString);
-                result = false;
+            success = false;
+            writeTableRow(security.getId(), kemid, totalAmount);
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeTableReason(errorMessage);
             }
+            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
         }
-
-        // clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getMessageMap().clear();
-        return result;
-    }
-
-    /**
-     * Gets the CashIncreaseDocument type.
-     * 
-     * @return the CashIncreaseDocument type
-     */
-    private String getCashIncreaseDocumentType() {
-        return "ECI";
+        return success;
     }
 
     /**
@@ -304,13 +258,141 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             return cashIncreaseDocument;
         }
         catch (WorkflowException ex) {
+            writeTableReason("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.");
+            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
             throw new RuntimeException("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.", ex);
         }
     }
 
-    public CreateAccrualTransactionsServiceImpl() {
+    /**
+     * Submits the ECI doc and updates the values in the tax lots list.
+     * 
+     * @param cashIncreaseDocument
+     * @param taxLotsForUpdate
+     */
+    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
+
+        boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
+
+        if (rulesPassed) {
+
+            // TODO figure out if/how we use the ad hoc recipients list
+            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
+            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+
+            try {
+                if (blanketAppriovalIndicator) {
+                    documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                }
+                else {
+                    documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                }
+
+                // set accrued income to zero and copy current value in prior accrued income
+                for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
+                    taxLotForUpdate.setPriorAccrual(taxLotForUpdate.getCurrentAccrual());
+                    taxLotForUpdate.setCurrentAccrual(BigDecimal.ZERO);
+                }
+
+                // save changes
+                businessObjectService.save(taxLotsForUpdate);
+            }
+            catch (WorkflowException ex) {
+                writeTableReason("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.");
+                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+                throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
+            }
+        }
+        else {
+            writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "", cashIncreaseDocument.getTargetIncomeTotal());
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeTableReason(errorMessage);
+            }
+            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+        }
+    }
+
+    /**
+     * Extracts errors for error report writing.
+     * 
+     * @return a list of error messages
+     */
+    protected List<String> extractGlobalVariableErrors() {
+        List<String> result = new ArrayList<String>();
+
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+
+        Set<String> errorKeys = errorMap.keySet();
+        List<ErrorMessage> errorMessages = null;
+        Object[] messageParams;
+        String errorKeyString;
+        String errorString;
+
+        for (String errorProperty : errorKeys) {
+            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            for (ErrorMessage errorMessage : errorMessages) {
+                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                messageParams = errorMessage.getMessageParameters();
+
+                // MessageFormat.format only seems to replace one
+                // per pass, so I just keep beating on it until all are gone.
+                if (StringUtils.isBlank(errorKeyString)) {
+                    errorString = errorMessage.getErrorKey();
+                }
+                else {
+                    errorString = errorKeyString;
+                }
+                System.out.println(errorString);
+                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                    errorString = MessageFormat.format(errorString, messageParams);
+                }
+            }
+        }
+
+        // clear the stuff out of globalvars, as we need to reformat it and put it back
+        GlobalVariables.getMessageMap().clear();
+        return result;
+    }
+
+    /**
+     * Gets the CashIncreaseDocument type.
+     * 
+     * @return the CashIncreaseDocument type
+     */
+    private String getCashIncreaseDocumentType() {
+        return "ECI";
+    }
+
+    /**
+     * Writes out the table row values for document type, secuityId, kemId, incomeAmount, incomeUnits, principalAmount,
+     * principalUnits.
+     * 
+     * @param securityId
+     * @param kemid
+     */
+    protected void writeTableRow(String securityId, String kemid, KualiDecimal transactionAmount) {
+
+        accrualTransactionsExceptionRowValues.setColumnHeading1(getCashIncreaseDocumentType());
+        accrualTransactionsExceptionRowValues.setColumnHeading2(securityId);
+        accrualTransactionsExceptionRowValues.setColumnHeading3(kemid);
+        accrualTransactionsExceptionRowValues.setColumnHeading4(transactionAmount.toString());
+
+        accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowValues);
 
     }
+
+    /**
+     * Writes the reason row and inserts a blank line.
+     * 
+     * @param reasonMessage
+     */
+    protected void writeTableReason(String reasonMessage) {
+        accrualTransactionsExceptionRowReason.setColumnHeading1("Reason:");
+        accrualTransactionsExceptionRowReason.setColumnHeading2(reasonMessage);
+        accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowReason);
+    }
+
 
     /**
      * Locates all Security records for which the next income pay date is equal to the current date.
@@ -395,5 +477,23 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accrualTransactionsExceptionReportWriterService.
+     * 
+     * @return accrualTransactionsExceptionReportWriterService
+     */
+    public ReportWriterService getAccrualTransactionsExceptionReportWriterService() {
+        return accrualTransactionsExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the accrualTransactionsExceptionReportWriterService.
+     * 
+     * @param accrualTransactionsExceptionReportWriterService
+     */
+    public void setAccrualTransactionsExceptionReportWriterService(ReportWriterService accrualTransactionsExceptionReportWriterService) {
+        this.accrualTransactionsExceptionReportWriterService = accrualTransactionsExceptionReportWriterService;
     }
 }

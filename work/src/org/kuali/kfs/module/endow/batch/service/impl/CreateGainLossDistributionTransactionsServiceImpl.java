@@ -235,6 +235,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         catch (WorkflowException ex) {
             writeTableReason("WorkflowException while creating a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.");
             gainLossDistributionExceptionReportWriterService.writeNewLines(1);
+            throw new RuntimeException("WorkflowException while creating a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.", ex);
         }
 
         return holdingAdjustmentDocument;

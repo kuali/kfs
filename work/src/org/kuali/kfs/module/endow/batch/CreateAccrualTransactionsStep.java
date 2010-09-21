@@ -15,26 +15,33 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Batch step that executes the Create Accrual Transactions step.
  */
-public class CreateAccrualTransactionsStep extends AbstractStep {
+public class CreateAccrualTransactionsStep extends AbstractWrappedBatchStep {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateAccrualTransactionsStep.class);
 
     private CreateAccrualTransactionsService createAccrualTransactionsService;
+    protected String batchFileDirectoryName;
 
     /**
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return createAccrualTransactionsService.createAccrualTransactions();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = createAccrualTransactionsService.createAccrualTransactions();
 
+                return success;
+            }
+        };
     }
 
     /**
@@ -44,6 +51,15 @@ public class CreateAccrualTransactionsStep extends AbstractStep {
      */
     public void setCreateAccrualTransactionsService(CreateAccrualTransactionsService createAccrualTransactionsService) {
         this.createAccrualTransactionsService = createAccrualTransactionsService;
+    }
+
+    /**
+     * Sets the batchFileDirectoryName.
+     * 
+     * @param batchFileDirectoryName
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 

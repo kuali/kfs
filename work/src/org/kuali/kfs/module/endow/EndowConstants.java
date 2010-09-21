@@ -172,6 +172,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String LONG_TERM_GAIN_LOSS_DESCRIPTION = "LONG_TERM_GAIN_LOSS_DESCRIPTION";
         public static final String ALLOW_NEGATIVE_BALANCE = "ALLOW_NEGATIVE_BALANCE";
         public static final String INCOME_TRANSFER_DESCRIPTION = "INCOME_TRANSFER_DESCRIPTION";
+        public static final String INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE = "INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE";        
         
     }
 

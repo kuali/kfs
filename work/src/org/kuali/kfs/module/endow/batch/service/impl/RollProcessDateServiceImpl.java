@@ -30,8 +30,9 @@ import org.kuali.kfs.module.endow.batch.service.RollProcessDateService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 
 public class RollProcessDateServiceImpl implements RollProcessDateService {
-
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpdateHistoryCashServiceImpl.class);
     private ParameterService parameterService;
+    private BusinessObjectService businessObjectService;
     private KEMService kemService;
     
     /**
@@ -40,29 +41,17 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
     public boolean rollDate() {
         int MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
         
-        boolean success = true;
-        kemService = SpringContext.getBean(KEMService.class);
-        parameterService = SpringContext.getBean(ParameterService.class);
-           
-        Date currentProcessDate = kemService.getCurrentSystemProcessDateObject();
+        boolean success = true;       
+        Date currentProcessDate = kemService.getCurrentDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         String nextDate = dateFormat.format(currentProcessDate.getTime() + MILLIS_IN_DAY);
-        System.out.println(">>>next date is "+nextDate);
         Parameter theCurrentProcessDate = parameterService.retrieveParameter("KFS-ENDOW", "All", EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
-        theCurrentProcessDate.setParameterValue(nextDate);        
-       
+        theCurrentProcessDate.setParameterValue(nextDate); 
+        businessObjectService.save(theCurrentProcessDate);
+        LOG.info("Roll the value of CURRENT_PROCESS_DATE to "+theCurrentProcessDate.getParameterValue());
         return success;
     }
     
-    /**
-     * Gets the kemService.
-     * 
-     * @return kemService
-     */
-    public KEMService getKemService() {
-        return kemService;
-    }
-
     /**
      * Sets the kemService.
      * 
@@ -71,14 +60,7 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }
-    /**
-     * Gets the parameterService.
-     * 
-     * @return parameterService
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
+
 
     /**
      * Sets the parameterService.
@@ -87,6 +69,15 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    /**
+     * Sets the businessObjectService.
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

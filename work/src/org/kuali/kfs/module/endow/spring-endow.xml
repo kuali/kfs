@@ -368,6 +368,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
 	</bean>
 	
 	<!--  updateHistoryCashJob -->	

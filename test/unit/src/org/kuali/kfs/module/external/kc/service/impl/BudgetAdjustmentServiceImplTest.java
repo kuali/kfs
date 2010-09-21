@@ -29,13 +29,16 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceTest;
+import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.service.DateTimeService;
 
 @ConfigureContext(session = khuntley)
@@ -142,18 +145,21 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     /**
      * This method tests the service using KSB, but locally 
      */
-    public void NotestBudgetAdjustmentServiceWithKSB() {
+    public void testBudgetAdjustmentServiceWithKSB() {
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
 
         try {
+            // BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+
+            
             URL url = new URL("http://localhost:8080/remoting/budgetAdjustmentServiceSOAP");
             QName qName = new QName("KFS", "budgetAdjustmentServiceSoap");
-            
+ 
             Service service = Service.create(url, qName);
             BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) service.getPort(BudgetAdjustmentService.class);
             BudgetAdjustmentCreationStatusDTO creationStatus = budgetAdjustService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
                     
-            System.out.println("account number: " + creationStatus.getAccountNumber());            
+            System.out.println("doc number: " + creationStatus.getDocumentNumber());            
             assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {

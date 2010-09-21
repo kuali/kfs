@@ -63,6 +63,7 @@
 				<value>createAccrualTransactionsJob</value>			
 				<value>rollProcessDateJob</value>	
 				<value>updateHistoryCashJob</value>
+				<value>updateHoldingHistoryJob</value>
 				<value>rollFrequencyDatesJob</value>
 				<value>accrualProcessingJob</value>
 				<value>holdingHisgtoryMarketValueUpdateJob</value>
@@ -369,6 +370,7 @@
 		</property>	
 	</bean>
 	
+	<!--  updateHistoryCashJob -->	
 	<bean id="updateHistoryCashJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -394,6 +396,34 @@
 			<ref bean="monthEndDateService" />
 		</property>	
 	</bean>
+	
+	<!--  updateHoldingHistoryJob -->
+	<bean id="updateHoldingHistoryJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="updateHoldingHistoryStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="updateHoldingHistoryStep" class="org.kuali.kfs.module.endow.batch.UpdateHoldingHistoryStep" parent="step">
+		<property name="updateHoldingHistoryService">
+			<ref bean="updateHoldingHistoryService" />
+		</property>
+	</bean>
+	
+	<bean id="updateHoldingHistoryService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHoldingHistoryServiceImpl">
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="monthEndDateService">
+			<ref bean="monthEndDateService" />
+		</property>	
+	</bean>
+	
 	
 	<bean id="rollFrequencyDatesJob" parent="unscheduledJobDescriptor">
 		<property name="steps">

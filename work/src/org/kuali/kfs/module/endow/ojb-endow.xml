@@ -651,6 +651,8 @@
 	<field-descriptor name="estimatedIncome" column="HLDG_ANNL_INC_EST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="securityUnitVal" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
 	<field-descriptor name="marketValue" column="HLDG_MVAL" jdbc-type="DECIMAL"/>
+	<field-descriptor name="remainderOfFYEstimatedIncome" column="HLDG_FY_REM_EST_INC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="nextFYEstimatedIncome" column="HLDG_NEXT_FY_EST_INC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="averageMarketValue" column="AVG_MVAL" jdbc-type="DECIMAL"/>
 	
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1177,6 +1179,8 @@
 	<field-descriptor name="estimatedIncome" column="HLDG_ANNL_INC_EST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="securityUnitVal" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
 	<field-descriptor name="marketValue" column="HLDG_MVAL" jdbc-type="DECIMAL"/>
+	<field-descriptor name="remainderOfFYEstimatedIncome" column="HLDG_FY_REM_EST_INC" jdbc-type="DECIMAL"/>
+	<field-descriptor name="nextFYEstimatedIncome" column="HLDG_NEXT_FY_EST_INC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="averageMarketValue" column="AVG_MVAL" jdbc-type="DECIMAL"></field-descriptor>
 	
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

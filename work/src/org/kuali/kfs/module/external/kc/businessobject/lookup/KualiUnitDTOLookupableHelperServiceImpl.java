@@ -62,20 +62,9 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
   
         List<UnitDTO> unitList = new ArrayList<UnitDTO>();
-        //UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-        //unitList = unitService.lookupUnits(parameters);
-        
-        UnitDTO unitDTO = new UnitDTO();
-        unitDTO.setUnitName("Winston");
-        unitDTO.setParentUnitNumber("12345");
-        unitDTO.setOrganizationId("444");
-        unitDTO.setUnitNumber("000");
-        
-        unitList.add(unitDTO);
+        UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+        unitList = unitService.lookupUnits(parameters);
         return unitList;
-
-        // return super.getSearchResults(parameters);
-       
     }
 
 

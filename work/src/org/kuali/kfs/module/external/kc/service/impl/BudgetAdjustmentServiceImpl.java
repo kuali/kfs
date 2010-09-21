@@ -145,9 +145,10 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         }catch(WorkflowException wfe){
             LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage()); 
             budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage());
+            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
         }
-        
-        return budgetAdjustmentDocument;
+         
+         return budgetAdjustmentDocument;
     }
     
     protected BudgetAdjustmentSourceAccountingLine createBudgetAdjustmentSourceAccountingLine(BudgetAdjustmentParametersDTO.Details detail) {
@@ -215,6 +216,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected boolean routeBudgetAdjustmentDocument(BudgetAdjustmentDocument budgetAdjustmentDocument, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
       
         try {
+            //getParameterService().setParameterForTesting(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+
             String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
             //String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE);
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
@@ -228,8 +231,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             }
             
             if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
-                getDocumentService().saveDocument(budgetAdjustmentDocument);
-            }
+                // document already exists and saved
+             }
             else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
                 getDocumentService().blanketApproveDocument(budgetAdjustmentDocument, "", null); 
             }
@@ -238,20 +241,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             }             
             return true;
             
-        }  catch (WorkflowException wfe) { 
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
-            try {
-                // save it even though it fails to route or blanket approve the document
-                getDocumentService().saveDocument(budgetAdjustmentDocument);
-                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
-            } catch (WorkflowException e) {
-                LOG.error(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
-            } 
+        //}  catch (WorkflowException wfe) { 
+        }  catch (Exception ex) { 
+            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage()); 
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage());
+            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
             return false;
-        } 
+        }
     }
     
     
@@ -260,21 +256,46 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      * @param String principalId
      * @return boolean
      */
-    protected boolean isValidUser(String principalId) {
-        
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
-        //Person user = personService.getPerson(principalId);
-        Person user = personService.getPersonByPrincipalName(principalId);
-        DocumentAuthorizer documentAuthorizer = new TransactionalDocumentAuthorizerBase();
-        if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
-            // set the user session so that the user name can be displayed in the saved document        
-            GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
-            return true;
-        } else {
-            return false;
-        }        
-    }
-    
+    /*
+     protected boolean isValidUser(String principalId) {
+         PersonService<Person> personService = KIMServiceLocator.getPersonService();
+         try {
+             Person user = personService.getPerson(principalId);
+             DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
+             if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+                 // set the user session so that the user name can be displayed in the saved document        
+                 GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
+                 return true;
+             } 
+         } catch (Exception ex) {
+             LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT + principalId) ;
+             return false;    
+         }
+
+         return false;                
+     }
+     */
+        protected boolean isValidUser(String principalId) {
+            
+            PersonService<Person> personService = KIMServiceLocator.getPersonService();
+           
+            try {
+                Person user = personService.getPerson(principalId);
+               // Person user = personService.getPersonByPrincipalName(principalId);
+                DocumentAuthorizer documentAuthorizer = new TransactionalDocumentAuthorizerBase();
+                if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+                    // set the user session so that the user name can be displayed in the saved document        
+                    GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception ex) {
+                LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT + principalId) ;
+                return false;    
+            }
+        }
+
     
     /**
      * Gets the documentService attribute.

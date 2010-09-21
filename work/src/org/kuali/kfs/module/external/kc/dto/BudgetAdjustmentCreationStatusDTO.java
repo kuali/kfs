@@ -24,8 +24,6 @@ public class BudgetAdjustmentCreationStatusDTO implements Serializable {
     
     protected List<String> errorMessages;
     protected String documentNumber;
-    protected String accountNumber;
-    protected String chartOfAccountsCode;
     protected String status;
 
     public BudgetAdjustmentCreationStatusDTO() {}
@@ -62,39 +60,7 @@ public class BudgetAdjustmentCreationStatusDTO implements Serializable {
         this.documentNumber = documentNumber;
     }
 
-    /**
-     * Gets the accountNumber attribute. 
-     * @return Returns the accountNumber.
-     */
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    /**
-     * Sets the accountNumber attribute value.
-     * @param accountNumber The accountNumber to set.
-     */
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    /**
-     * Gets the chartOfAccountsCode attribute. 
-     * @return Returns the chartOfAccountsCode.
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    /**
-     * Sets the chartOfAccountsCode attribute value.
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    /**
+  /**
      * Gets the status attribute. 
      * @return Returns the status.
      */

@@ -787,7 +787,7 @@
 		</property>
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
-		</property>
+		</property>		
 		<property name="processFeeTransactionsTotalProcessedReportsWriterService">
 			<ref bean="processFeeTransactionsTotalProcessedReportsWriterService" />
 		</property>		
@@ -1385,9 +1385,9 @@
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
                 <entry key="columnHeading1" value="Document Type"/>
-                <entry key="columnHeading3" value="Security Id"/>
-                <entry key="columnHeading4" value="KEMID"/>
-                <entry key="columnHeading5" value="Transaction Amount"/>
+                <entry key="columnHeading2" value="Security Id"/>
+                <entry key="columnHeading3" value="KEMID"/>
+                <entry key="columnHeading4" value="Transaction Amount"/>
             </map>
         </property>
         <property name="columnCount" value="4" />

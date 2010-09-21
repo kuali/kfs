@@ -304,7 +304,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             }
         }
         else {
-            writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "", cashIncreaseDocument.getTargetIncomeTotal());
+            writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "-", cashIncreaseDocument.getTargetIncomeTotal());
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeTableReason(errorMessage);
@@ -347,6 +347,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 while (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }
+                result.add(errorString);
             }
         }
 
@@ -365,8 +366,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     }
 
     /**
-     * Writes out the table row values for document type, secuityId, kemId, incomeAmount, incomeUnits, principalAmount,
-     * principalUnits.
+     * Writes out the table row values for document type, secuityId, kemId, transactionAmount.
      * 
      * @param securityId
      * @param kemid

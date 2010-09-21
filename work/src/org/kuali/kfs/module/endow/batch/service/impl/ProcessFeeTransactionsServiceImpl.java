@@ -15,9 +15,16 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.sql.Date;
+import java.util.Collection;
+
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
+import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.service.FeeMethodService;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.KemidFeeService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,19 +37,29 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessFeeTransactionsServiceImpl.class);
     
     private KemidFeeService kemidFeeService;
-    
+    private FeeMethodService feeMethodService;
+    protected KEMService kemService;
+
     private ReportWriterService processFeeTransactionsExceptionReportsWriterService;
+    private ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
+    private ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
     
-    EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
-    EndowmentExceptionReportHeader processFeeTransactionsExceptionRowValues;
-    EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
+    private EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
+    private EndowmentExceptionReportHeader processFeeTransactionsTotalProcessedReportHeader;
+    private EndowmentExceptionReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader;    
+    
+    private EndowmentExceptionReportHeader processFeeTransactionsRowValues;
+    private EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
      */
     public ProcessFeeTransactionsServiceImpl() {
         processFeeTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
-        processFeeTransactionsExceptionRowValues = new EndowmentExceptionReportHeader();
+        processFeeTransactionsTotalProcessedReportHeader = new EndowmentExceptionReportHeader();
+        processFeeTransactionsWaivedAndAccruedFeesReportHeader = new EndowmentExceptionReportHeader();
+        
+        processFeeTransactionsRowValues = new EndowmentExceptionReportHeader();
         processFeeTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();                
     }
 
@@ -60,11 +77,16 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         //writes the exception report header
         processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
-        processFeeTransactionsExceptionReportHeader.setColumnHeading1("Fee Method");
-        processFeeTransactionsExceptionReportHeader.setColumnHeading2("KEMID");
-        processFeeTransactionsExceptionReportHeader.setColumnHeading3("Fee Amount");
-        
         processFeeTransactionsExceptionReportsWriterService.writeTableHeader(processFeeTransactionsExceptionReportHeader);
+
+        //writes the Waived and Accrued Fees report header....
+        processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
+        processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableHeader(processFeeTransactionsWaivedAndAccruedFeesReportHeader);
+        
+        //writes the Totals Processed report header....
+        processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
+        processFeeTransactionsTotalProcessedReportsWriterService.writeTableHeader(processFeeTransactionsTotalProcessedReportHeader);
+        
         // 6.2.1 Basic Process - Step 1:
         if (!updateKemIdYearToDateWaiverFeeAmounts()) {
             setExceptionReportTableRowReason("Batch Process Fee Transactions job is aborted.  Unable to update KEMID Year-To-Date Waiver Fee amounts");
@@ -101,6 +123,26 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected boolean processUpdateFeeTransactions() {
         boolean success = true;
         
+        Date currentDate = kemService.getCurrentDate();
+        
+        Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
+        for (FeeMethod feeMethod : feeMethods) {
+           //1. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to T (Transactions)
+            if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS)) {
+                
+            }
+            
+            //2. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to B (Balance)
+            if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES)) {
+                
+            }
+            
+            //3. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to P (Payment), 
+            if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS)) {
+                
+            }
+            
+        }
         
         return success;
     }
@@ -113,7 +155,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected void writeTableRowAndTableReason(HoldingHistoryValueAdjustmentDocument ehva, String reasonMessage) {
         getExceptionReportTableRowValues(ehva);
         
-        processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsExceptionRowValues);            
+        processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsRowValues);            
         setExceptionReportTableRowReason(reasonMessage);
         processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsExceptionRowReason);            
         processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
@@ -126,9 +168,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected void getExceptionReportTableRowValues(HoldingHistoryValueAdjustmentDocument ehva) {
         String documentTypeName = ehva.getDocumentHeader().getWorkflowDocument().getDocumentType();
         
-        processFeeTransactionsExceptionRowValues.setColumnHeading1(documentTypeName);
-        processFeeTransactionsExceptionRowValues.setColumnHeading2(ehva.getSecurityId());
-   //     processFeeTransactionsExceptionRowValues.setColumnHeading3(holdingHistoryService.getKemIdFromHoldingHistory(ehva.getSecurityId()));
+        processFeeTransactionsRowValues.setColumnHeading1(documentTypeName);
+        processFeeTransactionsRowValues.setColumnHeading2(ehva.getSecurityId());
+   //     processFeeTransactionsRowValues.setColumnHeading3(holdingHistoryService.getKemIdFromHoldingHistory(ehva.getSecurityId()));
     }
     
     /**
@@ -160,10 +202,42 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
 
     /**
+     * Gets the processFeeTransactionsTotalProcessedReportsWriterService attribute. 
+     * @return Returns the processFeeTransactionsTotalProcessedReportsWriterService.
+     */
+    public ReportWriterService getProcessFeeTransactionsTotalProcessedReportsWriterService() {
+        return processFeeTransactionsTotalProcessedReportsWriterService;
+    }
+
+    /**
+     * Sets the processFeeTransactionsTotalProcessedReportsWriterService attribute value.
+     * @param processFeeTransactionsTotalProcessedReportsWriterService The processFeeTransactionsTotalProcessedReportsWriterService to set.
+     */
+    public void setProcessFeeTransactionsTotalProcessedReportsWriterService(ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService) {
+        this.processFeeTransactionsTotalProcessedReportsWriterService = processFeeTransactionsTotalProcessedReportsWriterService;
+    }
+    
+    /**
+     * Gets the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService attribute. 
+     * @return Returns the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.
+     */
+    public ReportWriterService getProcessFeeTransactionsWaivedAndAccruedFeesReportsWriterService() {
+        return processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
+    }
+
+    /**
+     * Sets the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService attribute value.
+     * @param processFeeTransactionsWaivedAndAccruedFeesReportsWriterService The processFeeTransactionsWaivedAndAccruedFeesReportsWriterService to set.
+     */
+    public void setProcessFeeTransactionsWaivedAndAccruedFeesReportsWriterService(ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService) {
+        this.processFeeTransactionsWaivedAndAccruedFeesReportsWriterService = processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
+    }
+    
+    /**
      * Gets the holdingHistoryService attribute. 
      * @return Returns the holdingHistoryService.
      */
-    public KemidFeeService getKemidFeeService() {
+    protected KemidFeeService getKemidFeeService() {
         return kemidFeeService;
     }
 
@@ -174,5 +248,116 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     public void setKemidFeeService(KemidFeeService kemidFeeService) {
         this.kemidFeeService = kemidFeeService;
     }
+    
+    /**
+     * Gets the feeMethodService attribute. 
+     * @return Returns the feeMethodService.
+     */
+    protected FeeMethodService getFeeMethodService() {
+        return feeMethodService;
+    }
 
+    /**
+     * Sets the feeMethodService attribute value.
+     * @param feeMethodService The feeMethodService to set.
+     */
+    public void setFeeMethodService(FeeMethodService feeMethodService) {
+        this.feeMethodService = feeMethodService;
+    }
+    
+    /**
+     * Gets the kemService.
+     * @return kemService
+     */
+    protected KEMService getKemService() {
+        return kemService;
+    }
+
+    /**
+     * Sets the kemService.
+     * @param kemService
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
+    }
+
+    /**
+     * Gets the processFeeTransactionsExceptionReportHeader attribute. 
+     * @return Returns the processFeeTransactionsExceptionReportHeader.
+     */
+    public EndowmentExceptionReportHeader getProcessFeeTransactionsExceptionReportHeader() {
+        return processFeeTransactionsExceptionReportHeader;
+    }
+
+    /**
+     * Sets the processFeeTransactionsExceptionReportHeader attribute value.
+     * @param processFeeTransactionsExceptionReportHeader The processFeeTransactionsExceptionReportHeader to set.
+     */
+    public void setProcessFeeTransactionsExceptionReportHeader(EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader) {
+        this.processFeeTransactionsExceptionReportHeader = processFeeTransactionsExceptionReportHeader;
+    }
+
+    /**
+     * Gets the processFeeTransactionsTotalProcessedReportHeader attribute. 
+     * @return Returns the processFeeTransactionsTotalProcessedReportHeader.
+     */
+    public EndowmentExceptionReportHeader getProcessFeeTransactionsTotalProcessedReportHeader() {
+        return processFeeTransactionsTotalProcessedReportHeader;
+    }
+
+    /**
+     * Sets the processFeeTransactionsTotalProcessedReportHeader attribute value.
+     * @param processFeeTransactionsTotalProcessedReportHeader The processFeeTransactionsTotalProcessedReportHeader to set.
+     */
+    public void setProcessFeeTransactionsTotalProcessedReportHeader(EndowmentExceptionReportHeader processFeeTransactionsTotalProcessedReportHeader) {
+        this.processFeeTransactionsTotalProcessedReportHeader = processFeeTransactionsTotalProcessedReportHeader;
+    }
+
+    /**
+     * Gets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute. 
+     * @return Returns the processFeeTransactionsWaivedAndAccruedFeesReportHeader.
+     */
+    public EndowmentExceptionReportHeader getProcessFeeTransactionsWaivedAndAccruedFeesReportHeader() {
+        return processFeeTransactionsWaivedAndAccruedFeesReportHeader;
+    }
+
+    /**
+     * Sets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute value.
+     * @param processFeeTransactionsWaivedAndAccruedFeesReportHeader The processFeeTransactionsWaivedAndAccruedFeesReportHeader to set.
+     */
+    public void setProcessFeeTransactionsWaivedAndAccruedFeesReportHeader(EndowmentExceptionReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader) {
+        this.processFeeTransactionsWaivedAndAccruedFeesReportHeader = processFeeTransactionsWaivedAndAccruedFeesReportHeader;
+    }
+
+    /**
+     * Gets the processFeeTransactionsRowValues attribute. 
+     * @return Returns the processFeeTransactionsRowValues.
+     */
+    public EndowmentExceptionReportHeader getProcessFeeTransactionsRowValues() {
+        return processFeeTransactionsRowValues;
+    }
+
+    /**
+     * Sets the processFeeTransactionsRowValues attribute value.
+     * @param processFeeTransactionsRowValues The processFeeTransactionsRowValues to set.
+     */
+    public void setProcessFeeTransactionsRowValues(EndowmentExceptionReportHeader processFeeTransactionsRowValues) {
+        this.processFeeTransactionsRowValues = processFeeTransactionsRowValues;
+    }
+
+    /**
+     * Gets the processFeeTransactionsExceptionRowReason attribute. 
+     * @return Returns the processFeeTransactionsExceptionRowReason.
+     */
+    public EndowmentExceptionReportHeader getProcessFeeTransactionsExceptionRowReason() {
+        return processFeeTransactionsExceptionRowReason;
+    }
+
+    /**
+     * Sets the processFeeTransactionsExceptionRowReason attribute value.
+     * @param processFeeTransactionsExceptionRowReason The processFeeTransactionsExceptionRowReason to set.
+     */
+    public void setProcessFeeTransactionsExceptionRowReason(EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason) {
+        this.processFeeTransactionsExceptionRowReason = processFeeTransactionsExceptionRowReason;
+    }
 }

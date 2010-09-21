@@ -53,7 +53,8 @@ public class KemidFeeServiceImpl implements KemidFeeService {
     }
     
     /**
-     * 
+     * Saves the KemidFee records to the database
+     * @return true if all the records in the collection saved else false
      */
     public boolean saveKemidFee(Collection <KemidFee> kemIdFeeRecords) {
         boolean success = true;
@@ -91,7 +92,7 @@ public class KemidFeeServiceImpl implements KemidFeeService {
                    kemidFee.setTotalWaivedFees(KualiDecimal.ZERO);
                }
                
-               saveKemidFee(kemidFeeRecords);
+               updated = saveKemidFee(kemidFeeRecords);
        }
        
        return updated;
@@ -148,6 +149,7 @@ public class KemidFeeServiceImpl implements KemidFeeService {
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }
+
     /**
      * Gets the parameterService attribute.
      * @return Returns the parameterService.

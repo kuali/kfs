@@ -51,9 +51,9 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
 
     private ReportWriterService holdingHistoryMarketValuesExceptionReportWriterService;
     
-    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
-    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues;
-    EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason;    
+    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
+    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues;
+    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason;    
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -75,14 +75,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         
         //writes the exception report header
         holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading1("Documnet Type");
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading2("Security Id");
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading3("KEMID");
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading4("Registration Code");
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading5("Month End Date Id"); 
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading6("IP Indicator"); 
-        holdingHistoryMarketValueExceptionReportHeader.setColumnHeading7("Tax Lot Number");        
-        
         holdingHistoryMarketValuesExceptionReportWriterService.writeTableHeader(holdingHistoryMarketValueExceptionReportHeader);
         
         //update the market values for the holding history value adjustment documents.
@@ -368,5 +360,53 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      */
     public void setHoldingHistoryValueAdjustmentDocumentService(HoldingHistoryValueAdjustmentDocumentService holdingHistoryValueAdjustmentDocumentService) {
         this.holdingHistoryValueAdjustmentDocumentService = holdingHistoryValueAdjustmentDocumentService;
+    }
+    
+    /**
+     * Gets the holdingHistoryMarketValueExceptionReportHeader attribute. 
+     * @return Returns the holdingHistoryMarketValueExceptionReportHeader.
+     */
+    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionReportHeader() {
+        return holdingHistoryMarketValueExceptionReportHeader;
+    }
+
+    /**
+     * Sets the holdingHistoryMarketValueExceptionReportHeader attribute value.
+     * @param holdingHistoryMarketValueExceptionReportHeader The holdingHistoryMarketValueExceptionReportHeader to set.
+     */
+    public void setHoldingHistoryMarketValueExceptionReportHeader(EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader) {
+        this.holdingHistoryMarketValueExceptionReportHeader = holdingHistoryMarketValueExceptionReportHeader;
+    }
+
+    /**
+     * Gets the holdingHistoryMarketValueExceptionRowValues attribute. 
+     * @return Returns the holdingHistoryMarketValueExceptionRowValues.
+     */
+    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowValues() {
+        return holdingHistoryMarketValueExceptionRowValues;
+    }
+
+    /**
+     * Sets the holdingHistoryMarketValueExceptionRowValues attribute value.
+     * @param holdingHistoryMarketValueExceptionRowValues The holdingHistoryMarketValueExceptionRowValues to set.
+     */
+    public void setHoldingHistoryMarketValueExceptionRowValues(EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues) {
+        this.holdingHistoryMarketValueExceptionRowValues = holdingHistoryMarketValueExceptionRowValues;
+    }
+
+    /**
+     * Gets the holdingHistoryMarketValueExceptionRowReason attribute. 
+     * @return Returns the holdingHistoryMarketValueExceptionRowReason.
+     */
+    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowReason() {
+        return holdingHistoryMarketValueExceptionRowReason;
+    }
+
+    /**
+     * Sets the holdingHistoryMarketValueExceptionRowReason attribute value.
+     * @param holdingHistoryMarketValueExceptionRowReason The holdingHistoryMarketValueExceptionRowReason to set.
+     */
+    public void setHoldingHistoryMarketValueExceptionRowReason(EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason) {
+        this.holdingHistoryMarketValueExceptionRowReason = holdingHistoryMarketValueExceptionRowReason;
     }
 }

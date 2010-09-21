@@ -16,10 +16,24 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.sql.Date;
+import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 
 public interface FeeMethodService {
+
+    /**
+     * Gets a collection of record from END_FEE_MTHD_T table
+     * @return feeMethods
+     */
+    public Collection<FeeMethod> getFeeMethods();
+    
+    /**
+     * Gets a collection of record from END_FEE_MTHD_T table based on
+     * next processing date (FEE_NX_PROC_DT) is equal to the current date.
+     * @return feeMethods
+     */
+    public Collection<FeeMethod> getFeeMethodsByNextProcessingDate(Date nextProcessingDate);
 
     /**
      * Gets a feeMethod by primary key.

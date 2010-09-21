@@ -742,6 +742,8 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="processFeeTransactionsExceptionReportsWriterService" />
+				<ref bean="processFeeTransactionsTotalProcessedReportsWriterService" />
+				<ref bean="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" />
 			</list>
 		</property>
 		<property name="processFeeTransactionsService">
@@ -755,6 +757,12 @@
 		</property>
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
+		</property>
+		<property name="processFeeTransactionsTotalProcessedReportsWriterService">
+			<ref bean="processFeeTransactionsTotalProcessedReportsWriterService" />
+		</property>		
+		<property name="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService">
+			<ref bean="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" />
 		</property>		
 	</bean>
 	<bean id="processFeeTransactionsExceptionReportsWriterService" parent="reportWriterService">
@@ -768,7 +776,28 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>	
-    
+	<bean id="processFeeTransactionsTotalProcessedReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsTotalProcessed"/>
+        <property name="title" value="BATCH PROCESS FEE TRANSACTIONS TOTALS PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsTotalProcessedReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>    
+	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsWaivedAndAccruedProcessed"/>
+        <property name="title" value="BATCH PROCESS FEE WAIVED AND ACCRUED FEES REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsWaivedAndAccruedFeesReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>    
     <!-- updateCorpusJob configuration -->
     <bean id="updateCorpusJob" parent="scheduledJobDescriptor">
         <property name="steps">
@@ -1253,6 +1282,31 @@
     		</map>
 	    </property>
 	    <property name="columnCount" value="3" />
+	</bean>
+	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Fee Method"/>
+    			<entry key="columnHeading2" value="KEMID"/>
+    			<entry key="columnHeading3" value="Accrued Fee Amount"/>
+    			<entry key="columnHeading4" value="Waived Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="4" />
+	</bean>
+	<bean id="processFeeTransactionsTotalProcessedReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Fee Method"/>
+    			<entry key="columnHeading2" value="eDoc Number"/>
+    			<entry key="columnHeading3" value="Lines Generated"/>
+    			<entry key="columnHeading4" value="Total Income Amount"/>
+    			<entry key="columnHeading5" value="Total Principal Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
 	</bean>
 	<bean id="gainLossDistributionExceptionReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />

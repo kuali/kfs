@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,32 @@ public class FeeMethodServiceImpl implements FeeMethodService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.FeeMethodService#getFeeMethodsByNextProcessingDate(Date)
+     */
+    public Collection<FeeMethod> getFeeMethodsByNextProcessingDate(Date currentDate) {
+        Collection<FeeMethod> feeMethods = new ArrayList();
+        
+        Map criteria = new HashMap();
+        criteria.put(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, currentDate.toString());
+        
+        feeMethods = businessObjectService.findMatching(FeeMethod.class, criteria);
+        
+        return feeMethods;
+
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.FeeMethodService#getFeeMethods()
+     */
+    public Collection<FeeMethod> getFeeMethods() {
+        Collection<FeeMethod> feeMethods = new ArrayList();
+        
+        feeMethods = businessObjectService.findAll(FeeMethod.class);
+        
+        return feeMethods;
+    }
+    
     /**
      * @see org.kuali.kfs.module.endow.document.service.FeeMethodService#getByPrimaryKey(java.lang.String)
      */

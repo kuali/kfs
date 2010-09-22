@@ -22,6 +22,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.KcKeyConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
@@ -63,12 +65,17 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
   
         List<UnitDTO> unitList = new ArrayList<UnitDTO>();
-        UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-        if (unitList == null) {
-            return Collections.EMPTY_LIST;
+        try {
+            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+            if (unitList != null) {
+                unitList = unitService.lookupUnits(parameters);
+                return unitList;
+
+            }
+        } catch (Exception ex) {
         }
-        unitList = unitService.lookupUnits(parameters);
-        return unitList;
+        GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+        return Collections.EMPTY_LIST;
     }
 
 

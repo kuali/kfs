@@ -371,6 +371,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // if the matching defaults is null, try the parents in the hierarchy
         if (defaults == null) {
             //TODO: verify the KC service name and name space URI from KC
+      
+            //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
+            /*
             UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
             List<String> parentUnits = unitService.getParentUnits(unitNumber);
                        
@@ -381,6 +384,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                     if (defaults != null) break;
                 }
             }
+            */
         }        
                    
         return defaults;

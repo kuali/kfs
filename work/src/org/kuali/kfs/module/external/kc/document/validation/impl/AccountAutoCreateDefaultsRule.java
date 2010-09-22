@@ -244,14 +244,24 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         if (StringUtils.isBlank(newAccountAutoCreateDefaults.getKcUnit())) {
             GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
             return false;
-            
+
         }
+        return true;
         // Check KcUnit required field      
-       UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-       UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
-       if (unitDTO == null) result = false;
-              return result;
-       }
+      //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
+        /*
+        try {
+            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+            UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+            if (unitDTO == null) result = false;
+            return result;
+        } catch (Exception ex) {
+              GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+            return false;
+
+        }
+        */
+    }
     
     /**
      * This method checks to make sure that if the contracts and grants fields are required they are entered correctly

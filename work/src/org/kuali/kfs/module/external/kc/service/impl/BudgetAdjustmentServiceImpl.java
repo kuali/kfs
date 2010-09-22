@@ -25,17 +25,22 @@ import javax.xml.namespace.QName;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.impl.ChartServiceImpl;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentAction;
+import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.module.external.kc.dto.KcObjectCode;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
@@ -108,6 +113,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         }      
         return budgetAdjustmentCreationStatus;
     }
+  
     
     /**
      * 
@@ -356,5 +362,38 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
+
+    /**
+     * @see org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService#lookupObjectCodes(java.util.HashMap)
+     */
+
+    public List<KcObjectCode> lookupObjectCodes(HashMap<String, Object> searchCriteria) {
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        List <ObjectCode> objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, searchCriteria));
+        List <KcObjectCode> kcObjectCodeList = new ArrayList();
+        for (ObjectCode objectCode : objCodeList) {
+            kcObjectCodeList.add( createKcObjectCode(objectCode));
+        }
+        return kcObjectCodeList;
+    }
     
+    /**
+     * 
+        @see org.kuali.kfs.module.external.kc.service.getObjectCode(String, String, String)
+     */
+    public KcObjectCode getObjectCode(String universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        Integer fiscalYear = new Integer(universityFiscalYear);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        ObjectCode objectCode = (ObjectCode) objectCodeService.getByPrimaryId(fiscalYear, chartOfAccountsCode, financialObjectCode);
+        return createKcObjectCode(objectCode);
+    }
+ 
+    protected KcObjectCode createKcObjectCode(ObjectCode objectCode) {
+        KcObjectCode kcObjectCode = new KcObjectCode();
+        kcObjectCode.setObjectCodeName(objectCode.getCode());
+        kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
+        kcObjectCode.setDescription(objectCode.getName());
+        kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
+        return kcObjectCode;
+    }
 }

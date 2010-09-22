@@ -530,7 +530,6 @@ public class EndowPropertyConstants {
     public static final String TARGET_ACCT_LINE_PREFIX = "newTargetAccountingLine.";
     public static final String SOURCE_ACCT_LINE_PREFIX = "newSourceAccountingLine.";
 
-
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";
     public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX = "document.targetTransactionLines";
 
@@ -563,10 +562,13 @@ public class EndowPropertyConstants {
 
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
+    public static final String TRANSACTION_ARCHIVE_ETRAN_CODE = "etranCode";
 
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
     public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
-
+    public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicatorCode";
+    
+    
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
     public static final String ENDOWMENT_ACCOUNTING_LINE_CHART_CD = "chartOfAccountsCode";

@@ -1406,5 +1406,10 @@
     	<property name="parameterService">
     	 	<ref bean="parameterService" />
 		</property>
-	</bean>	
+	</bean>
+	<bean id="transactionArchiveService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionArchiveServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>			
 </beans>

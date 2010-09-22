@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.external.kc.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,9 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
   
         List<UnitDTO> unitList = new ArrayList<UnitDTO>();
         UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+        if (unitList == null) {
+            return Collections.EMPTY_LIST;
+        }
         unitList = unitService.lookupUnits(parameters);
         return unitList;
     }

@@ -200,4 +200,5 @@
 <include file="updates/2010-09-16-5975-1-PDP_ACH_BNK_T.xml"/>
 <include file="updates/2010-09-17-5475g-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-20-5966-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-21-6009-1-END_KEMID_CRNT_BAL_DET_V.xml"/>
 </databaseChangeLog>

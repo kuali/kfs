@@ -26,12 +26,11 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
@@ -44,7 +43,6 @@ import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -61,6 +59,7 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -216,8 +215,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
      */
+    @SuppressWarnings("rawtypes")
     public abstract Class getItemClass();
 
+    @SuppressWarnings("rawtypes")
     public abstract Class getItemUseTaxClass();
     
     /**
@@ -329,40 +330,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 //            retrievedDocument.allowDeleteAwareCollection = false;
 //        }
     }
-    
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
-     */
-    @Override
-    protected List getPersistedSourceAccountingLinesForComparison() {
-        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
-        List persistedSourceLines = new ArrayList();
 
-        for (PurApItem item : (List<PurApItem>) this.getItems()) {
-            // only check items that already have been persisted since last save
-            if (ObjectUtils.isNotNull(item.getItemIdentifier())) {
-                persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
-            }
-        }
-        return persistedSourceLines;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLinesForComparison()
-     */
-    @Override
-    protected List getSourceAccountingLinesForComparison() {
-        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
-        List currentSourceLines = new ArrayList();
-        for (PurApItem item : (List<PurApItem>) this.getItems()) {
-            currentSourceLines.addAll(item.getSourceAccountingLines());
-        }
-        return currentSourceLines;
-    }
-    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = new ArrayList<List>();
@@ -389,6 +361,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * 
      * @return
      */
+    @SuppressWarnings("rawtypes")
     protected List getDeletionAwareAccountingLines() {
         List<PurApAccountingLine> deletionAwareAccountingLines = new ArrayList<PurApAccountingLine>();
         for (Object itemAsObject : this.getItems()) {
@@ -422,6 +395,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -521,6 +495,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param lineNumber line number to match on.
      * @return the PurchasingAp Item if a match is found, else null.
      */
+    @SuppressWarnings("rawtypes")
     public PurApItem getItemByLineNumber(int lineNumber) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             PurApItem item = (PurApItem) iter.next();
@@ -536,6 +511,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param itemStrID the string identifier of the item being searched for
      * @return the item being searched for
      */
+    @SuppressWarnings("rawtypes")
     public PurApItem getItemByStringIdentifier(String itemStrID) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             PurApItem item = (PurApItem) iter.next();
@@ -551,6 +527,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param itemID the string identifier of the item being searched for
      * @return the item being searched for
      */
+    @SuppressWarnings("rawtypes")
     public PurApItem getItemByItemIdentifier(Integer itemID) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             PurApItem item = (PurApItem) iter.next();
@@ -887,10 +864,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorDetail = vendorDetail;
     }
 
+    @SuppressWarnings("rawtypes")
     public List getItems() {
         return items;
     }
 
+    @SuppressWarnings("rawtypes")
     public void setItems(List items) {
         this.items = items;
     }
@@ -1157,6 +1136,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Overridden to return the source lines of all of the items
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLines()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public List getSourceAccountingLines() {
         if (ObjectUtils.isNotNull(sourceAccountingLines) && !sourceAccountingLines.isEmpty()) {
@@ -1193,4 +1173,51 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return false;
     }
     
+    /**
+     * Accounting lines that are read-only should skip validation
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected List getPersistedSourceAccountingLinesForComparison() {
+        LOG.info("Checking persisted source accounting lines for read-only fields");
+        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+
+        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
+        List persistedSourceLines = new ArrayList();
+
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
+            // only check items that already have been persisted since last save
+            if (ObjectUtils.isNotNull(item.getItemIdentifier())) {
+                // Disable validation if the item is read-only
+                final boolean isNotReadOnly = !((restrictedItemTypesList != null) && restrictedItemTypesList.contains(item.getItemTypeCode()));
+                if (isNotReadOnly) {
+                    persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
+                }
+            }
+        }
+        return persistedSourceLines;
+    }
+
+    /**
+     * Accounting lines that are read-only should skip validation
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLinesForComparison()
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected List getSourceAccountingLinesForComparison() {
+        LOG.info("Checking source accounting lines for read-only fields");
+        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
+        List currentSourceLines = new ArrayList();
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
+            // Disable validation if the item is read-only
+            final boolean isNotReadOnly = !((restrictedItemTypesList != null) && restrictedItemTypesList.contains(item.getItemTypeCode()));
+            if (isNotReadOnly) {
+                currentSourceLines.addAll(item.getSourceAccountingLines());
+            }
+        }
+        return currentSourceLines;
+    }
+
 }

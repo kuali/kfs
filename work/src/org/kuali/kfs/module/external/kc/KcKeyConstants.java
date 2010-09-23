@@ -21,9 +21,4 @@ package org.kuali.kfs.module.external.kc;
  */
 public class KcKeyConstants {
     public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST = "error.asset.fabrication.completionDate.past";
-
-    public static class AccountAutoCreateDefaults {
-        public static final String ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_FALSE = "error.document.aacdmaint.notallow.acct.if.fringebenefit.false";
-        public static final String ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_TRUE = "error.document.aacdmaint.notallow.acct.if.fringebenefit.true";
-     }
 }

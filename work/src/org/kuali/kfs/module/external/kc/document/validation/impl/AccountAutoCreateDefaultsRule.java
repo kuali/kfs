@@ -15,22 +15,17 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.KcKeyConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.dto.UnitDTO;
-import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.ParameterService;
@@ -46,8 +41,8 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
     protected static SubFundGroupService subFundGroupService;
     protected static ParameterService parameterService;    
     
-    protected BalanceService balanceService;
-     protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    protected AccountService accountService;
+    protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     protected AccountAutoCreateDefaults oldAccountAutoCreateDefaults;
     protected AccountAutoCreateDefaults newAccountAutoCreateDefaults;
@@ -61,6 +56,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         // When this happens, just remove these calls to the setters with
         // SpringContext, and configure the bean defs for spring.
          this.setContractsAndGrantsModuleService(SpringContext.getBean(ContractsAndGrantsModuleService.class));
+         this.setAccountService(SpringContext.getBean(AccountService.class));
     }
 
     /**
@@ -191,24 +187,52 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
 
         boolean result = true;
 
-        // When the Account Fringe Benefit is selected, do not allow the entry of Fringe Benefit
-        // Chart of Account Code and Account Number
+        // if this account is selected as a Fringe Benefit Account, then we have nothing
+        // to test, so exit
         if (newAccountAutoCreateDefaults.isAccountsFringesBnftIndicator()) {
-            if ((! StringUtils.isEmpty(newAccountAutoCreateDefaults.getChartOfAccountsCode())) ||
-                    (!StringUtils.isEmpty(newAccountAutoCreateDefaults.getReportsToAccountNumber()))) {
-                 putFieldError("reportsToAccountNumber", KcKeyConstants.AccountAutoCreateDefaults.ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_TRUE);            
-                result &=false;
-            }
-        } else {
-
-            //When the Account Fringe Benefit is not selected, require Fringe Benefit Chart of Account Code and Fringe Benefit Account Number
-            // fringe benefit chart of accounts code is required
-            if ((StringUtils.isEmpty(newAccountAutoCreateDefaults.getChartOfAccountsCode())) ||
-                        (StringUtils.isEmpty(newAccountAutoCreateDefaults.getReportsToAccountNumber()))) {
-                     putFieldError("reportsToAccountNumber", KcKeyConstants.AccountAutoCreateDefaults.ERROR_DOCUMENT_AACDMAINT_NOTALLOW_ACCT_IF_FRINGEBENEFIT_FALSE);
-                result &= false;
-            }
+            return true;
         }
+
+        // if fringe benefit is not selected ... continue processing
+
+        // fringe benefit account number is required
+        if (StringUtils.isBlank(newAccountAutoCreateDefaults.getReportsToAccountNumber())) {
+            putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            result &= false;
+        }
+
+        // fringe benefit chart of accounts code is required
+        if (StringUtils.isBlank(newAccountAutoCreateDefaults.getReportsToChartOfAccountsCode())) {
+            putFieldError("reportsToChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            result &= false;
+        }
+
+        // if either of the fringe benefit account fields are not present, then we're done
+        if (result == false) {
+            return result;
+        }
+
+        // attempt to load the fringe benefit account
+        Account fringeBenefitAccount = accountService.getByPrimaryId(newAccountAutoCreateDefaults.getReportsToChartOfAccountsCode(), newAccountAutoCreateDefaults.getReportsToAccountNumber());
+
+        // fringe benefit account must exist
+        if (fringeBenefitAccount == null) {
+            putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, getFieldLabel(Account.class, "reportsToAccountNumber"));
+            return false;
+        }
+
+        // fringe benefit account must be active
+        if (!fringeBenefitAccount.isActive()) {
+            putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_INACTIVE, getFieldLabel(Account.class, "reportsToAccountNumber"));
+            result &= false;
+        }
+
+        // make sure the fringe benefit account specified is set to fringe benefits = Y
+        if (!fringeBenefitAccount.isAccountsFringesBnftIndicator()) {
+            putFieldError("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, fringeBenefitAccount.getChartOfAccountsCode() + "-" + fringeBenefitAccount.getAccountNumber());
+            result &= false;
+        }
+
         return result;
     }
 
@@ -324,6 +348,10 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
+    }
+
+    public void setAccountService(AccountService accountService) {        
+        this.accountService = accountService;
     }
 
 }

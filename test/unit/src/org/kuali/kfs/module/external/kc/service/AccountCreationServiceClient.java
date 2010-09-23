@@ -45,7 +45,7 @@ public class AccountCreationServiceClient extends TestCase
         // Initialize objects.
         accountParameters = new AccountParametersDTO();
         accountParameters.setUnit("BL");
-        accountParameters.setAccountNumber("1234571");
+        accountParameters.setAccountNumber("1234572");
         accountParameters.setAccountName("KC Award");
         accountParameters.setHigherEdFunctionCode("IPR");
         accountParameters.setIndirectCostTypeCode("");
@@ -107,15 +107,16 @@ public class AccountCreationServiceClient extends TestCase
     public void testCreateAccountServiceSoap() 
     {   
         try {
-            //URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
-            URL url = new URL("https://test.kfs.kuali.org/kfs-cnv/remoting/accountCreationServiceSOAP?wsdl");
+            URL url = new URL("http://localhost:8080/kfs-dev/remoting/accountCreationServiceSOAP?wsdl");
+            //URL url = new URL("https://test.kfs.kuali.org/kfs-cnv/remoting/accountCreationServiceSOAP?wsdl");
             QName qName = new QName("KFS", "accountCreationServiceSOAP");
             
             Service service = Service.create(url, qName);
             AccountCreationService accountService = (AccountCreationService)service.getPort(AccountCreationService.class);
                     
             AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);      
-            System.out.println("account number: " + creationStatus.getAccountNumber());            
+            System.out.println("account number: " + creationStatus.getAccountNumber());
+            System.out.println("document number: " + creationStatus.getDocumentNumber());
             assertTrue(creationStatus.getStatus().equals("success"));
             
         } catch (Exception e) {

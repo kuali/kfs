@@ -179,7 +179,15 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
 
         return pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
     }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate()
+     */
+    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
 
+        return pooledFundValueDao.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+    }
+    
     /**
      * Sets the pooledFundValueDao.
      * 

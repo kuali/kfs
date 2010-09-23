@@ -54,4 +54,10 @@ public interface PooledFundValueService {
      */
     public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
 
+    /**
+     * Gets PooledFundValue entries where the distribution income on date is equal to current date.
+     * @return a list of PooledFundValue entries that meet the criteria
+     */
+    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+
 }

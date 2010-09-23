@@ -15,11 +15,19 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
+import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 
 public interface IncomeDistributionForPooledFundDao {
 
-    public List<HoldingTaxLot> getHoldingTaxLotList();
+    public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution();
+    
+    public String getIncomeEntraCode(String securityId);
+    
+    public List<BigDecimal> getHoldingTaxLotListGroupedBy(String securityId);
+    
+    public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid);
 }

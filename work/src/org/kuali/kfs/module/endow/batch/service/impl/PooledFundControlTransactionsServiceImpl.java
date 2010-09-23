@@ -311,12 +311,12 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param paramDescriptionName
      * @param paramBlanketApproval
      */
-    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
+    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRoute) {
 
         LOG.info("Creating ECI ..."); 
         
         try {
-            CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECI"));
+            CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE));
 
             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
             cashIncreaseDocument.setTransactionSubTypeCode("C");
@@ -336,6 +336,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());  
             //endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
             endowmentTargetTransactionLine.setEtranCode("75720"); 
+            endowmentTargetTransactionLine.setTransactionLineTypeCode("T");
             endowmentTargetTransactionLine.setTransactionIPIndicatorCode("I");
             endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
             cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
@@ -344,16 +345,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
 
             // validate and route it according to the BLANKET_APPROVAL parameter
             if (validateECI(cashIncreaseDocument)) {
-                try {
-                    if (isBlanketApprove(paramBlanketApproval)) {
-                        documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
-                    } else {
-                        documentService.routeDocument(cashIncreaseDocument, "Submitted by the batch job", null);
-                    }    
-                } catch (WorkflowException e) {
-                  //TODO: generate the error message
-                    e.printStackTrace();
-                }
+                if (isNoRoute(paramNoRoute)) {
+                    documentService.blanketApproveDocument(cashIncreaseDocument, "Approved by the batch job", null);
+                } else {
+                    documentService.routeDocument(cashIncreaseDocument, "Submitted by the batch job", null);
+                }    
             } else {
                 //TODO: generate the error message
             }
@@ -372,12 +368,12 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param paramDescriptionName
      * @param paramBlanketApproval
      */
-    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramBlanketApproval) {
+    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRoute) {
 
         LOG.info("Creating ECDD ..."); 
         
         try {
-            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("ECDD"));
+            CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE));
 
             cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
             cashDecreaseDocument.setTransactionSubTypeCode("C");
@@ -397,6 +393,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());  
             endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
             endowmentSourceTransactionLine.setTransactionIPIndicatorCode("I");
+            endowmentSourceTransactionLine.setTransactionLineTypeCode("F");
             endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
             cashDecreaseDocument.setSourceTransactionLines(new TypedArrayList(EndowmentSourceTransactionLine.class));
             cashDecreaseDocument.setNextSourceLineNumber(new Integer(1));
@@ -404,16 +401,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
 
             // validate and route it according to the BLANKET_APPROVAL parameter
             if (validateECDD(cashDecreaseDocument)) {
-                try {
-                    if (isBlanketApprove(paramBlanketApproval)) {
-                        documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
-                    } else {
-                        documentService.routeDocument(cashDecreaseDocument, "Submitted by the batch job", null);
-                    }    
-                } catch (WorkflowException e) {
-                  //TODO: generate the error message
-                    e.printStackTrace();
-                }
+                if (isNoRoute(paramNoRoute)) {
+                    documentService.blanketApproveDocument(cashDecreaseDocument, "Approved by the batch job", null);
+                } else {
+                    documentService.routeDocument(cashDecreaseDocument, "Submitted by the batch job", null);
+                }    
             } else {
                 //TODO: generate the error message
             }
@@ -446,8 +438,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * check if it is blanket approval
      * @return boolean
      */
-    public boolean isBlanketApprove(String paramBlanketApprovalInd) {        
-        return parameterService.getIndicatorParameter(PooledFundControlTransactionsStep.class, paramBlanketApprovalInd);
+    public boolean isNoRoute(String paramNoRouteInd) {        
+        return parameterService.getIndicatorParameter(PooledFundControlTransactionsStep.class, paramNoRouteInd);
     }
     
     /**

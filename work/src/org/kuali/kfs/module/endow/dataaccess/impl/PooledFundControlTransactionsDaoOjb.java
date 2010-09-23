@@ -56,7 +56,7 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
 
         // get the list of TransactionArchive with the specified transaction type code
         Criteria crit1 = new Criteria();
-        //crit1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
+        crit1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
         if (transactionTypeCodes != null && !transactionTypeCodes.isEmpty()) {
             crit1.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, transactionTypeCodes);
         }
@@ -96,7 +96,7 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = (List<TransactionArchiveSecurity>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchiveSecurity.class, crit1));
                 
         Criteria crit2 = new Criteria();
-        //crit2.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
+        crit2.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
         crit2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, trnsactionTypeCodes);
         Criteria crit3 = new Criteria();
         for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {

@@ -305,7 +305,7 @@
 	
 	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
 		<property name="pooledFundValueService">
-			<ref bean="PooledFundValueService" />
+			<ref bean="pooledFundValueService" />
 		</property>
     	<property name="holdingTaxLotService">
     	 <ref bean="holdingTaxLotService" />
@@ -573,6 +573,15 @@
 		<property name="parameterService">
     	 	<ref bean="parameterService" />
 		</property>
+		<property name="kualiRuleService">
+    	 	<ref bean="kualiRuleService" />
+		</property>	
+		<property name="holdingTaxLotService">
+    	 	<ref bean="holdingTaxLotService" />
+		</property>	
+		<property name="pooledFundValueService">
+    	 	<ref bean="pooledFundValueService" />
+		</property>						
 		<property name="incomeDistributionForPooledFundDao">
 			<ref bean="incomeDistributionForPooledFundDao" />
 		</property>			
@@ -881,7 +890,7 @@
 		</property>				
 	</bean>
 	
-	<bean id="PooledFundValueService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundValueServiceImpl">
+	<bean id="pooledFundValueService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundValueServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		

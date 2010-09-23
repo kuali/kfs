@@ -114,6 +114,14 @@
        <!-- TODO: make config property for bus security -->
        <property name="busSecurity" value="false"/>
     </bean>
+
+    <bean id="kfsJaxWsRestService" class="org.kuali.rice.ksb.messaging.RESTServiceDefinition" abstract="true">
+       <property name="serviceNameSpaceURI" value="KFS"/>
+       <property name="priority" value="3" />
+       <property name="retryAttempts" value="0" />
+       <property name="busSecurity" value="false"/>
+    </bean>
+
     
 	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />

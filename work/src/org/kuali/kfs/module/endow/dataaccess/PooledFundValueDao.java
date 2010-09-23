@@ -35,4 +35,11 @@ public interface PooledFundValueDao {
      */
     public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
 
+    /**
+     * Gets PooledFundValue entries where the Distribution Income date is equal to current date and LT_PROC_COMPLT = No.
+     * 
+     * @return a list of PooledFundValue entries that meet the criteria
+     */
+    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+
 }

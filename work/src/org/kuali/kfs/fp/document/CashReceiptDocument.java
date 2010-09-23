@@ -520,6 +520,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         List events = generateEvents(persistedChecks, currentChecks, KFSConstants.EXISTING_CHECK_PROPERTY_NAME, this);
 
+        events.addAll(super.generateSaveEvents()); 
+        
         return events;
     }
 

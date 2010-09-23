@@ -119,6 +119,7 @@
     <property name="maintainableItems">
       <list>
         <dd:maintField attributeName="contractControlFinCoaCode"/>
+        <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
         <dd:maintField attributeName="contractControlAccountNumber" javascriptLeaveFieldFunction="onblur_accountNumber"/>
          <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>     
         <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>

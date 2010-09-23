@@ -49,6 +49,7 @@
     	isSource="true"
     	isTarget="false"
     	displayGainLoss="true"
+    	displayHoldingCost="true"
     	showSourceDeleteButton="true"
     	showTargetDeleteButton="false"
     	readOnly="${readOnly}"/>            

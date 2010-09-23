@@ -23,6 +23,8 @@
 	description="Display all the Taxlot lines associated with the Source Transaction for this Document."%>	
 <%@ attribute name="isTarget" required="true"
 	description="Display all the Taxlot lines associated with the Target Transaction for this Document."%>
+<%@ attribute name="displayHoldingCost" required="true" 
+	description="Display the Gain and Loss for the Tax Lot Lines."%>		
 <%@ attribute name="displayGainLoss" required="true"
 	description="Display the Gain and Loss for the Tax Lot Lines."%>	
 <%@ attribute name="showSourceDeleteButton" required="true"
@@ -78,10 +80,12 @@
 					useShortLabel="false"
 					/>
 
+				<c:if test="${displayHoldingCost}">
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.lotHoldingCost}"
 					useShortLabel="false"
 					/>
+				</c:if>					
 					
 				<c:if test="${displayGainLoss}">
 					<kul:htmlAttributeHeaderCell
@@ -109,7 +113,9 @@
 		                <td class="datacell">${outerctr + 1}</td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="true"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="true"/></td>
+		                <c:if test="${displayHoldingCost}">
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="true"/></td>
+		                </c:if>
 		                <c:if test="${displayGainLoss}">
 		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="true"/></td>
 		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.sourceTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="true"/></td>
@@ -168,11 +174,12 @@
 					attributeEntry="${documentAttributes.lotUnits}"
 					useShortLabel="false"
 					/>
-
+				<c:if test="${displayHoldingCost}">
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.lotHoldingCost}"
 					useShortLabel="false"
 					/>
+				</c:if>
 					
 				<c:if test="${displayGainLoss}">
 					<kul:htmlAttributeHeaderCell
@@ -200,7 +207,9 @@
 		                <td class="datacell">${outerctr + 1}</td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.transactionHoldingLotNumber}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].transactionHoldingLotNumber" readOnly="true"/></td>
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotUnits}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotUnits" readOnly="true"/></td>
+		                <c:if test="${displayHoldingCost}">
 		                <td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotHoldingCost}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotHoldingCost" readOnly="true"/></td>
+		                </c:if>
 		                <c:if test="${displayGainLoss}">
 		                	<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotShortTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotShortTermGainLoss" readOnly="true"/></td>
 		               		<td class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.lotLongTermGainLoss}" property="document.targetTransactionLines[${outerctr}].taxLotLines[${ctr}].lotLongTermGainLoss" readOnly="true"/></td>

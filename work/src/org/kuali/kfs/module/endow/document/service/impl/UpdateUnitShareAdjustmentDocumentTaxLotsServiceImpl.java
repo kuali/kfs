@@ -36,7 +36,6 @@ public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements Upda
     private HoldingTaxLotService taxLotService;
     private SecurityService securityService;
 
-
     /**
      * @see org.kuali.kfs.module.endow.document.service.UpdateUnitShareAdjustmentDocumentTaxLotsService#updateTransactionLineTaxLots(boolean,
      *      org.kuali.kfs.module.endow.document.EndowmentUnitShareAdjustmentDocument,
@@ -46,7 +45,8 @@ public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements Upda
         EndowmentTransactionSecurity endowmentTransactionSecurity = unitShareAdjustmentDocument.getSourceTransactionSecurity();
 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
-        if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
+        if (ObjectUtils.isNotNull(security)) {
+
             List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
             if (isUpdate) {
@@ -110,13 +110,10 @@ public class UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl implements Upda
 
                 BigDecimal transLineUnits = transLine.getTransactionUnits().bigDecimalValue();
                 adjustTaxLotsUnits(totalUnits, transLineUnits, oldestTaxLot, isSource);
-
             }
-
-
         }
-
     }
+
 
     /**
      * Adjusts the oldest tax lot units if the transaction line units do not match the total of the tax lot units.

@@ -48,6 +48,7 @@
     	documentAttributes="${DataDictionary.EndowmentTransactionTaxLotLine.attributes}" 
     	isSource="true"
     	isTarget="true"
+    	displayHoldingCost="true"
     	displayGainLoss="false"
     	showSourceDeleteButton="true"
     	showTargetDeleteButton="true"

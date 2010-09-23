@@ -41,7 +41,7 @@ public class ResearchRiskTypeMaintenanceDocumentPresentationController extends F
         // If the research risk exists in db, set read-only fields
         if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
             conditionallyReadOnlyPropertyNames.add(CGPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
-            conditionallyReadOnlyPropertyNames.add(CGPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);
+            
         }
 
         return conditionallyReadOnlyPropertyNames;

@@ -37,15 +37,10 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
     private String researchRiskTypeCode;
     private boolean active;
     private String researchRiskTypeDescription;
-    private String controlAttributeTypeCode;
     private Integer researchRiskTypeSortNumber;
     private String researchRiskTypeNotificationValue;
 
-    private ControlAttributeType controlAttributeType;
-
-    /**
-     * Default constructor.
-     */
+    
     public ResearchRiskType() {
 
     }
@@ -106,24 +101,9 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
         this.researchRiskTypeDescription = researchRiskTypeDescription;
     }
 
-    /**
-     * Gets the controlAttributeTypeCode attribute.
-     * 
-     * @return Returns the controlAttributeTypeCode.
-     */
-    public String getControlAttributeTypeCode() {
-        return controlAttributeTypeCode;
-    }
+    
 
-    /**
-     * Sets the controlAttributeTypeCode attribute value.
-     * 
-     * @param controlAttributeTypeCode The controlAttributeTypeCode to set.
-     */
-    public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
-        this.controlAttributeTypeCode = controlAttributeTypeCode;
-    }
-
+    
     /**
      * Gets the researchRiskTypeSortNumber attribute.
      * 
@@ -161,25 +141,8 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
         this.researchRiskTypeNotificationValue = researchRiskTypeNotificationValue;
     }
 
-    /**
-     * Gets the controlAttributeType attribute.
-     * 
-     * @return Returns the controlAttributeType.
-     */
-    public ControlAttributeType getControlAttributeType() {
-        return controlAttributeType;
-    }
-
-    /**
-     * Sets the controlAttributeType attribute value.
-     * 
-     * @param controlAttributeType The controlAttributeType to set.
-     * @deprecated
-     */
-    public void setControlAttributeType(ControlAttributeType controlAttributeType) {
-        this.controlAttributeType = controlAttributeType;
-    }
-
+    
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

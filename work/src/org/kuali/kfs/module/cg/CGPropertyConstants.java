@@ -25,7 +25,6 @@ public class CGPropertyConstants extends JSTLConstants {
 
     // Research Risk Type
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
-    public static final String CONTROL_ATTRIBUTE_TYPE_CODE = "controlAttributeTypeCode";
     public static final String RESEARCH_RISK_TYPE_SORT_NUMBER = "researchRiskTypeSortNumber";
 
 }

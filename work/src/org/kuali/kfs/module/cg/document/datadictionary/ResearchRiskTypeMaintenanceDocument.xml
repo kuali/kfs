@@ -54,7 +54,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeDescription"/>
-        <bean parent="MaintainableFieldDefinition" p:name="controlAttributeTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeSortNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="researchRiskTypeNotificationValue"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

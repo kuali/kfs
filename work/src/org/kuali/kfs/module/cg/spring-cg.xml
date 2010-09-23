@@ -188,20 +188,7 @@
 		</property>
 	</bean>
 	
-
-	<bean id="researchDocumentPermissionsService" class="org.kuali.kfs.module.cg.document.service.impl.ResearchDocumentPermissionsServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
-
-	<bean id="researchDocumentControlAttributeTypeService" class="org.kuali.kfs.module.cg.document.service.impl.ResearchDocumentControlAttributeTypeServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
-
-	<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
+<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

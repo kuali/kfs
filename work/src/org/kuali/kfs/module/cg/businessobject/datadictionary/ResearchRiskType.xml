@@ -30,7 +30,6 @@
       <list>
         <ref bean="ResearchRiskType-active"/>
         <ref bean="ResearchRiskType-researchRiskTypeCode"/>
-        <ref bean="ResearchRiskType-controlAttributeTypeCode"/>
         <ref bean="ResearchRiskType-researchRiskTypeDescription"/>
         <ref bean="ResearchRiskType-researchRiskTypeSortNumber"/>
         <ref bean="ResearchRiskType-researchRiskTypeNotificationValue"/>
@@ -63,22 +62,7 @@
     
     
   </bean>
-  <bean id="ResearchRiskType-controlAttributeTypeCode" parent="ResearchRiskType-controlAttributeTypeCode-parentBean"/>
-
-  <bean id="ResearchRiskType-controlAttributeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="controlAttributeTypeCode"/>
-    <property name="label" value="Control Attribute Type Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ResearchControlAttributeTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    
-    
-  </bean>
+  
   <bean id="ResearchRiskType-researchRiskTypeDescription" parent="ResearchRiskType-researchRiskTypeDescription-parentBean"/>
 
   <bean id="ResearchRiskType-researchRiskTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
@@ -139,7 +123,6 @@
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="researchRiskTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="researchRiskTypeDescription"/>
               <bean parent="FieldDefinition" p:attributeName="researchRiskTypeSortNumber"/>
               <bean parent="FieldDefinition" p:attributeName="researchRiskTypeNotificationValue"/>
@@ -166,7 +149,6 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeDescription"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeSortNumber"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeNotificationValue"/>
@@ -176,7 +158,6 @@
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeDescription"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeSortNumber"/>
         <bean parent="FieldDefinition" p:attributeName="researchRiskTypeNotificationValue"/>

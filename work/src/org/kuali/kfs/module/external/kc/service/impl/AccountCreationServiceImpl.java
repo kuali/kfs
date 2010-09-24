@@ -100,7 +100,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         Account account = createAccountObject(accountParameters, defaults, accountCreationStatus);
         
         // create an account automatic maintenance document
-//        createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus);
+        createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus);
         
         // set required values to AccountCreationStatus
         if (accountCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
@@ -110,10 +110,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         // for test 
 //        AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
-        accountCreationStatus.setErrorMessages(new ArrayList<String>());
-        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
-        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
-        accountCreationStatus.setDocumentNumber("1111");       
+//        accountCreationStatus.setErrorMessages(new ArrayList<String>());
+//        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
+//        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
+//        accountCreationStatus.setDocumentNumber("1111");    
+        
         return accountCreationStatus;
     }
     

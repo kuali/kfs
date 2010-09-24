@@ -28,12 +28,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
@@ -41,8 +41,6 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -1310,7 +1308,7 @@ public class PurapServiceImpl implements PurapService {
             tradeIn.getSourceAccountingLines().clear();
 
             totalAmount = purDoc.getTotalDollarAmountForTradeIn();
-
+            KualiDecimal tradeInTotalAmount = tradeIn.getTotalAmount();
             //Before we generate account summary, we should update the account amounts first.
             purapAccountingService.updateAccountAmounts(purDoc);
 
@@ -1349,10 +1347,18 @@ public class PurapServiceImpl implements PurapService {
                     BigDecimal percent = distributedAccount.getAccountLinePercent();
                     BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
                     distributedAccount.setAccountLinePercent(roundedPercent);
+                    // set the accountAmount same as tradeIn amount not line item's amount
+                    resetAccountAmount(distributedAccount, tradeInTotalAmount);
                 }
                 tradeIn.setSourceAccountingLines(distributedAccounts);
             }
         }
+    }
+
+    private void resetAccountAmount(PurApAccountingLine distributedAccount, KualiDecimal tradeInTotalAmount) {
+        BigDecimal pct = distributedAccount.getAccountLinePercent();
+        BigDecimal amount = tradeInTotalAmount.bigDecimalValue().multiply(pct).divide(new BigDecimal(100));
+        distributedAccount.setAmount(new KualiDecimal(amount));
     }
 
     public void clearAllTaxes(PurchasingAccountsPayableDocument purapDoc){

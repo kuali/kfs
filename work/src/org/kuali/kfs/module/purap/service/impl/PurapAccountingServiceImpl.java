@@ -27,8 +27,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants.NRATaxParameters;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -47,7 +47,6 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -799,14 +798,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                   
                     //account.getAmount returns the wrong value for trade in source accounting lines...
                     KualiDecimal accountAmount = KualiDecimal.ZERO;
-                    if(item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)){
-                        accountAmount = item.getExtendedPrice();
-                        if((item.getItemTaxAmount() != null) && !item.getItemTaxAmount().isZero()){
-                            accountAmount = accountAmount.add(item.getItemSalesTaxAmount());
-                        }
-                    }else{
-                        accountAmount = account.getAmount();
-                    }
+
+                    accountAmount = account.getAmount();
+
                     BigDecimal tmpPercent = BigDecimal.ZERO;
                     KualiDecimal extendedPrice = item.getTotalAmount();
                     tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);

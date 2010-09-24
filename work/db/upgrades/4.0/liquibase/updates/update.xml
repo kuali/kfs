@@ -201,4 +201,8 @@
 <include file="updates/2010-09-17-5475g-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-20-5966-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-21-6009-1-END_KEMID_CRNT_BAL_DET_V.xml"/>
+<include file="updates/2010-09-24-6011-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-24-6012-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-24-6025-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-24-6028-1-KEMID_CORPUS_VAL_T.xml"/>
 </databaseChangeLog>

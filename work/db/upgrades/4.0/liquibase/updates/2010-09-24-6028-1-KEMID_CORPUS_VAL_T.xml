@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Dan' id='6028-1-1' failOnError='true' dbms="mysql">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_KEMID_CORPUS_VAL_T' oldColumnName='CURR_CORPUS_VAL' newColumnName='CRNT_CORPUS_VAL' columnDataType= "decimal(19,2)" />
+  </changeSet>
+  <changeSet author='Dan' id='6028-1-2' failOnError='true' dbms="mysql">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_KEMID_CORPUS_VAL_T' oldColumnName='CURR_PRIN_MVAL' newColumnName='CRNT_PRIN_MVAL'  columnDataType= "decimal(19,2)" />
+  </changeSet>
+  <changeSet author='Dan' id='6028-1-3' failOnError='true' dbms="mysql">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_CURR_ENDOW_CORPUS_T' oldColumnName='CORPUS_VAL' newColumnName='CRNT_CORPUS_VAL'  columnDataType= "decimal(19,2)" />
+  </changeSet>
+  <changeSet author='Dan' id='6028-1-4' failOnError='true' dbms="mysql">    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameTable oldTableName='END_CURR_ENDOW_CORPUS_T' newTableName='END_CRNT_ENDOW_CORPUS_T' />
+  </changeSet>
+  <changeSet author='Dan' id='6028-2-1' failOnError='true' dbms="oracle">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_KEMID_CORPUS_VAL_T' oldColumnName='CURR_CORPUS_VAL' newColumnName='CRNT_CORPUS_VAL'/>
+  </changeSet>
+  <changeSet author='Dan' id='6028-2-2' failOnError='true' dbms="oracle">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_KEMID_CORPUS_VAL_T' oldColumnName='CURR_PRIN_MVAL' newColumnName='CRNT_PRIN_MVAL'/>
+  </changeSet>
+  <changeSet author='Dan' id='6028-2-3' failOnError='true' dbms="oracle">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameColumn tableName='END_CURR_ENDOW_CORPUS_T' oldColumnName='CORPUS_VAL' newColumnName='CRNT_CORPUS_VAL'/>
+  </changeSet>
+  <changeSet author='Dan' id='6028-2-4' failOnError='true' dbms="oracle">
+    <comment>add/Modify fields and rename corpus tables</comment>
+    <renameTable oldTableName='END_CURR_ENDOW_CORPUS_T' newTableName='END_CRNT_ENDOW_CORPUS_T' />
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Dan' id='6025-1-1' failOnError='true'>
+    <comment>Add Parameter for tax zip code parsing</comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='nmspc_cd' value='KFS-FP' />
+      <column name='parm_dtl_typ_cd' value='SalesTax' />
+      <column name='parm_nm' value='POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE' />
+      <column name='appl_nmspc_cd' value='KFS' />
+      <column name='obj_id' valueNumeric='SYS_GUID' />
+      <column name='ver_nbr' valueNumeric='1' />
+      <column name='parm_typ_cd' value='CONFG' />
+      <column name='txt' value='5' />
+      <column name='parm_desc_txt' value='This determines the number of digits from the start that the Tax Service will use from the Postal Code to determine what Tax Regions to use For example,this is commonly set to 5 in the US,in order to ignore the dash and +4 digits in the ZIP+4 formatted postal codes This value can be set to blank to indicate to the system not to truncate the postal codes' />
+      <column name='cons_cd' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

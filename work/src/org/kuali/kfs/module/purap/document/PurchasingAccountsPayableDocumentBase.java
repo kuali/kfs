@@ -1181,7 +1181,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     protected List getPersistedSourceAccountingLinesForComparison() {
         LOG.info("Checking persisted source accounting lines for read-only fields");
-        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        List<String> restrictedItemTypesList = new ArrayList<String>();
+        try {
+            restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        } catch (IllegalArgumentException iae) {
+            // do nothing, not a problem if no restricted types are defined
+        }
 
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List persistedSourceLines = new ArrayList();
@@ -1207,7 +1212,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     protected List getSourceAccountingLinesForComparison() {
         LOG.info("Checking source accounting lines for read-only fields");
-        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        List<String> restrictedItemTypesList = new ArrayList<String>();
+        try {
+            restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(this.getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        } catch (IllegalArgumentException iae) {
+            // do nothing, not a problem if no restricted types are defined
+        }
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List currentSourceLines = new ArrayList();
         for (PurApItem item : (List<PurApItem>) this.getItems()) {

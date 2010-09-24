@@ -690,6 +690,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="pooledFundDescription" column="POOL_FND_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="incrementValuationDays" column="INCRM_VLTN_DAYS" jdbc-type="INTEGER"/>
+	<field-descriptor name="fundRegistrationCode" column="POOL_REGIS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fundKEMID" column="KEMID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fundAssetPurchaseOffsetTranCode" column="AST_PURCH_OFST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fundAssetSaleOffsetTranCode" column="AST_SALE_OFST_CD" jdbc-type="VARCHAR"/>
@@ -704,6 +705,9 @@
 	</reference-descriptor>
  	<reference-descriptor name="kemid" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="fundKEMID" />
+	</reference-descriptor>	
+	<reference-descriptor name="registrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="fundRegistrationCode" />
 	</reference-descriptor>	
 	<reference-descriptor name="assetPurchaseOffsetTranCode" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="fundAssetPurchaseOffsetTranCode" />
@@ -920,17 +924,13 @@
 	<field-descriptor name="aciModelName" column="ACI_MDL_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="ipIndicator" column="ACI_HLDG_IP_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment1SecurityID" column="ACI_POOL1_SEC_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="investment1RegistrationCode" column="ACI_POOL1_REGIS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment1Percent" column="ACI_POOL1_PCT" jdbc-type="DECIMAL"/> <!-- conversion="org.kuali.rice.kns.util.OjbKualiPercentFieldConversion"/>
 -->
 	<field-descriptor name="investment2SecurityID" column="ACI_POOL2_SEC_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="investment2RegistrationCode" column="ACI_POOL2_REGIS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment2Percent" column="ACI_POOL2_PCT" jdbc-type="DECIMAL" />
 	<field-descriptor name="investment3SecurityID" column="ACI_POOL3_SEC_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="investment3RegistrationCode" column="ACI_POOL3_REGIS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment3Percent" column="ACI_POOL3_PCT" jdbc-type="DECIMAL" />	
 	<field-descriptor name="investment4SecurityID" column="ACI_POOL4_SEC_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="investment4RegistrationCode" column="ACI_POOL4_REGIS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment4Percent" column="ACI_POOL4_PCT" jdbc-type="DECIMAL" />	
 	<field-descriptor name="aciFrequencyCode" column="ACI_FREQ" jdbc-type="VARCHAR"/>
 	<field-descriptor name="dateOfLastACIModelChange" column="ACI_MDL_DT" jdbc-type="DATE"/>	
@@ -939,26 +939,14 @@
 	<reference-descriptor name="investment1" class-ref="org.kuali.kfs.module.endow.businessobject.PooledFundControl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="investment1SecurityID" />
 	</reference-descriptor>
-	<reference-descriptor name="investment1RegistrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="investment1RegistrationCode" />
-	</reference-descriptor>
  	<reference-descriptor name="investment2" class-ref="org.kuali.kfs.module.endow.businessobject.PooledFundControl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="investment2SecurityID" />
 	</reference-descriptor>
-	<reference-descriptor name="investment2RegistrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="investment2RegistrationCode" />
-	</reference-descriptor>	
  	<reference-descriptor name="investment3" class-ref="org.kuali.kfs.module.endow.businessobject.PooledFundControl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="investment3SecurityID" />
 	</reference-descriptor>
-	<reference-descriptor name="investment3RegistrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="investment3RegistrationCode" />
-	</reference-descriptor>
  	<reference-descriptor name="investment4" class-ref="org.kuali.kfs.module.endow.businessobject.PooledFundControl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="investment4SecurityID" />
-	</reference-descriptor>
-	<reference-descriptor name="investment4RegistrationCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.RegistrationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="investment4RegistrationCode" />
 	</reference-descriptor>
 	<reference-descriptor name="aciFrequencyCodeObj" class-ref="org.kuali.kfs.module.endow.businessobject.FrequencyCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="aciFrequencyCode" />

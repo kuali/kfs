@@ -30,19 +30,7 @@
               p:attributeToHighlightOnFail="investment3SecurityID" />              
         <bean parent="ReferenceDefinition"
               p:attributeName="investment4"
-              p:attributeToHighlightOnFail="investment4SecurityID" />                                  
-        <bean parent="ReferenceDefinition"
-              p:attributeName="investment1RegistrationCodeObj"
-              p:attributeToHighlightOnFail="investment1RegistrationCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="investment2RegistrationCodeObj"
-              p:attributeToHighlightOnFail="investment2RegistrationCode" />
-        <bean parent="ReferenceDefinition"
-              p:attributeName="investment3RegistrationCodeObj"
-              p:attributeToHighlightOnFail="investment3RegistrationCode" />                            
-        <bean parent="ReferenceDefinition"
-              p:attributeName="investment4RegistrationCodeObj"
-              p:attributeToHighlightOnFail="investment4RegistrationCode" />              
+              p:attributeToHighlightOnFail="investment4SecurityID" />                  
         <bean parent="ReferenceDefinition"
         	  p:attributeName="aciFrequencyCodeObj" 
         	  p:attributeToHighlightOnFail="aciFrequencyCode" />
@@ -63,8 +51,6 @@
 <!--    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.PooledFundControlDocumentPresentationController" /> -->
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/RegistrationCodeService.js</value>
-        <value>../scripts/module/endow/registrationCode.js</value>
         <value>../dwr/interface/PooledFundControlService.js</value>
         <value>../scripts/module/endow/pooledFundControl.js</value>
         <value>../dwr/interface/FrequencyCodeService.js</value>
@@ -101,15 +87,8 @@
               p:webUILeaveFieldFunction="loadInvestment1Desc"/> 
         <bean parent="MaintainableFieldDefinition"
               p:name="investment1.pooledFundDescription"
-              p:unconditionallyReadOnly="true" />                            
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment1RegistrationCode"
-              p:required="true" 
-              p:webUILeaveFieldFunction="loadInvestment1RegistrationCodeDesc"/> 
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment1RegistrationCodeObj.name"
-              p:unconditionallyReadOnly="true" />                                         
-        <bean parent="MaintainableFieldDefinition"
+              p:unconditionallyReadOnly="true" />             
+         <bean parent="MaintainableFieldDefinition"
               p:name="investment1Percent"
               p:required="true"/>               
         <bean parent="MaintainableFieldDefinition"
@@ -117,13 +96,7 @@
               p:webUILeaveFieldFunction="loadInvestment2Desc"/> 
         <bean parent="MaintainableFieldDefinition"
               p:name="investment2.pooledFundDescription"
-              p:unconditionallyReadOnly="true" />                            
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment2RegistrationCode"
-              p:webUILeaveFieldFunction="loadInvestment2RegistrationCodeDesc"/> 
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment2RegistrationCodeObj.name"
-              p:unconditionallyReadOnly="true" />                                         
+              p:unconditionallyReadOnly="true" />    
         <bean parent="MaintainableFieldDefinition"
               p:name="investment2Percent"/>              
         <bean parent="MaintainableFieldDefinition"
@@ -131,13 +104,7 @@
               p:webUILeaveFieldFunction="loadInvestment3Desc"/> 
         <bean parent="MaintainableFieldDefinition"
               p:name="investment3.pooledFundDescription"
-              p:unconditionallyReadOnly="true" />                            
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment3RegistrationCode"
-              p:webUILeaveFieldFunction="loadInvestment3RegistrationCodeDesc"/> 
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment3RegistrationCodeObj.name"
-              p:unconditionallyReadOnly="true" />                                         
+              p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="investment3Percent"/>               
         <bean parent="MaintainableFieldDefinition"
@@ -146,12 +113,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="investment4.pooledFundDescription"
               p:unconditionallyReadOnly="true" />                            
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment4RegistrationCode"
-              p:webUILeaveFieldFunction="loadInvestment4RegistrationCodeDesc"/> 
-        <bean parent="MaintainableFieldDefinition"
-              p:name="investment4RegistrationCodeObj.name"
-              p:unconditionallyReadOnly="true" />                                         
         <bean parent="MaintainableFieldDefinition"
               p:name="investment4Percent"/>  
         <bean parent="MaintainableFieldDefinition"

@@ -23,23 +23,15 @@
         <ref bean="AutomatedCashInvestmentModel-ipIndicator" />
         <ref bean="AutomatedCashInvestmentModel-investment1SecurityID" />
         <ref bean="AutomatedCashInvestmentModel-investment1.pooledFundDescription" />
-	    <ref bean="AutomatedCashInvestmentModel-investment1RegistrationCode" /> 
-	    <ref bean="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.name" /> 	    
         <ref bean="AutomatedCashInvestmentModel-investment1Percent" />  
         <ref bean="AutomatedCashInvestmentModel-investment2SecurityID" />
-        <ref bean="AutomatedCashInvestmentModel-investment2.pooledFundDescription" />        
-	    <ref bean="AutomatedCashInvestmentModel-investment2RegistrationCode" />
-	    <ref bean="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.name" /> 	     
+        <ref bean="AutomatedCashInvestmentModel-investment2.pooledFundDescription" />
         <ref bean="AutomatedCashInvestmentModel-investment2Percent" />  
         <ref bean="AutomatedCashInvestmentModel-investment3SecurityID" />
         <ref bean="AutomatedCashInvestmentModel-investment3.pooledFundDescription" />
-	    <ref bean="AutomatedCashInvestmentModel-investment3RegistrationCode" /> 
-	    <ref bean="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.name" /> 	    
         <ref bean="AutomatedCashInvestmentModel-investment3Percent" />  
         <ref bean="AutomatedCashInvestmentModel-investment4SecurityID" />
         <ref bean="AutomatedCashInvestmentModel-investment4.pooledFundDescription" />       
-	    <ref bean="AutomatedCashInvestmentModel-investment4RegistrationCode" />
-	    <ref bean="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.name" /> 	     
         <ref bean="AutomatedCashInvestmentModel-investment4Percent" />  
         <ref bean="AutomatedCashInvestmentModel-aciFrequencyCode" />                
         <ref bean="AutomatedCashInvestmentModel-aciFrequencyCodeObj.name" />
@@ -49,10 +41,7 @@
         <ref bean="AutomatedCashInvestmentModel-investment2.pooledSecurityIDAndDescription" />
         <ref bean="AutomatedCashInvestmentModel-investment3.pooledSecurityIDAndDescription" />
         <ref bean="AutomatedCashInvestmentModel-investment4.pooledSecurityIDAndDescription" />
-        <ref bean="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.codeAndDescription" />
-        <ref bean="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.codeAndDescription" />        
-        <ref bean="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.codeAndDescription" />        
-        <ref bean="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.codeAndDescription" />        
+ 
         <ref bean="AutomatedCashInvestmentModel-aciFrequencyCodeObj.codeAndDescription" />
         <ref bean="AutomatedCashInvestmentModel-codeAndDescription" />
       </list>
@@ -126,21 +115,6 @@
     <property name="label" value="Investment 1 Description" />
   </bean> 
         
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCode" parent="AutomatedCashInvestmentModel-investment1RegistrationCode-parentBean" />
-
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
-    <property name="name" value="investment1RegistrationCode" />
-    <property name="label" value="Investment 1 Registration Code" />
-    <property name="shortLabel" value="Investment 1 Registration Code" />
-  </bean> 
- 
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.name" parent="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.name-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.name-parentBean" abstract="true" parent="RegistrationCode-name">
-    <property name="name" value="investment1RegistrationCodeObj.name" />
-    <property name="label" value="Investment 1 Registration Code Description" />
-  </bean> 
-        
   <bean id="AutomatedCashInvestmentModel-investment1Percent" parent="AutomatedCashInvestmentModel-investment1Percent-parentBean" />
 
   <bean id="AutomatedCashInvestmentModel-investment1Percent-parentBean" abstract="true" parent="AttributeDefinition">
@@ -178,21 +152,6 @@
   <bean id="AutomatedCashInvestmentModel-investment2.pooledFundDescription-parentBean" abstract="true" parent="PooledFundControl-pooledFundDescription">
     <property name="name" value="investment2.pooledFundDescription" />
     <property name="label" value="Investment 2 Description" />
-  </bean> 
-        
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCode" parent="AutomatedCashInvestmentModel-investment2RegistrationCode-parentBean" />
-
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
-    <property name="name" value="investment2RegistrationCode" />
-    <property name="label" value="Investment 2 Registration Code" />
-    <property name="shortLabel" value="Investment 2 Registration Code" />
-  </bean> 
- 
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.name" parent="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.name-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.name-parentBean" abstract="true" parent="RegistrationCode-name">
-    <property name="name" value="investment2RegistrationCodeObj.name" />
-    <property name="label" value="Investment 2 Registration Code Description" />
   </bean> 
         
   <bean id="AutomatedCashInvestmentModel-investment2Percent" parent="AutomatedCashInvestmentModel-investment2Percent-parentBean" />
@@ -234,21 +193,6 @@
     <property name="label" value="Investment 3 Description" />
   </bean> 
         
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCode" parent="AutomatedCashInvestmentModel-investment3RegistrationCode-parentBean" />
-
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
-    <property name="name" value="investment3RegistrationCode" />
-    <property name="label" value="Investment 3 Registration Code" />
-    <property name="shortLabel" value="Investment 3 Registration Code" />
-  </bean> 
- 
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.name" parent="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.name-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.name-parentBean" abstract="true" parent="RegistrationCode-name">
-    <property name="name" value="investment3RegistrationCodeObj.name" />
-    <property name="label" value="Investment 3 Registration Code Description" />
-  </bean> 
-        
   <bean id="AutomatedCashInvestmentModel-investment3Percent" parent="AutomatedCashInvestmentModel-investment3Percent-parentBean" />
 
   <bean id="AutomatedCashInvestmentModel-investment3Percent-parentBean" abstract="true" parent="AttributeDefinition">
@@ -286,21 +230,6 @@
   <bean id="AutomatedCashInvestmentModel-investment4.pooledFundDescription-parentBean" abstract="true" parent="PooledFundControl-pooledFundDescription">
     <property name="name" value="investment4.pooledFundDescription" />
     <property name="label" value="Investment 4 Description" />
-  </bean> 
-        
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCode" parent="AutomatedCashInvestmentModel-investment4RegistrationCode-parentBean" />
-
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
-    <property name="name" value="investment4RegistrationCode" />
-    <property name="label" value="Investment 4 Registration Code" />
-    <property name="shortLabel" value="Investment 4 Registration Code" />
-  </bean> 
- 
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.name" parent="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.name-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.name-parentBean" abstract="true" parent="RegistrationCode-name">
-    <property name="name" value="investment4RegistrationCodeObj.name" />
-    <property name="label" value="Investment 4 Registration Code Description" />
   </bean> 
         
   <bean id="AutomatedCashInvestmentModel-investment4Percent" parent="AutomatedCashInvestmentModel-investment4Percent-parentBean" />
@@ -375,34 +304,6 @@
     <property name="name" value="investment4.pooledSecurityIDAndDescription" />
     <property name="label" value="Investment 4 Security ID" />
   </bean>
-      
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.codeAndDescription" parent="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.codeAndDescription-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment1RegistrationCodeObj.codeAndDescription-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
-    <property name="name" value="investment1RegistrationCodeObj.codeAndDescription" />
-    <property name="label" value="Investment 1 Registration Code" />
-  </bean>
-
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.codeAndDescription" parent="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.codeAndDescription-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment2RegistrationCodeObj.codeAndDescription-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
-    <property name="name" value="investment2RegistrationCodeObj.codeAndDescription" />
-    <property name="label" value="Investment 2 Registration Code" />
-  </bean>
-    
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.codeAndDescription" parent="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.codeAndDescription-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment3RegistrationCodeObj.codeAndDescription-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
-    <property name="name" value="investment3RegistrationCodeObj.codeAndDescription" />
-    <property name="label" value="Investment 3 Registration Code" />
-  </bean>
-    
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.codeAndDescription" parent="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.codeAndDescription-parentBean" />
-  
-  <bean id="AutomatedCashInvestmentModel-investment4RegistrationCodeObj.codeAndDescription-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
-    <property name="name" value="investment4RegistrationCodeObj.codeAndDescription" />
-    <property name="label" value="Investment 4 Registration Code" />
-  </bean>  
 
   <bean id="AutomatedCashInvestmentModel-aciFrequencyCodeObj.codeAndDescription" parent="AutomatedCashInvestmentModel-aciFrequencyCodeObj.codeAndDescription-parentBean" />
   
@@ -457,25 +358,17 @@
         	  <bean parent="FieldDefinition"
                     p:attributeName="investment1.pooledSecurityIDAndDescription" />   
               <bean parent="FieldDefinition"
-              		p:attributeName="investment1RegistrationCodeObj.codeAndDescription" />
-              <bean parent="FieldDefinition"
               		p:attributeName="investment1Percent" />
         	  <bean parent="FieldDefinition"
-                    p:attributeName="investment2.pooledSecurityIDAndDescription" />   
-              <bean parent="FieldDefinition"
-              		p:attributeName="investment2RegistrationCodeObj.codeAndDescription" />
+                    p:attributeName="investment2.pooledSecurityIDAndDescription" />  
               <bean parent="FieldDefinition"
               		p:attributeName="investment2Percent" />              		
          	  <bean parent="FieldDefinition"
                     p:attributeName="investment3.pooledSecurityIDAndDescription" />   
               <bean parent="FieldDefinition"
-              		p:attributeName="investment3RegistrationCodeObj.codeAndDescription" />
-              <bean parent="FieldDefinition"
               		p:attributeName="investment3Percent" />             		
         	  <bean parent="FieldDefinition"
                     p:attributeName="investment4.pooledSecurityIDAndDescription" />   
-              <bean parent="FieldDefinition"
-              		p:attributeName="investment4RegistrationCodeObj.codeAndDescription" />
               <bean parent="FieldDefinition"
               		p:attributeName="investment4Percent" />              		
         	  <bean parent="FieldDefinition"

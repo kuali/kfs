@@ -31,16 +31,12 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     private String aciModelName;
     private String ipIndicator;
     private String investment1SecurityID;
-    private String investment1RegistrationCode;
     private BigDecimal investment1Percent;
     private String investment2SecurityID;
-    private String investment2RegistrationCode;
     private BigDecimal investment2Percent;
     private String investment3SecurityID;
-    private String investment3RegistrationCode;
     private BigDecimal investment3Percent;
     private String investment4SecurityID;
-    private String investment4RegistrationCode;
     private BigDecimal investment4Percent;
     private String aciFrequencyCode;
     private Date dateOfLastACIModelChange;
@@ -50,10 +46,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     private PooledFundControl investment2;
     private PooledFundControl investment3;
     private PooledFundControl investment4;
-    private RegistrationCode investment1RegistrationCodeObj;
-    private RegistrationCode investment2RegistrationCodeObj;
-    private RegistrationCode investment3RegistrationCodeObj;
-    private RegistrationCode investment4RegistrationCodeObj;
     private FrequencyCode aciFrequencyCodeObj;
     private IncomePrincipalIndicator ipIndicatorObj;
 
@@ -154,24 +146,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the investment1RegistrationCode
-     * 
-     * @return investment1RegistrationCode
-     */
-    public String getInvestment1RegistrationCode() {
-        return investment1RegistrationCode;
-    }
-
-    /**
-     * Sets the investment1RegistrationCode
-     * 
-     * @param investment1RegistrationCode
-     */
-    public void setInvestment1RegistrationCode(String investment1RegistrationCode) {
-        this.investment1RegistrationCode = investment1RegistrationCode;
-    }
-
-    /**
      * Gets the investment1Percent
      * 
      * @return investment1Percent
@@ -208,24 +182,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
      */
     public void setInvestment2SecurityID(String investment2SecurityID) {
         this.investment2SecurityID = investment2SecurityID;
-    }
-
-    /**
-     * Gets the investment2RegistrationCode
-     * 
-     * @return investment2RegistrationCode
-     */
-    public String getInvestment2RegistrationCode() {
-        return investment2RegistrationCode;
-    }
-
-    /**
-     * Sets the investment2RegistrationCode
-     * 
-     * @param investment2RegistrationCode
-     */
-    public void setInvestment2RegistrationCode(String investment2RegistrationCode) {
-        this.investment2RegistrationCode = investment2RegistrationCode;
     }
 
     /**
@@ -268,24 +224,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the investment3RegistrationCode
-     * 
-     * @return investment3RegistrationCode
-     */
-    public String getInvestment3RegistrationCode() {
-        return investment3RegistrationCode;
-    }
-
-    /**
-     * Sets the investment3RegistrationCode
-     * 
-     * @param investment3RegistrationCode
-     */
-    public void setInvestment3RegistrationCode(String investment3RegistrationCode) {
-        this.investment3RegistrationCode = investment3RegistrationCode;
-    }
-
-    /**
      * Gets the investment3Percent
      * 
      * @return investment3Percent
@@ -322,24 +260,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
      */
     public void setInvestment4SecurityID(String investment4SecurityID) {
         this.investment4SecurityID = investment4SecurityID;
-    }
-
-    /**
-     * Gets the investment4RegistrationCode
-     * 
-     * @return investment4RegistrationCode
-     */
-    public String getInvestment4RegistrationCode() {
-        return investment4RegistrationCode;
-    }
-
-    /**
-     * Sets the investment4RegistrationCode
-     * 
-     * @param investment4RegistrationCode
-     */
-    public void setInvestment4RegistrationCode(String investment4RegistrationCode) {
-        this.investment4RegistrationCode = investment4RegistrationCode;
     }
 
     /**
@@ -487,78 +407,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
      */
     public void setInvestment4(PooledFundControl investment4) {
         this.investment4 = investment4;
-    }
-
-    /**
-     * Gets the investment1RegistrationCodeObj
-     * 
-     * @return investment1RegistrationCodeObj
-     */
-    public RegistrationCode getInvestment1RegistrationCodeObj() {
-        return investment1RegistrationCodeObj;
-    }
-
-    /**
-     * Sets the investment1RegistrationCodeObj
-     * 
-     * @param investment1RegistrationCodeObj
-     */
-    public void setInvestment1RegistrationCodeObj(RegistrationCode investment1RegistrationCodeObj) {
-        this.investment1RegistrationCodeObj = investment1RegistrationCodeObj;
-    }
-
-    /**
-     * Gets the investment2RegistrationCodeObj
-     * 
-     * @return investment2RegistrationCodeObj
-     */
-    public RegistrationCode getInvestment2RegistrationCodeObj() {
-        return investment2RegistrationCodeObj;
-    }
-
-    /**
-     * Sets the investment2RegistrationCodeObj
-     * 
-     * @param investment2RegistrationCodeObj
-     */
-    public void setInvestment2RegistrationCodeObj(RegistrationCode investment2RegistrationCodeObj) {
-        this.investment2RegistrationCodeObj = investment2RegistrationCodeObj;
-    }
-
-    /**
-     * Gets the investment3RegistrationCodeObj
-     * 
-     * @return investment3RegistrationCodeObj
-     */
-    public RegistrationCode getInvestment3RegistrationCodeObj() {
-        return investment3RegistrationCodeObj;
-    }
-
-    /**
-     * Sets the investment3RegistrationCodeObj
-     * 
-     * @param investment3RegistrationCodeObj
-     */
-    public void setInvestment3RegistrationCodeObj(RegistrationCode investment3RegistrationCodeObj) {
-        this.investment3RegistrationCodeObj = investment3RegistrationCodeObj;
-    }
-
-    /**
-     * Gets the investment4RegistrationCodeObj
-     * 
-     * @return investment4RegistrationCodeObj
-     */
-    public RegistrationCode getInvestment4RegistrationCodeObj() {
-        return investment4RegistrationCodeObj;
-    }
-
-    /**
-     * Sets the investment4RegistrationCodeObj
-     * 
-     * @param investment4RegistrationCodeObj
-     */
-    public void setInvestment4RegistrationCodeObj(RegistrationCode investment4RegistrationCodeObj) {
-        this.investment4RegistrationCodeObj = investment4RegistrationCodeObj;
     }
 
     /**

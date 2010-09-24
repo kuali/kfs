@@ -1,35 +1,28 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>
-        BC
-      </name>
-      <parent>
-        BCT
-      </parent>
-      <label>
-        Budget Construction Document
-      </label>
-      <postProcessorName>
-        none
-      </postProcessorName>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-      <routePaths/>
-    </documentType>
-    <documentType>
-      <name>
-        BC
-      </name>
-      <parent>
-        BCT
-      </parent>
-      <postProcessorName/>
-      <routePaths/>
-    </documentType>
-  </documentTypes>
+<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<documentType>
+<name>
+BC
+</name>
+<helpDefinitionURL>
+default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm
+</helpDefinitionURL>
+<parent>
+BCT
+</parent>
+<label>
+Budget Construction Document
+</label>
+<postProcessorName>
+none
+</postProcessorName>
+<active>
+true
+</active>
+<routingVersion>
+2
+</routingVersion>
+<routePaths/>
+</documentType>
+</documentTypes>
 </data>

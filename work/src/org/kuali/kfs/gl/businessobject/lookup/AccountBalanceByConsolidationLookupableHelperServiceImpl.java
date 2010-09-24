@@ -65,7 +65,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
      * @return a List of found business objects
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LOG.debug("getSearchResults() started");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

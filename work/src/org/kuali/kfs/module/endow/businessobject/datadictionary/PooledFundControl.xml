@@ -23,6 +23,8 @@
         <ref bean="PooledFundControl-incrementValuationDays" />
         <ref bean="PooledFundControl-fundKEMID" />
         <ref bean="PooledFundControl-kemid.shortTitle"/>
+        <ref bean="PooledFundControl-fundRegistrationCode" />
+	    <ref bean="PooledFundControl-registrationCodeObj.name" />        
         <ref bean="PooledFundControl-fundAssetPurchaseOffsetTranCode" />
         <ref bean="PooledFundControl-assetPurchaseOffsetTranCode.name" />
         <ref bean="PooledFundControl-fundAssetSaleOffsetTranCode" />
@@ -35,6 +37,7 @@
         <ref bean="PooledFundControl-allowFractionalShares" />
         <ref bean="PooledFundControl-active" />
         <ref bean="PooledFundControl-kemid.kemidAndShortTitle"/>
+        <ref bean="PooledFundControl-registrationCodeObj.codeAndDescription" /> 
         <ref bean="PooledFundControl-assetPurchaseOffsetTranCode.codeAndDescription" />
         <ref bean="PooledFundControl-assetSaleOffsetTranCode.codeAndDescription" />
         <ref bean="PooledFundControl-saleGainLossOffsetTranCode.codeAndDescription" />
@@ -100,6 +103,21 @@
     </property>
   </bean>    
   
+  <bean id="PooledFundControl-fundRegistrationCode" parent="PooledFundControl-fundRegistrationCode-parentBean" />
+
+  <bean id="PooledFundControl-fundRegistrationCode-parentBean" abstract="true" parent="RegistrationCode-code">
+    <property name="name" value="fundRegistrationCode" />
+    <property name="label" value="Pooled Fund Registration Code" />
+    <property name="shortLabel" value="Registration Code" />
+  </bean> 
+ 
+  <bean id="PooledFundControl-registrationCodeObj.name" parent="PooledFundControl-registrationCodeObj.name-parentBean" />
+  
+  <bean id="PooledFundControl-registrationCodeObj.name-parentBean" abstract="true" parent="RegistrationCode-name">
+    <property name="name" value="registrationCodeObj.name" />
+    <property name="label" value="Pooled Fund Registration Code Description" />
+  </bean> 
+  
   <bean id="PooledFundControl-fundKEMID" parent="PooledFundControl-fundKEMID-parentBean" />
 
   <bean id="PooledFundControl-fundKEMID-parentBean" abstract="true" parent="KEMID-kemid">
@@ -141,6 +159,13 @@
   <bean id="PooledFundControl-fundCashDepositOffsetTranCode-parentBean" abstract="true" parent="EndowmentTransactionCode-code">
     <property name="name" value="fundCashDepositOffsetTranCode" />
     <property name="label" value="Cash Deposit Offset Transaction Code" />
+  </bean> 
+  
+  <bean id="PooledFundControl-registrationCodeObj.codeAndDescription" parent="PooledFundControl-registrationCodeObj.codeAndDescription-parentBean" />
+  
+  <bean id="PooledFundControl-registrationCodeObj.codeAndDescription-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
+    <property name="name" value="registrationCodeObj.codeAndDescription" />
+    <property name="label" value="Pooled Fund Registration Code" />
   </bean> 
       
   <bean id="PooledFundControl-assetPurchaseOffsetTranCode.codeAndDescription" parent="PooledFundControl-assetPurchaseOffsetTranCode.codeAndDescription-parentBean" />
@@ -275,6 +300,8 @@
                     p:attributeName="pooledFundDescription" />                     
               <bean parent="FieldDefinition"
                     p:attributeName="incrementValuationDays" />   
+               <bean parent="FieldDefinition"
+             		p:attributeName="registrationCodeObj.codeAndDescription" />                    
               <bean parent="FieldDefinition"
              		p:attributeName="allowFractionalShares" /> 
 			  <bean parent="FieldDefinition"
@@ -326,6 +353,8 @@
               p:attributeName="pooledSecurityID" />
         <bean parent="FieldDefinition"
               p:attributeName="pooledFundDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fundRegistrationCode" />  
         <bean parent="FieldDefinition"
               p:attributeName="allowFractionalShares" />              
         <bean parent="FieldDefinition"

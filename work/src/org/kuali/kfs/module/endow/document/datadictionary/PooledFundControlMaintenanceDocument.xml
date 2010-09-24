@@ -26,6 +26,9 @@
               p:attributeName="kemid"
               p:attributeToHighlightOnFail="fundKEMID" />
         <bean parent="ReferenceDefinition"
+              p:attributeName="registrationCodeObj"
+              p:attributeToHighlightOnFail="fundRegistrationCode" />
+        <bean parent="ReferenceDefinition"
               p:attributeName="assetPurchaseOffsetTranCode"
               p:attributeToHighlightOnFail="fundAssetPurchaseOffsetTranCode" />
         <bean parent="ReferenceDefinition"
@@ -53,6 +56,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.PooledFundControlDocumentPresentationController" />
     <property name="webScriptFiles" >
       <list>
+        <value>../dwr/interface/RegistrationCodeService.js</value> 
+        <value>../scripts/module/endow/registrationCode.js</value>
         <value>../dwr/interface/EndowmentTransactionCodeService.js</value>
         <value>../scripts/module/endow/transactionCode.js</value>
         <value>../dwr/interface/KEMIDService.js</value>
@@ -84,7 +89,14 @@
               p:required="true" />              
         <bean parent="MaintainableFieldDefinition"
               p:name="incrementValuationDays"
-              p:required="true" />  
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="fundRegistrationCode"
+              p:required="true" 
+              p:webUILeaveFieldFunction="loadFundRegistrationCodeDesc"/> 
+        <bean parent="MaintainableFieldDefinition"
+              p:name="registrationCodeObj.name"
+              p:unconditionallyReadOnly="true" />                 
         <bean parent="MaintainableFieldDefinition"
               p:name="allowFractionalShares"
               p:defaultValue="false" />              
@@ -94,7 +106,7 @@
               p:webUILeaveFieldFunction="loadKEMIDShortTitle"/> 
         <bean parent="MaintainableFieldDefinition"
               p:name="kemid.shortTitle"
-              p:unconditionallyReadOnly="true" />                             
+              p:unconditionallyReadOnly="true" />    
         <bean parent="MaintainableFieldDefinition"
               p:name="fundAssetPurchaseOffsetTranCode"
               p:required="true" 

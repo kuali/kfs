@@ -25,7 +25,13 @@
 	var registrationCodeDescriptionFieldName = elPrefix + ".principleRegistrationCode.name";
  	setRegistrationCodeDescription(registrationCodeFieldName, registrationCodeDescriptionFieldName);
  }
-
+ 
+ function loadFundRegistrationCodeDesc(registrationCodeFieldName){
+		var elPrefix = findElPrefix( registrationCodeFieldName.name );
+		var registrationCodeDescriptionFieldName = elPrefix + ".registrationCodeObj.name";
+	 	setRegistrationCodeDescription(registrationCodeFieldName, registrationCodeDescriptionFieldName);
+ }
+/*
  function loadInvestment1RegistrationCodeDesc(registrationCodeFieldName){
 	var elPrefix = findElPrefix( registrationCodeFieldName.name );
 	var registrationCodeDescriptionFieldName = elPrefix + ".investment1RegistrationCodeObj.name";
@@ -49,7 +55,7 @@
 	var registrationCodeDescriptionFieldName = elPrefix + ".investment4RegistrationCodeObj.name";
  	setRegistrationCodeDescription(registrationCodeFieldName, registrationCodeDescriptionFieldName);
  }
-     
+ */    
  function setRegistrationCodeDescription( registrationCodeFieldName, registrationCodeDescriptionFieldName ){
  
 	var registrationCode = DWRUtil.getValue( registrationCodeFieldName );

@@ -30,6 +30,7 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
     private String pooledSecurityID;
     private String pooledFundDescription;
     private Integer incrementValuationDays;
+    private String fundRegistrationCode;
     private String fundKEMID;
     private String fundAssetPurchaseOffsetTranCode;
     private String fundAssetSaleOffsetTranCode;
@@ -41,6 +42,7 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
     private boolean active;
 
     private Security security;
+    private RegistrationCode  registrationCodeObj;
     private KEMID kemid;
     private EndowmentTransactionCode assetPurchaseOffsetTranCode;
     private EndowmentTransactionCode assetSaleOffsetTranCode;
@@ -124,6 +126,25 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
     public void setIncrementValuationDays(Integer incrementValuationDays) {
         this.incrementValuationDays = incrementValuationDays;
     }
+    
+    /**
+     * Gets the fundRegistrationCode
+     * 
+     * @return fundRegistrationCode
+     */
+    public String getFundRegistrationCode() {
+        return fundRegistrationCode;
+    }
+
+    /**
+     * Sets the fundRegistrationCode
+     * 
+     * @param fundRegistrationCode
+     */
+    public void setFundRegistrationCode(String fundRegistrationCode) {
+        this.fundRegistrationCode = fundRegistrationCode;
+    }
+    
 
     /**
      * Gets the fundKEMID.
@@ -251,6 +272,23 @@ public class PooledFundControl extends PersistableBusinessObjectBase implements 
         this.security = security;
     }
 
+    /**
+     * Gets the registrationCodeObj
+     * 
+     * @return registrationCodeObj
+     */
+    public RegistrationCode getRegistrationCodeObj() {
+        return registrationCodeObj;
+    }
+
+    /**
+     * Sets the registrationCodeObj
+     * 
+     * @param registrationCodeObj
+     */
+    public void setRegistrationCodeObj(RegistrationCode registrationCodeObj) {
+        this.registrationCodeObj = registrationCodeObj;
+    }
     /**
      * Gets the kemid object
      * 

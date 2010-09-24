@@ -43,82 +43,11 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
      */
     public DataDictionaryDocumentSearchCustomizer() {
         setProcessResultSet(false);
+        setSearchResultProcessor( new KFSDocumentSearchResultProcessor() );
     }
 
 
-    @Override
-    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {
-        List<Column> tempColumns = new ArrayList<Column>();
-        List<Column> customDisplayColumnNames = getAndSetUpCustomDisplayColumns(criteria);
-        if ((!getShowAllStandardFields()) && (getOverrideSearchableAttributes())) {
-            // use only what is contained in displayColumns
-            this.addAllCustomColumns(tempColumns, criteria, customDisplayColumnNames);
-        } else if (getShowAllStandardFields() && (getOverrideSearchableAttributes())) {
-            // do standard fields and use displayColumns for searchable
-            // attributes
-            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
-            this.addAllCustomColumns(tempColumns, criteria,customDisplayColumnNames);
-        } else if ((!getShowAllStandardFields()) && (!getOverrideSearchableAttributes())) {
-            // do displayColumns and then do standard searchable attributes
-            this.addCustomStandardCriteriaColumns(tempColumns, criteria, customDisplayColumnNames);
-            this.addSearchableAttributeColumnsNoOverrides(tempColumns,criteria);
-        } else if (getShowAllStandardFields() && !getOverrideSearchableAttributes()) {
-            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
-        }
 
-        List<Column> columns = new ArrayList<Column>();
-        this.addRouteHeaderIdColumn(columns);
-        columns.addAll(tempColumns);
-        this.addRouteLogColumn(columns);
-        return columns;
-    }
-
-
-    /**
-     * Checks the Data Dictionary to verify the visibility of the fields and adds them to the result.
-     * @param criteria used to get DocumentEntry
-     * @return List of DocumentSearchColumns to be displayed
-     */
-
-    protected List<Column> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
-
-        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
-        List<Column> columns = new ArrayList<Column>();
-
-
-        boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
-        if (documentDisplay) {
-
-            DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
-            DocumentEntry entry = getDocumentEntry(documentType);
-            if (entry != null && entry.getWorkflowAttributes() != null) {
-                DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
-
-                List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();
-                List<String> searchableAttributeFieldNames = new ArrayList<String>();
-
-                for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
-                    SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
-                    if (searchingAttribute.isShowAttributeInResultSet()){
-                        String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
-                        searchableAttributeFieldNames.add(label);
-                        addColumnUsingKey(columns, searchingAttribute.getAttributeName(), label, null);
-                    } 
-                }
-                addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
-            }
-
-        }
-        return columns;
-
-    }
-
-    @Override
-    public List<Column> getAndSetUpCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
-        List<Column> columns = getCustomDisplayColumns(criteria);
-        return super.setUpCustomDisplayColumns(criteria, columns);
-    }
-    
 
     /**
      * Retrieves the data dictionary entry for the document being operated on by the given route context
@@ -127,25 +56,6 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
      */
     protected DocumentEntry getDocumentEntry(DocumentType documentType) {
         return SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentType.getName());
-    }
-
-    @Override
-    public boolean getShowAllStandardFields() {
-        if (searchUsingDocumentInformationResults()) {
-            return false;
-        }
-        return true;
-    }
-    
-    @Override
-    public boolean getOverrideSearchableAttributes() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    private boolean searchUsingDocumentInformationResults() {
-        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
-        return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
     }
 
     @Override

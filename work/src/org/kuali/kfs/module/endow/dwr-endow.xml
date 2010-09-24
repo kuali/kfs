@@ -48,7 +48,7 @@
             <param name="include" value="pooledSecurityID,pooledFundDescription" />
         </convert>
     	<create creator="spring" javascript="PooledFundValueService">
-	    	<param name="beanName" value="PooledFundValueService" />
+	    	<param name="beanName" value="pooledFundValueService" />
 	        <include method="getByPrimaryKey" />
 	        <include method="calculateValueEffectiveDate" />
 	        <include method="calculateValueEffectiveDateForAjax" />	        

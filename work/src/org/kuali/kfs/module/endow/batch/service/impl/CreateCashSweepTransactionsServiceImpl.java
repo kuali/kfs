@@ -64,6 +64,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
+    private ReportWriterService createCashSweepProcessedReportWriterService;
     private BusinessObjectService businessObjectService;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
@@ -485,7 +486,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Set values on the transaction line.
         transactionLine.setKemid(kemid);
         transactionLine.setEtranCode(etranCode);
-        transactionLine.setTransactionIPIndicatorCode(EndowConstants.PRINCIPAL);
+        transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
         transactionLine.setTransactionAmount(amount);
         
         return transactionLine;
@@ -513,7 +514,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Set values on the transaction line.
         transactionLine.setKemid(kemid);
         transactionLine.setEtranCode(etranCode);
-        transactionLine.setTransactionIPIndicatorCode(EndowConstants.INCOME);
+        transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
         transactionLine.setTransactionAmount(amount);
         
         return transactionLine;
@@ -542,6 +543,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             
             // Create and set the target security transaction line.
             EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+            targetTransactionSecurity.setSecurityLineTypeCode(EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET);
             targetTransactionSecurity.setRegistrationCode(registrationCode);
             targetTransactionSecurity.setSecurityID(securityId);
             
@@ -577,6 +579,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             
             // Create and set the source security transaction line.
             EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
+            sourceTransactionSecurity.setSecurityLineTypeCode(EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE);
             sourceTransactionSecurity.setRegistrationCode(registrationCode);
             sourceTransactionSecurity.setSecurityID(securityId);
             
@@ -842,6 +845,30 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setCreateCashSweepExceptionReportWriterService(ReportWriterService createCashSweepExceptionReportWriterService) {
         this.createCashSweepExceptionReportWriterService = createCashSweepExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the createCashSweepProcessedReportHeader attribute value.
+     * @param createCashSweepProcessedReportHeader The createCashSweepProcessedReportHeader to set.
+     */
+    public void setCreateCashSweepProcessedReportHeader(EndowmentProcessedReportHeader createCashSweepProcessedReportHeader) {
+        this.createCashSweepProcessedReportHeader = createCashSweepProcessedReportHeader;
+    }
+
+    /**
+     * Sets the createCashSweepExceptionReportHeader attribute value.
+     * @param createCashSweepExceptionReportHeader The createCashSweepExceptionReportHeader to set.
+     */
+    public void setCreateCashSweepExceptionReportHeader(EndowmentExceptionReportHeader createCashSweepExceptionReportHeader) {
+        this.createCashSweepExceptionReportHeader = createCashSweepExceptionReportHeader;
+    }
+
+    /**
+     * Sets the createCashSweepProcessedReportWriterService attribute value.
+     * @param createCashSweepProcessedReportWriterService The createCashSweepProcessedReportWriterService to set.
+     */
+    public void setCreateCashSweepProcessedReportWriterService(ReportWriterService createCashSweepProcessedReportWriterService) {
+        this.createCashSweepProcessedReportWriterService = createCashSweepProcessedReportWriterService;
     }
     
 }

@@ -611,6 +611,31 @@
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
 	</bean>
+    <bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="holdingHistoryService">
+            <ref bean="holdingHistoryService"/>
+        </property>
+        <property name="holdingHistoryValueAdjustmentDocumentService">
+            <ref bean="holdingHistoryValueAdjustmentDocumentService" />
+        </property>
+        <property name="holdingHistoryMarketValuesExceptionReportWriterService">
+            <ref bean="holdingHistoryMarketValuesExceptionReportWriterService" />
+        </property>     
+    </bean>
+    <bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException"/>
+        <property name="title" value="HOLDING HISTORY MARKET VALUES UPDATE JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="holdingHistoryMarketValueExceptionReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
     
     <!-- Create Cash Sweep Transactions Job -->
     <bean id="createCashSweepTransactionsJob" parent="scheduledJobDescriptor">
@@ -655,6 +680,9 @@
         </property>
         <property name="createCashSweepExceptionReportWriterService">
             <ref bean="createCashSweepExceptionReportWriterService" />
+        </property>
+        <property name="createCashSweepProcessedReportWriterService">
+            <ref bean="createCashSweepProcessedReportWriterService" />
         </property> 
     </bean>
     <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
@@ -681,33 +709,7 @@
     </bean>
 	<!-- End of Create Cash Sweep Transactions Job -->
     
-	<bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="holdingHistoryService">
-			<ref bean="holdingHistoryService"/>
-		</property>
-		<property name="holdingHistoryValueAdjustmentDocumentService">
-			<ref bean="holdingHistoryValueAdjustmentDocumentService" />
-		</property>
-		<property name="holdingHistoryMarketValuesExceptionReportWriterService">
-			<ref bean="holdingHistoryMarketValuesExceptionReportWriterService" />
-		</property>		
-	</bean>
-	<bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException"/>
-        <property name="title" value="HOLDING HISTORY MARKET VALUES UPDATE JOB EXCEPTION REPORT"/>
-        <property name="classToBusinessObjectReportHelperBeanNames">
-        	<map>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="holdingHistoryMarketValueExceptionReportHeader"/>
-        	</map>
-       	</property>
-        <property name="aggregationModeOn" value="false"/>
-    </bean>
-    
-	<!-- just a hook for createAutomatedCashInvestmentTransactionsJob -->    
+	<!-- Create Automated Cash Investment Transactions Job -->    
     <bean id="createAutomatedCashInvestmentTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -715,20 +717,75 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="createAutomatedCashInvestmentTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep" parent="step">
+	<bean id="createAutomatedCashInvestmentTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep" parent="wrappedStep">
+        <property name="wrappingBatchServices">
+            <list>
+                <ref bean="createAutomatedCashInvestmentExceptionReportWriterService" />
+                <ref bean="createAutomatedCashInvestmentProcessedReportWriterService" />
+            </list>
+        </property>
 		<property name="createAutomatedCashInvestmentTransactionsService">
 			<ref bean="createAutomatedCashInvestmentTransactionsService" />
 		</property>
 	</bean>
 	
-	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">		
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>	
+	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">
+        <property name="calculateProcessDateUsingFrequencyCodeService">
+            <ref bean="calculateProcessDateUsingFrequencyCodeService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="kualiRuleService">
+            <ref bean="kualiRuleService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="kemService">
+            <ref bean="kemService" />
+        </property>
+        <property name="kemidService">
+            <ref bean="KEMIDService" />
+        </property>
+        <property name="securityService">
+            <ref bean="securityService" />
+        </property>
+        <property name="createAutomatedCashInvestmentExceptionReportWriterService">
+            <ref bean="createAutomatedCashInvestmentExceptionReportWriterService" />
+        </property>
+        <property name="createAutomatedCashInvestmentProcessedReportWriterService">
+            <ref bean="createAutomatedCashInvestmentProcessedReportWriterService" />
+        </property>
 	</bean>
+    <bean id="createAutomatedCashInvestmentExceptionReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="createAutomatedCashInvestmentExceptionReport"/>
+        <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createAutomatedCashInvestmentExceptionReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+        <bean id="createAutomatedCashInvestmentProcessedReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="createAutomatedCashInvestmentProcessedReport"/>
+        <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createAutomatedCashInvestmentProcessedReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+    <!-- End Create Automated Cash Investment Transactions Job -->
 
 	<!-- Create Recurring Cash Transfer Transactions Job -->
-	
 	<bean id="createRecurringCashTransferTransactionsJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -1392,6 +1449,37 @@
         </property>
         <property name="columnCount" value="8" />
     </bean>
+    <bean id="createAutomatedCashInvestmentExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value="Document Type"/>
+                <entry key="columnHeading2" value="Security Id"/>
+                <entry key="columnHeading3" value="KEMID"/>
+                <entry key="columnHeading4" value="Income Amount"/>
+                <entry key="columnHeading5" value="Income Units"/>
+                <entry key="columnHeading6" value="Principle Amount"/>
+                <entry key="columnHeading7" value="Principle Units"/>
+            </map>
+        </property>
+        <property name="columnCount" value="7" />
+    </bean>
+        <bean id="createAutomatedCashInvestmentProcessedReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value="Document Type"/>
+                <entry key="columnHeading2" value="eDoc Number"/>
+                <entry key="columnHeading3" value="Security Id"/>
+                <entry key="columnHeading4" value="KEMID"/>
+                <entry key="columnHeading5" value="Income Amount"/>
+                <entry key="columnHeading6" value="Income Units"/>
+                <entry key="columnHeading7" value="Principle Amount"/>
+                <entry key="columnHeading8" value="Principle Units"/>
+            </map>
+        </property>
+        <property name="columnCount" value="8" />
+    </bean>
     <bean id="accrualTransactionsExceptionReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
         <property name="orderedPropertyNameToHeaderLabelMap">
@@ -1404,7 +1492,6 @@
         </property>
         <property name="columnCount" value="4" />
     </bean>
-    
 	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.document.service.impl.KemidFeeServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

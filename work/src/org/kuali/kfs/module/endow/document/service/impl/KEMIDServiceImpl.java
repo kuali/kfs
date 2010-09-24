@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -74,6 +75,26 @@ public class KEMIDServiceImpl implements KEMIDService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMIDService#getByPrincipleAciId(java.lang.Integer)
+     */
+    public Collection<KEMID> getByPrincipleAciId(Integer aciPrincipleId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(EndowPropertyConstants.TYPE_PRINCIPAL_ACI_MODEL_ID, aciPrincipleId.toString());
+        
+        return (Collection<KEMID>)businessObjectService.findMatching(KEMID.class, fieldValues);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMIDService#getByIncomeAciId(java.lang.Integer)
+     */
+    public Collection<KEMID> getByIncomeAciId(Integer aciIncomeId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(EndowPropertyConstants.TYPE_INCOME_ACI_MODEL_ID, aciIncomeId.toString());
+        
+        return (Collection<KEMID>)businessObjectService.findMatching(KEMID.class, fieldValues);
+    }
+    
+    /**
      * This method gets the businessObjectService.
      * 
      * @return businessObjectService
@@ -90,4 +111,5 @@ public class KEMIDServiceImpl implements KEMIDService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
 }

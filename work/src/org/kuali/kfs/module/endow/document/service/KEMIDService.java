@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.util.Collection;
 
+import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 
 public interface KEMIDService {
@@ -44,4 +45,20 @@ public interface KEMIDService {
      * @return Collection of KEMID
      */
     public Collection<KEMID> getByCashSweepId(Integer cashSweepId);
+    
+    /**
+     * Gets all the KEMIDs matching the specified ACI principle id. 
+     *
+     * @param aciPrincipleId
+     * @return Collection of KEMID
+     */
+    public Collection<KEMID> getByPrincipleAciId(Integer aciPrincipleId);
+    
+    /**
+     * Gets all the KEMIDs matching the specified ACI income id.
+     * 
+     * @param aciIncomeId
+     * @return Collection of KEMID
+     */
+    public Collection<KEMID> getByIncomeAciId(Integer aciIncomeId);
 }

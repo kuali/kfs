@@ -23,5 +23,5 @@ public interface CreateAutomatedCashInvestmentTransactionsService {
      *  
      * @return true if successful, false otherwise
      */
-    public boolean createACITransactions();
+    public boolean createAciTransactions();
 }

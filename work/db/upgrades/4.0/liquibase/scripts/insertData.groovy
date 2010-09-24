@@ -316,6 +316,7 @@ def evaluateList(table, cols, vals)
         tokenType = cols[j++].trim()
      
         token = vals[i].trim()
+        //println "token " + token
         if (token.toUpperCase().startsWith("TO_DATE") == true) {
             newDate = ""
             dateArray = (token =~ /(?i)TO_DATE[^0-9]+([0-9]+)[^0-9]+([0-9]+)[^0-9]+([0-9]+).*/)
@@ -365,20 +366,24 @@ def evaluateList(table, cols, vals)
                  }
             }
             i++
-        } else if (token.toUpperCase() == ("SYS_GUID()")) {
-            table.getChanges() << new Column(name : tokenType, type: "UUID",  valueNumeric : removeQuotes( token.toUpperCase()) )
-        } else if (token.toUpperCase() == "NULL") {
+        } else if (token.trim().toUpperCase() == ("SYS_GUID()")) {
+            table.getChanges() << new Column( name : tokenType, valueNumeric : "SYS_GUID")
             // do nothing
+        } else if (token.trim().toUpperCase().startsWith("TO_CHAR(SYSDATE") == true) {
+            token = token + "," +  vals[++i].trim()
+                println "*** please change date" + token
+                token = "SYSDATE"
+                table.getChanges() << new Column(name : tokenType, value : removeQuotes( token))
         } else if ( (token.isNumber()) || (token.startsWith("\'") == false) && (token.endsWith("\'") == false)) {
             //println "numeric " + token
             table.getChanges() << new Column(name : tokenType, valueNumeric : removeQuotes( token))
         } else {
             // need to check val after if a quote follows otherwise concatenate it
              while ((i + 1) < vals.size()) {
-                if (token.endsWith("\'")) break
+                if (token.trim().endsWith("\'")) break
                 if (vals[i+1] == null) break
                 if (vals[i+1].startsWith(" \'")) break
-                token = token + "," +  vals[++i]
+                token = token + "," +  vals[++i].trim()
                 println "incrementing " + token
              }
             table.getChanges() << new Column(name : tokenType, value : removeQuotes( token))

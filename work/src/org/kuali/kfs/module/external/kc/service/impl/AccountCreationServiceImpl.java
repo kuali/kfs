@@ -297,12 +297,28 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 getDocumentService().routeDocument(maintenanceAccountDocument, "", null);
             }         
             // set the document number
-            accountCreationStatus.setDocumentNumber(maintenanceAccountDocument.getDocumentNumber());            
+            accountCreationStatus.setDocumentNumber(maintenanceAccountDocument.getDocumentNumber());        
             
-        }  catch (WorkflowException wfe) {
+        }   catch (WorkflowException wfe) {
 
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
+            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            try {
+                // save it even though it fails to route or blanket approve the document
+                getDocumentService().saveDocument(maintenanceAccountDocument);
+                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+            } catch (WorkflowException e) {
+                LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
+                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
+                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            }             
+            
+        }  catch (Exception ex) {
+
+            LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT +  ex.getMessage()); 
+            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS+  ex.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
                 getDocumentService().saveDocument(maintenanceAccountDocument);

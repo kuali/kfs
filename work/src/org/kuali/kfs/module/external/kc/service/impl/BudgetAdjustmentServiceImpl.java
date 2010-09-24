@@ -245,11 +245,16 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 getDocumentService().blanketApproveDocument(budgetAdjustmentDocument, "", null); 
             }
             else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE)) {
-                getDocumentService().approveDocument(budgetAdjustmentDocument, "", null);
+                getDocumentService().routeDocument(budgetAdjustmentDocument, "", null);
             }             
             return true;
             
-        //}  catch (WorkflowException wfe) { 
+        }  catch (WorkflowException wfe) { 
+            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
+            return false;
+
         }  catch (Exception ex) { 
             LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage()); 
             budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage());

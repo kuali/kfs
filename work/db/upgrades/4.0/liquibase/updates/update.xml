@@ -205,4 +205,5 @@
 <include file="updates/2010-09-24-6012-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-24-6025-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-24-6028-1-KEMID_CORPUS_VAL_T.xml"/>
+<include file="updates/2010-09-24-5476q-1-END_AUTO_CSH_INVEST_MDL_T.xml"/>
 </databaseChangeLog>

@@ -61,11 +61,13 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
@@ -76,6 +78,50 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
     private static final String REGISTRATION_TARGET_REFRESH = "document.targetTransactionSecurity.registrationCode";
 
     protected static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EndowmentTransactionLinesDocumentActionBase.class);
+
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+
+        super.loadDocument(kualiDocumentFormBase);
+
+        EndowmentTransactionLinesDocumentFormBase form = (EndowmentTransactionLinesDocumentFormBase) kualiDocumentFormBase;
+        EndowmentTransactionLinesDocumentBase document = form.getEndowmentTransactionLinesDocumentBase();
+
+        // for documents that have Security Details section update referenced info
+        if (document != null && document instanceof EndowmentSecurityDetailsDocumentBase) {
+
+            EndowmentSecurityDetailsDocumentBase securityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) document;
+
+            // source
+            if (securityDetailsDocumentBase.getSourceTransactionSecurity() != null) {
+                // update security and class code if security ID not empty
+                if (securityDetailsDocumentBase.getSourceTransactionSecurity().getSecurityID() != null) {
+                    securityDetailsDocumentBase.getSourceTransactionSecurity().refreshReferenceObject(EndowPropertyConstants.TRANSACTION_SECURITY);
+                    securityDetailsDocumentBase.getSourceTransactionSecurity().getSecurity().refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
+                }
+                // update registration code if registration code not empty
+                if (securityDetailsDocumentBase.getSourceTransactionSecurity().getRegistrationCode() != null) {
+                    securityDetailsDocumentBase.getSourceTransactionSecurity().refreshReferenceObject(EndowPropertyConstants.TRANSACTION_REGISTRATION_CD);
+                }
+            }
+            // target
+            if (securityDetailsDocumentBase.getTargetTransactionSecurity() != null) {
+                // update security and class code if security ID not empty
+                if (securityDetailsDocumentBase.getTargetTransactionSecurity().getSecurityID() != null) {
+                    securityDetailsDocumentBase.getTargetTransactionSecurity().refreshReferenceObject(EndowPropertyConstants.TRANSACTION_SECURITY);
+                    securityDetailsDocumentBase.getTargetTransactionSecurity().getSecurity().refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
+                }
+                // update registration code if registration code not empty
+                if (securityDetailsDocumentBase.getTargetTransactionSecurity().getRegistrationCode() != null) {
+                    securityDetailsDocumentBase.getTargetTransactionSecurity().refreshReferenceObject(EndowPropertyConstants.TRANSACTION_REGISTRATION_CD);
+                }
+            }
+        }
+    }
 
     /**
      * @param mapping

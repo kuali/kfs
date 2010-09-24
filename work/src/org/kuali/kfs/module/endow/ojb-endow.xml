@@ -306,7 +306,7 @@
 	<field-descriptor name="secondFeeBreakpoint" column="FEE_BRK_2" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="thirdFeeRate" column="FEE_RT_3" jdbc-type="DECIMAL"/>
 	<field-descriptor name="minimumFeeThreshold" column="FEE_MIN_THRSHLD" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>	
-	<field-descriptor name="minimumFeeToCharge" column="FEE_MIN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="minimumFeeToCharge" column="FEE_MIN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>	
 	<field-descriptor name="feeTypeCode" column="FEE_TYP_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="feeBaseCode" column="FEE_BASE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="feeExpenseETranCode" column="FEE_EXP_ETRAN_CD" jdbc-type="VARCHAR"/>
@@ -766,6 +766,7 @@
     <field-descriptor name="closeCode" column="CLOSE_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="dispositionOfFunds" column="FND_DISP" jdbc-type="VARCHAR"/>
     <field-descriptor name="dateClosed" column="CLOSE_DT" jdbc-type="DATE"/>
+    <field-descriptor name="kemidDerivedUserIdentifier" column="KEMID_USR_DER" jdbc-type="VARCHAR"/>
 	
 	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.endow.businessobject.PurposeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="purposeCode" />

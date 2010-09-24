@@ -539,6 +539,9 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_SECURITY_ID = "securityID";
     public static final String TRANSACTION_REGISTRATION_ID = "registrationCode";
     public static final String TRANSACTION_IPINDICATOR = "transactionIPIndicatorCode";
+    public static final String TRANSACTION_SECURITY = "security";
+    public static final String TRANSACTION_REGISTRATION_CD = "registrationCodeObj";
+    
 
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";

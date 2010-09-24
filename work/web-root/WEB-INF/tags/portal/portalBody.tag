@@ -21,7 +21,18 @@
 
 <portal:immutableBar />
 
-<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
+<%-- first try to check if they are focusing in --%>
+<c:choose>
+  <c:when test='${!empty channelTitle && !empty channelUrl}'>
+	  <c:if test="${!empty param.backdoorId}">
+	  	<c:set var="channelUrl" value="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login=1"/>
+	  </c:if>
+	  <div id="iframe_portlet_container_div">
+	  	<portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
+	  </div>
+  </c:when>
+  <c:otherwise>
+	<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
 	<c:if test="${empty channelTitle && empty channelUrl}">
 		<c:set var="motd" value="<%= (new org.kuali.kfs.sys.businessobject.defaultvalue.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
 		<c:if test="${!empty pageScope.motd}">
@@ -40,19 +51,6 @@
  	<tr valign="top" bgcolor="#FFFFFF">
        <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>
-          <%-- first try to check if they are focusing in --%>
-          <c:when test='${!empty channelTitle && !empty channelUrl}'>
-            <td class="content" valign="top" colspan="2">
-              <c:choose>
-              <c:when test="${!empty param.backdoorId && !fn:contains( channelUrl, 'backdoorId' )}">              	
-                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
-              </c:when>
-              <c:otherwise>
-                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
-              </c:otherwise>
-              </c:choose>
-            </td>
-          </c:when>
           <%-- then default to tab based actions if they are not focusing in --%>
           <c:when test='${selectedTab == "main"}'>
               <portal:mainTab />
@@ -71,6 +69,8 @@
         </c:choose>
     </tr>
 </table>
+  </c:otherwise>
+</c:choose>
 
  <div class="footerbevel">&nbsp;</div>
   <div id="footer-copyright"> <bean:message key="app.copyright" arg0="${ConfigProperties.current.year}" /></div>

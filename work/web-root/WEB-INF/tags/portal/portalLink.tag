@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation
+ Copyright 2005-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,27 +20,9 @@
 <%@ attribute name="displayTitle" required="false" %>
 <%@ attribute name="prefix" required="false" %>
 
-<c:set var="backdoorPortalUrlAddition" value="" />
-<c:set var="backdoorMainUrlAddition" value="" />
-<c:if test="${UserSession.backdoorInUse}">
-	<%-- Can't add this.  If on the main (portal) request, it assumes this was a
-	 backdoor login request and appends an additional parameter which causes some forms to blow 
-	<c:set var="backdoorPortalUrlAddition" value="&backdoorId=${UserSession.principalName}" />
-	 --%>
-	<c:choose>
-		<c:when test="${fn:contains(url,'?')}">
-			<c:set var="backdoorMainUrlAddition" value="&backdoorId=${UserSession.principalName}" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="backdoorMainUrlAddition" value="?backdoorId=${UserSession.principalName}" />
-		</c:otherwise>
-	</c:choose>
+<c:if test="${displayTitle}" >
+  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}"  title="${title}">${title}</a>
 </c:if>
-<c:choose>
-	<c:when test="${displayTitle}" >
-		<a class="portal_link" href="${prefix}portal.do?channelTitle=${title}${backdoorPortalUrlAddition}&channelUrl=${url}${backdoorMainUrlAddition}"  title="${title}">${title}</a>
-	</c:when>	
-	<c:otherwise>
-		<a class="portal_link" href="${prefix}portal.do?channelTitle=${title}${backdoorPortalUrlAddition}&channelUrl=${url}${backdoorMainUrlAddition}" title="${title}"><jsp:doBody/></a>
-	</c:otherwise>
-</c:choose>
+<c:if test="${! displayTitle}" >
+  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}" title="${title}"><jsp:doBody/></a>
+</c:if>

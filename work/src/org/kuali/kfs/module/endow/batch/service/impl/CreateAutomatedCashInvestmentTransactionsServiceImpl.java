@@ -161,96 +161,96 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 // Case for Investment number 1:
                 //
                 if (inv1Percent.compareTo(BigDecimal.ZERO) != 0) {
-                    String inv1RegistrationCode  = aciModel.getInvestment1RegistrationCode();
-                    String inv1SecurityId        = aciModel.getInvestment1SecurityID();
-
-                    if (assetIncreaseDoc1 == null) {
-                        assetIncreaseDoc1 = createAssetIncrease(inv1SecurityId, inv1RegistrationCode);
-                    }
-                    
-                    // Create, validate, and add the transaction line to the eDoc.
-                    addTransactionLineForAssetIncrease(assetIncreaseDoc1, aciModel, kemid.getKemid(), cashEquivalent, 1);
-                    
-                    // Check to see if we've reached our max number of transaction lines
-                    // per eDoc.  If so, validate, and submit the current eDoc and start
-                    // another eDoc.
-                    if (i%maxNumberOfTransactionLines == 0) {
-                        // Validate and route the document.
-                        routeAssetIncreaseDocument(assetIncreaseDoc1);
-                        assetIncreaseDoc1 = null;
-                    }
+//                    String inv1RegistrationCode  = aciModel.getInvestment1RegistrationCode();
+//                    String inv1SecurityId        = aciModel.getInvestment1SecurityID();
+//
+//                    if (assetIncreaseDoc1 == null) {
+//                        assetIncreaseDoc1 = createAssetIncrease(inv1SecurityId, inv1RegistrationCode);
+//                    }
+//                    
+//                    // Create, validate, and add the transaction line to the eDoc.
+//                    addTransactionLineForAssetIncrease(assetIncreaseDoc1, aciModel, kemid.getKemid(), cashEquivalent, 1);
+//                    
+//                    // Check to see if we've reached our max number of transaction lines
+//                    // per eDoc.  If so, validate, and submit the current eDoc and start
+//                    // another eDoc.
+//                    if (i%maxNumberOfTransactionLines == 0) {
+//                        // Validate and route the document.
+//                        routeAssetIncreaseDocument(assetIncreaseDoc1);
+//                        assetIncreaseDoc1 = null;
+//                    }
                 }
                 
                 //
                 // Case for Investment number 2:
                 //
                 if (inv2Percent.compareTo(BigDecimal.ZERO) != 0) {
-                    String inv2RegistrationCode  = aciModel.getInvestment2RegistrationCode();
-                    String inv2SecurityId        = aciModel.getInvestment2SecurityID();
-
-                    if (assetIncreaseDoc2 == null) {
-                        assetIncreaseDoc2 = createAssetIncrease(inv2SecurityId, inv2RegistrationCode);
-                    }
-                    
-                    // Create, validate, and add the transaction line to the eDoc.
-                    addTransactionLineForAssetIncrease(assetIncreaseDoc2, aciModel, kemid.getKemid(), cashEquivalent, 2);
-                    
-                    // Check to see if we've reached our max number of transaction lines
-                    // per eDoc.  If so, validate, and submit the current eDoc and start
-                    // another eDoc.
-                    if (i%maxNumberOfTransactionLines == 0) {
-                        // Validate and route the document.
-                        routeAssetIncreaseDocument(assetIncreaseDoc2);
-                        assetIncreaseDoc2 = null;
-                    }
+//                    String inv2RegistrationCode  = aciModel.getInvestment2RegistrationCode();
+//                    String inv2SecurityId        = aciModel.getInvestment2SecurityID();
+//
+//                    if (assetIncreaseDoc2 == null) {
+//                        assetIncreaseDoc2 = createAssetIncrease(inv2SecurityId, inv2RegistrationCode);
+//                    }
+//                    
+//                    // Create, validate, and add the transaction line to the eDoc.
+//                    addTransactionLineForAssetIncrease(assetIncreaseDoc2, aciModel, kemid.getKemid(), cashEquivalent, 2);
+//                    
+//                    // Check to see if we've reached our max number of transaction lines
+//                    // per eDoc.  If so, validate, and submit the current eDoc and start
+//                    // another eDoc.
+//                    if (i%maxNumberOfTransactionLines == 0) {
+//                        // Validate and route the document.
+//                        routeAssetIncreaseDocument(assetIncreaseDoc2);
+//                        assetIncreaseDoc2 = null;
+//                    }
                 }
                 
                 //
                 // Case for Investment number 3:
                 //
                 if (inv3Percent.compareTo(BigDecimal.ZERO) != 0) {
-                    String inv3RegistrationCode  = aciModel.getInvestment3RegistrationCode();
-                    String inv3SecurityId        = aciModel.getInvestment3SecurityID();
-
-                    if (assetIncreaseDoc3 == null) {
-                        assetIncreaseDoc3 = createAssetIncrease(inv3SecurityId, inv3RegistrationCode);
-                    }
-                    
-                    // Create, validate, and add the transaction line to the eDoc.
-                    addTransactionLineForAssetIncrease(assetIncreaseDoc3, aciModel, kemid.getKemid(), cashEquivalent, 3);
-                    
-                    // Check to see if we've reached our max number of transaction lines
-                    // per eDoc.  If so, validate, and submit the current eDoc and start
-                    // another eDoc.
-                    if (i%maxNumberOfTransactionLines == 0) {
-                        // Validate and route the document.
-                        routeAssetIncreaseDocument(assetIncreaseDoc3);
-                        assetIncreaseDoc3 = null;
-                    }
+//                    String inv3RegistrationCode  = aciModel.getInvestment3RegistrationCode();
+//                    String inv3SecurityId        = aciModel.getInvestment3SecurityID();
+//
+//                    if (assetIncreaseDoc3 == null) {
+//                        assetIncreaseDoc3 = createAssetIncrease(inv3SecurityId, inv3RegistrationCode);
+//                    }
+//                    
+//                    // Create, validate, and add the transaction line to the eDoc.
+//                    addTransactionLineForAssetIncrease(assetIncreaseDoc3, aciModel, kemid.getKemid(), cashEquivalent, 3);
+//                    
+//                    // Check to see if we've reached our max number of transaction lines
+//                    // per eDoc.  If so, validate, and submit the current eDoc and start
+//                    // another eDoc.
+//                    if (i%maxNumberOfTransactionLines == 0) {
+//                        // Validate and route the document.
+//                        routeAssetIncreaseDocument(assetIncreaseDoc3);
+//                        assetIncreaseDoc3 = null;
+//                    }
                 }
                 
                 //
                 // Case for Investment number 4:
                 //
                 if (inv4Percent.compareTo(BigDecimal.ZERO) != 0) {
-                    String inv4RegistrationCode  = aciModel.getInvestment4RegistrationCode();
-                    String inv4SecurityId        = aciModel.getInvestment4SecurityID();
-
-                    if (assetIncreaseDoc4 == null) {
-                        assetIncreaseDoc4 = createAssetIncrease(inv4SecurityId, inv4RegistrationCode);
-                    }
-                    
-                    // Create, validate, and add the transaction line to the eDoc.
-                    addTransactionLineForAssetIncrease(assetIncreaseDoc4, aciModel, kemid.getKemid(), cashEquivalent, 4);
-                    
-                    // Check to see if we've reached our max number of transaction lines
-                    // per eDoc.  If so, validate, and submit the current eDoc and start
-                    // another eDoc.
-                    if (i%maxNumberOfTransactionLines == 0) {
-                        // Validate and route the document.
-                        routeAssetIncreaseDocument(assetIncreaseDoc4);
-                        assetIncreaseDoc4 = null;
-                    }
+//                    String inv4RegistrationCode  = aciModel.getInvestment4RegistrationCode();
+//                    String inv4SecurityId        = aciModel.getInvestment4SecurityID();
+//
+//                    if (assetIncreaseDoc4 == null) {
+//                        assetIncreaseDoc4 = createAssetIncrease(inv4SecurityId, inv4RegistrationCode);
+//                    }
+//                    
+//                    // Create, validate, and add the transaction line to the eDoc.
+//                    addTransactionLineForAssetIncrease(assetIncreaseDoc4, aciModel, kemid.getKemid(), cashEquivalent, 4);
+//                    
+//                    // Check to see if we've reached our max number of transaction lines
+//                    // per eDoc.  If so, validate, and submit the current eDoc and start
+//                    // another eDoc.
+//                    if (i%maxNumberOfTransactionLines == 0) {
+//                        // Validate and route the document.
+//                        routeAssetIncreaseDocument(assetIncreaseDoc4);
+//                        assetIncreaseDoc4 = null;
+//                    }
                 }
             }
         }

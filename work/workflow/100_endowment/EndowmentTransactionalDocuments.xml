@@ -7,35 +7,35 @@
 </documentType>
 <documentType>
 <name>EAD</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F assetdecrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fassetdecrease.htm</helpDefinitionURL>
 <label>Endowment Asset Decrease</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>EAI</name>
-<helpDefinitionURL>default.htm?default.htm?turl=Documents%2F assetincrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?default.htm?turl=Documents%2Fassetincrease.htm</helpDefinitionURL>
 <label>Endowment Asset Increase</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>ECDD</name>
-<helpDefinitionURL>default.htm?default.htm?turl=Documents%2F cashdecrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?default.htm?turl=Documents%2Fcashdecrease.htm</helpDefinitionURL>
 <label>Endowment Cash Decrease</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>ECI</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F cashincrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fcashincrease.htm</helpDefinitionURL>
 <label>Endowment Cash Increase</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>ECT</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F cashtransfer.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fcashtransfer.htm</helpDefinitionURL>
 <label>Endowment Cash Transfer</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
@@ -49,7 +49,7 @@
 </documentType>
 <documentType>
 <name>EUSA</name>
-<helpDefinitionURL>default.htm?turl=WordDocuments%2Funit/shareadjustment.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=WordDocuments%2Funitshareadjustment.htm</helpDefinitionURL>
 <label>Endowment Unit/Share Adjustment</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler </docHandler>
@@ -63,21 +63,21 @@
 </documentType>
 <documentType>
 <name>ELD</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F liabilitydecrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fliabilitydecrease.htm</helpDefinitionURL>
 <label>Endowment Liability Decrease</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowLiabilityDecreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>ELI</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F liabilityincrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fliabilityincrease.htm</helpDefinitionURL>
 <label>Endowment Liability Increase</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>EST</name>
-<helpDefinitionURL>default.htm?default.htm?turl=Documents%2F securitytransfer.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?default.htm?turl=Documents%2Fsecuritytransfer.htm</helpDefinitionURL>
 <label>Endowment Security Transfer</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
@@ -91,14 +91,14 @@
 </documentType>
 <documentType>
 <name>EGLT</name>
-<helpDefinitionURL>default.htm?default.htm?turl=Documents%2F endowmenttogltransferoffunds.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?default.htm?turl=Documents%2Fendowmenttogltransferoffunds.htm</helpDefinitionURL>
 <label>Endowment To GL Transfer Of Funds</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>GLET</name>
-<helpDefinitionURL>default.htm?turl=Documents%2F gltoendowmenttransferoffunds.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=Documents%2Fgltoendowmenttransferoffunds.htm</helpDefinitionURL>
 <label>GL To Endowment Transfer Of Funds</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>

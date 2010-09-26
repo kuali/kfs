@@ -94,7 +94,8 @@ public class OJBUtility {
                 if (lookupField != null && lookupField.isTreatWildcardsAndOperatorsAsLiteral()) {
                     propertyValue = (propertyValueObject != null) ? StringUtils.replace(propertyValueObject.toString().trim(), "*", "\\*") : "";
                 } else {
-                    propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
+                    //propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
+                    propertyValue = (propertyValueObject != null) ? StringUtils.replace(propertyValueObject.toString().trim(), "*", "%") : "";
                 }
 
                 // if searchValue is empty and the key is not a valid property ignore

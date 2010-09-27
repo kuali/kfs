@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject.defaultvalue;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
@@ -40,6 +41,6 @@ public class NextTransferNumberFinder implements ValueFinder {
      */
     public static Long getLongValue() {
         SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-        return sequenceAccessorService.getNextAvailableSequenceNumber("XFR_NBR_SEQ", EndowmentRecurringCashTransfer.class);
+        return sequenceAccessorService.getNextAvailableSequenceNumber(EndowConstants.Sequences.END_REC_CSH_XFR_SEQ, EndowmentRecurringCashTransfer.class);
     }
 }

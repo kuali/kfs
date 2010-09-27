@@ -770,7 +770,6 @@
     <field-descriptor name="closeCode" column="CLOSE_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="dispositionOfFunds" column="FND_DISP" jdbc-type="VARCHAR"/>
     <field-descriptor name="dateClosed" column="CLOSE_DT" jdbc-type="DATE"/>
-    <field-descriptor name="kemidDerivedUserIdentifier" column="KEMID_USR_DER" jdbc-type="VARCHAR"/>
 	
 	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.endow.businessobject.PurposeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="purposeCode" />

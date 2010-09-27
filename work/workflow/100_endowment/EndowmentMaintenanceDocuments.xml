@@ -131,12 +131,6 @@
 <label>Responsible Administration Code Maintenance Document</label>
 </documentType>
 <documentType>
-<name>RoleCodeMaintenanceDocument</name>
-<helpDefinitionURL>default.htm?turl=WordDocuments%2Frolecode.htm</helpDefinitionURL>
-<parent>EndowmentSimpleMaintenanceDocument</parent>
-<label>Role Code Maintenance Document</label>
-</documentType>
-<documentType>
 <name>SecurityMaintenanceDocument</name>
 <helpDefinitionURL>default.htm?turl=WordDocuments%2Fsecurity.htm</helpDefinitionURL>
 <parent>EndowmentSimpleMaintenanceDocument</parent>

@@ -134,14 +134,6 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.RoleCode" table="END_ROLE_CD_T">
-	<field-descriptor name="code" column="ROLE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="name" column="ROLE_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.TicklerTypeCode" table="END_TKLR_TYP_CD_T">
 	<field-descriptor name="code" column="TKLR_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="name" column="TKLR_TYP_DESC" jdbc-type="VARCHAR"/>

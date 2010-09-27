@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Bonnie' id='5477g-1-1' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0AI' />
+      <where>POOL_SEC_ID='99MMKT013'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477g-1-2' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0CI' />
+      <where>POOL_SEC_ID='99PLTF013'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477g-1-3' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0CP' />
+      <where>POOL_SEC_ID='99PLTF021'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477g-1-4' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0CP' />
+      <where>POOL_SEC_ID='99PLTF997'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477g-1-5' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0AI' />
+      <where>POOL_SEC_ID='99PSTF018'</where>
+    </update>
+  </changeSet>
+  <changeSet author='Bonnie' id='5477g-1-6' failOnError='true'>
+    <comment>We need to set the registration code for the existing records in that table.  </comment>
+    <update tableName='END_POOL_FND_CTRL_T'>
+      <column name='POOL_REGIS_CD' value='0AP' />
+      <where>POOL_SEC_ID='99PSTF034'</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

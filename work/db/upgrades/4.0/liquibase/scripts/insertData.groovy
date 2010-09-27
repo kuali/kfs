@@ -231,6 +231,20 @@ class SequenceCreate  implements LiquibaseCommonTableInterface {
   }
 }
 
+class SequenceDrop implements LiquibaseCommonTableInterface {
+    Map attributes = [:]
+    SequenceDrop(Map attribs) {
+        attributes = attribs
+    }
+    void modification(table, xml) {
+        if (table.getAttributes().get("dbms") == "oracle") {
+            xml.dropSequence(this.getAttributes())
+        } else {
+            xml.dropTable(tableName : table.attributes['sequenceName'])
+        }
+    }
+}
+
 class ViewCreate implements LiquibaseCommonTableInterface {
     Map attributes = [:]
     List columns = []
@@ -769,7 +783,9 @@ def checkSequence(rawlines, tables)
      rawlines.each() { line ->
         checkSequenceColumns( line, sequenceCreate)        
      }
+     return true
 }
+
 
 def checkSequenceColumns(line, sequenceCreate)
 {
@@ -790,6 +806,24 @@ def checkSequenceColumns(line, sequenceCreate)
              sequenceCreate.getAttributes().put( "ordered" , "false")
         }
     }
+}
+
+def checkSequenceDrop(line, tables)
+{
+    matcher = (line =~ /(?i)^[ ]*DROP SEQUENCE ([a-zA-Z1-9_-]+).*/)
+    if (matcher.matches() == true) {
+        println "Drop sequence " + matcher[0][1] + "*** sequence not supported in MYSQL"
+        table = new Table( sequenceName : matcher[0][1], dbms : "oracle")
+        tables << table
+        dropSeq = new SequenceDrop( sequenceName : matcher[0][1])
+        table.changes << dropSeq
+        
+        table = new Table( sequenceName: matcher[0][1], dbms: "mysql")
+        tables << table
+        table.changes << dropSeq
+        return true
+    }
+    return false
 }
 
 def checkView( rawlines, tables) 
@@ -846,6 +880,7 @@ def processLine(rawlines)
     if (checkRenameTable(rawlines.join(" "), tables) == true) return
     if (checkSequence(rawlines, tables) == true) return
     if (checkView(rawlines, tables) == true) return
+    if (checkSequenceDrop(rawlines.join(" "), tables) == true) return
      println "***Invalid line " + rawlines.join(" ")
     
 }

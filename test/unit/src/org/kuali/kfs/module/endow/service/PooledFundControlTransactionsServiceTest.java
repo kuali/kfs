@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
+import org.kuali.kfs.module.endow.batch.service.IncomeDistributionForPooledFundService;
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
-import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
 
     protected PooledFundControlTransactionsService pooledFundControlTransactionsService;
-    
+    protected IncomeDistributionForPooledFundService incomeDistributionForPooledFundService; 
     /**
      * @see junit.framework.TestCase#setUp()
      */
@@ -36,7 +36,8 @@ public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
     
         // Initialize service objects.
         pooledFundControlTransactionsService = SpringContext.getBean(PooledFundControlTransactionsService.class);
-                        
+        incomeDistributionForPooledFundService = SpringContext.getBean(IncomeDistributionForPooledFundService.class);
+        
         super.setUp();
     }
     
@@ -53,9 +54,11 @@ public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
     /**
      * This method tests the service using KSB, but without SOAP 
      */
-    public void testPooledFundControlTransactionsService() {
-        
-        assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());
-        
+    public void testPooledFundControlTransactionsService() {        
+        assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());        
+    }
+    
+    public void testIncomeDistributionForPooledFundService() {
+        incomeDistributionForPooledFundService.createIncomeDistributionForPooledFund();
     }
 }

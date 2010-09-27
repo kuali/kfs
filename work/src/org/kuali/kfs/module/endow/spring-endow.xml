@@ -754,6 +754,9 @@
         <property name="securityService">
             <ref bean="securityService" />
         </property>
+        <property name="pooledFundControlService">
+            <ref bean="pooledFundControlService" />
+        </property>        
         <property name="createAutomatedCashInvestmentExceptionReportWriterService">
             <ref bean="createAutomatedCashInvestmentExceptionReportWriterService" />
         </property>
@@ -941,7 +944,7 @@
 		</property>				
 	</bean>
 	
-	<bean id="PooledFundControlService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundControlServiceImpl">
+	<bean id="pooledFundControlService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundControlServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				

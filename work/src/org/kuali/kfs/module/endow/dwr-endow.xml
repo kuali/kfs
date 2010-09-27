@@ -40,7 +40,7 @@
             <param name="include" value="pooledSecurityID,pooledFundDescription" />
         </convert>
     	<create creator="spring" javascript="PooledFundControlService">
-	    	<param name="beanName" value="PooledFundControlService" />
+	    	<param name="beanName" value="pooledFundControlService" />
 	        <include method="getByPrimaryKey" />
 	    </create>
 

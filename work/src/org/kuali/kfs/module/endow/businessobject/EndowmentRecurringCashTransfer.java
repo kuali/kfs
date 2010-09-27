@@ -52,10 +52,11 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
      * Default constructor.
      */
     public EndowmentRecurringCashTransfer() {
+        super();
         kemidTarget = new TypedArrayList(EndowmentRecurringCashTransferKEMIDTarget.class);
         glTarget = new TypedArrayList(EndowmentRecurringCashTransferGLTarget.class);
         
-        setTransferNumber(NextTransferNumberFinder.getLongValue().toString());
+//      setTransferNumber(NextTransferNumberFinder.getLongValue().toString());
     }
     
     public String getTransferNumber() {

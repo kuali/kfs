@@ -41,5 +41,12 @@ public interface PooledFundValueDao {
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+    
+    /**
+     * Set distribution complete value
+     * @param pooledfundValueList
+     * @param completed
+     */
+    public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed);
 
 }

@@ -89,6 +89,10 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
         return valueEffectiveDate;
     }
 
+    public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
+        pooledFundValueDao.setIncomeDistributionCompleted(pooledFundValueList, completed);
+    }
+    
     /**
      * This method gets the businessObjectService.
      * 

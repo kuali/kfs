@@ -59,5 +59,10 @@ public interface PooledFundValueService {
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+    
+    /**
+     * set PooledFundValue entries where the distribution income on date is equal to current date.
+     */
+    public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed);
 
 }

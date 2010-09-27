@@ -54,9 +54,19 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
+        //criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        criteria.addLessThan(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        //criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
         return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#setIncomeDistributionCompleted(java.util.List, boolean)
+     */
+    public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
+        for (PooledFundValue pooledFundValue : pooledFundValueList) {
+            getPersistenceBrokerTemplate().store(pooledFundValue);
+        }        
     }
     
     /**

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public class EndowPropertyConstants {
@@ -260,6 +259,11 @@ public class EndowPropertyConstants {
     public static final String KEMID_COMBINE_DONOR_STATEMENT_TERMINATION_DATE = "terminateCombineDate";
     public static final String KEMID_COMBINE_DONOR_STATEMENT_WITH_KEMID = "combineWithKemid";
     public static final String KEMID_COMBINE_DONOR_STATEMENT_WITH_KEMID_OBJ_REF = "combineWithKemidObjRef";
+
+    // KEMID Authorizations
+    public static final String KEMID_AUTHORIZATIONS_ROLE_SEQ_NBR = "roleSequenceNumber";
+    public static final String KEMID_AUTHORIZATIONS_ROLE_ID = "roleId";
+    public static final String KEMID_AUTHORIZATIONS_ROLE_PRNCPL_ID = "rolePrincipalId";
 
     // GLLink
     public static final String GL_LINK_ETRAN_CD = "endowmentTransactionCode";
@@ -541,7 +545,7 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_IPINDICATOR = "transactionIPIndicatorCode";
     public static final String TRANSACTION_SECURITY = "security";
     public static final String TRANSACTION_REGISTRATION_CD = "registrationCodeObj";
-    
+
 
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
@@ -570,8 +574,8 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
     public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
     public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicatorCode";
-    
-    
+
+
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";
     public static final String ENDOWMENT_ACCOUNTING_LINE_CHART_CD = "chartOfAccountsCode";

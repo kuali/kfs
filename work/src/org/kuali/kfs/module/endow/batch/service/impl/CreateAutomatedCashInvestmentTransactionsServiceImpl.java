@@ -58,6 +58,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,29 +102,13 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             Collection<KEMID> principleKemids = kemidService.getByPrincipleAciId(aciModel.getAciModelID());
             Collection<KEMID> incomeKemids    = kemidService.getByIncomeAciId(aciModel.getAciModelID());
             
+            
+            processAssetIncreaseDocs(new ArrayList<KEMID>(principleKemids), aciModel, false);
         }
         
         LOG.info("Finished \"Create Automated Cash Investments Transactions\" batch job!");
         
         return true;        
-    }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
-    private int getMaxNumberOfTransactionLines() {
-        
-        int max = 100;
-        try { 
-            max = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
-        }
-        catch (NumberFormatException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        
-        return max;
     }
 
     /**
@@ -163,8 +148,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 // Case for Investment number 1:
                 //
                 if (inv1Percent.compareTo(BigDecimal.ZERO) != 0) {
-                      String inv1SecurityId        = aciModel.getInvestment1SecurityID();
-                      String inv1RegistrationCode  = pooledFundControlService.getByPrimaryKey(inv1SecurityId).getFundRegistrationCode();
+                    String inv1RegistrationCode  = aciModel.getInvestment1().getFundRegistrationCode();
+                    String inv1SecurityId        = aciModel.getInvestment1SecurityID();
 
                       if (assetIncreaseDoc1 == null) {
                           assetIncreaseDoc1 = createAssetIncrease(inv1SecurityId, inv1RegistrationCode);
@@ -187,8 +172,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 // Case for Investment number 2:
                 //
                 if (inv2Percent.compareTo(BigDecimal.ZERO) != 0) {
-                      String inv2SecurityId        = aciModel.getInvestment2SecurityID();
-                      String inv2RegistrationCode  = pooledFundControlService.getByPrimaryKey(inv2SecurityId).getFundRegistrationCode();
+                    String inv2RegistrationCode  = aciModel.getInvestment2().getFundRegistrationCode();
+                    String inv2SecurityId        = aciModel.getInvestment2SecurityID();
 
                       if (assetIncreaseDoc2 == null) {
                           assetIncreaseDoc2 = createAssetIncrease(inv2SecurityId, inv2RegistrationCode);
@@ -211,8 +196,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 // Case for Investment number 3:
                 //
                 if (inv3Percent.compareTo(BigDecimal.ZERO) != 0) {
+                    String inv3RegistrationCode  = aciModel.getInvestment3().getFundRegistrationCode();
                     String inv3SecurityId        = aciModel.getInvestment3SecurityID();
-                    String inv3RegistrationCode  = pooledFundControlService.getByPrimaryKey(inv3SecurityId).getFundRegistrationCode();;
 
                     if (assetIncreaseDoc3 == null) {
                         assetIncreaseDoc3 = createAssetIncrease(inv3SecurityId, inv3RegistrationCode);
@@ -235,8 +220,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 // Case for Investment number 4:
                 //
                 if (inv4Percent.compareTo(BigDecimal.ZERO) != 0) {
+                    String inv4RegistrationCode  = aciModel.getInvestment4().getFundRegistrationCode();
                     String inv4SecurityId        = aciModel.getInvestment4SecurityID();
-                    String inv4RegistrationCode  = pooledFundControlService.getByPrimaryKey(inv4SecurityId).getFundRegistrationCode();
 
                     if (assetIncreaseDoc4 == null) {
                         assetIncreaseDoc4 = createAssetIncrease(inv4SecurityId, inv4RegistrationCode);
@@ -327,14 +312,17 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void addTransactionLineForAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, AutomatedCashInvestmentModel aciModel, String kemid, BigDecimal cashEquivalent, int inv) {
         UnitAmountAssociation unitAmount = calculateUnitAmount(aciModel, cashEquivalent, inv);
-        String purchaseOffsetCode = getPurchaseOffsetCode(aciModel, inv);
         
         // Create the correct transaction line based on if it's a source or target type.
-        EndowmentTransactionLine transactionLine = createTransactionLine(kemid, purchaseOffsetCode, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), false);
+        EndowmentTransactionLine transactionLine = createTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), false);
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
         
         if (rulesPassed) {
-            assetIncreaseDoc.getTargetTransactionLines().add(transactionLine);
+            assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
+        }
+        else {
+            // TODO: Log exception.
+            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -349,7 +337,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param isSource
      * @return
      */
-    private EndowmentTransactionLine createTransactionLine(String kemid, String etranCode, String ipIndicator, BigDecimal amount, BigDecimal units, boolean isSource) {
+    private EndowmentTransactionLine createTransactionLine(String docNumber, String kemid, String ipIndicator, BigDecimal amount, BigDecimal units, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
         if (isSource) {
@@ -360,41 +348,13 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         }
         
         // Set values on the transaction line.
+        transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
-        transactionLine.setEtranCode(etranCode);
         transactionLine.setTransactionIPIndicatorCode(ipIndicator);
         transactionLine.setTransactionAmount(new KualiDecimal(amount));
         transactionLine.setTransactionUnits(new KualiDecimal(units));
         
         return transactionLine;
-    }
-    
-    /**
-     * 
-     * This method...
-     *
-     * @param aciModel
-     * @param inv
-     * @return
-     */
-    private String getPurchaseOffsetCode(AutomatedCashInvestmentModel aciModel, int inv) {
-        String offsetCode = "";
-        switch (inv) {
-            case 1:
-                offsetCode = aciModel.getInvestment1().getFundAssetPurchaseOffsetTranCode();
-                break;
-            case 2:
-                offsetCode = aciModel.getInvestment2().getFundAssetPurchaseOffsetTranCode();
-                break;
-            case 3:
-                offsetCode = aciModel.getInvestment3().getFundAssetPurchaseOffsetTranCode();
-                break;
-            case 4:
-                offsetCode = aciModel.getInvestment4().getFundAssetPurchaseOffsetTranCode();
-                break;
-        }
-        
-        return offsetCode;
     }
     
     /**
@@ -477,6 +437,24 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         invAmount = (invUnits.multiply(invUnitValue)).setScale(2, BigDecimal.ROUND_HALF_UP);
         
         return (new UnitAmountAssociation(invAmount, invUnits));
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    private int getMaxNumberOfTransactionLines() {
+        
+        int max = 100;
+        try { 
+            max = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
+        }
+        catch (NumberFormatException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        
+        return max;
     }
     
     /**

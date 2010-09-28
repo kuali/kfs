@@ -14,14 +14,14 @@
 </documentType>
 <documentType>
 <name>EAI</name>
-<helpDefinitionURL>default.html?turl=WordDocuments%2Fassetincrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetincrease.htm</helpDefinitionURL>
 <label>Endowment Asset Increase</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
 </documentType>
 <documentType>
 <name>ECDD</name>
-<helpDefinitionURL>default.html?turl=WordDocuments%2Fcashdecrease.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashdecrease.htm</helpDefinitionURL>
 <label>Endowment Cash Decrease</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
@@ -77,7 +77,7 @@
 </documentType>
 <documentType>
 <name>EST</name>
-<helpDefinitionURL>default.html?turl=WordDocuments%2Fsecuritytransfer.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=WordDocuments%2Fsecuritytransfer.htm</helpDefinitionURL>
 <label>Endowment Security Transfer</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
@@ -91,7 +91,7 @@
 </documentType>
 <documentType>
 <name>EGLT</name>
-<helpDefinitionURL>default.html?turl=WordDocuments%2Fendowmenttogltransferoffunds.htm</helpDefinitionURL>
+<helpDefinitionURL>default.htm?turl=WordDocuments%2Fendowmenttogltransferoffunds.htm</helpDefinitionURL>
 <label>Endowment To GL Transfer Of Funds</label>
 <parent>ET</parent>
 <docHandler> ${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>

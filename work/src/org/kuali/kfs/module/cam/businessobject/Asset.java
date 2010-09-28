@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -266,6 +267,16 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     public KualiDecimal getAccumulatedDepreciation() {
+
+        // Calculates payment summary and depreciation summary based on available payment records
+        // The value can be null due to it being used as a non-singleton on the AssetRetirementGlobal
+        // page (a list of retired assets). If it were a singleton, each value would get overridden
+        // by the next use on the same page
+        if (this.accumulatedDepreciation == null) {
+            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+            paymentSummaryService.calculateAndSetPaymentSummary(this);
+        }
+
         return accumulatedDepreciation;
     }
 
@@ -282,6 +293,15 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     public KualiDecimal getBookValue() {
+        // Calculates payment summary and depreciation summary based on available payment records
+        // The value can be null due to it being used as a non-singleton on the AssetRetirementGlobal
+        // page (a list of retired assets). If it were a singleton, each value would get overridden
+        // by the next use on the same page
+        if (this.bookValue == null) {
+            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+            paymentSummaryService.calculateAndSetPaymentSummary(this);
+        }
+
         return bookValue;
     }
 

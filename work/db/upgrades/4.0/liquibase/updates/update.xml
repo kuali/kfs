@@ -210,4 +210,6 @@
 <include file="updates/2010-09-27-5475h-1-KRNS_PARM_T.xml"/>
 <include file="updates/2010-09-27-5476r-1-END_KEMID_ROLE_T.xml"/>
 <include file="updates/2010-09-27-none-1-CA_ACCT_AUTO_CREATE_DFLT_T.xml"/>
+<include file="updates/2010-09-28-NONE1-1-KRNS_PARM_T.xml"/>
+<include file="updates/2010-09-28-5476s-1-END_REC_CSH_XFR_GL_TGT_T.xml"/>
 </databaseChangeLog>

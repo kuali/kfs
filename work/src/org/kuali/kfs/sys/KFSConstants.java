@@ -78,6 +78,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
     public static final String USE_STANDALONE_WORKFLOW = "rice.use.standalone.workflow";
     public static final String BATCH_FILE_LOOKUP_ROOT_DIRECTORIES = "batch.file.lookup.root.directories";
+    public static final String BATCH_UPLOAD_HELP_SYS_PARAM_NAME = "BATCH_UPLOAD_HELP_URL";
 
     public static final String DATABASE_REPOSITORY_FILES_LIST_NAME = "databaseRepositoryFilePaths";
     public static final String SCRIPT_CONFIGURATION_FILES_LIST_NAME = "scriptConfigurationFilePaths";

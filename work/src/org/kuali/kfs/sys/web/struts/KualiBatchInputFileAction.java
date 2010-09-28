@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
@@ -49,6 +50,8 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
@@ -176,8 +179,10 @@ public class KualiBatchInputFileAction extends KualiAction {
             LOG.error("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName());
             throw new RuntimeException(("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName()));
         }
-
-        // set title key
+        ParameterService parmeterService =  SpringContext.getBean(ParameterService.class);
+        String url = parmeterService.getParameterValue(BatchUpload.class,KFSConstants.BATCH_UPLOAD_HELP_SYS_PARAM_NAME, batchInputFileType.getFileTypeIdentifer());
+        form.setUrl(url);
+          // set title key
         form.setTitleKey(batchInputFileType.getTitleKey());
     }
 

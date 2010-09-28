@@ -29,6 +29,10 @@ public class KualiBatchInputFileForm extends KualiForm {
     private FormFile uploadFile;
     private BatchUpload batchUpload;
     private List<KeyLabelPair> userFiles;
+    private String url;
+    
+    //getterURL pull system parameter used method get  parameter.evaluator
+
 
     private String titleKey;
 
@@ -94,6 +98,22 @@ public class KualiBatchInputFileForm extends KualiForm {
      */
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
+    }
+
+    /**
+     * Gets the url attribute. 
+     * @return Returns the url.
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * Sets the url attribute value.
+     * @param url The url to set.
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 

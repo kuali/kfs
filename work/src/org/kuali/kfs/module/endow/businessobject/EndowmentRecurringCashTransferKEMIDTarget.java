@@ -35,10 +35,10 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
     private boolean active;
     
     private EndowmentRecurringCashTransfer endowmentRecurringCashTransfer;
-    private KEMID kemidObj;
-    private EndowmentTransactionCode etranCodeObj;
+    private KEMID targetKemidObj;
+    private EndowmentTransactionCode targetEtranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
-    private EndowmentTransactionCode useEtranCodeObj;
+    private EndowmentTransactionCode targetUseEtranCodeObj;
     
     /**
      * Default constructor.
@@ -127,20 +127,20 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
         this.targetUseEtranCode = targetUseEtranCode;
     }
 
-    public KEMID getKemidObj() {
-        return kemidObj;
+    public KEMID getTargetKemidObj() {
+        return targetKemidObj;
     }
 
-    public void setKemidObj(KEMID kemidObj) {
-        this.kemidObj = kemidObj;
+    public void setTargetKemidObj(KEMID targetKemidObj) {
+        this.targetKemidObj = targetKemidObj;
     }
 
-    public EndowmentTransactionCode getEtranCodeObj() {
-        return etranCodeObj;
+    public EndowmentTransactionCode getTargetEtranCodeObj() {
+        return targetEtranCodeObj;
     }
 
-    public void setEtranCodeObj(EndowmentTransactionCode etranCodeObj) {
-        this.etranCodeObj = etranCodeObj;
+    public void setTargetEtranCodeObj(EndowmentTransactionCode targetEtranCodeObj) {
+        this.targetEtranCodeObj = targetEtranCodeObj;
     }
 
     public IncomePrincipalIndicator getIncomePrincipalIndicator() {
@@ -151,12 +151,12 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
         this.incomePrincipalIndicator = incomePrincipalIndicator;
     }
 
-    public EndowmentTransactionCode getUseEtranCodeObj() {
-        return useEtranCodeObj;
+    public EndowmentTransactionCode getTargetUseEtranCodeObj() {
+        return targetUseEtranCodeObj;
     }
 
-    public void setUseEtranCodeObj(EndowmentTransactionCode useEtranCodeObj) {
-        this.useEtranCodeObj = useEtranCodeObj;
+    public void setTargetUseEtranCodeObj(EndowmentTransactionCode targetUseEtranCodeObj) {
+        this.targetUseEtranCodeObj = targetUseEtranCodeObj;
     }
 
     @Override

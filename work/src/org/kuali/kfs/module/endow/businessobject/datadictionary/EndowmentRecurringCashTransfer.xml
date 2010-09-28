@@ -20,9 +20,11 @@
   <bean id="EndowmentRecurringCashTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer"/>
 <!--     <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>  -->
+    <property name="inquiryDefinition" ref="EndowmentRecurringCashTransfer-inquiryDefinition"/>
     <property name="lookupDefinition" ref="EndowmentRecurringCashTransfer-lookupDefinition"/>
     
     <property name="objectLabel" value="Endowment Recurring Cash Transfer"/>
+    <property name="titleAttribute" value="transferNumber"/>
     <property name="attributes">
       <list>
         <ref bean="EndowmentRecurringCashTransfer-transferNumber"/>
@@ -36,7 +38,12 @@
         <ref bean="EndowmentRecurringCashTransfer-lastProcessDate"/>
         <ref bean="EndowmentRecurringCashTransfer-active"/> 
         <ref bean="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber"/>
+        <ref bean="EndowmentRecurringCashTransfer-targetGlNextSeqNumber"/>
         
+<!--   
+        <ref bean="Asset-assetPayments.documentNumber"/>
+        EndowmentRecurringCashTransferKEMIDTarget
+-->
       </list>
     </property>
   </bean>
@@ -154,6 +161,26 @@
     </property>
   </bean>
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 <!-- Business Object Lookup Definition -->
 
 
@@ -191,4 +218,104 @@
       </list>
     </property>
   </bean>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="EndowmentRecurringCashTransfer-inquiryDefinition" parent="EndowmentRecurringCashTransfer-inquiryDefinition-parentBean"/>
+  <bean id="EndowmentRecurringCashTransfer-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Endowment Recurring Cash Transfer Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+		  <property name="defaultOpen" value="false"/>            
+          <property name="title" value="Recurring Cash Transfer Source Information"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="transferNumber"/>
+    		  <bean parent="FieldDefinition" p:attributeName="sourceKemid"/>
+			  <bean parent="FieldDefinition" p:attributeName="transactionType"/>
+			  <bean parent="FieldDefinition" p:attributeName="sourceEtranCode"/>
+			  <bean parent="FieldDefinition" p:attributeName="sourceLineDescription"/>
+			  <bean parent="FieldDefinition" p:attributeName="sourceIncomeOrPrincipal"/>
+			  <bean parent="FieldDefinition" p:attributeName="frequencyCode"/>
+			  <bean parent="FieldDefinition" p:attributeName="nextProcessDate"/>
+			  <bean parent="FieldDefinition" p:attributeName="lastProcessDate"/>
+			  <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Recurring Cash Transfer KEMID Target Information"/>
+		  <property name="defaultOpen" value="false"/>          
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="kemidTarget"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="targetSequenceNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetKemid"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetEtranCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetLineDescription"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetIncomeOrPrincipal"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetAmount"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetPercent"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetUseEtranCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Recurring Cash Transfer GL Target Information"/>
+		  <property name="defaultOpen" value="false"/>          
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="glTarget"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="targetSequenceNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="targetChartOfAccountsCode"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetAccountsNumber"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetFinancialObjectCode"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetFdocLineAmount"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetSubAccountNumber"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetFinancialSubObjectCode"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetProjectCode"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetOrgReferenceId"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetPercent"/>
+          			<bean parent="FieldDefinition" p:attributeName="targetUseEtranCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+	  </list>
+	</property>
+	</bean>
 </beans>

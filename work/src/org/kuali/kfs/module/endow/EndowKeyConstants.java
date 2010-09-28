@@ -291,6 +291,7 @@ public class EndowKeyConstants {
         public static final String ERROR_DOCUMENT_AMOUNT_SPECIFIED_PERCENT_OR_ETRAN = "error.document.amount.specified.percent.or.etran";
         public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED = "error.document.total.percent.cannot.exceed";
         public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN = "error.document.total.percent.cannot.exceed.specified.etran";
+        public static final String ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE = "error.document.etran.code.invalid.type";
         
     }
     

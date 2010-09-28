@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
+import org.kuali.kfs.module.endow.document.validation.impl.EndowmentRecurringCashTransferTransactionRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -36,22 +32,60 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
     private static final String KEMID_TARGET = "kemidTarget";
     private static final String GL_TARGET = "glTarget";
     
+     
     @Override
     public void addNewLineToCollection(String collectionName){
         EndowmentRecurringCashTransfer endowmentRecurringCashTransfer = (EndowmentRecurringCashTransfer) this.getBusinessObject();
+        boolean success = true;
         
-        if (ObjectUtils.isNotNull(endowmentRecurringCashTransfer.getTransactionType())){
-            if (checkTransactionTypeAndSetSequenceNumber(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer)){
+        // apply rules
+        if (collectionName.equals(KEMID_TARGET)){
+            int kemidIndex = endowmentRecurringCashTransfer.getKemidTarget().size();
+            
+            //String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET + "[" + kemidIndex + "]";
+            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.kemidTarget";
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+            EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget = (EndowmentRecurringCashTransferKEMIDTarget) newCollectionLines.get(collectionName);
+            // check rules
+            success &= EndowmentRecurringCashTransferTransactionRule.validateKEMIDTarget(endowmentRecurringCashTransferKEMIDTarget);
+           
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+            // check transaction type
+            success &= checkTransactionTypeAndSetSequenceNumber(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
+
+            // all rules are passed, then set sequenceNumber and add to collection
+            if (success){
+                endowmentRecurringCashTransferKEMIDTarget.setTargetSequenceNumber(endowmentRecurringCashTransfer.incrementTargetKemidNextSeqNumber().toString());
                 super.addNewLineToCollection(collectionName);
             }
         } else {
-            GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_REQUIRED, EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE);
-            GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.glTarget";
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+            
+            EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget = (EndowmentRecurringCashTransferGLTarget) newCollectionLines.get(collectionName);
+            // check rules
+            success &= EndowmentRecurringCashTransferTransactionRule.validateGlTarget(endowmentRecurringCashTransferGLTarget);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+            
+            // check transaction type
+            success &= checkTransactionTypeAndSetSequenceNumber(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
+            
+            // all rules are passed, then set sequenceNumber and add to collection
+            if (success){
+                endowmentRecurringCashTransferGLTarget.setTargetSequenceNumber(endowmentRecurringCashTransfer.incrementTargetGlNextSeqNumber().toString());
+                super.addNewLineToCollection(collectionName);
+            }
         }
     }
 
     private boolean checkTransactionTypeAndSetSequenceNumber(String transactionType, String collectionName, EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+        if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getTransactionType())){
+            GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_REQUIRED, EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE);
+            GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            
+            return false;
+        }
         
         if (transactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
             if (!collectionName.equals(KEMID_TARGET)){
@@ -60,8 +94,6 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 return false;
             } 
-            EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget = (EndowmentRecurringCashTransferKEMIDTarget) newCollectionLines.get(collectionName);
-            endowmentRecurringCashTransferKEMIDTarget.setTargetSequenceNumber(endowmentRecurringCashTransfer.incrementTargetKemidNextSeqNumber().toString());
         } else {
             if (!collectionName.equals(GL_TARGET)){
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
@@ -69,10 +101,6 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
                 return false;
             } 
-            
-            EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget = (EndowmentRecurringCashTransferGLTarget) newCollectionLines.get(collectionName);
-            endowmentRecurringCashTransferGLTarget.setTargetSequenceNumber(endowmentRecurringCashTransfer.incrementTargetGlNextSeqNumber().toString());
-
         }
         return true;
     }

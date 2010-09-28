@@ -32,6 +32,16 @@
       <list>
 		<bean parent="ReferenceDefinition" p:attributeName="kemidObj" p:attributeToHighlightOnFail="sourceKemid"/>
 		<bean parent="ReferenceDefinition" p:attributeName="frequencyCodeObj" p:attributeToHighlightOnFail="frequencyCode"/>
+		
+		<bean parent="ReferenceDefinition" p:attributeName="targetKemidObj" p:collection="kemidTarget" p:attributeToHighlightOnFail="targetKemid"/>
+		<bean parent="ReferenceDefinition" p:attributeName="targetEtranCodeObj" p:collection="kemidTarget" p:attributeToHighlightOnFail="targetEtranCode"/>
+		
+		<bean parent="ReferenceDefinition" p:attributeName="chart" p:collection="glTarget" p:attributeToHighlightOnFail="targetChartOfAccountsCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="account" p:collection="glTarget" p:attributeToHighlightOnFail="targetAccountsNumber"/>
+		<bean parent="ReferenceDefinition" p:attributeName="objectCode" p:collection="glTarget" p:attributeToHighlightOnFail="targetFinancialObjectCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="subAccount" p:collection="glTarget" p:attributeToHighlightOnFail="targetSubAccountNumber"/>
+		<bean parent="ReferenceDefinition" p:attributeName="subObjectCode" p:collection="glTarget" p:attributeToHighlightOnFail="targetFinancialSubObjectCode"/>
+		<bean parent="ReferenceDefinition" p:attributeName="projectCode" p:collection="glTarget" p:attributeToHighlightOnFail="targetProjectCode"/>
       </list>
     </property>
     
@@ -70,6 +80,7 @@
 		<bean parent="MaintainableFieldDefinition" p:name="lastProcessDate" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="targetKemidNextSeqNumber"/>
+		<bean parent="MaintainableFieldDefinition" p:name="targetGlNextSeqNumber"/>
 	  </list>
 	</property>
   </bean>

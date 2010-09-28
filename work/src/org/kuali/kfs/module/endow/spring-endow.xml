@@ -1502,5 +1502,5 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	</bean>			
+	</bean>
 </beans>

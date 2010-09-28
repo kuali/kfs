@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Dan' id='5844-1-1' failOnError='true'>
+    <comment>The follow parameter needs to be added to support UA's contribution for KFSMI-5844: </comment>
+    <insert tableName='KRNS_PARM_T'>
+      <column name='nmspc_cd' value='KFS-PURAP' />
+      <column name='parm_dtl_typ_cd' value='ElectronicInvoiceReject' />
+      <column name='parm_nm' value='SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL' />
+      <column name='appl_nmspc_cd' value='KFS' />
+      <column name='obj_id' valueNumeric='SYS_GUID' />
+      <column name='ver_nbr' valueNumeric='1' />
+      <column name='txt' value='AGUV' />
+      <column name='parm_desc_txt' value='Specifies which types of EIRT reject reasons should be ignored when an EIRT document is Approved' />
+      <column name='parm_typ_cd' value='CONFG' />
+      <column name='cons_cd' value='A' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

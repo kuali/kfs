@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.UpdateCorpusService;
+import org.kuali.kfs.module.endow.businessobject.EndowmentCorpusValues;
+import org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -28,43 +33,54 @@ import org.kuali.rice.kns.service.ParameterService;
 
 public class UpdateCorpusServiceImpl implements UpdateCorpusService {
     
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpdateCorpusServiceImpl.class);
+    
     private KEMService kemService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
+    private UpdateCorpusDao updateCorpusDao;
+    
     private Date currentDate;
     private int maxNumberOfTransactionLines;
     
+    /**
+
+     * @see org.kuali.kfs.module.endow.batch.service.UpdateCorpusService#updateCorpusTransactions()
+     */
     public boolean updateCorpusTransactions() {
-        
+                        
         //set current date and max trans lines
         currentDate = kemService.getCurrentDate();
-        maxNumberOfTransactionLines = getMaxNumberOfTransactionLines();
-        boolean success = true;
+        maxNumberOfTransactionLines = getMaxNumberOfTransactionLines();                
         
-        //Process 1
-        if( isFirstDayOfFiscalYear() ){
-            success &= runProcess1();
-        }
+        LOG.info("Begin updateCorpusTransactions() with process date of " + currentDate);
         
-        //Process 2
-        success &= runProcess2();
+        //Run update corpus process
+        runProcess1();
+                
+        runProcess2();
+                
+        runProcess3();
+                                            
+        runProcess4();        
         
-        //Process 3
-        success &= runProcess3();
+        LOG.info("End updateCorpusTransactions() with process date of " + currentDate);
         
-        //Process 4
-        success &= runProcess4();
-        
-        return success;
+        return true;
     }
 
     /**
      * Copies current corpus values to prior corpus values.
      * 
      */
-    protected boolean runProcess1(){
-        return false;
+    protected void runProcess1(){
+                
+        if( isFirstDayOfFiscalYear() ){
+                        
+            updateCorpusDao.updateKemIdCorpusPriorYearValues();                        
+        }
+        
     }
 
     /**
@@ -73,17 +89,21 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
      * values from Current Endowment Corpus to KEMID Corpus
      * 
      */
-    protected boolean runProcess2(){
-        return false;
+    protected void runProcess2(){
+     
+        updateCorpusDao.updateCorpusAmountsFromTransactionArchive(currentDate);
+        
     }
-
+    
     /**
      * Update the field PRIN_MVAL for every record in Current Endowment Corpus with
      * a the field Prin at Market from Current Balance table 
      * 
      */
-    protected boolean runProcess3(){
-        return false;
+    protected void runProcess3(){
+        
+        updateCorpusDao.updateCurrentCorpusPrincipalMarketValue();
+        
     }
 
     /**
@@ -91,8 +111,13 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
      *  endowment corpus table.
      * 
      */
-    protected boolean runProcess4(){
-        return false;
+    protected void runProcess4(){
+        
+        if( isLastDayOfFiscalYear() ){
+            
+            updateCorpusDao.updateEndowmentCorpusWithCurrentEndowmentCorpus(currentDate);
+        }
+        
     }
 
     /**
@@ -141,6 +166,10 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public void setUpdateCorpusDao(UpdateCorpusDao updateCorpusDao) {
+        this.updateCorpusDao = updateCorpusDao;
     }
 
 }

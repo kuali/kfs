@@ -534,6 +534,7 @@ public class EndowPropertyConstants {
     public static final String TARGET_ACCT_LINE_PREFIX = "newTargetAccountingLine.";
     public static final String SOURCE_ACCT_LINE_PREFIX = "newSourceAccountingLine.";
 
+
     public static final String EXISTING_SOURCE_TRANSACTION_LINE_PREFIX = "document.sourceTransactionLines";
     public static final String EXISTING_TARGET_TRANSACTION_LINE_PREFIX = "document.targetTransactionLines";
 
@@ -566,13 +567,14 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE = "lineTypeCode";
-
+    public static final String TRANSACTION_ARCHIVE_CORPUS_INDICATOR = "corpusIndicator";
+    
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
     public static final String TRANSACTION_ARCHIVE_ETRAN_CODE = "etranCode";
 
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
-    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
+    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";    
     public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicatorCode";
 
 
@@ -611,5 +613,14 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
 
-
+    public static class ColumnNames{
+        
+        public static class UpdateCorpus{
+            public static final String TRANSACTION_ARCHIVE_KEMID = "TRAN_KEMID";
+            public static final String TRANSACTION_CORPUS_AMT = "TRAN_CORPUS_AMT";
+            public static final String CRNT_ENDOW_CORPUS_VAL = "CRNT_CORPUS_VAL";
+            public static final String CRNT_BALANCE_KEMID = "KEMID";
+            public static final String CRNT_BALANCE_PRINCIPAL_AT_MARKET = "PRIN_AT_MARKET";
+        }
+    }
 }

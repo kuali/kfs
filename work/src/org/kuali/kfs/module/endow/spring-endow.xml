@@ -915,6 +915,8 @@
         </property>
     </bean>
 
+	<bean id="updateCorpusDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.UpdateCorpusDaoJdbc" />
+
     <bean id="updateCorpusService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -928,7 +930,10 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>		
-    </bean>
+		<property name="updateCorpusDao">
+			<ref bean="updateCorpusDao" />
+		</property>				
+    </bean>	
     
  	<!--  end core batch jobs --> 
     

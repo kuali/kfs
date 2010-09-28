@@ -311,13 +311,13 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
 
-        Date today = CorrectionAction.dateTimeService.getCurrentDate();
+        Date now = CorrectionAction.dateTimeService.getCurrentDate();
         //creat file after all enries loaded well
         //OriginEntryGroup newOriginEntryGroup = CorrectionAction.originEntryGroupService.createGroup(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, false, false, false);
 
         FormFile sourceFile = laborCorrectionForm.getSourceFile();
         String llcpDirectory = SpringContext.getBean(LaborCorrectionDocumentService.class).getLlcpDirectoryName();
-        String fullFileName = llcpDirectory + File.separator + sourceFile.getFileName();
+        String fullFileName = llcpDirectory + File.separator + sourceFile.getFileName() + "-" + CorrectionAction.dateTimeService.toDateTimeStringForFilename(now);
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
         
         //create a file

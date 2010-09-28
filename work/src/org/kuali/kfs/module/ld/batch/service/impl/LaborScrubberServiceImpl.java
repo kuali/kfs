@@ -69,7 +69,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     /**
      * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void scrubGroupReportOnly(String fileName, String documentNumber) {
+    synchronized public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         // The logic for this was moved into another object because the process was written using

@@ -41,7 +41,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * @param documentNumber the id of documents which generated origin entries that should be scrubbed
      * @see org.kuali.kfs.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void scrubGroupReportOnly(String fileName, String documentNumber) {
+    synchronized public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         reportOnlyScrubberProcess.scrubGroupReportOnly(fileName, documentNumber);

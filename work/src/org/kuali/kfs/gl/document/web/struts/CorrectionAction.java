@@ -711,13 +711,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
         GeneralLedgerCorrectionProcessDocument document = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
 
-        Date today = CorrectionAction.dateTimeService.getCurrentDate();
+        Date now = CorrectionAction.dateTimeService.getCurrentDate();
         //creat file after all enries loaded well
         //OriginEntryGroup newOriginEntryGroup = CorrectionAction.originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, false, false, false);
 
         FormFile sourceFile = correctionForm.getSourceFile();
         String glcpDirectory = SpringContext.getBean(CorrectionDocumentService.class).getGlcpDirectoryName();
-        String fullFileName = glcpDirectory + File.separator + sourceFile.getFileName();
+        String fullFileName = glcpDirectory + File.separator + sourceFile.getFileName() + "-" + CorrectionAction.dateTimeService.toDateTimeStringForFilename(now);
         
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
         //create a file

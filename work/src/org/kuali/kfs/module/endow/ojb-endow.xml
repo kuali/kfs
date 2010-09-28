@@ -816,6 +816,10 @@
         <orderby name="incomePrincipalIndicatorCode" sort="ASC" />
         <inverse-foreignkey field-ref="kemid" />
     </collection-descriptor>   
+    <collection-descriptor name="kemidAuthorizations" element-class-ref="org.kuali.kfs.module.endow.businessobject.KemidAuthorizations" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+        <orderby name="roleSequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="kemid" />
+    </collection-descriptor>      
     <collection-descriptor name="kemidPayoutInstructions" element-class-ref="org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
         <orderby name="payIncomeToKemid" sort="ASC" />
         <inverse-foreignkey field-ref="kemid" />
@@ -1284,6 +1288,21 @@
 	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartCode" />
 		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.endow.businessobject.KemidAuthorizations" table="END_KEMID_ROLE_T">
+	<field-descriptor name="kemid" column="KEMID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="roleSequenceNumber" column="ROLE_SEQ_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" index="true"/>
+	<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="rolePrincipalId" column="ROLE_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="roleTerminationDate" column="ROLE_TERM_DT" jdbc-type="DATE"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+
+	<reference-descriptor name="kemidObjRef" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
 	</reference-descriptor>
 </class-descriptor>
 

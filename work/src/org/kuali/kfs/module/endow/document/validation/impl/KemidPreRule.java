@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
+import org.kuali.kfs.module.endow.businessobject.KemidAuthorizations;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
 import org.kuali.kfs.module.endow.businessobject.KemidDonorStatement;
@@ -66,6 +67,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         setAgreementsIds();
         setSourceOfFundsSeq();
         updateBenefittingOrgs(maintenanceDocument);
+        setAuthorizationsSeqNbr();
         setPayoutInstructionsSeq();
         setUseCriteriaSeq();
         setFeeMethodSequence();
@@ -211,6 +213,31 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         // the order in which these methods are called should be preserved
         setBenefittingOrgsSeq();
         setBenefittingOrgsLastChangeDate(maintenanceDocument);
+    }
+
+    /**
+     * Sets the Authorizations sequence number for all the new Authorizations.
+     */
+    private void setAuthorizationsSeqNbr() {
+        List<KemidAuthorizations> oldKemidAuthorizations = new ArrayList<KemidAuthorizations>();
+        List<KemidAuthorizations> newKemidAuthorizations = new ArrayList<KemidAuthorizations>();
+
+
+        for (KemidAuthorizations kemidAuthorizations : newKemid.getKemidAuthorizations()) {
+            if (kemidAuthorizations.isNewCollectionRecord()) {
+                newKemidAuthorizations.add(kemidAuthorizations);
+            }
+            else {
+                oldKemidAuthorizations.add(kemidAuthorizations);
+            }
+        }
+
+        int sequenceStart = oldKemidAuthorizations.size();
+
+        for (KemidAuthorizations kemidAuthorizations : newKemidAuthorizations) {
+            kemidAuthorizations.setRoleSequenceNumber(new KualiInteger(++sequenceStart));
+        }
+
     }
 
     /**

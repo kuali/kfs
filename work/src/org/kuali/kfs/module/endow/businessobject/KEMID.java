@@ -84,6 +84,7 @@ public class KEMID extends PersistableBusinessObjectBase {
     private List<KemidReportGroup> kemidReportGroups;
     private List<KemidDonorStatement> kemidDonorStatements;
     private List<KemidCombineDonorStatement> kemidCombineDonorStatements;
+    private List<KemidAuthorizations> kemidAuthorizations;
 
     /**
      * Constructs a KEMID.java.
@@ -101,6 +102,7 @@ public class KEMID extends PersistableBusinessObjectBase {
         kemidReportGroups = new TypedArrayList(KemidReportGroup.class);
         kemidDonorStatements = new TypedArrayList(KemidDonorStatement.class);
         kemidCombineDonorStatements = new TypedArrayList(KemidCombineDonorStatement.class);
+        kemidAuthorizations = new TypedArrayList(KemidAuthorizations.class);
     }
 
     /**
@@ -1036,7 +1038,7 @@ public class KEMID extends PersistableBusinessObjectBase {
     public String getTicklers() {
         return EndowConstants.LOOKUP_LINK;
     }
-    
+
     /**
      * Gets the Recurring Transfers link text.
      * 
@@ -1044,5 +1046,23 @@ public class KEMID extends PersistableBusinessObjectBase {
      */
     public String getRecurringTransfers() {
         return EndowConstants.LOOKUP_LINK;
+    }
+
+    /**
+     * Gets the kemidAuthorizations.
+     * 
+     * @return kemidAuthorizations
+     */
+    public List<KemidAuthorizations> getKemidAuthorizations() {
+        return kemidAuthorizations;
+    }
+
+    /**
+     * Sets the kemidAuthorizations.
+     * 
+     * @param kemidAuthorizations
+     */
+    public void setKemidAuthorizations(List<KemidAuthorizations> kemidAuthorizations) {
+        this.kemidAuthorizations = kemidAuthorizations;
     }
 }

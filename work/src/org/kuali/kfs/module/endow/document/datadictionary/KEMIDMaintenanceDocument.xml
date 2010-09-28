@@ -19,6 +19,7 @@
         <ref bean="KEMIDMaintenanceDocument-editSourceOfFunds" />
         <ref bean="KEMIDMaintenanceDocument-editBenefittingOrganization" />
         <ref bean="KEMIDMaintenanceDocument-editGeneralLedgerAccounts" />
+        <ref bean="KEMIDMaintenanceDocument-editAuthorizations" />
         <ref bean="KEMIDMaintenanceDocument-editPayoutInstructions" />
         <ref bean="KEMIDMaintenanceDocument-editUseCriteria" />
         <ref bean="KEMIDMaintenanceDocument-editSpecialInstructions" />
@@ -494,6 +495,39 @@
       </list>
     </property>
   </bean> 
+  <bean id="KEMIDMaintenanceDocument-editAuthorizations" parent="KEMIDMaintenanceDocument-editAuthorizations-parentBean" />
+
+  <bean id="KEMIDMaintenanceDocument-editAuthorizations-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="authorizations" />
+    <property name="title" value="Authorizations" />
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="kemidAuthorizations" />
+          <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.KemidAuthorizations"/>
+          <property name="summaryTitle" value="Authorizations" />
+          <property name="summaryFields">
+            <list>
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <dd:maintField attributeName="role.roleName" required="true"/> 
+              <dd:maintField attributeName="rolePrincipalId" unconditionallyReadOnly="true" required="true"/>
+              <dd:maintField attributeName="rolePrincipal.principalName" required="true"/>                    
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="roleTerminationDate" />
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="active"
+                    p:defaultValue="true" />                                                  
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>   
   <bean id="KEMIDMaintenanceDocument-editPayoutInstructions" parent="KEMIDMaintenanceDocument-editPayoutInstructions-parentBean" />
 
   <bean id="KEMIDMaintenanceDocument-editPayoutInstructions-parentBean" abstract="true" parent="MaintainableSectionDefinition">

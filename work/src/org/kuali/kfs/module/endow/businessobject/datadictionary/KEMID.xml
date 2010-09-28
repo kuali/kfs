@@ -79,6 +79,7 @@
         <bean parent="CollectionDefinition" p:name="kemidSourcesOfFunds" p:label="Source Of Funds" p:shortLabel="Source Of Funds" p:elementLabel="Fund Source"/>
         <bean parent="CollectionDefinition" p:name="kemidBenefittingOrganizations" p:label="Benefitting Organization" p:shortLabel="Benefitting Organization" p:elementLabel="Benefitting Organization"/>
         <bean parent="CollectionDefinition" p:name="kemidGeneralLedgerAccounts" p:label="General Ledger Accounts" p:shortLabel="General Ledger Accounts" p:elementLabel="General Ledger Account"/>
+        <bean parent="CollectionDefinition" p:name="kemidAuthorizations" p:label="Authorizations" p:shortLabel="Authorizations" p:elementLabel="Authorizations"/>
         <bean parent="CollectionDefinition" p:name="kemidPayoutInstructions" p:label="Payout Instructions" p:shortLabel="Payout Instructions" p:elementLabel="Pay Income To"/>
         <bean parent="CollectionDefinition" p:name="kemidUseCriteria" p:label="Use Criteria" p:shortLabel="Use Criteria" p:elementLabel="Use Criteria"/>
         <bean parent="CollectionDefinition" p:name="kemidSpecialInstructions" p:label="Special Instructions" p:shortLabel="Special Instructions" p:elementLabel="Special Instructions"/>
@@ -687,6 +688,31 @@
                           p:attributeName="chartCode" />
                     <bean parent="FieldDefinition"
                           p:attributeName="accountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="active" />                                                                                                                                    
+                  </list>
+                </property>
+              </bean>
+      		</list>
+    	  </property>
+        </bean> 
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Authorizations" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="kemidAuthorizations" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.KemidAuthorizations" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="role.roleName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="rolePrincipal.principalName" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="roleTerminationDate" />
                     <bean parent="FieldDefinition"
                           p:attributeName="active" />                                                                                                                                    
                   </list>

@@ -635,6 +635,8 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
         oldKemid.getKemidDonorStatements().clear();
         newKemid.getKemidCombineDonorStatements().clear();
         oldKemid.getKemidCombineDonorStatements().clear();
+        newKemid.getKemidAuthorizations().clear();
+        oldKemid.getKemidAuthorizations().clear();
     }
 
     /**

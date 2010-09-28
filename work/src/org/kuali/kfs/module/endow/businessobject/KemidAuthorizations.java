@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -183,7 +183,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
      * @return role
      */
     public Role getRole() {
-        role = SpringContext.getBean(org.kuali.rice.kim.service.RoleService.class).getRole(roleId);
+        // role = KIMServiceLocator.getRoleManagementService().getRole(roleId);
         return role;
     }
 
@@ -213,6 +213,13 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
      */
     public void setRolePrincipal(Person rolePrincipal) {
         this.rolePrincipal = rolePrincipal;
+    }
+
+    /**
+     * @return Returns the rolePrincipalId.
+     */
+    public String getRolePrincipalIdForSearching() {
+        return getRolePrincipalId();
     }
 
 }

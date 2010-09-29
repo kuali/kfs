@@ -99,10 +99,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService#createCashSweepTransactions()
+     * 
+     * This method...
+     *
      */
-    public boolean createCashSweepTransactions() {
-        
+    private void writeHeaders() {
         createCashSweepExceptionReportWriterService.writeNewLines(1);
         createCashSweepExceptionReportHeader.setColumnHeading1("Document Type");
         createCashSweepExceptionReportHeader.setColumnHeading2("Security Id");
@@ -124,8 +125,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         
         createCashSweepExceptionReportWriterService.writeTableHeader(createCashSweepExceptionReportHeader);
         createCashSweepProcessedReportWriterService.writeTableHeader(createCashSweepProcessedReportHeader);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService#createCashSweepTransactions()
+     */
+    public boolean createCashSweepTransactions() {
         
         LOG.info("Starting \"Create Cash Sweep Transactions\" batch job...");
+        writeHeaders();
+        
         Collection<CashSweepModel> cashSweepModels = getCashSweepModelMatchingCurrentDate();
         for (CashSweepModel cashSweepModel : cashSweepModels) {
             processIncomeSweepPurchases(cashSweepModel);
@@ -710,16 +719,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private int getMaxNumberOfTransactionLines() {
-        
-        int max = 100;
-        try { 
-            max = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
-        }
-        catch (NumberFormatException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        
-        return max;
+        return kemService.getMaxNumberOfTransactionLinesPerDocument();
     }
     
     /**

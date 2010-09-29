@@ -51,9 +51,6 @@ public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
     }
 
     
-    /**
-     * This method tests the service using KSB, but without SOAP 
-     */
     public void testPooledFundControlTransactionsService() {        
         assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());        
     }

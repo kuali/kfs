@@ -537,6 +537,9 @@
 		<property name="parameterService">
     	 	<ref bean="parameterService" />
 		</property>
+		<property name="kualiRuleService">
+    	 	<ref bean="kualiRuleService" />
+		</property>	
 		<property name="pooledFundControlTransactionsDao">
 			<ref bean="pooledFundControlTransactionsDao" />
 		</property>			

@@ -683,7 +683,10 @@
         </property>
         <property name="createCashSweepProcessedReportWriterService">
             <ref bean="createCashSweepProcessedReportWriterService" />
-        </property> 
+        </property>
+        <property name="configService">
+            <ref bean="kualiConfigurationService" />
+        </property>
     </bean>
     <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>

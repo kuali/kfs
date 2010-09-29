@@ -21,6 +21,38 @@
 			<label>Endowment Cash Transfer Document</label>
 			<parent>ET</parent>
       		<docHandler> ${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>			     		
 		</documentType>
 	</documentTypes>
 </data>

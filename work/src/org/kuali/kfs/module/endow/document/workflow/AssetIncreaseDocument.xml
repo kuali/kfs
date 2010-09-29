@@ -16,10 +16,42 @@
 -->
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>EAI</name>
-      <parent>ET</parent>
-      <docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
-    </documentType>
+    	<documentType>
+      		<name>EAI</name>
+      		<parent>ET</parent>
+      		<docHandler> ${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>			     		
+    	</documentType>
   </documentTypes>
 </data>

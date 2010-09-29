@@ -46,7 +46,10 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private boolean noRouteIndicator = true;
+    //set noRouteIndicator = false by default to make sure when a user initiates 
+    //the eDoc manually through UI, it goes through the routing path defined in 
+    //the workflow xml file.
+    private boolean noRouteIndicator = false;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.

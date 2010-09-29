@@ -49,10 +49,11 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     
     public String getIncomeEntraCode(String securityId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("securityId", securityId);
-        String classCode = ((Security)businessObjectService.findByPrimaryKey(Security.class, fieldValues)).getSecurityClassCode();
+        fieldValues.put(EndowPropertyConstants.SECURITY_ID, securityId);       
+        Security security = (Security) businessObjectService.findByPrimaryKey(Security.class, fieldValues);
+        String classCode = security.getSecurityClassCode();
         fieldValues.clear();
-        fieldValues.put("code", classCode);
+        fieldValues.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, classCode);
         return ((ClassCode)businessObjectService.findByPrimaryKey(ClassCode.class, fieldValues)).getSecurityIncomeEndowmentTransactionPostCode();        
     }
     
@@ -83,6 +84,29 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         
         return (List<BigDecimal>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
+ 
+    public List<Security> getSecurityForIncomeDistribution() {
+
+        // get pooledFundValue query with current date and the latest distribution income date
+//        Criteria subCrit0 = new Criteria();
+//        ReportQueryByCriteria subQuery0 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit0);        
+//        subQuery0.setAttributes(new String[] {"max(" + EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE + ")"});
+//        subQuery0.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);
+        
+        Criteria subCrit1 = new Criteria();
+        //subCrit1.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, "N");
+        //subCrit1.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        //subCrit1.addIn(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, subQuery0);
+        ReportQueryByCriteria subQuery1 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit1);
+        subQuery1.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
+
+        // get security query with the same security ids in pooledFundValue query
+        Criteria crit = new Criteria();
+        crit.addIn(EndowPropertyConstants.SECURITY_ID, subQuery1);                
+        QueryByCriteria query = new QueryByCriteria(Security.class, crit);
+        
+        return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    } 
     
     /**
      * select * from end_hldg_tax_lot_t h
@@ -161,19 +185,18 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     } 
     
     public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid) {
-        Criteria crit1 = new Criteria();
+        Criteria crit = new Criteria();
         Criteria crit2 = new Criteria();
-        crit1.addLessOrEqualThan(EndowPropertyConstants.KEMID_PAY_INC_START_DATE, kemService.getCurrentDate());
-        crit1.addGreaterThan(EndowPropertyConstants.KEMID_PAY_INC_END_DATE, kemService.getCurrentDate());        
-        crit2.addLessOrEqualThan(EndowPropertyConstants.KEMID_PAY_INC_START_DATE, kemService.getCurrentDate());
-        crit2.addColumnIsNull(EndowPropertyConstants.KEMID_PAY_INC_END_DATE);                
-        crit1.addOrCriteria(crit2);
+        Criteria crit21 = new Criteria();
         
-        Criteria crit3 = new Criteria();
-        crit3.addNotEqualToField(EndowPropertyConstants.KEMID_PAY_INC_TO_KEMID, kemid);
-        crit1.addAndCriteria(crit3);
-        
-        return (List<KemidPayoutInstruction>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KemidPayoutInstruction.class, crit1));
+        crit.addEqualTo(EndowPropertyConstants.KEMID_PAY_INC_TO_KEMID, kemid);
+        crit.addLessOrEqualThan(EndowPropertyConstants.KEMID_PAY_INC_START_DATE, kemService.getCurrentDate());
+        crit2.addGreaterThan(EndowPropertyConstants.KEMID_PAY_INC_END_DATE, kemService.getCurrentDate());        
+        crit21.addIsNull(EndowPropertyConstants.KEMID_PAY_INC_END_DATE);                
+        crit2.addOrCriteria(crit21);        
+        crit.addAndCriteria(crit2);
+                        
+        return (List<KemidPayoutInstruction>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KemidPayoutInstruction.class, crit));
     }
     /**
      * Sets the kemService attribute value.

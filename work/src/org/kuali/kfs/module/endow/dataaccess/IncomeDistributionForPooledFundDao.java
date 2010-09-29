@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
+import org.kuali.kfs.module.endow.businessobject.Security;
 
 public interface IncomeDistributionForPooledFundDao {
 
@@ -30,4 +31,6 @@ public interface IncomeDistributionForPooledFundDao {
     public List<BigDecimal> getHoldingTaxLotListGroupedBy(String securityId);
     
     public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid);
+    
+    public List<Security> getSecurityForIncomeDistribution();
 }

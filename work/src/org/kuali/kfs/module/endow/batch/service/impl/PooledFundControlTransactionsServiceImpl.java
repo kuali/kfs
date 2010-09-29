@@ -63,26 +63,29 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     public boolean generatePooledFundControlTransactions() {
         
         LOG.info("Begin Generate Pooled Fund Control Transactions ..."); 
+        
+        boolean result = true;
        
-        // job 1
-        createCashDocument1();
+        result &= createCashDocument1();   // job 1
+        if (result) {    // job 2
+            result &= createCashDocument2();
+        }
+        if (result) {    // job 2
+            result &= createCashDocument3();
+        }
+        if (result) {    // job 2
+            result &= createCashDocument4();
+        }
         
-        // job 2
-        createCashDocument2();
-        
-        // job 3
-        createCashDocument3();
-        
-        // job 4
-        createCashDocument4();
-        
-          return true;
+        return result;
     }
     
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for transaction type EAI
      */
-    protected void createCashDocument1() {
+    protected boolean createCashDocument1() {
+        
+        boolean result = true;
         
         List<String> transactionTypeCodes = new ArrayList<String>();
         transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE);
@@ -100,17 +103,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
 
             //create a cash document
             if (totalAmount.isPositive()) {
-                createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
+                result = createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
             } else if (totalAmount.isNegative()) {
-                createECDD(pooledFundControl, totalAmount.negated(), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
+                result = createECDD(pooledFundControl, totalAmount.negated(), EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
             }            
         }
+        
+        return result;
     }
 
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost  for transaction type EAD
      */
-    protected void createCashDocument2() {
+    protected boolean createCashDocument2() {
+        
+        boolean result = true;
         
         List<String> transactionTypeCodes = new ArrayList<String>();
         transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
@@ -127,17 +134,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }               
             //create a cash document
             if (totalAmount.isPositive()) {
-                createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
+                result = createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
             } else if (totalAmount.isNegative()) {
-                createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
+                result = createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
             }
-        }         
+        }   
+        
+        return result;
     }
     
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of gain/loss for transaction type EAD
      */
-    protected void createCashDocument3() {
+    protected boolean createCashDocument3() {
+        
+        boolean result = true;
         
         List<String> transactionTypeCodes = new ArrayList<String>();
         transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
@@ -155,17 +166,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is “recovering” (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount.isPositive()) {
-                createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
+                result = createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             } else if (totalAmount.isNegative()) {
-                createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
+                result = createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             }
-        }      
+        }    
+        
+        return result;
     }
     
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of income/principle cash for transaction type ECI and ECDD
      */
-    protected void createCashDocument4() {
+    protected boolean createCashDocument4() {
+        
+        boolean result = true;
         
         List<String> transactionTypeCodes = new ArrayList<String>();
         transactionTypeCodes.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
@@ -189,16 +204,20 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }                  
             //create a cash document
             if (totalAmount.isPositive()) {
-                   createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
+                result = createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
             } else if (totalAmount.isNegative()) {
-                createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
+                result = createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
             }
-        }                
+        }
+        
+        return result;
     }
     
-    protected void createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
+    protected boolean createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
 
         LOG.info("Creating ECI ..."); 
+        
+        boolean result = true;
         
         try {
             // initialize CashIncreaseDocument
@@ -213,19 +232,26 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 submitCashDocument(cashIncreaseDocument, paramNoRouteInd);
             } else {
                 //TODO: generate the error message
+                return false;
             }
     
         } catch (WorkflowException wfe) {
-          //TODO: generate the error message
-          wfe.printStackTrace();
+            //TODO: generate the error message
+            wfe.printStackTrace();
+            result = false;
         } catch (Exception e) {
             e.printStackTrace();
+            result = false;
         }                
+        
+        return result;
     }
    
-    protected void createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
+    protected boolean createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
 
-        LOG.info("Creating ECDD ..."); 
+        LOG.info("Creating ECDD ...");
+        
+        boolean result = true;
         
         try {
             // initialize CashDecreaseDocument
@@ -244,9 +270,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         } catch (WorkflowException wfe) {
             //TODO: generate the error message
             wfe.printStackTrace();
+            result = false;
         } catch (Exception e) {
               e.printStackTrace();
-        }      
+              result = false;
+        }  
+        
+        return result;
     } 
 
     protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String transactionLineTypeCode, String transactionIPIndicatorCode) {

@@ -69,4 +69,13 @@ public interface EndowmentTransactionalDocument extends FinancialSystemTransacti
      * @return
      */
     public boolean isErrorCorrectedDocument();
+    
+    /**
+     * This is a hook – those batch processes that will generate eDocs should call 
+     * this method to set the value of noRouteIndicator based on the value of 
+     * NO_ROUTE_IND System parameter.
+     * 
+     * @param noRouteIndicator the value to be set
+     */
+    public void setNoRouteIndicator(boolean noRouteIndicator);
 }

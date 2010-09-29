@@ -26,6 +26,7 @@ public class EndowConstants extends JSTLConstants {
 
     public static final int NUMBER_OF_MONTHS_REMAINING = 6;
     public static final int NUMBER_OF_DAYS_IN_YEAR = 365;
+    public static final int MAXIMUM_NUMBER_OF_LINES_PER_EDOC = 100;
 
     public static final String NEW_SOURCE_TRAN_LINE_PROPERTY_NAME = "newSourceTransactionLine";
     public static final String NEW_TARGET_TRAN_LINE_PROPERTY_NAME = "newTargetTransactionLine";
@@ -244,6 +245,9 @@ public class EndowConstants extends JSTLConstants {
         public static final KualiDecimal FEE_RATE_DEFAULT_VALUE = new KualiDecimal("99999999999999999.99");
         public static final int FEE_RATE_MAX_SCALE = 4;
         public static final String ENDOWMENT_HISTORY_VALUE_ADJUSTMENT = "EHVA";
+        public static final String FEE_BASE_CODE_VALUE_FOR_INCOME = "I";
+        public static final String FEE_BASE_CODE_VALUE_FOR_PRINCIPAL = "P"; 
+        public static final String FEE_BASE_CODE_VALUE_FOR_INCOME_AND_PRINCIPAL = "B";        
     }
 
     // Fee Balances Types values...

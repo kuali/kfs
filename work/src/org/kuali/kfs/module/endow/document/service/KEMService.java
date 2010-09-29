@@ -117,4 +117,10 @@ public interface KEMService {
      * 
      */
     public java.sql.Date getFirstDayAfterFiscalYearEndDayAndMonth();
+    
+    /**
+     * Gets MAXIMUM_TRANSACTION_LINES value from the system parameter.
+     * 
+     */
+    public int getMaxNumberOfTransactionLinesPerDocument();
 }

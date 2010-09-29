@@ -282,6 +282,23 @@ public class KEMServiceImpl implements KEMService {
     }
     
     /**
+     * @see org.kuali.kfs.module.endow.document.service.KEMService#getMaxNumberOfTransactionLinesPerDocument()
+     * @return maximumNumberOfTransactionLines
+     */
+    public int getMaxNumberOfTransactionLinesPerDocument() {
+        int maximumNumberOfTransactionLines = EndowConstants.MAXIMUM_NUMBER_OF_LINES_PER_EDOC;
+        
+        try { 
+            maximumNumberOfTransactionLines = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
+        }
+        catch (NumberFormatException ex) {
+            return maximumNumberOfTransactionLines;
+        }
+        
+        return maximumNumberOfTransactionLines;
+    }
+    
+    /**
      * Gets the dateTimeService.
      * 
      * @return dateTimeService

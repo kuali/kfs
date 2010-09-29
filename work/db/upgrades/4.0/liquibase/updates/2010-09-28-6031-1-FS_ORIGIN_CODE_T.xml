@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Dan' id='6031-1-1' failOnError='true'>
+    <comment> Persist Kuali Endowment Origination Code to the base data  </comment>
+    <insert tableName='FS_ORIGIN_CODE_T'>
+      <column name='FS_ORIGIN_CD' value='EM' />
+      <column name='OBJ_ID' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='FS_SERVER_NM' value='KULDBA' />
+      <column name='FS_DATABASE_NM' value='KFS' />
+      <column name='FS_DATABASE_DESC' value='KFS' />
+      <column name='ROW_ACTV_IND' value='Y' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

@@ -19,11 +19,15 @@ import static org.kuali.kfs.module.endow.EndowConstants.NEW_SOURCE_TRAN_LINE_PRO
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
@@ -51,10 +55,13 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -67,6 +74,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
     private BusinessObjectService businessObjectService;
+    private KualiConfigurationService configService;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
     private DocumentService documentService;
@@ -74,27 +82,20 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private KEMService kemService;
     
     EndowmentExceptionReportHeader createCashSweepExceptionReportHeader;
+    EndowmentExceptionReportHeader createCashSweepExceptionReportReason;
+    EndowmentExceptionReportHeader createCashSweepExceptionReportValues;
+    
+    
     EndowmentProcessedReportHeader createCashSweepProcessedReportHeader;
+    EndowmentProcessedReportHeader createCashSweepProcessedReportValues;
     
     public CreateCashSweepTransactionsServiceImpl() {
         createCashSweepExceptionReportHeader = new EndowmentExceptionReportHeader();
-//        createCashSweepExceptionReportHeader.setColumnHeading1("Document Type");
-//        createCashSweepExceptionReportHeader.setColumnHeading2("Security Id");
-//        createCashSweepExceptionReportHeader.setColumnHeading3("KEMID");
-//        createCashSweepExceptionReportHeader.setColumnHeading4("Income Amount");
-//        createCashSweepExceptionReportHeader.setColumnHeading5("Income Units");
-//        createCashSweepExceptionReportHeader.setColumnHeading6("Principle Amount");
-//        createCashSweepExceptionReportHeader.setColumnHeading7("Principle Units");
+        createCashSweepExceptionReportReason = new EndowmentExceptionReportHeader();
+        createCashSweepExceptionReportValues = new EndowmentExceptionReportHeader();
         
         createCashSweepProcessedReportHeader = new EndowmentProcessedReportHeader();
-//        createCashSweepProcessedReportHeader.setColumnHeading1("Document Type");
-//        createCashSweepProcessedReportHeader.setColumnHeading2("eDoc Number");
-//        createCashSweepProcessedReportHeader.setColumnHeading3("Security Id");
-//        createCashSweepProcessedReportHeader.setColumnHeading4("KEMID");
-//        createCashSweepProcessedReportHeader.setColumnHeading5("Income Amount");
-//        createCashSweepProcessedReportHeader.setColumnHeading6("Income Units");
-//        createCashSweepProcessedReportHeader.setColumnHeading7("Principle Amount");
-//        createCashSweepProcessedReportHeader.setColumnHeading8("Principle Units");
+        createCashSweepProcessedReportValues = new EndowmentProcessedReportHeader();
     }
     
     /**
@@ -110,8 +111,19 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         createCashSweepExceptionReportHeader.setColumnHeading5("Income Units");
         createCashSweepExceptionReportHeader.setColumnHeading6("Principle Amount");
         createCashSweepExceptionReportHeader.setColumnHeading7("Principle Units");
+
+        createCashSweepProcessedReportWriterService.writeNewLines(1);
+        createCashSweepProcessedReportHeader.setColumnHeading1("Document Type");
+        createCashSweepProcessedReportHeader.setColumnHeading2("eDoc Number");
+        createCashSweepProcessedReportHeader.setColumnHeading3("Security Id");
+        createCashSweepProcessedReportHeader.setColumnHeading4("KEMID");
+        createCashSweepProcessedReportHeader.setColumnHeading5("Income Amount");
+        createCashSweepProcessedReportHeader.setColumnHeading6("Income Units");
+        createCashSweepProcessedReportHeader.setColumnHeading7("Principle Amount");
+        createCashSweepProcessedReportHeader.setColumnHeading8("Principle Units");
         
         createCashSweepExceptionReportWriterService.writeTableHeader(createCashSweepExceptionReportHeader);
+        createCashSweepProcessedReportWriterService.writeTableHeader(createCashSweepProcessedReportHeader);
         
         LOG.info("Starting \"Create Cash Sweep Transactions\" batch job...");
         Collection<CashSweepModel> cashSweepModels = getCashSweepModelMatchingCurrentDate();
@@ -133,9 +145,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getPrincipleSweepRegistrationCode();
         String sweepSecurityId      = cashSweepModel.getPrincipleSweepInvestment();
-        
-        // Step 3. Get the asset sale offset code from the pooled fund control.
-        String assetSaleOffsetCode = getPooledAssetSaleOffsetCode(cashSweepModel, false);
         
         // Steps 4 - 12.
         processAssetDecreaseDocuments(
@@ -160,9 +169,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         String sweepRegistraionCode = cashSweepModel.getPrincipleSweepRegistrationCode();
         String sweepSecurityId      = cashSweepModel.getPrincipleSweepInvestment();
         
-        // Step 3. Get the asset purchasing offset code from the pooled fund control.
-        String assetPurchaseOffsetCode = getPooledAssetPurchaseOffsetCode(cashSweepModel, false);
-        
         // Steps 4 - 12.
         processAssetIncreaseDocuments(
                 cashSweepModel.getCashSweepModelID(),
@@ -186,9 +192,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         String sweepRegistraionCode = cashSweepModel.getIncomeSweepRegistrationCode();
         String sweepSecurityId      = cashSweepModel.getIncomeSweepInvestment();
         
-        // Step 3. Get the asset sale offset code from the pooled fund control.
-        String assetSaleOffsetCode = getPooledAssetSaleOffsetCode(cashSweepModel, true);
-        
         // Steps 4 - 12.
         processAssetDecreaseDocuments(
                 cashSweepModel.getCashSweepModelID(),
@@ -211,10 +214,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getIncomeSweepRegistrationCode();
         String sweepSecurityId      = cashSweepModel.getIncomeSweepInvestment();
-        
-        // Step 3. Get the asset purchasing offset code from the pooled fund control.
-        String assetPurchaseOffsetCode = getPooledAssetPurchaseOffsetCode(cashSweepModel, true);
-        
+
         // Steps 4 - 12.
         processAssetIncreaseDocuments(
                 cashSweepModel.getCashSweepModelID(),
@@ -226,16 +226,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         LOG.info("Leaving \"processIncomeSweepPurchases\".");
     }
     
-    /**
-     * 
-     * This method...
-     * @param cashSweepModelId
-     * @param sweepRegistraionCode
-     * @param sweepSecurityId
-     * @param assetSaleOffsetCode
-     * @param cashLimit
-     * @param isIncome
-     */
+
     private void processAssetDecreaseDocuments(
             Integer cashSweepModelId, 
             String sweepRegistraionCode,
@@ -265,14 +256,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 }
                 
                 // Create, validate, and add the transaction line to the eDoc.
-                addTransactionLineForAssetDecrease(assetDecreaseDoc, kemid, cashLimit, currentCash);
+                addTransactionLineForAssetDecrease(assetDecreaseDoc, kemid, cashLimit, currentCash, isIncome);
                 
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
                 if (i%maxNumberOfTransactionLines == 0) {
                     // Validate and route the document.
-                    routeAssetDecreaseDocument(assetDecreaseDoc);
+                    routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
                     assetDecreaseDoc = null;
                 }
             }
@@ -283,20 +274,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // to still be processed on the current eDoc.
         if (assetDecreaseDoc != null && !assetDecreaseDoc.getSourceTransactionLines().isEmpty()) {
             // Validate and route the document.
-            routeAssetDecreaseDocument(assetDecreaseDoc);
+            routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
         }
     }
     
-    /**
-     * 
-     * This method...
-     * @param cashSweepModelId
-     * @param sweepRegistraionCode
-     * @param sweepSecurityId
-     * @param assetSaleOffsetCode
-     * @param cashLimit
-     * @param isIncome
-     */
+
     private void processAssetIncreaseDocuments(
             Integer cashSweepModelId, 
             String sweepRegistraionCode,
@@ -326,14 +308,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 }
                 
                 // Create, validate, and add the transaction line to the eDoc.
-                addTransactionLineForAssetIncrease(assetIncreaseDoc, kemid, cashLimit, currentCash);
+                addTransactionLineForAssetIncrease(assetIncreaseDoc, kemid, cashLimit, currentCash, isIncome);
                 
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
                 if (i%maxNumberOfTransactionLines == 0) {
                     // Validate and route the document.
-                    routeAssetIncreaseDocument(assetIncreaseDoc);
+                    routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
                     assetIncreaseDoc = null;
                 }
             }
@@ -344,24 +326,17 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // to still be processed on the current eDoc.
         if (assetIncreaseDoc != null && !assetIncreaseDoc.getTargetTransactionLines().isEmpty()) {
             // Validate and route the document.
-            routeAssetIncreaseDocument(assetIncreaseDoc);
+            routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
         }
     }
     
-    /**
-     * 
-     * This method...
-     * @param assetDecreaseDoc
-     * @param assetSaleOffsetCode
-     * @param kemid
-     * @param cashLimit
-     * @param currentCash
-     */
+ 
     private void addTransactionLineForAssetDecrease(
             AssetDecreaseDocument assetDecreaseDoc,
             KEMID kemid,
             BigDecimal cashLimit,
-            BigDecimal currentCash) 
+            BigDecimal currentCash,
+            boolean isIncome) 
     {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, false);
@@ -374,25 +349,22 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
         }
         else {
-            // TODO: Log Exception.
+            writeExceptionTableRowAssetDecrease(assetDecreaseDoc, transactionLine, isIncome);
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
             GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
-    /**
-     * 
-     * This method...
-     * @param assetIncreaseDoc
-     * @param assetSaleOffsetCode
-     * @param kemid
-     * @param cashLimit
-     * @param currentCash
-     */
+
     private void addTransactionLineForAssetIncrease(
             AssetIncreaseDocument assetIncreaseDoc,
             KEMID kemid,
             BigDecimal cashLimit,
-            BigDecimal currentCash) 
+            BigDecimal currentCash,
+            boolean isIncome) 
     {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, true);
@@ -405,7 +377,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
         }
         else {
-            // TODO: Write exception.
+            writeExceptionTableRowAssetIncrease(assetIncreaseDoc, transactionLine, isIncome);
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
             GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
@@ -416,25 +392,29 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param assetDecreaseDoc
      * @param balh
      */
-    private void routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc) {
+    private void routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
         
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetDecreaseDoc));
 
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
-            boolean approvalIndicator = getApprovalIndicator(true);
+            boolean approvalIndicator = getApprovalIndicator(true); // TODO: Wait for Bonnie.
             try {
-                if (approvalIndicator) {
-                    documentService.blanketApproveDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
-                }
-                else {
-                    documentService.routeDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
-                }
+                documentService.routeDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
+                writeProcessedTableRowAssetDecrease(assetDecreaseDoc, isIncome);
             }
             catch (WorkflowException ex) {
+                writeExceptionTableReason(ex.getLocalizedMessage());
                 LOG.error(ex.getLocalizedMessage());
             }
+        }
+        else {
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
+            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -443,37 +423,33 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * This method...
      * @param assetIncreaseDoc
      */
-    private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc) {
+    private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
         
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetIncreaseDoc));
         
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
-            boolean approvalIndicator = getApprovalIndicator(false);
+            boolean approvalIndicator = getApprovalIndicator(false); // TODO: Wait for Bonnie.
             try {
-                if (approvalIndicator) {
-                    documentService.blanketApproveDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
-                }
-                else {
-                    documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
-                }
+                documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
+                writeProcessedTableRowAssetIncrease(assetIncreaseDoc, isIncome);
             }
             catch (WorkflowException ex) {
+                writeExceptionTableReason(ex.getLocalizedMessage());
                 LOG.error(ex.getLocalizedMessage());
             }
-        }   
+        }
+        else {
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
+            GlobalVariables.getMessageMap().clearErrorMessages();
+        }
     }
     
-    /**
-     * 
-     * This method...
-     * @param kemid
-     * @param etranCode
-     * @param amount
-     * @param isSource
-     * @return
-     */
+    
     private EndowmentTransactionLine createPrincipalTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
@@ -488,21 +464,15 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
         transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        
+        // These should be whole numbers.
         transactionLine.setTransactionAmount(amount);
-        transactionLine.setTransactionUnits(new KualiDecimal(1)); // TODO: Get real units.
+        transactionLine.setTransactionUnits(amount);
         
         return transactionLine;
     }
     
-    /**
-     * 
-     * This method...
-     * @param kemid
-     * @param etranCode
-     * @param amount
-     * @param isSource
-     * @return
-     */
+    
     private EndowmentTransactionLine createIncomeTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
@@ -517,8 +487,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
         transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
+        
+        // These should be whole numbers.
         transactionLine.setTransactionAmount(amount);
-        transactionLine.setTransactionUnits(new KualiDecimal(1)); // TODO: Get real units.
+        transactionLine.setTransactionUnits(amount);
         
         return transactionLine;
     }
@@ -639,27 +611,15 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Minus, up.
         if (isIncrease) {
             amount = currentCash.subtract(cashLimit);
-            amount = amount.setScale(2, BigDecimal.ROUND_UP);
+            amount = amount.setScale(0, BigDecimal.ROUND_UP);
         }
         // Plus, down.
         else {
             amount = currentCash.add(cashLimit);
-            amount = amount.setScale(2, BigDecimal.ROUND_DOWN);
+            amount = amount.setScale(0, BigDecimal.ROUND_DOWN);
         }
         
         return new KualiDecimal(amount);
-    }
-    
-    /**
-     * Given a CashSweepModel BO, lookup the corresponding PooledFundControl BO
-     * using the income sweep investment code.
-     * 
-     * @param cashSweepModel
-     * @return PooledFundControl
-     */
-    private PooledFundControl getPooledFundControl(CashSweepModel cashSweepModel, boolean isIncome) {
-        String sweepInvestment = isIncome ? cashSweepModel.getIncomeSweepInvestment() : cashSweepModel.getPrincipleSweepInvestment();
-        return businessObjectService.findBySinglePrimaryKey(PooledFundControl.class, sweepInvestment);
     }
     
     /**
@@ -743,28 +703,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private String getSaleDescription() {
         return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION);
     }
-
-    /**
-     * 
-     * This method...
-     * @param cashSweepModel
-     * @return
-     */
-    private String getPooledAssetSaleOffsetCode(CashSweepModel cashSweepModel, boolean isIncome) {
-        PooledFundControl pooledFundControl = getPooledFundControl(cashSweepModel, isIncome);
-        return pooledFundControl.getFundAssetSaleOffsetTranCode();
-    }
-    
-    /**
-     * 
-     * This method...
-     * @param cashSweepModel
-     * @return
-     */
-    private String getPooledAssetPurchaseOffsetCode(CashSweepModel cashSweepModel, boolean isIncome) {
-        PooledFundControl pooledFundControl = getPooledFundControl(cashSweepModel, isIncome);
-        return pooledFundControl.getFundAssetPurchaseOffsetTranCode();
-    }
     
     /**
      * 
@@ -782,6 +720,200 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
         
         return max;
+    }
+    
+    /**
+     * Extracts errors for error report writing.
+     * 
+     * @return a list of error messages
+     */
+    protected List<String> extractGlobalVariableErrors() {
+        List<String> result = new ArrayList<String>();
+
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+
+        Set<String> errorKeys = errorMap.keySet();
+        List<ErrorMessage> errorMessages = null;
+        Object[] messageParams;
+        String errorKeyString;
+        String errorString;
+
+        for (String errorProperty : errorKeys) {
+            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            for (ErrorMessage errorMessage : errorMessages) {
+                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                messageParams = errorMessage.getMessageParameters();
+
+                // MessageFormat.format only seems to replace one
+                // per pass, so I just keep beating on it until all are gone.
+                if (StringUtils.isBlank(errorKeyString)) {
+                    errorString = errorMessage.getErrorKey();
+                }
+                else {
+                    errorString = errorKeyString;
+                }
+                System.out.println(errorString);
+                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                    errorString = MessageFormat.format(errorString, messageParams);
+                }
+                result.add(errorString);
+            }
+        }
+
+        // clear the stuff out of globalvars, as we need to reformat it and put it back
+        GlobalVariables.getMessageMap().clear();
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetIncreaseDoc
+     * @param isIncome
+     */
+    private void writeProcessedTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
+
+        createCashSweepProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        createCashSweepProcessedReportValues.setColumnHeading2(assetIncreaseDoc.getDocumentNumber());
+        createCashSweepProcessedReportValues.setColumnHeading3(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        
+        List<EndowmentTransactionLine> transLines = assetIncreaseDoc.getTargetTransactionLines();
+        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
+        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
+        for (EndowmentTransactionLine tranLine : transLines) {
+            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
+            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
+        }
+        
+        createCashSweepProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
+        if (isIncome) {
+            createCashSweepProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading7("");
+            createCashSweepProcessedReportValues.setColumnHeading8("");
+        }
+        else {
+            createCashSweepProcessedReportValues.setColumnHeading5("");
+            createCashSweepProcessedReportValues.setColumnHeading6("");
+            createCashSweepProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+        }
+
+        createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
+        createCashSweepProcessedReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetDecreaseDoc
+     * @param isIncome
+     */
+    private void writeProcessedTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
+
+        createCashSweepProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        createCashSweepProcessedReportValues.setColumnHeading2(assetDecreaseDoc.getDocumentNumber());
+        createCashSweepProcessedReportValues.setColumnHeading3(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        
+        List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getSourceTransactionLines();
+        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
+        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
+        for (EndowmentTransactionLine tranLine : transLines) {
+            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
+            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
+        }
+        
+        createCashSweepProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
+        if (isIncome) {
+            createCashSweepProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading7("");
+            createCashSweepProcessedReportValues.setColumnHeading8("");
+        }
+        else {
+            createCashSweepProcessedReportValues.setColumnHeading5("");
+            createCashSweepProcessedReportValues.setColumnHeading6("");
+            createCashSweepProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
+            createCashSweepProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+        }
+
+        createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
+        createCashSweepProcessedReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetIncreaseDoc
+     * @param tranLine
+     * @param isIncome
+     */
+    private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
+        
+        createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        createCashSweepExceptionReportValues.setColumnHeading2(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+        if (isIncome) {
+            createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading6("");
+            createCashSweepExceptionReportValues.setColumnHeading7("");
+        }
+        else {
+            createCashSweepExceptionReportValues.setColumnHeading4("");
+            createCashSweepExceptionReportValues.setColumnHeading5("");
+            createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+        }
+
+        createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
+        createCashSweepExceptionReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetDecreaseDoc
+     * @param tranLine
+     * @param isIncome
+     */
+    private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
+        
+        createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        createCashSweepExceptionReportValues.setColumnHeading2(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+        if (isIncome) {
+            createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading6("");
+            createCashSweepExceptionReportValues.setColumnHeading7("");
+        }
+        else {
+            createCashSweepExceptionReportValues.setColumnHeading4("");
+            createCashSweepExceptionReportValues.setColumnHeading5("");
+            createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+            createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+        }
+
+        createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
+        createCashSweepExceptionReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * Writes the reason row and inserts a blank line.
+     * 
+     * @param reasonMessage
+     */
+    private void writeExceptionTableReason(String reasonMessage) {
+        createCashSweepExceptionReportReason.setColumnHeading1("Reason:");
+        createCashSweepExceptionReportReason.setColumnHeading2(reasonMessage);
+        createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportReason);
+        createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
     
     /**
@@ -870,6 +1002,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setCreateCashSweepProcessedReportWriterService(ReportWriterService createCashSweepProcessedReportWriterService) {
         this.createCashSweepProcessedReportWriterService = createCashSweepProcessedReportWriterService;
+    }
+
+    /**
+     * Sets the configService attribute value.
+     * @param configService The configService to set.
+     */
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
     }
     
 }

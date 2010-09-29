@@ -26,7 +26,6 @@
 		        <ref bean="KemidAuthorizations-rolePrincipalIdForSearching"/>
                 <ref bean="KemidAuthorizations-rolePrincipal.principalName"/>
                 <ref bean="KemidAuthorizations-rolePrincipal.name"/>
-                <ref bean="KemidAuthorizations-role.roleId"/>
                 <ref bean="KemidAuthorizations-role.roleName"/>
 		        <ref bean="KemidAuthorizations-roleTerminationDate"/>
 		        <ref bean="KemidAuthorizations-active"/>
@@ -96,10 +95,6 @@
     	<property name="name" value="roleId" />
     	<property name="label" value="Role Code" />
     	<property name="shortLabel" value="Role"/>
-    	<property name="control">
-      		<ref bean="HiddenControl" />
-    	</property>
-    	<property name="displayLabelAttribute" value="role.roleName"/>
   	</bean>
 	<bean id="KemidAuthorizations-rolePrincipalId" parent="KemidAuthorizations-rolePrincipalId-parentBean" />
 
@@ -120,7 +115,6 @@
     	<property name="shortLabel" value="Princ Name"/>
     	<property name="displayLabelAttribute" value="rolePrincipal.principalName"/>
     </bean>
-
     <bean id="KemidAuthorizations-rolePrincipal.principalName" parent="KemidAuthorizations-rolePrincipal.principalName-parentBean"/>
 
     <bean id="KemidAuthorizations-rolePrincipal.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" p:name="rolePrincipal.principalName" p:label="Role Principal Name" p:shortLabel=" Role Principal Name" p:required="false">
@@ -128,7 +122,6 @@
         <bean parent="KualiUserControlDefinition" p:universalIdAttributeName="rolePrincipalId" p:userIdAttributeName="rolePrincipal"/>
       </property>
     </bean>
-
     <bean id="KemidAuthorizations-rolePrincipal.name" parent="KemidAuthorizations-rolePrincipal.name-parentBean"/>
 
     <bean id="KemidAuthorizations-rolePrincipal.name-parentBean" abstract="true" parent="PersonImpl-name">
@@ -136,14 +129,6 @@
       <property name="label" value="Role Principal Name"/>
       <property name="required" value="false"/>
     </bean>  
-    <bean id="KemidAuthorizations-role.roleId" parent="KemidAuthorizations-role.roleId-parentBean"/>
-
-    <bean id="KemidAuthorizations-role.roleId-parentBean" parent="RoleImpl-roleId" abstract="true" p:name="role.roleId" p:label="Role Id" p:shortLabel="Role Id" p:required="false">
-    	<property name="control">
-      		<ref bean="HiddenControl" />
-    	</property>
-    </bean>
-
     <bean id="KemidAuthorizations-role.roleName" parent="KemidAuthorizations-role.roleName-parentBean"/>
 
     <bean id="KemidAuthorizations-role.roleName-parentBean" abstract="true" parent="RoleImpl-roleName">

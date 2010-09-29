@@ -708,7 +708,9 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="role.roleName" />
+                          p:attributeName="roleId" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="role.roleName" />                          
                     <bean parent="FieldDefinition"
                           p:attributeName="rolePrincipal.principalName" />
                     <bean parent="FieldDefinition"

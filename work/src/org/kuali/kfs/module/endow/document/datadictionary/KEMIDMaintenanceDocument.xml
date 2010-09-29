@@ -512,7 +512,12 @@
           </property>
           <property name="maintainableFields">
             <list>
-              <dd:maintField attributeName="role.roleName" required="true"/> 
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="roleId"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition" 
+                    p:name="role.roleName"
+                    p:unconditionallyReadOnly="true" />                    
               <dd:maintField attributeName="rolePrincipalId" unconditionallyReadOnly="true" required="true"/>
               <dd:maintField attributeName="rolePrincipal.principalName" required="true"/>                    
               <bean parent="MaintainableFieldDefinition" 

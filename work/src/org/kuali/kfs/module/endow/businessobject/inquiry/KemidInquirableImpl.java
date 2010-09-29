@@ -24,12 +24,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalBalance;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
+import org.kuali.kfs.module.endow.businessobject.KemidAuthorizations;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
@@ -62,6 +62,7 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
         String currentProcessDateString = kemService.getCurrentSystemProcessDate();
 
         setViewableAgreements(kemid);
+        setViewableAuthorizations(kemid);
         setViewableSourcesOfFunds(kemid);
         setViewableBenefittingOrgs(kemid);
         setViewablePayoutInstructions(kemid, currentProcessDateString);
@@ -91,6 +92,26 @@ public class KemidInquirableImpl extends KfsInquirableImpl {
 
         kemid.setKemidAgreements(activeKemidAgreements);
     }
+
+    /**
+     * Sets the viewable Authorizations list - if an Authorizations is not active it is not viewable
+     * 
+     * @param kemid
+     */
+    private void setViewableAuthorizations(KEMID kemid) {
+        // show only active Authorizations
+        List<KemidAuthorizations> activeKemidAuthorizations = new ArrayList<KemidAuthorizations>();
+        List<KemidAuthorizations> kemidAuthorizations = kemid.getKemidAuthorizations();
+
+        for (KemidAuthorizations kemidAuthorization : kemidAuthorizations) {
+            if (kemidAuthorization.isActive()) {
+                activeKemidAuthorizations.add(kemidAuthorization);
+            }
+        }
+
+        kemid.setKemidAuthorizations(activeKemidAuthorizations);
+    }
+
 
     /**
      * Sets the viewable sources of funds list - if a source of funds is not active it is not viewable

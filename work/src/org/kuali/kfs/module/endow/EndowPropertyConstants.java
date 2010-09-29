@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow;
 
 
-
 public class EndowPropertyConstants {
 
     // Endowment common fields
@@ -125,6 +124,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_SOURCE_OF_FUNDS_TAB = "kemidSourcesOfFunds";
     public static final String KEMID_BENEFITTING_ORGS_TAB = "kemidBenefittingOrganizations";
     public static final String KEMID_GENERAL_LEDGER_ACCOUNTS_TAB = "kemidGeneralLedgerAccounts";
+    public static final String KEMID_AUTHORIZATIONS_TAB = "kemidAuthorizations";
     public static final String KEMID_PAY_INSTRUCTIONS_TAB = "kemidPayoutInstructions";
     public static final String KEMID_USE_CRITERIA_TAB = "kemidUseCriteria";
     public static final String KEMID_SPECIAL_INSTRUCTIONS_TAB = "kemidSpecialInstructions";
@@ -568,13 +568,13 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE = "lineTypeCode";
     public static final String TRANSACTION_ARCHIVE_CORPUS_INDICATOR = "corpusIndicator";
-    
+
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
     public static final String TRANSACTION_ARCHIVE_ETRAN_CODE = "etranCode";
 
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
-    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";    
+    public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
     public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicatorCode";
 
 
@@ -594,7 +594,7 @@ public class EndowPropertyConstants {
     // Endowment Recurring Cash Transfer
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE = "sourceEtranCode";
-    
+
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE = "nextProcessDate";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE = "frequencyCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE = "transactionType";
@@ -604,8 +604,8 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PERCENT = "targetPercent";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_USE_ETRAN_CODE = "targetUseEtranCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_INCOME_OR_PRINCIPAL_CODE = "targetIncomeOrPrincipal";
-    
-    
+
+
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_COA_CODE = "targetChartOfAccountsCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ACCOUNT_NUMBER = "targetAccountsNumber";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE = "targetFinancialObjectCode";
@@ -618,9 +618,9 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
 
-    public static class ColumnNames{
-        
-        public static class UpdateCorpus{
+    public static class ColumnNames {
+
+        public static class UpdateCorpus {
             public static final String TRANSACTION_ARCHIVE_KEMID = "TRAN_KEMID";
             public static final String TRANSACTION_CORPUS_AMT = "TRAN_CORPUS_AMT";
             public static final String CRNT_ENDOW_CORPUS_VAL = "CRNT_CORPUS_VAL";

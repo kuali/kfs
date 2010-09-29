@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CloseCode;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
+import org.kuali.kfs.module.endow.businessobject.KemidAuthorizations;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
 import org.kuali.kfs.module.endow.businessobject.KemidDonorStatement;
@@ -38,7 +39,6 @@ import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.businessobject.KemidSourceOfFunds;
 import org.kuali.kfs.module.endow.businessobject.KemidSpecialInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
-import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.KemidHoldingTaxLotOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.ValidateDateBasedOnFrequencyCodeService;
@@ -51,6 +51,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
@@ -102,6 +103,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             isValid &= validateSourceOfFunds();
             isValid &= validateBenefittingOrgs();
             isValid &= validateGeneralLedgerAccounts();
+            isValid &= validateKemidAuthorizations();
             isValid &= validatePayoutInstructions();
             isValid &= validateKemidDonorStatements();
             isValid &= validateFees();
@@ -149,6 +151,11 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             success &= checkGeneralLedgerAccount(generalLedgerAccount);
         }
 
+        if (bo instanceof KemidAuthorizations) {
+            KemidAuthorizations authorization = (KemidAuthorizations) bo;
+            success &= checkAuthorization(authorization, -1);
+        }
+
         if (bo instanceof KemidPayoutInstruction) {
             KemidPayoutInstruction payoutInstruction = (KemidPayoutInstruction) bo;
             success &= checkPayoutInstruction(payoutInstruction, -1);
@@ -190,24 +197,24 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
         success &= super.processAddCollectionLineBusinessRules(document, collectionName, bo);
         return success;
     }
-    
+
     /**
-     * This method will validate if income restriction code is "P" (Permanently Restricted)
-     * Rule: Type_inc_restr_cd cannot be P (Permanently Restricted).
+     * This method will validate if income restriction code is "P" (Permanently Restricted) Rule: Type_inc_restr_cd cannot be P
+     * (Permanently Restricted).
      * 
      * @param document
      * @return true if Income Restriction code is not "P" else return false
      */
     private boolean validateIncomeRestrictionCode(Document document) {
         boolean rulesPassed = true;
-        
+
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         KEMID kemid = (KEMID) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        
+
         if (EndowConstants.TypeRestrictionPresetValueCodes.PERMANENT_TYPE_RESTRICTION_CODE.equalsIgnoreCase(kemid.getIncomeRestrictionCode())) {
             GlobalVariables.getMessageMap().putError(EndowPropertyConstants.TYPE_INC_RESTR_CD, EndowKeyConstants.TypeRestrictionCodeConstants.ERROR_PERMANENT_INDICATOR_CANNOT_BE_USED_FOR_TYPE_RESTRICTION_CODE);
             return false;
-            
+
         }
         return rulesPassed;
     }
@@ -375,6 +382,20 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
 
         return success;
 
+    }
+
+    /**
+     * Checks that the given authorization is valid.
+     * 
+     * @param authorization
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    private boolean checkAuthorization(KemidAuthorizations authorization, int index) {
+        boolean success = true;
+        success &= validateRoleInKFSEndowNamespace(authorization, index);
+
+        return success;
     }
 
     /**
@@ -844,11 +865,11 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the GeneralLedgerAccounts tab. In KEMID spec, section 6.5.1.1, item 1 and 2, the rules should be updated to : 
-     * 1. One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to I must exist for each END_KEMID_T record.
+     * Validates the GeneralLedgerAccounts tab. In KEMID spec, section 6.5.1.1, item 1 and 2, the rules should be updated to : 1.
+     * One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to I must exist for each END_KEMID_T record.
      * 2. One and ONLY ONE ACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P must exist for each END_KEMID_T
-     * record where the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is NOT equal to NA (Not Applicable) 
-     * 3. If the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is equal to NA (Not Applicable), each END_KEMID_T record can have
+     * record where the TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is NOT equal to NA (Not Applicable) 3. If the
+     * TYP_PRIN_RESTR_CD for the associated END_KEMID_T: TYP_CD is equal to NA (Not Applicable), each END_KEMID_T record can have
      * either zero or one INACTIVE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P
      * 
      * @return true if valid, false otherwise
@@ -918,6 +939,76 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
         }
 
         return valid;
+
+    }
+
+    /**
+     * Validates the KEMID Authorizations.
+     * 
+     * @return true if valid, false otherwise
+     */
+    private boolean validateKemidAuthorizations() {
+        boolean isValid = true;
+        String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + EndowPropertyConstants.KEMID_AUTHORIZATIONS_TAB + ".";
+        List<KemidAuthorizations> authorizations = newKemid.getKemidAuthorizations();
+
+        // if sys param END_KEMID_ROLE_T_RECORD_REQUIRED_IND is yes the Kemid must have at least one active entry in the
+        // authorizations tab
+        String authorizationReqParamVal = SpringContext.getBean(ParameterService.class).getParameterValue(KEMID.class, EndowConstants.EndowmentSystemParameter.ROLE_REQUIRED_IND);
+
+        if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(authorizationReqParamVal)) {
+            // At least one active records must exist
+            if (authorizations == null || authorizations.size() == 0) {
+                putFieldError(EndowPropertyConstants.KEMID_AUTHORIZATIONS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_AUTHORIZATION);
+                return false;
+            }
+            isValid &= validateKemidAuthorizationsHaveOneActiveEntry();
+        }
+
+        // check all authorizations are valid
+        for (int i = 0; i < authorizations.size(); i++) {
+            KemidAuthorizations authorization = (KemidAuthorizations) authorizations.get(i);
+            isValid &= checkAuthorization(authorization, i);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Checks if the Authorizations tab has at least one active entry.
+     * 
+     * @return true if it has one, false otherwise
+     */
+    private boolean validateKemidAuthorizationsHaveOneActiveEntry() {
+        boolean hasActiveAuthorization = false;
+        for (KemidAuthorizations authorization : newKemid.getKemidAuthorizations()) {
+            if (authorization.isActive()) {
+                hasActiveAuthorization = true;
+                break;
+            }
+        }
+        return hasActiveAuthorization;
+    }
+
+    /**
+     * Validates that the role namespace is KFS-ENDOW.
+     * 
+     * @param authorization
+     * @return true if valid, false otherwise
+     */
+    private boolean validateRoleInKFSEndowNamespace(KemidAuthorizations authorization, int index) {
+
+        if (!authorization.getRole().getNamespaceCode().equalsIgnoreCase(EndowConstants.KFS_ENDOW_ROLE_NAMESPACE)) {
+            if (index == -1) {
+                putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + EndowPropertyConstants.KEMID_AUTHORIZATIONS_TAB + "." + EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_ID, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_AUTHORIZATION_ROLE_NAMESPACE_ENDOW);
+            }
+            else {
+                putFieldError(EndowPropertyConstants.KEMID_AUTHORIZATIONS_TAB + "[" + index + "]" + "." + EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_ID, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_AUTHORIZATION_ROLE_NAMESPACE_ENDOW);
+            }
+            return false;
+        }
+        else
+            return true;
 
     }
 

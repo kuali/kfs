@@ -67,7 +67,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         setAgreementsIds();
         setSourceOfFundsSeq();
         updateBenefittingOrgs(maintenanceDocument);
-        setAuthorizationsSeqNbr();
+        updateAuthorizations(maintenanceDocument);
         setPayoutInstructionsSeq();
         setUseCriteriaSeq();
         setFeeMethodSequence();
@@ -238,6 +238,54 @@ public class KemidPreRule extends MaintenancePreRulesBase {
             kemidAuthorizations.setRoleSequenceNumber(new KualiInteger(++sequenceStart));
         }
 
+    }
+
+    /**
+     * Updates the necessary fields on the Authorizations like the sequence numbers and the role termination date.
+     * 
+     * @param maintenanceDocument
+     */
+    private void updateAuthorizations(MaintenanceDocument maintenanceDocument) {
+        // the order in which these methods are called should be preserved
+        setAuthorizationsSeqNbr();
+        setAuthorizationsTerminationDate(maintenanceDocument);
+    }
+
+    /**
+     * Sets the role termination date to current date if authorization has been inactivated.
+     * 
+     * @param maintenanceDocument
+     */
+    private void setAuthorizationsTerminationDate(MaintenanceDocument maintenanceDocument) {
+        KEMService kemService = SpringContext.getBean(KEMService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+
+        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
+            if (newKemid.getKemidAuthorizations().size() != 0) {
+
+                Map<KualiInteger, KemidAuthorizations> oldKemidAuthorizations = new HashMap<KualiInteger, KemidAuthorizations>();
+
+                if (oldKemid.getKemidAuthorizations().size() != 0) {
+                    for (KemidAuthorizations authorization : oldKemid.getKemidAuthorizations()) {
+                        oldKemidAuthorizations.put(authorization.getRoleSequenceNumber(), authorization);
+                    }
+                }
+
+                for (KemidAuthorizations authorization : newKemid.getKemidAuthorizations()) {
+                    KemidAuthorizations oldAuthorization = oldKemidAuthorizations.get(authorization.getRoleSequenceNumber());
+
+                    boolean isActiveIndChanged = false;
+                    if (ObjectUtils.isNotNull(oldAuthorization)) {
+                        isActiveIndChanged = (!authorization.isActive() && oldAuthorization.isActive());
+
+                    }
+
+                    if (isActiveIndChanged) {
+                        authorization.setRoleTerminationDate(kemService.getCurrentDate());
+                    }
+                }
+            }
+        }
     }
 
     /**

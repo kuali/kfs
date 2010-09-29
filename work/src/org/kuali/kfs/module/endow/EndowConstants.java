@@ -21,6 +21,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
+
+    public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
+
     public static final String YES = "Y";
     public static final String NO = "N";
 
@@ -173,8 +176,10 @@ public class EndowConstants extends JSTLConstants {
         public static final String LONG_TERM_GAIN_LOSS_DESCRIPTION = "LONG_TERM_GAIN_LOSS_DESCRIPTION";
         public static final String ALLOW_NEGATIVE_BALANCE = "ALLOW_NEGATIVE_BALANCE";
         public static final String INCOME_TRANSFER_DESCRIPTION = "INCOME_TRANSFER_DESCRIPTION";
-        public static final String INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE = "INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE";        
-        
+        public static final String INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE = "INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE";
+
+        public static final String ROLE_REQUIRED_IND = "ROLE_REQUIRED_IND";
+
     }
 
     public static class KemidValueOptions {
@@ -246,8 +251,8 @@ public class EndowConstants extends JSTLConstants {
         public static final int FEE_RATE_MAX_SCALE = 4;
         public static final String ENDOWMENT_HISTORY_VALUE_ADJUSTMENT = "EHVA";
         public static final String FEE_BASE_CODE_VALUE_FOR_INCOME = "I";
-        public static final String FEE_BASE_CODE_VALUE_FOR_PRINCIPAL = "P"; 
-        public static final String FEE_BASE_CODE_VALUE_FOR_INCOME_AND_PRINCIPAL = "B";        
+        public static final String FEE_BASE_CODE_VALUE_FOR_PRINCIPAL = "P";
+        public static final String FEE_BASE_CODE_VALUE_FOR_INCOME_AND_PRINCIPAL = "B";
     }
 
     // Fee Balances Types values...
@@ -339,13 +344,13 @@ public class EndowConstants extends JSTLConstants {
         public static final String TRANSACTION_POSTED_NO = "N";
         public static final String TRANSACTION_POSTED_YES = "Y";
     }
-    
+
     // Document Type Codes
     public static final class DocumentTypeNames {
         public static final String ENDOWMENT_ASSET_INCREASE = "EAI";
         public static final String ENDOWMENT_ASSET_DECREASE = "EAD";
         public static final String ENDOWMENT_CASH_INCREASE = "ECI";
         public static final String ENDOWMENT_CASH_DECREASE = "ECD";
-        public static final String ENDOWMENT_CASH_TRANSFER = "ECT";        
+        public static final String ENDOWMENT_CASH_TRANSFER = "ECT";
     }
 }

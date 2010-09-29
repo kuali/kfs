@@ -157,6 +157,8 @@ public class EndowKeyConstants {
         public static final String ERROR_KEMID_FEE_PCT_CHRG_TO_PRIN_CANNOT_EXCEED_ZERO_IF_TYPE_RESTR_CD_NA = "error.document.kemid.fees.percentageOfFeeChargedToPrincCannotExceedZeroIfTypeRestrCdNA";
         public static final String ERROR_KEMID_FEE_START_DATE_NOT_VALID = "error.document.kemid.fees.feeStartDateNotValid";
         public static final String ERROR_ENTERED_KEMID_INVALID = "error.document.kemid.invalid";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_AUTHORIZATION = "error.document.kemid.authorizations.mustHaveAtLeastOneActiveAuthorization";
+        public static final String ERROR_KEMID_AUTHORIZATION_ROLE_NAMESPACE_ENDOW = "error.document.kemid.authorizations.authorizationRoleMustHaveNamespaceEndow";
     }
 
     public static class TicklerConstants {

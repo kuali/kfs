@@ -21,6 +21,19 @@
 			<label>Endowment Cash Decrease</label>
 			<parent>ET</parent>
       		<docHandler> ${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+ 			<routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="EndowmentApprovers"/>
+          			<requests name="EndowmentApprovers"/>
+        	</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes> 		     		
 		</documentType>
 	</documentTypes>
 </data>

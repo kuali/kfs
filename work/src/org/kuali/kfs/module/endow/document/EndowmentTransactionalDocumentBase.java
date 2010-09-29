@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
-
+    protected static final String CHECK_IF_ROUTE_SPLIT = "CheckIfNoRoute";
     private String transactionSubTypeCode;
     private String transactionSourceTypeCode;
     private boolean transactionPosted;
@@ -46,6 +46,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private boolean noRouteIndicator = true;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.
@@ -220,6 +221,19 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             
             businessObjectService.save(entry);    
         }
-    }        
+    }   
+    
+    public void setNoRouteIndicator(boolean noRouteIndicator){
+        this.noRouteIndicator = noRouteIndicator;
+    }
+    
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(this.CHECK_IF_ROUTE_SPLIT))
+            return noRouteIndicator;
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+
+    
+    
 
 }

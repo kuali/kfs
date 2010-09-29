@@ -597,6 +597,9 @@
 		<property name="kemService">
 			<ref bean="kemService"/>
 		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
 	</bean>
 	
  	<bean id="holdingHisgtoryMarketValueUpdateJob" parent="scheduledJobDescriptor">

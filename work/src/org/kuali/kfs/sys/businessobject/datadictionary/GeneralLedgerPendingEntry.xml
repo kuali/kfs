@@ -422,13 +422,13 @@
         <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />        
-        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="false" />
         <bean parent="FieldDefinition" p:attributeName="documentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
         <bean parent="FieldDefinition" p:attributeName="projectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
-        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" p:treatWildcardsAndOperatorsAsLiteral="false" />
         <bean parent="FieldDefinition" p:attributeName="organizationReferenceId" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ActualBalanceTypeOptionFinder"/>
         <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />

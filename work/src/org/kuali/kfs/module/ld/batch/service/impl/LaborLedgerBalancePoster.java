@@ -50,9 +50,12 @@ public class LaborLedgerBalancePoster implements PostTransaction {
             ledgerBalance = tempLedgerBalance;
             operationType = KFSConstants.OperationType.UPDATE;
         }
-        String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
-        amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
+        if (transaction.getBalanceType().isFinancialOffsetGenerationIndicator()) { 
+            if (!transaction.getTransactionDebitCreditCode().equals(transaction.getObjectType().getFinObjectTypeDebitcreditCd())) { 
+                amount = amount.negated(); 
+            } 
+        } 
 
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
 

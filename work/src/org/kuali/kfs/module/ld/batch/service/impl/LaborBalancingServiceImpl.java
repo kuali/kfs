@@ -28,9 +28,7 @@ import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.gl.businessobject.BalanceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -44,6 +42,7 @@ import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -186,9 +185,14 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
             }
             
             // Make sure the amount update properly recognized debit / credit logic. This is modeled after LaborPosterServiceImpl#updateLedgerBalance
-            String debitCreditCode = laborOriginEntry.getTransactionDebitCreditCode();
             KualiDecimal amount = laborOriginEntry.getTransactionLedgerEntryAmount();
-            amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
+            laborOriginEntry.refreshReferenceObject(KFSPropertyConstants.BALANCE_TYPE); 
+            laborOriginEntry.refreshReferenceObject(KFSPropertyConstants.OBJECT_TYPE); 
+            if (laborOriginEntry.getBalanceType().isFinancialOffsetGenerationIndicator()) { 
+                if (!laborOriginEntry.getTransactionDebitCreditCode().equals(laborOriginEntry.getObjectType().getFinObjectTypeDebitcreditCd())) { 
+                    amount = amount.negated(); 
+                } 
+            } 
     
             ledgerBalanceHistory.addAmount(laborOriginEntry.getUniversityFiscalPeriodCode(), amount);
             

@@ -93,7 +93,7 @@
 "250","250","1","42","KFS-CAM","Create / Maintain Record(s)","Users allowed to create new and maintain existing  records using the Asset document.","Y"
 "251","251","1","29","KFS-BC","Use Screen","Allows users to access Budget Construction Selection.","Y"
 "256","256","1","23","KFS-SYS","Look Up Records","Allow users to access the Batch File lookup.","Y"
-"257","257","1","29","KFS-PURAP","Use Screen","Authorizes users to take the Print action on a Purchase Order.","Y"
+"257","257","1","29","KFS-PURAP","Use Screen","Authorizes users to take the Shop Catalogs (or B2B) action.","Y"
 "258","258","1","45","KFS-PURAP","Add Note / Attachment","Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.","Y"
 "26","26","1","1","KFS-CAM","Separate","Users authorized to separate assets.","Y"
 "260","260","1","46","KFS-PURAP","View Note / Attachment","Authorizes users to view attachments with a type of ""Invoice Image"" on Payment Request documents.","Y"

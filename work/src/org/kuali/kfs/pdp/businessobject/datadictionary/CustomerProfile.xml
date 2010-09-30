@@ -165,7 +165,7 @@
   </bean>
   
   <bean id="CustomerProfile-contactFullName" parent="CustomerProfile-contactFullName-parentBean"/>
-  <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="contactFullName"/>
     <property name="label" value="Primary Contact Name"/>
     <property name="shortLabel" value="Primary Contact Name"/>

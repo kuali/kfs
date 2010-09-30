@@ -357,11 +357,19 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             if(objectsToSave!=null){
                 for(DelegateTypeInfo delegateInfo: objectsToSave){
                     for(DelegateMemberCompleteInfo delegateMemberInfo: delegateInfo.getMembers()){
+                        java.sql.Date fromDate = null;
+                        java.sql.Date toDate = null;
+                        if ( delegateMemberInfo.getActiveFromDate() != null ) {
+                            fromDate = new java.sql.Date( delegateMemberInfo.getActiveFromDate().getTime() ); 
+                        }
+                        if ( delegateMemberInfo.getActiveToDate() != null ) {
+                            toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getTime() ); 
+                        }
                         getRoleManagementService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
                             delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
                             delegateMemberInfo.getMemberTypeCode(), delegateMemberInfo.getDelegationTypeCode(), 
                             delegateInfo.getRoleId(), delegateMemberInfo.getQualifier(), 
-                            delegateMemberInfo.getActiveFromDate(), delegateMemberInfo.getActiveToDate());
+                            fromDate, toDate);
                     }
                 }
             }
@@ -371,9 +379,17 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             RoleMemberCompleteInfo savedObject;
             if(objectsToSave!=null){
                 for(RoleMemberCompleteInfo roleMember: objectsToSave){
+                    java.sql.Date fromDate = null;
+                    java.sql.Date toDate = null;
+                    if ( roleMember.getActiveFromDate() != null ) {
+                        fromDate = new java.sql.Date( roleMember.getActiveFromDate().getTime() ); 
+                    }
+                    if ( roleMember.getActiveToDate() != null ) {
+                        toDate = new java.sql.Date( roleMember.getActiveToDate().getTime() ); 
+                    }
                     savedObject = getRoleManagementService().saveRoleMemberForRole(roleMember.getRoleMemberId(),
                             roleMember.getMemberId(), roleMember.getMemberTypeCode(), roleMember.getRoleId(), 
-                            roleMember.getQualifier(), roleMember.getActiveFromDate(), roleMember.getActiveToDate());
+                            roleMember.getQualifier(), fromDate, toDate);
                     List<RoleResponsibilityActionInfo> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
                     if(roleRspActionsToSave!=null){
                         for(RoleResponsibilityActionInfo rspActionInfo: roleRspActionsToSave){

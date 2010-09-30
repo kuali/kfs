@@ -222,7 +222,7 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
 
         Calendar calendarAcquiredDate = Calendar.getInstance();
         calendarAcquiredDate.setTime(acquiredDate);
-        calendarAcquiredDate.add(Calendar.MONTH, 6);
+        calendarAcquiredDate.add(Calendar.MONTH, EndowConstants.SHORT_VS_LONG_TERM_PERIOD);
 
         if (calendarAcquiredDate.getTime().before(currentDate)) {
             // long term gain/loss

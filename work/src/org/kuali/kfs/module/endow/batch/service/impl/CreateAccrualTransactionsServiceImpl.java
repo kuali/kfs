@@ -42,7 +42,6 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -105,8 +104,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         accrualTransactionsExceptionReportWriterService.writeTableHeader(accrualTransactionsExceptionReportHeader);
 
-        String maxNumberOfLinesString = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES);
-        int maxNumberOfTranLines = Integer.parseInt(maxNumberOfLinesString);
+        int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
 
         List<Security> securities = getAllSecuritiesWithNextPayDateEqualCurrentDate();
 

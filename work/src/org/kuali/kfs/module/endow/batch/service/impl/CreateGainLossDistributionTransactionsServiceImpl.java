@@ -37,11 +37,11 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -68,6 +68,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
     private UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService;
+    private KEMService kemService;
 
     private ReportWriterService gainLossDistributionExceptionReportWriterService;
 
@@ -136,8 +137,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     private boolean processGainLossDistribution(boolean isShortTerm) {
         boolean result = true;
         List<PooledFundValue> pooledFundValues = null;
-        String maxNumberOfLinesString = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES);
-        int maxNumberOfTranLines = Integer.parseInt(maxNumberOfLinesString);
+        int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
 
         // process short term gain/loss
 
@@ -545,6 +545,15 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      */
     public void setUpdateHoldingAdjustmentDocumentTaxLotsService(UpdateHoldingAdjustmentDocumentTaxLotsService updateHoldingAdjustmentDocumentTaxLotsService) {
         this.updateHoldingAdjustmentDocumentTaxLotsService = updateHoldingAdjustmentDocumentTaxLotsService;
+    }
+
+    /**
+     * Sets the kemService.
+     * 
+     * @param kemService
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
 
 }

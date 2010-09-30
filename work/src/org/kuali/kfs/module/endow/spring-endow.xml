@@ -328,6 +328,9 @@
 		<property name="updateHoldingAdjustmentDocumentTaxLotsService">
 			<ref bean="updateHoldingAdjustmentDocumentService" />
 		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
 			
 		<property name="gainLossDistributionExceptionReportWriterService">
 			<ref bean="gainLossDistributionExceptionReportWriterService" />

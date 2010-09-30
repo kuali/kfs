@@ -393,7 +393,10 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkAuthorization(KemidAuthorizations authorization, int index) {
         boolean success = true;
-        success &= validateRoleInKFSEndowNamespace(authorization, index);
+
+        if (authorization.isActive()) {
+            success &= validateRoleInKFSEndowNamespace(authorization, index);
+        }
 
         return success;
     }

@@ -338,16 +338,15 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
         if (rulesPassed) {
 
-            // TODO figure out if/how we use the ad hoc recipients list
             String noRouteIndVal = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {
                 holdingAdjustmentDocument.setNoRouteIndicator(noRouteIndicator);
+                // TODO figure out if/how we use the ad hoc recipients list
                 documentService.routeDocument(holdingAdjustmentDocument, "Created by Distribution of Gains and Losses Batch process.", null);
 
                 // set short/long term process complete to Yes
-
                 if (isShortTerm) {
                     pooledFundValue.setShortTermGainLossDistributionComplete(true);
                 }

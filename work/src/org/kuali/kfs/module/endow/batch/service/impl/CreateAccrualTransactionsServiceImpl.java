@@ -274,12 +274,12 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         if (rulesPassed) {
 
-            // TODO figure out if/how we use the ad hoc recipients list
             String noRouteIndVal = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {
                 cashIncreaseDocument.setNoRouteIndicator(noRouteIndicator);
+                // TODO figure out if/how we use the ad hoc recipients list
                 documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
 
                 // set accrued income to zero and copy current value in prior accrued income

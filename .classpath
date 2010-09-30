@@ -97,6 +97,7 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xalan-2.7.0.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xercesImpl-2.9.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlbeans-2.4.0.jar" />
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlunit-1.3.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xom-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xstream-1.2.2.jar" />
 	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar" />
@@ -245,6 +246,11 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-jaxws_2.1_spec-1.0.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-stax-api_1.0_spec-1.0.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

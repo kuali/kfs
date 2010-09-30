@@ -51,7 +51,6 @@
 								universalId="${KualiForm.document.borrowerUniversalIdentifier}" 
 								userNameFieldName="document.borrowerPerson.name" label="User" 
 								userName="${KualiForm.document.borrowerPerson.name}"
-								renderOtherFields="true"						  
 								lookupParameters="document.borrowerPerson.principalName:principalName" 
 								fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,name:document.borrowerPerson.name" 
 								hasErrors="${hasErrors}" readOnly="${readOnly}" />

@@ -23,8 +23,6 @@
 <%@ attribute name="lookupParameters" required="false" %>
 <%@ attribute name="referencesToRefresh" required="false" %>
 
-<%@ attribute name="renderOtherFields" required="false" %>
-
 <%@ attribute name="hasErrors" required="false" %>
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="onblur" required="false" %>
@@ -56,13 +54,11 @@
     <html:hidden write="true" property="${userNameFieldName}"/>       
 </div>
 	
-<c:if test="${renderOtherFields}">
-	<c:if test="${!empty universalIdFieldName}">
-		<input type="hidden" name="${universalIdFieldName}" value="${universalId}" />
-	</c:if>
-	<c:if test="${!empty userNameFieldName}">
-		<input type="hidden" name="${userNameFieldName}" value="${userName}" />
-	</c:if>
+<c:if test="${!empty universalIdFieldName}">
+	<input type="hidden" name="${universalIdFieldName}" value="${universalId}" />
+</c:if>
+<c:if test="${!empty userNameFieldName}">
+	<input type="hidden" name="${userNameFieldName}" value="${userName}" />
 </c:if>
 
 <c:if test="${highlight}">

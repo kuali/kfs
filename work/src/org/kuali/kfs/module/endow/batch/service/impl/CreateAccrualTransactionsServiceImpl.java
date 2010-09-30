@@ -275,16 +275,12 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         if (rulesPassed) {
 
             // TODO figure out if/how we use the ad hoc recipients list
-            String blanketApproval = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.BLANKET_APPROVAL_IND);
-            boolean blanketAppriovalIndicator = EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false;
+            String noRouteIndVal = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.NO_ROUTE_IND);
+            boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {
-                if (blanketAppriovalIndicator) {
-                    documentService.blanketApproveDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                }
-                else {
-                    documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
-                }
+                cashIncreaseDocument.setNoRouteIndicator(noRouteIndicator);
+                documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
 
                 // set accrued income to zero and copy current value in prior accrued income
                 for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {

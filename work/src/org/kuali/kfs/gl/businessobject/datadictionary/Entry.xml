@@ -380,7 +380,7 @@
         <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"  p:treatWildcardsAndOperatorsAsLiteral="false" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder"/>
         <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"/>
       </list>

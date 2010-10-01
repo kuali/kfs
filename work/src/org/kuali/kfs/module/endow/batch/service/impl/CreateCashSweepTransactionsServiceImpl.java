@@ -117,7 +117,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         createCashSweepProcessedReportHeader.setColumnHeading1("Document Type");
         createCashSweepProcessedReportHeader.setColumnHeading2("eDoc Number");
         createCashSweepProcessedReportHeader.setColumnHeading3("Security Id");
-        createCashSweepProcessedReportHeader.setColumnHeading4("KEMID");
+        createCashSweepProcessedReportHeader.setColumnHeading4("Lines Generated");
         createCashSweepProcessedReportHeader.setColumnHeading5("Income Amount");
         createCashSweepProcessedReportHeader.setColumnHeading6("Income Units");
         createCashSweepProcessedReportHeader.setColumnHeading7("Principle Amount");
@@ -270,7 +270,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
-                if (i%maxNumberOfTransactionLines == 0) {
+                if (i != 0 && i%maxNumberOfTransactionLines == 0) {
                     // Validate and route the document.
                     routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
                     assetDecreaseDoc = null;
@@ -322,7 +322,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
-                if (i%maxNumberOfTransactionLines == 0) {
+                if (i != 0 && i%maxNumberOfTransactionLines == 0) {
                     // Validate and route the document.
                     routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
                     assetIncreaseDoc = null;
@@ -408,13 +408,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
-            boolean approvalIndicator = getApprovalIndicator(true); // TODO: Wait for Bonnie.
+            boolean noRouteIndicator = getNoRouteIndicator(true);
             try {
+                assetDecreaseDoc.setNoRouteIndicator(noRouteIndicator);
                 documentService.routeDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetDecrease(assetDecreaseDoc, isIncome);
             }
             catch (WorkflowException ex) {
-                writeExceptionTableReason(ex.getLocalizedMessage());
+                writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
                 LOG.error(ex.getLocalizedMessage());
             }
         }
@@ -439,18 +440,20 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
-            boolean approvalIndicator = getApprovalIndicator(false); // TODO: Wait for Bonnie.
+            boolean noRouteIndicator = getNoRouteIndicator(false);
             try {
+                assetIncreaseDoc.setNoRouteIndicator(noRouteIndicator);
                 documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetIncrease(assetIncreaseDoc, isIncome);
             }
             catch (WorkflowException ex) {
-                writeExceptionTableReason(ex.getLocalizedMessage());
+                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
                 LOG.error(ex.getLocalizedMessage());
             }
         }
         else {
             List<String> errorMessages = extractGlobalVariableErrors();
+            writeExceptionTableRowAssetIncrease(assetIncreaseDoc, null, isIncome);
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
@@ -533,6 +536,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             assetIncrease.setTargetTransactionSecurity(targetTransactionSecurity);
         }
         catch (WorkflowException ex) {
+            writeExceptionTableReason("Workflow error while trying to create EAI document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
         
@@ -569,6 +573,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             
         }
         catch (WorkflowException ex) {
+            writeExceptionTableReason("Workflow error while trying to create EAD document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
 
@@ -672,29 +677,29 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param isSale
      * @return
      */
-    private boolean getApprovalIndicator(boolean isSale) {
-        boolean approvalIndicator = isSale ? getSaleBlanketApprovalIndicator() : getPurchaseBlanketApprovalIndicator();
+    private boolean getNoRouteIndicator(boolean isSale) {
+        boolean approvalIndicator = isSale ? getSaleNoRouteIndicator() : getPurchaseNoRouteIndicator();
         return approvalIndicator;
     }
     
     /**
-     * This method returns the true or false value of the purchase blanket
-     * approval indicator.
+     * This method returns the true or false value of the purchase
+     * no route indicator.
      * @return
      */
-    private boolean getPurchaseBlanketApprovalIndicator() {
-      String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
-      return (EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false);
+    private boolean getPurchaseNoRouteIndicator() {
+      String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
+      return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
     
     /**
-     * This method returns the true or false value of the sale blanket
-     * approval indicator.
+     * This method returns the true or false value of the sale
+     * no route indicator.
      * @return
      */
-    private boolean getSaleBlanketApprovalIndicator() {
-        String blanketApproval = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
-        return (EndowConstants.YES.equalsIgnoreCase(blanketApproval) ? true : false);
+    private boolean getSaleNoRouteIndicator() {
+        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
+        return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
     
     /**
@@ -856,20 +861,23 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         
         createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
         createCashSweepExceptionReportValues.setColumnHeading2(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
-        if (isIncome) {
-            createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading6("");
-            createCashSweepExceptionReportValues.setColumnHeading7("");
+        
+        if (tranLine != null) {
+            createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            if (isIncome) {
+                createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading6("");
+                createCashSweepExceptionReportValues.setColumnHeading7("");
+            }
+            else {
+                createCashSweepExceptionReportValues.setColumnHeading4("");
+                createCashSweepExceptionReportValues.setColumnHeading5("");
+                createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+            }
         }
-        else {
-            createCashSweepExceptionReportValues.setColumnHeading4("");
-            createCashSweepExceptionReportValues.setColumnHeading5("");
-            createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-        }
-
+        
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
@@ -886,20 +894,23 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         
         createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
         createCashSweepExceptionReportValues.setColumnHeading2(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
-        createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
-        if (isIncome) {
-            createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading6("");
-            createCashSweepExceptionReportValues.setColumnHeading7("");
+        
+        if (tranLine != null) {
+            createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            if (isIncome) {
+                createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading6("");
+                createCashSweepExceptionReportValues.setColumnHeading7("");
+            }
+            else {
+                createCashSweepExceptionReportValues.setColumnHeading4("");
+                createCashSweepExceptionReportValues.setColumnHeading5("");
+                createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+            }
         }
-        else {
-            createCashSweepExceptionReportValues.setColumnHeading4("");
-            createCashSweepExceptionReportValues.setColumnHeading5("");
-            createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-            createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-        }
-
+        
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }

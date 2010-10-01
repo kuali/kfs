@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Dan' id='6039-1-1' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_ADDR_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-2' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_CNTCT_PHN_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-3' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_CONTR_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-4' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_CUST_NBR_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-5' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_DFLT_ADDR_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-6' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_HDR_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-7' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_PHN_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-8' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_STPLTN_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+  <changeSet author='Dan' id='6039-1-9' failOnError='true'>
+    <comment>advance all the VNDR_* sequence in KULDBA to 10000. T</comment>
+    <insert tableName='VNDR_TAX_CHG_GNRTD_ID'>
+      <column name='id' valueNumeric='10000' />
+    </insert>
+    <modifySql dbms='mysql'>
+      <replace replace='SYS_GUID' with='uuid()' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='SYSDATE' with='now()' />
+    </modifySql>
+    <modifySql dbms='oracle'>
+      <replace replace='SYS_GUID' with='sys_guid()' />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

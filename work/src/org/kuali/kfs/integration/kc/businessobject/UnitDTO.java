@@ -19,10 +19,22 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 
 import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "unitDTO", propOrder = {
+    "organizationId",
+    "parentUnitNumber",
+    "unitAdministrators",
+    "unitName",
+    "unitNumber"
+})
 public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable {
 
     private static final long serialVersionUID = 7517946137745989736L;

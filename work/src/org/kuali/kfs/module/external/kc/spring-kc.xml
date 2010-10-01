@@ -112,6 +112,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
+	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
+	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-dly30/remoting/institutionalUnitSoapService?wsdl"/>
+	</bean>
+	
 	<bean id="unitDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />

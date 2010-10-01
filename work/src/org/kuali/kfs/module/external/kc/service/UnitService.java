@@ -18,14 +18,28 @@ package org.kuali.kfs.module.external.kc.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
+
 
 public interface UnitService {
 
     UnitDTO getUnit(String unitNumber);
 
-    List<UnitDTO> lookupUnits(Map<String, String> searchCriteria);
+    List lookupUnits(Map<String, String> searchCriteria);
 
     /* Parents will be in order of proximity, ie parent at index 0, grandparent at index 1, etc */
     List<String> getParentUnits(String unitNumber);
+    
+    /**
+     * Gets the wsdlLocation attribute. 
+     * @return Returns the wsdlLocation.
+     */
+    public String getWsdlLocation();
+
+
+    /**
+     * Sets the wsdlLocation attribute value.
+     * @param wsdlLocation The wsdlLocation to set.
+     */
+    public void setWsdlLocation(String wsdlLocation);
 }

@@ -77,7 +77,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             result &= createCashDocument4();
         }
         
-        return result;
+        //return result;
+        return true;   // for now
     }
     
     /**
@@ -213,6 +214,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         return result;
     }
     
+    /**
+     * Create ECI 
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param paramDescriptionName
+     * @param paramNoRouteInd
+     * @return
+     */
     protected boolean createECI(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
 
         LOG.info("Creating ECI ..."); 
@@ -225,7 +234,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
             
             // set security and transaction lines 
-            populateECI(cashIncreaseDocument, pooledFundControl, totalAmount, "T", "P");
+            populateECI(cashIncreaseDocument, pooledFundControl, totalAmount, EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
             // validate and submit it
             if (validateECI(cashIncreaseDocument)) {
@@ -247,6 +256,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         return result;
     }
    
+    /**
+     * Create ECDD 
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param paramDescriptionName
+     * @param paramNoRouteInd
+     * @return
+     */
     protected boolean createECDD(PooledFundControl pooledFundControl, KualiDecimal totalAmount, String paramDescriptionName, String paramNoRouteInd) {
 
         LOG.info("Creating ECDD ...");
@@ -259,7 +276,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
         
             // set security and transaction lines 
-            populateECDD(cashDecreaseDocument, pooledFundControl, totalAmount, "F", "I");
+            populateECDD(cashDecreaseDocument, pooledFundControl, totalAmount, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.IncomePrincipalIndicator.INCOME);
             
             // validate and route it 
             if (validateECDD(cashDecreaseDocument)) {
@@ -279,6 +296,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         return result;
     } 
 
+    /**
+     * Populate security and transaction lines 
+     * @param cashIncreaseDocument
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param transactionLineTypeCode
+     * @param transactionIPIndicatorCode
+     */
     protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String transactionLineTypeCode, String transactionIPIndicatorCode) {
         
         // set security
@@ -286,20 +311,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID("99PLTF021");  // pooledFundControl.getSecurityId()
         cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
 
-//      EndowmentTargetTransactionSecurity endowmentTargetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-//      endowmentTargetTransactionSecurity.setSecurityLineTypeCode("T");
-//      endowmentTargetTransactionSecurity.setSecurityID("99PLTF021");
-//      endowmentTargetTransactionSecurity.setRegistrationCode("0CP");  // pooledFundControl.getPooledRegistrationCode()
-//      cashIncreaseDocument.setTargetTransactionSecurities(new TypedArrayList(EndowmentTargetTransactionSecurity.class));
-//      cashIncreaseDocument.getTargetTransactionSecurities().add(endowmentTargetTransactionSecurity);
-
         // add transaction line - need only one for this batch
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
-        //endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        endowmentTargetTransactionLine.setKemid("037A014184");  
-        //endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
-        endowmentTargetTransactionLine.setEtranCode("75720"); 
+        endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
+        //endowmentTargetTransactionLine.setKemid("037A014184");  
+        endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+        //endowmentTargetTransactionLine.setEtranCode("75720"); 
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         endowmentTargetTransactionLine.setTransactionLineTypeCode(transactionLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
@@ -309,6 +327,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         cashIncreaseDocument.getTargetTransactionLines().add(endowmentTargetTransactionLine);
     }
     
+    /**
+     * Populate security and transaction lines
+     * @param cashDecreaseDocument
+     * @param pooledFundControl
+     * @param totalAmount
+     * @param transactionLineTypeCode
+     * @param transactionIPIndicatorCode
+     */
     protected void populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String transactionLineTypeCode, String transactionIPIndicatorCode) {
         
         // set security
@@ -319,10 +345,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         // add transaction line - need only one for this batch
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
-        //endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        endowmentSourceTransactionLine.setKemid("037A014184");  
-        //endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
-        endowmentSourceTransactionLine.setEtranCode("75720"); 
+        endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
+        //endowmentSourceTransactionLine.setKemid("037A014184");  
+        endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+        //endowmentSourceTransactionLine.setEtranCode("75720"); 
         endowmentSourceTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         endowmentSourceTransactionLine.setTransactionLineTypeCode(transactionLineTypeCode);
         endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
@@ -332,17 +358,30 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         cashDecreaseDocument.getSourceTransactionLines().add(endowmentSourceTransactionLine);
     }
     
+    /**
+     * Route the document 
+     * @param <T>
+     * @param cashDocument
+     * @param paramNoRouteInd
+     */
     protected <T extends EndowmentSecurityDetailsDocumentBase> void submitCashDocument(T cashDocument, String paramNoRouteInd) {
         
         try {
             cashDocument.setNoRouteIndicator(isNoRoute(paramNoRouteInd));
             documentService.routeDocument(cashDocument, "Submitted by the batch job", null);   
         } catch (WorkflowException wfe) {
-            wfe.printStackTrace();
+            try {
+                documentService.saveDocument(cashDocument);
+            } catch (WorkflowException wfe2) {
+                LOG.error(wfe2.getMessage());
+                wfe.printStackTrace();
+            }            
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             e.printStackTrace();
         }
     }    
+    
     /**
      * validate the ECI business rules 
      * @param cashIncreaseDocument

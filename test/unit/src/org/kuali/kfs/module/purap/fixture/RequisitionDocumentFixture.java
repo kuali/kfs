@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.TaxFixture.TaxTestCaseFixture;
@@ -711,10 +713,11 @@ public enum RequisitionDocumentFixture {
         String parameterSuffix;
         
         if (taxTestCaseFixture.isDeliveryStateTaxable()){
-            SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", doc.getDeliveryStateCode());
+            ParameterService paramSrv = SpringContext.getBean(ParameterService.class);
+            paramSrv.setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, doc.getDeliveryStateCode());
             parameterSuffix = "FOR_TAXABLE_STATES";
-        }else{
-            SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", INVALID_VALUE);                
+        } else {
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, INVALID_VALUE);
             parameterSuffix = "FOR_NON_TAXABLE_STATES";
         }
         
@@ -742,5 +745,11 @@ public enum RequisitionDocumentFixture {
         }
         
         return doc;
+    }
+
+    public String toString() {
+
+        return new ToStringBuilder(this).append("requisitionOrganizationReference1Text", requisitionOrganizationReference1Text).append("requisitionOrganizationReference2Text", requisitionOrganizationReference2Text).append("requisitionOrganizationReference3Text", requisitionOrganizationReference3Text).append("alternate1VendorName", alternate1VendorName).append("alternate2VendorName", alternate2VendorName).append("alternate3VendorName", alternate3VendorName)
+                .append("alternate4VendorName", alternate4VendorName).append("alternate5VendorName", alternate5VendorName).append("organizationAutomaticPurchaseOrderLimit", organizationAutomaticPurchaseOrderLimit).append("purapDocumentFixture", purapDocumentFixture).append("purchasingDocumentFixture", purchasingDocumentFixture).append("requisitionItemFixtures", requisitionItemFixtures).toString();
     }
 }

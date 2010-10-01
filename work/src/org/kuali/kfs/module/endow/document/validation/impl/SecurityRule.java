@@ -71,7 +71,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             isValid &= checkCustomRequiredFields();
             isValid &= checkUnitValue();
             isValid &= checkValuesBasedOnValuationMethod();
-            isValid &= checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed();            
+            isValid &= checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed();
         }
 
         return isValid;
@@ -215,7 +215,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
         // If the class code for the security has a valuation method of U (Unit Value), the user can only enter a value in the
         // SEC_UNIT_VAL. No entry is allowed in the SEC_VAL_BY_MKT field.
         if (classCode != null && EndowConstants.ValuationMethod.UNITS.equalsIgnoreCase((classCode.getValuationMethod()))) {
-            if (newSecurity.getMarketValue() != null) {
+            if (newSecurity.getSecurityValueByMarket() != null) {
                 putFieldError(EndowPropertyConstants.SECURITY_VALUE_BY_MARKET, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_VAL_BY_MKT_MUST_BE_EMPTY_WHEN_VAL_MTHD_UNITS);
             }
         }
@@ -233,19 +233,19 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
     protected boolean checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed() {
 
         boolean isValid = true;
-        
+
         newSecurity.refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
         ClassCode classCode = newSecurity.getClassCode();
 
         if (classCode.getClassCodeType() != null && classCode.getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.POOLED_INVESTMENT)) {
             String incomePayFrequencyCode = newSecurity.getIncomePayFrequency();
-            
+
             if (StringUtils.isEmpty(incomePayFrequencyCode)) {
                 isValid = false;
                 putFieldError(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_INCOME_PAY_FREQUENCY_CODE_NOT_ENTERED);
             }
         }
-        
+
         return isValid;
     }
 }

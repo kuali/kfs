@@ -114,15 +114,15 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
         // clear fields for copy as we want only certain fields to be copied over
         newSecurity.setDescription(KFSConstants.EMPTY_STRING);
         newSecurity.setTickerSymbol(KFSConstants.EMPTY_STRING);
-        newSecurity.setUnitValue(BigDecimal.ZERO);
+        newSecurity.setUnitValue(null);
         newSecurity.setUnitsHeld(null);
         newSecurity.setValuationDate(null);
         newSecurity.setUnitValueSource(KFSConstants.EMPTY_STRING);
         newSecurity.setPreviousUnitValue(null);
         newSecurity.setPreviousUnitValueDate(null);
         newSecurity.setCarryValue(null);
-        newSecurity.setMarketValue(BigDecimal.ZERO);
-        newSecurity.setSecurityValueByMarket(BigDecimal.ZERO);
+        newSecurity.setMarketValue(null);
+        newSecurity.setSecurityValueByMarket(null);
         newSecurity.setLastTransactionDate(null);
         newSecurity.setIncomeNextPayDate(null);
         // newSecurity.setIncomeRate(null);

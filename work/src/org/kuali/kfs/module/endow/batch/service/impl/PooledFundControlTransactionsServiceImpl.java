@@ -335,11 +335,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected <T extends EndowmentSecurityDetailsDocumentBase> void submitCashDocument(T cashDocument, String paramNoRouteInd) {
         
         try {
-            if (isNoRoute(paramNoRouteInd)) {
-                documentService.routeDocument(cashDocument, "Approved by the batch job", null);
-            } else {
-                documentService.routeDocument(cashDocument, "Submitted by the batch job", null);
-            }    
+            cashDocument.setNoRouteIndicator(isNoRoute(paramNoRouteInd));
+            documentService.routeDocument(cashDocument, "Submitted by the batch job", null);   
         } catch (WorkflowException wfe) {
             wfe.printStackTrace();
         } catch (Exception e) {

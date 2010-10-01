@@ -391,6 +391,23 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         if (defaults == null) {
       
             //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
+            List <String> parentUnits = null;
+            try {
+                UnitService unitService = SpringContext.getBean(UnitService.class);
+                parentUnits = unitService.getParentUnits(unitNumber);
+            } catch (Exception ex) {
+                LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+                GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit", ex.getMessage());
+            }
+
+            if (parentUnits != null) {
+                for (String unit : parentUnits) {
+                    criteria.put("kcUnit", unit);    
+                    defaults = (AccountAutoCreateDefaults) businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
+                    if (defaults != null) break;
+                }
+            }
+ 
             /*
             UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
             List<String> parentUnits = unitService.getParentUnits(unitNumber);

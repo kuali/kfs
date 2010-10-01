@@ -40,13 +40,9 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     protected KEMService kemService;
     protected BusinessObjectService businessObjectService;
 
-//    public List<PooledFundValue> getPooledFundValues() {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("distributeIncomeOnDate", kemService.getCurrentDate());
-//        fieldValues.put("incomeDistributionComplete", "N");
-//        List<PooledFundValue> pooledFundValues = (List<PooledFundValue>) businessObjectService.findMatching(PooledFundValue.class, fieldValues);    
-//    }
-    
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getIncomeEntraCode(java.lang.String)
+     */
     public String getIncomeEntraCode(String securityId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(EndowPropertyConstants.SECURITY_ID, securityId);       
@@ -56,7 +52,10 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         fieldValues.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, classCode);
         return ((ClassCode)businessObjectService.findByPrimaryKey(ClassCode.class, fieldValues)).getSecurityIncomeEndowmentTransactionPostCode();        
     }
-    
+
+    /**
+     * @deprecated
+     */
     public BigDecimal getDistributionAmount(String securityId) {
         BigDecimal totalDistributionAmount = new BigDecimal(0);        
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -69,12 +68,9 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     }
     
     /**
-     * 
-     * Get the 
-     * @param securityId
-     * @return
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getHoldingTaxLotListGroupedBySecurityId(java.lang.String)
      */
-    public List<BigDecimal> getHoldingTaxLotListGroupedBy(String securityId) {
+    public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId) {
         Criteria crit = new Criteria();
         crit.addEqualTo(EndowPropertyConstants.SECURITY_ID, securityId);
         QueryByCriteria query = new QueryByCriteria(HoldingTaxLot.class, crit);
@@ -85,6 +81,9 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         return (List<BigDecimal>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
  
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getSecurityForIncomeDistribution()
+     */
     public List<Security> getSecurityForIncomeDistribution() {
 
         // get pooledFundValue query with current date and the latest distribution income date
@@ -109,19 +108,7 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     } 
     
     /**
-     * select * from end_hldg_tax_lot_t h
-     * where sec_id in (
-     * select sec_id from end_sec_t
-     *    where sec_id in (
-     *      select pool_sec_id from end_pool_fnd_val_t
-     *        where dstrb_proc_on_dt in (
-     *          select max(dstrb_proc_on_dt) from end_pool_fnd_val_t
-     *            group by pool_sec_id
-     *          )
-     *          and dstrb_proc_cmplt = 'N';   
-     *    )  
-     * )
-     * and hldg_units > 0;
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getHoldingTaxLotForIncomeDistribution()
      */
     public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution() {
 
@@ -152,38 +139,10 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         
         return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }  
- 
+
     /**
-     * @deprecated
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getKemidPayoutInstructionForECT(java.lang.String)
      */
-    public List<HoldingTaxLot> getHoldingTaxLotList2() {
-        
-        Criteria subCri = new Criteria();
-        //subCri.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        //subCri.addLessOrEqualThan(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        //subCri.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, "N");        
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundValue.class, subCri);
-        subQuery.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
-        Criteria crit1 = new Criteria();
-        crit1.addIn(EndowPropertyConstants.SECURITY_ID, subQuery);
-        List<Security> SecurityRecords = (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, crit1));
-                
-        Criteria crit2 = new Criteria();
-        crit2.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_UNITS, new BigDecimal(0));
-        Criteria crit3 = new Criteria();
-        for (Security security : SecurityRecords) {
-            Criteria c = new Criteria();
-            c.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, security.getId());
-            crit3.addOrCriteria(c);
-        }
-        crit2.addAndCriteria(crit3);
-        crit2.addOrderBy(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID);
-        crit2.addOrderBy(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE);
-        crit2.addOrderBy(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR);        
-        
-        return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, crit2));
-    } 
-    
     public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid) {
         Criteria crit = new Criteria();
         Criteria crit2 = new Criteria();

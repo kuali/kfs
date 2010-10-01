@@ -24,13 +24,36 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 
 public interface IncomeDistributionForPooledFundDao {
 
+    /**
+     * Get the list of holding tax lot
+     * @return List<HoldingTaxLot>
+     */
     public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution();
     
+    /**
+     * Get the income transaction code for the given security id
+     * @param securityId
+     * @return String
+     */
     public String getIncomeEntraCode(String securityId);
     
-    public List<BigDecimal> getHoldingTaxLotListGroupedBy(String securityId);
+    /**
+     * Get the list of holding tax lot grouped by the given security id
+     * @param securityId
+     * @return List<BigDecimal>
+     */
+    public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId);
     
+    /**
+     * Get the pay income records for building ECT 
+     * @param kemid
+     * @return List<KemidPayoutInstruction>
+     */
     public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid);
     
+    /**
+     * Get the list of Security for income distribution purposes
+     * @return List<Security>
+     */
     public List<Security> getSecurityForIncomeDistribution();
 }

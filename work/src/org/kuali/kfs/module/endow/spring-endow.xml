@@ -656,6 +656,11 @@
                 <ref bean="createCashSweepTransactionsStep" />
             </list>
         </property>
+        <property name="dependencies">
+            <map>
+                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
     </bean>
     <bean id="createCashSweepTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep" parent="wrappedStep">
         <property name="wrappingBatchServices">
@@ -731,6 +736,11 @@
 				<ref bean="createAutomatedCashInvestmentTransactionsStep" />
 			</list>
 		</property>
+        <property name="dependencies">
+            <map><!--
+                <entry key="createAccrualTransactionsJob" value="hardDependency" />
+            --></map>
+        </property>
 	</bean>
 	<bean id="createAutomatedCashInvestmentTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep" parent="wrappedStep">
         <property name="wrappingBatchServices">

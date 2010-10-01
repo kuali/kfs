@@ -304,7 +304,7 @@ public class PosterServiceImpl implements PosterService {
             reportWriterService.writeStatisticLine("SFBL RECORDS UPDATED  (GL_SF_BALANCES_T)   %,9d", reportSummary.get("GL_SF_BALANCES_T,U"));
             reportWriterService.writeStatisticLine("ACBL RECORDS INSERTED (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,I"));
             reportWriterService.writeStatisticLine("ACBL RECORDS UPDATED  (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,U"));
-            reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                    %,9d", reportSummary.get("WARNING,I"));
+            reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                      %,9d", reportSummary.get("WARNING,I"));
         }
         catch (RuntimeException re) {
             LOG.error("postEntries stopped due to: " + re.getMessage() + " on line number : " + ecount, re);
@@ -420,9 +420,6 @@ public class PosterServiceImpl implements PosterService {
                     errors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
                 }
             }
-
-            //init warning entry number
-            reportSummary.put("WARNING" + "," + GeneralLedgerConstants.INSERT_CODE, new Integer(0));
 
             if (errors.size() > 0) {
                 // Error on this transaction

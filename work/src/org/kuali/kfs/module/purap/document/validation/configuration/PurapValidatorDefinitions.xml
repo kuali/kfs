@@ -93,6 +93,10 @@
 	</bean>
 	
     <bean id="PurchasingAccountsPayable-fixErrorPathValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableFixErrorPathValidation" abstract="true" />
+    
+    <bean id="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.ItemTypeTaxPolicyValidation" abstract="true">
+    	<property name="purapService" ref="purapService"/>
+    </bean>
 
 <!-- Purchasing Definitions -->
 	<bean id="Purchasing-accountingLineDataDictionaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">

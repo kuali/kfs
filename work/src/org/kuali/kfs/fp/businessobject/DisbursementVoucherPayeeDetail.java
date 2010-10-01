@@ -141,6 +141,9 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      */
     public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
         this.disbVchrPayeeIdNumber = disbVchrPayeeIdNumber;
+        // KFSMI-5976 : Blanking out these fields so they are re-derived upon next access 
+        disbVchrVendorHeaderIdNumber = null;
+        disbVchrVendorDetailAssignedIdNumber = null;
     }
 
     /**

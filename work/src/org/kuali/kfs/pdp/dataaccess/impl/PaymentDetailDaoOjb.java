@@ -115,7 +115,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             Numbers n = summary.get(rsk);
             if (n == null) {
                 n = new Numbers();
-                n.amount = d.getCalculatedPaymentAmount();
+                n.amount = d.getNetPaymentAmount();
                 n.payments = 1;
                 n.payees = 1;
                 summary.put(rsk, n);
@@ -123,7 +123,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             }
             else {
                 n.payments++;
-                n.amount = n.amount.add(d.getCalculatedPaymentAmount());
+                n.amount = n.amount.add(d.getNetPaymentAmount());
                 if (lastGroupId.intValue() != d.getPaymentGroup().getId().intValue()) {
                     n.payees++;
                     lastGroupId = d.getPaymentGroup().getId();
@@ -144,18 +144,18 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     class Key {
-        public boolean pymtAttachment;
-        public boolean pymtSpecialHandling;
-        public boolean processImmediate;
+        public Boolean pymtAttachment;
+        public Boolean pymtSpecialHandling;
+        public Boolean processImmediate;
         public String customerShortName;
         public PaymentGroup paymentGroup;
 
         public Key(PaymentDetail d) {
-            this(d.getPaymentGroup().getPymtAttachment().booleanValue(),d.getPaymentGroup().getPymtSpecialHandling().booleanValue(),
-                    d.getPaymentGroup().getProcessImmediate().booleanValue(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName(), d.getPaymentGroup());
+            this(d.getPaymentGroup().getPymtAttachment(),d.getPaymentGroup().getPymtSpecialHandling(),
+                    d.getPaymentGroup().getProcessImmediate(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName(), d.getPaymentGroup());
         }
 
-        public Key(boolean att,boolean spec,boolean immed, String c, PaymentGroup paymentGroup) {
+        public Key(Boolean att,Boolean spec,Boolean immed, String c, PaymentGroup paymentGroup) {
             pymtAttachment = att;
             pymtSpecialHandling = spec;
             processImmediate = immed;
@@ -165,7 +165,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(customerShortName).toHashCode();
+            return new HashCodeBuilder(3, 5).append(pymtAttachment)
+            .append(pymtSpecialHandling)
+            .append(processImmediate)
+            .append(customerShortName).toHashCode();
         }
         
         @Override
@@ -174,7 +177,10 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
                 return false;
             }
             Key thisobj = (Key) obj;
-            return new EqualsBuilder().append(customerShortName, thisobj.customerShortName).isEquals();
+            return new EqualsBuilder().append(pymtAttachment, thisobj.pymtAttachment)
+            .append(pymtSpecialHandling, thisobj.pymtSpecialHandling)
+            .append(processImmediate, thisobj.processImmediate)
+            .append(customerShortName, thisobj.customerShortName).isEquals();
         }
 
         @Override

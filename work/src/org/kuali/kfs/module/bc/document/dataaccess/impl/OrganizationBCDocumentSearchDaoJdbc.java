@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
@@ -248,8 +249,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
-        String budgetFinancialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(BudgetConstructionDocument.class);
-        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetFinancialSystemDocumentTypeCode, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
         getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], principalName);

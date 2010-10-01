@@ -533,6 +533,28 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     public void setPaymentSummaryService(PaymentSummaryService paymentSummaryService) {
         this.paymentSummaryService = paymentSummaryService;
     }
+    
+    /**
+     * @return the parameter value for the new acquisition type code
+     */
+    public String getNewAcquisitionTypeCode() {
+        return getParameterService().getParameterValue(AssetGlobal.class, 
+                CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM); 
+    }
+    /**
+     * @return the parameter value for the capital object acquisition code group
+     */
+    public String getCapitalObjectAcquisitionCodeGroup() {
+        return getParameterService().getParameterValue(AssetGlobal.class, 
+                CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM);  
+    }
+    /**
+     * @return the parameter value for the not new acquisition code group 
+     */
+    public String getNonNewAcquisitionCodeGroup() {
+        return getParameterService().getParameterValue(AssetGlobal.class, 
+                CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM);         
+    }
 
 
 }

@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.document.authorization;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -40,20 +41,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDocumentAuthorizer.class);
     
-    @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-
-        Organization org = null;
-        if (businessObject instanceof MaintenanceDocument) {
-            org = (Organization) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
-        }
-        else {
-            org = (Organization) businessObject;
-        }
-        attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
-    }
-
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         Set<String> myDocumentActions = super.getDocumentActions(document, user, documentActions);
@@ -112,4 +99,26 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
 
         return isAuthorized;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        super.addRoleQualification(businessObject, attributes);
+
+        if (businessObject instanceof MaintenanceDocument) {
+            MaintenanceDocument maintDoc = (MaintenanceDocument)businessObject;
+            if ( maintDoc.getNewMaintainableObject() != null ) {
+                Organization newOrg = (Organization) maintDoc.getNewMaintainableObject().getBusinessObject();
+                if (!StringUtils.isBlank(newOrg.getChartOfAccountsCode())) {
+                    attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
+                }
+            }
+        }
+        else if (businessObject instanceof Organization) {
+            Organization newOrg = (Organization) businessObject;
+            if (!StringUtils.isBlank(newOrg.getChartOfAccountsCode())) {
+                attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
+            }
+        }  
+    } 
 }

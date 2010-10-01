@@ -70,6 +70,7 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
         Criteria criteria = new Criteria();
         criteria.addIsNull("vendorHeaderGeneratedIdentifier");
         criteria.addIsNull("vendorDetailAssignedIdentifier");
+        criteria.addEqualTo("active", true);
         return this.getItemMappingMap(criteria);
     }
 
@@ -78,6 +79,7 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
         Criteria criteria = new Criteria();
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderId);
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailId);
+        criteria.addEqualTo("active", true);
         return this.getItemMappingMap(criteria);
     }
 

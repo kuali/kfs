@@ -96,10 +96,9 @@ public class DepositWizardAction extends KualiAction {
         ActionForward dest = super.execute(mapping, form, request, response);
 
         // check authorization manually, since the auth-check isn't inherited by this class
-        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(cmDocTypeName);
+        DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT);
         Person luser = GlobalVariables.getUserSession().getPerson();
-        cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
+        cmDocAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT, luser);
 
         // populate the outgoing form used by the JSP if it seems empty
         String cmDocId = dwForm.getCashManagementDocId();
@@ -719,8 +718,6 @@ public class DepositWizardAction extends KualiAction {
      *         documentId
      */
     private ActionForward returnToSender(String cmDocId) {
-        String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");
         params.setProperty("command", "displayDocSearchView");

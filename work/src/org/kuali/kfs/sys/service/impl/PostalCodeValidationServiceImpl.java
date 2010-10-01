@@ -18,9 +18,12 @@ package org.kuali.kfs.sys.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -60,6 +63,14 @@ public class PostalCodeValidationServiceImpl implements PostalCodeValidationServ
 
         }
 
+        // verify state code exist
+        if (StringUtils.isNotBlank(postalCountryCode) && StringUtils.isNotBlank(postalStateCode)) {
+            State state = SpringContext.getBean(StateService.class).getByPrimaryId(postalCountryCode, postalStateCode);
+            if (state == null) {
+                GlobalVariables.getMessageMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_STATE_CODE_INVALID, postalStateCode);
+            }
+        }
+        
         return valid;
     }
 

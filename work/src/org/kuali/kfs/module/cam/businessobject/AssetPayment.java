@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -175,7 +176,8 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     public AssetPayment(AssetPaymentDetail assetPaymentDetail, String acquisitionTypeCode) {
         this(assetPaymentDetail);
 
-        if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        if (assetGlobalService.getNewAcquisitionTypeCode().equals(acquisitionTypeCode)) {
             setFinancialDocumentPostingDate(assetPaymentDetail.getExpenditureFinancialDocumentPostedDate());
             setFinancialDocumentPostingYear(assetPaymentDetail.getPostingYear());
             setFinancialDocumentPostingPeriodCode(assetPaymentDetail.getPostingPeriodCode());

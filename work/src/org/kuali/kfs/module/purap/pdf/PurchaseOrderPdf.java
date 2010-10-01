@@ -85,14 +85,24 @@ public class PurchaseOrderPdf extends PurapPdf {
             headerTable.getDefaultCell().setBorderWidth(0);
             headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
+            
+            Image logo = null;
             if (StringUtils.isNotBlank(logoImage)) {
-                logo = Image.getInstance(logoImage);
-                logo.scalePercent(3, 3);
-                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
+                try {
+                    logo = Image.getInstance(logoImage);
+                }
+                catch (FileNotFoundException e) {
+                    LOG.info("The logo image [" + logoImage + "] is not available.  Defaulting to the default image.");
+                }            
             }
-            else {
+            
+            if (logo == null) {
                 // if we don't use images
                 headerTable.addCell(new Phrase(new Chunk("")));
+            }
+            else {
+                logo.scalePercent(3, 3);
+                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
             }
             // Nested table for titles, etc.
             float[] nestedHeaderWidths = { 0.70f, 0.30f };
@@ -826,15 +836,26 @@ public class PurchaseOrderPdf extends PurapPdf {
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
+            
+            Image directorSignature = null;
             if (StringUtils.isNotBlank(directorSignatureImage)) {
-                Image directorSignature = Image.getInstance(directorSignatureImage);
+                try {
+                    directorSignature = Image.getInstance(directorSignatureImage);
+                }
+                catch (FileNotFoundException e) {
+                    LOG.info("The director signature image [" + directorSignatureImage + "] is not available.  Defaulting to the default image.");
+                }
+            }
+                                
+            if (directorSignature == null) {
+                // an empty cell if the contract manager signature image is not available.
+                cell = new PdfPCell();
+            }
+            else {
                 directorSignature.scalePercent(30, 30);
                 cell = new PdfPCell(directorSignature, false);
             }
-            else {
-                // if the director signature image is empty
-                cell = new PdfPCell();
-            }
+            
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
             cell.setBorderWidth(0);
@@ -864,14 +885,23 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // Contract manager signature, name and phone; only on non-APOs
         if (!po.getPurchaseOrderAutomaticIndicator()) {
+            
+            Image contractManagerSignature = null;
             if (StringUtils.isNotBlank(contractManagerSignatureImage)) {
-                Image contractManagerSignature = Image.getInstance(contractManagerSignatureImage);
-                contractManagerSignature.scalePercent(15, 15);
-                cell = new PdfPCell(contractManagerSignature, false);
+                try {
+                    contractManagerSignature = Image.getInstance(contractManagerSignatureImage);
+                } catch (FileNotFoundException e) {
+                    LOG.info("The contract manager image [" + contractManagerSignatureImage + "] is not available.  Defaulting to the default image.");
+                }
             }
-            else {
+            
+            if (contractManagerSignature == null) {
                 // an empty cell if the contract manager signature image is not available.
                 cell = new PdfPCell();
+            }
+            else {
+                contractManagerSignature.scalePercent(15, 15);
+                cell = new PdfPCell(contractManagerSignature, false);
             }
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             cell.setVerticalAlignment(Element.ALIGN_BOTTOM);

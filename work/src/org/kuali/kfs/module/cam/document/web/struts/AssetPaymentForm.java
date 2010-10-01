@@ -119,12 +119,9 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 
         AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
-        // Getting the document type code in order set it as default in the new source accounting line.
-        String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(AssetPaymentDocument.class);
-
         // Setting default document type.
         if (newSourceLine.getExpenditureFinancialDocumentTypeCode() == null || newSourceLine.getExpenditureFinancialDocumentTypeCode().trim().equals("")) {
-            newSourceLine.setExpenditureFinancialDocumentTypeCode(documentTypeCode);
+            newSourceLine.setExpenditureFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.ASSET_PAYMENT);
         }
 
         // Setting the default asset payment row document number.

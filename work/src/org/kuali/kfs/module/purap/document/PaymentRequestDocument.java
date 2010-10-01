@@ -837,7 +837,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getPurApSourceDocumentLabelIfPossible() {
-        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER);
     }
 
     public String getPurchaseOrderNotes() {

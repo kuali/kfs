@@ -906,6 +906,7 @@
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.AccountInquirable"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->

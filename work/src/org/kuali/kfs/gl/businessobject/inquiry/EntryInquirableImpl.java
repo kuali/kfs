@@ -19,6 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+
 /**
  * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
@@ -120,4 +126,32 @@ public class EntryInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
     }
+
+    /**
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.lang.String)
+     */
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
+        if (KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE.equals(attributeName)) {
+            if (businessObject instanceof Transaction) {
+                Transaction transaction = (Transaction) businessObject;
+                String docTypeCode = transaction.getFinancialDocumentTypeCode();
+
+                return getDocTypeInquiryUrl(docTypeCode);
+            }
+        }
+        else if (KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE.equals(attributeName)) {
+            if (businessObject instanceof Transaction) {
+                Transaction transaction = (Transaction) businessObject;
+                String docTypeCode = transaction.getReferenceFinancialDocumentTypeCode();
+
+                return getDocTypeInquiryUrl(docTypeCode);
+            }
+        }
+
+        return super.getInquiryUrl(businessObject, attributeName);
+    }
+    
+    
 }

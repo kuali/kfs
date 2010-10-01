@@ -78,7 +78,7 @@ public class DepositWizardForm extends KualiForm {
      * Sets the bank code for a new deposit to the setup default for the Cash Management document.
      */
     public void setDefautBankCode() {
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(CashManagementDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT);
         if (defaultBank != null) {
             this.bankCode = defaultBank.getBankCode();
             this.bank = defaultBank;

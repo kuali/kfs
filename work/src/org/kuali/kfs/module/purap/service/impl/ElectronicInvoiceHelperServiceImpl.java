@@ -37,7 +37,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
@@ -126,16 +125,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     private StringBuffer emailTextErrorList;
     
-    private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
-    private MailService mailService;
-    private ElectronicInvoiceMatchingService matchingService; 
-    private ElectronicInvoicingDao electronicInvoicingDao;
-    private BatchInputFileService batchInputFileService;
-    private VendorService vendorService;
-    private PurchaseOrderService purchaseOrderService;
-    private PaymentRequestService paymentRequestService;
-    private KualiConfigurationService kualiConfigurationService;
-    private DateTimeService dateTimeService;
+    protected ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
+    protected MailService mailService;
+    protected ElectronicInvoiceMatchingService matchingService; 
+    protected ElectronicInvoicingDao electronicInvoicingDao;
+    protected BatchInputFileService batchInputFileService;
+    protected VendorService vendorService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected PaymentRequestService paymentRequestService;
+    protected KualiConfigurationService kualiConfigurationService;
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
     
     public ElectronicInvoiceLoad loadElectronicInvoices() {
 
@@ -144,7 +144,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         String acceptDirName = getAcceptDirName();
         emailTextErrorList = new StringBuffer();
 
-        boolean moveFiles = BooleanUtils.toBoolean(SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND));
+        boolean moveFiles = SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND);
 
         if (LOG.isInfoEnabled()){
             LOG.info("Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
@@ -259,15 +259,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 }
             }
             
-            /**
-             * It's not needed to have the namespace added file after processing. Original file will be in base/accept/reject dir
-             * based on the processing result 
-             */
-//            try {
-//                FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
-//            }catch (IOException e) {
-//                throw new PurError(e);
-//            }
+            //  delete the .done file
+            deleteDoneFile(filesToBeProcessed[i]);
         }
 
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
@@ -1029,7 +1022,30 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         if (!rejectDocHolder.isInvoiceRejected()){
             validateInvoiceOrderValidForPREQCreation(rejectDocHolder);
         }
+    
+        //  determine which of the reject reasons we should suppress based on the parameter
+        List<String> ignoreRejectTypes = parameterService.getParameterValues(PurapConstants.PURAP_NAMESPACE, "ElectronicInvoiceReject", "SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL");
+        List<ElectronicInvoiceRejectReason> rejectReasonsToDelete = new ArrayList<ElectronicInvoiceRejectReason>();
+        for (ElectronicInvoiceRejectReason rejectReason : rejectDocument.getInvoiceRejectReasons()) {
+            String rejectedReasonTypeCode = rejectReason.getInvoiceRejectReasonTypeCode();
+            if (StringUtils.isNotBlank(rejectedReasonTypeCode)) {
+                if (ignoreRejectTypes.contains(rejectedReasonTypeCode)) {
+                    rejectReasonsToDelete.add(rejectReason);
+                }
+            }
+     }
         
+        //  remove the flagged reject reasons
+        if (!rejectReasonsToDelete.isEmpty()) {
+            rejectDocument.getInvoiceRejectReasons().removeAll(rejectReasonsToDelete);
+        }
+        
+        //  if no reject reasons, then clear error messages
+        if (rejectDocument.getInvoiceRejectReasons().isEmpty()) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+        }
+        
+        //  this automatically returns false if there are no reject reasons
         return !rejectDocHolder.isInvoiceRejected();
     }
     
@@ -1113,7 +1129,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         //Copied from PaymentRequestServiceImpl.populatePaymentRequest()
         //set bank code to default bank code in the system parameter
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(PaymentRequestDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(preqDoc.getClass());
         if (defaultBank != null) {
             preqDoc.setBankCode(defaultBank.getBankCode());
             preqDoc.setBank(defaultBank);
@@ -1379,6 +1395,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         purapItem.setItemUnitPrice(itemHolder.getInvoiceItemUnitPrice());
         purapItem.setItemQuantity(new KualiDecimal(itemHolder.getInvoiceItemQuantity()));
         purapItem.setItemTaxAmount(new KualiDecimal(itemHolder.getTaxAmount()));
+        purapItem.setItemCatalogNumber(itemHolder.getInvoiceItemCatalogNumber());
+        purapItem.setItemDescription(itemHolder.getInvoiceItemDescription());
         
         if (itemHolder.getSubTotalAmount() != null && 
             itemHolder.getSubTotalAmount().compareTo(KualiDecimal.ZERO) != 0){
@@ -1416,6 +1434,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         String invoiceSpecialHandlingDescription = orderHolder.getInvoiceSpecialHandlingDescription();
         
+        if(invoiceSpecialHandlingDescription == null && (orderHolder.getInvoiceSpecialHandlingAmount() != null && BigDecimal.ZERO.compareTo(orderHolder.getInvoiceSpecialHandlingAmount())!= 0) ){
+            invoiceSpecialHandlingDescription = PurapConstants.ElectronicInvoice.DEFAULT_SPECIAL_HANDLING_DESCRIPTION;
+        }
         if (StringUtils.isNotEmpty(invoiceSpecialHandlingDescription)) {
             if (StringUtils.isEmpty(purapItem.getItemDescription())) {
                 purapItem.setItemDescription(invoiceSpecialHandlingDescription);
@@ -1502,8 +1523,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                            String invoiceItemTypeCode,
                                            ElectronicInvoiceOrderHolder orderHolder){
         
-        return orderHolder.isItemTypeAvailableInItemMapping(invoiceItemTypeCode) && 
-               StringUtils.equals(orderHolder.getKauliItemTypeCodeFromMappings(invoiceItemTypeCode),itemTypeCode);
+        boolean isItemTypeAvailableInItemMapping = orderHolder.isItemTypeAvailableInItemMapping(invoiceItemTypeCode);
+        String invoiceItemTypeCodeFromMappings = orderHolder.getKauliItemTypeCodeFromMappings(itemTypeCode);
+        return isItemTypeAvailableInItemMapping && StringUtils.equals(invoiceItemTypeCodeFromMappings, invoiceItemTypeCode);
     }
      
     
@@ -1571,9 +1593,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     protected boolean moveFile(File fileForMove, String location) {
         File moveDir = new File(location);
-        return fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
+        boolean success = fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
+        return success;
     }
 
+    protected void deleteDoneFile(File invoiceFile) {
+        File doneFile = new File(invoiceFile.getAbsolutePath().replace(".xml", ".done"));
+        if (doneFile.exists()) {
+            doneFile.delete();
+        }
+    }
+    
     protected String getBaseDirName(){
         return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
     }
@@ -1632,6 +1662,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
 }

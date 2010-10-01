@@ -472,7 +472,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         request.setAttribute("printPDFUrl", printInvoicePDFUrl);
         request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
         request.setAttribute(KFSConstants.PARAMETER_DOC_ID, docId);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(CustomerInvoiceDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE);
         request.setAttribute("printLabel", label);
         return mapping.findForward("arPrintPDF");
         

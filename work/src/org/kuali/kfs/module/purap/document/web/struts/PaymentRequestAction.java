@@ -399,8 +399,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
         
         // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
-        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
+        //Calculate Payment request before rules since the rule check totalAmount.
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
+        SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
     }
 
     /**

@@ -172,8 +172,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPaymentRequestDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PaymentRequestDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST, GlobalVariables.getUserSession().getPerson());
         }
               
         return can;        

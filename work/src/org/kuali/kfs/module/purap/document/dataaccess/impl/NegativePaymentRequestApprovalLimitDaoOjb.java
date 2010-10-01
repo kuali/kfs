@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -39,7 +40,9 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     public Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode) {
         LOG.debug("Entering findByChart(String)");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartCode);
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        criteria.addIsNull(KFSPropertyConstants.ORGANIZATION_CODE);
+        criteria.addIsNull(KFSPropertyConstants.ACCOUNT_NUMBER);
         criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChart(String)");
@@ -53,8 +56,9 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber) {
         LOG.debug("Entering findByChartAndAccount(String, String)");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        criteria.addIsNull(KFSPropertyConstants.ORGANIZATION_CODE);
         criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChartAndAccount(String, String)");
@@ -68,8 +72,9 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode) {
         LOG.debug("Entering findByChartAndOrganization(String, String)");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartCode);
-        criteria.addEqualTo("organizationCode", organizationCode);
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+        criteria.addIsNull(KFSPropertyConstants.ACCOUNT_NUMBER);
         criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChartAndOrganization(String, String)");

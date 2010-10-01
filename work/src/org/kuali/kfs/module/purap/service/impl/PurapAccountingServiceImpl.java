@@ -898,18 +898,20 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
 
     protected  void convertAmtToTax(List<PurApAccountingLine> accounts, KualiDecimal useTax, List<SourceAccountingLine> newSourceLines) {
-        final KualiDecimal HUNDRED = new KualiDecimal(100);
+        final BigDecimal HUNDRED = new BigDecimal(100);
         PurApAccountingLine purApAccountingLine;
+        BigDecimal proratedAmtBD;
         KualiDecimal proratedAmt;
         //convert back to source
         KualiDecimal total = KualiDecimal.ZERO;
         int last = accounts.size() - 1;
         for (int i = 0; i < last; i++) {
             purApAccountingLine = accounts.get(i);
-            proratedAmt = useTax.multiply(new KualiDecimal(purApAccountingLine.getAccountLinePercent()));
+            proratedAmtBD = useTax.bigDecimalValue().multiply(purApAccountingLine.getAccountLinePercent());
             // last object takes the rest of the amount
             //proratedAmt = (accounts.indexOf(purApAccountingLine) == last) ? useTax.subtract(total) : proratedAmt.divide(HUNDRED);     
-            proratedAmt =  proratedAmt.divide(HUNDRED);     
+            proratedAmtBD =  proratedAmtBD.divide(HUNDRED);
+            proratedAmt = new KualiDecimal(proratedAmtBD);
             SourceAccountingLine acctLine = purApAccountingLine.generateSourceAccountingLine();
             acctLine.setAmount(proratedAmt);
             newSourceLines.add(acctLine);

@@ -260,7 +260,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         request.setAttribute("printPDFUrl", printCreditMemoPDFUrl);
         request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
         request.setAttribute("docId", docId);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(CustomerCreditMemoDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_CREDIT_MEMO);
         request.setAttribute("printLabel", label);
         return mapping.findForward("arPrintPDF");
         

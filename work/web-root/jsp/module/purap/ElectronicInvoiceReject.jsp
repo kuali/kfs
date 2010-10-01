@@ -338,7 +338,7 @@
 	                <td colspan="4">
 						<table cellpadding="0" cellspacing="0" class="datatable" summary="Items section">
 				            <tr>
-				                <td colspan="6" class="subhead">Purchase Order Items:</td>
+				                <td colspan="9" class="subhead">Purchase Order Items:</td>
 				            </tr>
 							<tr>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemLineNumber}"/>
@@ -346,7 +346,10 @@
 					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemUnitOfMeasureCode}"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemCatalogNumber}" />
 								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemDescription}" />
-								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemUnitPrice}" />				
+								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemUnitPrice}" />
+								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.extendedPrice}" />
+								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemTaxAmount}"/>
+								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.totalAmount}"/>				
 							</tr>
 
 							<logic:iterate indexId="ctr" name="KualiForm" property="document.currentPurchaseOrderDocument.items" id="itemLine">
@@ -388,6 +391,24 @@
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemUnitPrice"
 										    readOnly="true" />
 									</td>
+									<td class="datacell">
+									    <kul:htmlControlAttribute
+										    attributeEntry="${purapItemAttributes.extendedAmount}"
+										    property="document.currentPurchaseOrderDocument.items[${ctr}].extendedPrice"
+										    readOnly="true" />
+									</td>									
+									<td class="datacell">
+									    <kul:htmlControlAttribute
+										    attributeEntry="${purapItemAttributes.itemTaxAmount}"
+										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemTaxAmount"
+										    readOnly="true" />
+									</td>
+									<td class="datacell">
+									    <kul:htmlControlAttribute
+										    attributeEntry="${purapItemAttributes.totalAmount}"
+										    property="document.currentPurchaseOrderDocument.items[${ctr}].totalAmount"
+										    readOnly="true" />
+									</td>
 								</tr>
 								</c:if>
 							</logic:iterate>
@@ -405,12 +426,46 @@
 										<td>
 										    <kul:htmlControlAttribute attributeEntry="${purapItemAttributes.itemUnitPrice}" property="document.currentPurchaseOrderDocument.item[${ctr}].itemUnitPrice" readOnly="${true}" styleClass="amount" />
 										</td>
+										<td>
+										    <kul:htmlControlAttribute attributeEntry="${purapItemAttributes.extendedPrice}" property="document.currentPurchaseOrderDocument.item[${ctr}].extendedPrice" readOnly="${true}" styleClass="amount" />
+										</td>										
+										<td>
+										    <kul:htmlControlAttribute attributeEntry="${purapItemAttributes.itemTaxAmount}" property="document.currentPurchaseOrderDocument.item[${ctr}].itemTaxAmount" readOnly="${true}" styleClass="amount" />
+										</td>
+										<td>
+										    <kul:htmlControlAttribute attributeEntry="${purapItemAttributes.totalAmount}" property="document.currentPurchaseOrderDocument.item[${ctr}].totalAmount" readOnly="${true}" styleClass="amount" />
+										</td>										
 									</tr>
 								</c:if>
 							</logic:iterate>
+							<tr><td colspan="9">&nbsp;</td></tr>
 							<tr>
-								<td colspan="4">&nbsp;</td>
-								<th align="right">
+								<td colspan="9" class="subhead">Totals</td>
+							</tr>
+							<tr>
+								<th align="right" colspan="8">
+							        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}" />
+								</th>
+								<td>
+				                    <kul:htmlControlAttribute
+				                        attributeEntry="${DataDictionary.RequisitionDocument.totalPreTaxDollarAmount}"
+				                        property="document.currentPurchaseOrderDocument.totalPreTaxDollarAmount"
+				                        readOnly="true" />
+								</td>
+							</tr>
+							<tr>
+								<th align="right" colspan="8">
+							        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}" />
+								</th>
+								<td>
+				                    <kul:htmlControlAttribute
+				                        attributeEntry="${DataDictionary.RequisitionDocument.totalTaxAmount}"
+				                        property="document.currentPurchaseOrderDocument.totalTaxAmount"
+				                        readOnly="true" />
+								</td>
+							</tr>							
+							<tr>
+								<th align="right" colspan="8">
 							        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 								</th>
 								<td>

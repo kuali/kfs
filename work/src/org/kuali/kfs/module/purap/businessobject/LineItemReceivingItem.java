@@ -30,65 +30,66 @@ public class LineItemReceivingItem extends ReceivingItemBase {
 
     private KualiDecimal itemOrderedQuantity;
 
-    //not stored in db
+    // not stored in db
     private KualiDecimal itemReceivedPriorQuantity;
     private KualiDecimal itemReceivedToBeQuantity;
-    
+
     private LineItemReceivingDocument lineItemReceivingDocument;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
-    
+
     /**
      * Default constructor.
      */
     public LineItemReceivingItem() {
     }
-    
-    public LineItemReceivingItem(LineItemReceivingDocument rld){
-        this.setDocumentNumber( rld.getDocumentNumber() );
-        this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemOriginalReceivedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemOriginalReturnedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemOriginalDamagedTotalQuantity( KualiDecimal.ZERO );
+
+    public LineItemReceivingItem(LineItemReceivingDocument rld) {
+        this.setDocumentNumber(rld.getDocumentNumber());
+        this.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemReturnedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemDamagedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemOriginalReceivedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemOriginalReturnedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemOriginalDamagedTotalQuantity(KualiDecimal.ZERO);
     }
-    
-    public LineItemReceivingItem(PurchaseOrderItem poi, LineItemReceivingDocument rld){
-        
-        this.setDocumentNumber( rld.getDocumentNumber() );        
-        this.setItemTypeCode( poi.getItemTypeCode() );
-        
-        this.setItemLineNumber( poi.getItemLineNumber() );
-        this.setItemCatalogNumber( poi.getItemCatalogNumber() );
-        this.setItemDescription( poi.getItemDescription() );
 
-        this.setItemOrderedQuantity( poi.getItemQuantity() );
-        this.setItemUnitOfMeasureCode( poi.getItemUnitOfMeasureCode() );
+    public LineItemReceivingItem(PurchaseOrderItem poi, LineItemReceivingDocument rld) {
 
-        //TODO: Chris - look into this it appears this is null rather than zero on amendment, find out why!
-        if(ObjectUtils.isNull(poi.getItemReceivedTotalQuantity())) {
+        this.setDocumentNumber(rld.getDocumentNumber());
+        this.setItemTypeCode(poi.getItemTypeCode());
+
+        this.setItemLineNumber(poi.getItemLineNumber());
+        this.setItemCatalogNumber(poi.getItemCatalogNumber());
+        this.setItemDescription(poi.getItemDescription());
+
+        this.setItemOrderedQuantity(poi.getItemQuantity());
+        this.setItemUnitOfMeasureCode(poi.getItemUnitOfMeasureCode());
+
+        // TODO: Chris - look into this it appears this is null rather than zero on amendment, find out why!
+        if (ObjectUtils.isNull(poi.getItemReceivedTotalQuantity())) {
             this.setItemReceivedPriorQuantity(KualiDecimal.ZERO);
-        } else {
-            this.setItemReceivedPriorQuantity( poi.getItemReceivedTotalQuantity() );
         }
-        
-        this.setItemReceivedToBeQuantity( this.getItemOrderedQuantity().subtract(this.getItemReceivedPriorQuantity()));        
-        
-        //should determine whether this is prefilled be based on the parameter that allows loading from po
-        this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
-        
-        this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );         
-        
-        this.setItemOriginalReceivedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemOriginalReturnedTotalQuantity( KualiDecimal.ZERO );
-        this.setItemOriginalDamagedTotalQuantity( KualiDecimal.ZERO );
-        
-        //not added
+        else {
+            this.setItemReceivedPriorQuantity(poi.getItemReceivedTotalQuantity());
+        }
+
+        this.setItemReceivedToBeQuantity(this.getItemOrderedQuantity().subtract(this.getItemReceivedPriorQuantity()));
+
+        // should determine whether this is prefilled be based on the parameter that allows loading from po
+        this.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+
+        this.setItemReturnedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemDamagedTotalQuantity(KualiDecimal.ZERO);
+
+        this.setItemOriginalReceivedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemOriginalReturnedTotalQuantity(KualiDecimal.ZERO);
+        this.setItemOriginalDamagedTotalQuantity(KualiDecimal.ZERO);
+
+        // not added
         this.setItemReasonAddedCode(null);
     }
-    
+
     /**
      * Retreives a purchase order item by inspecting the item type to see if its above the line or below the line and returns the
      * appropriate type.
@@ -114,7 +115,8 @@ public class LineItemReceivingItem extends ReceivingItemBase {
                 return poi;
             }
             else {
-//                LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+                // LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" +
+                // getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
                 return null;
             }
         }
@@ -128,9 +130,8 @@ public class LineItemReceivingItem extends ReceivingItemBase {
      * Gets the itemOrderedQuantity attribute.
      * 
      * @return Returns the itemOrderedQuantity
-     * 
      */
-    public KualiDecimal getItemOrderedQuantity() { 
+    public KualiDecimal getItemOrderedQuantity() {
         return itemOrderedQuantity;
     }
 
@@ -138,14 +139,14 @@ public class LineItemReceivingItem extends ReceivingItemBase {
      * Sets the itemOrderedQuantity attribute.
      * 
      * @param itemOrderedQuantity The itemOrderedQuantity to set.
-     * 
      */
     public void setItemOrderedQuantity(KualiDecimal itemOrderedQuantity) {
         this.itemOrderedQuantity = itemOrderedQuantity;
     }
 
     /**
-     * Gets the LineItemReceivingDocument attribute. 
+     * Gets the LineItemReceivingDocument attribute.
+     * 
      * @return Returns the LineItemReceivingDocument.
      */
     public LineItemReceivingDocument getLineItemReceivingDocument() {
@@ -154,6 +155,7 @@ public class LineItemReceivingItem extends ReceivingItemBase {
 
     /**
      * Sets the LineItemReceivingDocument attribute value.
+     * 
      * @param LineItemReceivingDocument The LineItemReceivingDocument to set.
      * @deprecated
      */
@@ -162,26 +164,25 @@ public class LineItemReceivingItem extends ReceivingItemBase {
     }
 
     public KualiDecimal getItemReceivedPriorQuantity() {
-        if(ObjectUtils.isNull(itemReceivedPriorQuantity)) {
+        if (ObjectUtils.isNull(itemReceivedPriorQuantity)) {
             setItemReceivedPriorQuantity(getPurchaseOrderItem().getItemReceivedTotalQuantity());
         }
         return itemReceivedPriorQuantity;
     }
 
     public void setItemReceivedPriorQuantity(KualiDecimal itemReceivedPriorQuantity) {
-        
+
         this.itemReceivedPriorQuantity = itemReceivedPriorQuantity;
     }
 
     public KualiDecimal getItemReceivedToBeQuantity() {
-        //lazy loaded
-        if(ObjectUtils.isNull(itemReceivedToBeQuantity)) {
-            KualiDecimal toBeQuantity = this.getItemOrderedQuantity().subtract(getItemReceivedPriorQuantity());
-            if (toBeQuantity.isNegative()) {
-                toBeQuantity = KualiDecimal.ZERO;
-            }
-            setItemReceivedToBeQuantity(toBeQuantity);
+        // lazy loaded
+        KualiDecimal toBeQuantity = this.getItemOrderedQuantity().subtract(getItemReceivedPriorQuantity());
+        if (toBeQuantity.isNegative()) {
+            toBeQuantity = KualiDecimal.ZERO;
         }
+        setItemReceivedToBeQuantity(toBeQuantity);
+
         return itemReceivedToBeQuantity;
     }
 
@@ -189,7 +190,7 @@ public class LineItemReceivingItem extends ReceivingItemBase {
         this.itemReceivedToBeQuantity = itemReceivedToBeQuantity;
     }
 
-    public boolean isOrderedItem(){
+    public boolean isOrderedItem() {
         return StringUtils.isEmpty(getItemReasonAddedCode());
     }
 

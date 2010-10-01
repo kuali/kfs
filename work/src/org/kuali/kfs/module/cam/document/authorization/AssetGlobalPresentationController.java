@@ -60,7 +60,8 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
             maintCollDef.setIncludeAddLine(true);
         }
 
-        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparateByPayment(assetGlobal)) {
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        if (!assetGlobalService.isAssetSeparateByPayment(assetGlobal)) {
             // Show payment sequence number field only if a separate by payment was selected
             fields.add(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
         }
@@ -68,7 +69,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         if (!isAssetSeparate) {
             fields.addAll(getAssetGlobalLocationHiddenFields(assetGlobal));
 
-            if (SpringContext.getBean(AssetGlobalService.class).existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+            if (assetGlobalService.existsInGroup(assetGlobalService.getNonNewAcquisitionCodeGroup(), assetGlobal.getAcquisitionTypeCode())) {
                 // Fields in the add section
                 fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE);
                 fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER);

@@ -18,7 +18,12 @@ package org.kuali.kfs.gl.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.PosterEntriesStep;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -57,7 +62,11 @@ public class EncumbranceHistory extends Encumbrance {
      * @param originEntry representing the update details
      */
     public void addAmount(OriginEntryInformation originEntry) {
-        if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) {
+        //KFSMI-1571 - check parameter encumbranceOpenAmountOeverridingDocTypes
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String[] encumbranceOpenAmountOeverridingDocTypes = parameterService.getParameterValues(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {});
+        
+        if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) && !ArrayUtils.contains(encumbranceOpenAmountOeverridingDocTypes, originEntry.getFinancialDocumentTypeCode())) {
             // If using referring doc number, add or subtract transaction amount from
             // encumbrance closed amount
             if (KFSConstants.GL_DEBIT_CODE.equals(originEntry.getTransactionDebitCreditCode())) {

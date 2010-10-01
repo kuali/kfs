@@ -338,7 +338,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
             else {
                 // set bank code to default bank code in the system parameter
-                Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(VendorCreditMemoDocument.class);
+                Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(document.getClass());
                 if (defaultBank != null) {
                     document.setBankCode(defaultBank.getBankCode());
                     document.setBank(defaultBank);

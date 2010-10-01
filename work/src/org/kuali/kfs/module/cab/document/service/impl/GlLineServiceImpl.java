@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -52,6 +53,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
     protected BusinessObjectService businessObjectService;
+    protected AssetGlobalService assetGlobalService;
 
 
     /**
@@ -65,7 +67,7 @@ public class GlLineServiceImpl implements GlLineService {
         // create asset global
         AssetGlobal assetGlobal = createAssetGlobal(primary, document);
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
-        assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
+        assetGlobal.setAcquisitionTypeCode(getAssetGlobalService().getNewAcquisitionTypeCode());
         updatePreTagInformation(primary, document, assetGlobal);
         int seq = 0;
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
@@ -283,4 +285,13 @@ public class GlLineServiceImpl implements GlLineService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    private AssetGlobalService getAssetGlobalService() {
+        return assetGlobalService;
+    }
+
+    public void setAssetGlobalService(AssetGlobalService assetGlobalService) {
+        this.assetGlobalService = assetGlobalService;
+    }
+    
 }

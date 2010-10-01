@@ -191,11 +191,13 @@ public class ElectronicInvoice {
     }
 
     public String getInvoiceSpecialHandlingDescription(ElectronicInvoiceOrder eio) {
-        // if special handling is at the line level... no description can be entered
-        if (!(this.invoiceDetailRequestHeader.isSpecialHandlingInLine())) {
+       
+        if (this.invoiceDetailRequestHeader.isSpecialHandlingInLine()) {
+            return eio.getInvoiceSpecialHandlingDescription();
+            
+        }else{
             return invoiceDetailRequestSummary.getSpecialHandlingAmountDescription();
         }
-        return "Amount Description Not Specified";
     }
 
     /*

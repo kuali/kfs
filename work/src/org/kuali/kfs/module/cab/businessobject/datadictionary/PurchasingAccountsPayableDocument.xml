@@ -19,6 +19,7 @@
   
   <bean id="PurchasingAccountsPayableDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument"/>
+    <property name="lookupDefinition" ref="PurchasingAccountsPayableDocument-lookupDefinition" />
     <property name="inquiryDefinition">
       <ref bean="PurchasingAccountsPayableDocument-inquiryDefinition"/>
     </property>
@@ -125,4 +126,32 @@
   </bean>
 
 <!-- Business Object Lookup Definition -->
+  <bean id="PurchasingAccountsPayableDocument-lookupDefinition" 
+        parent="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" />
+
+  <bean id="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" abstract="true" 
+        parent="LookupDefinition">
+        
+    <property name="title" value="Purchasing Accounts Payable Document Search" />
+              
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <dd:field attributeName="documentNumber"  />
+        <dd:field attributeName="purchaseOrderIdentifier" />
+        <dd:field attributeName="purapDocumentIdentifier" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+         <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+         <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+         <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
+         <bean parent="FieldDefinition" p:attributeName="activityStatusCode"/>
+      </list>
+    </property>
+  </bean>
 </beans>

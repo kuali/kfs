@@ -39,6 +39,14 @@ public interface BankService {
     public Bank getDefaultBankByDocType(Class documentClass);
     
     /**
+     * Retrieves the default bank code for the given document type from system parameter. 
+     * .
+     * @param documentTypeCode the document type code
+     * @return <code>Bank</code> object retrieved by default bank code
+     */
+    public Bank getDefaultBankByDocType(String documentTypeCode);
+    
+    /**
      * Determines if the bank specification is enabled in the system by system parameter.
      * 
      * @return true if specification is enabled

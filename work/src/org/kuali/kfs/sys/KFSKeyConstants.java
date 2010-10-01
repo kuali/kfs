@@ -331,6 +331,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_INVALID_FED_TAX_PERCENT = "error.dv.federalTaxPercent";
     public static final String ERROR_DV_INVALID_STATE_TAX_PERCENT = "error.dv.stateTaxPercent";
     public static final String ERROR_DV_NRA_PERMISSIONS_GENERATE = "error.dv.nraTaxLinesPermissions";
+    public static final String ERROR_DV_NRA_NO_TAXLINES_GENERATED = "error.dv.nraTaxLinesNotGenerated";
     public static final String ERROR_DV_GENERATE_TAX_BOTH_0 = "error.dv.generateLinesBoth0";
     public static final String ERROR_DV_GENERATE_TAX_NO_SOURCE = "error.dv.generateLinesNoSource";
     public static final String ERROR_DV_GENERATE_TAX_NOT_NRA = "error.dv.generateNotNRA";
@@ -550,7 +551,6 @@ public class KFSKeyConstants {
     public static final String ERROR_FPT_AGENCY_NUMBER_NOT_BLANK = "error.cg.federalPassThroughAgencyNumberIsNotBlank";
     public static final String ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_INDICATOR_IS_CHECKED = "error.cg.primaryAgencyIsFederalAndFPTIndicatorIsChecked";
     public static final String ERROR_PRIMARY_AGENCY_IS_FEDERAL_AND_FPT_AGENCY_IS_NOT_BLANK = "error.cg.primaryAgencyIsFederalAndFPTAgencyNumberIsNotBlank";
-    public static final String ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED = "error.cg.invalidGrantDescription";
 
     public static final String ERROR_INVALID_PROJECT_DIRECTOR_STATUS = "error.cg.invalidProjectDirectorStatus";
     public static final String ERROR_NOT_A_PROJECT_DIRECTOR = "error.cg.notAProjectDirector";
@@ -949,4 +949,7 @@ public class KFSKeyConstants {
 
     // Recurring Cash Transfer Maintenance Errors
     public static final String ERROR_TRANSACTION_TYPE_INVALID = "error.document.transactionType.invalid";
+    
+    public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT = "error.collector.emailSend.notification.subject";
+    public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY = "error.collector.emailSend.notification.body";
 }

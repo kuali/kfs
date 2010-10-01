@@ -47,6 +47,7 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardVendor;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRuleConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
@@ -184,7 +185,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List<String> documentIds = new ArrayList<String>();
         
         DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
-        criteria.setDocTypeFullName(dataDictionaryService.getDocumentTypeNameByClass(ProcurementCardDocument.class));
+        criteria.setDocTypeFullName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
         criteria.setDocRouteStatus(statusCode);
         DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
         

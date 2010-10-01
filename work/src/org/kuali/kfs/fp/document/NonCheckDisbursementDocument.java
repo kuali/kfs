@@ -62,7 +62,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * Sets the bank code for a new document to the setup default for the Non Check Disbursement document.
      */
     public void setDefautBankCode() {
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(NonCheckDisbursementDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
         if (defaultBank != null) {
             this.financialDocumentBankCode = defaultBank.getBankCode();
             this.bank = defaultBank;

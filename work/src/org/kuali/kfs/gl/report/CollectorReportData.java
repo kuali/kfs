@@ -216,6 +216,10 @@ public class CollectorReportData {
     public Iterator<CollectorBatch> getAddedBatches() {
         return addedBatches.values().iterator();
     }
+    
+    public Map<String, String> getEmailSendingStatus() {
+        return emailSendingStatus;
+    }
 
     /**
      * Sets the number of times the details in a batch have had their account numbers changed

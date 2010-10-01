@@ -172,13 +172,14 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * @return Returns the generatingDocument.
      */
     public AdvanceDepositDocument getGeneratingDocument() {
-        try {
-            if (!StringUtils.isBlank(documentNumber) && (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber))) {
+        final boolean docNumbersAreDifferentAndNotNull = (generatingDocumentHeader != null && !documentNumber.equals(this.generatingDocumentHeader.getDocumentNumber()));
+        if (StringUtils.isNotBlank(documentNumber) && (this.generatingDocument == null || docNumbersAreDifferentAndNotNull)) {
+            try {
                 generatingDocument = (AdvanceDepositDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             }
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Could not retrieve Document #"+documentNumber, we);
+            catch (WorkflowException we) {
+                throw new RuntimeException("Could not retrieve Document #"+documentNumber, we);
+            }
         }
         return this.generatingDocument;
     }

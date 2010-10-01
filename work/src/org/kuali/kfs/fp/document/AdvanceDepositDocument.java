@@ -45,6 +45,8 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * line data structure only.
  */
 public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
+    public static final String ADVANCE_DEPOSIT_DOCUMENT_TYPE_CODE = "AD";
+    
     // holds details about each advance deposit
     protected List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 

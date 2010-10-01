@@ -654,18 +654,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             KualiDecimal itemAmount = null;
-            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
-                LOG.debug("generateEntriesClosePurchaseOrder() " + logItmNbr + " Calculate based on amounts");
-                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
-            }
-            else {
-                LOG.debug("generateEntriesClosePurchaseOrder() " + logItmNbr + " Calculate based on quantities");
-                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
-                
-                //add tax for encumbrance
-                KualiDecimal itemTaxAmount = item.getItemTaxAmount() == null ? ZERO : item.getItemTaxAmount();                    
-                itemAmount = itemAmount.add(itemTaxAmount);
-            }
+            LOG.debug("generateEntriesClosePurchaseOrder() " + logItmNbr + " Calculate based on amounts");
+            itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
 
             KualiDecimal accountTotal = ZERO;
             PurchaseOrderAccount lastAccount = null;
@@ -965,7 +955,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
                         }
 
-                        itemDisEncumber = encumbranceQuantity.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                        itemDisEncumber = new KualiDecimal(encumbranceQuantity.bigDecimalValue().multiply(poItem.getItemUnitPrice()));
 
                         //add tax for encumbrance
                         KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cg.document.validation.impl;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
@@ -43,10 +42,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
 
     protected Award newAwardCopy;
-
-    protected static final String GRANT_DESCRIPTION_NPT = "NPT";
-    protected static final String GRANT_DESCRIPTION_OPT = "OPT";
-    protected static final String[] NON_FED_GRANT_DESCS = new String[] { GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT };
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -126,19 +121,13 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success = super.checkFederalPassThrough(newAwardCopy.getFederalPassThroughIndicator(), newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
 
         if (newAwardCopy.getFederalPassThroughIndicator()) {
-
             String indicatorLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
             if (StringUtils.isBlank(newAwardCopy.getFederalPassThroughAgencyNumber())) {
                 putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_REQUIRED);
                 success = false;
             }
-            String grantDescCode = newAwardCopy.getGrantDescription().getGrantDescriptionCode();
-            if (StringUtils.isBlank(grantDescCode) || !Arrays.asList(NON_FED_GRANT_DESCS).contains(grantDescCode)) {
-                String grantDescLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.GRANT_DESCRIPTION_CODE);
-                putFieldError(KFSPropertyConstants.GRANT_DESCRIPTION_CODE, KFSKeyConstants.ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED);
-                success = false;
-            }
         }
+        
         return success;
     }
 

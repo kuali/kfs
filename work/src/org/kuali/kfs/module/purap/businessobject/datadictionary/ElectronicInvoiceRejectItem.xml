@@ -351,7 +351,7 @@
     <property name="shortLabel" value="Unit Price"/>
     <property name="maxLength" value="19"/>
     <property name="validationPattern">
-      <ref bean="FloatingPointValidation" />
+      <bean parent="FloatingPointValidation" p:allowNegative="true" />
     </property>
     <property name="control">
       <ref bean="TenCharacterTextControl" />

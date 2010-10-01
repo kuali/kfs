@@ -185,7 +185,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         String displayReceivingDocTabbedPageUrl = getUrlForPrintReceivingTicket(basePath, docId, methodToCallDocHandler);
         request.setAttribute("printReceivingTicketPDFUrl", printReceivingTicketPDFUrl);
         request.setAttribute("displayReceivingDocTabbedPageUrl", displayReceivingDocTabbedPageUrl);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(BulkReceivingDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.BULK_RECEIVING);
         request.setAttribute("receivingDocLabel", label);
 
         return mapping.findForward("printReceivingTicketPDF");

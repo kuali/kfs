@@ -51,14 +51,9 @@ public class BankServiceImpl implements BankService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
+     * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.String)
      */
-    public Bank getDefaultBankByDocType(Class documentClass) {
-        String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
-        if (StringUtils.isBlank(documentTypeCode)) {
-            throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
-        }
-
+    public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
             List<String> parmValues = parameterService.getParameterValues(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
             if (parmValues != null && !parmValues.isEmpty()) {
@@ -74,8 +69,19 @@ public class BankServiceImpl implements BankService {
                 return defaultBank;
             }
         }
-
         return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
+     */
+    public Bank getDefaultBankByDocType(Class documentClass) {
+        final String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
+        
+        if (StringUtils.isBlank(documentTypeCode)) {
+            throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
+        }
+        return getDefaultBankByDocType(documentTypeCode);
     }
 
     /**

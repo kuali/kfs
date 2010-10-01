@@ -78,6 +78,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private CashManagementDao cashManagementDao;
+    private DataDictionaryService dataDictionaryService;
 
     /**
      * If a CMD is found that is associated with the CR document, then that CMD is returned; otherwise null is returned. 
@@ -100,7 +101,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         // get CashReceiptHeader for the CashReceipt, if any
         HashMap primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentId);
-        CashReceiptDocument crDoc = (CashReceiptDocument) businessObjectService.findByPrimaryKey(CashReceiptDocument.class, primaryKeys);
+        CashReceiptDocument crDoc = (CashReceiptDocument) businessObjectService.findByPrimaryKey(getDataDictionaryService().getDocumentClassByTypeName(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT), primaryKeys);
 
         // get the DepositCashReceiptControl for the CashReceiptHeader
         if (crDoc != null) {
@@ -149,9 +150,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // check user authorization
         Person user = GlobalVariables.getUserSession().getPerson();
-        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
-        documentAuthorizer.canInitiate(documentTypeName, user);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT);
+        documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.CASH_MANAGEMENT, user);
 
         // check cash drawer
         CashDrawer cd = cashDrawerService.getByCampusCode(campusCode);
@@ -1313,5 +1313,22 @@ public class CashManagementServiceImpl implements CashManagementService {
     public void setCashManagementDao(CashManagementDao cashManagementDao) {
         this.cashManagementDao = cashManagementDao;
     }
+
+
+    /**
+     * @return an implementation of the DataDictionaryService
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Sets the data dictionary service implementation
+     * @param dataDictionaryService the implementation of the data dictionary service to use
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+    
 }
 

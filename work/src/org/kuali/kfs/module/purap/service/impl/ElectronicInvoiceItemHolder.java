@@ -80,6 +80,14 @@ public class ElectronicInvoiceItemHolder {
         }
     }
     
+    public String getInvoiceItemDescription(){
+        if (isRejectItemHolder()){
+            return rejectItem.getInvoiceReferenceItemDescription();
+        }else{
+           return invoiceItem.getReferenceDescription();
+        }
+    }
+    
     public PurchaseOrderItem getPurchaseOrderItem(){
         return poItem;
     }

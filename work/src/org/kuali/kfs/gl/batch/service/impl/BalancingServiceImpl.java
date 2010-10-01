@@ -72,6 +72,15 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected File icrInputFile = null;
     protected File icrErrorOutputFile = null;
 
+    
+    @Override
+    public boolean runBalancing() {
+        // clear out the file cache, otherwise, it won't update the history tables with the latest poster files
+        // therefore, it will use the files that were first used when the balancing job was run when the JVM started, and that'll cause out of balance errors
+        clearPosterFileCache();
+        return super.runBalancing();
+    }
+
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFile()
      */

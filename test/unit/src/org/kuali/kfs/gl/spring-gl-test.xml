@@ -325,5 +325,7 @@
 			<ref bean="mockReportWriterService" />
 		</property>
 	</bean>
+	            
+    <bean id="mockMailService" class="org.kuali.kfs.gl.batch.service.impl.MockMailServiceImpl"/>     
         
 </beans>

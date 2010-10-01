@@ -95,6 +95,7 @@ public class DailyReportServiceImpl implements DailyReportService {
             boolean rows = false;
             DailyReport sortTotal = new DailyReport();
             DailyReport total = new DailyReport();
+            DailyReport dr = new DailyReport();
             
             String totalForSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE);
             
@@ -103,7 +104,7 @@ public class DailyReportServiceImpl implements DailyReportService {
             
             
             for (Iterator iter = data.iterator(); iter.hasNext();) {
-                DailyReport dr = (DailyReport) iter.next();
+                dr = (DailyReport) iter.next();
 
                 if ( ! rows ) {
                     rows = true;
@@ -111,9 +112,9 @@ public class DailyReportServiceImpl implements DailyReportService {
                     sortTotal.addRow(dr);
                     addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
                 } else if (this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup()) != (this.paymentGroupService.getSortGroupId(dr.getPaymentGroup()))) {
-                    totalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
-                    
-                    addRow(dataTable, sortTotal, true, totalForSubtitle );
+                    String newTotalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
+                   
+                    addRow(dataTable, sortTotal, true, newTotalForSubtitle );
                     sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
                     addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
@@ -126,9 +127,9 @@ public class DailyReportServiceImpl implements DailyReportService {
             }
 
             if (rows) {
-                totalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
+                String newTotalForSubtitle = MessageFormat.format(totalForSubtitle, new Object[]{ this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())) });
                 
-                addRow(dataTable, sortTotal, true, totalForSubtitle);
+                addRow(dataTable, sortTotal, true, newTotalForSubtitle);
             }
             addRow(dataTable, total, true, totalSubtitle);
 

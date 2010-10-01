@@ -91,6 +91,10 @@
               </th>
               <td class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeStateCode}" property="document.dvPayeeDetail.disbVchrPayeeStateCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
+                <c:if test="${fullEntryMode || payeeEntryMode}">
+              		<kul:lookup boClassName="org.kuali.rice.kns.bo.State" fieldConversions="postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,postalStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode" 
+              		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode" />
+              	</c:if>
               </td>
             </tr>            
             

@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
@@ -60,13 +61,13 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
         AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObject;
-
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (initializingAssetGlobal && !assetAcquisitionType.isActive()) {
             // no return URL if we are initializing asset global and the record is inactive
             return getEmptyAnchorHtmlData();
 
         }
-        else if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equalsIgnoreCase(assetAcquisitionType.getAcquisitionTypeCode())) {
+        else if (assetGlobalService.getNewAcquisitionTypeCode().equalsIgnoreCase(assetAcquisitionType.getAcquisitionTypeCode())) {
             // no return if the user is not authorized to initiate 'New' acquisition type.
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
             boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_ACQUISITION_TYPE_NEW, GlobalVariables.getUserSession().getPerson().getPrincipalId());

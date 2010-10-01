@@ -459,11 +459,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             List<String> preqDocIds = new ArrayList<String>();
             List<String> cmDocIds = new ArrayList<String>();
 
-            String creditMemoDocTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(VendorCreditMemoDocument.class);
-
             List<PaymentDetail> pds = paymentGroup.getPaymentDetails();
             for (PaymentDetail payDetail : pds) {
-                if (creditMemoDocTypeCode.equals(payDetail.getFinancialDocumentTypeCode())) {
+                if (KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO.equals(payDetail.getFinancialDocumentTypeCode())) {
                     cmDocIds.add(payDetail.getCustPaymentDocNbr());
                 }
                 else {
@@ -523,7 +521,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(VendorCreditMemoDocument.class);
+        final String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(creditMemoDocument.getClass());
         paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
@@ -608,14 +606,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         }
 
-        String paymentRequestDocType = getDataDictionaryService().getDocumentTypeNameByClass(PaymentRequestDocument.class);
+        final String paymentRequestDocType = getDataDictionaryService().getDocumentTypeNameByClass(paymentRequestDocument.getClass());
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
         paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
         
         paymentDetail.setInvoiceDate(paymentRequestDocument.getInvoiceDate());
         paymentDetail.setOrigInvoiceAmount(paymentRequestDocument.getVendorInvoiceAmount());
-        paymentDetail.setNetPaymentAmount(paymentRequestDocument.getDocumentHeader().getFinancialDocumentTotalAmount());
-
+        if (paymentRequestDocument.isUseTaxIndicator()) {
+            paymentDetail.setNetPaymentAmount(paymentRequestDocument.getGrandPreTaxTotal()); // including discounts
+        } else {
+            paymentDetail.setNetPaymentAmount(paymentRequestDocument.getGrandTotal()); // including discounts
+        }
+        
         KualiDecimal shippingAmount = KualiDecimal.ZERO;
         KualiDecimal discountAmount = KualiDecimal.ZERO;
         KualiDecimal creditAmount = KualiDecimal.ZERO;

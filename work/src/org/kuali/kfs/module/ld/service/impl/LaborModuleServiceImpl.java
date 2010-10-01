@@ -130,11 +130,9 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.ld.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(SalaryExpenseTransferDocument.class);
-
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-        positiveFieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
+        positiveFieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.SALARY_EXPENSE_TRANSFER);
 
         List<String> approvedCodes = Arrays.asList(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
         Map<String, Object> negativeFieldValues = new HashMap<String, Object>();

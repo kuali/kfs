@@ -449,6 +449,7 @@ public class KFSPropertyConstants {
     public static final String DISB_VCHR_REMIT_ZIP_CODE = "disbVchrSpecialHandlingZipCode";
     public static final String DISB_VCHR_SERVICE_PERFORMED_DESC = "disbVchrServicePerformedDesc";
     public static final String DISB_VCHR_SPECIAL_HANDLING_CODE = "disbVchrSpecialHandlingCode";
+    public static final String DISB_VCHR_SPECIAL_HANDLING_STATE_CODE = "disbVchrSpecialHandlingStateCode";
     public static final String DISB_VCHR_TRAVEL_FROM_CITY_NAME = "disbVchrTravelFromCityName";
     public static final String DISB_VCHR_TRAVEL_FROM_STATE_CODE = "disbVchrTravelFromStateCode";
     public static final String DISB_VCHR_TRAVEL_TO_CITY_NAME = "disbVchrTravelToCityName";
@@ -479,6 +480,7 @@ public class KFSPropertyConstants {
     public static final String DOCUMENT_TITLE = "documentTitle";
     public static final String DOCUMENT_TYPE = "documentType";
     public static final String DOCUMENT_TYPE_CODE = KNSPropertyConstants.DOCUMENT_TYPE_CODE;
+    public static final String DOCUMENT_TYPE_ID = "documentTypeId";
     public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
     public static final String DOMESTIC_CHARGE_AMT = "domesticChargeAmt";
     public static final String DUMMY_BUSINESS_OBJECT = "dummyBusinessObject";

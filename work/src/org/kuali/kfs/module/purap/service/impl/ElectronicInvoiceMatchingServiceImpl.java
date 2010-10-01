@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,9 +35,12 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonType;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -187,17 +191,33 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         ElectronicInvoiceDetailRequestSummary summary = orderHolder.getElectronicInvoice().getInvoiceDetailRequestSummary();
 
         boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
-        BigDecimal summaryTaxAmount = summary.getInvoiceTaxAmount();
-        if (!enableSalesTaxInd) {
-            // if sales tax is disabled, total tax amount shall be zero 
-            if (summaryTaxAmount.compareTo(new BigDecimal(0)) != 0) {
-                String extraDescription = "Summary Tax Amount:" + summaryTaxAmount;
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_EXISTS, extraDescription, orderHolder.getFileName());
-                orderHolder.addInvoiceHeaderRejectReason(rejectReason);      
+        
+        boolean salesTaxUsed = false;
+        PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
+        if (poDoc != null) {  // we handle bad PO's in the eInvoice later, so just skip this
+            List<PurApItem> items = PurApItemUtils.getAboveTheLineOnly(poDoc.getItems());
+            for (PurApItem  item : items) {
+                if (item.getItemType().isTaxableIndicator()) {
+                    salesTaxUsed = true;
+                    break;
+                }
             }
-        }
-        else if (orderHolder.isTaxInLine()) {
-            validateSummaryAmount(orderHolder, summaryTaxAmount, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_MISMATCH);
+            
+            boolean useTaxUsed = poDoc.isUseTaxIndicator();
+            enableSalesTaxInd &= (salesTaxUsed || useTaxUsed);
+            
+            BigDecimal summaryTaxAmount = summary.getInvoiceTaxAmount();
+            if (!enableSalesTaxInd) {
+                // if sales tax is disabled, total tax amount shall be zero 
+                if (summaryTaxAmount.compareTo(new BigDecimal(0)) != 0) {
+                    String extraDescription = "Summary Tax Amount:" + summaryTaxAmount;
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_EXISTS, extraDescription, orderHolder.getFileName());
+                    orderHolder.addInvoiceHeaderRejectReason(rejectReason);      
+                }
+            }
+            else if (orderHolder.isTaxInLine()) {
+                validateSummaryAmount(orderHolder, summaryTaxAmount, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_MISMATCH);
+            }
         }
 
         if (orderHolder.isShippingInLine()) {
@@ -389,19 +409,21 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
         
         String invoiceCatalogNumberStripped = itemHolder.getCatalogNumberStripped();
-
+        String poCatalogNumberStripped = ElectronicInvoiceUtils.stripSplChars(poItem.getItemCatalogNumber());
+        
         /**
          * If Catalog number in invoice and po are not empty, create reject reason if it doesn't match 
          */
-        if (StringUtils.isNotEmpty(invoiceCatalogNumberStripped) &&
-            StringUtils.isNotEmpty(poItem.getItemCatalogNumber())){
+        if (StringUtils.isNotBlank(invoiceCatalogNumberStripped) &&
+            StringUtils.isNotBlank(poCatalogNumberStripped)){
             
-            if (!StringUtils.equals(poItem.getItemCatalogNumber(), invoiceCatalogNumberStripped)){
+            if (!StringUtils.equals(poCatalogNumberStripped, invoiceCatalogNumberStripped)){
                 
-                String extraDescription = "Invoice Catalog No:" + invoiceCatalogNumberStripped + ", PO Catalog No:" + poItem.getItemCatalogNumber();
+                String extraDescription = "Invoice Catalog No:" + invoiceCatalogNumberStripped + ", PO Catalog No:" + poCatalogNumberStripped;
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
                 orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
             }
+            
         }else{
             
             /**
@@ -544,6 +566,19 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         KualiDecimal invoiceSalesTaxAmount = new KualiDecimal(itemHolder.getTaxAmount());
         
         boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        
+        boolean salesTaxUsed = false;
+        PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
+        List<PurApItem> items = PurApItemUtils.getAboveTheLineOnly(poDoc.getItems());
+        for (PurApItem  item : items) {
+            if (item.getItemType().isTaxableIndicator()) {
+                salesTaxUsed = true;
+                break;
+            }
+        }
+        boolean useTaxUsed = poDoc.isUseTaxIndicator();
+        enableSalesTaxInd &= (poItem.getItemType().isTaxableIndicator() && (salesTaxUsed || useTaxUsed));
+        
         if (LOG.isInfoEnabled()){
             LOG.info("Sales Tax Enable Indicator - " + enableSalesTaxInd);
             LOG.info("Invoice item tax amount - " + invoiceSalesTaxAmount);

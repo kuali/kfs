@@ -112,10 +112,20 @@
 					</td>
 					<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 		    		    <div align="right"><b>
-                            <kul:htmlControlAttribute
-                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
-                                property="document.grandPreTaxTotalExcludingDiscount"
-                                readOnly="true" />&nbsp; </b>
+		    		    	<c:choose>
+		    		    		<c:when test="${isCreditMemo && !(KualiForm.document.creditMemoType eq 'Vendor')}" >
+		                            <kul:htmlControlAttribute
+		                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
+		                                property="document.grandTotal"
+		                                readOnly="true" />&nbsp; </b>
+								</c:when>
+                            	<c:otherwise>
+		                            <kul:htmlControlAttribute
+		                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
+		                                property="document.grandPreTaxTotalExcludingDiscount"
+		                                readOnly="true" />&nbsp; </b>
+								</c:otherwise>
+							</c:choose>
                         </div>
 					</td>	
 					<td class="datacell" colspan="${colSpanTotalBlank}">

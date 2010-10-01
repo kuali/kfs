@@ -727,9 +727,11 @@ public class LaborCorrectionAction extends CorrectionAction {
      * @param doc
      * @return if valid, return true, false if not
      */
-    protected boolean validChangeGroups(LaborCorrectionForm form) {
+    @Override
+    protected boolean validChangeGroups(CorrectionForm correctionForm) {
         LOG.debug("validChangeGroups() started");
 
+        LaborCorrectionForm form = (LaborCorrectionForm) correctionForm;
         LaborCorrectionDocument doc = form.getLaborCorrectionDocument();
         String tab = "";
         if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(form.getEditMethod())) {
@@ -796,6 +798,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         else {
             List<OriginEntryFull> searchResults = new ArrayList();
             searchResults.addAll(laborSearchResults);
+            laborCorrectionForm.setAllEntries(searchResults);
             laborCorrectionForm.setDisplayEntries(new ArrayList<OriginEntryFull>(searchResults));
 
             updateDocumentSummary(document, laborCorrectionForm.getAllEntries(), false);

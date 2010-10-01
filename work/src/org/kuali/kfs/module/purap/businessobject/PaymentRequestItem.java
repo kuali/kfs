@@ -109,11 +109,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
-
-            // if below the line item
-            if (this.getItemType().isAdditionalChargeIndicator()) {
-                this.setItemDescription("");
-            }
         }
         
         // copy custom

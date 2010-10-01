@@ -235,7 +235,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
         Class<? extends CapitalAssetBuilderAssetTransactionType> assetTransactionTypeClass = this.getKualiModuleService().getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).getExternalizableBusinessObjectImplementation(CapitalAssetBuilderAssetTransactionType.class);
-        return (List<CapitalAssetBuilderAssetTransactionType>) this.getBusinessObjectService().findAll(assetTransactionTypeClass);
+        Map<String, Object> searchKeys = new HashMap<String, Object>();
+        searchKeys.put("active", "Y");
+        return (List<CapitalAssetBuilderAssetTransactionType>) this.getBusinessObjectService().findMatching(assetTransactionTypeClass, searchKeys);
     }
 
     /**

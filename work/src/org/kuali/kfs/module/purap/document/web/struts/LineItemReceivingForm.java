@@ -128,9 +128,8 @@ public class LineItemReceivingForm extends ReceivingFormBase {
 
     protected boolean canCreateCorrection() {
         Person user = GlobalVariables.getUserSession().getPerson();
-        String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CorrectionReceivingDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
-        boolean isUserAuthorized = documentAuthorizer.canInitiate(documentTypeName, user);
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(KFSConstants.FinancialDocumentTypeCodes.CORRECTION_RECEIVING);
+        boolean isUserAuthorized = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.CORRECTION_RECEIVING, user);
         return SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(getLineItemReceivingDocument()) && isUserAuthorized;
     }
 

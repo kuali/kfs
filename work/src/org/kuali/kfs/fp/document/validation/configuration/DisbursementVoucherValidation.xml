@@ -67,6 +67,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="DisbursementVoucher-payeeStateCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>				
 				<bean parent="DisbursementVoucher-employeeInformationValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

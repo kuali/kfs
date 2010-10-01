@@ -223,12 +223,14 @@
 		<property name="purApLineService" ref="purApLineService" />
 		<property name="purApInfoService" ref="purApInfoService" />
 		<property name="documentService" ref="documentService" />
+		<property name="assetGlobalService" ref="assetGlobalService" />
 	</bean>  
 <!-- **** End of PurAp service beans **** -->
 
 <!-- Start Gl Line Processing beans -->
 	<bean id="glLineService" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="assetGlobalService" ref="assetGlobalService"/>
 	</bean> 
 <!-- End GL Line Processing beans -->
 

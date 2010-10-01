@@ -396,7 +396,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         if (assetPaymentDetail != null) {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             // Set for document number and document type code
-            if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+            if (getAssetGlobalService().existsInGroup(getAssetGlobalService().getNonNewAcquisitionCodeGroup(), assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);

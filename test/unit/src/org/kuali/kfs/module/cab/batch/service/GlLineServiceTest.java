@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,6 +47,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class GlLineServiceTest extends KualiTestBase {
     private GlLineService glLineService;
     private BusinessObjectService businessObjectService;
+    private AssetGlobalService assetGlobalService;
     private GeneralLedgerEntry primary;
     private List<GeneralLedgerEntry> entries;
 
@@ -55,6 +57,7 @@ public class GlLineServiceTest extends KualiTestBase {
         super.setUp();
         glLineService = SpringContext.getBean(GlLineService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         // create a list of GL entries
         GeneralLedgerEntry entry = createCABGLEntry("1023200", 1, new KualiDecimal(5200.50));
 
@@ -135,7 +138,7 @@ public class GlLineServiceTest extends KualiTestBase {
         // assert here
         assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
         assertEquals("1023200", assetGlobal.getOrganizationOwnerAccountNumber());
-        assertEquals(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode());
+        assertEquals(assetGlobalService.getNewAcquisitionTypeCode(), assetGlobal.getAcquisitionTypeCode());
         assertEquals(null, assetGlobal.getInventoryStatusCode());
         assertEquals(null, assetGlobal.getCapitalAssetTypeCode());
         assertEquals(null, assetGlobal.getManufacturerName());
@@ -167,7 +170,7 @@ public class GlLineServiceTest extends KualiTestBase {
         // assert here
         assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
         assertEquals("1023200", assetGlobal.getOrganizationOwnerAccountNumber());
-        assertEquals(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode());
+        assertEquals(assetGlobalService.getNewAcquisitionTypeCode(), assetGlobal.getAcquisitionTypeCode());
         assertEquals("A", assetGlobal.getInventoryStatusCode());
         assertEquals("07009", assetGlobal.getCapitalAssetTypeCode());
         assertEquals("MFR", assetGlobal.getManufacturerName());

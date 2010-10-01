@@ -23,13 +23,20 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -162,6 +169,31 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         }
         return result;
     }
+    
+    /**
+     * Using default results, add columnAnchor link for reference financial document number to open document
+     * 
+     * @param lookupForm
+     * @param kualiLookupable
+     * @param resultTable
+     * @param bounded
+     * @return
+     */
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
+        for (ResultRow row : (Collection<ResultRow>)resultTable) {
+            for (Column col : row.getColumns()) {
+                if (StringUtils.equals("referenceFinancialDocumentNumber", col.getPropertyName()) && StringUtils.isNotBlank(col.getPropertyValue())) {
+                    String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + col.getPropertyValue() + "&command=displayDocSearchView";
+                    AnchorHtmlData htmlData = new AnchorHtmlData(propertyURL, "", col.getPropertyValue());
+                    htmlData.setTitle(col.getPropertyValue());
+                    col.setColumnAnchor(htmlData);
+                }
+            }
+        }
+        return displayList;
+    }    
 
     /**
      * Sets the lookupDao attribute value.

@@ -67,7 +67,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
 
     protected String typeCode = ADJUSTMENT_DOC_TYPE;
     protected java.sql.Date reversalDate;
-
+    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
      */
@@ -160,7 +160,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     public KualiDecimal getDebitTotal() {
         KualiDecimal debitTotal = KualiDecimal.ZERO;
         AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
+        Iterator<?> iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
             if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
@@ -179,7 +179,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     public KualiDecimal getCreditTotal() {
         KualiDecimal creditTotal = KualiDecimal.ZERO;
         AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
+        Iterator<?> iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
             if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
@@ -270,8 +270,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * flip the debit/credit code b/c an error corrected AV flips the debit/credit code.
      */
     protected void processAuxiliaryVoucherErrorCorrections() {
-        Iterator i = getSourceAccountingLines().iterator();
-
+        Iterator<?> i = getSourceAccountingLines().iterator();
+        
         int index = 0;
         while (i.hasNext()) {
             SourceAccountingLine sLine = (SourceAccountingLine) i.next();
@@ -373,8 +373,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         // set the document type to that of a Distrib. Of Income and Expense if it's a recode
         if (isRecodeType()) {
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
-            offsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class));
+            offsetEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
 
             // set the posting period
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
@@ -384,7 +383,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an
         // accrual or adjustment
         if (isAccrualType() || isAdjustmentType()) {
-            String glpeOffsetObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(AuxiliaryVoucherDocument.class, getGeneralLedgerPendingEntryOffsetObjectCode());
+            String glpeOffsetObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(this.getClass(), getGeneralLedgerPendingEntryOffsetObjectCode());
             offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
 
             // set the posting period
@@ -488,7 +487,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         // since these offsets are
         // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
         GeneralLedgerPendingEntry explicitEntryDeepCopy = new GeneralLedgerPendingEntry(explicitEntry);
-        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class));
+        explicitEntryDeepCopy.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
 
         // set the posting period to current, because DI GLPEs for recodes should post to the current period
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
@@ -572,7 +571,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         recodeGlpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
 
         // set the document type to that of a Distrib. Of Income and Expense
-        recodeGlpe.setFinancialDocumentTypeCode(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class));
+        recodeGlpe.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
 
         // set the object type code base on the value of the explicit entry
         recodeGlpe.setFinancialObjectTypeCode(getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(explicitEntry));
@@ -621,7 +620,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         final int todayAsComparableDate = comparableDateForm(today);
         final int periodClose = new Integer(comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
         final int periodBegin = comparableDateForm(calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate()));
-        final int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(AuxiliaryVoucherDocument.class, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        final int gracePeriodClose = periodClose + new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
         return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
     }
     

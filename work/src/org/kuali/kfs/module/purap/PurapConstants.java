@@ -876,6 +876,7 @@ public class PurapConstants extends JSTLConstants {
         public static String DEFAULT_BELOW_LINE_ITEM_DESCRIPTION = "Electronically entered amount";
         
         public final static String DEFAULT_SHIPPING_DESCRIPTION = "Shipping";
+        public final static String DEFAULT_SPECIAL_HANDLING_DESCRIPTION = "Handling";
         
         public static String CXML_ADDRESS_SHIP_TO_ROLE_ID = "shipTo";
         public static String CXML_ADDRESS_BILL_TO_ROLE_ID = "billTo";

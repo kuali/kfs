@@ -324,8 +324,20 @@ public class ElectronicInvoiceDetailRequestSummary {
    * @return the specialHandlingAmountDescription
    */
   public String getSpecialHandlingAmountDescription() {
-    return specialHandlingAmountDescription;
+      if (this.specialHandlingAmount != null) {
+          try {
+            if (BigDecimal.ZERO.compareTo(this.getInvoiceSpecialHandlingAmount()) != 0) {
+              return PurapConstants.ElectronicInvoice.DEFAULT_SPECIAL_HANDLING_DESCRIPTION;
+            } else {
+              return null;
+            }
+          } catch (Throwable t) {
+            return null;
+          }
+        }
+       return null;
   }
+  
   /**
    * @param specialHandlingAmountDescription the specialHandlingAmountDescription to set
    */

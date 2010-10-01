@@ -274,7 +274,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      * Returns the default bank code for Credit Card Receipt documents.
      */
     protected Bank getOffsetBank() {
-        return SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditCardReceiptDocument.class);
+        return SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
     }
     
     @Override

@@ -1039,7 +1039,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // financial document type codes
     public static final class FinancialDocumentTypeCodes {
         public static final String ALL = "ALL";
+        // budget construction
         public static final String BUDGET_CONSTRUCTION = "BC";
+        
+        // financial processing
         public static final String GENERAL_ERROR_CORRECTION = "GEC";
         public static final String YEAR_END_GENERAL_ERROR_CORRECTION = "YEGE";
         public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
@@ -1049,7 +1052,37 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CASH_RECEIPT = "CR";
         public static final String PROCUREMENT_CARD = "PCDO";        
         public static final String ADVANCE_DEPOSIT = "AD";
+        public static final String CASH_MANAGEMENT = "CMD";
         public static final String CREDIT_CARD_RECEIPT = "CCR";
+        
+        // accounts receivable
+        public static final String PAYMENT_APPLICATION = "APP";
+        public static final String CASH_CONTROL = "CTRL";
+        public static final String CUSTOMER_CREDIT_MEMO = "CRM";
+        public static final String CUSTOMER_INVOICE = "INV";
+        
+        // capital asset
+        public static final String ASSET_PAYMENT = "MPAY";
+        
+        // labor
+        public static final String SALARY_EXPENSE_TRANSFER = "ST";
+        
+        // purap
+        public static final String REQUISITION = "REQS";
+        public static final String PAYMENT_REQUEST = "PREQ";
+        public static final String PURCHASE_ORDER = "PO";
+        public static final String PURCHASE_ORDER_AMENDMENT = "POA";
+        public static final String PURCHASE_ORDER_CLOSE = "POC";
+        public static final String PURCHASE_ORDER_SPLIT = "POSP";
+        public static final String PURCHASE_ORDER_REOPEN = "POR";
+        public static final String PURCHASE_ORDER_PAYMENT_HOLD = "POPH";
+        public static final String PURCHASE_ORDER_REMOVE_HOLD = "PORH";
+        public static final String PURCHASE_ORDER_RETRANSMIT = "PORT";
+        public static final String PURCHASE_ORDER_VOID = "POV";
+        public static final String LINE_ITEM_RECEIVING = "RCVL";
+        public static final String CORRECTION_RECEIVING = "RCVC";
+        public static final String VENDOR_CREDIT_MEMO = "CM";
+        public static final String BULK_RECEIVING = "RCVB";
     }
     
     // financial document type names

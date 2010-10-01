@@ -253,6 +253,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
         List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval();
+        LOG.info(" -- Initial filtering complete, returned " + new Integer((docs == null ? 0 : docs.size())).toString() + " docs.");
         if (docs != null) {
             String samt = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
             KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
@@ -1278,7 +1279,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         distributeAccounting(paymentRequestDocument);
 
         // set bank code to default bank code in the system parameter
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(PaymentRequestDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(paymentRequestDocument.getClass());
         if (defaultBank != null) {
             paymentRequestDocument.setBankCode(defaultBank.getBankCode());
             paymentRequestDocument.setBank(defaultBank);

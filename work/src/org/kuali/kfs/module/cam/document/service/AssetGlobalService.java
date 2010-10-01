@@ -89,4 +89,17 @@ public interface AssetGlobalService {
      * @return
      */
     public List<PersistableBusinessObject> getSeparateAssets(AssetGlobal assetGlobal);
+    
+    /**
+     * @return the parameter value for the new acquisition type code
+     */
+    public String getNewAcquisitionTypeCode();
+    /**
+     * @return the parameter value for the capital object acquisition code group
+     */
+    public String getCapitalObjectAcquisitionCodeGroup();
+    /**
+     * @return the parameter value for the not new acquisition code group 
+     */
+    public String getNonNewAcquisitionCodeGroup();
 }

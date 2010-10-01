@@ -167,6 +167,9 @@
 		<property name="cashManagementDao">
 			<ref bean="cashManagementDao" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
 	</bean>
 
 	<bean id="flexibleOffsetAccountService" class="org.kuali.kfs.sys.service.impl.FlexibleOffsetAccountServiceImpl">

@@ -63,6 +63,7 @@ import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -141,6 +142,17 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     protected boolean isSeparationOfDutiesReviewRequired() {
         try {
             Set<Person> priorApprovers = getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
+            
+            // The initiator cannot be the approver
+            String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            Person initiator = KIMServiceLocator.getPersonService().getPerson(initiatorPrincipalId);
+            // If there is only one approver, and that approver is also the initiator, then Separation of Duties is required.
+            boolean priorApproverIsInitiator = priorApprovers.contains(initiator);
+            boolean onlyOneApprover = (priorApprovers.size() == 1);
+            if ( priorApproverIsInitiator && onlyOneApprover) {
+                return true;
+            }
+            
             // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
             // then no need for separation of duties
             if (priorApprovers.size() > 0) {

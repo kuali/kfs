@@ -20,12 +20,12 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
-import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -56,7 +56,7 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the bank code for a new AdvanceDepositDetail to the setup default for the Advance Deposit document.
      */
     public void setDefautBankCode() {
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(AdvanceDepositDocument.class);
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(AdvanceDepositDocument.ADVANCE_DEPOSIT_DOCUMENT_TYPE_CODE);
         if (defaultBank != null) {
             this.financialDocumentBankCode = defaultBank.getBankCode();
             this.bank = defaultBank;

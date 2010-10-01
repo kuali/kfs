@@ -44,7 +44,8 @@
 	  	<purap:paymentRequestProcessItems 
 			documentAttributes="${DataDictionary.VendorCreditMemoDocument.attributes}"
 			itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
-			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}" isCreditMemo="true" />
+			accountingLineAttributes="${DataDictionary.CreditMemoAccount.attributes}"
+			isCreditMemo="true" />
 	  
 	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"

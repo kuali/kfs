@@ -308,7 +308,8 @@ public class BalanceForwardRuleHelper {
         activeEntry.setTransactionLedgerEntrySequenceNumber(new Integer(state.getSequenceNumber()));
         activeEntry.setTransactionLedgerEntryDescription(new StringBuffer("BEG C & G BAL BROUGHT FORWARD FROM ").append(closingFiscalYear).toString());
         activeEntry.setTransactionLedgerEntryAmount(balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()));
-        if (KFSConstants.BALANCE_TYPE_CURRENT_BUDGET.equals(balance.getBalanceTypeCode())) {
+        if (KFSConstants.BALANCE_TYPE_CURRENT_BUDGET.equals(balance.getBalanceTypeCode()) 
+                || KFSConstants.BALANCE_TYPE_BASE_BUDGET.equals(balance.getBalanceTypeCode())  ) {
             activeEntry.setTransactionDebitCreditCode(null);
         }
         else {

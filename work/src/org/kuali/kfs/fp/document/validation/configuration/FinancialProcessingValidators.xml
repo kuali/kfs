@@ -349,6 +349,8 @@
 
     <bean id="DisbursementVoucher-payeeAddressValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeAddressValidation" abstract="true" />
     
+    <bean id="DisbursementVoucher-payeeStateCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeStateCodeValidation" abstract="true" />
+    
     <bean id="DisbursementVoucher-campusSpecialHandlingValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherCampusSpecialHandlingValidation" abstract="true">
     	<property name="documentService" ref="documentService" />
     </bean>

@@ -144,18 +144,7 @@
   <bean id="InvoiceRecurrence-customer.customerName" parent="InvoiceRecurrence-customer.customerName-parentBean"/>
 
   <bean id="InvoiceRecurrence-customer.customerName-parentBean" abstract="true" parent="Customer-customerName">
-    <property name="name" value="customer.customerName"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Customer Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="required" value="false"/>
-    <property name="maxLength" value="60"/>
-	<property name="validationPattern">
-	  <bean parent="AlphaValidationPattern" p:allowWhitespace="true"/>
-	</property>
-	<property name="control">
-	  <bean parent="TextControlDefinition" p:size="62"/>
-	</property>
+    <property name="name" value="customer.customerName"/>    
   </bean>
   <bean id="InvoiceRecurrence-documentRecurrenceBeginDate" parent="InvoiceRecurrence-documentRecurrenceBeginDate-parentBean"/>
 

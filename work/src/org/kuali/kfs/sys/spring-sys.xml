@@ -59,6 +59,8 @@
 				<value>fiscalYearMakerJob</value>
 				<value>purgeReportsAndStagingJob</value>
 				<value>autoDisapproveJob</value>
+		                <value>dailyEmailJob</value>
+                		<value>weeklyEmailJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -476,6 +478,9 @@
 		<property name="taxRegionService">
 			<ref bean="taxRegionService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>	
 	
 	<bean id="taxRegionService" class="org.kuali.kfs.sys.service.impl.TaxRegionServiceImpl">
@@ -824,4 +829,26 @@
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
 		
 	</bean>
+
+    <!-- Create an unscheduled Daily Mail job -->
+    <bean id="dailyEmailJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="dailyEmailStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dailyEmailStep" class="org.kuali.kfs.sys.batch.DailyEmailStep" parent="step" />
+
+    <!-- Create an unscheduled Weekly Mail job -->
+    <bean id="weeklyEmailJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="weeklyEmailStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="weeklyEmailStep" class="org.kuali.kfs.sys.batch.WeeklyEmailStep" parent="step" />
 </beans>

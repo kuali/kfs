@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
@@ -289,5 +290,14 @@ public interface PurapService {
    public boolean isDeliveryStateTaxable(String deliveryState);
    
    public void clearAllTaxes(PurchasingAccountsPayableDocument apDoc);
+   
+   /**
+    * Determines if the item type specified conflict with the Account tax policy.
+    * 
+    * @param purchasingDocument purchasing document to check
+    * @param item item to check if in conflict with tax policy
+    * @return true if item is in conflict, false otherwise
+    */
+   public abstract boolean isItemTypeConflictWithTaxPolicy(PurchasingDocument purchasingDocument, PurApItem item);
 }
 

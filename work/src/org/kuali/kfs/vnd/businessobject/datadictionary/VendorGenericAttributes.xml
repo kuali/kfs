@@ -53,9 +53,6 @@
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="StateCodeSelectControl" />
-    </property>
   </bean>
   
   <bean id="VendorGenericAttributes-campusCode" parent="VendorGenericAttributes-campusCode-parentBean"/>

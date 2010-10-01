@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
 
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -55,7 +56,7 @@ public class AuxiliaryVoucherGeneralLedgerPendingEntriesBalanceValdiation extend
 
         for (GeneralLedgerPendingEntry glpe : getAccountingDocumentForValidation().getGeneralLedgerPendingEntries()) {
             // make sure we are looking at only the explicit entries that aren't DI types
-            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class))) {
+            if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE)) {
                 if (GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
                     creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
                 }

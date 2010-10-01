@@ -472,4 +472,12 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return this.getExtendedPrice();
     }
 
+    @Override
+    public String toString() {
+        return "Line "+(itemLineNumber==null?"(null)":itemLineNumber.toString())+": ["+itemTypeCode+"] " + 
+                "Unit:"+(itemUnitPrice==null?"(null)":itemUnitPrice.toString())+" " + 
+                "Tax:"+(itemSalesTaxAmount==null?"(null)":itemSalesTaxAmount.toString())+" " + 
+                "*"+itemDescription+"*";
+    }
+
 }

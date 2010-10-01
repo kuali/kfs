@@ -394,8 +394,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        String documentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(GeneralErrorCorrectionDocument.class);
-        if (explicitEntry.getFinancialDocumentTypeCode().equalsIgnoreCase(documentType)) {
+        if (explicitEntry.getFinancialDocumentTypeCode().equalsIgnoreCase(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION)) {
             explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
 
             // Clearing fields that are already handled by the parent algorithm - we don't actually want

@@ -22,10 +22,8 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -61,6 +59,5 @@ public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
 
         return isValid;
     }
-
 
 }

@@ -18,7 +18,7 @@
 <%@ attribute name="itemInProcess" required="true" description="An item in process to provide an inquirable link to." type="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" %>
 
 <p>
-  <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" keyValues="workgroupName=${itemInProcess.workgroupName}&itemIdentifier=${itemInProcess.itemIdentifier}" render="true">
+  <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" keyValues="campusCode=${itemInProcess.campusCode}&itemIdentifier=${itemInProcess.itemIdentifier}" render="true">
     #${itemInProcess.itemIdentifier}
   </kul:inquiry>
 </p>

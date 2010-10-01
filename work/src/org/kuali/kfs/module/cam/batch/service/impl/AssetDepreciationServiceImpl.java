@@ -383,7 +383,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         try {
 
             String documentNumber = createNewDepreciationDocument();
-            financialSystemDocumentTypeCodeCode = getDataDictionaryService().getDocumentTypeNameByClass(AssetDepreciationDocument.class);
+            financialSystemDocumentTypeCodeCode = CamsConstants.DocumentTypeName.ASSET_DEPRECIATION;
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation Document Type Code: " + financialSystemDocumentTypeCodeCode);
 
             Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());

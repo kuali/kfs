@@ -410,7 +410,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
-        if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds() || DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
+        if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds()) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
             
             pnt = new PaymentNoteText();

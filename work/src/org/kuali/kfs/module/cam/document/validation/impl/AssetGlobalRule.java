@@ -422,10 +422,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validatePaymentLine(MaintenanceDocument maintenanceDocument, AssetGlobal assetGlobal, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
-
+            
         // If Acquisition type is "New" or "non-capital", check required fields including Document number, Document type code,
         // Posted date.
-        if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, assetGlobal.getAcquisitionTypeCode()) || !getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
+
+        if (getAssetGlobalService().existsInGroup(getAssetGlobalService().getNewAcquisitionTypeCode(), assetGlobal.getAcquisitionTypeCode()) || !getAssetGlobalService().existsInGroup(getAssetGlobalService().getCapitalObjectAcquisitionCodeGroup(), assetGlobal.getAcquisitionTypeCode())) {
             success &= checkRequiredFieldsForNewOrNonCapital(assetPaymentDetail);
         }
         else {
@@ -520,7 +521,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String documentTypeCode = assetPaymentDetail.getExpenditureFinancialDocumentTypeCode();
 
         boolean valid = true;
-        if (StringUtils.isNotBlank(acquisitionTypeCode) && getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, acquisitionTypeCode)) {
+        if (StringUtils.isNotBlank(acquisitionTypeCode) && getAssetGlobalService().existsInGroup(getAssetGlobalService().getNonNewAcquisitionCodeGroup(), acquisitionTypeCode)) {
 
             if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentTypeCode)) {
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);

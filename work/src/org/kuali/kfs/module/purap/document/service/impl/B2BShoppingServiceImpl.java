@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +41,6 @@ import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -62,7 +60,6 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -159,8 +156,12 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
                 throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
             }
 
+            // determine if the system is configured to use DUNS numbers, rather than VendorNumbers, if so, use that to 
+            // filter vendor-specific items off the cart
+            String vendorNumberOrDUNS = (isDunsNumberEnabled() ? vendor.getVendorDunsNumber() : vendor.getVendorNumber());
+
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber());
+            List itemsForVendor = getAllVendorItems(items, vendorNumberOrDUNS);
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
@@ -234,6 +235,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
     /**
+     * Returns true if the system has been configured to use DUNS vendor numbers rather than 
+     * traditional internal vendor numbers.
+     */
+    private boolean isDunsNumberEnabled() {
+        return parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
+    }
+    
+    /**
      * Get all the vendors in a single shopping cart by the vendor number. 
      * 
      * @param items Items in the shopping cart
@@ -256,8 +265,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
             String vendorNumber = (String) iter.next();
             VendorDetail vd = null;
-            boolean enableB2bByDunsNumber = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
-            if (enableB2bByDunsNumber) {
+            if (isDunsNumberEnabled()) {  
                 //retrieve vendor by duns number
                 vd = vendorService.getVendorByDunsNumber(vendorNumber);
             }

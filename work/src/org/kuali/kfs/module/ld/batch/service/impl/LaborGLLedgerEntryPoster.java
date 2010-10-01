@@ -49,7 +49,9 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
         laborGeneralLedgerEntry.setTransactionDate(new Date(postDate.getTime()));
 
-        laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
+        if(! transaction.getFinancialBalanceTypeCode().equalsIgnoreCase("CB")){
+            laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
+        }
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
         
         String encumbranceUpdateCode = this.getEncumbranceUpdateCode(transaction);

@@ -43,6 +43,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -159,7 +160,7 @@ public class LockboxServiceImpl implements LockboxService {
                 //  create a new CashControl document
                 LOG.info("Creating new CashControl document for invoice: " + lockbox.getFinancialDocumentReferenceInvoiceNumber() + ".");
                 try {
-                    cashControlDocument = (CashControlDocument)documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class));
+                    cashControlDocument = (CashControlDocument)documentService.getNewDocument(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL);
                 }
                 catch (Exception e) {
                     LOG.error("A Exception was thrown while trying to initiate a new CashControl document.", e);

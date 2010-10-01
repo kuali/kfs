@@ -47,6 +47,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
@@ -74,6 +75,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private DocumentService documentService;
     private PurApLineService purApLineService;
     private PurApInfoService purApInfoService;
+    private AssetGlobalService assetGlobalService;
 
     public static final String DOCUMENT_DESC_PREFIX = "CAB created for ";
 
@@ -620,7 +622,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setDocumentNumber(documentNumber);
         assetGlobal.setCapitalAssetDescription(selectedItem.getAccountsPayableLineItemDescription());
         assetGlobal.setConditionCode(CamsConstants.Asset.CONDITION_CODE_E);
-        assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
+        assetGlobal.setAcquisitionTypeCode(getAssetGlobalService().getNewAcquisitionTypeCode());
         assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
         // set vendor name from Purchase Order Document
         PurchaseOrderDocument purApdocument = this.getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier());
@@ -874,5 +876,15 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      */
     public void setPurApInfoService(PurApInfoService purApInfoService) {
         this.purApInfoService = purApInfoService;
+    }
+
+
+    private AssetGlobalService getAssetGlobalService() {
+        return assetGlobalService;
+    }
+
+
+    public void setAssetGlobalService(AssetGlobalService assetGlobalService) {
+        this.assetGlobalService = assetGlobalService;
     }
 }

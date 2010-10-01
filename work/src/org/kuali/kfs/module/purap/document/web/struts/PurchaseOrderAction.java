@@ -779,7 +779,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, docId, methodToCallDocHandler);
         request.setAttribute("printPOPDFUrl", printPOPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER);
         request.setAttribute("purchaseOrderLabel", label);
 
         return mapping.findForward("printPurchaseOrderPDF");
@@ -942,7 +942,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, poDocId, methodToCallDocHandler);
         request.setAttribute("printPOQuoteListPDFUrl", printPOQuoteListPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER);
         request.setAttribute("purchaseOrderLabel", label);
 
         return mapping.findForward("printPOQuoteListPDF");        
@@ -1174,7 +1174,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, docId, methodToCallDocHandler);
         request.setAttribute("printPOPDFUrl", printPOPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER);
         request.setAttribute("purchaseOrderLabel", label);
         GlobalVariables.getUserSession().addObject("isPreview", new Boolean(true));
 
@@ -1212,7 +1212,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         request.setAttribute("printPOPDFUrl", printPOPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
         request.setAttribute("docId", docId);
-        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER);
         request.setAttribute("purchaseOrderLabel", label);
         return mapping.findForward("retransmitPurchaseOrderPDF");
     }

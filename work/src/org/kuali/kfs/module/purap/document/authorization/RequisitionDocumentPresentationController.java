@@ -88,14 +88,11 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+            editModes.add(RequisitionEditMode.CLEAR_ALL_TAXES); // always available now if taxes
 
             if (reqDocument.isUseTaxIndicator()) {
                 // don't allow tax editing if doc using use tax
                 editModes.add(RequisitionEditMode.LOCK_TAX_AMOUNT_ENTRY);
-            }
-            else {
-                // display the "clear all taxes" button if doc is not using use tax
-                editModes.add(RequisitionEditMode.CLEAR_ALL_TAXES);
             }
         }
 

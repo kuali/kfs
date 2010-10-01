@@ -40,9 +40,9 @@ import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -50,7 +50,6 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
@@ -89,6 +88,8 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             sendValidationEmail(batch, collectorReportData);
             sendDemergerEmail(batch, collectorReportData);
         }
+        
+        sendEmailSendFailureNotice(collectorReportData);
     }
 
     /**
@@ -582,6 +583,48 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
+        }
+    }
+    
+    /**
+     * Sends email message to batch mailing list notifying of email send failures during the collector processing
+     * 
+     * @param collectorReportData - data from collector run
+     */
+    protected void sendEmailSendFailureNotice(CollectorReportData collectorReportData) {
+        MailMessage message = new MailMessage();
+
+        message.setFromAddress(mailService.getBatchMailingList());
+
+        String subject = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
+        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            subject = environmentCode + ": " + subject;
+        }
+        message.setSubject(subject);
+
+        boolean hasEmailSendErrors = false;
+
+        String body = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY);
+        for (String batchId : collectorReportData.getEmailSendingStatus().keySet()) {
+            String emailStatus = collectorReportData.getEmailSendingStatus().get(batchId);
+            if (StringUtils.containsIgnoreCase(emailStatus, "error")) {
+                body += "Batch: " + batchId + " - " + emailStatus + "\n";
+                hasEmailSendErrors = true;
+            }
+        }
+        message.setMessage(body);
+
+        message.addToAddress(mailService.getBatchMailingList());
+
+        try {
+            if (hasEmailSendErrors) {
+                mailService.sendMessage(message);
+            }
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
 

@@ -120,8 +120,13 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
             valid &= false;
         }
 
-        if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){            
-            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, rlDoc.getDocumentNumber(), rlDoc.getPurchaseOrderIdentifier().toString());
+        if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){
+            String inProcessDocNum = "";
+            List<String> inProcessDocNumbers = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber());
+            if (!inProcessDocNumbers.isEmpty()) {    // should not be empty if we reach this point
+                inProcessDocNum = inProcessDocNumbers.get(0);
+            }
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, inProcessDocNum, rlDoc.getPurchaseOrderIdentifier().toString());
             valid &= false;
         }
         

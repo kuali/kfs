@@ -37,16 +37,9 @@
         <value>chartOfAccountsCode</value>
       </list>
     </property>
-    
-    <property name="webScriptFiles">
-      <list>
-        <value>../dwr/interface/AccountService.js</value>
-        <value>../scripts/coa/accountDocument.js</value>
-      </list>
-    </property>    
-    
     <property name="documentTypeName" value="PMNP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.NegativePaymentRequestApprovalLimitRule" />
     <property name="workflowAttributes">
     	<ref bean="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes"/>
     </property>

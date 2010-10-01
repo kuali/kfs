@@ -171,6 +171,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="awardPrimaryProjectDirectorIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="awardProjectDirectorProjectTitle"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
         </bean>
@@ -201,6 +202,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="organization.organizationName" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="awardPrimaryOrganizationIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
           <property name="attributeToHighlightOnDuplicateKey" value="organizationCode"/>

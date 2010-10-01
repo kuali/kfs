@@ -506,14 +506,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         
         // Current fiscal year
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-        
-        // Document type codes
-        String cashControlDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class);
-        String paymentApplicationDocumentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(PaymentApplicationDocument.class); 
         
         // The processing chart and org comes from the the cash control document if there is one.
         // If the payment application document is created from scratch though, then we pull it 
@@ -567,7 +562,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditUnapplied.setFinancialObjectCode(unappliedObjectCode);
             actualCreditUnapplied.setFinancialObjectTypeCode(unappliedObjectTypeCode);
             actualCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditUnapplied.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualCreditUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualCreditUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualCreditUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -595,12 +590,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             OffsetDefinition offsetDebitDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                     getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), 
-                    paymentApplicationDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetDebitDefinition.refreshReferenceObject("financialObject");
             offsetDebitUnapplied.setFinancialObjectCode(offsetDebitDefinition.getFinancialObjectCode());
             offsetDebitUnapplied.setFinancialObjectTypeCode(offsetDebitDefinition.getFinancialObject().getFinancialObjectTypeCode());
             offsetDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitUnapplied.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetDebitUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             offsetDebitUnapplied.setTransactionLedgerEntryAmount(actualCreditUnapplied.getTransactionLedgerEntryAmount());
             offsetDebitUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetDebitUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -618,7 +613,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualDebitUnapplied.setFinancialObjectCode(unappliedObjectCode);
             actualDebitUnapplied.setFinancialObjectTypeCode(unappliedObjectTypeCode);
             actualDebitUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitUnapplied.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualDebitUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualDebitUnapplied.setTransactionLedgerEntryAmount(holding.getFinancialDocumentLineAmount());
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualDebitUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -643,12 +638,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             OffsetDefinition offsetCreditDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                     getPostingYear(), universityClearingAccount.getChartOfAccountsCode(), 
-                    paymentApplicationDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             offsetCreditDefinition.refreshReferenceObject("financialObject");
             offsetCreditUnapplied.setFinancialObjectCode(offsetCreditDefinition.getFinancialObjectCode());
             offsetCreditUnapplied.setFinancialObjectTypeCode(offsetCreditDefinition.getFinancialObject().getFinancialObjectTypeCode());
             offsetCreditUnapplied.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditUnapplied.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetCreditUnapplied.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             offsetCreditUnapplied.setTransactionLedgerEntryAmount(actualDebitUnapplied.getTransactionLedgerEntryAmount());
             offsetCreditUnapplied.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditUnapplied.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -671,7 +666,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             nonInvoiced.refreshReferenceObject("financialObject");
             actualCreditEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
             if (StringUtils.isBlank(nonInvoiced.getSubAccountNumber())) {
                 actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -718,7 +713,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 }
             }
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());            
             if (StringUtils.isBlank(unappliedSubAccountNumber)) {
                 actualDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -741,12 +736,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             OffsetDefinition debitOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                     getPostingYear(), nonInvoiced.getChartOfAccountsCode(), 
-                    paymentApplicationDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                    KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             debitOffsetDefinition.refreshReferenceObject("financialObject");
             offsetDebitEntry.setFinancialObjectCode(debitOffsetDefinition.getFinancialObjectCode());
             offsetDebitEntry.setFinancialObjectTypeCode(debitOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             offsetDebitEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             offsetDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -765,12 +760,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             OffsetDefinition creditOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                         fiscalYearForCreditOffsetDefinition, processingChartCode, 
-                        paymentApplicationDocumentTypeCode, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
+                        KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION, ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             creditOffsetDefinition.refreshReferenceObject("financialObject");
             offsetCreditEntry.setFinancialObjectCode(creditOffsetDefinition.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(creditOffsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             offsetCreditEntry.setTransactionLedgerEntryAmount(nonInvoiced.getFinancialDocumentLineAmount());
             offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -826,9 +821,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
             actualDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
             actualDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-            actualDebitEntry.setTransactionLedgerEntryDescription(ipa.getDocumentHeader().getDocumentDescription());            
+            actualDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());            
             generatedEntries.add(actualDebitEntry);
             sequenceHelper.increment();
             
@@ -841,7 +836,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            actualCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             actualCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             actualCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             actualCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());                        
@@ -859,7 +854,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
             offsetDebitEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             offsetDebitEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetDebitEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetDebitEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             if (StringUtils.isBlank(ipa.getInvoiceDetail().getSubAccountNumber())) {
                 offsetDebitEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
@@ -879,7 +874,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 offsetDebitEntry.setProjectCode(ipa.getInvoiceDetail().getProjectCode());
             }
             offsetDebitEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-            offsetDebitEntry.setTransactionLedgerEntryDescription(ipa.getDocumentHeader().getDocumentDescription());            
+            offsetDebitEntry.setTransactionLedgerEntryDescription(getDocumentHeader().getDocumentDescription());            
             generatedEntries.add(offsetDebitEntry);
             sequenceHelper.increment();
 
@@ -892,7 +887,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
             offsetCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
-            offsetCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
+            offsetCreditEntry.setFinancialDocumentTypeCode(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
             offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());

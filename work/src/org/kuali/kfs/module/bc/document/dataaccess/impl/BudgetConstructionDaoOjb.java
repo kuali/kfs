@@ -45,6 +45,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -340,7 +341,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         // active BC account delegates are marked with the BC document type or the special "ALL" document type
         List docTypes = new ArrayList();
         docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
-        docTypes.add(getDataDictionaryService().getDocumentTypeNameByClass(BudgetConstructionDocument.class));
+        docTypes.add(KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);

@@ -28,7 +28,9 @@ public class PurapKeyConstants {
     public static final String ERROR_INVALID_CHART_OF_ACCOUNTS_CODE = "error.document.purap.invalidChartOfAccountsCode";
     public static final String ERROR_INVALID_ORGANIZATION_CODE = "error.document.purap.invalidOrganizationCode";
     public static final String ERROR_INVALID_COA_ORG_CODE = "error.document.purap.invalidCoaOrgCode";
-
+    public static final String ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS = "error.document.purap.cannot.inactivate.used.in.system.parameters";
+    public static final String ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS = "error.document.purap.cannot.inactivate.used.by.active.records";
+    
     // Purchase Order & Requisition
     public static final String WARNING_REQUESTOR_NAME_TRUNCATED = "warning.requestor.name.truncated";
     public static final String WARNING_DELIVERY_TO_NAME_TRUNCATED = "warning.delivery.to.name.truncated";
@@ -162,7 +164,6 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN = "error.invoice.purchaseOrder.notOpen";
     public static final String ERROR_PURCHASE_PENDING_ACTION = "error.invoice.purchaseOrder.pending.action";
     public static final String ERROR_PURCHASE_ORDER_IS_PENDING = "error.invoice.purchaseOrder.isPending";
-    public static final String ERROR_DUPLICATE_INVOICE_NUMBER_ENTERED = "error.duplicate.invoiceNumberEntered";
     public static final String ERROR_INVALID_INVOICE_DATE = "errors.invalid.invoice.date";
     public static final String ERROR_INVALID_PAY_DATE = "errors.invalid.pay.date";
     public static final String ERROR_NO_ITEMS_TO_INVOICE = "errors.invoice.items.noneLeft";
@@ -173,6 +174,8 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE = "error.paymentRequest.grandTotal.not.positive";
     public static final String ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED = "error.paymentRequest.invoice.required";
     public static final String ERROR_PAYMENT_REQUEST_LINE_ITEM_QUANTITY_ZERO = "error.paymentRequest.lineItem.quantity.zero";
+    
+    public static final String ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_EXCLUSIVE = "error.negativePaymentRequestApprovalLimit.organizationAndAccountMutuallyExclusive";
 
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT = "message.duplicate.invoice.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED = "message.duplicate.invoice.date.amount.cancelledOrVoided";

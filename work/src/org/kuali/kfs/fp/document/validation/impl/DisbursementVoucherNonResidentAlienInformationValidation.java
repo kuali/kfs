@@ -25,6 +25,7 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -110,7 +111,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
                     taxPercent.setIncomeTaxTypeCode(FEDERAL_TAX_TYPE_CODE);
                     taxPercent.setIncomeTaxPercent(nonResidentAlienTax.getFederalIncomeTaxPercent());
 
-                    PersistableBusinessObject retrievedPercent = SpringContext.getBean(BusinessObjectService.class).retrieve(taxPercent);
+                    NonResidentAlienTaxPercent retrievedPercent = (NonResidentAlienTaxPercent) SpringContext.getBean(BusinessObjectService.class).retrieve(taxPercent);
                     if (retrievedPercent == null) {
                         errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { nonResidentAlienTax.getFederalIncomeTaxPercent().toString(), nonResidentAlienTax.getIncomeClassCode() });
                         isValid = false;
@@ -130,6 +131,14 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
                     PersistableBusinessObject retrievedPercent = SpringContext.getBean(BusinessObjectService.class).retrieve(taxPercent);
                     if (retrievedPercent == null) {
                         errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, nonResidentAlienTax.getStateIncomeTaxPercent().toString(), nonResidentAlienTax.getIncomeClassCode());
+                        isValid = false;
+                    }
+                }
+                
+                // verify tax lines have been generated
+                if (isValid && (nonResidentAlienTax.getFederalIncomeTaxPercent().isNonZero() || nonResidentAlienTax.getStateIncomeTaxPercent().isNonZero())) {
+                    if (StringUtils.isBlank(nonResidentAlienTax.getFinancialDocumentAccountingLineText())) {
+                        errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_NO_TAXLINES_GENERATED);
                         isValid = false;
                     }
                 }

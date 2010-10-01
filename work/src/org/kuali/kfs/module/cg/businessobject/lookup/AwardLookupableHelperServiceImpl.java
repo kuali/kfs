@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
     private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.projectDirector.principalId";
+    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.principalId";
 
     private PersonService<Person> personService;
 

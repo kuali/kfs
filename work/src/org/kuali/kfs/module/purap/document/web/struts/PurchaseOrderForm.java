@@ -409,8 +409,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderAmendmentDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_AMENDMENT, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;
@@ -443,8 +442,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderVoidDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_VOID, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;        
@@ -467,8 +465,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderCloseDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_CLOSE, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;        
@@ -488,8 +485,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderReopenDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_REOPEN, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;
@@ -509,8 +505,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderPaymentHoldDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_PAYMENT_HOLD, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;        
@@ -530,8 +525,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRemoveHoldDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_REMOVE_HOLD, GlobalVariables.getUserSession().getPerson());
         }
 
         return can;        
@@ -561,13 +555,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
         if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
             // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_RETRANSMIT, GlobalVariables.getUserSession().getPerson());
         }
         else {
             // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER, GlobalVariables.getUserSession().getPerson());            
         }
         
         return can;
@@ -591,13 +583,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
             if (getPurchaseOrderDocument().getPurchaseOrderAutomaticIndicator()) {
                 // for APO use authorization for PurchaseOrderRetransmitDocument, which is anybody
-                String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderRetransmitDocument.class);
-                can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+                can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_RETRANSMIT, GlobalVariables.getUserSession().getPerson());
             }
             else {
                 // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
-                String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderDocument.class);
-                can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());            
+                can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER, GlobalVariables.getUserSession().getPerson());            
             }
         }
       
@@ -636,8 +626,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT, GlobalVariables.getUserSession().getPerson());
         }
               
         return can;
@@ -654,8 +643,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(PurchaseOrderSplitDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_SPLIT, GlobalVariables.getUserSession().getPerson());
         }
               
         return can;        
@@ -673,8 +661,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // check user authorization
         if (can) {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(LineItemReceivingDocument.class);
-            can = documentAuthorizer.canInitiate(documentTypeName, GlobalVariables.getUserSession().getPerson());
+            can = documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING, GlobalVariables.getUserSession().getPerson());
         }
               
         return can;

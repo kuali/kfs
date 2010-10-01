@@ -580,7 +580,8 @@
 		<property name="parameterService" ref="parameterService"/>
 	</bean>
 	
-	<bean id="electronicInvoiceHelperService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
+	<bean id="electronicInvoiceHelperService" parent="electronicInvoiceHelperService-parentBean" />
+	<bean id="electronicInvoiceHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
 		<property name="electronicInvoicingDao" ref="electronicInvoicingDao" />
         <property name="electronicInvoiceInputFileType" ref="electronicInvoiceInputFileType" />
 		<property name="electronicInvoiceMatchingService" ref="electronicInvoiceMatchingService"/>
@@ -591,6 +592,7 @@
         <property name="paymentRequestService" ref="paymentRequestService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
 	</bean>
 	
 	<bean id="electronicInvoiceMatchingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMatchingServiceImpl">

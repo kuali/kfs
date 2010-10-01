@@ -181,6 +181,19 @@ public class ElectronicInvoiceOrder {
     }
     return null;
   }
+  
+  public String getInvoiceSpecialHandlingDescription() {
+      BigDecimal total = BigDecimal.ZERO;
+      for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
+        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
+        BigDecimal specialHandlingAmount = eii.getInvoiceLineSpecialHandlingAmountBigDecimal(); 
+        if ( (specialHandlingAmount != null) && (BigDecimal.ZERO.compareTo(specialHandlingAmount) != 0) ) {
+          return PurapConstants.ElectronicInvoice.DEFAULT_SPECIAL_HANDLING_DESCRIPTION;
+        }
+      }
+      return null;
+    }
+  
 
   public BigDecimal getInvoiceSubTotalAmount() {
     BigDecimal total = BigDecimal.ZERO;

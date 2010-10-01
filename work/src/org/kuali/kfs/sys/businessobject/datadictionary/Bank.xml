@@ -122,6 +122,7 @@
   <bean id="Bank-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankAccountNumber"/>
     <property name="label" value="Bank Account Number"/>
+    <property name="forceUppercase" value="true"/>    
     <property name="shortLabel" value="Bank Acct"/>
     <property name="maxLength" value="15"/>
     <property name="required" value="true"/>

@@ -60,14 +60,7 @@
 		</rollback>
     </changeSet>
 	<changeSet author="Jonathan Keller" id="KFS_LOAD_KR_POSTAL_CODE_T">
-		<loadData tableName="KR_POSTAL_CODE_T" file="data/kr_postal_code_t.csv">
-			<column header="POSTAL_CD" type="string" />
-			<column header="OBJ_ID" type="string" />
-			<column header="POSTAL_CNTRY_CD" type="string" />
-			<column header="POSTAL_STATE_CD" type="string" />
-			<column header="POSTAL_CITY_NM" type="string" />
-			<column header="ACTV_IND" type="string" />
-		</loadData>
+		<loadData tableName="KR_POSTAL_CODE_T" file="data/kr_postal_code_t.csv" />
 		<rollback>
 			<delete tableName="KR_POSTAL_CODE_T" />
 		</rollback>

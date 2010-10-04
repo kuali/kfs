@@ -198,5 +198,24 @@
       </routingVersion>
       <routePaths/>
     </documentType>
+    <documentType>
+      <name>
+        ACLO
+      </name>
+   	<parent>
+        FSLO
+      </parent>
+      <label>
+        Annual Closing
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+
   </documentTypes>
 </data>

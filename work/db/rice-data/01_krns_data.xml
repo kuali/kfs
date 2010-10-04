@@ -65,7 +65,6 @@
 			<column header="OBJ_ID" type="string" />
 			<column header="POSTAL_CNTRY_CD" type="string" />
 			<column header="POSTAL_STATE_CD" type="string" />
-			<column header="COUNTY_CD" type="string" />
 			<column header="POSTAL_CITY_NM" type="string" />
 			<column header="ACTV_IND" type="string" />
 		</loadData>

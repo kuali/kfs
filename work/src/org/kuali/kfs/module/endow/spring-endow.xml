@@ -182,10 +182,47 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="accrualTransactionsExceptionReportHeader"/>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
+    
+    <bean id="transactionDocumentExceptionReportLineHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documentType" value="DOC TYPE" />
+    			<entry key="documentId" value="DOC ID"/>
+    			<entry key="securityId" value="SEC ID"/>
+    			<entry key="kemid" value="KEMID"/>
+    			<entry key="incomeAmount" value="INCOME AMT" />
+    			<entry key="incomeUnits" value="INCOME UNITS"/>
+    			<entry key="principalAmount" value="PRINCIPAL AMT" />
+    			<entry key="principalUnits" value="PRINCIPAL UNITS"/>    			
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
+	</bean>
+
+    <bean id="transactionDocumentTotalReportLineHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLineHelper" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documentType" value="DOC TYPE" />
+    			<entry key="documentId" value="DOC ID"/>
+    			<entry key="securityId" value="SEC ID"/>
+    			<entry key="totalNumberOfTransactionLines" value="TOT TRAN LN"/>
+    			<entry key="incomeAmount" value="INCOME AMT" />
+    			<entry key="incomeUnits" value="INCOME UNITS"/>
+    			<entry key="principalAmount" value="PRINCIPAL AMT" />
+    			<entry key="principalUnits" value="PRINCIPAL UNITS"/>    			
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
+	</bean>
+	
 	
 	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">
 		<property name="kemService">

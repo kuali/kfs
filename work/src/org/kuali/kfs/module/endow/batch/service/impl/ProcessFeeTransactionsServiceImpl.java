@@ -29,9 +29,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 
-//import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine;
-//import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
-//import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
 
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
@@ -93,9 +93,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     private EndowmentExceptionReportHeader processFeeTransactionsRowValues;
     private EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
     
-  //  private FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine;
- //   private FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine;
- //   private FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine;
+    private FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine;
+    private FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine;
+    private FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine;
     
     
     //the properties to hold count, total amounts and fee etc.
@@ -118,9 +118,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         processFeeTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();  
         
         //waiver and accrual report....
-      //  feeProcessingWaivedAndAccruedDetailTotalLine = new FeeProcessingWaivedAndAccruedDetailTotalLine();
-     //   feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
-    //    feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
+        feeProcessingWaivedAndAccruedDetailTotalLine = new FeeProcessingWaivedAndAccruedDetailTotalLine();
+        feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
+        feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
         
     }
 
@@ -219,9 +219,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         KualiDecimal accruedFeeGrandTotal = new KualiDecimal("0");
         KualiDecimal waivedFeeGrandTotal = new KualiDecimal("0");
         
-     //   FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine = new FeeProcessingWaivedAndAccruedDetailTotalLine();
-     //   FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
-      //  FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
+        FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine = new FeeProcessingWaivedAndAccruedDetailTotalLine();
+        FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
+        FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
         
         Date currentDate = kemService.getCurrentDate();
         
@@ -233,31 +233,31 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             KualiDecimal waivedFeeSubTotal = new KualiDecimal("0");
             
             for (KemidFee kemidFee : kemidFeeRecords) {
-             //   feeProcessingWaivedAndAccruedDetailTotalLine.setTotal(feeMethod.getCode());
-            //    feeProcessingWaivedAndAccruedDetailTotalLine.setKemid(kemidFee.getKemid());
-           //     feeProcessingWaivedAndAccruedDetailTotalLine.setTotalAccruedFees(kemidFee.getTotalAccruedFees());
-           //     feeProcessingWaivedAndAccruedDetailTotalLine.setTotalWaivedFees(kemidFee.getTotalWaivedFees());
+                feeProcessingWaivedAndAccruedDetailTotalLine.setTotal(feeMethod.getCode());
+                feeProcessingWaivedAndAccruedDetailTotalLine.setKemid(kemidFee.getKemid());
+                feeProcessingWaivedAndAccruedDetailTotalLine.setTotalAccruedFees(kemidFee.getTotalAccruedFees());
+                feeProcessingWaivedAndAccruedDetailTotalLine.setTotalWaivedFees(kemidFee.getTotalWaivedFees());
 
-              //  processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedDetailTotalLine);
+                processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedDetailTotalLine);
                 processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
                 
                 accruedFeeSubTotal.add(kemidFee.getTotalAccruedFees());
                 waivedFeeSubTotal.add(kemidFee.getTotalWaivedFees());
             }
             
-        //    feeProcessingWaivedAndAccruedSubTotalLine.setTotalAccruedFees(accruedFeeSubTotal);
-        //    feeProcessingWaivedAndAccruedSubTotalLine.setTotalWaivedFees(waivedFeeSubTotal);
+            feeProcessingWaivedAndAccruedSubTotalLine.setTotalAccruedFees(accruedFeeSubTotal);
+            feeProcessingWaivedAndAccruedSubTotalLine.setTotalWaivedFees(waivedFeeSubTotal);
             
-        //    processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedSubTotalLine);
+            processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedSubTotalLine);
             processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
             
             accruedFeeGrandTotal.add(accruedFeeSubTotal);
             waivedFeeGrandTotal.add(waivedFeeSubTotal);
         }
         
-      //  feeProcessingWaivedAndAccruedGrandTotalLine.setTotalAccruedFees(accruedFeeGrandTotal);
-     //   feeProcessingWaivedAndAccruedGrandTotalLine.setTotalWaivedFees(waivedFeeGrandTotal);
-     //   processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedGrandTotalLine);
+        feeProcessingWaivedAndAccruedGrandTotalLine.setTotalAccruedFees(accruedFeeGrandTotal);
+        feeProcessingWaivedAndAccruedGrandTotalLine.setTotalWaivedFees(waivedFeeGrandTotal);
+        processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedGrandTotalLine);
         
         return success;
     }
@@ -970,48 +970,48 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the feeProcessingWaivedAndAccruedDetailTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedDetailTotalLine.
      */
- //   public FeeProcessingWaivedAndAccruedDetailTotalLine getFeeProcessingWaivedAndAccruedDetailTotalLine() {
- //       return feeProcessingWaivedAndAccruedDetailTotalLine;
- //   }
+    public FeeProcessingWaivedAndAccruedDetailTotalLine getFeeProcessingWaivedAndAccruedDetailTotalLine() {
+        return feeProcessingWaivedAndAccruedDetailTotalLine;
+    }
 
     /**
      * Sets the feeProcessingWaivedAndAccruedDetailTotalLine attribute value.
      * @param feeProcessingWaivedAndAccruedDetailTotalLine The feeProcessingWaivedAndAccruedDetailTotalLine to set.
      */
-  //  public void setFeeProcessingWaivedAndAccruedDetailTotalLine(FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine) {
- //       this.feeProcessingWaivedAndAccruedDetailTotalLine = feeProcessingWaivedAndAccruedDetailTotalLine;
-  //  }
+    public void setFeeProcessingWaivedAndAccruedDetailTotalLine(FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine) {
+        this.feeProcessingWaivedAndAccruedDetailTotalLine = feeProcessingWaivedAndAccruedDetailTotalLine;
+    }
 
     /**
      * Gets the feeProcessingWaivedAndAccruedSubTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedSubTotalLine.
      */
- //   public FeeProcessingWaivedAndAccruedSubTotalLine getFeeProcessingWaivedAndAccruedSubTotalLine() {
- //       return feeProcessingWaivedAndAccruedSubTotalLine;
- //   }
+    public FeeProcessingWaivedAndAccruedSubTotalLine getFeeProcessingWaivedAndAccruedSubTotalLine() {
+        return feeProcessingWaivedAndAccruedSubTotalLine;
+    }
 
     /**
      * Sets the feeProcessingWaivedAndAccruedSubTotalLine attribute value.
      * @param feeProcessingWaivedAndAccruedSubTotalLine The feeProcessingWaivedAndAccruedSubTotalLine to set.
      */
- //   public void setFeeProcessingWaivedAndAccruedSubTotalLine(FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine) {
- //       this.feeProcessingWaivedAndAccruedSubTotalLine = feeProcessingWaivedAndAccruedSubTotalLine;
- //   }
+    public void setFeeProcessingWaivedAndAccruedSubTotalLine(FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine) {
+        this.feeProcessingWaivedAndAccruedSubTotalLine = feeProcessingWaivedAndAccruedSubTotalLine;
+    }
 
     /**
      * Gets the feeProcessingWaivedAndAccruedGrandTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedGrandTotalLine.
      */
- //   public FeeProcessingWaivedAndAccruedGrandTotalLine getFeeProcessingWaivedAndAccruedGrandTotalLine() {
- //       return feeProcessingWaivedAndAccruedGrandTotalLine;
- //   }
+    public FeeProcessingWaivedAndAccruedGrandTotalLine getFeeProcessingWaivedAndAccruedGrandTotalLine() {
+        return feeProcessingWaivedAndAccruedGrandTotalLine;
+    }
 
     /**
      * Sets the feeProcessingWaivedAndAccruedGrandTotalLine attribute value.
      * @param feeProcessingWaivedAndAccruedGrandTotalLine The feeProcessingWaivedAndAccruedGrandTotalLine to set.
      */
- //   public void setFeeProcessingWaivedAndAccruedGrandTotalLine(FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine) {
- //       this.feeProcessingWaivedAndAccruedGrandTotalLine = feeProcessingWaivedAndAccruedGrandTotalLine;
- //   }
+    public void setFeeProcessingWaivedAndAccruedGrandTotalLine(FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine) {
+        this.feeProcessingWaivedAndAccruedGrandTotalLine = feeProcessingWaivedAndAccruedGrandTotalLine;
+    }
 }
 

@@ -165,7 +165,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 } 
             }   
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
-            // If it is “recovering” (paying out) Losses, we must increase the value of the pool (ECI).
+            // If it is 'recovering' (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount.isPositive()) {
                 result = createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
             } else if (totalAmount.isNegative()) {

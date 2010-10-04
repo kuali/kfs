@@ -27,7 +27,7 @@ import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 public interface CurrentTaxLotBalanceUpdateService {
 
     /**
-     * At the end of each business processing cycle and in preparation for the next day’s business, 
+     * At the end of each business processing cycle and in preparation for the next day's business, 
      * the system will compile the information in the Holding Tax Lot Table along with calculations
      * of market value and estimated income into a new table called the Current Tax Lot Balances.
      * This table is used as the basis for balance inquiries as well as the source of data for 

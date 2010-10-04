@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
- * This class is the service implementation for the TransactionArchiveService. This is the default, Kuali provided implementation.
+ * This class is the dao implementation for the TransactionArchiveServiceImpl.
  */
 public class TransactionArchiveServiceImpl implements TransactionArchiveService {
 
@@ -154,30 +154,10 @@ public class TransactionArchiveServiceImpl implements TransactionArchiveService 
     /**
      * @see org.kuali.kfs.module.endow.document.service.TransactionArchiveService#getAllTransactionArchives(String, String, String)
      */
-    public Collection<TransactionArchive> getAllTransactionArchives(String incomeOrPrincipalIndicator, String typeCode, String etranCode) {
+    public Collection<TransactionArchive> getAllTransactionArchives(String typeCode, String etranCode) {
         Collection<TransactionArchive> transactionArchives = new ArrayList();
         
-        if (StringUtils.isNotBlank(incomeOrPrincipalIndicator) && StringUtils.isNotBlank(etranCode) && StringUtils.isNotBlank(typeCode)) {        
-            Map<String, String>  criteria = new HashMap<String, String>();
-            
-            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR)) {
-                incomeOrPrincipalIndicator = incomeOrPrincipalIndicator.toUpperCase();
-            }
-            
-            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE)) {
-                typeCode = typeCode.toUpperCase();
-            }
-            
-            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE)) {
-                etranCode = etranCode.toUpperCase();
-            }
-            
-            criteria.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, incomeOrPrincipalIndicator);
-            criteria.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, typeCode);
-            criteria.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE, etranCode);
-
-            transactionArchives = businessObjectService.findMatching(TransactionArchive.class, criteria);
-        }
+        transactionArchives = getTransactionArchivesByDocumentTypeNameAndETranCode(typeCode, etranCode);
         
         return transactionArchives;
     }

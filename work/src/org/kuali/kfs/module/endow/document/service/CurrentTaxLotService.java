@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
@@ -36,9 +37,37 @@ public interface CurrentTaxLotService {
     public CurrentTaxLotBalance getByPrimaryKey(String kemid, String securityId, String registrationCode, KualiInteger lotNumber, String ipIndicator);
 
     /**
+     * Gets matching records from END_CRNT_TAX_LOT_BAL_T table
+     * @param securityId
+     * @return currentTaxLotBal Records from the table matching the securityId
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesBySecurityId(String securityId);
+
+    /**
+     * Gets matching records from END_CRNT_TAX_LOT_BAL_T table
+     * @param securityClassCode, securityId
+     * @return currentTaxLotBal Records from the table matching the securityClassCode, securityId
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesForMatchingSecurityClassCode(String securityClassCode);
+    
+    
+    /**
+     * Gets matching records from END_CRNT_TAX_LOT_BAL_T table
+     * @param securityClassCode, securityId
+     * @return currentTaxLotBal Records from the table matching the securityClassCode, securityId
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesForMatchingSecurityClassCodeAndSecurityId(String securityClassCode, String securityId);
+    
+    /**
+     * Gets matching records from END_CRNT_TAX_LOT_BAL_T table
+     * @param incomePrincipalIndicator
+     * @return currentTaxLotBalances Records from the table matching the incomePrincipalIndicator
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesByIncomePrincipalIndicator(String incomePrincipalIndicator);
+    /**
      * updates a current tax lot
      * 
-     * @param currentTaxLotBalance
+     * @param currentTaxLotBalances
      */
     public void updateCurrentTaxLotBalance(CurrentTaxLotBalance currentTaxLotBalance);
 
@@ -94,4 +123,10 @@ public interface CurrentTaxLotService {
      * @return the Sum of the HLDG _MVAL for all records for the Security
      */
     public BigDecimal getHoldingMarketValueSumForSecurity(String securityId);
+    
+    /**
+     * Retrieves all the records from END_CURR_TAX_LOT_BAL_T
+     * @return currentBalances
+     */
+    public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalance();
 }

@@ -28,13 +28,11 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
+import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,26 +40,17 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
-public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements CurrentTaxLotBalanceDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceDaoOjb.class);
-
+public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements HoldingHistoryDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryDaoOjb.class);
+    
     private BusinessObjectService businessObjectService;
+    private MonthEndDateService monthEndDateService;
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao#getAllCurrentTaxLotBalanceEntriesForSecurity(java.lang.String)
+     * Prepares the criteria and selects the records from END_HLDG_HIST_T table
      */
-    public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalanceEntriesForSecurity(String securityId) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_SECURITY_ID, securityId);
-
-        return (Collection<CurrentTaxLotBalance>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(CurrentTaxLotBalance.class, criteria));
-    }
-
-    /**
-     * Prepares the criteria and selects the records from END_CRNT_TAX_LOT_BAL_T table
-     */
-    protected Collection<CurrentTaxLotBalance> getCurrentTaxLotBalances(FeeMethod feeMethod) {
-        Collection<CurrentTaxLotBalance> currentTaxLotBalance = new ArrayList(); 
+    protected Collection<HoldingHistory> getHoldingHistoryForBlance(FeeMethod feeMethod) {
+        Collection<HoldingHistory> holdingHistory = new ArrayList(); 
         
         Collection incomePrincipalValues = null;
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
@@ -70,37 +59,37 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
         Criteria criteria = new Criteria();
         
         if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME_AND_PRINCIPAL)) {
-            criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, incomePrincipalValues);
+            criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, incomePrincipalValues);
         }
         else {
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
+                criteria.addColumnEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
             }
             
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
+                criteria.addColumnEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
             }
         }
 
         if (feeMethod.getFeeByClassCode() && feeMethod.getFeeBySecurityCode()) {
-            criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
-            criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+            criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
+            criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
         }
         else {
             if (feeMethod.getFeeByTransactionType()) {
-                criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
+                criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
             }
             
             if (feeMethod.getFeeByETranCode()) {
-                criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+                criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
             }
         }
         
-        QueryByCriteria query = QueryFactory.newQuery(CurrentTaxLotBalance.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(HoldingHistory.class, criteria);
             
-        currentTaxLotBalance = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        holdingHistory = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        return currentTaxLotBalance;
+        return holdingHistory;
     }
        
     /**
@@ -166,33 +155,61 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao#getCurrentTaxLogBalanceTotalHoldingMarkeValue(FeeMethod)
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingUnits(FeeMethod)
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingUnits(FeeMethod feeMethod) {
+    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod) {
         BigDecimal totalHoldingUnits = new BigDecimal("0");
         
-        Collection <CurrentTaxLotBalance> currentTaxLotBalanceRecords = getCurrentTaxLotBalances(feeMethod);
-        for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalanceRecords) {
-            totalHoldingUnits.add(currentTaxLotBalance.getUnits());    
+        Date lastProcessDate = feeMethod.getFeeLastProcessDate();
+        Date mostRecentDate = monthEndDateService.getMostRecentDate();
+        
+        Collection <HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod);
+        for (HoldingHistory holdingHistory : holdingHistoryRecords) {
+            Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
+            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
+                totalHoldingUnits.add(holdingHistory.getUnits());    
+            }
+            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
+                totalHoldingUnits.add(holdingHistory.getUnits());    
+            }
+        }
+        
+        if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS)) {
+            totalHoldingUnits = KEMCalculationRoundingHelper.divide(totalHoldingUnits, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
         }
         
         return totalHoldingUnits;
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao#getCurrentTaxLotBalanceTotalHoldingMarketValue(FeeMethod)
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingMarketValue(FeeMethod)
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingMarketValue(FeeMethod feeMethod) {
+    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod) {
         BigDecimal totalHoldingMarkteValue = new BigDecimal("0");
         
-        Collection <CurrentTaxLotBalance> currentTaxLotBalanceRecords = getCurrentTaxLotBalances(feeMethod);
-        for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalanceRecords) {
-            totalHoldingMarkteValue.add(currentTaxLotBalance.getMarketValue());    
+        Date lastProcessDate = feeMethod.getFeeLastProcessDate();
+        Date mostRecentDate = monthEndDateService.getMostRecentDate();
+        
+        Collection <HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod);
+        for (HoldingHistory holdingHistory : holdingHistoryRecords) {
+            Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
+            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
+                totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
+            }
+            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
+                totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
+            }
+        }
+        
+        if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE)) {
+            totalHoldingMarkteValue = KEMCalculationRoundingHelper.divide(totalHoldingMarkteValue, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
         }
         
         return totalHoldingMarkteValue;
     }
 
+    
+    
     /**
      * This method gets the businessObjectService.
      * 
@@ -210,4 +227,21 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    /**
+     * Gets the monthEndDateService attribute. 
+     * @return Returns the monthEndDateService.
+     */
+    public MonthEndDateService getMonthEndDateService() {
+        return monthEndDateService;
+    }
+
+    /**
+     * Sets the monthEndDateService attribute value.
+     * @param monthEndDateService The monthEndDateService to set.
+     */
+    public void setMonthEndDateService(MonthEndDateService monthEndDateService) {
+        this.monthEndDateService = monthEndDateService;
+    }
+    
 }

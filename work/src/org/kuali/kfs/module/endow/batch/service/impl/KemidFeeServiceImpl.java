@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.service.impl;
+package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.service.KemidFeeService;
+import org.kuali.kfs.module.endow.batch.service.KemidCorpusValueService;
+import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is the service implementation for the KemidFeeService. This is the default, Kuali provided implementation.
@@ -36,9 +46,10 @@ public class KemidFeeServiceImpl implements KemidFeeService {
     private BusinessObjectService businessObjectService;
     protected KEMService kemService;
     protected ParameterService parameterService;
-    
+    protected KemidCorpusValueService kemidCorpusValueService;
+
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KemidFeeService#getAllKemIdFee()
+     * @see org.kuali.kfs.module.endow.batch.service.KemidFeeService#getAllKemIdFee()
      */
     public Collection <KemidFee> getAllKemIdFee() {
         Collection <KemidFee> kemIdFee = new ArrayList();
@@ -49,12 +60,60 @@ public class KemidFeeServiceImpl implements KemidFeeService {
     }
     
     /**
+     * 
+     */
+    public boolean saveKemidFee(KemidFee kemidFee) {
+        boolean saved = true;
+        
+        try {
+            businessObjectService.save(kemidFee);
+            return saved;
+        } 
+        catch (IllegalArgumentException iae) {
+            return false;
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.batch.KemidFeeService#KemidFeeService(String)
+     */
+    public Collection<KemidFee> getAllKemidForFeeMethodCode(String feeMethodCode) {
+       Collection<KemidFee> kemId = new ArrayList(); 
+       
+       Map fieldValues = new HashMap();
+       
+       fieldValues.put(EndowPropertyConstants.KEMID_FEE_MTHD_CD, feeMethodCode);
+       
+       kemId = businessObjectService.findMatching(KemidFee.class, fieldValues);
+       
+       return kemId;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.batch.KemidFeeService#ChargeFeeToKemid(KemidFee, boolean)
+     */
+    public boolean chargeFeeToKemid(FeeMethod feeMethod, KemidFee kemidFee) {
+        boolean chargeFee = true;
+        boolean corpusPercentToleranceGreaterThanZero = (feeMethod.getCorpusPctTolerance().isGreaterThan(new KualiDecimal("0")) ? true : false );
+        
+        if (kemidFee.getFeeStartDate().compareTo(kemService.getCurrentDate()) <= 0) {
+            if (ObjectUtils.isNull(kemidFee.getFeeEndDate()) || 
+               (kemidFee.getFeeEndDate().compareTo(kemService.getCurrentDate()) > 0)) {
+                chargeFee = kemidCorpusValueService.canFeeBeChargedToKemid(kemidFee.getKemid(), feeMethod.getCorpusPctTolerance());
+                return chargeFee;
+            }
+        }
+        
+        return chargeFee;
+    }
+    
+    /**
      * Updates the END_KEMID_FEE_T table records by setting the amounts in WAIVE_FEE_YTD to zero
      * if current date is the first day of the institution's fiscal year
      * @see org.kuali.kfs.module.endow.document.service.KemidFeeService#updateWaiverFeeYearToDateTotals()
      */
     public boolean updateWaiverFeeYearToDateTotals() {
-        LOG.info("updateWaiverFeeYearToDateTotals() process started");
+       LOG.info("updateWaiverFeeYearToDateTotals() process started");
        
        boolean updated = true;
        
@@ -150,4 +209,19 @@ public class KemidFeeServiceImpl implements KemidFeeService {
         this.parameterService = parameterService;
     }
     
+    /**
+     * Gets the kemidCorpusValueService attribute. 
+     * @return Returns the kemidCorpusValueService.
+     */
+    public KemidCorpusValueService getKemidCorpusValueService() {
+        return kemidCorpusValueService;
+    }
+
+    /**
+     * Sets the kemidCorpusValueService attribute value.
+     * @param kemidCorpusValueService The kemidCorpusValueService to set.
+     */
+    public void setKemidCorpusValueService(KemidCorpusValueService kemidCorpusValueService) {
+        this.kemidCorpusValueService = kemidCorpusValueService;
+    }
 }

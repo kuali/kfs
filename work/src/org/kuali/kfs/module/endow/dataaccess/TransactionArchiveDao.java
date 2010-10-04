@@ -1,0 +1,105 @@
+/*
+ * Copyright 2010 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.endow.dataaccess;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.HashMap;
+
+import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
+
+public interface TransactionArchiveDao {
+
+    /**
+     * Gets a collection of records from END_TRAN_ARCHV_T table
+     * @return transactionArchives
+     */
+    public Collection<TransactionArchive> getAllTransactionArchives();
+    
+    /**
+     * Gets a transactionArchive by primary keys.
+     * 
+     * @param documentNumber, lineNumber, lineTypeCode
+     * @return a transactionArchive
+     */
+    public TransactionArchive getByPrimaryKey(String documentNumber, int lineNumber, String lineTypeCode);
+
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * @param feeMethod feeMethod object
+     * @return count of transactionArhives matching the criteria
+     */
+    public long getTransactionArchivesCountForTransactions(FeeMethod feeMethod);
+    
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * @param feeMethodCode, transactionPostedDate
+     * @return count of transactionArhives matching the passed in parameters
+     */
+    public long getTransactionArchivesCountByDocumentTypeName(String feeMethodCode, Date transactionPostedDate);
+
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * @param feeMethodCode, transactionPostedDate
+     * @return count of transactionArhives matching the passed in parameters
+     */
+    public long getTransactionArchivesCountByETranCode(String feeMethodCode, Date transactionPostedDate);
+    
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM and TRAN_ETRAN_CD
+     * @param feeMethodCode, transactionPostedDate
+     * @return count of transactionArhives matching the passed in parameters
+     */
+    public long getTransactionArchivesCountByDocumentTypeNameAndETranCode(String feeMethodCode, Date transactionPostedDate);
+    
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given TRAN_IP_IND_CD
+     * @param IncomeOrPrincipalIndicator
+     * @return count of transactionArhives matching the passed in parameter
+     */
+    public long getTransactionArchivesCountByIncomeOrPrincipal(String IncomeOrPrincipalIndicator);
+
+    /**
+     * Gets a count of total number of records from END_TRAN_ARCHV_T table
+     * @param feeMethod
+     * @return count of transactionArhives based on the conditions in feeMethod object
+     */
+    public long getTransactionArchivesCountByBothIncomeAndPrincipal(FeeMethod feeMethod);
+    
+    /**
+     * Gets principal income amount from the selected records from END_TRAN_ARCHV_T table
+     * @param feeMethod feeMethod object
+     * @return incomeCashAmount of transactionArhives matching the criteria
+     */
+    public BigDecimal getTransactionArchivesIncomeCashAmountForTransactions(FeeMethod feeMethod);
+    
+    /**
+     * Gets principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * @param feeMethod feeMethod object
+     * @return incomeCashAmount of transactionArhives matching the criteria
+     */
+    public BigDecimal getTransactionArchivesPrincipalCashAmountForTransactions(FeeMethod feeMethod);
+    
+    /**
+     * Gets Income and principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * @param feeMethod feeMethod object
+     * @return Map with both income and principal cash amount of records matching the criteria
+     */
+    public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod);
+    
+}

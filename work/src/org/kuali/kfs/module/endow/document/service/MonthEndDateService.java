@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.util.Collection;
 import java.util.Date;
-
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -27,13 +26,27 @@ import org.kuali.rice.kns.util.KualiInteger;
 public interface MonthEndDateService {
 
     /**
+     * gets month end id date for a given monthEndId
+     * 
+     * @param monthEndId
+     * @return monthEndIdDate
+     */
+    public java.sql.Date getByPrimaryKey(KualiInteger monthEndId);
+    
+    /**
+     * Gets the most recent date.  it is basically the last record in END_ME_DT_T, 
+     * where the ID is the highest number
+     * @return mostRecentDate
+     */
+    public java.sql.Date getMostRecentDate();
+    
+    /**
      * gets month end id
      * 
      * @param monthEndDate
      * @return monthEndDateId
      */
     public KualiInteger getMonthEndId(Date monthEndDate);
-    
     
     /**
      * gets the next month end id for the new record

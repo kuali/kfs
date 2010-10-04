@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
@@ -35,7 +37,9 @@ import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -64,7 +68,100 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         return (CurrentTaxLotBalance) businessObjectService.findByPrimaryKey(CurrentTaxLotBalance.class, primaryKeys);
 
     }
+    
+    /**
+     * @org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getCurrentTaxLotBalancesForMatchingSecurityClassCode(String)
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesForMatchingSecurityClassCode(String securityClassCode) {
+        Collection<CurrentTaxLotBalance> currentTaxLotBalances = new ArrayList();
+        
+        Collection<Security> securities = new ArrayList();
+        
+        if (StringUtils.isNotBlank(securityClassCode)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(Security.class, EndowPropertyConstants.SECURITY_CLASS_CODE)) {
+                securityClassCode = securityClassCode.toUpperCase();
+            }
+            criteria.put(EndowPropertyConstants.SECURITY_CLASS_CODE, securityClassCode);
 
+            securities = businessObjectService.findMatching(Security.class, criteria);
+            
+            for (Security security : securities) {
+                criteria.clear();
+                criteria.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, security.getId());
+                
+                currentTaxLotBalances.addAll(businessObjectService.findMatching(HoldingHistory.class, criteria)); 
+            }
+        }
+        
+        return currentTaxLotBalances;
+    }
+    
+    /**
+     * @org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getCurrentTaxLotBalancesForMatchingSecurityClassCodeAndSecurityId(String, String)
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesForMatchingSecurityClassCodeAndSecurityId(String securityClassCode, String securityId) {
+        Collection<CurrentTaxLotBalance> currentTaxLotBalances = new ArrayList();
+        
+        currentTaxLotBalances = getCurrentTaxLotBalancesForMatchingSecurityClassCode(securityClassCode);
+        currentTaxLotBalances.addAll(getCurrentTaxLotBalancesBySecurityId(securityId));
+        
+        return currentTaxLotBalances;
+    }
+
+    
+    /**
+     * @org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getCurrentTaxLotBalancesBySecurityId(String)
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesBySecurityId(String securityId) {
+        Collection<CurrentTaxLotBalance> currentTaxLotBalances = new ArrayList();
+        
+        if (StringUtils.isNotBlank(securityId)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(CurrentTaxLotBalance.class, EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID)) {
+                securityId = securityId.toUpperCase();
+            }
+            
+            criteria.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, securityId);
+
+            currentTaxLotBalances = businessObjectService.findMatching(CurrentTaxLotBalance.class, criteria);
+        }
+        return currentTaxLotBalances;
+    }
+    
+    /**
+     * @org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getCurrentTaxLotBalancesBySecurityId(String)
+     */
+    public Collection<CurrentTaxLotBalance>getCurrentTaxLotBalancesByIncomePrincipalIndicator(String incomePrincipalIndicator) {
+        Collection<CurrentTaxLotBalance> currentTaxLotBalances = new ArrayList();
+        
+        if (StringUtils.isNotBlank(incomePrincipalIndicator)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(CurrentTaxLotBalance.class, EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR)) {
+                incomePrincipalIndicator = incomePrincipalIndicator.toUpperCase();
+            }
+            
+            criteria.put(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, incomePrincipalIndicator);
+            
+            currentTaxLotBalances = businessObjectService.findMatching(CurrentTaxLotBalance.class, criteria);
+        }
+        return currentTaxLotBalances;
+    }
+
+    /**
+     * @org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getAllCurrentTaxLotBalance()
+     */
+    public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalance() {
+        Collection<CurrentTaxLotBalance> currentTaxLotBalances = new ArrayList();
+        
+        currentTaxLotBalances = businessObjectService.findAll(CurrentTaxLotBalance.class);
+        
+        return currentTaxLotBalances;
+    }
+    
     /**
      * Service Method to create a new current tax lot balance record and copy HoldingTaxLot record to it
      * 

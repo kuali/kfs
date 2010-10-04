@@ -43,8 +43,49 @@ public interface HoldingHistoryService {
     
     /**
      * gets the distinct kemid from Holding History records for a given security id
+     * 
      * @param securityId
      * @return kemid
      */
     public String getKemIdFromHoldingHistory(String securityId);
+    
+    /**
+     * gets holding history records matching securityClassCode 
+     * 
+     * @param securityClassCode
+     * @return List<HoldingHistory> List of HoldingHistory records matching securityClassCode
+     */
+    public Collection<HoldingHistory> getHoldingHistoryForMatchingSecurityClassCode(String securityClassCode);
+    
+    /**
+     * gets holding history records matching securityId
+     * 
+     * @param securityId
+     * @return List<HoldingHistory> List of HoldingHistory records matching securityId
+     */
+    public Collection<HoldingHistory> getHoldingHistoryBySecurityId(String securityId);
+
+    /**
+     * gets holding history records matching securityClassCode, securityId
+     * 
+     * @param securityClassCode, securityId
+     * @return List<HoldingHistory> List of HoldingHistory records matching securityClassCode, securityId
+     */
+    public Collection<HoldingHistory> getHoldingHistoryForMatchingSecurityClassCodeAndSecurityId(String securityClassCode, String securityId);
+    
+    /**
+     * gets holding history records matching incomePrincipalIndicator
+     * 
+     * @param incomePrincipalIndicator
+     * @return List<HoldingHistory> List of HoldingHistory records matching incomePrincipalIndicator
+     */
+    public Collection<HoldingHistory> getHoldingHistoryByIncomePrincipalIndicator(String incomePrincipalIndicator);
+
+    /**
+     * gets holding history records
+     * 
+     * @return List<HoldingHistory> List of HoldingHistory records
+     */
+    public Collection<HoldingHistory> getAllHoldingHistory();
+
 }

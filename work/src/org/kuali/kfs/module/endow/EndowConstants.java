@@ -352,7 +352,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String ENDOWMENT_ASSET_INCREASE = "EAI";
         public static final String ENDOWMENT_ASSET_DECREASE = "EAD";
         public static final String ENDOWMENT_CASH_INCREASE = "ECI";
-        public static final String ENDOWMENT_CASH_DECREASE = "ECD";
+        public static final String ENDOWMENT_CASH_DECREASE = "ECDD";
         public static final String ENDOWMENT_CASH_TRANSFER = "ECT";
     }
 }

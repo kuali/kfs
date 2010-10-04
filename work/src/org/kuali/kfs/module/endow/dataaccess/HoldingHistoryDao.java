@@ -16,33 +16,22 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
-import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 
-public interface CurrentTaxLotBalanceDao {
+public interface HoldingHistoryDao {
 
     /**
-     * Gets all records for the Security in END_CURR_TAX_LOT_BAL_T.
-     * 
-     * @param securityId the id of the security for which we retrieve the entries
-     * @return all records for the Security in END_CURR_TAX_LOT_BAL_T
-     */
-    public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalanceEntriesForSecurity(String securityId);
-
-    /**
-     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = CU
+     * Calculates the total Holding Units based on FEE_BAL_TYP_CD = AU OR MU
      * @param feeMethod feeMethod object
      * @return totalHoldingUnits
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingUnits(FeeMethod feeMethod);
+    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod);
     
     /**
-     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = CMV
+     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = AMV OR MMV
      * @param feeMethod feeMethod object
      * @return totalHoldingMarketValue
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingMarketValue(FeeMethod feeMethod);
-    
+    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod);
 }

@@ -23,6 +23,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
+import org.kuali.kfs.module.endow.businessobject.Security;
+
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -50,8 +52,8 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
                 securityId = securityId.toUpperCase();
             }
             
-            criteria.put("securityId", securityId);
-            criteria.put("monthEndDateId", monthEndId);            
+            criteria.put(EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, securityId);
+            criteria.put(EndowPropertyConstants.MONTH_END_DATE_ID, monthEndId);            
             holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
         }
         
@@ -90,7 +92,8 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
                 securityId = securityId.toUpperCase();
             }
             
-            criteria.put("securityId", securityId);
+            criteria.put(EndowPropertyConstants.HISTORY_VALUE_ADJUSTMENT_SECURITY_ID, securityId);
+
             holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
         }
         
@@ -100,6 +103,105 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
         
         return kemId;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getHoldingHistoryForMatchingSecurityClassCode(String)
+     * Get all securityIds for the given securityClassCode from END_SEC_T table.
+     */
+    public Collection<HoldingHistory> getHoldingHistoryForMatchingSecurityClassCode(String securityClassCode) {
+        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        
+        Collection<Security> securities = new ArrayList();
+        
+        if (StringUtils.isNotBlank(securityClassCode)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(Security.class, EndowPropertyConstants.SECURITY_CLASS_CODE)) {
+                securityClassCode = securityClassCode.toUpperCase();
+            }
+            criteria.put(EndowPropertyConstants.SECURITY_CLASS_CODE, securityClassCode);
+
+            securities = businessObjectService.findMatching(Security.class, criteria);
+            
+            for (Security security : securities) {
+                criteria.clear();
+                criteria.put(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, security.getId());
+                
+                holdingHistory.addAll(businessObjectService.findMatching(HoldingHistory.class, criteria)); 
+            }
+        }
+        
+        return holdingHistory;
+        
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getHoldingHistoryBySecurityId(String)
+     */
+    public Collection<HoldingHistory> getHoldingHistoryBySecurityId(String securityId) {
+        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        
+        if (StringUtils.isNotBlank(securityId)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(HoldingHistory.class, EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID)) {
+                securityId = securityId.toUpperCase();
+            }
+            
+            criteria.put(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityId);
+
+            holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
+        }
+        
+        return holdingHistory;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getHoldingHistoryForMatchingSecurityClassCodeAndSecurityId(String, String)
+     */
+    public Collection<HoldingHistory> getHoldingHistoryForMatchingSecurityClassCodeAndSecurityId(String securityClassCode, String securityId) {
+        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        
+        holdingHistory = getHoldingHistoryForMatchingSecurityClassCode(securityClassCode);
+        
+        holdingHistory.addAll(getHoldingHistoryBySecurityId(securityId));
+        
+        return holdingHistory;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getHoldingHistoryByIncomePrincipalIndicator(String)
+     */
+    public Collection<HoldingHistory> getHoldingHistoryByIncomePrincipalIndicator(String incomePrincipalIndicator) {
+        Collection<HoldingHistory> holdingHistory = new ArrayList();
+        
+        if (StringUtils.isNotBlank(incomePrincipalIndicator)) {
+            Map criteria = new HashMap();
+            
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(HoldingHistory.class, EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR)) {
+                incomePrincipalIndicator = incomePrincipalIndicator.toUpperCase();
+            }
+            
+            criteria.put(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, incomePrincipalIndicator);
+
+            holdingHistory = businessObjectService.findMatching(HoldingHistory.class, criteria);
+        }
+        
+        return holdingHistory;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingHistoryService#getAllHoldingHistory()
+     */
+    public Collection<HoldingHistory> getAllHoldingHistory() {
+       
+       Collection<HoldingHistory> holdingHistory = new ArrayList();
+       
+       holdingHistory = businessObjectService.findAll(HoldingHistory.class);
+       
+       return holdingHistory;
+    }
+    
     
     /**
      * This method gets the businessObjectService.

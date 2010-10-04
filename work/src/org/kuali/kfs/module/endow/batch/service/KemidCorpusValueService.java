@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.service;
+package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.Collection;
+import org.kuali.rice.kns.util.KualiDecimal;
 
-import org.kuali.kfs.module.endow.businessobject.KemidFee;
-
-public interface KemidFeeService {
+public interface KemidCorpusValueService {
 
     /**
-     * updates Waiver Fee Year-To-Date totals.
+     * determines if there is a record in END_KEMDID_CORUPS_VAL_T table for the given kemid.
+     * @param kemid, corpusPctTolerance
      * @return true if the amounts updated else return false
      */
-    public boolean updateWaiverFeeYearToDateTotals();
-    
-    /**
-     * Gets all the KemidFee records as a collection
-     * @return collection <KemidFee> records
-     */
-    public Collection<KemidFee> getAllKemIdFee() ;
+    public boolean canFeeBeChargedToKemid(String kemid, KualiDecimal corpusPctTolerance);
 }

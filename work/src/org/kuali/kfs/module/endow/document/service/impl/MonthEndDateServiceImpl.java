@@ -39,6 +39,36 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
     private BusinessObjectService businessObjectService;
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getMonthEndIdDate(KualiInteger)
+     */
+    public java.sql.Date getByPrimaryKey(KualiInteger monthEndId) {
+        java.sql.Date monthEndDate = null;
+        
+        Map primaryKeys = new HashMap();
+        
+        primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE_ID, monthEndId);
+        MonthEndDate monthEndDateRecord = (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
+        
+        return monthEndDateRecord.getMonthEndDate();
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getMostRecentDate()
+     */
+    public java.sql.Date getMostRecentDate() {
+        java.sql.Date mostRecentDate = null;
+        
+        Map primaryKeys = new HashMap();
+        Collection<MonthEndDate> monthEndDateRecords = businessObjectService.findAll(MonthEndDate.class);
+        
+        for (MonthEndDate monthEndDateRecord : monthEndDateRecords) {
+            mostRecentDate = monthEndDateRecord.getMonthEndDate();
+        }        
+        
+        return (java.sql.Date) mostRecentDate;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getMonthEndId(Date)
      */
     public KualiInteger getMonthEndId(Date monthEndDate) {

@@ -885,6 +885,37 @@
 		<property name="kemidFeeService">
 			<ref bean="kemidFeeService" />
 		</property>
+		<property name="feeMethodService">
+			<ref bean="feeMethodService" />
+		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>			    
+		<property name="transactionArchiveService">
+			<ref bean="transactionArchiveService" />
+		</property>	
+		<property name="transactionArchiveDao">
+			<ref bean="transactionArchiveDao" />
+		</property>	
+		<property name="kemidFeeDao">
+			<ref bean="kemidFeeDao"/>
+		</property>
+		<property name="holdingHistoryDao">
+			<ref bean="holdingHistoryDao" />
+		</property>
+	    <property name="currentTaxLotBalanceDao">
+			<ref bean="currentTaxLotBalanceDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		 <property name="noteService">
+			<ref bean="noteService" />
+		</property>	
+		
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
 		</property>		
@@ -924,6 +955,11 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsWaivedAndAccruedFeesReportHeader"/>
+				<!-- 
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine" value="feeProcessingWaivedAndAccruedDetailTotalLine"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine" value="feeProcessingWaivedAndAccruedSubTotalLine"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine" value="feeProcessingWaivedAndAccruedGrandTotalLine"/>
+				-->				
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
@@ -1405,6 +1441,7 @@
 	    </property>
 	    <property name="columnCount" value="3" />
 	</bean>
+	
 	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
@@ -1417,6 +1454,45 @@
 	    </property>
 	    <property name="columnCount" value="4" />
 	</bean>
+	<!-- 
+	<bean id="feeProcessingWaivedAndAccruedDetailTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="total" value="Fee Method"/>
+    			<entry key="kemid" value="KEMID"/>
+    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
+    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="4" />
+	</bean>
+	<bean id="feeProcessingWaivedAndAccruedSubTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="total" value="Fee Method"/>
+    			<entry key="kemid" value="KEMID"/>
+    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
+    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="4" />
+	</bean>
+	<bean id="feeProcessingWaivedAndAccruedGrandTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="total" value="Fee Method"/>
+    			<entry key="kemid" value="KEMID"/>
+    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
+    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="4" />
+	</bean>
+	-->
+	
 	<bean id="processFeeTransactionsTotalProcessedReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
@@ -1515,7 +1591,7 @@
         </property>
         <property name="columnCount" value="4" />
     </bean>
-	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.document.service.impl.KemidFeeServiceImpl">		
+	<bean id="kemidFeeService" class="org.kuali.kfs.module.endow.batch.service.impl.KemidFeeServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -1527,6 +1603,24 @@
 		</property>
 	</bean>
 	<bean id="transactionArchiveService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionArchiveServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	<bean id="transactionArchiveDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TransactionArchiveDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="monthEndDateService">
+			<ref bean="monthEndDateService" />
+		</property>	
+	</bean>
+	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoOjb">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

@@ -109,7 +109,14 @@ public class EndowPropertyConstants {
 
     // HoldingHistory fields
     public static final String HOLDING_HISTORY_MONTH_END_DATE_ID = "monthEndDateId";
-
+    public static final String HOLDING_HISTORY_SECURITY_ID = "securityId";
+    public static final String HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
+    public static final String HOLDING_HISTORY_SECURITY_CLASS_CODE = "feeClassCode";
+    public static final String HOLDING_HISTORY_FEE_METHOD_CODE = "feeMethodCode";
+    // CurrentTaxLotBalance fields
+    public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_ID = "securityId";
+    public static final String CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
+    public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE = "feeClassCode";
     // KEMID
     public static final String KEMID = "kemid";
     public static final String KEMID_TYPE_CODE = "typeCode";
@@ -338,13 +345,15 @@ public class EndowPropertyConstants {
 
     // KEMID Fee Transaction Type
     public static final String FEE_TRANSACTION_TYPE_CODE = "transactionTypeCode";
-
+    public static final String FEE_TRANSACTION_INCLUDE = "include";
+    
     // KEMID Fee Rate Definition Code
     public static final String FEE_RATE_DEFINITION_CODE = "feeRateDefinitionCode";
 
     // KEMID Fee Endowment Transaction Code
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE = "endowmentTransactionCode";
-
+    public static final String FEE_ENDOWMENT_TRANSACTION_INCLUDE = "include";
+    
     // KEMID Current Balance
     public static final String CURRENT_BAL_TOTAL_MARKET_VALUE = "totalMarketValue";
     public static final String CURRENT_BAL_PURPOSE_CD = "kemidObj.purposeCode";
@@ -457,6 +466,8 @@ public class EndowPropertyConstants {
 
     // KEMID fee method constants that are used in rule class
     public static final String FEE_CLASS_CODES_COLLECTION_NAME = "feeClassCodes";
+    public static final String FEE_CLASS_CODE_INCLUDE = "include";
+    public static final String FEE_SECURITY_INCLUDE = "include";    
     public static final String FEE_SECURITY_COLLECTION_NAME = "feeSecurity";
     public static final String FEE_TRANSACTION_TYPE_COLLECTION_NAME = "feeTransactions";
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE_COLLECTION_NAME = "feeEndowmentTransactionCodes";
@@ -576,7 +587,8 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_ARCHIVE_GREATER_AMOUNT = "greaterAmount";
     public static final String TRANSACTION_ARCHIVE_LESS_AMOUNT = "lessAmount";
     public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicatorCode";
-
+    public static final String TRANSACTION_ARCHIVE_INCOME_CASH_AMOUNT = "incomeCashAmount";
+    public static final String TRANSACTION_ARCHIVE_PRINCIPAL_CASH_AMOUNT = "principalCashAmount";
 
     // Endowment Accounting Line
     public static final String ENDOWMENT_ACCOUNTING_LINE_OBJECT_CD = "financialObjectCode";

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation.
+ * Copyright 2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.document.service;
+package org.kuali.kfs.module.endow.dataaccess;
 
-import java.util.Collection;
-
-import org.kuali.kfs.module.endow.businessobject.KemidFee;
-
-public interface KemidFeeService {
+public interface KemidFeeDao {
 
     /**
-     * updates Waiver Fee Year-To-Date totals.
-     * @return true if the amounts updated else return false
+     * Updates WAIVED_FEE_YTD column to zero (0).
+     *@return true if column value updated to zero else false
      */
-    public boolean updateWaiverFeeYearToDateTotals();
-    
-    /**
-     * Gets all the KemidFee records as a collection
-     * @return collection <KemidFee> records
-     */
-    public Collection<KemidFee> getAllKemIdFee() ;
+    public boolean updateKemidFeeWaivedFeeYearToDateToZero();
+
 }
+
+

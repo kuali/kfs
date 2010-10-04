@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
-import java.sql.Date;
 import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
@@ -66,10 +65,10 @@ public interface TransactionArchiveService {
     public Collection<TransactionArchive> getTransactionArchivesByIncomeOrPrincipalIndicator(String incomeOrPrincipalIndicator);
 
     /**
-     * Gets a collection of records from END_TRAN_ARCHV_T table for a given TRAN_IP_IND_CD
-     * @param incomePrincipalIndicator, typeCode, etranCode
+     * Gets a collection of records from END_TRAN_ARCHV_T table for a given TRAN_IP_IND_CD, DOC_TYP_NM, TRAN_ETRAN_CD
+     * @param typeCode, etranCode
      * @return transactionArchives where the incomePrincipalIndicator = B
      */
-    public Collection<TransactionArchive> getAllTransactionArchives(String incomeOrPrincipalIndicator, String typeCode, String etranCode);
+    public Collection<TransactionArchive> getAllTransactionArchives(String typeCode, String etranCode);
     
 }

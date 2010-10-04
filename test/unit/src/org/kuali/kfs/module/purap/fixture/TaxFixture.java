@@ -329,7 +329,7 @@ public class TaxFixture {
 
     public enum TaxRegionPostalCodeFixture {
 
-        PO_46202("46202-5260", "US", true), ;
+        PO_46202("46202-5260", "US", true), PO_46202_SHORT("46202", "US", true), ;
 
         public String postalCode;
         public String countryCode;

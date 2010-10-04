@@ -101,7 +101,7 @@ public class PurapServiceTest extends KualiTestBase {
     
     @RelatesTo(JiraIssue.KULPURAP3878)
     public void testSalesTaxHappyPath() {
-        TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
+        TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202, TaxFixture.TaxRegionPostalCodeFixture.PO_46202_SHORT }, null);
         businessObjectService.save(taxRegionPostalCode);
         
         RequisitionDocument reqDoc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocumentForTax(TaxFixture.TaxTestCaseFixture.SalesTaxHappyPathTest);
@@ -171,7 +171,7 @@ public class PurapServiceTest extends KualiTestBase {
     }
     
     public void testSalesTaxWithDeliveryStateNotTaxable(){
-        TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
+        TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202, TaxFixture.TaxRegionPostalCodeFixture.PO_46202_SHORT }, null);
         businessObjectService.save(taxRegionPostalCode);
         
         boolean isExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES");
@@ -257,7 +257,7 @@ public class PurapServiceTest extends KualiTestBase {
             }
             businessObjectService.save(parameter);
             parameter = parameterService.retrieveParameter(NAMESPACE, parameterService.getDetailType(KfsParameterConstants.PURCHASING_DOCUMENT.class), taxable_parm_nm);
-            LOG.info(parameter);
+            // LOG.info(parameter);
         }
     }
 }

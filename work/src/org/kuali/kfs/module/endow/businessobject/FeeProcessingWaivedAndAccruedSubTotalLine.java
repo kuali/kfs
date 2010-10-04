@@ -20,93 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class FeeProcessingWaivedAndAccruedSubTotalLine extends TransientBusinessObjectBase {
-    private String total;
-    private String kemid;
-    private KualiDecimal totalWaivedFees = KualiDecimal.ZERO;
-    private KualiDecimal totalAccruedFees = KualiDecimal.ZERO;
+public class FeeProcessingWaivedAndAccruedSubTotalLine extends FeeProcessingWaivedAndAccruedGrandTotalLine {
 
     public FeeProcessingWaivedAndAccruedSubTotalLine() {
         this.setTotal("Sub Total By Fee Method");
-        this.setKemid("");
-    }
-    
-    /**
-     * Gets the total attribute. 
-     * @return Returns the total.
-     */   
-    public String getTotal() {
-        return total;
-    }
-
-    /**
-     * Sets the total attribute. 
-     * @return Returns the total.
-     */
-    public void setTotal(String total) {
-        this.total = total;
-    }
-
-    /**
-     * Gets the kemid attribute. 
-     * @return Returns the kemid.
-     */    
-    public String getKemid() {
-        return kemid;
-    }
-
-    /**
-     * Sets the kemid attribute. 
-     * @return Returns the kemid.
-     */    
-    public void setKemid(String kemid) {
-        this.kemid = kemid;
-    }
-
-    /**
-     * Gets the totalWaivedFees attribute. 
-     * @return Returns the totalWaivedFees.
-     */
-    public KualiDecimal getTotalWaivedFees() {
-        return totalWaivedFees;
-    }
-
-    /**
-     * Sets the totalWaivedFees attribute value.
-     * @param totalWaivedFees The totalWaivedFees to set.
-     */
-    public void setTotalWaivedFees(KualiDecimal totalWaivedFees) {
-        this.totalWaivedFees = totalWaivedFees;
-    }
-
-    /**
-     * Gets the totalAccruedFees attribute. 
-     * @return Returns the totalAccruedFees.
-     */
-    public KualiDecimal getTotalAccruedFees() {
-        return totalAccruedFees;
-    }
-
-    /**
-     * Sets the totalAccruedFees attribute value.
-     * @param totalAccruedFees The totalAccruedFees to set.
-     */
-    public void setTotalAccruedFees(KualiDecimal totalAccruedFees) {
-        this.totalAccruedFees = totalAccruedFees;
-    }
-    
-    /**
-     * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap pks = new LinkedHashMap<String, Object>();
-        pks.put("total",this.getTotal());
-        pks.put("kemid",this.getKemid());
-        pks.put("totalWaivedFees",this.getTotalWaivedFees());
-        pks.put("totalAccruedFees",this.getTotalAccruedFees());
-        
-        return pks;
+        this.setKemid(" ");
     }
 }

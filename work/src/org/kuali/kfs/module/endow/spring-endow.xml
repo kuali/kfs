@@ -183,7 +183,7 @@
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="accrualTransactionsExceptionReportHeader"/>
         		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
+        	  	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLine"/>
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
@@ -222,7 +222,6 @@
 	    </property>
 	    <property name="columnCount" value="8" />
 	</bean>
-	
 	
 	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">
 		<property name="kemService">
@@ -1493,10 +1492,10 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="total" value="Fee Method"/>
-    			<entry key="kemid" value="KEMID"/>
-    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
-    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    			<entry key="total" value=" "/>
+    			<entry key="kemid" value=" "/>
+    			<entry key="totalWaivedFees" value=" "/>
+    			<entry key="totalAccruedFees" value=" "/>
     		</map>
 	    </property>
 	    <property name="columnCount" value="4" />
@@ -1505,10 +1504,10 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="total" value="Fee Method"/>
-    			<entry key="kemid" value="KEMID"/>
-    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
-    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    			<entry key="total" value=" "/>
+    			<entry key="kemid" value=" "/>
+    			<entry key="totalWaivedFees" value=" "/>
+    			<entry key="totalAccruedFees" value=" "/>
     		</map>
 	    </property>
 	    <property name="columnCount" value="4" />
@@ -1517,10 +1516,10 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="total" value="Fee Method"/>
-    			<entry key="kemid" value="KEMID"/>
-    			<entry key="totalWaivedFees" value="Accrued Fee Amount"/>
-    			<entry key="totalAccruedFees" value="Waived Fee Amount"/>
+    			<entry key="total" value=" "/>
+    			<entry key="kemid" value=" "/>
+    			<entry key="totalWaivedFees" value=" "/>
+    			<entry key="totalAccruedFees" value=" "/>
     		</map>
 	    </property>
 	    <property name="columnCount" value="4" />

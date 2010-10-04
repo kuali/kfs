@@ -219,10 +219,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         KualiDecimal accruedFeeGrandTotal = new KualiDecimal("0");
         KualiDecimal waivedFeeGrandTotal = new KualiDecimal("0");
         
-        FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine = new FeeProcessingWaivedAndAccruedDetailTotalLine();
-        FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
-        FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
-        
         Date currentDate = kemService.getCurrentDate();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);

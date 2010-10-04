@@ -27,8 +27,8 @@ public class FeeProcessingWaivedAndAccruedGrandTotalLine extends TransientBusine
     private KualiDecimal totalAccruedFees = KualiDecimal.ZERO;
     
     public FeeProcessingWaivedAndAccruedGrandTotalLine() {
-        total = "Grand Total";
-        kemid = "KEMID";
+        total = "Grand Totals";
+        kemid = " ";
     }
     
     /**

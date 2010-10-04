@@ -32,28 +32,18 @@
   </bean>
   <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-total" parent="FeeProcessingWaivedAndAccruedSubTotalLine-total-parentBean"/>
 
-  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-total-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="total"/>
-  	<property name="maxLength" value="25"/>
-  </bean>  
+  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-total-parentBean" abstract="true" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-total"/>
+
   <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-kemid" parent="FeeProcessingWaivedAndAccruedSubTotalLine-kemid-parentBean"/>
   
-  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-kemid-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-  	<property name="name" value="kemid"/>
-  	<property name="maxLength" value="25"/>
-  </bean>
+  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-kemid-parentBean" abstract="true" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-kemid"/>
+
   <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalAccruedFees" parent="FeeProcessingWaivedAndAccruedSubTotalLine-totalAccruedFees-parentBean"/>
 
-  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalAccruedFees-parentBean"  abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalAccruedFees"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalAccruedFees-parentBean"  abstract="true" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalAccruedFees"/>
 
   <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees" parent="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean"/>    
 
-  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalWaivedFees"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees"/>
 
 </beans>

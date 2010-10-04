@@ -41,6 +41,10 @@
   <bean id="TransactionDocumentTotalReportLine-documentType-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="documentType"/>
   	<property name="maxLength" value="8"/>
+  	<property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
   </bean>
 
   <bean id="TransactionDocumentTotalReportLine-documentId" parent="TransactionDocumentTotalReportLine-documentId-parentBean"/>

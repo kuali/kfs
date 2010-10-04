@@ -207,7 +207,7 @@
 	</bean>
 
     <bean id="transactionDocumentTotalReportLineHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLineHelper" />
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="documentType" value="DOC TYPE" />

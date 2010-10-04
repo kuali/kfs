@@ -24,24 +24,19 @@ public class TransactionDocumentExceptionReportLine extends TransactionDocumentF
 
     protected String kemid;
 
-    public TransactionDocumentExceptionReportLine (
-            String documentType, String documentId){
-        new TransactionDocumentExceptionReportLine(
-                documentType, documentType, new String(), new String() );        
+    public TransactionDocumentExceptionReportLine(String documentType, String documentId) {
+        this(documentType, documentType, "", "");        
     }
     
-    public TransactionDocumentExceptionReportLine (
-            String documentType, String documentId, String securityId ){
-        new TransactionDocumentExceptionReportLine(
-                documentType, documentType, securityId, new String() );        
+    public TransactionDocumentExceptionReportLine(String documentType, String documentId, String securityId) {
+        this(documentType, documentType, securityId, "");        
     }
     
-    public TransactionDocumentExceptionReportLine (
-            String documentType, String documentId, String securityId, String kemid){
+    public TransactionDocumentExceptionReportLine(String documentType, String documentId, String securityId, String kemid) {
         this.documentType = documentType;
-        this.documentId = documentId;
-        this.securityId = securityId;
-        this.kemid = kemid;        
+        this.documentId   = documentId;
+        this.securityId   = securityId;
+        this.kemid        = kemid;        
     }
     
     /**

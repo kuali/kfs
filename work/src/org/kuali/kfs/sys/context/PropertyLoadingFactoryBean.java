@@ -17,12 +17,14 @@ package org.kuali.kfs.sys.context;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.config.JAXBConfigImpl;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -105,6 +107,11 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
 
     protected static void loadBaseProperties() {
         if (BASE_PROPERTIES.isEmpty()) {
+            List<String> riceXmlConfigurations = new ArrayList<String>();
+            riceXmlConfigurations.add("classpath:META-INF/common-config-defaults.xml");
+            JAXBConfigImpl riceXmlConfigurer = new JAXBConfigImpl(riceXmlConfigurations);
+            BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());
+            
             loadProperties(BASE_PROPERTIES, new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
         }
     }

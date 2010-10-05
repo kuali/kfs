@@ -75,10 +75,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
     private ReportWriterService accrualTransactionsExceptionReportWriterService;
     private ReportWriterService accrualTransactionsTotalReportWriterService;
-
-//    private EndowmentExceptionReportHeader accrualTransactionsExceptionReportHeader;
-//    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowValues;
-    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowReason;
  
     private TransactionDocumentExceptionReportLine exceptionReportLine = null;
     private TransactionDocumentTotalReportLine totalReportLine = null;
@@ -90,9 +86,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * Constructs a CreateAccrualTransactionsServiceImpl.java.
      */
     public CreateAccrualTransactionsServiceImpl() {
-//        accrualTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
-//        accrualTransactionsExceptionRowValues = new EndowmentExceptionReportHeader();
-          accrualTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();
 
     }
 
@@ -103,15 +96,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         boolean success = true;
         
         LOG.debug("createAccrualTransactions() started");
-
-        // writes the exception report header
-//        accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-//        accrualTransactionsExceptionReportHeader.setColumnHeading1("Documnet Type");
-//        accrualTransactionsExceptionReportHeader.setColumnHeading2("Security ID");
-//        accrualTransactionsExceptionReportHeader.setColumnHeading3("KEMID");
-//        accrualTransactionsExceptionReportHeader.setColumnHeading4("Transaction Amount");
-
-//        accrualTransactionsExceptionReportWriterService.writeTableHeader(accrualTransactionsExceptionReportHeader);
 
         int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
 
@@ -200,12 +184,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 }
 
                 // submit the current ECI doc and update the values in the tax lots used already
-                if (totalReportLine == null){
-                    System.out.println(">>> totalReportLine is null!!");
-                }
-                else {
-                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
-                }
+                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);    
 
             }
 
@@ -243,7 +222,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         }
         else {
             success = false;
-//          writeTableRow(security.getId(), kemid, totalAmount);
             
             //write an exception line when a transaction line fails to pass the validation.
             exceptionReportLine.setKemid(kemid);
@@ -257,10 +235,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             for (String errorMessage : errorMessages) {
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-
-//              writeTableReason(errorMessage);
             }
-//            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
         }
         return success;
     }
@@ -300,8 +275,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
             accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
                         "WorkflowException while creating a CashIncreaseDocument for Accrual Transactions: "+ex.toString());
-           
-//            writeTableReason("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.");
             accrualTransactionsExceptionReportWriterService.writeNewLines(1);
             throw new RuntimeException("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.", ex);
         }
@@ -353,35 +326,30 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
                             "WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
-                   
-
-  //              writeTableReason("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.");
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
                 throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
             }
         }
-        else {
-            // ToDo: need to save the document    
+        else { 
             try {
                 //try to save the document
                 documentService.saveDocument(cashIncreaseDocument, CashIncreaseDocument.class);
-//                writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "-", cashIncreaseDocument.getTargetIncomeTotal());
                 exceptionReportLine.setSecurityId(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
                 exceptionReportLine.setIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
                 accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 List<String> errorMessages = extractGlobalVariableErrors();
                 for (String errorMessage : errorMessages) {
-//                    writeTableReason(errorMessage);
                     accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
                     accrualTransactionsExceptionReportWriterService.writeNewLines(1);
                 }
-//                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
             }catch (WorkflowException ex) {
+                // have to write a table header before write the table row.
                 if (isFistTimeForWritingExceptionReport){
                     accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
                     isFistTimeForWritingExceptionReport = false;
                 }
                 accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
+                // Write reason as a formatted message in a second line
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
                             "WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
@@ -444,38 +412,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     private String getCashIncreaseDocumentType() {
         return "ECI";
     }
-
-    /**
-     * Writes out the table row values for document type, secuityId, kemId, transactionAmount.
-     * 
-     * @param securityId
-     * @param kemid
-     */
-   /* protected void writeTableRow(String securityId, String kemid, KualiDecimal transactionAmount) {
-
-        accrualTransactionsExceptionRowValues.setColumnHeading1(getCashIncreaseDocumentType());
-        accrualTransactionsExceptionRowValues.setColumnHeading2(securityId);
-        accrualTransactionsExceptionRowValues.setColumnHeading3(kemid);
-        accrualTransactionsExceptionRowValues.setColumnHeading4(transactionAmount.toString());
-
-        accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowValues);
-
-    }
-    */
-
-    /**
-     * Writes the reason row and inserts a blank line.
-     * 
-     * @param reasonMessage
-     */
-    protected void writeTableReason(String reasonMessage) {
-        accrualTransactionsExceptionRowReason.setColumnHeading1("Reason:");
-        accrualTransactionsExceptionRowReason.setColumnHeading2(reasonMessage);
-        accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowReason);
-        
-    }
-
-
+ 
     /**
      * Locates all Security records for which the next income pay date is equal to the current date.
      * 
@@ -488,15 +425,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         return result;
     }
-/*    
-    private TransactionDocumentExceptionReportLine createTransactionDocumentExceptionReportLine (String theDocumentType, String theDocumentId){
-        return new TransactionDocumentExceptionReportLine(theDocumentType, theDocumentId);
-    }
-    
-    private TransactionDocumentTotalReportLine createTransactionDocumentTotalReportLine(String theDocumentType, String theDocumentId, String theSecurityId){
-        return new TransactionDocumentTotalReportLine(theDocumentType, theDocumentId, theSecurityId);
-    }
-*/
+
     private void initializeTotalAndExceptionReportLines (String theDocumentId, String theSecurityId){
         // create a new totalReportLine for each new CashIncreaseDocument
         this.totalReportLine = new TransactionDocumentTotalReportLine(getCashIncreaseDocumentType(),theDocumentId, theSecurityId);

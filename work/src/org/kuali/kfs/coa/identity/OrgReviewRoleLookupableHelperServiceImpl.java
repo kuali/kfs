@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -56,9 +57,10 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -66,8 +68,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
-
-import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private GroupService groupService;
@@ -76,6 +76,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     private DocumentTypeService documentTypeService;
     private KimTypeInfoService typeInfoService;
     private RiceCacheAdministrator cacheAdministrator;
+    
+//    private KualiInquirableImpl orgReviewRoleInquirable;
     
     protected static final String WILDCARD = "*";
     protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
@@ -111,6 +113,23 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
+//    @Override
+//    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+//        if ( StringUtils.equals( propertyName, "orgReviewRoleMemberId") ) {
+//            Properties parameters = new Properties();
+//            parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)bo).getOrgReviewRoleMemberId() );
+//            return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+//        } else {
+//            return super.getInquiryUrl(bo, propertyName);
+//        }
+//    }
+
+//    protected AnchorHtmlData getHyperLink(Class inquiryClass, Map<String,String> fieldList, String inquiryUrl){
+//        AnchorHtmlData a = new AnchorHtmlData(inquiryUrl, KNSConstants.EMPTY_STRING);
+//        a.setTitle(HtmlData.getTitleText(this.createTitleText(inquiryClass), inquiryClass, fieldList));
+//        return a;
+//    }
+    
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         OrgReviewRole orr = (OrgReviewRole)businessObject;
@@ -897,4 +916,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return cacheAdministrator;
     }
 
+//    protected KualiInquirableImpl getOrgReviewRoleInquirable() {
+//        if ( orgReviewRoleInquirable == null ) {
+//            orgReviewRoleInquirable = SpringContext.getBean( OrgReviewRoleInquirableImpl.class );
+//        }
+//        return orgReviewRoleInquirable;
+//    }
 }

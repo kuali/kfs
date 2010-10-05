@@ -17,7 +17,17 @@
 
   <bean id="OrgReviewRole" parent="OrgReviewRole-parentBean"/>
 
-  <bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" p:titleAttribute="orgReviewRoleMemberId" p:objectLabel="Organization Review" p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition">
+  <bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry" 
+  			p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" 
+  			p:titleAttribute="orgReviewRoleInquiryTitle" 
+  			p:objectLabel="Organization Review" 
+  			p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" 
+  			p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition">
+	<property name="primaryKeys">
+	  <list>
+	    <value>orgReviewRoleMemberId</value>
+	  </list>
+	</property> 
     <property name="attributes">
       <list>
         <ref bean="OrgReviewRole-financialSystemDocumentTypeCode"/>
@@ -66,6 +76,7 @@
         <ref bean="OrgReviewRole-activeFromDate"/>
         <ref bean="OrgReviewRole-activeToDate"/>
         <ref bean="OrgReviewRole-active"/>
+        <ref bean="OrgReviewRole-orgReviewRoleInquiryTitle"/>
       </list>
     </property>
     <property name="relationships">
@@ -307,6 +318,17 @@
   <bean id="OrgReviewRole-active" parent="OrgReviewRole-active-parentBean"/>
   <bean id="OrgReviewRole-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" p:name="active" p:label="Active Indicator"/>
 
+  <bean id="OrgReviewRole-orgReviewRoleInquiryTitle" parent="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean"/>
+  <bean id="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="orgReviewRoleInquiryTitle"/>
+    <property name="label" value="Inquiry"/>
+    <property name="shortLabel" value="Inquiry"/>
+    <property name="maxLength" value="255"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+  </bean>
+
   <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean"/>
   <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Organization Review Lookup">
     <property name="lookupableID" value="orgReviewRoleLookupable"/>
@@ -314,7 +336,9 @@
       <bean parent="SortDefinition">
         <property name="attributeNames">
           <list>
-            <value>orgReviewRoleMemberId</value>
+            <value>chartOfAccountsCode</value>
+            <value>organizationCode</value>
+            <value>financialSystemDocumentTypeCode</value>
           </list>
         </property>
         <property name="sortAscending" value="true"/>
@@ -340,6 +364,7 @@
     </property>
     <property name="resultFields">
       <list>
+          <bean parent="FieldDefinition" p:attributeName="orgReviewRoleInquiryTitle"/>
           <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
           <bean parent="FieldDefinition" p:attributeName="roleName"/>
           <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
@@ -365,6 +390,7 @@
 
   <bean id="OrgReviewRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Organization Review Inquiry"/>
+	<property name="inquirableClass" value="org.kuali.kfs.coa.identity.OrgReviewRoleInquirableImpl"/>
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition" p:title="Organization Review Details">

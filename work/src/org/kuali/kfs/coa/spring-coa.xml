@@ -654,5 +654,7 @@
     </bean>
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
+
+	<bean id="orgReviewRoleService" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" />
 	 
 </beans>

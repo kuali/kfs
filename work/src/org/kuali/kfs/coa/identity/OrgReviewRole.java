@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.kns.service.DateTimeService;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -45,6 +44,7 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -54,9 +54,11 @@ import org.kuali.rice.kns.web.comparator.StringValueComparator;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 public class OrgReviewRole extends PersistableBusinessObjectBase implements Inactivateable {
+    protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
+    protected static String INQUIRY_TITLE_VALUE = null;
 
     //Dummy variable
-    private String organizationTypeCode = "99";
+    protected String organizationTypeCode = "99";
     private static final long serialVersionUID = 1L;
     
     public static final String REVIEW_ROLES_INDICATOR_FIELD_NAME = "reviewRolesIndicator";
@@ -1451,6 +1453,13 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setRoleRspActions(List<RoleResponsibilityActionInfo> roleRspActions) {
         this.roleRspActions = roleRspActions;
+    }
+    
+    public String getOrgReviewRoleInquiryTitle() {
+        if ( INQUIRY_TITLE_VALUE == null ) {
+            INQUIRY_TITLE_VALUE = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ORR_INQUIRY_TITLE_PROPERTY);
+        }            
+        return INQUIRY_TITLE_VALUE;
     }
 
 }

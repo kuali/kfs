@@ -24,8 +24,11 @@ public class TransactionDocumentTotalReportLine extends TransactionDocumentForRe
 
     protected int totalNumberOfTransactionLines = 0;;
 
-    public TransactionDocumentTotalReportLine (
-            String documentType, String documentId, String securityId){
+    public TransactionDocumentTotalReportLine() {
+        this("", "", "");
+    }
+    
+    public TransactionDocumentTotalReportLine(String documentType, String documentId, String securityId) {
         this.documentType = documentType;
         this.documentId = documentId;
         this.securityId = securityId;        
@@ -45,7 +48,7 @@ public class TransactionDocumentTotalReportLine extends TransactionDocumentForRe
      */
     public void addIncomeAmount(KualiDecimal incomeAmount) {
         this.incomeAmount = this.incomeAmount.add(incomeAmount);       
-        this.totalNumberOfTransactionLines+=1;
+        this.totalNumberOfTransactionLines++;
         
     }
   
@@ -55,7 +58,7 @@ public class TransactionDocumentTotalReportLine extends TransactionDocumentForRe
      */
     public void addPrincipalAmount(KualiDecimal principalAmount) {
         this.principalAmount = this.principalAmount.add(principalAmount); 
-        this.totalNumberOfTransactionLines+=1;
+        this.totalNumberOfTransactionLines++;
     }
  
 }

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
-import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME;
+import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -37,7 +37,6 @@ import org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransaction
 import org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
-import org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -47,6 +46,8 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
@@ -89,51 +90,16 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private KEMService kemService;
     private PooledFundControlService pooledFundControlService;
     
-    private int maxNumberOfTransactionLines;
-    
-    EndowmentExceptionReportHeader createAutomatedCashInvestmentExceptionReportHeader;
-    EndowmentExceptionReportHeader createAutomatedCashInvestmentExceptionReportReason;
-    EndowmentExceptionReportHeader createAutomatedCashInvestmentExceptionReportValues;
-    
-    EndowmentProcessedReportHeader createAutomatedCashInvestmentProcessedReportHeader;
-    EndowmentProcessedReportHeader createAutomatedCashInvestmentProcessedReportValues;
-    
-    public CreateAutomatedCashInvestmentTransactionsServiceImpl() {
-        createAutomatedCashInvestmentExceptionReportHeader = new EndowmentExceptionReportHeader();
-        createAutomatedCashInvestmentExceptionReportReason = new EndowmentExceptionReportHeader();
-        createAutomatedCashInvestmentExceptionReportValues = new EndowmentExceptionReportHeader();
-        
-        createAutomatedCashInvestmentProcessedReportHeader = new EndowmentProcessedReportHeader();
-        createAutomatedCashInvestmentProcessedReportValues = new EndowmentProcessedReportHeader();
-    }
-    
     /**
      * 
-     * This method...
+     * Initialize the report document headers.
      *
      */
-    private void writeHeaders() {
+    private void writeHeaders() { 
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading1("Document Type");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading2("Security Id");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading3("KEMID");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading4("Income Amount");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading5("Income Units");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading6("Principle Amount");
-        createAutomatedCashInvestmentExceptionReportHeader.setColumnHeading7("Principle Units");
-
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading1("Document Type");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading2("eDoc Number");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading3("Security Id");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading4("Lines Generated");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading5("Income Amount");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading6("Income Units");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading7("Principle Amount");
-        createAutomatedCashInvestmentProcessedReportHeader.setColumnHeading8("Principle Units");
-        
-        createAutomatedCashInvestmentExceptionReportWriterService.writeTableHeader(createAutomatedCashInvestmentExceptionReportHeader);
-        createAutomatedCashInvestmentProcessedReportWriterService.writeTableHeader(createAutomatedCashInvestmentProcessedReportHeader);
+        createAutomatedCashInvestmentExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
+        createAutomatedCashInvestmentProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
     }
     
     /**
@@ -142,7 +108,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     public boolean createAciTransactions() {
         
         LOG.info("Starting \"Create Automated Cash Investments Transactions\" batch job...");
-        maxNumberOfTransactionLines = getMaxNumberOfTransactionLines();
         writeHeaders();
         
         for (AutomatedCashInvestmentModel aciModel : getAutomatedCashInvestmentModelMatchingCurrentDate()) {
@@ -319,7 +284,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
               // Check to see if we've reached our max number of transaction lines
               // per eDoc.  If so, validate, and submit the current eDoc and start
               // another eDoc.
-              if ((i != 0) && (i%maxNumberOfTransactionLines == 0)) {
+              if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
                   // Validate and route the document.
                   routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
                   assetDecreaseDoc = null;
@@ -359,7 +324,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
               // Check to see if we've reached our max number of transaction lines
               // per eDoc.  If so, validate, and submit the current eDoc and start
               // another eDoc.
-              if ((i != 0) && (i%maxNumberOfTransactionLines == 0)) {
+              if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
                   // Validate and route the document.
                   routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
                   assetIncreaseDoc = null;
@@ -913,7 +878,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
         
         // REMOVE WHEN DONE TESTING!
-        boolean OVERRIDE = false;
+        boolean OVERRIDE = true;
         
         //
         // Get all the CashSweepModel BOs, and initialize a new list to contain
@@ -994,30 +959,21 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void writeProcessedTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
 
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading2(assetIncreaseDoc.getDocumentNumber());
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading3(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE,
+                assetIncreaseDoc.getDocumentNumber(),
+                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         List<EndowmentTransactionLine> transLines = assetIncreaseDoc.getTargetTransactionLines();
-        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
-        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
         for (EndowmentTransactionLine tranLine : transLines) {
-            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
-            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
-        }
-        
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
-        if (isIncome) {
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading7("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading8("");
-        }
-        else {
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading5("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading6("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+            if (isIncome) {
+                createAutomatedCashInvestmentProcessedReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentProcessedReportValues.addIncomeUnits(tranLine.getTransactionUnits());
+            }
+            else {
+                createAutomatedCashInvestmentProcessedReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
+            }
         }
 
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
@@ -1033,30 +989,21 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void writeProcessedTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
 
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading2(assetDecreaseDoc.getDocumentNumber());
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading3(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE,
+                assetDecreaseDoc.getDocumentNumber(),
+                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
-        List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getSourceTransactionLines();
-        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
-        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
+        List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getTargetTransactionLines();
         for (EndowmentTransactionLine tranLine : transLines) {
-            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
-            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
-        }
-        
-        createAutomatedCashInvestmentProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
-        if (isIncome) {
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading7("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading8("");
-        }
-        else {
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading5("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading6("");
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
-            createAutomatedCashInvestmentProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+            if (isIncome) {
+                createAutomatedCashInvestmentProcessedReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentProcessedReportValues.addIncomeUnits(tranLine.getTransactionUnits());
+            }
+            else {
+                createAutomatedCashInvestmentProcessedReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
+            }
         }
 
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
@@ -1073,22 +1020,20 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
         
-        createAutomatedCashInvestmentExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createAutomatedCashInvestmentExceptionReportValues.setColumnHeading2(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, 
+                assetDecreaseDoc.getDocumentNumber(),
+                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         if (tranLine != null) {
-            createAutomatedCashInvestmentExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            createAutomatedCashInvestmentExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading6("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading7("");
+                createAutomatedCashInvestmentExceptionReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentExceptionReportValues.addIncomeUnits(tranLine.getTransactionUnits());
             }
             else {
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading4("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading5("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createAutomatedCashInvestmentExceptionReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
 
@@ -1106,22 +1051,20 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
         
-        createAutomatedCashInvestmentExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createAutomatedCashInvestmentExceptionReportValues.setColumnHeading2(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, 
+                assetIncreaseDoc.getDocumentNumber(),
+                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         if (tranLine != null) {
-            createAutomatedCashInvestmentExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            createAutomatedCashInvestmentExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading6("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading7("");
+                createAutomatedCashInvestmentExceptionReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentExceptionReportValues.addIncomeUnits(tranLine.getTransactionUnits());
             }
             else {
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading4("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading5("");
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createAutomatedCashInvestmentExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createAutomatedCashInvestmentExceptionReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createAutomatedCashInvestmentExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
         
@@ -1135,7 +1078,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param reasonMessage
      */
     private void writeExceptionTableReason(String reasonMessage) {
-        createAutomatedCashInvestmentExceptionReportReason.setColumnHeading1("Reason:");
+        EndowmentExceptionReportHeader createAutomatedCashInvestmentExceptionReportReason = new EndowmentExceptionReportHeader();
+        createAutomatedCashInvestmentExceptionReportReason.setColumnHeading1("Reason: ");
         createAutomatedCashInvestmentExceptionReportReason.setColumnHeading2(reasonMessage);
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportReason);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
@@ -1227,22 +1171,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
-    }
-
-    /**
-     * Sets the createAutomatedCashInvestmentExceptionReportHeader attribute value.
-     * @param createAutomatedCashInvestmentExceptionReportHeader The createAutomatedCashInvestmentExceptionReportHeader to set.
-     */
-    public void setCreateAutomatedCashInvestmentExceptionReportHeader(EndowmentExceptionReportHeader createAutomatedCashInvestmentExceptionReportHeader) {
-        this.createAutomatedCashInvestmentExceptionReportHeader = createAutomatedCashInvestmentExceptionReportHeader;
-    }
-
-    /**
-     * Sets the createAutomatedCashInvestmentProcessedReportHeader attribute value.
-     * @param createAutomatedCashInvestmentProcessedReportHeader The createAutomatedCashInvestmentProcessedReportHeader to set.
-     */
-    public void setCreateAutomatedCashInvestmentProcessedReportHeader(EndowmentProcessedReportHeader createAutomatedCashInvestmentProcessedReportHeader) {
-        this.createAutomatedCashInvestmentProcessedReportHeader = createAutomatedCashInvestmentProcessedReportHeader;
     }
     
     /**

@@ -24,6 +24,10 @@ public class TransactionDocumentExceptionReportLine extends TransactionDocumentF
 
     protected String kemid;
 
+    public TransactionDocumentExceptionReportLine() {
+        this("", "");
+    }
+    
     public TransactionDocumentExceptionReportLine(String documentType, String documentId) {
         this(documentType, documentType, "", "");        
     }

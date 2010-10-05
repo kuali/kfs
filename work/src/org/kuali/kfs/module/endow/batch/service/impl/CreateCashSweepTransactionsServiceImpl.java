@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.endow.EndowConstants.NEW_SOURCE_TRAN_LINE_PRO
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +32,6 @@ import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
-import org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -41,7 +39,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
-import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
@@ -49,7 +48,6 @@ import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -81,50 +79,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private KEMIDService kemidService;
     private KEMService kemService;
     
-    EndowmentExceptionReportHeader createCashSweepExceptionReportHeader;
-    EndowmentExceptionReportHeader createCashSweepExceptionReportReason;
-    EndowmentExceptionReportHeader createCashSweepExceptionReportValues;
-    
-    
-    EndowmentProcessedReportHeader createCashSweepProcessedReportHeader;
-    EndowmentProcessedReportHeader createCashSweepProcessedReportValues;
-    
-    public CreateCashSweepTransactionsServiceImpl() {
-        createCashSweepExceptionReportHeader = new EndowmentExceptionReportHeader();
-        createCashSweepExceptionReportReason = new EndowmentExceptionReportHeader();
-        createCashSweepExceptionReportValues = new EndowmentExceptionReportHeader();
-        
-        createCashSweepProcessedReportHeader = new EndowmentProcessedReportHeader();
-        createCashSweepProcessedReportValues = new EndowmentProcessedReportHeader();
-    }
-    
     /**
      * 
-     * This method...
+     * Initialize the report document headers.
      *
      */
     private void writeHeaders() {
         createCashSweepExceptionReportWriterService.writeNewLines(1);
-        createCashSweepExceptionReportHeader.setColumnHeading1("Document Type");
-        createCashSweepExceptionReportHeader.setColumnHeading2("Security Id");
-        createCashSweepExceptionReportHeader.setColumnHeading3("KEMID");
-        createCashSweepExceptionReportHeader.setColumnHeading4("Income Amount");
-        createCashSweepExceptionReportHeader.setColumnHeading5("Income Units");
-        createCashSweepExceptionReportHeader.setColumnHeading6("Principle Amount");
-        createCashSweepExceptionReportHeader.setColumnHeading7("Principle Units");
-
         createCashSweepProcessedReportWriterService.writeNewLines(1);
-        createCashSweepProcessedReportHeader.setColumnHeading1("Document Type");
-        createCashSweepProcessedReportHeader.setColumnHeading2("eDoc Number");
-        createCashSweepProcessedReportHeader.setColumnHeading3("Security Id");
-        createCashSweepProcessedReportHeader.setColumnHeading4("Lines Generated");
-        createCashSweepProcessedReportHeader.setColumnHeading5("Income Amount");
-        createCashSweepProcessedReportHeader.setColumnHeading6("Income Units");
-        createCashSweepProcessedReportHeader.setColumnHeading7("Principle Amount");
-        createCashSweepProcessedReportHeader.setColumnHeading8("Principle Units");
-        
-        createCashSweepExceptionReportWriterService.writeTableHeader(createCashSweepExceptionReportHeader);
-        createCashSweepProcessedReportWriterService.writeTableHeader(createCashSweepProcessedReportHeader);
+        createCashSweepExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
+        createCashSweepProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
     }
     
     /**
@@ -779,31 +743,22 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param isIncome
      */
     private void writeProcessedTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
-
-        createCashSweepProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createCashSweepProcessedReportValues.setColumnHeading2(assetIncreaseDoc.getDocumentNumber());
-        createCashSweepProcessedReportValues.setColumnHeading3(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        
+        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE,
+                assetIncreaseDoc.getDocumentNumber(),
+                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         List<EndowmentTransactionLine> transLines = assetIncreaseDoc.getTargetTransactionLines();
-        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
-        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
         for (EndowmentTransactionLine tranLine : transLines) {
-            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
-            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
-        }
-        
-        createCashSweepProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
-        if (isIncome) {
-            createCashSweepProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading7("");
-            createCashSweepProcessedReportValues.setColumnHeading8("");
-        }
-        else {
-            createCashSweepProcessedReportValues.setColumnHeading5("");
-            createCashSweepProcessedReportValues.setColumnHeading6("");
-            createCashSweepProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+            if (isIncome) {
+                createCashSweepProcessedReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createCashSweepProcessedReportValues.addIncomeUnits(tranLine.getTransactionUnits());
+            }
+            else {
+                createCashSweepProcessedReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createCashSweepProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
+            }
         }
 
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
@@ -819,30 +774,21 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private void writeProcessedTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
 
-        createCashSweepProcessedReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createCashSweepProcessedReportValues.setColumnHeading2(assetDecreaseDoc.getDocumentNumber());
-        createCashSweepProcessedReportValues.setColumnHeading3(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE,
+                assetDecreaseDoc.getDocumentNumber(),
+                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getSourceTransactionLines();
-        BigDecimal totalAmount = new BigDecimal(BigInteger.ONE);
-        BigDecimal totalUnits  = new BigDecimal(BigInteger.ONE);
         for (EndowmentTransactionLine tranLine : transLines) {
-            totalAmount = totalAmount.add(tranLine.getTransactionAmount().bigDecimalValue());
-            totalUnits  = totalUnits.add(tranLine.getTransactionUnits().bigDecimalValue());
-        }
-        
-        createCashSweepProcessedReportValues.setColumnHeading4(Integer.toString(transLines.size()));
-        if (isIncome) {
-            createCashSweepProcessedReportValues.setColumnHeading5(totalAmount.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading6(totalUnits.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading7("");
-            createCashSweepProcessedReportValues.setColumnHeading8("");
-        }
-        else {
-            createCashSweepProcessedReportValues.setColumnHeading5("");
-            createCashSweepProcessedReportValues.setColumnHeading6("");
-            createCashSweepProcessedReportValues.setColumnHeading7(totalAmount.toPlainString());
-            createCashSweepProcessedReportValues.setColumnHeading8(totalUnits.toPlainString());
+            if (isIncome) {
+                createCashSweepProcessedReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createCashSweepProcessedReportValues.addIncomeUnits(tranLine.getTransactionUnits());
+            }
+            else {
+                createCashSweepProcessedReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createCashSweepProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
+            }
         }
 
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
@@ -859,22 +805,20 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
         
-        createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createCashSweepExceptionReportValues.setColumnHeading2(assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, 
+                assetIncreaseDoc.getDocumentNumber(),
+                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         if (tranLine != null) {
-            createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            createCashSweepExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
-                createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading6("");
-                createCashSweepExceptionReportValues.setColumnHeading7("");
+                createCashSweepExceptionReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createCashSweepExceptionReportValues.addIncomeUnits(tranLine.getTransactionUnits());
             }
             else {
-                createCashSweepExceptionReportValues.setColumnHeading4("");
-                createCashSweepExceptionReportValues.setColumnHeading5("");
-                createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createCashSweepExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
         
@@ -892,22 +836,20 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
         
-        createCashSweepExceptionReportValues.setColumnHeading1(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        createCashSweepExceptionReportValues.setColumnHeading2(assetDecreaseDoc.getSourceTransactionSecurity().getSecurityID());
+        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(
+                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, 
+                assetDecreaseDoc.getDocumentNumber(),
+                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
         
         if (tranLine != null) {
-            createCashSweepExceptionReportValues.setColumnHeading3(tranLine.getKemid());
+            createCashSweepExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
-                createCashSweepExceptionReportValues.setColumnHeading4(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading5(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading6("");
-                createCashSweepExceptionReportValues.setColumnHeading7("");
+                createCashSweepExceptionReportValues.addIncomeAmount(tranLine.getTransactionAmount());
+                createCashSweepExceptionReportValues.addIncomeUnits(tranLine.getTransactionUnits());
             }
             else {
-                createCashSweepExceptionReportValues.setColumnHeading4("");
-                createCashSweepExceptionReportValues.setColumnHeading5("");
-                createCashSweepExceptionReportValues.setColumnHeading6(tranLine.getTransactionAmount().bigDecimalValue().toPlainString());
-                createCashSweepExceptionReportValues.setColumnHeading7(tranLine.getTransactionUnits().bigDecimalValue().toPlainString());
+                createCashSweepExceptionReportValues.addPrincipalAmount(tranLine.getTransactionAmount());
+                createCashSweepExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
         
@@ -921,8 +863,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param reasonMessage
      */
     private void writeExceptionTableReason(String reasonMessage) {
-        createCashSweepExceptionReportReason.setColumnHeading1("Reason:");
+        EndowmentExceptionReportHeader createCashSweepExceptionReportReason = new EndowmentExceptionReportHeader();
+        createCashSweepExceptionReportReason.setColumnHeading1("Reason: ");
         createCashSweepExceptionReportReason.setColumnHeading2(reasonMessage);
+        
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportReason);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
@@ -989,22 +933,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setCreateCashSweepExceptionReportWriterService(ReportWriterService createCashSweepExceptionReportWriterService) {
         this.createCashSweepExceptionReportWriterService = createCashSweepExceptionReportWriterService;
-    }
-
-    /**
-     * Sets the createCashSweepProcessedReportHeader attribute value.
-     * @param createCashSweepProcessedReportHeader The createCashSweepProcessedReportHeader to set.
-     */
-    public void setCreateCashSweepProcessedReportHeader(EndowmentProcessedReportHeader createCashSweepProcessedReportHeader) {
-        this.createCashSweepProcessedReportHeader = createCashSweepProcessedReportHeader;
-    }
-
-    /**
-     * Sets the createCashSweepExceptionReportHeader attribute value.
-     * @param createCashSweepExceptionReportHeader The createCashSweepExceptionReportHeader to set.
-     */
-    public void setCreateCashSweepExceptionReportHeader(EndowmentExceptionReportHeader createCashSweepExceptionReportHeader) {
-        this.createCashSweepExceptionReportHeader = createCashSweepExceptionReportHeader;
     }
 
     /**

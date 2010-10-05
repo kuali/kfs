@@ -783,6 +783,7 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createCashSweepExceptionReportHeader"/>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
         <property name="aggregationModeOn" value="false"/>
@@ -794,6 +795,7 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createCashSweepProcessedReportHeader"/>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
             </map>
         </property>
         <property name="aggregationModeOn" value="false"/>
@@ -870,6 +872,7 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createAutomatedCashInvestmentExceptionReportHeader"/>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
         <property name="aggregationModeOn" value="false"/>
@@ -881,6 +884,7 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createAutomatedCashInvestmentProcessedReportHeader"/>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
             </map>
         </property>
         <property name="aggregationModeOn" value="false"/>

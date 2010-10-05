@@ -15,35 +15,38 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
+import org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateRecurringCashTransferTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
+import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
-import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
+import org.kuali.kfs.module.endow.document.CashTransferDocument;
+import org.kuali.kfs.module.endow.document.EndowmentToGLTransferOfFundsDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
-import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
+import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -55,8 +58,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private KEMIDService kemidService;
     private KEMService kemService;
     private DocumentService documentService;
     private ParameterService parameterService;
@@ -77,79 +78,122 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         
         for (EndowmentRecurringCashTransfer endowmentRecurringCashTransfer : recurringCashTransfers) {
             
-            CashIncreaseDocument cashIncreaseDoc = createCashIncreaseDocument(endowmentRecurringCashTransfer);
-            
             String sourceTransactionType = endowmentRecurringCashTransfer.getTransactionType();
             String sourceKemid = endowmentRecurringCashTransfer.getSourceKemid();
             Date lastProcessDate = endowmentRecurringCashTransfer.getLastProcessDate();
             String sourceEtranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
             
-            KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
             KualiDecimal totalSourceTransaction = KualiDecimal.ZERO;
+            KualiDecimal totalTargetTransaction = KualiDecimal.ZERO;
             
             if (sourceTransactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
                 // calculate when ECT
+                CashTransferDocument cashTransferDoc = createCashTransferDocument();
                 List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = endowmentRecurringCashTransfer.getKemidTarget();
-                
-                // define tree maps for each calculation scenario ???
-                Map<String, List<EndowmentRecurringCashTransferKEMIDTarget>> percentageUsingEtranMap = new TreeMap();
-                Map<String, EndowmentRecurringCashTransferKEMIDTarget> percentageOfRemainingFundsMap = new TreeMap();
-                Map<String, EndowmentRecurringCashTransferKEMIDTarget> specificAmountMap = new TreeMap();
                 
                 for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets){
                     
                     // check if it is calculation scenario 1
-                    if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetEtranCode())){
+                    if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetUseEtranCode())){
                         // retrieves transactionArchives and calculated source cash
                         KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
                         
-                        List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, kemidTarget.getTargetEtranCode(), kemidTarget.getTargetIncomeOrPrincipal());
+                        List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, kemidTarget.getTargetUseEtranCode());
                         // if transactionArchives exist, then calculate total income and total percent of same etran code in target
                         if (transactionArchiveList.size() > 0) {
                             totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
-                            totalSourceTransaction = totalSourceTransaction.add(totalCashIncomeEtranCode);
+                            
                         }
-                        KualiDecimal transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent()).divide(new KualiDecimal(100));
-                        addTransactionLine(false, endowmentRecurringCashTransfer, cashIncreaseDoc, transactionAmount);
+                        KualiDecimal transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent());
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        // add target line
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
                     
-                        // check if it is calculation scenario 1
+                        // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())){
+                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
+                        KualiDecimal transactionAmount = totalCashEquivalents.multiply(kemidTarget.getTargetPercent());
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        // add target line
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
                         
-                        
-                    
-                    
+                        // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())){
-                        
+                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
+                        KualiDecimal transactionAmount = totalCashEquivalents.subtract(kemidTarget.getTargetAmount());
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        // add target line
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
                     }
-                    
+                }
+                // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
+                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE);
+                if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
+                    // report exception
+                } else {
+                    // add source line
+                    addSourceTransactionLineForCashTransferDoc(endowmentRecurringCashTransfer, cashTransferDoc, totalSourceTransaction);
+                    routeCashTransferDoc(cashTransferDoc);
                 }
                 
-                
-//                
-//                addTransactionLineForAssetIncrease(assetIncreaseDoc, totalSourceAmount);
-//                
-//                int case = checkCase() 
-//                
-//                
-//                getTransactionArchive
-//                TransactionArchive
-//                
-                
-                
-                
-                
             } else {
-             // calculate when ECT
+                // calculate when EGLT
+                EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument = createEndowmentToGLTransferOfFundsDocument();
+                List<EndowmentRecurringCashTransferGLTarget> glTargets = endowmentRecurringCashTransfer.getGlTarget();
                 
+                for (EndowmentRecurringCashTransferGLTarget glTarget : glTargets){
+                    
+                    // check if it is calculation scenario 1
+                    if (ObjectUtils.isNotNull(glTarget.getTargetPercent()) && ObjectUtils.isNotNull(glTarget.getTargetUseEtranCode())){
+                        // retrieves transactionArchives and calculated source cash
+                        KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
+                        
+                        List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, glTarget.getTargetUseEtranCode());
+                        // if transactionArchives exist, then calculate total income and total percent of same etran code in target
+                        if (transactionArchiveList.size() > 0) {
+                            totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
+                            
+                        }
+                        KualiDecimal transactionAmount = totalCashIncomeEtranCode.multiply(glTarget.getTargetPercent());
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        // add target line
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                    
+                        // check if it is calculation scenario 2
+                    } else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())){
+                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
+                        KualiDecimal transactionAmount = totalCashEquivalents.multiply(glTarget.getTargetPercent());
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        // add target line                            
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                        
+                        // check if it is calculation scenario 3
+                    } else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())){
+                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
+                        KualiDecimal transactionAmount = totalCashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
+                        totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                        // add target line
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                    }
+                }
                 
-                
+                // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
+                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE);
+                if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
+                    // report exception
+                } else {
+                    // add source... line
+                    addSourceTransactionLineForGLTransferOfFundsDocument(endowmentRecurringCashTransfer, gLTransferOfFundsDocument, totalSourceTransaction);
+                    // route doc
+                    routeGLTransferOfFundsDocument(gLTransferOfFundsDocument);
+                }
             }
-            
-
-//            processIncomeSweepPurchases(cashSweepModels);
-//            processIncomeSweepSales(cashSweepModels);
-//            processPrincipalSweepPurchases(cashSweepModel);
-//            processPrincipalSweepSale(cashSweepModel);
         }
         
         LOG.info("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
@@ -190,10 +234,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         return recurringCashTransfers;
     }
     
-    
-    
-    
-    private List<TransactionArchive> retrieveTransactionArchives(String sourceKemid, Date lastProcessDate, String targetEtranCode, String incomePrincipalIndicator){
+    // spec 6.2 3.1.a
+    private List<TransactionArchive> retrieveTransactionArchives(String sourceKemid, Date lastProcessDate, String targetEtranCode){
         KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
         
         List<TransactionArchive> transactionArchiveList = null;
@@ -209,7 +251,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         return transactionArchiveList;
     }
     
-    
+    // spec 6.2 3.1.a
     private KualiDecimal calculateTotalIncomeTransactionArchives(List<TransactionArchive> transactionArchiveList){
         KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
         for (TransactionArchive transactionArchive : transactionArchiveList){
@@ -233,96 +275,171 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
      * @param currentCash
      */
     
-    // from CreateCashSweepTransactionsServiceImpl
-    
-    private void addTransactionLine(boolean isSource, EndowmentRecurringCashTransfer endowmentRecurringCashTransfer, CashIncreaseDocument cashIncreaseDoc, KualiDecimal totalAmount){ 
+    private void addSourceTransactionLineForCashTransferDoc(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount){ 
         boolean rulesPassed = true;
-        EndowmentTransactionLine transactionLine = null;
-        if (isSource) {
-            transactionLine = createTransactionLineForSource(endowmentRecurringCashTransfer, totalAmount);
-            rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_ACC_LINE_PROPERTY_NAME, cashIncreaseDoc, transactionLine));
-        } else {
-            transactionLine = createTransactionLineForTarget(endowmentRecurringCashTransfer, totalAmount);
-            rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_TARGET_ACC_LINE_PROPERTY_NAME, cashIncreaseDoc, transactionLine));
-        }
-        
+        EndowmentSourceTransactionLine transactionLine = new EndowmentSourceTransactionLine();
+        transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE);
+        transactionLine.setKemid(endowmentRecurringCashTransfer.getSourceKemid());
+        transactionLine.setEtranCode(endowmentRecurringCashTransfer.getSourceEtranCode());
+        transactionLine.setTransactionLineDescription(endowmentRecurringCashTransfer.getSourceLineDescription());
+        transactionLine.setTransactionIPIndicatorCode(endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal());
+        transactionLine.setTransactionAmount(totalAmount);
+
+        rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, cashTransferDoc, transactionLine));
+
         if (rulesPassed) {
-            cashIncreaseDoc.getTargetTransactionLines().add(transactionLine);
+            cashTransferDoc.addSourceTransactionLine(transactionLine);
+        }
+        else {
+            // delete the line and report to error
+
+        }
+    }
+    
+    private void addSourceTransactionLineForGLTransferOfFundsDocument(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer, EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument, KualiDecimal totalAmount){ 
+        boolean rulesPassed = true;
+        EndowmentSourceTransactionLine transactionLine = new EndowmentSourceTransactionLine();
+        transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE);
+        transactionLine.setKemid(endowmentRecurringCashTransfer.getSourceKemid());
+        transactionLine.setEtranCode(endowmentRecurringCashTransfer.getSourceEtranCode());
+        transactionLine.setTransactionLineDescription(endowmentRecurringCashTransfer.getSourceLineDescription());
+        transactionLine.setTransactionIPIndicatorCode(endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal());
+        transactionLine.setTransactionAmount(totalAmount);
+
+        rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, gLTransferOfFundsDocument, transactionLine));
+
+        if (rulesPassed) {
+            gLTransferOfFundsDocument.addSourceTransactionLine(transactionLine);
+        }
+        else {
+            // delete the line and report to error
+
         }
     }
 
-    
-    
-    private EndowmentTransactionLine createTransactionLineForSource(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer, KualiDecimal totalAmount){
-        EndowmentTransactionLine transactionLine = new EndowmentSourceTransactionLine();
-        transactionLine.setKemid(endowmentRecurringCashTransfer.getSourceKemid());
-        transactionLine.setEtranCode(endowmentRecurringCashTransfer.getSourceEtranCode());
-        transactionLine.setTransactionLineDescription(endowmentRecurringCashTransfer.getSourceLineDescription());
-        transactionLine.setIncomePrincipalIndicator(endowmentRecurringCashTransfer.getIncomePrincipalIndicator());
+    private void addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount) {
+        boolean rulesPassed = true;
+        EndowmentTargetTransactionLine transactionLine = new EndowmentTargetTransactionLine();
+        transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
+        transactionLine.setKemid(endowmentRecurringCashTransferKEMIDTarget.getTargetKemid());
+        transactionLine.setEtranCode(endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode());
+        transactionLine.setTransactionLineDescription(endowmentRecurringCashTransferKEMIDTarget.getTargetLineDescription());
+        transactionLine.setTransactionIPIndicatorCode(endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal());
         transactionLine.setTransactionAmount(totalAmount);
-        
-        return transactionLine;
+
+        rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashTransferDoc, transactionLine));
+
+        if (rulesPassed) {
+            cashTransferDoc.addTargetTransactionLine(transactionLine);
+        }
+        else {
+            // delete the line and report to error
+        }
     }
     
-    private EndowmentTransactionLine createTransactionLineForTarget(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer, KualiDecimal totalAmount){
-        EndowmentTransactionLine transactionLine = new EndowmentTargetTransactionLine();
-        transactionLine.setKemid(endowmentRecurringCashTransfer.getSourceKemid());
-        transactionLine.setEtranCode(endowmentRecurringCashTransfer.getSourceEtranCode());
-        transactionLine.setTransactionLineDescription(endowmentRecurringCashTransfer.getSourceLineDescription());
-        transactionLine.setIncomePrincipalIndicator(endowmentRecurringCashTransfer.getIncomePrincipalIndicator());
-        transactionLine.setTransactionAmount(totalAmount);
+    private void addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount){ 
+        boolean rulesPassed = true;
+        TargetEndowmentAccountingLine endowmentAccountingLine = new TargetEndowmentAccountingLine();
+        endowmentAccountingLine.setChartOfAccountsCode(endowmentRecurringCashTransferGLTarget.getTargetChartOfAccountsCode());
+        endowmentAccountingLine.setAccountNumber(endowmentRecurringCashTransferGLTarget.getTargetAccountsNumber());
+        endowmentAccountingLine.setFinancialObjectCode(endowmentRecurringCashTransferGLTarget.getTargetFinancialObjectCode());
+        endowmentAccountingLine.setAmount(totalAmount);
+        //number.setScale(digit, BigDecimal.ROUND_HALF_UP)
         
-        return transactionLine;
+        rulesPassed = kualiRuleService.applyRules(new AddEndowmentAccountingLineEvent(EndowConstants.NEW_TARGET_ACC_LINE_PROPERTY_NAME, endowmentToGLTransferOfFundsDocument, endowmentAccountingLine));
+        
+        if (rulesPassed) {
+            endowmentToGLTransferOfFundsDocument.addTargetAccountingLine(endowmentAccountingLine);
+        } else {
+            // delete the line and report to error  
+        }
     }
     
-    
-    
-    private CashIncreaseDocument createCashIncreaseDocument(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+    private CashTransferDocument createCashTransferDocument() {
         
-        CashIncreaseDocument cashIncreaseDoc = null;
+        CashTransferDocument cashTransferDoc = null;
         try {
-            cashIncreaseDoc = (CashIncreaseDocument)documentService.getNewDocument(CashIncreaseDocument.class);
+            cashTransferDoc = (CashTransferDocument)documentService.getNewDocument(CashTransferDocument.class);
             
-            // Set the document description.
-            DocumentHeader docHeader = cashIncreaseDoc.getDocumentHeader();
-            String description = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
+            // Set values for doc
+            DocumentHeader docHeader = cashTransferDoc.getDocumentHeader();
+            String description = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
             docHeader.setDocumentDescription(description);
-            cashIncreaseDoc.setDocumentHeader(docHeader);
-            
-            // Set the sub type code to cash. -- don't need it but check
-            
-            //assetIncreaseDoc.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-            cashIncreaseDoc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.RECURRING);
+            cashTransferDoc.setDocumentHeader(docHeader);
+            cashTransferDoc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.RECURRING);
         }
         catch (WorkflowException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         
-       return cashIncreaseDoc; 
+       return cashTransferDoc; 
     }
 
+    private void routeCashTransferDoc(CashTransferDocument cashTransferDoc){
+        boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashTransferDoc));
+        
+        if (rulesPassed){
+            // no adhoc recipient need to add when submit doc. doc will route to the doc uploader, i.e. initiator automtically.
+            List<AdHocRouteRecipient> adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
+            try {
+                cashTransferDoc.setNoRouteIndicator(getNoRouteParameterAsBoolean());
+                documentService.routeDocument(cashTransferDoc, "Route CashIncreaseDocument", adHocRoutingRecipients);
+            }
+            catch (WorkflowException ex) {
+                LOG.error(ex.getLocalizedMessage());
+            }
+        }
+    }
+    
+    private void routeGLTransferOfFundsDocument(EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument){
+        boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(gLTransferOfFundsDocument));
+        
+        if (rulesPassed){
+            // no adhoc recipient need to add when submit doc. doc will route to the doc uploader, i.e. initiator automtically.
+            List<AdHocRouteRecipient> adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
+            try {
+                gLTransferOfFundsDocument.setNoRouteIndicator(getNoRouteParameterAsBoolean());
+                documentService.routeDocument(gLTransferOfFundsDocument, "Route gLTransferOfFundsDocument", adHocRoutingRecipients);
+            }
+            catch (WorkflowException ex) {
+                LOG.error(ex.getLocalizedMessage());
+            }
+        }
+    }
+    
+    private EndowmentToGLTransferOfFundsDocument createEndowmentToGLTransferOfFundsDocument() {
+        EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument = null;
+        try {
+            endowmentToGLTransferOfFundsDocument = (EndowmentToGLTransferOfFundsDocument)documentService.getNewDocument(EndowmentToGLTransferOfFundsDocument.class);
+            
+            // Set values for doc
+            DocumentHeader docHeader = endowmentToGLTransferOfFundsDocument.getDocumentHeader();
+            String description = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
+            docHeader.setDocumentDescription(description);
+            endowmentToGLTransferOfFundsDocument.setDocumentHeader(docHeader);
+            endowmentToGLTransferOfFundsDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.RECURRING);
+        }
+        catch (WorkflowException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        
+       return endowmentToGLTransferOfFundsDocument; 
 
+    }
     
+    private boolean getNoRouteParameterAsBoolean(){
+        String noRouteIndParm = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.NO_ROUTE_IND);        
+        if (noRouteIndParm.equals(EndowConstants.YES)){
+            return true;
+        } else return false;
+    }
     
-    
-    
-    
-    
-
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**
@@ -333,14 +450,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         this.kemService = kemService;
     }
 
-    /**
-     * Sets the kemidService attribute value.
-     * @param kemidService The kemidService to set.
-     */
-    public void setKemidService(KEMIDService kemidService) {
-        this.kemidService = kemidService;
-    }
-    
     /**
      * Sets the documentService attribute value.
      * @param documentService The documentService to set.

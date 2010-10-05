@@ -888,18 +888,12 @@
         </property>
     </bean>
     <bean id="createRecurringCashTransferTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateRecurringCashTransferTransactionsServiceImpl">
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
         <property name="kemService">
             <ref bean="kemService" />
         </property>
-        <property name="kemidService">
-            <ref bean="KEMIDService" />
-        </property> 
         <property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -908,6 +902,12 @@
 		</property>	
         <property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
+		</property>
+		<property name="kemidCurrentCashOpenRecordsService">
+			<ref bean="kemidCurrentCashOpenRecordsService" />
+		</property>
+		<property name="holdingTaxLotService">
+			<ref bean="holdingTaxLotService" />
 		</property>
     </bean>
 	<!-- processFeeTransactionsJob configuration -->	

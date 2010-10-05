@@ -106,10 +106,10 @@ public abstract class EndowmentSecurityDetailsDocumentBase extends EndowmentTran
      */
     public EndowmentTransactionSecurity getSourceTransactionSecurity() {
         if (this.sourceTransactionSecurities.size() > 0) {
-            return this.sourceTransactionSecurities.get(0);
+            this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) this.sourceTransactionSecurities.get(0);
         }
-        else
-            return this.sourceTransactionSecurity;
+
+        return this.sourceTransactionSecurity;
     }
 
     /**

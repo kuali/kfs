@@ -1714,5 +1714,11 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>
+    	<property name="parameterService">
+    	 	<ref bean="parameterService" />
+		</property>
 	</bean>
 </beans>

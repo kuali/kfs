@@ -109,15 +109,21 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     BigDecimal transacationPrincipalAmount = new BigDecimal("0");
     BigDecimal totalHoldingUnits = new BigDecimal("0");
     
+    //properties to help in writing subtotals and grand totals lines.
+    
+    //lines generated
     int totalProcessedLinesGeneratedSubTotal = 0;
     int totalProcessedLinesGeneratedGrandTotal = 0;
     
+    //income, principal subtotals at the eDoc level
     BigDecimal totalProcessedIncomeAmountSubTotalEDoc = new BigDecimal("0"); 
     BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = new BigDecimal("0"); 
     
+    //income, principal subtotals at the fee method level
     BigDecimal totalProcessedIncomeAmountSubTotal = new BigDecimal("0"); 
     BigDecimal totalProcessedPrincipalAmountSubTotal = new BigDecimal("0"); 
     
+    //income, principal subtotals at the grand total level
     BigDecimal totalProcessedIncomeAmountGrandTotal = new BigDecimal("0"); 
     BigDecimal totalProcessedPrincipalAmountGrandTotal = new BigDecimal("0"); 
     
@@ -125,6 +131,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
      */
     public ProcessFeeTransactionsServiceImpl() {
+        //report writer headers
         processFeeTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
         processFeeTransactionsTotalProcessedReportHeader = new EndowmentExceptionReportHeader();
         processFeeTransactionsWaivedAndAccruedFeesReportHeader = new EndowmentExceptionReportHeader();
@@ -151,13 +158,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * return boolean true if successful else false
      */
     public boolean processFeeTransactions() {
-        boolean success = true;
+        LOG.info("processFeeTransactions() started");
         
-        LOG.debug("processFeeTransactions() started");
+        boolean success = true;
         
         writeReportHeaders();
         
         if (!updateKemidFeeWaivedYearToDateAmount()) {
+            writeTableRowAndTableReason("Reason: unable to update update Waiver Fee Year To Date column to Zero.");
             return false;
         }
         
@@ -171,14 +179,18 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return success;
     }
     
+    /**
+     * Updates waived fee year to date column to zero in WAIVED_FEE_YTD
+     * @return true if updated successfully else return false
+     */
     protected boolean updateKemidFeeWaivedYearToDateAmount() {
+        LOG.info("updateKemidFeeWaivedFeeYearToDateToZero() started"); 
+        
         // 6.2.1 Basic Process - Step 1:
         boolean updated = true;
         
         if (!kemidFeeDao.updateKemidFeeWaivedFeeYearToDateToZero()) {
-            setExceptionReportTableRowReason("Batch Process Fee Transactions job is aborted.  Unable to update KEMID Year-To-Date Waiver Fee amounts");
-            processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsExceptionRowReason);            
-            processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
+            writeTableRowAndTableReason("Batch Process Fee Transactions job is aborted.  Unable to update KEMID Year-To-Date Waiver Fee amounts");
             return false;
         }
         
@@ -203,7 +215,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * Process update Fee Transactions
+     * Processes update Fee Transactions
      */
     protected boolean processUpdateFeeTransactions() {
         boolean success = true;
@@ -211,7 +223,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         Date currentDate = kemService.getCurrentDate();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
-
         for (FeeMethod feeMethod : feeMethods) {
            //1. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to T (Transactions)
             if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS)) {
@@ -282,7 +293,15 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * 
+     * IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to T (Transactions), then the fee 
+     * will use the transaction records from END_TRAN_ARCHV_T to calculate the fee.
+     * IF the END_FEE_MTHD_T:  FEE_RT_DEF_CD is equal to C (Count), then the process will total 
+     * the number of the records that fit the selection criteria (6.2.2.1) where the 
+     * END_TRAN_ARCHV_T:TRAN_PSTD_DT is greater than the END_KEMID_FEE_TFEE_MTHD_T: FEE_LST_PROC_DT.
+     * IF the END_FEE_MTHD_T: FEE_RT_DEF_CD is equal to V (Value), then the process will total 
+     * the TRAN_INC_CSH_AMT, and/or TRAN_PRIN_CSH_AMT of the records that fit the selection 
+     * criteria (6.2.2.1) where the END_TRAN_ARCHV_T:  TRAN_PSTD_DT is greater than the 
+     * END_KEMID_FEE_TFEE_MTHD_T: FEE_LST_PROC_DT.
      */
     protected void processTransactionArchivesCountForTransactionsFeeType(FeeMethod feeMethod) {
         // case: FEE_RT_DEF_CD = C for count
@@ -301,7 +320,20 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * 
+     * IF fee rate code is equal to C (Count), then process will examine the number of units held and
+     *      If fee balance type code is equal to AU (Average Units) the process will total the holding units
+     *         where month end date is greater than last process date divided by number of records selected.
+     *      If fee balance type code is equal to MU (Month End Units) the process will total holding units
+     *         for all records where the END_ME_DT_T: ME_DT is the most recent date.
+     *      If the fee balance type code is equal to CU (Current Units) the process will total the holding units
+     *
+     *  IF rate def code is equal to V (Value), then the process will examine the Market Value of the records.
+     *      If fee balance type code is equal to AMV (Average Market Value) the process will total holding market value
+     *         where month end date is greater last process date and divde the result by the number of records selected.
+     *      If fee balance type code is equal to MMV (Month End market Value) the process will 
+     *         total holding market value for all records where month end date is the most recent date.
+     *      If fee balance type code is equal to CMV (Current Market Value) the process will 
+     *         total holding market value for all selected records.
      */
     protected void processBalanceFeeType(FeeMethod feeMethod) {
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_COUNT)) {
@@ -359,6 +391,16 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
     }
     
+    /**
+     * Perform the calculations against the total amount calculated for each KEMID following the process outlined in step three above and calculate the fee amount by adding together the results of the following calculations:
+     *  1.  Multiply the value of the total amount calculated that is less than or equal to the 
+     *      END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_1 by END_KEMID_FEE_TFEE_MTHD_T: FEE_RT_1
+     *  2.  Multiply the value of the total amount calculated that is greater than the 
+     *      END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_1 and less than or equal to the END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_2 by END_KEMID_FEE_TFEE_MTHD_T: FEE_RT_2
+     *  3.  Multiply the value of the total amount calculated that is greater than the 
+     *      END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_2 by END_KEMID_FEE_TFEE_MTHD_T: FEE_RT_3.
+     * @param feeMethod
+     */
     protected void performCalculationsAgainstTotalAmountCalculated(FeeMethod feeMethod) {
         if (totalAmountCalculated.compareTo(feeMethod.getFirstFeeBreakpoint().bigDecimalValue()) <= 0) {
             feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getFirstFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
@@ -374,12 +416,25 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
     }
     
+    /**
+     * IF the calculated fee is less than the amount in END_FEE_MTHD_T:  FEE_MIN_AMT, then 
+     * the feee to be charged is the minimum fee amount..
+     * @param feeMethod
+     */
     protected void calculateMinumumFeeAmount(FeeMethod feeMethod) {
         if (totalAmountCalculated.compareTo(feeMethod.getMinimumFeeToCharge().bigDecimalValue()) < 0) {
             feeToBeCharged = feeMethod.getMinimumFeeToCharge().bigDecimalValue();
         }
     }
     
+    /**
+     * IF the calculated fee amount is LESS  than the value in END_FEE_MTHD_T: FEE_MIN_THRSHLD, 
+     * then do not charge the fee (no transaction generated.  The information should be reported as an 
+     * exception on the exception report.
+     * @param feeMethod
+     * @param kemidFee
+     * @return true calculated fee amount is greater than 0
+     */
     protected boolean checkForMinimumThresholdAmount(FeeMethod feeMethod, KemidFee kemidFee) {
         boolean shouldCharge = true;
         
@@ -449,6 +504,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             return false;
         }
         
+        //sets document description and source type code and subtype code
         setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
         
         Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
@@ -456,7 +512,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             if (lineNumber <= maxNumberOfTransacationLines) {
                 if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, lineNumber, maxNumberOfTransacationLines)) {
                     //write out the exception for this kemid but keep continuing....
-                    //TODO: write exception line.
                     writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: Unable to add the transaction line to the document.");
                 }
             }
@@ -531,12 +586,26 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         feeProcessingTotalsProcessedGrandTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountGrandTotal.toString()));
     }
     
+    /**
+     * Sets document description, source type code to A (automated), and subtype code to C (cash) 
+     * @param cashDecreaseDocument newly generated document.
+     * @param documentDescription  fee method description to be used as document description
+     */
     protected void setDocumentOverviewAndDetails(CashDecreaseDocument cashDecreaseDocument, String documentDescription) {
         cashDecreaseDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         cashDecreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
         cashDecreaseDocument.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
     }
     
+    /**
+     * After the last transaction line allowed in the eDoc (based on the institutional parameter) or 
+     * the last KEMID fee calculated for the fee method, IF the END_FEE_MTHD_T: FEE_POST_PEND_IND is 
+     * equal to Y submit the document as a blanket approved”No Route” document.
+     * Otherwise, submit the document for routing and approval.
+     * @param cashDecreaseDocument
+     * @param feeMethod
+     * @return true if successful in submitting or routing the document.
+     */
     protected boolean submitDocumentForApprovalProcess(CashDecreaseDocument cashDecreaseDocument, FeeMethod feeMethod) {
         boolean success = true;
         
@@ -550,19 +619,35 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return success;
     }
     
+    /**
+     * Gets a new document of the document type from the workflow using document service.
+     * @param documentType
+     * @return newCashDecreaseDocument if successfully created a new document else return null
+     */
     protected CashDecreaseDocument createNewCashDecreaseDocument(String documentType) {
         CashDecreaseDocument newCashDecreaseDocument = null;
         
         try {
             newCashDecreaseDocument = (CashDecreaseDocument) documentService.getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(documentType));     
         } catch (WorkflowException wfe) {
-            LOG.error("Failed to initialize CashIncreaseDocument");            
+            LOG.info("Failed to initialize CashIncreaseDocument");            
             return null;
         }
         
         return newCashDecreaseDocument;
     }
     
+    /**
+     * 
+     * IF the END_KEMID_FEE_T:  PCT_CHRG_FEE_TO_INC is equal to 100%, then Ggenerate the 
+     * transaction line(s) for the eDoc
+     * @param cashDecreaseDocument
+     * @param feeMethod
+     * @param kemidFee
+     * @param lineNumber current transaction line number
+     * @param maxNumberOfTransacationLines The system parameter specifying the max number of lines
+     * @return true if transaction lines created.
+     */
     protected boolean createTransactionLines(CashDecreaseDocument cashDecreaseDocument, FeeMethod feeMethod, KemidFee kemidFee, int lineNumber, int maxNumberOfTransacationLines) {
         // logic as in 9.3.b
         if (kemidFee.getPercentOfFeeChargedToIncome().equals(new KualiDecimal("1"))) {
@@ -619,6 +704,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
     }
     
+    /**
+     * 
+     * Add the new transaction line after applying the validation rules to the line.
+     * @param cashDecreaseDocument
+     * @param endowmentSourceTransactionLine
+     * @param lineNumber
+     * @return true if the line passed the business rules and added successfully else false.
+     */
     protected boolean addTransactionLineToDocument(CashDecreaseDocument cashDecreaseDocument, EndowmentSourceTransactionLine endowmentSourceTransactionLine, int lineNumber) {
         boolean added = true;
         
@@ -634,6 +727,15 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return added;
     }
     
+    /**
+     * Creates a source transaction line
+     * @param lineNumber the current transaction line number
+     * @param feeMethod
+     * @param kemidFee
+     * @param iPIndicator Income or principal indicator for this line
+     * @param feeAmount the calculate fee amount for the transaction amount field
+     * @return endowmentSourceTransactionLine the new source transaction line
+     */
     protected EndowmentSourceTransactionLine createEndowmentSourceTransactionLine(int lineNumber, FeeMethod feeMethod, KemidFee kemidFee, String iPIndicator, BigDecimal feeAmount) {
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(lineNumber);
@@ -645,20 +747,13 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
        return endowmentSourceTransactionLine;
     }
     
-    protected boolean submitDocument(CashDecreaseDocument cashDecreaseDocument, boolean feePostPendingIndicator) {
-        boolean success = true;
-        
-        if (feePostPendingIndicator) {
-            success = submitCashDecreaseDocument(cashDecreaseDocument);
-        }
-        else {
-            success = routeCashDecreaseDocument(cashDecreaseDocument);
-        }
-        
-        return success;
-    }
-    
-    
+    /**
+     * 
+     * submits the document.  It sets the no route indicator to true and creates a note and sets its text and
+     * adds the note to the document.  The document is saved and put into workflow
+     * @param cashDecreaseDocument
+     * @return true if document submitted else false
+     */
     protected boolean submitCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
         boolean approved = true;
         
@@ -687,6 +782,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return approved;
     }
     
+    /**
+     * Routes the document
+     * @param cashDecreaseDocument
+     * @return true if successful else return false
+     */
     protected boolean routeCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
         boolean routed = true;
         
@@ -700,6 +800,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return routed;
     }
     
+    /**
+     * Writes the exception report line after setting fee method code and kemid and the reason
+     * @param feeMethodCode
+     * @param kemid
+     * @param reason the reason written on the reason line.
+     */
     protected void writeExceptionReportLine(String feeMethodCode, String kemid, String reason) {
         processFeeTransactionsRowValues.setColumnHeading1(feeMethodCode);
         processFeeTransactionsRowValues.setColumnHeading2(kemid);
@@ -708,8 +814,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * writes out the table row values for document type, secuityId, kemId and then writes the reason row and inserts a blank line
-     * @param ehva the holding history value adjustment document
+     * writes out the table row values then writes the reason row and inserts a blank line
      * @param reasonMessage the reason message
      */
     protected void writeTableRowAndTableReason(String reasonMessage) {

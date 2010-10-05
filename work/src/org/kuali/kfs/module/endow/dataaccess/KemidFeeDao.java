@@ -19,7 +19,10 @@ public interface KemidFeeDao {
 
     /**
      * Updates WAIVED_FEE_YTD column to zero (0).
-     *@return true if column value updated to zero else false
+     * If the current date is the first day of the institution’s fiscal year 
+     * (FISCAL_YEAR_END_DAY_AND_MONTH parameter) then all values in 
+     * END_KEMID_FEE_T: WAIVED_FEE_YTD are set to zero (0).     * 
+     * @return true if column value updated to zero else false
      */
     public boolean updateKemidFeeWaivedFeeYearToDateToZero();
 

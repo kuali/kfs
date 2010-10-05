@@ -575,10 +575,16 @@
 		</property>
 	</bean>
 		
-	<bean id="pooledFundControlTransactionsStep" class="org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep" parent="step">
+	<bean id="pooledFundControlTransactionsStep" class="org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="pooledFundControlTransactionsExceptionReportWriterService" />
+			</list>
+		</property>	
 		<property name="pooledFundControlTransactionsService">
 			<ref bean="pooledFundControlTransactionsService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
 	<bean id="pooledFundControlTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImpl">
@@ -594,11 +600,25 @@
 		<property name="kualiRuleService">
     	 	<ref bean="kualiRuleService" />
 		</property>	
+	    <property name="pooledFundControlTransactionsExceptionReportWriterService">
+    	 	<ref bean="pooledFundControlTransactionsExceptionReportWriterService" />
+		</property>
 		<property name="pooledFundControlTransactionsDao">
 			<ref bean="pooledFundControlTransactionsDao" />
 		</property>			
 	</bean>
 
+	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReportWriterService_"/>
+        <property name="title" value="Pooled Fund Control Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
+        	</map>
+        </property>
+	</bean>
+	
 	<bean id="pooledFundControlTransactionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundControlTransactionsDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>

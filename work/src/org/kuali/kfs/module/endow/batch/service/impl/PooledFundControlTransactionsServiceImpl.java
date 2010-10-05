@@ -26,11 +26,14 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -57,6 +60,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     
     protected PooledFundControlTransactionsDao pooledFundControlTransactionsDao;
     
+    protected ReportWriterService pooledFundControlTransactionsExceptionReportWriterService;      
+    private TransactionDocumentExceptionReportLine exceptionReportLine = null;
+    private TransactionDocumentTotalReportLine totalReportLine = null;
+    
     /*
      * @see org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService#generatePooledFundControlTransactions()
      */
@@ -66,18 +73,33 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         
         boolean result = true;
        
-        result &= createCashDocument1();   // job 1
-        if (result) {    // job 2
-            result &= createCashDocument2();
-        }
-        if (result) {    // job 2
-            result &= createCashDocument3();
-        }
-        if (result) {    // job 2
-            result &= createCashDocument4();
-        }
+//        result &= createCashDocument1();   // job 1
+//        if (result) {    // job 2
+//            result &= createCashDocument2();
+//        }
+//        if (result) {    // job 2
+//            result &= createCashDocument3();
+//        }
+//        if (result) {    // job 2
+//            result &= createCashDocument4();
+//        }
+
+//        return result;
         
-        //return result;
+        try {
+            exceptionReportLine = new TransactionDocumentExceptionReportLine("ECI","D1234","S999","K123");
+            exceptionReportLine.setIncomeAmount(new KualiDecimal(11));
+            exceptionReportLine.setIncomeUnits(new KualiDecimal(2));
+            exceptionReportLine.setPrincipalAmount(new KualiDecimal(100));
+            
+            pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(3);
+            pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+            pooledFundControlTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
+            LOG.info("Pooled Fund Control Transactions was completed"); 
+        } catch (Exception e) {
+            LOG.info("Pooled Fund Control Transactions failed");
+            e.printStackTrace();
+        }
         return true;   // for now
     }
     
@@ -454,7 +476,23 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }    
-    
+    }
+
+    /**
+     * Gets the pooledFundControlTransactionsExceptionReportWriterService attribute. 
+     * @return Returns the pooledFundControlTransactionsExceptionReportWriterService.
+     */
+    public ReportWriterService getPooledFundControlTransactionsExceptionReportWriterService() {
+        return pooledFundControlTransactionsExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the pooledFundControlTransactionsExceptionReportWriterService attribute value.
+     * @param pooledFundControlTransactionsExceptionReportWriterService The pooledFundControlTransactionsExceptionReportWriterService to set.
+     */
+    public void setPooledFundControlTransactionsExceptionReportWriterService(ReportWriterService pooledFundControlTransactionsExceptionReportWriterService) {
+        this.pooledFundControlTransactionsExceptionReportWriterService = pooledFundControlTransactionsExceptionReportWriterService;
+    }
+
     
 }

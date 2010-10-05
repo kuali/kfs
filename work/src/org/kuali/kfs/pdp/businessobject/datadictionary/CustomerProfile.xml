@@ -197,7 +197,7 @@
   <bean id="CustomerProfile-chartCode" parent="CustomerProfile-chartCode-parentBean"/>
   <bean id="CustomerProfile-chartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="chartCode"/>
-    <property name="label" value="Chart"/>
+    <property name="label" value="Location"/>
   </bean>
   
   <bean id="CustomerProfile-unitCode" parent="CustomerProfile-unitCode-parentBean"/>
@@ -770,7 +770,6 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="id"/>
-        <bean parent="FieldDefinition" p:attributeName="chartCode"/>
         <bean parent="FieldDefinition" p:attributeName="unitCode"/>
         <bean parent="FieldDefinition" p:attributeName="subUnitCode"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>      

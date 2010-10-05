@@ -76,7 +76,7 @@
     <property name="maintainableItems">
       <list>
           <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextCustomerProfileIdFinder"/>
-          <bean parent="MaintainableFieldDefinition" p:name="chartCode" p:required="true"/>      
+          <bean parent="MaintainableFieldDefinition" p:name="chartCode" p:required="true" p:noLookup="true"/>      
           <bean parent="MaintainableFieldDefinition" p:name="unitCode" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="subUnitCode" p:required="true"/>      
           <bean parent="MaintainableFieldDefinition" p:name="customerDescription" p:required="true"/>

@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ItemTypeTaxPolicyValidation extends GenericValidation {
@@ -38,16 +41,25 @@ public class ItemTypeTaxPolicyValidation extends GenericValidation {
         boolean isValid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument)event.getDocument();
 
-        String errorPath = "document.items";
-        GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().addToErrorPath(errorPath);                    
-        for ( PurApItem item : purchasingDocument.getItems() )
-        {
-            if ( getPurapService().isItemTypeConflictWithTaxPolicy(purchasingDocument, item)) {
-                String itemIdentifier = item.getItemIdentifierString();
-                
-                GlobalVariables.getMessageMap().putError(FIELD_NAME_ITEM_TYPE_CODE, ERROR_INVALID_ITEM_TYPE_FOR_ACCOUNT_TAX_POLICY, itemIdentifier );
-                isValid = false;
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        boolean useTaxIndicator = purchasingDocument.isUseTaxIndicator();
+
+        //FIXME: KFSMI-6006 remove call code variable once this code has been fixed
+        boolean callCode = false;
+        
+        //if sales tax or use tax is enabled, attempt tax check
+        if( callCode && (salesTaxInd || useTaxIndicator) ){
+            String errorPath = "document.items";
+            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);                    
+            for ( PurApItem item : purchasingDocument.getItems() )
+            {
+                if ( getPurapService().isItemTypeConflictWithTaxPolicy(purchasingDocument, item)) {
+                    String itemIdentifier = item.getItemIdentifierString();
+                    
+                    GlobalVariables.getMessageMap().putError(FIELD_NAME_ITEM_TYPE_CODE, ERROR_INVALID_ITEM_TYPE_FOR_ACCOUNT_TAX_POLICY, itemIdentifier );
+                    isValid = false;
+                }
             }
         }
         

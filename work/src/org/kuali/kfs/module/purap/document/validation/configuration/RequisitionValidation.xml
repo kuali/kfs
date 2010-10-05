@@ -62,7 +62,10 @@
 				
 				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>													
+				</bean>
+
+			    <!-- Route Document Event, check item type against account tax policy -->
+  				<bean parent="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" scope="prototype" />																	
   			</list>
   		</property>
   	</bean>
@@ -97,6 +100,9 @@
 				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>    			
+
+			    <!-- Approve Document Event, check item type against account tax policy -->
+  				<bean parent="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" scope="prototype" />				
   			</list>
   		</property>
   	</bean>

@@ -15,15 +15,10 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-
 public class FeeProcessingWaivedAndAccruedSubTotalLine extends FeeProcessingWaivedAndAccruedGrandTotalLine {
 
     public FeeProcessingWaivedAndAccruedSubTotalLine() {
-        this.setTotal("Sub Total By Fee Method");
+        this.setTotal("Sub Totals By Fee Method");
         this.setKemid(" ");
     }
 }

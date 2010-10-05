@@ -15,10 +15,9 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-public class FeeProcessingWaivedAndAccruedDetailTotalLine extends FeeProcessingWaivedAndAccruedGrandTotalLine {
+public class FeeProcessingTotalsProcessedDetailTotalLine extends FeeProcessingTotalsProcessedGrandTotalLine {
     
-    public FeeProcessingWaivedAndAccruedDetailTotalLine() {
-        this.setTotal(" ");
-        this.setKemid(" ");
+    public FeeProcessingTotalsProcessedDetailTotalLine() {
+       this.setFeeMethodCode(" ");
     }
 }

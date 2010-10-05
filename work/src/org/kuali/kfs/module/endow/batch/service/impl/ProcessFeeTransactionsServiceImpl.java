@@ -28,18 +28,18 @@ import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
-
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
-
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
 import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
-import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.TransactionArchiveService;
@@ -96,7 +96,10 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     private FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine;
     private FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine;
     private FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine;
-    
+
+    private FeeProcessingTotalsProcessedDetailTotalLine feeProcessingTotalsProcessedDetailTotalLine;
+    private FeeProcessingTotalsProcessedSubTotalLine feeProcessingTotalsProcessedSubTotalLine;
+    private FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
     
     //the properties to hold count, total amounts and fee etc.
     long totalNumberOfRecords = 0;
@@ -105,6 +108,18 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     BigDecimal transactionIncomeAmount = new BigDecimal("0");
     BigDecimal transacationPrincipalAmount = new BigDecimal("0");
     BigDecimal totalHoldingUnits = new BigDecimal("0");
+    
+    int totalProcessedLinesGeneratedSubTotal = 0;
+    int totalProcessedLinesGeneratedGrandTotal = 0;
+    
+    BigDecimal totalProcessedIncomeAmountSubTotalEDoc = new BigDecimal("0"); 
+    BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = new BigDecimal("0"); 
+    
+    BigDecimal totalProcessedIncomeAmountSubTotal = new BigDecimal("0"); 
+    BigDecimal totalProcessedPrincipalAmountSubTotal = new BigDecimal("0"); 
+    
+    BigDecimal totalProcessedIncomeAmountGrandTotal = new BigDecimal("0"); 
+    BigDecimal totalProcessedPrincipalAmountGrandTotal = new BigDecimal("0"); 
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -122,6 +137,10 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         feeProcessingWaivedAndAccruedSubTotalLine = new FeeProcessingWaivedAndAccruedSubTotalLine();
         feeProcessingWaivedAndAccruedGrandTotalLine = new FeeProcessingWaivedAndAccruedGrandTotalLine();
         
+        //Totals processed report....
+        feeProcessingTotalsProcessedDetailTotalLine = new FeeProcessingTotalsProcessedDetailTotalLine();
+        feeProcessingTotalsProcessedSubTotalLine = new FeeProcessingTotalsProcessedSubTotalLine();
+        feeProcessingTotalsProcessedGrandTotalLine = new FeeProcessingTotalsProcessedGrandTotalLine();
     }
 
     /**
@@ -205,8 +224,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             }
             
             performCalculationsForKemId(feeMethod);
-            success &= generateCashDecreaseDocument(feeMethod);
+            
+            success &= generateCashDecreaseDocument(feeMethod, kemService.getMaxNumberOfTransactionLinesPerDocument());
         }
+        
+        // write out the grand totals line for Totals processed report...
+        writeTotalsProcessedGrandTotalsLine();
         
         return success;
     }
@@ -416,9 +439,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Generate a CashDecreaseDocument (ECDD) and processes the document by submitting/routing it.
      * @param feeMethod, kemidFee
      */
-    protected boolean generateCashDecreaseDocument(FeeMethod feeMethod) {
+    protected boolean generateCashDecreaseDocument(FeeMethod feeMethod, int maxNumberOfTransacationLines) {
         int lineNumber = 1;
-        int maxNumberOfTransacationLines = kemService.getMaxNumberOfTransactionLinesPerDocument();                    
         
         // initialize CashDecreaseDocument...
         CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) createNewCashDecreaseDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
@@ -429,10 +451,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
         
-        Collection<KemidFee> kemidFeeRecords = new ArrayList();
-        
-        kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
-        
+        Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
         for (KemidFee kemidFee : kemidFeeRecords) {
             if (lineNumber <= maxNumberOfTransacationLines) {
                 if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, lineNumber, maxNumberOfTransacationLines)) {
@@ -445,6 +464,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                 // reached max transactions.  submit and then create a new document....
                 if (kualiRuleService.applyRules(new RouteDocumentEvent(cashDecreaseDocument))) {
                     if (submitDocumentForApprovalProcess(cashDecreaseDocument, feeMethod)) {
+                        // write the detail line for eDoc level...
+                        writeTotalsProcessedDetailTotalsLine(cashDecreaseDocument.getDocumentNumber(), feeMethod.getCode(), lineNumber);
+                        
                         // initialize CashDecreaseDocument...
                         cashDecreaseDocument = (CashDecreaseDocument) createNewCashDecreaseDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
                         if (ObjectUtils.isNull(cashDecreaseDocument)) {
@@ -467,7 +489,46 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             }
         }
         
+        writeTotalsProcessedSubTotalsLine(feeMethod.getCode());
+        
         return true;
+    }
+    
+    protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int lineNumber) {
+        feeProcessingTotalsProcessedDetailTotalLine.setFeeMethodCode(feeMethodCode);
+        feeProcessingTotalsProcessedDetailTotalLine.setEDocNumber(documentNumber);
+        feeProcessingTotalsProcessedDetailTotalLine.setLinesGenerated(lineNumber);
+        feeProcessingTotalsProcessedDetailTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountSubTotalEDoc.toString()));        
+        feeProcessingTotalsProcessedDetailTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotalEDoc.toString()));        
+
+        processFeeTransactionsTotalProcessedReportsWriterService.writeTableRow(feeProcessingTotalsProcessedDetailTotalLine);
+        processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
+
+        // add the edoc subtotals to fee method subtotal...
+        totalProcessedLinesGeneratedSubTotal += lineNumber;
+        totalProcessedIncomeAmountSubTotal.add(totalProcessedIncomeAmountSubTotalEDoc); 
+        totalProcessedPrincipalAmountSubTotal.add(totalProcessedPrincipalAmountSubTotalEDoc); 
+    }
+    
+    protected void writeTotalsProcessedSubTotalsLine(String feeMethodCode) {
+        feeProcessingTotalsProcessedSubTotalLine.setEDocNumber("");
+        feeProcessingTotalsProcessedSubTotalLine.setLinesGenerated(totalProcessedLinesGeneratedSubTotal);
+        feeProcessingTotalsProcessedSubTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountSubTotal.toString()));
+        feeProcessingTotalsProcessedSubTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotal.toString()));
+
+        processFeeTransactionsTotalProcessedReportsWriterService.writeTableRow(feeProcessingTotalsProcessedSubTotalLine);
+        processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
+        
+        totalProcessedIncomeAmountGrandTotal.add(totalProcessedIncomeAmountSubTotal);
+        totalProcessedPrincipalAmountGrandTotal.add(totalProcessedPrincipalAmountSubTotal); 
+        totalProcessedLinesGeneratedGrandTotal += totalProcessedLinesGeneratedSubTotal;
+    }
+    
+    protected void writeTotalsProcessedGrandTotalsLine() {
+        feeProcessingTotalsProcessedGrandTotalLine.setEDocNumber("");
+        feeProcessingTotalsProcessedGrandTotalLine.setLinesGenerated(totalProcessedLinesGeneratedGrandTotal);
+        feeProcessingTotalsProcessedGrandTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountGrandTotal.toString()));
+        feeProcessingTotalsProcessedGrandTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountGrandTotal.toString()));
     }
     
     protected void setDocumentOverviewAndDetails(CashDecreaseDocument cashDecreaseDocument, String documentDescription) {
@@ -506,22 +567,42 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         // logic as in 9.3.b
         if (kemidFee.getPercentOfFeeChargedToIncome().equals(new KualiDecimal("1"))) {
             EndowmentSourceTransactionLine endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.INCOME, feeToBeCharged);
-            return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, lineNumber);
+            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, lineNumber)) {
+                totalProcessedIncomeAmountSubTotalEDoc.add(feeToBeCharged);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         
         // logic to charge according to logic in 9.3.c
         BigDecimal feeAmountForIncome = KEMCalculationRoundingHelper.multiply(feeToBeCharged, new BigDecimal(kemidFee.getPercentOfFeeChargedToIncome().toString()), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.INCOME, feeAmountForIncome);
-        addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber);
+
+        if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber)) {
+            totalProcessedIncomeAmountSubTotalEDoc.add(feeAmountForIncome);
+        }
+        else {
+            return false;
+        }
         
         BigDecimal feeAmountForPrincipal = KEMCalculationRoundingHelper.multiply(feeToBeCharged, new BigDecimal(kemidFee.getPercentOfFeeChargedToPrincipal().toString()), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         
         if (lineNumber <= maxNumberOfTransacationLines) {
             endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, feeAmountForPrincipal);
-            return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber);
+            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber)) {
+                totalProcessedPrincipalAmountSubTotalEDoc.add(feeAmountForPrincipal);
+                return true;                
+            }
+            else {
+                return false;
+            }
         }
         else {
             boolean submitted = submitDocumentForApprovalProcess(cashDecreaseDocument, feeMethod);
+            //write sub totals at eDoc leve....
+            writeTotalsProcessedDetailTotalsLine(cashDecreaseDocument.getDocumentNumber(), feeMethod.getCode(), lineNumber);
             
             // initialize CashDecreaseDocument...
             cashDecreaseDocument = (CashDecreaseDocument) createNewCashDecreaseDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
@@ -531,6 +612,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             }
 
             setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
+            
             lineNumber = 1;
             endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, feeAmountForPrincipal);
             return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber);
@@ -1008,6 +1090,54 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      */
     public void setFeeProcessingWaivedAndAccruedGrandTotalLine(FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine) {
         this.feeProcessingWaivedAndAccruedGrandTotalLine = feeProcessingWaivedAndAccruedGrandTotalLine;
+    }
+    
+    /**
+     * Gets the feeProcessingTotalsProcessedDetailTotalLine attribute. 
+     * @return Returns the feeProcessingTotalsProcessedDetailTotalLine.
+     */
+    protected FeeProcessingTotalsProcessedDetailTotalLine getFeeProcessingTotalsProcessedDetailTotalLine() {
+        return feeProcessingTotalsProcessedDetailTotalLine;
+    }
+
+    /**
+     * Sets the feeProcessingTotalsProcessedDetailTotalLine attribute value.
+     * @param feeProcessingTotalsProcessedDetailTotalLine The feeProcessingTotalsProcessedDetailTotalLine to set.
+     */
+    public void setFeeProcessingTotalsProcessedDetailTotalLine(FeeProcessingTotalsProcessedDetailTotalLine feeProcessingTotalsProcessedDetailTotalLine) {
+        this.feeProcessingTotalsProcessedDetailTotalLine = feeProcessingTotalsProcessedDetailTotalLine;
+    }
+
+    /**
+     * Gets the feeProcessingTotalsProcessedSubTotalLine attribute. 
+     * @return Returns the feeProcessingTotalsProcessedSubTotalLine.
+     */
+    protected FeeProcessingTotalsProcessedSubTotalLine getFeeProcessingTotalsProcessedSubTotalLine() {
+        return feeProcessingTotalsProcessedSubTotalLine;
+    }
+
+    /**
+     * Sets the feeProcessingTotalsProcessedSubTotalLine attribute value.
+     * @param feeProcessingTotalsProcessedSubTotalLine The feeProcessingTotalsProcessedSubTotalLine to set.
+     */
+    public void setFeeProcessingTotalsProcessedSubTotalLine(FeeProcessingTotalsProcessedSubTotalLine feeProcessingTotalsProcessedSubTotalLine) {
+        this.feeProcessingTotalsProcessedSubTotalLine = feeProcessingTotalsProcessedSubTotalLine;
+    }
+
+    /**
+     * Gets the feeProcessingTotalsProcessedGrandTotalLine attribute. 
+     * @return Returns the feeProcessingTotalsProcessedGrandTotalLine.
+     */
+    protected FeeProcessingTotalsProcessedGrandTotalLine getFeeProcessingTotalsProcessedGrandTotalLine() {
+        return feeProcessingTotalsProcessedGrandTotalLine;
+    }
+
+    /**
+     * Sets the feeProcessingTotalsProcessedGrandTotalLine attribute value.
+     * @param feeProcessingTotalsProcessedGrandTotalLine The feeProcessingTotalsProcessedGrandTotalLine to set.
+     */
+    public void setFeeProcessingTotalsProcessedGrandTotalLine(FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine) {
+        this.feeProcessingTotalsProcessedGrandTotalLine = feeProcessingTotalsProcessedGrandTotalLine;
     }
 }
 

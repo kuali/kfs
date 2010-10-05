@@ -994,6 +994,9 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsTotalProcessedReportHeader"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine" value="feeProcessingTotalsProcessedDetailTotalLine"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine" value="feeProcessingTotalsProcessedSubTotalLine"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine" value="feeProcessingTotalsProcessedGrandTotalLine"/>
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
@@ -1552,6 +1555,46 @@
 	    </property>
 	    <property name="columnCount" value="5" />
 	</bean>
+	<bean id="feeProcessingTotalsProcessedDetailTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="feeMethodCode" value=" "/>
+    			<entry key="eDocNumber" value=" "/>
+    			<entry key="linesGenerated" value=" "/>
+    			<entry key="totalIncomeAmount" value=" "/>
+    			<entry key="totalPrincipalAmount" value=" "/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	<bean id="feeProcessingTotalsProcessedSubTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="feeMethodCode" value="Sub Totals By Fee Method"/>
+    			<entry key="eDocNumber" value=" "/>
+    			<entry key="linesGenerated" value=" "/>
+    			<entry key="totalIncomeAmount" value=" "/>
+    			<entry key="totalPrincipalAmount" value=" "/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	<bean id="feeProcessingTotalsProcessedGrandTotalLine" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="feeMethodCode" value="Grand Totals"/>
+    			<entry key="eDocNumber" value=" "/>
+    			<entry key="linesGenerated" value=" "/>
+    			<entry key="totalIncomeAmount" value=" "/>
+    			<entry key="totalPrincipalAmount" value=" "/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	
 	<bean id="gainLossDistributionExceptionReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">

@@ -69,8 +69,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactionsService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessFeeTransactionsServiceImpl.class);
     
-    private KemidFeeService kemidFeeService;
-    private FeeMethodService feeMethodService;
+    protected KemidFeeService kemidFeeService;
+    protected FeeMethodService feeMethodService;
     protected KEMService kemService;
     protected TransactionArchiveService transactionArchiveService;
     protected TransactionArchiveDao transactionArchiveDao;
@@ -82,9 +82,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected NoteService noteService;
     protected PersonService personService;
     
-    private ReportWriterService processFeeTransactionsExceptionReportsWriterService;
-    private ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
-    private ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
+    protected ReportWriterService processFeeTransactionsExceptionReportsWriterService;
+    protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
+    protected ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
     
     private EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
     private EndowmentExceptionReportHeader processFeeTransactionsTotalProcessedReportHeader;
@@ -494,10 +494,10 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         return true;
     }
     
-    protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int lineNumber) {
+    protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int totalLinesGenerated) {
         feeProcessingTotalsProcessedDetailTotalLine.setFeeMethodCode(feeMethodCode);
         feeProcessingTotalsProcessedDetailTotalLine.setEDocNumber(documentNumber);
-        feeProcessingTotalsProcessedDetailTotalLine.setLinesGenerated(lineNumber);
+        feeProcessingTotalsProcessedDetailTotalLine.setLinesGenerated(totalLinesGenerated);
         feeProcessingTotalsProcessedDetailTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountSubTotalEDoc.toString()));        
         feeProcessingTotalsProcessedDetailTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotalEDoc.toString()));        
 
@@ -505,7 +505,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
 
         // add the edoc subtotals to fee method subtotal...
-        totalProcessedLinesGeneratedSubTotal += lineNumber;
+        totalProcessedLinesGeneratedSubTotal += totalLinesGenerated;
         totalProcessedIncomeAmountSubTotal.add(totalProcessedIncomeAmountSubTotalEDoc); 
         totalProcessedPrincipalAmountSubTotal.add(totalProcessedPrincipalAmountSubTotalEDoc); 
     }
@@ -911,7 +911,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the transactionArchiveService attribute. 
      * @return Returns the transactionArchiveService.
      */
-    public TransactionArchiveService getTransactionArchiveService() {
+    protected TransactionArchiveService getTransactionArchiveService() {
         return transactionArchiveService;
     }
 
@@ -927,7 +927,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the transactionArchiveDao attribute. 
      * @return Returns the transactionArchiveDao.
      */
-    public TransactionArchiveDao getTransactionArchiveDao() {
+    protected TransactionArchiveDao getTransactionArchiveDao() {
         return transactionArchiveDao;
     }
 
@@ -942,7 +942,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the holdingHistoryDao attribute. 
      * @return Returns the holdingHistoryDao.
      */
-    public HoldingHistoryDao getHoldingHistoryDao() {
+    protected HoldingHistoryDao getHoldingHistoryDao() {
         return holdingHistoryDao;
     }
 
@@ -958,7 +958,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the currentTaxLotBalanceDao attribute. 
      * @return Returns the currentTaxLotBalanceDao.
      */
-    public CurrentTaxLotBalanceDao getCurrentTaxLotBalanceDao() {
+    protected CurrentTaxLotBalanceDao getCurrentTaxLotBalanceDao() {
         return currentTaxLotBalanceDao;
     }
 
@@ -974,7 +974,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the kemidFeeDao attribute. 
      * @return Returns the kemidFeeDao.
      */
-    public KemidFeeDao getKemidFeeDao() {
+    protected KemidFeeDao getKemidFeeDao() {
         return kemidFeeDao;
     }
 

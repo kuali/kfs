@@ -94,7 +94,7 @@
 	
     <bean id="PurchasingAccountsPayable-fixErrorPathValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableFixErrorPathValidation" abstract="true" />
     
-    <bean id="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" class="edu.arizona.kfs.module.purap.document.validation.impl.ItemTypeTaxPolicyValidation" abstract="true">
+    <bean id="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" class="org.kuali.kfs.module.purap.document.validation.impl.ItemTypeTaxPolicyValidation" abstract="true">
     	<property name="purapService" ref="purapService"/>
     </bean>
 

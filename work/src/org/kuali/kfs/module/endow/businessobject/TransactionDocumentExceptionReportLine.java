@@ -46,4 +46,52 @@ public class TransactionDocumentExceptionReportLine extends TransactionDocumentF
     public String getKemid() {
         return kemid;
     }
+    
+    /**
+     * Sets the kemid attribute. 
+     * @param the kemid.
+     */
+    public void setKemid(String kemid) {
+        this.kemid = kemid;
+    }
+    
+    /**
+     * Sets the securityId attribute. 
+     * @param the securityId.
+     */
+    public void setSecurityId(String securityId) {
+        this.securityId = securityId;
+    }
+    
+    /**
+     * Sets the incomeAmount attribute. 
+     * @param the incomeAmount.
+     */
+    public void setIncomeAmount(KualiDecimal incomeAmount) {
+        this.incomeAmount = incomeAmount;
+    }
+    
+    /**
+     * Sets the incomeUnits attribute. 
+     * @param the incomeUnits.
+     */
+    public void setIncomeUnits(KualiDecimal incomeUnits) {
+        this.incomeUnits = incomeUnits;
+    }
+    
+    /**
+     * Sets the principalAmount attribute. 
+     * @param the principalAmount.
+     */
+    public void setPrincipalAmount(KualiDecimal principalAmount) {
+        this.principalAmount = principalAmount;
+    }
+    
+    /**
+     * Sets the principalUnits attribute. 
+     * @param the principalUnits.
+     */
+    public void setPrincipalUnits(KualiDecimal principalUnits) {
+        this.principalUnits = principalUnits;
+    }
 }

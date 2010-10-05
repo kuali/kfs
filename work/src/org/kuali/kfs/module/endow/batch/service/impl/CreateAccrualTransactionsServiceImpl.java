@@ -36,6 +36,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
@@ -72,18 +74,22 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     protected ParameterService parameterService;
 
     private ReportWriterService accrualTransactionsExceptionReportWriterService;
+    private ReportWriterService accrualTransactionsTotalReportWriterService;
 
-    private EndowmentExceptionReportHeader accrualTransactionsExceptionReportHeader;
-    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowValues;
+//    private EndowmentExceptionReportHeader accrualTransactionsExceptionReportHeader;
+//    private EndowmentExceptionReportHeader accrualTransactionsExceptionRowValues;
     private EndowmentExceptionReportHeader accrualTransactionsExceptionRowReason;
+ 
+    private TransactionDocumentExceptionReportLine exceptionReportLine = null;
+    private TransactionDocumentTotalReportLine totalReportLine = null;
 
     /**
      * Constructs a CreateAccrualTransactionsServiceImpl.java.
      */
     public CreateAccrualTransactionsServiceImpl() {
-        accrualTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
-        accrualTransactionsExceptionRowValues = new EndowmentExceptionReportHeader();
-        accrualTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();
+//        accrualTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
+//        accrualTransactionsExceptionRowValues = new EndowmentExceptionReportHeader();
+          accrualTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();
 
     }
 
@@ -92,17 +98,17 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      */
     public boolean createAccrualTransactions() {
         boolean success = true;
-
+        
         LOG.debug("createAccrualTransactions() started");
 
         // writes the exception report header
         accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-        accrualTransactionsExceptionReportHeader.setColumnHeading1("Documnet Type");
-        accrualTransactionsExceptionReportHeader.setColumnHeading2("Security ID");
-        accrualTransactionsExceptionReportHeader.setColumnHeading3("KEMID");
-        accrualTransactionsExceptionReportHeader.setColumnHeading4("Transaction Amount");
+//        accrualTransactionsExceptionReportHeader.setColumnHeading1("Documnet Type");
+//        accrualTransactionsExceptionReportHeader.setColumnHeading2("Security ID");
+//        accrualTransactionsExceptionReportHeader.setColumnHeading3("KEMID");
+//        accrualTransactionsExceptionReportHeader.setColumnHeading4("Transaction Amount");
 
-        accrualTransactionsExceptionReportWriterService.writeTableHeader(accrualTransactionsExceptionReportHeader);
+//        accrualTransactionsExceptionReportWriterService.writeTableHeader(accrualTransactionsExceptionReportHeader);
 
         int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
 
@@ -131,7 +137,10 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
                 // 4. create new CashIncreaseDocument
                 CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
-
+                
+                //create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
+                initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(),security.getId());
+         
                 // group tax lots by kemid and ip indicator
                 Map<String, List<HoldingTaxLot>> kemidIpMap = new HashMap<String, List<HoldingTaxLot>>();
 
@@ -171,20 +180,25 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     // document
                     if (counter == maxNumberOfTranLines) {
                         // submit the current ECI doc and update the values in the tax lots used already
-                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
-
+                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate, totalReportLine, exceptionReportLine);
+                   
+                      
                         cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
+                        
+                        //create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
+                        initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(),security.getId());
+                            
                         counter = 0;
                     }
 
                     // add a new transaction line
-                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount)) {
+                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount, totalReportLine, exceptionReportLine)) {
                         counter++;
                     }
                 }
 
                 // submit the current ECI doc and update the values in the tax lots used already
-                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
+                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate,totalReportLine, exceptionReportLine);
 
             }
 
@@ -203,7 +217,8 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param totalAmount
      * @return true if transaction line successfully added, false otherwise
      */
-    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount) {
+    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount, 
+                            TransactionDocumentTotalReportLine theTotalReportLine, TransactionDocumentExceptionReportLine theExceptionReportLine) {
         boolean success = true;
 
         // Create a new transaction line
@@ -218,15 +233,24 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         if (rulesPassed) {
             cashIncreaseDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLine);
+            theTotalReportLine.addIncomeAmount(totalAmount);
         }
         else {
             success = false;
-            writeTableRow(security.getId(), kemid, totalAmount);
+//          writeTableRow(security.getId(), kemid, totalAmount);
+            
+            //write an exception line when a transaction line fails to pass the validation.
+            theExceptionReportLine.setKemid(kemid);
+            theExceptionReportLine.setIncomeAmount(totalAmount);
+            accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
-                writeTableReason(errorMessage);
+                accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
+                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+
+//              writeTableReason(errorMessage);
             }
-            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+//            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
         }
         return success;
     }
@@ -268,7 +292,8 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param cashIncreaseDocument
      * @param taxLotsForUpdate
      */
-    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
+    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate, 
+            TransactionDocumentTotalReportLine theTotalReportLine, TransactionDocumentExceptionReportLine theExceptionReportLine) {
 
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
 
@@ -281,6 +306,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 cashIncreaseDocument.setNoRouteIndicator(noRouteIndicator);
                 // TODO figure out if/how we use the ad hoc recipients list
                 documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
+                
+                //write a total report line for a CashIncreaseDocument
+                accrualTransactionsTotalReportWriterService.writeTableRow(theTotalReportLine);
 
                 // set accrued income to zero and copy current value in prior accrued income
                 for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
@@ -292,18 +320,41 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 businessObjectService.save(taxLotsForUpdate);
             }
             catch (WorkflowException ex) {
-                writeTableReason("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.");
+                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
+                            "WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
+                   
+
+  //              writeTableReason("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.");
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
                 throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
             }
         }
         else {
-            writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "-", cashIncreaseDocument.getTargetIncomeTotal());
-            List<String> errorMessages = extractGlobalVariableErrors();
-            for (String errorMessage : errorMessages) {
-                writeTableReason(errorMessage);
+            // ToDo: need to save the document    
+            try {
+                //try to save the document
+                documentService.saveDocument(cashIncreaseDocument, CashIncreaseDocument.class);
+//                writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "-", cashIncreaseDocument.getTargetIncomeTotal());
+                theExceptionReportLine.setSecurityId(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
+                theExceptionReportLine.setIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
+                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                List<String> errorMessages = extractGlobalVariableErrors();
+                for (String errorMessage : errorMessages) {
+//                    writeTableReason(errorMessage);
+                    accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
+                    accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+                }
+//                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+            }catch (WorkflowException ex) {
+                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
+                            "WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
+                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+                throw new RuntimeException("WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process.", ex);
+
             }
-            accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+                
         }
     }
 
@@ -365,7 +416,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param securityId
      * @param kemid
      */
-    protected void writeTableRow(String securityId, String kemid, KualiDecimal transactionAmount) {
+   /* protected void writeTableRow(String securityId, String kemid, KualiDecimal transactionAmount) {
 
         accrualTransactionsExceptionRowValues.setColumnHeading1(getCashIncreaseDocumentType());
         accrualTransactionsExceptionRowValues.setColumnHeading2(securityId);
@@ -375,6 +426,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowValues);
 
     }
+    */
 
     /**
      * Writes the reason row and inserts a blank line.
@@ -385,6 +437,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         accrualTransactionsExceptionRowReason.setColumnHeading1("Reason:");
         accrualTransactionsExceptionRowReason.setColumnHeading2(reasonMessage);
         accrualTransactionsExceptionReportWriterService.writeTableRow(accrualTransactionsExceptionRowReason);
+        
     }
 
 
@@ -400,7 +453,23 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         return result;
     }
+/*    
+    private TransactionDocumentExceptionReportLine createTransactionDocumentExceptionReportLine (String theDocumentType, String theDocumentId){
+        return new TransactionDocumentExceptionReportLine(theDocumentType, theDocumentId);
+    }
+    
+    private TransactionDocumentTotalReportLine createTransactionDocumentTotalReportLine(String theDocumentType, String theDocumentId, String theSecurityId){
+        return new TransactionDocumentTotalReportLine(theDocumentType, theDocumentId, theSecurityId);
+    }
+*/
+    private void initializeTotalAndExceptionReportLines (String theDocumentId, String theSecurityId){
+        // create a new totalReportLine for each new CashIncreaseDocument
+        this.totalReportLine = new TransactionDocumentTotalReportLine(getCashIncreaseDocumentType(),theDocumentId, theSecurityId);
 
+        // create an exceptionReportLine instance that can be reused for reporting multiple errors for a CashIncreaseDocument
+        this.exceptionReportLine = new TransactionDocumentExceptionReportLine(getCashIncreaseDocumentType(), theDocumentId, theSecurityId);                                           
+
+    }
     /**
      * Sets the businessObjectService.
      * 
@@ -489,5 +558,23 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      */
     public void setAccrualTransactionsExceptionReportWriterService(ReportWriterService accrualTransactionsExceptionReportWriterService) {
         this.accrualTransactionsExceptionReportWriterService = accrualTransactionsExceptionReportWriterService;
+    }
+    
+    /**
+     * Gets the accrualTransactionsTotalReportWriterService.
+     * 
+     * @return accrualTransactionsTotalReportWriterService
+     */
+    public ReportWriterService getAccrualTransactionsTotalReportWriterService() {
+        return accrualTransactionsTotalReportWriterService;
+    }
+
+    /**
+     * Sets the accrualTransactionsTotalReportWriterService.
+     * 
+     * @param accrualTransactionsTotalReportWriterService
+     */
+    public void setAccrualTransactionsTotalReportWriterService(ReportWriterService accrualTransactionsTotalReportWriterService) {
+        this.accrualTransactionsTotalReportWriterService = accrualTransactionsTotalReportWriterService;
     }
 }

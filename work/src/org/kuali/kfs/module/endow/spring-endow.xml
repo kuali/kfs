@@ -173,17 +173,31 @@
 	    <property name="accrualTransactionsExceptionReportWriterService">
 			<ref bean="accrualTransactionsExceptionReportWriterService" />
 		</property>
+		<property name="accrualTransactionsTotalReportWriterService">
+			<ref bean="accrualTransactionsTotalReportWriterService" />
+		</property>
 	</bean>
 	
-	<bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
+<bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="accrualTransactionsExceptionReportWriterService"/>
+		<property name="fileNamePrefix" value="accrualTransactionsExceptionReport_"/>
         <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="accrualTransactionsExceptionReportHeader"/>
         		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
-        	  	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLine"/>
+         	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+    
+    <bean id="accrualTransactionsTotalReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="accrualTransactionsTotalReport_"/>
+        <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB TOTALS PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+         		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
@@ -205,7 +219,7 @@
 	    </property>
 	    <property name="columnCount" value="8" />
 	</bean>
-
+	
     <bean id="transactionDocumentTotalReportLineHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">

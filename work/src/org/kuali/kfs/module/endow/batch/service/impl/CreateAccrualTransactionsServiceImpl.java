@@ -82,6 +82,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
  
     private TransactionDocumentExceptionReportLine exceptionReportLine = null;
     private TransactionDocumentTotalReportLine totalReportLine = null;
+    
+    private boolean isFistTimeForWritingTotalReport = true;
+    private boolean isFistTimeForWritingExceptionReport = true;
 
     /**
      * Constructs a CreateAccrualTransactionsServiceImpl.java.
@@ -102,7 +105,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         LOG.debug("createAccrualTransactions() started");
 
         // writes the exception report header
-        accrualTransactionsExceptionReportWriterService.writeNewLines(1);
+//        accrualTransactionsExceptionReportWriterService.writeNewLines(1);
 //        accrualTransactionsExceptionReportHeader.setColumnHeading1("Documnet Type");
 //        accrualTransactionsExceptionReportHeader.setColumnHeading2("Security ID");
 //        accrualTransactionsExceptionReportHeader.setColumnHeading3("KEMID");
@@ -137,7 +140,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
                 // 4. create new CashIncreaseDocument
                 CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
-                
+                      
                 //create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
                 initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(),security.getId());
          
@@ -180,9 +183,8 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     // document
                     if (counter == maxNumberOfTranLines) {
                         // submit the current ECI doc and update the values in the tax lots used already
-                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate, totalReportLine, exceptionReportLine);
-                   
-                      
+                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
+                                         
                         cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
                         
                         //create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
@@ -192,13 +194,18 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     }
 
                     // add a new transaction line
-                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount, totalReportLine, exceptionReportLine)) {
+                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount)) {
                         counter++;
                     }
                 }
 
                 // submit the current ECI doc and update the values in the tax lots used already
-                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate,totalReportLine, exceptionReportLine);
+                if (totalReportLine == null){
+                    System.out.println(">>> totalReportLine is null!!");
+                }
+                else {
+                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
+                }
 
             }
 
@@ -217,8 +224,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param totalAmount
      * @return true if transaction line successfully added, false otherwise
      */
-    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount, 
-                            TransactionDocumentTotalReportLine theTotalReportLine, TransactionDocumentExceptionReportLine theExceptionReportLine) {
+    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount){
         boolean success = true;
 
         // Create a new transaction line
@@ -233,16 +239,20 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         if (rulesPassed) {
             cashIncreaseDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLine);
-            theTotalReportLine.addIncomeAmount(totalAmount);
+            totalReportLine.addIncomeAmount(totalAmount);
         }
         else {
             success = false;
 //          writeTableRow(security.getId(), kemid, totalAmount);
             
             //write an exception line when a transaction line fails to pass the validation.
-            theExceptionReportLine.setKemid(kemid);
-            theExceptionReportLine.setIncomeAmount(totalAmount);
-            accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+            exceptionReportLine.setKemid(kemid);
+            exceptionReportLine.setIncomeAmount(totalAmount);
+            if (isFistTimeForWritingExceptionReport){
+                accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+                isFistTimeForWritingExceptionReport = false;
+            }
+            accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
@@ -280,7 +290,18 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             return cashIncreaseDocument;
         }
         catch (WorkflowException ex) {
-            writeTableReason("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.");
+            if (isFistTimeForWritingExceptionReport){
+                if (exceptionReportLine == null){
+                    exceptionReportLine = new TransactionDocumentExceptionReportLine(getCashIncreaseDocumentType(), "",securityId); 
+                }
+                accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+                isFistTimeForWritingExceptionReport = false;
+            }
+            accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
+            accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
+                        "WorkflowException while creating a CashIncreaseDocument for Accrual Transactions: "+ex.toString());
+           
+//            writeTableReason("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.");
             accrualTransactionsExceptionReportWriterService.writeNewLines(1);
             throw new RuntimeException("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.", ex);
         }
@@ -292,8 +313,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param cashIncreaseDocument
      * @param taxLotsForUpdate
      */
-    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate, 
-            TransactionDocumentTotalReportLine theTotalReportLine, TransactionDocumentExceptionReportLine theExceptionReportLine) {
+    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
 
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
 
@@ -308,7 +328,12 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 documentService.routeDocument(cashIncreaseDocument, "Created by Accrual Transactions Batch process.", null);
                 
                 //write a total report line for a CashIncreaseDocument
-                accrualTransactionsTotalReportWriterService.writeTableRow(theTotalReportLine);
+               if(isFistTimeForWritingTotalReport){
+                    accrualTransactionsTotalReportWriterService.writeTableHeader(totalReportLine);
+                    isFistTimeForWritingTotalReport = false;
+                }
+                
+                accrualTransactionsTotalReportWriterService.writeTableRow(totalReportLine);
 
                 // set accrued income to zero and copy current value in prior accrued income
                 for (HoldingTaxLot taxLotForUpdate : taxLotsForUpdate) {
@@ -320,7 +345,12 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 businessObjectService.save(taxLotsForUpdate);
             }
             catch (WorkflowException ex) {
-                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                if (isFistTimeForWritingExceptionReport){
+                    accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+                    isFistTimeForWritingExceptionReport = false;
+                }
+                
+                accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
                             "WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
                    
@@ -336,9 +366,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 //try to save the document
                 documentService.saveDocument(cashIncreaseDocument, CashIncreaseDocument.class);
 //                writeTableRow(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), "-", cashIncreaseDocument.getTargetIncomeTotal());
-                theExceptionReportLine.setSecurityId(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
-                theExceptionReportLine.setIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
-                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                exceptionReportLine.setSecurityId(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
+                exceptionReportLine.setIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
+                accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 List<String> errorMessages = extractGlobalVariableErrors();
                 for (String errorMessage : errorMessages) {
 //                    writeTableReason(errorMessage);
@@ -347,7 +377,11 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 }
 //                accrualTransactionsExceptionReportWriterService.writeNewLines(1);
             }catch (WorkflowException ex) {
-                accrualTransactionsExceptionReportWriterService.writeTableRow(theExceptionReportLine);
+                if (isFistTimeForWritingExceptionReport){
+                    accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+                    isFistTimeForWritingExceptionReport = false;
+                }
+                accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",
                             "WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process: "+ex.toString());
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
@@ -356,7 +390,8 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             }
                 
         }
-    }
+    }    
+
 
     /**
      * Extracts errors for error report writing.

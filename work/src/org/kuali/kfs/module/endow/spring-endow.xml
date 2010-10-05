@@ -137,6 +137,7 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accrualTransactionsExceptionReportWriterService" />
+				<ref bean="accrualTransactionsTotalReportWriterService" />
 			</list>
 		</property>
 		<property name="createAccrualTransactionsService">
@@ -178,7 +179,7 @@
 		</property>
 	</bean>
 	
-<bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
+    <bean id="accrualTransactionsExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="accrualTransactionsExceptionReport_"/>
         <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB EXCEPTION REPORT"/>

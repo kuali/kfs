@@ -15,25 +15,15 @@
  */
 package org.kuali.kfs.module.purap.dataaccess.impl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
-import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -106,19 +96,22 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     protected String getFile(String prefix, String fileKey, String key, String extension, String location) {
         LOG.debug("getFile() started");
 
-        String externalizableUrlSettingName = "externalizable.images.url";
-        String externalizableUrl = configurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        if (externalizableUrl == null) {
-            throw new PurapConfigurationException("Application Setting " + externalizableUrlSettingName + " is missing");
+        // try retrieving file URL from parameter
+        String urlpath = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGE_LOCATION_URL);
+        // if parameter value is empty, then try retrieving it from property
+        if (StringUtils.isEmpty(urlpath)) {
+            urlpath = configurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        }
+        
+        if (urlpath == null) {
+            throw new PurapConfigurationException("Application Setting " + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + " is missing");
         }
         if (location == null) {
             throw new PurapConfigurationException("Valid location to store temp image files was null");
         }
 
-        String completeUrl = externalizableUrl + prefix + "_" + fileKey.toLowerCase() + extension;
-
+        String completeUrl = urlpath + prefix + "_" + fileKey.toLowerCase() + extension;
         LOG.debug("getFile() URL = " + completeUrl);
-
         return completeUrl;
     }
 

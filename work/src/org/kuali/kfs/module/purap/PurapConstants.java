@@ -113,6 +113,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String LOGO_IMAGE_PREFIX = "PDF_LOGO_IMAGE_PREFIX";
     public static final String LOGO_IMAGE_EXTENSION = "PDF_LOGO_IMAGE_EXTENSION";
     public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PDF_IMAGES_AVAILABLE_IND";
+    public static final String PDF_IMAGE_LOCATION_URL = "PDF_IMAGE_LOCATION_URL";
 
     public static final String TAX_RECALCULATION_INFO = "TaxRecalculationQuestion";
     public static final String TAX_RECALCULATION_QUESTION = "The postal code of the delivery address has changed.[br]Selecting \"Yes\" will submit the document without recalculating the taxes.[br]Selecting \"No\" will return you to the document so that the taxes can be recalculated.[br]The \"clear all\" button can be used to clear all tax amounts which will force taxes to be recalculated upon submission.";

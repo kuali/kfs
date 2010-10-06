@@ -38,7 +38,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
-        List<RoleMemberCompleteInfo> roleMembers = (List<RoleMemberCompleteInfo>)KIMServiceLocator.getRoleManagementService().findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getORMId()));
+        List<RoleMemberCompleteInfo> roleMembers = (List<RoleMemberCompleteInfo>)KIMServiceLocator.getRoleManagementService().findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId));
         RoleMemberCompleteInfo roleMember = new RoleMemberCompleteInfo();
         if(roleMembers!=null && roleMembers.size()>0){
             roleMember = roleMembers.get(0);

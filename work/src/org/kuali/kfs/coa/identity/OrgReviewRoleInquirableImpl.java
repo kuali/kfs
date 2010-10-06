@@ -36,19 +36,27 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
     public BusinessObject getBusinessObject(Map fieldValues) {
         OrgReviewRole orr = new OrgReviewRole();
         if ( StringUtils.isNotBlank( (String)fieldValues.get("orgReviewRoleMemberId") ) ) {
-            SpringContext.getBean( OrgReviewRoleService.class ).populateOrgReviewRoleFromRoleMember(orr, (String)fieldValues.get("orgReviewRoleMemberId") );
-        } else {
-            throw new RuntimeException( "Not implemented yet" );
+            if ( StringUtils.equals("true", (String)fieldValues.get("isDelegate") ) ) {
+                SpringContext.getBean( OrgReviewRoleService.class ).populateOrgReviewRoleFromDelegationMember(orr, (String)fieldValues.get("orgReviewRoleMemberId") );
+            } else {
+                SpringContext.getBean( OrgReviewRoleService.class ).populateOrgReviewRoleFromRoleMember(orr, (String)fieldValues.get("orgReviewRoleMemberId") );
+            }
         }
         return orr;
     }
     
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
-        if ( StringUtils.equals( attributeName, "orgReviewRoleMemberId") ) {
+        if ( StringUtils.equals( attributeName, "orgReviewRoleInquiryTitle") ) {
             Properties parameters = new Properties();
             parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "start");
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
+            if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getDelegationMemberId()) ) {
+                parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getDelegationMemberId() );
+                parameters.put("isDelegate", "true" );
+            } else if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getRoleMemberId()) ) {
+                parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getRoleMemberId() );
+            }
             return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         } else {
             return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

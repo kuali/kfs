@@ -181,7 +181,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                         documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
                     }
 
-                    HoldingAdjustmentDocument holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription);
+                    HoldingAdjustmentDocument holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription, pooledFundValue.getPooledSecurityID());
 
                     // add security details
                     addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
@@ -194,7 +194,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                         if (counter == maxNumberOfTranLines) {
                             counter = 0;
                             // generate a new Holding Adjustment document
-                            holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription);
+                            holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription, pooledFundValue.getPooledSecurityID());
 
                             // add security details
                             addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
@@ -223,7 +223,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return the HoldingAdjustmentDocument
      */
-    private HoldingAdjustmentDocument generateHoldingAdjustmentDocument(String documentDescription) {
+    private HoldingAdjustmentDocument generateHoldingAdjustmentDocument(String documentDescription, String securityId) {
         HoldingAdjustmentDocument holdingAdjustmentDocument = null;
 
         try {
@@ -236,7 +236,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
             if (isFistTimeForWritingExceptionReport) {
                 if (exceptionReportLine == null) {
-                    exceptionReportLine = new TransactionDocumentExceptionReportLine(getHoldingAdjustmentDocumentTypeName(), "", holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID());
+                    exceptionReportLine = new TransactionDocumentExceptionReportLine(getHoldingAdjustmentDocumentTypeName(), "", securityId);
                 }
                 gainLossDistributionExceptionReportWriterService.writeTableHeader(exceptionReportLine);
                 isFistTimeForWritingExceptionReport = false;
@@ -298,7 +298,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
 
         // populate transaction line
-
         // the transaction amount has to be null when the unitAdjustmentamount is entered
         endowmentTransactionLine.setTransactionAmount(null);
 
@@ -579,7 +578,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
     }
 
     /**
-     * This method...
+     * Initializes the distributionTotalReportLine and exceptionReportLine for further use.
      * 
      * @param theDocumentId
      * @param theSecurityId
@@ -593,10 +592,20 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
     }
 
+    /**
+     * Gets the gainLossDistributionTotalsReportWriterService.
+     * 
+     * @return gainLossDistributionTotalsReportWriterService
+     */
     public ReportWriterService getGainLossDistributionTotalsReportWriterService() {
         return gainLossDistributionTotalsReportWriterService;
     }
 
+    /**
+     * Sets the gainLossDistributionTotalsReportWriterService.
+     * 
+     * @param gainLossDistributionTotalsReportWriterService
+     */
     public void setGainLossDistributionTotalsReportWriterService(ReportWriterService gainLossDistributionTotalsReportWriterService) {
         this.gainLossDistributionTotalsReportWriterService = gainLossDistributionTotalsReportWriterService;
     }

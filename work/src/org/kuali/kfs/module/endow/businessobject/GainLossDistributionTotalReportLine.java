@@ -44,67 +44,136 @@ public class GainLossDistributionTotalReportLine extends TransientBusinessObject
         this.securityId = securityId;
     }
 
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * Gets the documentType.
+     * 
+     * @return documentType
+     */
     public String getDocumentType() {
         return documentType;
     }
 
+    /**
+     * Sets the documentType.
+     * 
+     * @param documentType
+     */
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
 
+    /**
+     * Gets the documentId.
+     * 
+     * @return documentId
+     */
     public String getDocumentId() {
         return documentId;
     }
 
+    /**
+     * Sets the documentId.
+     * 
+     * @param documentId
+     */
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
+    /**
+     * Gets the securityId.
+     * 
+     * @return securityId
+     */
     public String getSecurityId() {
         return securityId;
     }
 
+    /**
+     * Sets the securityId.
+     * 
+     * @param securityId
+     */
     public void setSecurityId(String securityId) {
         this.securityId = securityId;
     }
 
+    /**
+     * Gets the totalNumberOfTransactionLines.
+     * 
+     * @return totalNumberOfTransactionLines
+     */
     public int getTotalNumberOfTransactionLines() {
         return totalNumberOfTransactionLines;
     }
 
+    /**
+     * Sets the totalNumberOfTransactionLines.
+     * 
+     * @param totalNumberOfTransactionLines
+     */
     public void setTotalNumberOfTransactionLines(int totalNumberOfTransactionLines) {
         this.totalNumberOfTransactionLines = totalNumberOfTransactionLines;
     }
 
+    /**
+     * Gets the unitAdjustmentAmount.
+     * 
+     * @return unitAdjustmentAmount
+     */
     public KualiDecimal getUnitAdjustmentAmount() {
         return unitAdjustmentAmount;
     }
 
+    /**
+     * Sets the unitAdjustmentAmount.
+     * 
+     * @param unitAdjustmentAmount
+     */
     public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
         this.unitAdjustmentAmount = unitAdjustmentAmount;
     }
 
+    /**
+     * Gets the totalHoldingAdjustmentAmount.
+     * 
+     * @return totalHoldingAdjustmentAmount
+     */
     public BigDecimal getTotalHoldingAdjustmentAmount() {
         return totalHoldingAdjustmentAmount;
     }
 
+    /**
+     * Sets the totalHoldingAdjustmentAmount.
+     * 
+     * @param totalHoldingAdjustmentAmount
+     */
     public void setTotalHoldingAdjustmentAmount(BigDecimal totalHoldingAdjustmentAmount) {
         this.totalHoldingAdjustmentAmount = totalHoldingAdjustmentAmount;
     }
 
+    /**
+     * Adds the unitAdjustmentAmount.
+     * 
+     * @param unitAdjustmentAmount
+     */
     public void addUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
         this.unitAdjustmentAmount = this.unitAdjustmentAmount.add(unitAdjustmentAmount);
         totalNumberOfTransactionLines++;
     }
 
     /**
-     * This method...
+     * Computes the total holding adjustment based on the tax lots holding cost and adds it to totalHoldingAdjustmentAmount.
+     * 
      * @param endowmentTransactionLine
      */
     public void addTotalHoldingAdjustmentAmount(EndowmentTransactionLine endowmentTransactionLine) {

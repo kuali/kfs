@@ -31,11 +31,13 @@ import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
@@ -86,10 +88,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public CashReceiptDocument() {
         super();
 
-        if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null && GlobalVariables.getUserSession().getPerson().getCampusCode() != null) {
-            // there are situations where workflow is reindexing this where there is no user session; but in those cases, the campus location code will get set by the db anyway, so just ignore those cases
-            setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
-        }
+        initializeCampusLocationCode();
+        
         currencyDetail = new CurrencyDetail();
         coinDetail = new CoinDetail();
     }
@@ -644,13 +644,35 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
-        if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null && GlobalVariables.getUserSession().getPerson().getCampusCode() != null) {
-            setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
-        }
+        
+        initializeCampusLocationCode();
+        
         if ((getChecks() == null || getChecks().isEmpty()) && getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
             setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_DETAIL);
         }
     }
 
+    /**
+     * Initializes the campus location code based on kfs user role chart org
+     * 
+     */
+    protected void initializeCampusLocationCode(){
+        
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
+        
+        // Does a valid campus code exist for this person?  If so, simply grab
+        // the campus code via the business object service.  
+        if (chartOrg != null && chartOrg.getOrganization() != null) {
+            setCampusLocationCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
+        }
+        // A valid campus code was not found; therefore, use the default affiliated
+        // campus code.
+        else {
+            String affiliatedCampusCode = currentUser.getCampusCode();
+            setCampusLocationCode(affiliatedCampusCode);
+        }
+        
+    }
 }
 

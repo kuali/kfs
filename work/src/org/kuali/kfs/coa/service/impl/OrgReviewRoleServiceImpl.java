@@ -36,7 +36,6 @@ import org.kuali.rice.kim.util.KimConstants;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
-    @Override
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
         List<RoleMemberCompleteInfo> roleMembers = (List<RoleMemberCompleteInfo>)KIMServiceLocator.getRoleManagementService().findRoleMembersCompleteInfo(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, roleMemberId));
         RoleMemberCompleteInfo roleMember = new RoleMemberCompleteInfo();
@@ -57,7 +56,6 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         populateObjectExtras(orr);
     }
 
-    @Override
     public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String delegationMemberId) {
         DelegateMemberCompleteInfo delegationMember = KIMServiceLocator.getRoleManagementService().getDelegationMemberById(delegationMemberId);
         DelegateTypeInfo delegation = KIMServiceLocator.getRoleManagementService().getDelegateTypeInfoById(delegationMember.getDelegationId());

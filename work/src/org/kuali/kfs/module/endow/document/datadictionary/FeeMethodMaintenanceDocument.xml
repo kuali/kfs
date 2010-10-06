@@ -17,7 +17,9 @@
         <ref bean="FeeMethodMaintenanceDocument-editFeeMethod" />
         <ref bean="FeeMethodMaintenanceDocument-editClassCode" />
         <ref bean="FeeMethodMaintenanceDocument-editSecurityID" /> 
-        <ref bean="FeeMethodMaintenanceDocument-editPaymentType" />
+		<!--  THIS LINE IS COMMENTED OUT - REFER TO JIRA: KULENDOW-449        
+        	<ref bean="FeeMethodMaintenanceDocument-editPaymentType" />
+		-->        
         <ref bean="FeeMethodMaintenanceDocument-editTransactionType" />
         <ref bean="FeeMethodMaintenanceDocument-editEndowmentTransactionCode" />
       </list>
@@ -270,6 +272,8 @@
       </list>
     </property>
   </bean>  
+  
+  <!--  THIS TAB IS COMMENTED OUT - REFER TO JIRA: KULENDOW-449
   <bean id="FeeMethodMaintenanceDocument-editPaymentType" parent="FeeMethodMaintenanceDocument-editPaymentType-parentBean" />
 
   <bean id="FeeMethodMaintenanceDocument-editPaymentType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -312,6 +316,8 @@
       </list>
     </property>
   </bean>  
+-->
+  
   <bean id="FeeMethodMaintenanceDocument-editTransactionType" parent="FeeMethodMaintenanceDocument-editTransactionType-parentBean" />
 
   <bean id="FeeMethodMaintenanceDocument-editTransactionType-parentBean" abstract="true" parent="MaintainableSectionDefinition">

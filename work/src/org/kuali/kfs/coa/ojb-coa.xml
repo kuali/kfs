@@ -1814,9 +1814,11 @@
 </class-descriptor>
 
   <!-- A hack entry to make Org Review Role work with Maintenance Framework -->
+  <!-- 
   <class-descriptor class="org.kuali.kfs.coa.identity.OrgReviewRole" table="CA_ORG_TYPE_T">
     <field-descriptor name="orgReviewRoleMemberId" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
   </class-descriptor>
+   -->
 
 </descriptor-repository>
 

@@ -112,11 +112,6 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         lookupForm.setHideReturnLink(true);
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    @Override
-    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        // TODO Auto-generated method stub
-        return super.getInquiryUrl(bo, propertyName);
-    }
 //    @Override
 //    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
 //        if ( StringUtils.equals( propertyName, "orgReviewRoleMemberId") ) {

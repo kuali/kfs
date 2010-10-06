@@ -56,6 +56,7 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
                 parameters.put("isDelegate", "true" );
             } else if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getRoleMemberId()) ) {
                 parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getRoleMemberId() );
+                parameters.put("isDelegate", "false" );
             }
             return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         } else {

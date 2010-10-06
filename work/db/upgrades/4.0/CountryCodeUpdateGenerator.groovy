@@ -5,7 +5,6 @@
  * The SQL generated should run in both Oracle and MySQL.
  */
 
-//println()
 if (args.length != 2 && args.length != 3) {
 	println(" Usage: groovy CountryCodeUpdateGenerator.groovy TABLE_NAME COLUMN_NAME [OUTPUT_DIR_PATH]")
 	println()
@@ -22,7 +21,6 @@ if (tableName.toString().indexOf("yyyyy") != -1) {
 	System.exit(1);
 }
 
-//println(instructiontext())
 print("processing " + tableName + "." + colName + "...")
 
 if (! new File(outputPath).exists()) new File(outputPath).mkdirs();

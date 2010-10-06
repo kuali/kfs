@@ -98,6 +98,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
+       //     readOnlySectionIds.add(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
 
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
@@ -124,6 +125,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.CLASS_CODES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.SECURITY_TAB_ID);
+         //   readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
 
             List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
             feePaymentTypes.clear();
@@ -148,7 +150,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         // also clear the old collection records
         // read only the rest of the tabs...
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS.equalsIgnoreCase(feeTypeCode)) {
-            readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
+       //     readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
 
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();

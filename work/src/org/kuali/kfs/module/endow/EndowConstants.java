@@ -61,6 +61,10 @@ public class EndowConstants extends JSTLConstants {
         public static final String EXPENSE_TYPE_CODE = "E";
     }
 
+    public static class FeeType {
+        public static final String FEE_TYPE_CODE_FOR_PAYMENTS = "P";
+    }
+    
     public static class ClassCodeTypes {
         public static final String ALTERNATIVE_INVESTMENT = "A";
         public static final String CASH_EQUIVALENTS = "C";

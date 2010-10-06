@@ -1191,6 +1191,14 @@
 		</property>
 	</bean>	
 	
+	<bean id="feeTypeCodeLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.FeeTypeCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
+	
+	<bean id="feeTypeCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="feeTypeCodeLookupableHelperService" />
+		</property>
+	</bean>	
+	
 	<bean id="securityService" class="org.kuali.kfs.module.endow.document.service.impl.SecurityServiceImpl">		
 	    <property name="kemService">
 			<ref bean="kemService" />

@@ -105,6 +105,7 @@
 	<bean id="FeeTypeCode-lookupDefinition" parent="FeeTypeCode-lookupDefinition-parentBean" />
 
   	<bean id="FeeTypeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    	<property name="lookupableID" value="feeTypeCodeLookupable" />
     	<property name="title" value="Fee Type Code Lookup" />    
     	<property name="defaultSort">
 	      	<bean parent="SortDefinition" />

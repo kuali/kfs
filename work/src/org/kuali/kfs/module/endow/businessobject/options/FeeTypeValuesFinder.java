@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -40,7 +41,11 @@ public class FeeTypeValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator<FeeTypeCode> iter = codes.iterator(); iter.hasNext();) {
             FeeTypeCode feeTypeCode = (FeeTypeCode) iter.next();
-            labels.add(new KeyLabelPair(feeTypeCode.getCode(), feeTypeCode.getCodeAndDescription()));
+            //do not add fee type = P as Payments Tab not to be implemented
+            //jira#: KULENDOW-449
+            if (!feeTypeCode.getCode().equalsIgnoreCase(EndowConstants.FeeType.FEE_TYPE_CODE_FOR_PAYMENTS)) {
+                labels.add(new KeyLabelPair(feeTypeCode.getCode(), feeTypeCode.getCodeAndDescription()));
+            }
         }
 
         return labels;

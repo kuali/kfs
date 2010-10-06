@@ -660,7 +660,6 @@
 
   <bean id="FeeMethod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Fee Method Lookup" />
-
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

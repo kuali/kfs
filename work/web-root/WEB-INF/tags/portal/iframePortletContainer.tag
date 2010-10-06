@@ -66,8 +66,8 @@
     /** sets the portlet container's height. */
     function setContainerHeight() {
       //reset the height to shrink the scroll height.  For the usecase where the portlet's contents got smaller.
-      getPortlet().style.height = '0px';
-      getPortlet().height = '0px';
+      getPortlet().style.height = '${frameHeight}px';
+   	  getPortlet().height = '${frameHeight}px';
       
       var height = '${frameHeight}';
       try {
@@ -78,7 +78,11 @@
       }
 
       //set the portlet & portlet container to be the same height - not using 100% for the portlet to avoid the inner scrollbar
-      getPortletContainer().style.height = height + 'px';
+      try {
+      	getPortletContainer().style.height = height + 'px';
+      } catch ( ex ) {
+          // do nothing, we can't get to the container
+      }
       getPortlet().style.height = (height + getHorScrollBarHeight()) + 'px';
       getPortlet().height = (height + getHorScrollBarHeight()) + 'px';
     }
@@ -91,12 +95,13 @@
      */
     function hasContainerHeightChanged() {
       var height;
+      var conHeight;
       try {
         height = getFrameHeight(getPortlet());
+        conHeight = getPortletContainer().style.height;
       } catch (e) {
       	return true;
       }
-      var conHeight = getPortletContainer().style.height;
       return conHeight != height + 'px';
     }
 

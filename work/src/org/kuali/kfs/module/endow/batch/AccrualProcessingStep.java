@@ -15,18 +15,28 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.endow.batch.service.AccrualProcessingService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class AccrualProcessingStep extends AbstractStep {
+public class AccrualProcessingStep extends AbstractWrappedBatchStep {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccrualProcessingStep.class);
     private AccrualProcessingService accrualProcessingService;
+    protected String batchFileDirectoryName;
 
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return accrualProcessingService.processAccruals();
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
+     */
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = accrualProcessingService.processAccruals();
+                return success;
+            }
+        };
     }
 
     /**
@@ -36,6 +46,15 @@ public class AccrualProcessingStep extends AbstractStep {
      */
     public void setAccrualProcessingService(AccrualProcessingService accrualProcessingService) {
         this.accrualProcessingService = accrualProcessingService;
+    }
+
+    /**
+     * Sets the batchFileDirectoryName.
+     * 
+     * @param batchFileDirectoryName
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 }

@@ -566,17 +566,16 @@
 		</property>	
 	</bean>
 	
- 	<bean id="accrualProcessingJob" parent="scheduledJobDescriptor">
-		<property name="steps">
+ 		<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
 			<list>
-				<ref bean="accrualProcessingStep" />
+				<ref bean="accrualProcessingReportWriterService" />
 			</list>
 		</property>
-	</bean>
-	<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="step">
 		<property name="accrualProcessingService">
 			<ref bean="accrualProcessingService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
 	<bean id="accrualProcessingService" class="org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl">
@@ -595,7 +594,35 @@
 	    <property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="accrualProcessingReportWriterService">
+			<ref bean="accrualProcessingReportWriterService" />
+		</property>	
 	</bean>		
+	
+	<bean id="accrualProcessingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="accrualProcessingTotals_"/>
+        <property name="title" value="ACCRUAL PROCESSING JOB TOTALS REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.AccrualsProcessingTotalReportLine" value="accrualProcessingTotalsReportLineHelper"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+    
+    <bean id="accrualProcessingTotalsReportLineHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.AccrualsProcessingTotalReportLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="accrualMethod" value="ACCRUAL METHOD" />
+    			<entry key="securityId" value="SEC ID"/>
+    			<entry key="recordsUpdated" value="RECORDS UPDATED"/>
+    			<entry key="totalAccrualAmount" value="TOTAL ACCRUAL AMT" />		
+    		</map>
+	    </property>
+	    <property name="columnCount" value="4" />
+	</bean>	
 		
 	<!-- pooledFundControlTransactionsJob -->
 	<bean id="pooledFundControlTransactionsJob" parent="unscheduledJobDescriptor">

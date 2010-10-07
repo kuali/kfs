@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.AccrualProcessingService;
+import org.kuali.kfs.module.endow.businessobject.AccrualsProcessingTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -47,6 +48,10 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
     private KEMService kemService;
     private BusinessObjectService businessObjectService;
     private ReportWriterService accrualProcessingReportWriterService;
+
+    private AccrualsProcessingTotalReportLine totalReportLine = null;
+
+    private boolean isFistTimeForWritingTotalReport = true;
 
     /**
      * @see org.kuali.kfs.module.endow.batch.service.AccrualProcessingService#processAccruals()
@@ -107,15 +112,28 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         LOG.info("Calculate accruals for securities that have accrual method Automated Cash Management.");
 
         BigDecimal securityRate = security.getIncomeRate();
+        String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
         List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(security.getId());
 
         if (holdingTaxLots != null) {
+
+            initializeTotalReportLine(security.getId(), accrualMethodName);
+            if (isFistTimeForWritingTotalReport) {
+                accrualProcessingReportWriterService.writeTableHeader(totalReportLine);
+                isFistTimeForWritingTotalReport = false;
+            }
+
             for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
                 BigDecimal accrualAmount = securityRate.multiply(holdingTaxLot.getUnits());
                 accrualAmount = KEMCalculationRoundingHelper.divide(accrualAmount, new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
                 holdingTaxLot.setCurrentAccrual(holdingTaxLot.getCurrentAccrual().add(accrualAmount));
                 businessObjectService.save(holdingTaxLot);
+
+                totalReportLine.addAccrualAmount(accrualAmount);
             }
+
+            accrualProcessingReportWriterService.writeTableRow(totalReportLine);
+
             LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Automated Cash Management is " + holdingTaxLots.size());
         }
 
@@ -135,15 +153,27 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         LOG.info("Calculate accruals for securities that have accrual method Time Deposits.");
 
         BigDecimal securityRate = security.getIncomeRate();
+        String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
         List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(security.getId());
 
         if (holdingTaxLots != null) {
+            initializeTotalReportLine(security.getId(), accrualMethodName);
+            if (isFistTimeForWritingTotalReport) {
+                accrualProcessingReportWriterService.writeTableHeader(totalReportLine);
+                isFistTimeForWritingTotalReport = false;
+            }
+
             for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
                 BigDecimal accrualAmount = securityRate.multiply(holdingTaxLot.getUnits());
                 accrualAmount = KEMCalculationRoundingHelper.divide(accrualAmount, new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
                 holdingTaxLot.setCurrentAccrual(holdingTaxLot.getCurrentAccrual().add(accrualAmount));
                 businessObjectService.save(holdingTaxLot);
+
+                totalReportLine.addAccrualAmount(accrualAmount);
             }
+
+            accrualProcessingReportWriterService.writeTableRow(totalReportLine);
+
             LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Time Deposits is " + holdingTaxLots.size());
         }
 
@@ -166,12 +196,20 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         BigDecimal securityRate = security.getIncomeRate();
         Date nextIncomePayDate = security.getIncomeNextPayDate();
         String incomePayFrequency = security.getIncomePayFrequency();
+        String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
 
         if (incomePayFrequency != null && !incomePayFrequency.isEmpty()) {
             int nrOfDays = getNumberOfDaysSinceLastDateIncomeWasPaid(incomePayFrequency, nextIncomePayDate);
             List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(security.getId());
 
             if (holdingTaxLots != null) {
+
+                initializeTotalReportLine(security.getId(), accrualMethodName);
+                if (isFistTimeForWritingTotalReport) {
+                    accrualProcessingReportWriterService.writeTableHeader(totalReportLine);
+                    isFistTimeForWritingTotalReport = false;
+                }
+
                 for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
 
                     BigDecimal accrualAmount = (holdingTaxLot.getUnits().multiply(securityRate));
@@ -179,7 +217,12 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
                     accrualAmount = KEMCalculationRoundingHelper.divide(accrualAmount, new BigDecimal(nrOfDays), 5);
                     holdingTaxLot.setCurrentAccrual(holdingTaxLot.getCurrentAccrual().add(accrualAmount));
                     businessObjectService.save(holdingTaxLot);
+
+                    totalReportLine.addAccrualAmount(accrualAmount);
                 }
+
+                accrualProcessingReportWriterService.writeTableRow(totalReportLine);
+
                 LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Treasury Notes and Bonds is " + holdingTaxLots.size());
             }
 
@@ -274,17 +317,29 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         LOG.info("Calculate accruals for securities that have accrual method Dividends.");
 
         Date securityExDividendDate = security.getExDividendDate();
+        String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
 
         if (kemService.getCurrentDate().equals(securityExDividendDate)) {
             BigDecimal securityDividendAmount = security.getDividendAmount();
             List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(security.getId());
 
             if (holdingTaxLots != null) {
+
+                initializeTotalReportLine(security.getId(), accrualMethodName);
+                if (isFistTimeForWritingTotalReport) {
+                    accrualProcessingReportWriterService.writeTableHeader(totalReportLine);
+                    isFistTimeForWritingTotalReport = false;
+                }
+
                 for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
                     BigDecimal accrualAmount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), securityDividendAmount, 5);
                     holdingTaxLot.setCurrentAccrual(holdingTaxLot.getCurrentAccrual().add(accrualAmount));
                     businessObjectService.save(holdingTaxLot);
+
+                    totalReportLine.addAccrualAmount(accrualAmount);
                 }
+
+                accrualProcessingReportWriterService.writeTableRow(totalReportLine);
 
                 LOG.info("Number of tax lots that have accrual amount updated for security id = " + security.getId() + " with accrual method = Dividends is " + holdingTaxLots.size());
             }
@@ -343,5 +398,16 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      */
     public void setAccrualProcessingReportWriterService(ReportWriterService accrualProcessingReportWriterService) {
         this.accrualProcessingReportWriterService = accrualProcessingReportWriterService;
+    }
+
+    /**
+     * This method...
+     * 
+     * @param securityId
+     * @param accrualMethod
+     */
+    private void initializeTotalReportLine(String securityId, String accrualMethod) {
+        // create a new totalReportLine
+        this.totalReportLine = new AccrualsProcessingTotalReportLine(securityId, accrualMethod);
     }
 }

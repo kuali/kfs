@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -33,6 +32,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferK
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
+import org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.document.CashTransferDocument;
@@ -42,6 +43,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -64,7 +66,12 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private KualiRuleService kualiRuleService;
     private KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
     private HoldingTaxLotService holdingTaxLotService;
-    
+    private ReportWriterService recurringCashTransferTransactionsExceptionReportWriterService;
+    private ReportWriterService recurringCashTransferTransactionsTotalReportWriterService;
+
+    private RecurringCashTransferTransactionDocumentExceptionReportLine exceptionReportLine = null;
+    private RecurringCashTransferTransactionDocumentTotalReportLine totalReportLine = null;
+
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateRecurringCashTransferTransactionsService#createCashSweepTransactions()
      */
@@ -89,6 +96,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             if (sourceTransactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
                 // calculate when ECT
                 CashTransferDocument cashTransferDoc = createCashTransferDocument();
+                // initiate report
+                
                 List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = endowmentRecurringCashTransfer.getKemidTarget();
                 
                 for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets){
@@ -138,6 +147,9 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     addSourceTransactionLineForCashTransferDoc(endowmentRecurringCashTransfer, cashTransferDoc, totalSourceTransaction);
                     routeCashTransferDoc(cashTransferDoc);
                 }
+                
+                
+                // write report with  CashTransferDocument
                 
             } else {
                 // calculate when EGLT
@@ -193,7 +205,16 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     // route doc
                     routeGLTransferOfFundsDocument(gLTransferOfFundsDocument);
                 }
+                
+                // write report with  EndowmentToGLTransferOfFundsDocument
+                
+                
             }
+            
+            
+            
+            
+            
         }
         
         LOG.info("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
@@ -434,6 +455,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         } else return false;
     }
     
+    
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
@@ -485,6 +507,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     
     public void setHoldingTaxLotService(HoldingTaxLotService holdingTaxLotService) {
         this.holdingTaxLotService = holdingTaxLotService;
+    }
+
+    public void setRecurringCashTransferTransactionsExceptionReportWriterService(ReportWriterService recurringCashTransferTransactionsExceptionReportWriterService) {
+        this.recurringCashTransferTransactionsExceptionReportWriterService = recurringCashTransferTransactionsExceptionReportWriterService;
+    }
+
+    public void setRecurringCashTransferTransactionsTotalReportWriterService(ReportWriterService recurringCashTransferTransactionsTotalReportWriterService) {
+        this.recurringCashTransferTransactionsTotalReportWriterService = recurringCashTransferTransactionsTotalReportWriterService;
     }
 
     

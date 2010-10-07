@@ -938,10 +938,17 @@
 		</property>
     </bean>
     
-    <bean id="createRecurringCashTransferTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep" parent="step">
+    <bean id="createRecurringCashTransferTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep" parent="wrappedStep">
+    	<property name="wrappingBatchServices">
+			<list>
+				<ref bean="recurringCashTransferTransactionsExceptionReportWriterService" />
+				<ref bean="recurringCashTransferTransactionsTotalReportWriterService" />
+			</list>
+	    </property>
         <property name="createRecurringCashTransferTransactionsService">
             <ref bean="createRecurringCashTransferTransactionsService" />
         </property>
+        <property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
     </bean>
     <bean id="createRecurringCashTransferTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateRecurringCashTransferTransactionsServiceImpl">
         <property name="businessObjectService">
@@ -965,7 +972,66 @@
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>
+		<property name="recurringCashTransferTransactionsExceptionReportWriterService">
+			<ref bean="recurringCashTransferTransactionsExceptionReportWriterService" />
+		</property>
+		<property name="recurringCashTransferTransactionsTotalReportWriterService">
+			<ref bean="recurringCashTransferTransactionsTotalReportWriterService" />
+		</property>
     </bean>
+    
+    <bean id="recurringCashTransferTransactionsExceptionReportWriterService" parent="reportWriterService">
+            <property name="filePath" value="${reports.directory}/endow"/>
+            <property name="fileNamePrefix" value="recurringCashTransferExceptionReport_"/>
+        <property name="title" value="CREATE RECURRING CASH TRANSFER TRANSACTIONS JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                  <entry key="org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentExceptionReportLine" value="recurringCashTransferTransactionDocumentExceptionReportLineHelper"/>
+            </map>
+            </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+    
+    <bean id="recurringCashTransferTransactionsTotalReportWriterService" parent="reportWriterService">
+            <property name="filePath" value="${reports.directory}/endow"/>
+            <property name="fileNamePrefix" value="accrualTransactionsTotalReport_"/>
+        <property name="title" value="CREATE RECURRING CASH TRANSFER TRANSACTIONS JOB TOTALS PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                  <entry key="org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentTotalReportLine" value="recurringCashTransferTransactionDocumentTotalReportLineHelper"/>
+            </map>
+            </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+    
+        <bean id="recurringCashTransferTransactionDocumentExceptionReportLineHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentExceptionReportLine" />
+          <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                  <entry key="documentType" value="DOC TYPE" />
+                  <entry key="sourceKemid" value="SRC KEMID"/>
+                  <entry key="transferNumber" value="TRAN NUM"/>
+                  <entry key="targetSeqNumber" value="TGT SEQ NUM"/>
+            </map>
+          </property>
+          <property name="columnCount" value="4" />
+      </bean>
+      
+    <bean id="recurringCashTransferTransactionDocumentTotalReportLineHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.RecurringCashTransferTransactionDocumentTotalReportLine" />
+          <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                  <entry key="documentType" value="DOC TYPE" />
+                  <entry key="documentId" value="DOC ID"/>
+                  <entry key="transferNumber" value="TRAN NUM"/>
+                  <entry key="sourceKemid" value="SRC KEMID"/>
+                  <entry key="targetLinesGenerated" value="TOT LN GEN" />
+                  <entry key="totalTransferAmount" value="TOT TRAN AMT"/>
+            </map>
+          </property>
+          <property name="columnCount" value="6" />
+      </bean>
+    
 	<!-- processFeeTransactionsJob configuration -->	
  	<bean id="processFeeTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">

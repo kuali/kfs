@@ -112,22 +112,6 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         lookupForm.setHideReturnLink(true);
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-//    @Override
-//    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-//        if ( StringUtils.equals( propertyName, "orgReviewRoleMemberId") ) {
-//            Properties parameters = new Properties();
-//            parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)bo).getOrgReviewRoleMemberId() );
-//            return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
-//        } else {
-//            return super.getInquiryUrl(bo, propertyName);
-//        }
-//    }
-
-//    protected AnchorHtmlData getHyperLink(Class inquiryClass, Map<String,String> fieldList, String inquiryUrl){
-//        AnchorHtmlData a = new AnchorHtmlData(inquiryUrl, KNSConstants.EMPTY_STRING);
-//        a.setTitle(HtmlData.getTitleText(this.createTitleText(inquiryClass), inquiryClass, fieldList));
-//        return a;
-//    }
     
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
@@ -914,11 +898,4 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         return cacheAdministrator;
     }
-
-//    protected KualiInquirableImpl getOrgReviewRoleInquirable() {
-//        if ( orgReviewRoleInquirable == null ) {
-//            orgReviewRoleInquirable = SpringContext.getBean( OrgReviewRoleInquirableImpl.class );
-//        }
-//        return orgReviewRoleInquirable;
-//    }
 }

@@ -58,6 +58,16 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     protected transient static KimTypeInfoService typeInfoService;
     protected static Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
 
+    /**
+     * Need to override to avoid the primary key check which (wrongly) assumes that the object's PKs can be found in the persistence service.
+     * 
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processGlobalSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
+        return dataDictionaryValidate(document);
+    }
+    
     @Override
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);

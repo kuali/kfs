@@ -36,7 +36,7 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
     public BusinessObject getBusinessObject(Map fieldValues) {
         OrgReviewRole orr = new OrgReviewRole();
         if ( StringUtils.isNotBlank( (String)fieldValues.get("orgReviewRoleMemberId") ) ) {
-            if ( StringUtils.equals("true", (String)fieldValues.get("isDelegate") ) ) {
+            if ( StringUtils.equals("true", (String)fieldValues.get("delegate") ) ) {
                 SpringContext.getBean( OrgReviewRoleService.class ).populateOrgReviewRoleFromDelegationMember(orr, (String)fieldValues.get("orgReviewRoleMemberId") );
             } else {
                 SpringContext.getBean( OrgReviewRoleService.class ).populateOrgReviewRoleFromRoleMember(orr, (String)fieldValues.get("orgReviewRoleMemberId") );
@@ -53,10 +53,10 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
             if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getDelegationMemberId()) ) {
                 parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getDelegationMemberId() );
-                parameters.put("isDelegate", "true" );
+                parameters.put("delegate", "true" );
             } else if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getRoleMemberId()) ) {
                 parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getRoleMemberId() );
-                parameters.put("isDelegate", "false" );
+                parameters.put("delegate", "false" );
             }
             return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         } else {

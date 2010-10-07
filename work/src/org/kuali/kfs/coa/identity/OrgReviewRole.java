@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.identity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
@@ -851,7 +853,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("chartCode", this.chartOfAccountsCode);
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
 
         return m;
@@ -1203,25 +1205,41 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     public void setRoleDocumentDelegationMember(DelegateMemberCompleteInfo delegationMember){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(delegationMember.getMemberTypeCode()))
-            setDelegationMemberRole(delegationMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(delegationMember.getMemberTypeCode()))
-            setDelegationMemberGroup(delegationMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(delegationMember.getMemberTypeCode()))
-            setDelegationMemberPerson(delegationMember);
-        setActiveFromDate(delegationMember.getActiveFromDate());
-        setActiveToDate(delegationMember.getActiveToDate());
+        if ( delegationMember != null ) {
+            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(delegationMember.getMemberTypeCode()))
+                setDelegationMemberRole(delegationMember);
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(delegationMember.getMemberTypeCode()))
+                setDelegationMemberGroup(delegationMember);
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(delegationMember.getMemberTypeCode()))
+                setDelegationMemberPerson(delegationMember);
+            setActiveFromDate(delegationMember.getActiveFromDate());
+            setActiveToDate(delegationMember.getActiveToDate());
+        } else {
+            setDelegationMemberRole( new DelegateMemberCompleteInfo() );
+            setDelegationMemberGroup( new DelegateMemberCompleteInfo() );
+            setDelegationMemberPerson( new DelegateMemberCompleteInfo() );
+            setActiveFromDate(null);
+            setActiveToDate(null);
+        }
     }
     
     public void setKimDocumentRoleMember(RoleMemberCompleteInfo roleMember){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(roleMember.getMemberTypeCode()))
-            setMemberRole(roleMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(roleMember.getMemberTypeCode()))
-            setMemberGroup(roleMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(roleMember.getMemberTypeCode()))
-            setMemberPerson(roleMember);
-        setActiveFromDate(roleMember.getActiveFromDate());
-        setActiveToDate(roleMember.getActiveToDate());
+        if ( roleMember != null ) {
+            if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(roleMember.getMemberTypeCode()))
+                setMemberRole(roleMember);
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(roleMember.getMemberTypeCode()))
+                setMemberGroup(roleMember);
+            else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(roleMember.getMemberTypeCode()))
+                setMemberPerson(roleMember);
+            setActiveFromDate(roleMember.getActiveFromDate());
+            setActiveToDate(roleMember.getActiveToDate());
+        } else {
+            setMemberRole( new RoleMemberCompleteInfo() );
+            setMemberGroup( new RoleMemberCompleteInfo() );
+            setMemberPerson( new RoleMemberCompleteInfo() );
+            setActiveFromDate(null);
+            setActiveToDate(null);
+        }
     }
     
     /**
@@ -1229,7 +1247,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the copy.
      */
     public boolean isCopy() {
-        return copy || "Copy".equalsIgnoreCase(methodToCall);
+        return copy || KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the copy attribute value.
@@ -1243,7 +1261,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @return Returns the edit.
      */
     public boolean isEdit() {
-        return edit || "Edit".equalsIgnoreCase(methodToCall);
+        return edit || KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the edit attribute value.
@@ -1373,9 +1391,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-        List<String> narrowedDownRoleNames = new ArrayList<String>();
-        narrowedDownRoleNames.add(getRoleName());
-        setRoleNamesToConsider(narrowedDownRoleNames);
+        setRoleNamesToConsider( Collections.singletonList(roleName) );
     }
     /**
      * Gets the roleNamespaceCode attribute. 
@@ -1462,4 +1478,13 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
         return INQUIRY_TITLE_VALUE;
     }
 
+    @Override
+    public void refreshNonUpdateableReferences() {
+        // do nothing
+    }
+    
+    @Override
+    public void refreshReferenceObject(String referenceObjectName) {
+        // do nothing
+    }
 }

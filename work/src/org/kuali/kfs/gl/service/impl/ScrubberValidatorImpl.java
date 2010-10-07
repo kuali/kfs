@@ -452,10 +452,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (account.isForContractsAndGrants() && (account.isActive())) {
 
             String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
-            int daysOffsetInt = 3 * 30; // default to 90 days (approximately 3 months)
+            int daysOffsetInt = 0; // default to 0
 
-            if (daysOffset.trim().length() > 0) {
-
+            if (!org.apache.commons.lang.StringUtils.isBlank(daysOffset)) {
                 daysOffsetInt = new Integer(daysOffset).intValue();
             }
 

@@ -29,11 +29,11 @@ public class TransactionDocumentExceptionReportLine extends TransactionDocumentF
     }
     
     public TransactionDocumentExceptionReportLine(String documentType, String documentId) {
-        this(documentType, documentType, "", "");        
+        this(documentType, documentId, "", "");        
     }
     
     public TransactionDocumentExceptionReportLine(String documentType, String documentId, String securityId) {
-        this(documentType, documentType, securityId, "");        
+        this(documentType, documentId, securityId, "");        
     }
     
     public TransactionDocumentExceptionReportLine(String documentType, String documentId, String securityId, String kemid) {

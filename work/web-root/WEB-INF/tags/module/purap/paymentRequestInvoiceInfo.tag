@@ -27,7 +27,7 @@
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="tabindexOverrideBase" value="40" />
 
-<kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="document.paymentRequestPayDate">
+<kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INVOICE_TAB_ERRORS}">
     <div class="tab-container" align=center>
             <h3>Invoice Info</h3>
 

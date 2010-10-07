@@ -21,7 +21,8 @@
 		<form-bean name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
 		<form-bean name="BackdoorForm" 
-			type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
+			type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
+        <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
 
 		<!--  KFS Core Bean Definitions -->
 		<form-bean name="KualiBalanceInquiryReportMenuForm"
@@ -262,6 +263,9 @@
 		<exception type="java.lang.Throwable"
 			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
+		<exception type="org.kuali.rice.kns.exception.AuthorizationException"
+            handler="org.kuali.rice.kns.web.struts.pojo.AuthorizationExceptionHandler"
+            key="meaningless" /> 
 	</global-exceptions>
 
 
@@ -273,6 +277,7 @@
 		<forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp" />
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do" contextRelative="true"/>
 	</global-forwards>
 
 	<action-mappings>
@@ -287,12 +292,14 @@
 			<forward name="basic" path="/portal.jsp" />
 		</action>
 		
-		<action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall" 
-        	input="/WEB-INF/jsp/backdoor/index.jsp" 
-        	type="org.kuali.rice.kew.web.backdoor.BackdoorAction"> 
-            <forward name="basic" path="/portal.jsp" /> 
-    		<forward name="viewPortal" path="/portal.jsp" /> 
-    	</action> 
+        <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
+        input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
+            <forward name="basic" path="/portal.jsp" />
+            <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="logout" path="/logout.do" />
+        </action>
+
+        <action path="/logout" name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
 		
 		<action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
             <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp"/>

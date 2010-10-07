@@ -200,7 +200,7 @@ a:active
 	height: 12px;
 	position: absolute;
 	top: 87px;
-	right: 210px;
+	right: 260px;
 	color: #990000;
 }
 
@@ -238,18 +238,6 @@ a:active
 #header h1.kfs
 {
 	background-image:   url("../images-portal/logo-kfs.gif");
-	margin: 0px;
-	padding: 0px;
-	height:70px;
-	width: 221px;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-}
-
-#header h1.kra
-{
-	background-image:   url("../images-portal/logo-kra.gif");
 	margin: 0px;
 	padding: 0px;
 	height:70px;

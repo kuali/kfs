@@ -80,6 +80,11 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="positionFringeBenefitObjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="laborObject" class-ref="org.kuali.kfs.module.ld.businessobject.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="positionFringeBenefitObjectCode" />
+    </reference-descriptor>
 	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />

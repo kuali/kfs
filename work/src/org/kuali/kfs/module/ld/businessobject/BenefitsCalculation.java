@@ -42,6 +42,7 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     private BenefitsType positionBenefitType;
     private transient SystemOptions universityFiscal;
     private boolean active;
+    private LaborObject laborObject;
 
     /**
      * Default constructor.
@@ -197,6 +198,25 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
         this.positionBenefitType = positionBenefitType;
     }
 
+    /**
+     * Gets the laborObject
+     * 
+     * @return Returns the laborObject.
+     */
+    public LaborObject getLaborObject() {
+        return laborObject;
+    }
+    
+    /**
+     * Sets the laborObject
+     * 
+     * @param laborObject The laborObject to set.
+     */
+    @Deprecated
+    public void setLaborObject(LaborObject laborObject) {
+        this.laborObject = laborObject;
+    }
+    
     /**
      * Gets the universityFiscal attribute.
      * 

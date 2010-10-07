@@ -450,7 +450,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         List persistedSourceLines = getPersistedSourceAccountingLinesForComparison();
         List currentSourceLines = getSourceAccountingLinesForComparison();
 
-        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
+        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS, this);
         for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
             AccountingLineEvent sourceEvent = (AccountingLineEvent) i.next();
             events.add(sourceEvent);
@@ -459,7 +459,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         List persistedTargetLines = getPersistedTargetAccountingLinesForComparison();
         List currentTargetLines = getTargetAccountingLinesForComparison();
 
-        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
+        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS, this);
         for (Iterator i = targetEvents.iterator(); i.hasNext();) {
             AccountingLineEvent targetEvent = (AccountingLineEvent) i.next();
             events.add(targetEvent);

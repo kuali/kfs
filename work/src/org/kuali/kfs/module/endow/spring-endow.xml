@@ -521,10 +521,16 @@
 		</property>
 	</bean>
 		
-	<bean id="rollFrequencyDatesStep" class="org.kuali.kfs.module.endow.batch.RollFrequencyDatesStep" parent="step">
+	<bean id="rollFrequencyDatesStep" class="org.kuali.kfs.module.endow.batch.RollFrequencyDatesStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="rollFrequencyDatesReportWriterService" />				
+			</list>
+		</property>	
 		<property name="rollFrequencyDatesService">
 			<ref bean="rollFrequencyDatesService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
 	</bean>
 	
 	<bean id="rollFrequencyDatesService" class="org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImpl">
@@ -534,6 +540,9 @@
 		<property name="calculateProcessDateUsingFrequencyCodeService">
 			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
 		</property>	
+		<property name="rollFrequencyDatesReportWriterService">
+			<ref bean="rollFrequencyDatesReportWriterService" />
+		</property>
 		<property name="securityDao">
 			<ref bean="securityDao" />
 		</property>	
@@ -547,6 +556,17 @@
 			<ref bean="recurringCashTransferDao" />
 		</property>			
 	</bean>	
+	
+    <bean id="rollFrequencyDatesReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="rollFrequencyDatesReport-"/>
+        <property name="title" value="Roll Frequency Dates"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
+        	</map>
+        </property>
+	</bean>
 			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
 		<property name="kemService">

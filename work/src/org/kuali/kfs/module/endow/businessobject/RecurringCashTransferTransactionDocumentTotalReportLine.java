@@ -24,14 +24,14 @@ public class RecurringCashTransferTransactionDocumentTotalReportLine extends Tra
 
     private String transferNumber;
     private String sourceKemid;
-    private Integer targetLinesGenerated;
+    private String targetLinesGenerated;
     private KualiDecimal totalTransferAmount;
     
     public RecurringCashTransferTransactionDocumentTotalReportLine() {
-        this("", "", "", "", 0, KualiDecimal.ZERO);
+        this("", "", "", "", "", KualiDecimal.ZERO);
     }
     
-    public RecurringCashTransferTransactionDocumentTotalReportLine(String documentType, String documentId, String transferNumber, String sourcekemid, Integer targetLinesGenerated, KualiDecimal totalTransferAmount) {
+    public RecurringCashTransferTransactionDocumentTotalReportLine(String documentType, String documentId, String transferNumber, String sourcekemid, String targetLinesGenerated, KualiDecimal totalTransferAmount) {
         this.documentType = documentType;
         this.documentId = documentId;
         this.transferNumber = transferNumber;
@@ -56,11 +56,11 @@ public class RecurringCashTransferTransactionDocumentTotalReportLine extends Tra
         this.sourceKemid = sourceKemid;
     }
 
-    public Integer getTargetLinesGenerated() {
+    public String getTargetLinesGenerated() {
         return targetLinesGenerated;
     }
 
-    public void setTargetLinesGenerated(Integer targetLinesGenerated) {
+    public void setTargetLinesGenerated(String targetLinesGenerated) {
         this.targetLinesGenerated = targetLinesGenerated;
     }
 

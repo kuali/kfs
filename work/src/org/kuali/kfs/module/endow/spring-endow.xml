@@ -993,6 +993,9 @@
         <property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
 		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 		<property name="kemidCurrentCashOpenRecordsService">
 			<ref bean="kemidCurrentCashOpenRecordsService" />
 		</property>

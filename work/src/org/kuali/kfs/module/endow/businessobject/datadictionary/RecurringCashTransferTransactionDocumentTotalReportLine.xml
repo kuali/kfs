@@ -67,10 +67,13 @@
   </bean>
   
   <bean id="RecurringCashTransferTransactionDocumentTotalReportLine-targetLinesGenerated" parent="RecurringCashTransferTransactionDocumentTotalReportLine-targetLinesGenerated-parentBean"/>
-  <bean id="RecurringCashTransferTransactionDocumentTotalReportLine-targetLinesGenerated-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="RecurringCashTransferTransactionDocumentTotalReportLine-targetLinesGenerated-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="targetLinesGenerated"/>
-  	<property name="maxLength" value="11"/>
-  	<property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/> 
+  	<property name="maxLength" value="8"/>
+  	<property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="8" />
+    </property>
   </bean>
 
   <bean id="RecurringCashTransferTransactionDocumentTotalReportLine-totalTransferAmount" parent="RecurringCashTransferTransactionDocumentTotalReportLine-totalTransferAmount-parentBean"/>

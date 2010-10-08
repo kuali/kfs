@@ -15,13 +15,16 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep;
@@ -49,10 +52,15 @@ import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CreateRecurringCashTransferTransactionsServiceImpl implements CreateRecurringCashTransferTransactionsService {
@@ -66,11 +74,15 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private KualiRuleService kualiRuleService;
     private KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
     private HoldingTaxLotService holdingTaxLotService;
+    private KualiConfigurationService configService;
+
     private ReportWriterService recurringCashTransferTransactionsExceptionReportWriterService;
     private ReportWriterService recurringCashTransferTransactionsTotalReportWriterService;
 
     private RecurringCashTransferTransactionDocumentExceptionReportLine exceptionReportLine = null;
     private RecurringCashTransferTransactionDocumentTotalReportLine totalReportLine = null;
+    
+    private boolean isFistTimeForWritingExceptionReport = true;
 
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateRecurringCashTransferTransactionsService#createCashSweepTransactions()
@@ -87,6 +99,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             
             String sourceTransactionType = endowmentRecurringCashTransfer.getTransactionType();
             String sourceKemid = endowmentRecurringCashTransfer.getSourceKemid();
+            String transferNumber = endowmentRecurringCashTransfer.getTransferNumber();
             Date lastProcessDate = endowmentRecurringCashTransfer.getLastProcessDate();
             String sourceEtranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
             
@@ -95,7 +108,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             
             if (sourceTransactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
                 // calculate when ECT
-                CashTransferDocument cashTransferDoc = createCashTransferDocument();
+                CashTransferDocument cashTransferDoc = createCashTransferDocument(sourceKemid, transferNumber);
                 // initiate report
                 
                 List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = endowmentRecurringCashTransfer.getKemidTarget();
@@ -117,7 +130,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())){
@@ -126,7 +139,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())){
@@ -135,7 +148,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount);
+                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                     }
                 }
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
@@ -145,7 +158,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 } else {
                     // add source line
                     addSourceTransactionLineForCashTransferDoc(endowmentRecurringCashTransfer, cashTransferDoc, totalSourceTransaction);
-                    routeCashTransferDoc(cashTransferDoc);
+                    routeCashTransferDoc(cashTransferDoc, sourceKemid, transferNumber);
                 }
                 
                 
@@ -153,7 +166,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 
             } else {
                 // calculate when EGLT
-                EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument = createEndowmentToGLTransferOfFundsDocument();
+                EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument = createEndowmentToGLTransferOfFundsDocument(sourceKemid, transferNumber);
                 List<EndowmentRecurringCashTransferGLTarget> glTargets = endowmentRecurringCashTransfer.getGlTarget();
                 
                 for (EndowmentRecurringCashTransferGLTarget glTarget : glTargets){
@@ -173,7 +186,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         // add target line
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())){
@@ -182,7 +195,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         // add target line                            
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())){
@@ -191,7 +204,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         // add target line
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount);
+                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
                     }
                 }
                 
@@ -203,18 +216,12 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     // add source... line
                     addSourceTransactionLineForGLTransferOfFundsDocument(endowmentRecurringCashTransfer, gLTransferOfFundsDocument, totalSourceTransaction);
                     // route doc
-                    routeGLTransferOfFundsDocument(gLTransferOfFundsDocument);
+                    routeGLTransferOfFundsDocument(gLTransferOfFundsDocument, sourceKemid, transferNumber);
                 }
                 
                 // write report with  EndowmentToGLTransferOfFundsDocument
                 
-                
             }
-            
-            
-            
-            
-            
         }
         
         LOG.info("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
@@ -312,8 +319,10 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             cashTransferDoc.addSourceTransactionLine(transactionLine);
         }
         else {
-            // delete the line and report to error
-
+            // report to error
+            writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                    endowmentRecurringCashTransfer.getSourceKemid(), endowmentRecurringCashTransfer.getTransferNumber(), 
+                    EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME);
         }
     }
     
@@ -333,12 +342,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             gLTransferOfFundsDocument.addSourceTransactionLine(transactionLine);
         }
         else {
-            // delete the line and report to error
-
+            // report to error
+            writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
+                    endowmentRecurringCashTransfer.getSourceKemid(), endowmentRecurringCashTransfer.getTransferNumber(), 
+                    EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME);
         }
     }
 
-    private void addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount) {
+    private void addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount, String sourceKemid, String transferNumber) {
         boolean rulesPassed = true;
         EndowmentTargetTransactionLine transactionLine = new EndowmentTargetTransactionLine();
         transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
@@ -352,13 +363,21 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
         if (rulesPassed) {
             cashTransferDoc.addTargetTransactionLine(transactionLine);
+            writeTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                    cashTransferDoc.getDocumentNumber(), transferNumber, sourceKemid, 
+                    new Integer(cashTransferDoc.getTargetTransactionLines().size()).toString(), 
+                    totalAmount);
         }
         else {
-            // delete the line and report to error
+            // report to error
+            
+            writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                    sourceKemid, endowmentRecurringCashTransferKEMIDTarget.getTransferNumber(), 
+                    endowmentRecurringCashTransferKEMIDTarget.getTargetSequenceNumber().toString());
         }
     }
     
-    private void addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount){ 
+    private void addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount, String sourceKemid, String transferNumber){ 
         boolean rulesPassed = true;
         TargetEndowmentAccountingLine endowmentAccountingLine = new TargetEndowmentAccountingLine();
         endowmentAccountingLine.setChartOfAccountsCode(endowmentRecurringCashTransferGLTarget.getTargetChartOfAccountsCode());
@@ -371,12 +390,22 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         
         if (rulesPassed) {
             endowmentToGLTransferOfFundsDocument.addTargetAccountingLine(endowmentAccountingLine);
+            
+            writeTotalReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
+                    endowmentToGLTransferOfFundsDocument.getDocumentNumber(), transferNumber, sourceKemid, 
+                    new Integer(endowmentToGLTransferOfFundsDocument.getTargetAccountingLines().size()).toString(), 
+                    totalAmount);
+
         } else {
-            // delete the line and report to error  
+            // report to error
+            writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
+                    sourceKemid, endowmentRecurringCashTransferGLTarget.getTransferNumber(), 
+                    endowmentRecurringCashTransferGLTarget.getTargetSequenceNumber().toString());
+
         }
     }
     
-    private CashTransferDocument createCashTransferDocument() {
+    private CashTransferDocument createCashTransferDocument(String sourceKemid, String transferNumber) {
         
         CashTransferDocument cashTransferDoc = null;
         try {
@@ -391,12 +420,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         }
         catch (WorkflowException ex) {
             LOG.error(ex.getLocalizedMessage());
+            writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                    sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from createCashTransferDocument()");
         }
         
        return cashTransferDoc; 
     }
 
-    private void routeCashTransferDoc(CashTransferDocument cashTransferDoc){
+    private void routeCashTransferDoc(CashTransferDocument cashTransferDoc, String sourceKemid, String transferNumber){
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashTransferDoc));
         
         if (rulesPassed){
@@ -408,11 +439,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             }
             catch (WorkflowException ex) {
                 LOG.error(ex.getLocalizedMessage());
+                writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                        sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from routeCashTransferDoc()");
+
             }
         }
     }
     
-    private void routeGLTransferOfFundsDocument(EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument){
+    private void routeGLTransferOfFundsDocument(EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument, String sourceKemid, String transferNumber){
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(gLTransferOfFundsDocument));
         
         if (rulesPassed){
@@ -424,11 +458,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             }
             catch (WorkflowException ex) {
                 LOG.error(ex.getLocalizedMessage());
+
+                writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
+                        sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from routeGLTransferOfFundsDocument()");
             }
         }
     }
     
-    private EndowmentToGLTransferOfFundsDocument createEndowmentToGLTransferOfFundsDocument() {
+    private EndowmentToGLTransferOfFundsDocument createEndowmentToGLTransferOfFundsDocument(String sourceKemid, String transferNumber) {
         EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument = null;
         try {
             endowmentToGLTransferOfFundsDocument = (EndowmentToGLTransferOfFundsDocument)documentService.getNewDocument(EndowmentToGLTransferOfFundsDocument.class);
@@ -442,6 +479,9 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         }
         catch (WorkflowException ex) {
             LOG.error(ex.getLocalizedMessage());
+
+            writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
+                    sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from createEndowmentToGLTransferOfFundsDocument()");
         }
         
        return endowmentToGLTransferOfFundsDocument; 
@@ -455,6 +495,86 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         } else return false;
     }
     
+    /**
+     * Extracts errors for error report writing.
+     * 
+     * @return a list of error messages
+     */
+    protected List<String> extractGlobalVariableErrors() {
+        List<String> result = new ArrayList<String>();
+
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+
+        Set<String> errorKeys = errorMap.keySet();
+        List<ErrorMessage> errorMessages = null;
+        Object[] messageParams;
+        String errorKeyString;
+        String errorString;
+
+        for (String errorProperty : errorKeys) {
+            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            for (ErrorMessage errorMessage : errorMessages) {
+                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                messageParams = errorMessage.getMessageParameters();
+
+                // MessageFormat.format only seems to replace one
+                // per pass, so I just keep beating on it until all are gone.
+                if (StringUtils.isBlank(errorKeyString)) {
+                    errorString = errorMessage.getErrorKey();
+                }
+                else {
+                    errorString = errorKeyString;
+                }
+                System.out.println(errorString);
+                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                    errorString = MessageFormat.format(errorString, messageParams);
+                }
+                result.add(errorString);
+            }
+        }
+
+        // clear the stuff out of globalvars, as we need to reformat it and put it back
+        GlobalVariables.getMessageMap().clear();
+        return result;
+    }
+    
+    private void writeExceptionReportLine(String documentType, String sourceKemid, String transferNumber, String targetSeqNumber){
+        writeExceptionReportLine(documentType, sourceKemid, transferNumber, targetSeqNumber, null);
+    }
+    
+    private void writeExceptionReportLine(String documentType, String sourceKemid, String transferNumber, String targetSeqNumber, String reason){
+        //write an exception line when a transaction line fails to pass the validation.
+        exceptionReportLine = 
+            new RecurringCashTransferTransactionDocumentExceptionReportLine(documentType, sourceKemid, transferNumber, targetSeqNumber);
+        
+        if (isFistTimeForWritingExceptionReport){
+            recurringCashTransferTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+            isFistTimeForWritingExceptionReport = false;
+        }
+        recurringCashTransferTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
+        
+        if (ObjectUtils.isNotNull(reason)){
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                recurringCashTransferTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s",errorMessage);
+                recurringCashTransferTransactionsExceptionReportWriterService.writeNewLines(1);
+            }
+        } else {
+            recurringCashTransferTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", reason);
+            recurringCashTransferTransactionsExceptionReportWriterService.writeNewLines(1);
+        }
+    }
+    
+    private void writeTotalReportLine(String documentType, String documentId, String transferNumber, String sourcekemid, String targetLinesGenerated, KualiDecimal totalTransferAmount){
+        totalReportLine = new RecurringCashTransferTransactionDocumentTotalReportLine(documentType, documentId, transferNumber, sourcekemid, targetLinesGenerated, totalTransferAmount);
+        
+        if (isFistTimeForWritingExceptionReport){
+            recurringCashTransferTransactionsTotalReportWriterService.writeTableHeader(totalReportLine);
+            isFistTimeForWritingExceptionReport = false;
+        }
+
+        recurringCashTransferTransactionsTotalReportWriterService.writeTableRow(totalReportLine);
+    }
     
     /**
      * Sets the businessObjectService attribute value.
@@ -516,6 +636,13 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     public void setRecurringCashTransferTransactionsTotalReportWriterService(ReportWriterService recurringCashTransferTransactionsTotalReportWriterService) {
         this.recurringCashTransferTransactionsTotalReportWriterService = recurringCashTransferTransactionsTotalReportWriterService;
     }
-
     
+    /**
+     * Sets the configService.
+     * 
+     * @param configService
+     */
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
+    }
 }

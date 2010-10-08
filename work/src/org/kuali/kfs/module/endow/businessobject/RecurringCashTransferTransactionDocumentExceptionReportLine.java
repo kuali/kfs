@@ -24,14 +24,14 @@ public class RecurringCashTransferTransactionDocumentExceptionReportLine extends
 
     private String sourceKemid;
     private String transferNumber;
-    private Integer targetSeqNumber;
+    private String targetSeqNumber;
     
     public RecurringCashTransferTransactionDocumentExceptionReportLine() {
-        this("", "", "", 0);
+        this("", "", "", "");
     }
     
     
-    public RecurringCashTransferTransactionDocumentExceptionReportLine(String documentType, String sourceKemid, String transferNumber, Integer targetSeqNumber) {
+    public RecurringCashTransferTransactionDocumentExceptionReportLine(String documentType, String sourceKemid, String transferNumber, String targetSeqNumber) {
         this.documentType = documentType;
         this.sourceKemid = sourceKemid;
         this.transferNumber = transferNumber;
@@ -60,12 +60,12 @@ public class RecurringCashTransferTransactionDocumentExceptionReportLine extends
     }
 
 
-    public Integer getTargetSeqNumber() {
+    public String getTargetSeqNumber() {
         return targetSeqNumber;
     }
 
 
-    public void setTargetSeqNumber(Integer targetSeqNumber) {
+    public void setTargetSeqNumber(String targetSeqNumber) {
         this.targetSeqNumber = targetSeqNumber;
     }
 }

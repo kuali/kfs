@@ -175,7 +175,6 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
             if (isFirstReport) {
                 rollFrequencyDatesReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Number of Records Updated");
                 rollFrequencyDatesReportWriterService.writeNewLines(1);
-                isFirstReport = false;
             }
             rollFrequencyDatesReportWriterService.writeFormattedMessageLine(tableName + ": %s", counter);
             

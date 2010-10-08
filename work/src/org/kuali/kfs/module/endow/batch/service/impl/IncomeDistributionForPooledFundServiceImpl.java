@@ -84,7 +84,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      */
     public boolean createIncomeDistributionForPooledFund() {
         
-        LOG.info("Begin Income Distribution for Pooled Fund Transactions ...");
+        LOG.info("Begin the batch Income Distribution for Pooled Fund Transactions ...");
         
         boolean result = true;
 
@@ -127,6 +127,8 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         List<PooledFundValue> pooledFundValueList = pooledFundValueService.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
         pooledFundValueService.setIncomeDistributionCompleted(pooledFundValueList, true);
 
+        LOG.info("The batch Income Distribution for Pooled Fund Transactions was finished.");
+        
         //return result;
         return true; // for now
     }

@@ -71,21 +71,23 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     public boolean generatePooledFundControlTransactions() {
         
-        LOG.info("Begin Generate Pooled Fund Control Transactions ..."); 
+        LOG.info("Begin the batch Generate Pooled Fund Control Transactions ..."); 
         
         boolean result = true;
        
         result &= createCashDocument1();   // job 1
-//        if (result) {    // job 2
-//            result &= createCashDocument2();
-//        }
-//        if (result) {    // job 2
-//            result &= createCashDocument3();
-//        }
-//        if (result) {    // job 2
-//            result &= createCashDocument4();
-//        }
+        if (result) {    // job 2
+            result &= createCashDocument2();
+        }
+        if (result) {    // job 2
+            result &= createCashDocument3();
+        }
+        if (result) {    // job 2
+            result &= createCashDocument4();
+        }
 
+        LOG.info("The batch Generate Pooled Fund Control Transactions was finished"); 
+        
         //return result;        
         return true;   // for now
     }
@@ -327,10 +329,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         // add transaction line - need only one for this batch
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
-        //endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        endowmentTargetTransactionLine.setKemid("037A014184");  
-        //endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
-        endowmentTargetTransactionLine.setEtranCode("75720"); 
+        endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
+        //endowmentTargetTransactionLine.setKemid("037A014184");  
+        endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+        //endowmentTargetTransactionLine.setEtranCode("75720"); 
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         endowmentTargetTransactionLine.setTransactionLineTypeCode(transactionLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
@@ -424,10 +426,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     totalReportLine.addIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
                 }
                 
-                pooledFundControlTransactionsExceptionReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Totals Processed");
-                pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
-                pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(totalReportLine);                
-                pooledFundControlTransactionsExceptionReportWriterService.writeTableRow(totalReportLine);
+                pooledFundControlTransactionsTotalReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Totals Processed");
+                pooledFundControlTransactionsTotalReportWriterService.writeNewLines(1);
+                pooledFundControlTransactionsTotalReportWriterService.writeTableHeader(totalReportLine);                
+                pooledFundControlTransactionsTotalReportWriterService.writeTableRow(totalReportLine);
                 
             } else {
                 if (exceptionReportLine == null) {
@@ -440,13 +442,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 
                 pooledFundControlTransactionsExceptionReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Exception Report");
                 pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
-                pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(totalReportLine);      
+                pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);      
                 pooledFundControlTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 pooledFundControlTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason: %s", "Failed to create ECI document");
                 pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Failed to geneate reports: " + e.getMessage());
         }
     }
         
@@ -539,6 +541,5 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     public void setPooledFundControlTransactionsTotalReportWriterService(ReportWriterService pooledFundControlTransactionsTotalReportWriterService) {
         this.pooledFundControlTransactionsTotalReportWriterService = pooledFundControlTransactionsTotalReportWriterService;
     }
-
     
 }

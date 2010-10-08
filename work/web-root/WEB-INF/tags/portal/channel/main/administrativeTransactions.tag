@@ -56,7 +56,7 @@
     </ul>    
 	<strong>System</strong>
 	<ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Electronic Fund Transfer" url="electronicFundTransfer.do?methodToCall=start" /></li>
+		<li><portal:portalLink displayTitle="true" title="Electronic Payment Claim" url="electronicFundTransfer.do?methodToCall=start" /></li>
 	</ul>	   
     <strong>Endowment</strong><br />
     <ul class="chan">

@@ -42,10 +42,10 @@ import org.xml.sax.SAXException;
  * Base class for BatchInputFileType implementations that validate using an XSD schema and parse using a digester file
  */
 public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(XmlBatchInputFileTypeBase.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(XmlBatchInputFileTypeBase.class);
 
-    private String digestorRulesFileName;
-    private String schemaLocation;
+    protected String digestorRulesFileName;
+    protected String schemaLocation;
 
     /**
      * Constructs a BatchInputFileTypeBase.java.
@@ -185,7 +185,7 @@ public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
     /**
      * @return fully-initialized Digester used to process entry XML files
      */
-    private Digester buildDigester(String schemaLocation, String digestorRulesFileName) {
+    protected Digester buildDigester(String schemaLocation, String digestorRulesFileName) {
         Digester digester = new Digester();
         digester.setNamespaceAware(false);
         digester.setValidating(true);
@@ -202,7 +202,7 @@ public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
     /**
      * @return Rules loaded from the appropriate XML file
      */
-    private final Rules loadRules(String digestorRulesFileName) {
+    protected Rules loadRules(String digestorRulesFileName) {
         // locate Digester rules
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL rulesUrl = classLoader.getResource(digestorRulesFileName);

@@ -333,8 +333,8 @@
   <bean id="LineItemReceivingDocument-shipmentReceivedDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="shipmentReceivedDate"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Vendor Date"/>
-    <property name="shortLabel" value="Vendor Date"/>
+    <property name="label" value="Date Received"/>
+    <property name="shortLabel" value="Date Received"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <ref bean="DateValidation" />

@@ -84,7 +84,7 @@
   <bean id="BudgetConstructionPositionSelect-iuPositionType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="iuPositionType"/>
     <property name="forceUppercase" value="false"/>
-    <property name="label" value="Iu Position Type"/>
+    <property name="label" value="Position Type"/>
     <property name="shortLabel" value="Type"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">

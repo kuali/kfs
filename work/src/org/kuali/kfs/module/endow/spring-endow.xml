@@ -566,7 +566,15 @@
 		</property>	
 	</bean>
 	
- 		<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="wrappedStep">
+	<bean id="accrualProcessingJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="accrualProcessingStep" />
+			</list>
+		</property>
+	</bean>
+	
+ 	<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accrualProcessingReportWriterService" />

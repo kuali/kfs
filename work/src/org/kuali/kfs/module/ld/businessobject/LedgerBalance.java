@@ -59,6 +59,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
         super();
         this.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
         this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
+        super.setBeginningBalanceLineAmount(KualiDecimal.ZERO);
         this.setContractsGrantsBeginningBalanceAmount(KualiDecimal.ZERO);
     }
 
@@ -152,6 +153,8 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      */
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
+        super.setBeginningBalanceLineAmount(financialBeginningBalanceLineAmount);
+        
     }
 
     /**
@@ -337,6 +340,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
         }
         else if (KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(period)) {
             this.setFinancialBeginningBalanceLineAmount(this.getFinancialBeginningBalanceLineAmount().add(amount));
+            super.getBeginningBalanceLineAmount().add(amount);
         }
         else if (KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(period)) {
             this.setContractsGrantsBeginningBalanceAmount(this.getContractsGrantsBeginningBalanceAmount().add(amount));

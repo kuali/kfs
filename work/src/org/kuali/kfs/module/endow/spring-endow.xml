@@ -1685,8 +1685,13 @@
         </property>
     </bean>
     
-    <bean id="currentTaxLotBalanceDao" parent="platformAwareDao"
-		class="org.kuali.kfs.module.endow.dataaccess.impl.CurrentTaxLotBalanceDaoOjb">
+    <bean id="currentTaxLotBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CurrentTaxLotBalanceDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+		<property name="securityDao">
+			<ref bean="securityDao" />
+		</property>	
 	</bean>
 	
 	<bean id="monthEndDateService" class="org.kuali.kfs.module.endow.document.service.impl.MonthEndDateServiceImpl">
@@ -1923,7 +1928,19 @@
     	<property name="parameterService">
     	 	<ref bean="parameterService" />
 		</property>
+		<property name="kemidCorpusValueService">
+			<ref bean="kemidCorpusValueService"/>
+		</property>
 	</bean>
+	<bean id="kemidCorpusValueService" class="org.kuali.kfs.module.endow.batch.service.impl.KemidCorpusValuesServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>
+	</bean>
+
 	<bean id="transactionArchiveService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionArchiveServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -1941,6 +1958,9 @@
 		<property name="monthEndDateService">
 			<ref bean="monthEndDateService" />
 		</property>	
+		<property name="securityDao">
+			<ref bean="securityDao" />
+		</property>		
 	</bean>
 	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoOjb">
 		<property name="businessObjectService">

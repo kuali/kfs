@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is the service implementation for the KemidCorpusValuesService. This is the default, Kuali provided implementation.
@@ -40,13 +41,16 @@ public class KemidCorpusValuesServiceImpl implements KemidCorpusValueService {
     protected KEMService kemService;
     
     /**
-     * @see KemidCorpusValueService#KemidExists(String)
+     * @see KemidCorpusValueService#canFeeBeChargedToKemid(String)
      */
     public boolean canFeeBeChargedToKemid(String kemid, KualiDecimal corpusPctTolerance) {
         Map primaryKey = new HashMap();
         primaryKey.put(EndowPropertyConstants.KEMID, kemid);
         
         EndowmentCorpusValues endowmentCorpusValue = (EndowmentCorpusValues) businessObjectService.findByPrimaryKey(EndowmentCorpusValues.class, primaryKey);
+        if (ObjectUtils.isNull(endowmentCorpusValue)) {
+            return false;
+        }
         
         if (endowmentCorpusValue.getCurrentPrincipalMarketValue().divide(endowmentCorpusValue.getEndowmentCorpus(), true).isLessThan(corpusPctTolerance)) {
             // does not need the fee to be charged...

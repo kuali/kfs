@@ -710,6 +710,9 @@ public class FeeMethod extends KualiCodeBase {
      * gets the minimumFeeThreshold. returns minimumFeeThreshold.
      */    
     public KualiDecimal getMinimumFeeThreshold() {
+        if (minimumFeeThreshold == null) {
+            return new KualiDecimal("0");
+        }
         return minimumFeeThreshold;
     }
 

@@ -35,7 +35,7 @@
 
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-feeMethodCode-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="feeMethodCode"/>
-  	<property name="maxLength" value="20"/>
+  	<property name="maxLength" value="30"/>
   </bean>  
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber" parent="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber-parentBean"/>
   

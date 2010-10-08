@@ -34,7 +34,9 @@ import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
+import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -45,7 +47,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements CurrentTaxLotBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceDaoOjb.class);
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
+    protected SecurityDao securityDao;
     
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao#getAllCurrentTaxLotBalanceEntriesForSecurity(java.lang.String)
@@ -63,7 +66,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
     protected Collection<CurrentTaxLotBalance> getCurrentTaxLotBalances(FeeMethod feeMethod) {
         Collection<CurrentTaxLotBalance> currentTaxLotBalance = new ArrayList(); 
         
-        Collection incomePrincipalValues = null;
+        Collection incomePrincipalValues = new ArrayList();
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
         
@@ -74,25 +77,39 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
         }
         else {
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
+                criteria.addEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
             }
             
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
+                criteria.addEqualTo(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
             }
         }
 
+        Collection securityClassCodes =  new ArrayList();
+        Collection securityIds = new ArrayList();
+        
         if (feeMethod.getFeeByClassCode() && feeMethod.getFeeBySecurityCode()) {
-            criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
-            criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+            securityClassCodes = getSecurityClassCodes(feeMethod.getCode());
+            securityIds = getSecurityIds(feeMethod.getCode());
+            
+            securityIds.addAll(securityClassCodes);
+            if (securityIds.size() > 0) {
+               criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, securityIds);
+            }
         }
         else {
             if (feeMethod.getFeeByTransactionType()) {
-                criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
+                securityClassCodes = getSecurityClassCodes(feeMethod.getCode());
+                if (securityClassCodes.size() > 0) {
+                   criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, securityClassCodes);
+                }
             }
             
             if (feeMethod.getFeeByETranCode()) {
-                criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+                securityIds = getSecurityIds(feeMethod.getCode());                
+                if (securityIds.size() > 0) {
+                    criteria.addIn(EndowPropertyConstants.CURRENT_TAX_LOT_BALANCE_SECURITY_ID, securityIds);
+                }
             }
         }
         
@@ -109,7 +126,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
      * @return securityCodes
      */
     protected Collection getSecurityClassCodes(String feeMethodCode) {
-        Collection securityClassCodes = null;
+        Collection securityClassCodes = new ArrayList();
         Collection<FeeClassCode> feeClassCodes = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -120,14 +137,17 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_CLASS_CODE_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_CLASS_CODE_INCLUDE, EndowConstants.YES);
             
             QueryByCriteria query = QueryFactory.newQuery(FeeClassCode.class, criteria);
             
             feeClassCodes = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeClassCode feeClassCode : feeClassCodes) {
-                securityClassCodes.add(feeClassCode.getFeeClassCode());
+                Collection <Security> securities = securityDao.getSecuritiesBySecurityClassCode(feeClassCode.getFeeClassCode());
+                for (Security security : securities) {
+                    securityClassCodes.add(security.getId());
+                }
             }
         }
         
@@ -140,7 +160,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
      * @return securityIds
      */
     protected Collection getSecurityIds(String feeMethodCode) {
-        Collection securityIds = null;
+        Collection securityIds = new ArrayList();
         Collection<FeeSecurity> feeSecuritys = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -151,10 +171,10 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_SECURITY_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_SECURITY_INCLUDE, EndowConstants.YES);
             
-            QueryByCriteria query = QueryFactory.newQuery(FeeClassCode.class, criteria);
+            QueryByCriteria query = QueryFactory.newQuery(FeeSecurity.class, criteria);
             
             feeSecuritys = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeSecurity feeSecurity : feeSecuritys) {
@@ -198,7 +218,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -209,5 +229,21 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Gets the securityDao attribute. 
+     * @return Returns the securityDao.
+     */
+    protected SecurityDao getSecurityDao() {
+        return securityDao;
+    }
+
+    /**
+     * Sets the securityDao attribute value.
+     * @param securityDao The securityDao to set.
+     */
+    public void setSecurityDao(SecurityDao securityDao) {
+        this.securityDao = securityDao;
     }
 }

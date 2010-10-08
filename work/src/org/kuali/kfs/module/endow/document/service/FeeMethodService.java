@@ -33,7 +33,7 @@ public interface FeeMethodService {
      * next processing date (FEE_NXT_PROC_DT) is equal to the current date.
      * @return feeMethods
      */
-    public Collection<FeeMethod> getFeeMethodsByNextProcessingDate(Date nextProcessingDate);
+    public Collection<FeeMethod> getFeeMethodsByNextProcessingDate(java.util.Date nextProcessingDate);
 
     /**
      * Gets a feeMethod by primary key.

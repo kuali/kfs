@@ -102,30 +102,30 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     private FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
     
     //the properties to hold count, total amounts and fee etc.
-    long totalNumberOfRecords = 0;
-    BigDecimal totalAmountCalculated = new BigDecimal("0");
-    BigDecimal feeToBeCharged = new BigDecimal("0");    
-    BigDecimal transactionIncomeAmount = new BigDecimal("0");
-    BigDecimal transacationPrincipalAmount = new BigDecimal("0");
-    BigDecimal totalHoldingUnits = new BigDecimal("0");
+    private long totalNumberOfRecords = 0;
+    private BigDecimal totalAmountCalculated = new BigDecimal("0");
+    private BigDecimal feeToBeCharged = new BigDecimal("0");    
+    private BigDecimal transactionIncomeAmount = new BigDecimal("0");
+    private BigDecimal transacationPrincipalAmount = new BigDecimal("0");
+    private BigDecimal totalHoldingUnits = new BigDecimal("0");
     
     //properties to help in writing subtotals and grand totals lines.
     
     //lines generated
-    int totalProcessedLinesGeneratedSubTotal = 0;
-    int totalProcessedLinesGeneratedGrandTotal = 0;
+    private int totalProcessedLinesGeneratedSubTotal = 0;
+    private int totalProcessedLinesGeneratedGrandTotal = 0;
     
     //income, principal subtotals at the eDoc level
-    BigDecimal totalProcessedIncomeAmountSubTotalEDoc = new BigDecimal("0"); 
-    BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountSubTotalEDoc = new BigDecimal("0"); 
+    private BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = new BigDecimal("0"); 
     
     //income, principal subtotals at the fee method level
-    BigDecimal totalProcessedIncomeAmountSubTotal = new BigDecimal("0"); 
-    BigDecimal totalProcessedPrincipalAmountSubTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountSubTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedPrincipalAmountSubTotal = new BigDecimal("0"); 
     
     //income, principal subtotals at the grand total level
-    BigDecimal totalProcessedIncomeAmountGrandTotal = new BigDecimal("0"); 
-    BigDecimal totalProcessedPrincipalAmountGrandTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountGrandTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedPrincipalAmountGrandTotal = new BigDecimal("0"); 
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -220,7 +220,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected boolean processUpdateFeeTransactions() {
         boolean success = true;
         
-        Date currentDate = kemService.getCurrentDate();
+        java.util.Date currentDate = kemService.getCurrentDate();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
         for (FeeMethod feeMethod : feeMethods) {
@@ -239,8 +239,13 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             success &= generateCashDecreaseDocument(feeMethod, kemService.getMaxNumberOfTransactionLinesPerDocument());
         }
         
-        // write out the grand totals line for Totals processed report...
-        writeTotalsProcessedGrandTotalsLine();
+        if (feeMethods.size() > 0) {
+            // write out the grand totals line for Totals processed report...
+            writeTotalsProcessedGrandTotalsLine();
+        }
+        else {
+            //write message that there are no fee method records to process.
+        }
         
         return success;
     }
@@ -256,11 +261,16 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         Date currentDate = kemService.getCurrentDate();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
-        Collection<KemidFee> kemidFeeRecords = new ArrayList();
 
+        if (feeMethods.size() <= 0) {
+            //write message that there are no fee method records to process.
+        }
+        
         for (FeeMethod feeMethod : feeMethods) {
             KualiDecimal accruedFeeSubTotal = new KualiDecimal("0");
             KualiDecimal waivedFeeSubTotal = new KualiDecimal("0");
+            
+            Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
             
             for (KemidFee kemidFee : kemidFeeRecords) {
                 feeProcessingWaivedAndAccruedDetailTotalLine.setTotal(feeMethod.getCode());
@@ -436,14 +446,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @return true calculated fee amount is greater than 0
      */
     protected boolean checkForMinimumThresholdAmount(FeeMethod feeMethod, KemidFee kemidFee) {
-        boolean shouldCharge = true;
+        boolean shouldNotCharge = true;
         
         if (feeToBeCharged.compareTo(feeMethod.getMinimumFeeThreshold().bigDecimalValue()) < 0) {
             writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: Fee is not charged as the fee is less than the minimum threshold");
             return false;
         }
         
-        return shouldCharge;
+        return shouldNotCharge;
     }
     
     /**

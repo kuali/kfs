@@ -26,13 +26,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
+import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,8 +46,9 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements HoldingHistoryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryDaoOjb.class);
     
-    private BusinessObjectService businessObjectService;
-    private MonthEndDateService monthEndDateService;
+    protected BusinessObjectService businessObjectService;
+    protected MonthEndDateService monthEndDateService;
+    protected SecurityDao securityDao;
     
     /**
      * Prepares the criteria and selects the records from END_HLDG_HIST_T table
@@ -52,7 +56,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
     protected Collection<HoldingHistory> getHoldingHistoryForBlance(FeeMethod feeMethod) {
         Collection<HoldingHistory> holdingHistory = new ArrayList(); 
         
-        Collection incomePrincipalValues = null;
+        Collection incomePrincipalValues = new ArrayList();
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
         
@@ -63,25 +67,39 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         }
         else {
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
+                criteria.addEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
             }
             
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
+                criteria.addEqualTo(EndowPropertyConstants.HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
             }
         }
 
+        Collection securityClassCodes =  new ArrayList();
+        Collection securityIds = new ArrayList();
+        
         if (feeMethod.getFeeByClassCode() && feeMethod.getFeeBySecurityCode()) {
-            criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
-            criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+            securityClassCodes = getSecurityClassCodes(feeMethod.getCode());
+            securityIds = getSecurityIds(feeMethod.getCode());
+            
+            securityIds.addAll(securityClassCodes);
+            if (securityIds.size() > 0) {
+               criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityIds);
+            }
         }
         else {
             if (feeMethod.getFeeByTransactionType()) {
-                criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_CLASS_CODE, getSecurityClassCodes(feeMethod.getCode()));
+                securityClassCodes = getSecurityClassCodes(feeMethod.getCode());
+                if (securityClassCodes.size() > 0) {
+                   criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityClassCodes);
+                }
             }
             
             if (feeMethod.getFeeByETranCode()) {
-                criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, getSecurityIds(feeMethod.getCode()));
+                securityIds = getSecurityIds(feeMethod.getCode());                
+                if (securityIds.size() > 0) {
+                    criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityIds);
+                }
             }
         }
         
@@ -98,7 +116,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * @return securityCodes
      */
     protected Collection getSecurityClassCodes(String feeMethodCode) {
-        Collection securityClassCodes = null;
+        Collection securityClassCodes = new ArrayList();
         Collection<FeeClassCode> feeClassCodes = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -109,14 +127,17 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_CLASS_CODE_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_CLASS_CODE_INCLUDE, EndowConstants.YES);
             
             QueryByCriteria query = QueryFactory.newQuery(FeeClassCode.class, criteria);
             
             feeClassCodes = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeClassCode feeClassCode : feeClassCodes) {
-                securityClassCodes.add(feeClassCode.getFeeClassCode());
+                Collection <Security> securities = securityDao.getSecuritiesBySecurityClassCode(feeClassCode.getFeeClassCode());
+                for (Security security : securities) {
+                    securityClassCodes.add(security.getId());
+                }
             }
         }
         
@@ -129,7 +150,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * @return securityIds
      */
     protected Collection getSecurityIds(String feeMethodCode) {
-        Collection securityIds = null;
+        Collection securityIds = new ArrayList();
         Collection<FeeSecurity> feeSecuritys = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -140,10 +161,10 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_SECURITY_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_SECURITY_INCLUDE, EndowConstants.YES);
             
-            QueryByCriteria query = QueryFactory.newQuery(FeeClassCode.class, criteria);
+            QueryByCriteria query = QueryFactory.newQuery(FeeSecurity.class, criteria);
             
             feeSecuritys = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeSecurity feeSecurity : feeSecuritys) {
@@ -166,6 +187,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         Collection <HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod);
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
             Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
+
             if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
                 totalHoldingUnits.add(holdingHistory.getUnits());    
             }
@@ -196,7 +218,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
             if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
                 totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
+            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (monthEndDate.compareTo(mostRecentDate) > 0)) {
                 totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
         }
@@ -215,7 +237,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -232,7 +254,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * Gets the monthEndDateService attribute. 
      * @return Returns the monthEndDateService.
      */
-    public MonthEndDateService getMonthEndDateService() {
+    protected MonthEndDateService getMonthEndDateService() {
         return monthEndDateService;
     }
 
@@ -243,5 +265,22 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
     public void setMonthEndDateService(MonthEndDateService monthEndDateService) {
         this.monthEndDateService = monthEndDateService;
     }
+    
+    /**
+     * Gets the securityDao attribute. 
+     * @return Returns the securityDao.
+     */
+    protected SecurityDao getSecurityDao() {
+        return securityDao;
+    }
+
+    /**
+     * Sets the securityDao attribute value.
+     * @param securityDao The securityDao to set.
+     */
+    public void setSecurityDao(SecurityDao securityDao) {
+        this.securityDao = securityDao;
+    }
+
     
 }

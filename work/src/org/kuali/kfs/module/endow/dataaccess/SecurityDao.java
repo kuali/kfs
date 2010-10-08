@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -43,4 +44,11 @@ public interface SecurityDao {
      */
     public List<Security> getSecuritiesByClassCodeWithUnitsGreaterThanZero(List<String> classCodes);
 
+    /**
+     * Gets a collection of securities for a given securityclasscode (SEC_CLS_CD)
+     * @param securityClassCode
+     * @return Collection<Security>
+     */
+    public Collection<Security> getSecuritiesBySecurityClassCode(String securityClassCode);
+    
 }

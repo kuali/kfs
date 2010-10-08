@@ -61,13 +61,13 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         TransactionArchive transactionArchive = null;
         
         Criteria criteria = new Criteria();
-        criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, documentNumber);
-        criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, lineNumber);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, documentNumber);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, lineNumber);
 
         if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE)) {
             lineTypeCode = lineTypeCode.toUpperCase();
         }
-        criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, lineTypeCode);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, lineTypeCode);
         
         QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);
         transactionArchive = (TransactionArchive) getPersistenceBrokerTemplate().getObjectByQuery(query);
@@ -92,11 +92,11 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         }
         else {
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
+                criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
                 
             }
             if (feeMethod.getFeeBaseCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL)) {
-                criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
+                criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
             }
         }
 
@@ -213,8 +213,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_TRANSACTION_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_TRANSACTION_INCLUDE, EndowConstants.YES);
             QueryByCriteria query = QueryFactory.newQuery(FeeTransaction.class, criteria);
             
             feeTransactions = getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -259,8 +259,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             }
             
             Criteria criteria = new Criteria();
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
-            criteria.addColumnEqualTo(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_INCLUDE, EndowConstants.YES);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_CODE, feeMethodCode);
+            criteria.addEqualTo(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_INCLUDE, EndowConstants.YES);
             QueryByCriteria query = QueryFactory.newQuery(FeeEndowmentTransactionCode.class, criteria);
             
             feeEndowmentTransactions = getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -296,7 +296,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         long totalTransactionArchives = 0;
 
         Criteria criteria = new Criteria();
-        criteria.addColumnEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, incomeOrPrincipalIndicator);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR, incomeOrPrincipalIndicator);
         QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);
             
         totalTransactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(query).size();

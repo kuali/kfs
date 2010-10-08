@@ -59,6 +59,16 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getSecuritiesBySecurityClassCode(String)
+     */
+    public Collection<Security> getSecuritiesBySecurityClassCode(String securityClassCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.SECURITY_CLASS_CODE, securityClassCode);
+        return (Collection<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
+        
+    }
+    
+    /**
      * Sets the kemService.
      * 
      * @param kemService

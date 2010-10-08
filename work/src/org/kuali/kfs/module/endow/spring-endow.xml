@@ -561,11 +561,6 @@
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="rollFrequencyDatesReport-"/>
         <property name="title" value="Roll Frequency Dates"/>
-        <property name="classToBusinessObjectReportHelperBeanNames">
-        	<map>
-	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
-        	</map>
-        </property>
 	</bean>
 			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">

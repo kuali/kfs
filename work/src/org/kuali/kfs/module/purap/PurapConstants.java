@@ -185,7 +185,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String RELATED_DOCS_TAB_ERRORS = "";
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
     public static final String PAYMENT_INFO_ERRORS = "document.paymentInfo";
-    public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate";
+    public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate,document.finalPaymentAmount,document.initialPaymentAmount,document.recurringPaymentAmount";
     public static final String CAPITAL_ASSET_TAB_ERRORS = "document.purchasingCapitalAsset*,newPurchasingItemCapitalAssetLine*";
     public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
     public static final String ASSIGN_SENSITIVE_DATA_TAB_ERRORS = "document.assignSensitiveData";

@@ -199,36 +199,38 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 // KFSMI-5760 - apparently, this node can be executed more than once, which results in multiple
                 // files being created.  We need to check for the existence of a file with the proper
                 // name pattern and abort the rest of this if found
-                if ( !checkForExistingOutputDocument( doc.getDocumentNumber() ) ) {
-                    // save the output file to originEntry directory when correctionFileDelete is false
-                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                    Date today = dateTimeService.getCurrentDate();
-
-                    // generate output file and set file name
-                    String outputFileName = "";
-                    if (!correctionFileDelete) {
-                        outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
-                    }
-                    doc.setCorrectionOutputFileName(outputFileName);
-                    Step step = BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
-                    CorrectionProcessScrubberStep correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                    correctionStep.setDocumentId(docId);
+                synchronized ( CorrectionDocumentService.class ) {
+                    if ( !checkForExistingOutputDocument( doc.getDocumentNumber() ) ) {
+                        // save the output file to originEntry directory when correctionFileDelete is false
+                        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                        Date today = dateTimeService.getCurrentDate();
     
-                    try {
-                        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                        // generate output file and set file name
+                        String outputFileName = "";
+                        if (!correctionFileDelete) {
+                            outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                        }
+                        doc.setCorrectionOutputFileName(outputFileName);
+                        Step step = BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
+                        CorrectionProcessScrubberStep correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                        correctionStep.setDocumentId(docId);
+        
+                        try {
+                            step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                        }
+                        catch (Exception e) {
+                            LOG.error("GLCP scrubber encountered error:", e);
+                            throw new RuntimeException("GLCP scrubber encountered error:", e);
+                        }
+        
+                        correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                        correctionStep.setDocumentId(null);
+        
+                        correctionDocumentService.generateCorrectionReport(this);
+                        correctionDocumentService.aggregateCorrectionDocumentReports(this);
+                    } else {
+                        LOG.warn( "Attempt to re-process final GLCP operations for document: " + doc.getDocumentNumber() + "  File with that document number already exists." );
                     }
-                    catch (Exception e) {
-                        LOG.error("GLCP scrubber encountered error:", e);
-                        throw new RuntimeException("GLCP scrubber encountered error:", e);
-                    }
-    
-                    correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                    correctionStep.setDocumentId(null);
-    
-                    correctionDocumentService.generateCorrectionReport(this);
-                    correctionDocumentService.aggregateCorrectionDocumentReports(this);
-                } else {
-                    LOG.warn( "Attempt to re-process final GLCP operations for document: " + doc.getDocumentNumber() + "  File with that document number already exists." );
                 }
             }
             else {

@@ -33,6 +33,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
@@ -71,8 +72,10 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String kemid = endowmentRecurringCashTransfer.getSourceKemid();
         String etranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
         String ipIndicator = endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal();
-        success &= checkEtranCode(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator);
+        // endowmentRecurringCashTransfer.refreshReferenceObject("etranCodeObj");
+        success &= checkEtranType(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, endowmentRecurringCashTransfer.getEtranCodeObj());
         
+        success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator);
         
         success &= checkActiveSourceKemid(endowmentRecurringCashTransfer.getKemidObj());
         
@@ -137,7 +140,9 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String etranCode = endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode();
         String ipIndicator = endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal();
 
-        success &= checkEtranCode(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, kemid, etranCode, ipIndicator);
+        success &= checkEtranType(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCodeObj());
+        
+        success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, kemid, etranCode, ipIndicator);
 
         return success;
     }
@@ -284,14 +289,24 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         return true;
     }
     
-    private static boolean checkEtranCode(String property, String kemid, String etranCode, String ipIndicator) {
+    private static boolean checkEtranType(String property, EndowmentTransactionCode eTranCodeObject){
+        String eTranTypeCode = eTranCodeObject.getEndowmentTransactionTypeCode();
+        if (!eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE) && !eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE)){
+            GlobalVariables.getMessageMap().putError(property, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE);
+        }
+        return true;   
+    }
+    
+    private static boolean checkEtranCodeWithChart(String property, String kemid, String etranCode, String ipIndicator) {
         
         EndowmentTransactionDocumentService endowmentTransactionDocumentService = SpringContext.getBean(EndowmentTransactionDocumentService.class);
         if (!endowmentTransactionDocumentService.matchChartBetweenKEMIDAndETranCode(kemid, etranCode, ipIndicator)){
-            GlobalVariables.getMessageMap().putError(property, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE);
+            if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicator))
+                GlobalVariables.getMessageMap().putError(property, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_PRINCIPAL);
+            else
+                GlobalVariables.getMessageMap().putError(property, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_CHART_CODE_DOES_NOT_MATCH_FOR_INCOME);
             return false;
         }
-        
         return true;
     }
 

@@ -120,6 +120,8 @@ public class SchedulerServiceImpl implements SchedulerService {
                         loadJob(jobDescriptor);
                     } catch (NoSuchBeanDefinitionException ex) {
                         LOG.error("unable to find job bean definition for job: " + ex.getBeanName());
+                    } catch ( Exception ex ) {
+                        LOG.error( "Unable to install " + jobName + " job into scheduler.", ex );
                     }
                 }
             }
@@ -129,6 +131,8 @@ public class SchedulerServiceImpl implements SchedulerService {
                         addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
                     } catch (NoSuchBeanDefinitionException ex) {
                         LOG.error("unable to find trigger definition: " + ex.getBeanName());
+                    } catch ( Exception ex ) {
+                        LOG.error( "Unable to install " + triggerName + " trigger into scheduler.", ex );
                     }
                 }
             }

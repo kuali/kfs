@@ -251,4 +251,11 @@ public interface CorrectionDocumentService {
     
     public void aggregateCorrectionDocumentReports(GeneralLedgerCorrectionProcessDocument document);
 
+    /**
+     * Finds any existing output files for the given document.  Used to prevent double-processing.
+     * 
+     * @param documentNumber
+     * @return
+     */
+    public String[] findExistingCorrectionOutputFilesForDocument( String documentNumber );
 }

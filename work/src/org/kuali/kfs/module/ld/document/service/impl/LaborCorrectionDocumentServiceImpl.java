@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -32,15 +33,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
-import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.service.impl.CorrectionDocumentServiceImpl;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.gl.report.CorrectionDocumentReport;
@@ -1000,4 +998,18 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         this.laborCorrectionDocumentReportWriterService = laborCorrectionDocumentReportWriterService;
     }
 
+    protected static class LlcpFilenameFilter implements FilenameFilter {
+        String documentNumber;
+        public LlcpFilenameFilter( String documentNumber ) {
+            this.documentNumber = documentNumber;
+        }
+        public boolean accept(File dir, String name) {
+            return name.startsWith(LLCP_OUTPUT_PREFIX + "." + documentNumber);
+        }
+    }
+
+    @Override
+    public String[] findExistingCorrectionOutputFilesForDocument( String documentNumber ) {
+        return new File(batchFileDirectoryName).list( new LlcpFilenameFilter(documentNumber));
+    }
 }

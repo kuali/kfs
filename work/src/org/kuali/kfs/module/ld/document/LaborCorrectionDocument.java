@@ -67,34 +67,38 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 originEntryGroupService.deleteFile(doneFileName);
             }
 
-            else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-
-                // TODO:- need to save the output file to originEntry directory when correctionFileDelete is false
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                Date today = dateTimeService.getCurrentDate();
-                String outputFileName = "";
-                if (!doc.getCorrectionFileDelete()) {
-                    outputFileName = laborCorrectionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+            else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) 
+                    || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
+                if ( !checkForExistingOutputDocument( doc.getDocumentNumber() ) ) {
+                    // TODO:- need to save the output file to originEntry directory when correctionFileDelete is false
+                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                    Date today = dateTimeService.getCurrentDate();
+                    String outputFileName = "";
+                    if (!doc.getCorrectionFileDelete()) {
+                        outputFileName = laborCorrectionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                    }
+    
+                    doc.setCorrectionOutputFileName(outputFileName);
+                    Step step = BatchSpringContext.getStep(LaborCorrectionProcessScrubberStep.STEP_NAME);
+                    
+                    LaborCorrectionProcessScrubberStep correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                    correctionStep.setDocumentId(docId);
+                    try {
+                        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                    }
+                    catch (Exception e) {
+                        LOG.error("LLCP scrubber encountered error:", e);
+                        throw new RuntimeException("LLCP scrubber encountered error:", e);
+                    }
+                    
+                    correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                    correctionStep.setDocumentId(null);
+                    
+                    laborCorrectionDocumentService.generateCorrectionReport(this);
+                    laborCorrectionDocumentService.aggregateCorrectionDocumentReports(this);
+                } else {
+                    LOG.warn( "Attempt to re-process final LLCP operations for document: " + doc.getDocumentNumber() + "  File with that document number already exists." );
                 }
-
-                doc.setCorrectionOutputFileName(outputFileName);
-                Step step = BatchSpringContext.getStep(LaborCorrectionProcessScrubberStep.STEP_NAME);
-                
-                LaborCorrectionProcessScrubberStep correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                correctionStep.setDocumentId(docId);
-                try {
-                    step.execute(getClass().getName(), dateTimeService.getCurrentDate());
-                }
-                catch (Exception e) {
-                    LOG.error("LLCP scrubber encountered error:", e);
-                    throw new RuntimeException("LLCP scrubber encountered error:", e);
-                }
-                
-                correctionStep = (LaborCorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                correctionStep.setDocumentId(null);
-                
-                laborCorrectionDocumentService.generateCorrectionReport(this);
-                laborCorrectionDocumentService.aggregateCorrectionDocumentReports(this);
             }
             else {
                 LOG.error("LLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);

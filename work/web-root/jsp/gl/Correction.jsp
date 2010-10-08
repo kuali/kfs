@@ -706,7 +706,7 @@
               <td align="left" valign="middle" ><c:out value="${Constants.NOT_AVAILABLE_STRING}"/></td>
             </c:if>
             <c:if test="${KualiForm.document.correctionTypeCode ne 'R'}">
-              <td align="left" valign="middle" > The output file name is unavailable until the document has a status of FINAL.</td>
+              <td align="left" valign="middle" > The output file name is unavailable until the document has a status of PROCESSED or FINAL.</td>
             </c:if>
           </c:if>
         </tr>

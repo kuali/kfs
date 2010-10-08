@@ -16,9 +16,12 @@
 
 package org.kuali.kfs.gl.document;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -175,7 +178,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("GLCP Route ststus Change: " + statusChangeEvent);
+                LOG.debug("GLCP Route status Change: " + statusChangeEvent);
             }
             CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
             OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
@@ -191,39 +194,60 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 originEntryGroupService.deleteFile(doneFileName);
 
             }
-            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                // save the output file to originEntry directory when correctionFileDelete is false
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                Date today = dateTimeService.getCurrentDate();
+            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) 
+                    || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
+                // KFSMI-5760 - apparently, this node can be executed more than once, which results in multiple
+                // files being created.  We need to check for the existence of a file with the proper
+                // name pattern and abort the rest of this if found
+                if ( !checkForExistingOutputDocument( doc.getDocumentNumber() ) ) {
+                    // save the output file to originEntry directory when correctionFileDelete is false
+                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                    Date today = dateTimeService.getCurrentDate();
 
-                // generate output file and set file name
-                String outputFileName = "";
-                if (!correctionFileDelete) {
-                    outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                    // generate output file and set file name
+                    String outputFileName = "";
+                    if (!correctionFileDelete) {
+                        outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                    }
+                    doc.setCorrectionOutputFileName(outputFileName);
+                    Step step = BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
+                    CorrectionProcessScrubberStep correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                    correctionStep.setDocumentId(docId);
+    
+                    try {
+                        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                    }
+                    catch (Exception e) {
+                        LOG.error("GLCP scrubber encountered error:", e);
+                        throw new RuntimeException("GLCP scrubber encountered error:", e);
+                    }
+    
+                    correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
+                    correctionStep.setDocumentId(null);
+    
+                    correctionDocumentService.generateCorrectionReport(this);
+                    correctionDocumentService.aggregateCorrectionDocumentReports(this);
+                } else {
+                    LOG.warn( "Attempt to re-process final GLCP operations for document: " + doc.getDocumentNumber() + "  File with that document number already exists." );
                 }
-                doc.setCorrectionOutputFileName(outputFileName);
-                Step step = BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
-                CorrectionProcessScrubberStep correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                correctionStep.setDocumentId(docId);
-
-                try {
-                    step.execute(getClass().getName(), dateTimeService.getCurrentDate());
-                }
-                catch (Exception e) {
-                    LOG.error("GLCP scrubber encountered error:", e);
-                    throw new RuntimeException("GLCP scrubber encountered error:", e);
-                }
-
-                correctionStep = (CorrectionProcessScrubberStep) ProxyUtils.getTargetIfProxied(step);
-                correctionStep.setDocumentId(null);
-
-                correctionDocumentService.generateCorrectionReport(this);
-                correctionDocumentService.aggregateCorrectionDocumentReports(this);
             }
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
+    }
+
+    /**
+     * Returns true if an existing document like "glcp_output.docNum" is found.
+     */
+    protected boolean checkForExistingOutputDocument( String documentNumber ) {
+        CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
+        String[] filenamesFound = correctionDocumentService.findExistingCorrectionOutputFilesForDocument(documentNumber);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "Scanned for output files for document: " + documentNumber );
+            LOG.info( "Files Found: " + Arrays.toString(filenamesFound));
+        }
+        return filenamesFound != null && filenamesFound.length > 0;
     }
     
 

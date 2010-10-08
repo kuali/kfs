@@ -1135,4 +1135,18 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     public void setReportFilenameSuffix(String reportFilenameSuffix) {
         this.reportFilenameSuffix = reportFilenameSuffix;
     }
+
+    protected static class GlcpFilenameFilter implements FilenameFilter {
+        String documentNumber;
+        public GlcpFilenameFilter( String documentNumber ) {
+            this.documentNumber = documentNumber;
+        }
+        public boolean accept(File dir, String name) {
+            return name.startsWith(GLCP_OUTPUT_PREFIX + "." + documentNumber);
+        }
+    }
+
+    public String[] findExistingCorrectionOutputFilesForDocument( String documentNumber ) {
+        return new File(batchFileDirectoryName).list( new GlcpFilenameFilter(documentNumber));
+    }
 }

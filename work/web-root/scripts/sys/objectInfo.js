@@ -69,6 +69,28 @@ function setReportsToChartCode() {
 	}			
 }
 
+function getChartCode(coaCodeFieldName) {
+	// retrieve from input elements first
+	var coaCode = document.getElementById(coaCodeFieldName);
+	//alert('getElementById coaCode = ' + coaCode);
+	
+	// if that returns null, it means chart code is readOnly and we need to retrieve from html elements	
+	if (coaCode == null) {
+		// when readOnly, chart code is rendered with an id ending in ".div" 
+		coaCode = DWRUtil.getValue(coaCodeFieldName + '.div');
+		//alert('DWR getValue coaCode = ' + coaCode);
+		
+		// after accounting line is added chart code is rendered with a URL link, need to strip that off
+		var index = coaCode.indexOf('</a>');
+		if (index > 0) {			
+			coaCode = coaCode.substring(index-2,index);
+			//alert('strip URL coaCode = ' + coaCode);
+		}
+	}
+	
+	return coaCode;
+}
+
 function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
     var accountCode = DWRUtil.getValue( accountCodeFieldName );
@@ -119,7 +141,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     				if ( data != null && typeof data == 'object' ) {    				
     					setRecipientValue( accountNameFieldName, data.accountName );
     					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
-    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName));
+    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName+'.div'));
     					setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
     				} else {
     					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
@@ -143,11 +165,14 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 }
 
 function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) {
-    var elPrefix = findElPrefix( subAccountCodeFieldName );
-    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    var elPrefix = findElPrefix( subAccountCodeFieldName );	
+    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+	var coaCode = getChartCode(elPrefix + chartCodeSuffix);
     var accountCode = getElementValue( elPrefix + accountNumberSuffix );
     var subAccountCode = getElementValue( subAccountCodeFieldName );
 
+    //alert('loadSubAccountInfo:\ncoaCode = ' + coaCode + '\naccountCode = ' + accountCode + '\nsubAccountCode = ' + subAccountCode);
+    
 	if (subAccountCode=='') {
 		clearRecipients(subAccountNameFieldName);
 	} else if (coaCode=='') {
@@ -171,9 +196,12 @@ function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) 
 }
 
 function loadObjectInfo(fiscalYear, objectTypeNameRecipient, objectTypeCodeRecipient, objectCodeFieldName, objectNameFieldName) {
-    var elPrefix = findElPrefix( objectCodeFieldName );
+	var elPrefix = findElPrefix( objectCodeFieldName );   
+    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    var coaCode = getChartCode( elPrefix + chartCodeSuffix );
     var objectCode = getElementValue( objectCodeFieldName );
-    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    
+    //alert('loadObjectInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\nobjectCode = ' + objectCode);    
 
     if (valueChanged( objectCodeFieldName )) {
         clearRecipients( elPrefix + subObjectCodeSuffix );
@@ -210,9 +238,12 @@ function loadObjectInfo(fiscalYear, objectTypeNameRecipient, objectTypeCodeRecip
 
 function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
     var elPrefix = findElPrefix( objectCodeFieldName );
-    var objectCode = getElementValue( objectCodeFieldName );
-    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
     var fiscalYear = getElementValue( elPrefix + universityFiscalYearSuffix);
+    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    var coaCode = getChartCode( elPrefix + chartCodeSuffix );
+    var objectCode = getElementValue( objectCodeFieldName );
+
+    //alert('loadObjectCodeInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\nobjectCode = ' + objectCode);    
 
     if (valueChanged( objectCodeFieldName )) {
         clearRecipients(objectNameFieldName );
@@ -239,14 +270,19 @@ function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
 	}
 }
 
-function loadSubObjectInfo(fiscalYear, subObjectCodeFieldName, subObjectNameFieldName) {
+function loadSubObjectInfo(subObjectCodeFieldName, subObjectNameFieldName, fiscalYear) {
     var elPrefix = findElPrefix( subObjectCodeFieldName );
+    //TODO fix fiscalYear in KFSMI-6060
+	var fiscalYear = '2011';
+    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    var coaCode = getChartCode( elPrefix + chartCodeSuffix);
     var accountCode = getElementValue( elPrefix + accountNumberSuffix );
     var objectCode = getElementValue( elPrefix + objectCodeSuffix );
     var subObjectCode = getElementValue( subObjectCodeFieldName );
-    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
         
-	if (subObjectCode=='') {
+    //alert('loadSubObjectInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\naccountCode = ' + accountCode + '\nobjectCode = ' + objectCode + '\nsubObjectCode = ' + subObjectCode);
+
+    if (subObjectCode=='') {
 		clearRecipients(subObjectNameFieldName);
 	} else if (coaCode=='') {
 		setRecipientValue(subObjectNameFieldName, wrapError( 'chart is empty' ), true);

@@ -718,6 +718,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                         else {
                             foundCommodityCodeDistributionError = true;
                         }
+                    }else if(item.getItemType().isLineItemIndicator() && !StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive){
+                        //could not apply to line, as it wasn't blank
+                        foundCommodityCodeDistributionError = true;
                     }
                 }
                 if (needToDistributeAccount && !foundAccountDistributionError) {

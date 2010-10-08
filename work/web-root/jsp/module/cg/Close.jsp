@@ -28,7 +28,7 @@
     <sys:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
              tabErrorKey="document.userInitiatedCloseDate,document.closeOnOrBeforeDate">
-        <c:set var="closeAttributes" value="${DataDictionary.CFDAClose.attributes}" />
+        <c:set var="closeAttributes" value="${DataDictionary.ProposalAwardCloseDocument.attributes}" />
 
          <div class="tab-container" align="center">
 

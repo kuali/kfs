@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.EndowConstants.EndowmentSystemParameter;
-import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.batch.IncomeDistributionForPooledFundStep;
 import org.kuali.kfs.module.endow.batch.service.IncomeDistributionForPooledFundService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
@@ -34,6 +33,9 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentForReportLineBase;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.CashTransferDocument;
@@ -43,6 +45,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -70,6 +73,11 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         
     protected IncomeDistributionForPooledFundDao incomeDistributionForPooledFundDao;
     
+    protected ReportWriterService incomeDistributionForPooledFundExceptionReportWriterService;
+    protected ReportWriterService incomeDistributionForPooledFundTotalReportWriterService;
+    private TransactionDocumentTotalReportLine totalReportLine = null;
+    private TransactionDocumentExceptionReportLine exceptionReportLine = null;    
+    
     /**
      * This batch creates pooled fund distribution transactions
      * @see org.kuali.kfs.module.endow.batch.service.IncomeDistributionForPooledFundService#createIncomeDistributionForPooledFund()
@@ -79,6 +87,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         LOG.info("Begin Income Distribution for Pooled Fund Transactions ...");
         
         boolean result = true;
+
        
         // 1. get security list
         List<Security> securityList = incomeDistributionForPooledFundDao.getSecurityForIncomeDistribution();
@@ -136,37 +145,41 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
 
         // initialize CashIncreaseDocument
         CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+        if (cashIncreaseDocument == null) {
+            return false;
+        }
+        
         cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION));
-        addSecurityToECI(cashIncreaseDocument, "T", securityId, registrationCode);
+        addSecurityToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, securityId, registrationCode);
   
         // add transaction lines   
         List<CashTransferDocument> cashTransferDocumentList = new ArrayList<CashTransferDocument>();
-        addTransactionLinesToECI(cashIncreaseDocument, cashTransferDocumentList, holdingTaxLotList);
+        result = addTransactionLinesToECI(cashIncreaseDocument, cashTransferDocumentList, holdingTaxLotList);
 
-        // this clears up the validation errors that occur during the transaction line validation 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            GlobalVariables.clear();
-        }
+        // clear up the validation errors that occur during the transaction line validation 
+        GlobalVariables.clear();
         
         // first, validate and submit ECI 
         if (validateECI(cashIncreaseDocument)) {
             submitIncomeDocument(cashIncreaseDocument);
+            
+            // and then validate and submit ECT
+            if (cashTransferDocumentList != null) {
+                for (CashTransferDocument cashTransferDocument : cashTransferDocumentList) {
+                    if (validateECT(cashTransferDocument)) {
+                        submitIncomeDocument(cashTransferDocument);
+                    } else {
+                        LOG.error("Failed to validate ECT: Document # " + cashTransferDocument.getDocumentNumber());
+                        result = false;
+                    } 
+                }
+            }            
         } else {
-            //TODO: generate the error message
-            LOG.error("Failed to validate ECI.");
+            LOG.error("Failed to validate ECI: Document # " + cashIncreaseDocument.getDocumentNumber());            
             result = false;
         }
         
-        // and then validate and submit ECT
-        if (cashTransferDocumentList != null) {
-            for (CashTransferDocument cashTransferDocument : cashTransferDocumentList) {
-                if (validateECT(cashTransferDocument)) {
-                    submitIncomeDocument(cashTransferDocument);
-                }
-            }
-        } else {
-            GlobalVariables.clear();
-        }
+        GlobalVariables.clear();
         
         return result;
     }
@@ -177,7 +190,9 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param cashTransferDocumentList
      * @param holdingTaxLotList
      */
-    protected void addTransactionLinesToECI(CashIncreaseDocument cashIncreaseDocument, List<CashTransferDocument> cashTransferDocumentList, List<HoldingTaxLot> holdingTaxLotList) {
+    protected boolean addTransactionLinesToECI(CashIncreaseDocument cashIncreaseDocument, List<CashTransferDocument> cashTransferDocumentList, List<HoldingTaxLot> holdingTaxLotList) {
+        
+        boolean result = false;
         
         // a list of ECT to be generated        
         CashTransferDocument cashTransferDocument = null;
@@ -212,8 +227,8 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         for (String kemid : kemidMap.keySet()) {
             for (String incomePrincipalIndicator : kemidMap.get(kemid).keySet()) {
                 List<HoldingTaxLot> holdingTaxLotGroupedByIPInd = kemidMap.get(kemid).get(incomePrincipalIndicator);
-                KualiDecimal toalTransactionAmount = getTransactionAmount(holdingTaxLotGroupedByIPInd);
-                if (holdingTaxLotGroupedByIPInd != null && toalTransactionAmount.isNonZero()) {                            
+                KualiDecimal transactionAmount = getTransactionAmount(holdingTaxLotGroupedByIPInd);
+                if (holdingTaxLotGroupedByIPInd != null && transactionAmount.isNonZero()) {                            
                     int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();                    
                     for (HoldingTaxLot holdingTaxLot : holdingTaxLotGroupedByIPInd) {                                    
                         if (cashIncreaseDocument.getNextTargetLineNumber() <= maxNumberOfTranLines) {
@@ -222,10 +237,28 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                             endowmentTargetTransactionLine.setEtranCode(incomeDistributionForPooledFundDao.getIncomeEntraCode(holdingTaxLot.getSecurityId()));            
                             endowmentTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
                             endowmentTargetTransactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
-                            endowmentTargetTransactionLine.setTransactionAmount(toalTransactionAmount);
+                            endowmentTargetTransactionLine.setTransactionAmount(transactionAmount);
                      
                             if (validateTransactionLine(cashIncreaseDocument, endowmentTargetTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
                                 cashIncreaseDocument.addTargetTransactionLine(endowmentTargetTransactionLine);
+                                
+                                try {
+                                    // prepare reports
+                                    if (totalReportLine == null) {
+                                        // for the first time
+                                        totalReportLine = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashIncreaseDocument.getDocumentNumber(), cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
+                                        incomeDistributionForPooledFundTotalReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Totals Processed");
+                                        incomeDistributionForPooledFundTotalReportWriterService.writeNewLines(1);
+                                        incomeDistributionForPooledFundTotalReportWriterService.writeTableHeader(totalReportLine);
+                                    }
+                                    totalReportLine.addIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
+                                    totalReportLine.addIncomeUnits(cashIncreaseDocument.getTargetIncomeTotalUnits());
+                                    totalReportLine.addPrincipalAmount(cashIncreaseDocument.getTargetPrincipalTotal());
+                                    totalReportLine.addPrincipalUnits(cashIncreaseDocument.getTargetPrincipalTotalUnits());
+                                    incomeDistributionForPooledFundTotalReportWriterService.writeTableRow(totalReportLine);
+                                } catch (Exception e) {
+                                    LOG.error("Adding transaction line to Document # " + cashIncreaseDocument.getDocumentNumber() + " failed");
+                                }
                                 
                                 // create an ECT per sec_id, regis_cd
                                 List<KemidPayoutInstruction> kemidPayoutInstructionList = incomeDistributionForPooledFundDao.getKemidPayoutInstructionForECT(holdingTaxLot.getKemid());
@@ -233,7 +266,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                                     if (cashTransferDocument == null) {
                                         cashTransferDocument = generateECT(holdingTaxLot, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION);
                                     }
-                                    addTransactionLinesToECT(cashTransferDocumentList, cashTransferDocument, holdingTaxLot, kemidPayoutInstructionList, toalTransactionAmount);
+                                    //addTransactionLinesToECT(cashTransferDocumentList, cashTransferDocument, holdingTaxLot, kemidPayoutInstructionList, toalTransactionAmount);
                                     //for test                                    
 //                                    if (cashTransferDocument != null) {
 //                                        cashTransferDocumentList.add(cashTransferDocument);
@@ -241,15 +274,33 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
 //                                    return;
                                 }
                             } else {
+                                if (exceptionReportLine == null) {   
+                                    // for the first time
+                                    exceptionReportLine = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashIncreaseDocument.getDocumentHeader().getDocumentNumber(), cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID(), holdingTaxLot.getKemid());
+                                    incomeDistributionForPooledFundExceptionReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Exception Report");
+                                    incomeDistributionForPooledFundExceptionReportWriterService.writeNewLines(1);
+                                    incomeDistributionForPooledFundExceptionReportWriterService.writeTableHeader(exceptionReportLine);                                    
+                                }
+                                exceptionReportLine.addIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
+                                exceptionReportLine.addIncomeUnits(cashIncreaseDocument.getTargetIncomeTotalUnits());
+                                exceptionReportLine.addPrincipalAmount(cashIncreaseDocument.getTargetPrincipalTotal());
+                                exceptionReportLine.addPrincipalUnits(cashIncreaseDocument.getTargetPrincipalTotalUnits());
+                                
+                                incomeDistributionForPooledFundExceptionReportWriterService.writeTableRow(exceptionReportLine);
+                                incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Reason: %s", "Failed to validate ECI Transaction Line.");
+                                
+                                LOG.error("Failed to validate ECI Transaction Line");                                
                                 GlobalVariables.clear();
-                                //TODO: validation error message
-                                LOG.error("Failed to validate ECI Transaction Line");
                             }
                         } else {
                             submitIncomeDocument(cashIncreaseDocument);
                             
                             // generate a new ECI
                             cashIncreaseDocument = (CashIncreaseDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+                            if (cashIncreaseDocument == null) {
+                                LOG.error("Could not generate a new ECI.");
+                            }
+                            //TODO: needs to set the new document number
                             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION));                            
                             // populate security            
                             addSecurityToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());                            
@@ -263,6 +314,36 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         if (cashTransferDocument != null) {
             cashTransferDocumentList.add(cashTransferDocument);
         }
+
+        // reports totals passed
+        
+        return result;
+    }
+    
+    protected <C extends EndowmentSecurityDetailsDocumentBase, R extends TransactionDocumentForReportLineBase> void generateReport(String documentType, C cashDocument, R reportLine) {
+        
+//        try {
+//            // prepare reports
+//            if (reportLine == null) {
+//                // for the first time
+//                if (documentType.equals(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) {
+//                    reportLine = (TransactionDocumentTotalReportLine) new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashDocument.getDocumentNumber(), cashDocument.getTargetTransactionSecurity().getSecurityID());
+//                } else {
+//                    
+//                }
+//                incomeDistributionForPooledFundTotalReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Totals Processed");
+//                incomeDistributionForPooledFundTotalReportWriterService.writeNewLines(1);
+//                incomeDistributionForPooledFundTotalReportWriterService.writeTableHeader(totalReportLine);
+//            }           
+//            reportLine.addIncomeAmount(cashDocument.getTargetIncomeTotal());
+//            reportLine.addIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
+//            reportLine.addPrincipalAmount(cashDocument.getTargetPrincipalTotal());
+//            reportLine.addPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits());
+//            incomeDistributionForPooledFundTotalReportWriterService.writeTableRow(reportLine);
+//            
+//        } catch (Exception e) {
+//            LOG.error("Adding transaction line to Document # " + cashDocument.getDocumentNumber() + " failed");
+//        }
     }
     
     /**
@@ -279,10 +360,12 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                 
         // initialize CashTransferDocument
         cashTransferDocument = (CashTransferDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
-        cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, paramDescriptionName));
+        if (cashTransferDocument != null) {
+            cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, paramDescriptionName));
         
-        // add security
-        addSecurityToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
+            // add security
+            addSecurityToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
+        }
         
         return cashTransferDocument;
     }
@@ -325,23 +408,59 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                 targetTransactionLine.setTransactionAmount(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()));
                 //targetTransactionLine.setTransactionAmount(toalTransactionAmount);
 
+                boolean result = true;
                 if (validateTransactionLine(cashTransferDocument, sourceTransactionLine, EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME)) {
                     if (validateTransactionLine(cashTransferDocument, targetTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
                         cashTransferDocument.addSourceTransactionLine(sourceTransactionLine);
-                        cashTransferDocument.addTargetTransactionLine(targetTransactionLine);                        
-                    } else {
+                        cashTransferDocument.addTargetTransactionLine(targetTransactionLine);  
+                        
+                        // reports
+                        if (totalReportLine == null) {
+                            totalReportLine = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashTransferDocument.getDocumentNumber(), cashTransferDocument.getTargetTransactionSecurity().getSecurityID());
+                        }
+                        totalReportLine.addIncomeAmount(cashTransferDocument.getTargetIncomeTotal());
+                        totalReportLine.addIncomeUnits(cashTransferDocument.getTargetIncomeTotalUnits());
+                        totalReportLine.addPrincipalAmount(cashTransferDocument.getTargetPrincipalTotal());
+                        totalReportLine.addPrincipalUnits(cashTransferDocument.getTargetPrincipalTotalUnits());
+
+                    } else {                        
                         GlobalVariables.clear();
+                        result = false;
                         // Target TL error
                     }
                 } else {
                     GlobalVariables.clear();
+                    result = false;
                     // source TL error
+                }
+                
+                // reports
+                try {
+                    if (exceptionReportLine == null) {   
+                        // for the first time
+                        exceptionReportLine = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashTransferDocument.getDocumentHeader().getDocumentNumber(), cashTransferDocument.getTargetTransactionSecurity().getSecurityID(), holdingTaxLot.getKemid());
+                        incomeDistributionForPooledFundExceptionReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Exception Report");
+                        incomeDistributionForPooledFundExceptionReportWriterService.writeNewLines(1);
+                        incomeDistributionForPooledFundExceptionReportWriterService.writeTableHeader(exceptionReportLine);                                    
+                    }
+                    exceptionReportLine.addIncomeAmount(cashTransferDocument.getTargetIncomeTotal());
+                    exceptionReportLine.addIncomeUnits(cashTransferDocument.getTargetIncomeTotalUnits());
+                    exceptionReportLine.addPrincipalAmount(cashTransferDocument.getTargetPrincipalTotal());
+                    exceptionReportLine.addPrincipalUnits(cashTransferDocument.getTargetPrincipalTotalUnits());
+                    
+                    incomeDistributionForPooledFundExceptionReportWriterService.writeTableRow(exceptionReportLine);
+                    incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Reason: %s", "Failed to validate ECT Target Transaction Line.");
+                    
+                } catch (Exception e) {
+                    
                 }
             } else {
                 cashTransferDocumentList.add(cashTransferDocument);
                 
                 // create a new ECT and add the rest of transaction lines 
                 cashTransferDocument = generateECT(holdingTaxLot, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION);
+               
+                //TODO: needs to set the new document number to exceptionReportLine
             }
         }
     }
@@ -412,12 +531,9 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         try {
             endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) documentService.getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(cashDocumentType));            
         } catch (WorkflowException wfe) {
-            //TODO: generate the error message
-            LOG.error("Failed to initialize CashIncreaseDocument");
-            wfe.printStackTrace();
+            LOG.error("generateCashDocument() Workflow error in initializing document: " + cashDocumentType);
         } catch (Exception e) {
-            LOG.error("Failed to initialize CashIncreaseDocument");
-            e.printStackTrace();
+            LOG.error("generateCashDocument Runtime error in initializing document: " + cashDocumentType);
         }
         
         return endowmentSecurityDetailsDocumentBase;
@@ -485,6 +601,10 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
     public boolean isNoRoute(String paramNoRouteInd) {        
         return parameterService.getIndicatorParameter(IncomeDistributionForPooledFundStep.class, paramNoRouteInd);
     }
+
+    public void addToErrorReport() {
+        
+    }
     
     /**
      * Sets the businessObjectService attribute value.
@@ -548,6 +668,22 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      */
     public void setPooledFundValueService(PooledFundValueService pooledFundValueService) {
         this.pooledFundValueService = pooledFundValueService;
+    }
+
+    /**
+     * Sets the incomeDistributionForPooledFundExceptionReportWriterService attribute value.
+     * @param incomeDistributionForPooledFundExceptionReportWriterService The incomeDistributionForPooledFundExceptionReportWriterService to set.
+     */
+    public void setIncomeDistributionForPooledFundExceptionReportWriterService(ReportWriterService incomeDistributionForPooledFundExceptionReportWriterService) {
+        this.incomeDistributionForPooledFundExceptionReportWriterService = incomeDistributionForPooledFundExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the incomeDistributionForPooledFundTotalReportWriterService attribute value.
+     * @param incomeDistributionForPooledFundTotalReportWriterService The incomeDistributionForPooledFundTotalReportWriterService to set.
+     */
+    public void setIncomeDistributionForPooledFundTotalReportWriterService(ReportWriterService incomeDistributionForPooledFundTotalReportWriterService) {
+        this.incomeDistributionForPooledFundTotalReportWriterService = incomeDistributionForPooledFundTotalReportWriterService;
     }
            
 }

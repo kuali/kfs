@@ -75,6 +75,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      */
     protected void updateSecurityIncomeNextPayDates() {
         
+        int counter = 0;
         List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
         for (Security security : securityRecords) {
             String frequencyCode = security.getIncomePayFrequency();           
@@ -83,10 +84,11 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 if (nextDate != null) {
                     security.setIncomeNextPayDate(nextDate);
                     businessObjectService.save(security);
+                    counter++;
                 }
             }
         }
-        LOG.info("Updated Security Income Next Pay Dates"); 
+        LOG.info("Total Security Income Next Pay Dates updated: " + counter); 
     }
     
     /**
@@ -94,6 +96,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      */
     protected void updateTicklerNextDueDates() {
         
+        int counter = 0;
         List<Tickler> TicklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
         for (Tickler tickler : TicklerRecords) {
             String frequencyCode = tickler.getFrequencyCode();           
@@ -102,10 +105,11 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 if (nextDate != null) {
                     tickler.setNextDueDate(nextDate);
                     businessObjectService.save(tickler);
+                    counter++;
                 }
             }
         }
-        LOG.info("Updated Tickler Next Due Dates");
+        LOG.info("Total Tickler Next Due Dates updated: " + counter);
     }
     
     /**
@@ -113,6 +117,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      */
     protected void updateFeeProcessDates() {
         
+        int counter = 0;
         List<FeeMethod> feeMethodRecords = feeMethodDao.getFeeMethodWithNextPayDateEqualToCurrentDate();
         for (FeeMethod feeMethod : feeMethodRecords) {                        
             String frequencyCode = feeMethod.getFeeFrequencyCode();           
@@ -122,10 +127,11 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                     feeMethod.setFeeNextProcessDate(nextDate);
                     businessObjectService.save(feeMethod);
+                    counter++;
                 }
             }
         }
-        LOG.info("Updated Fee Next Process Dates and Fee Last Process Dates");
+        LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated: " + counter);
     }
     
     /**
@@ -133,6 +139,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      */
     protected void updateProcessDates() {
         
+        int counter = 0;
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
         for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
             String frequencyCode = recurringCashTransfer.getFrequencyCode();           
@@ -142,10 +149,11 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                     recurringCashTransfer.setNextProcessDate(nextDate);
                     businessObjectService.save(recurringCashTransfer);
+                    counter++;
                 }
             }
         }
-        LOG.info("Updated Next Process Dates and Last Process Dates");
+        LOG.info("Total Next Process Dates and Last Process Dates updated: " + counter);
     }
 
     /**

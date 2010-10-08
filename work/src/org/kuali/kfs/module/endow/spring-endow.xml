@@ -644,6 +644,7 @@
 	<bean id="pooledFundControlTransactionsStep" class="org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
+				<ref bean="pooledFundControlTransactionsTotalReportWriterService" />
 				<ref bean="pooledFundControlTransactionsExceptionReportWriterService" />
 			</list>
 		</property>	
@@ -666,6 +667,9 @@
 		<property name="kualiRuleService">
     	 	<ref bean="kualiRuleService" />
 		</property>	
+		<property name="pooledFundControlTransactionsTotalReportWriterService">
+    	 	<ref bean="pooledFundControlTransactionsTotalReportWriterService" />
+		</property>		
 	    <property name="pooledFundControlTransactionsExceptionReportWriterService">
     	 	<ref bean="pooledFundControlTransactionsExceptionReportWriterService" />
 		</property>
@@ -674,9 +678,20 @@
 		</property>			
 	</bean>
 
+	<bean id="pooledFundControlTransactionsTotalReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="pooledFundControlTransactionsTotalReport-"/>
+        <property name="title" value="Pooled Fund Control Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
+        	</map>
+        </property>
+	</bean>
+	
 	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReportWriterService_"/>
+		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReport-"/>
         <property name="title" value="Pooled Fund Control Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -700,11 +715,18 @@
 		</property>
 	</bean>
 		
-	<bean id="createIncomeDistributionStep" class="org.kuali.kfs.module.endow.batch.IncomeDistributionForPooledFundStep" parent="step">
+	<bean id="createIncomeDistributionStep" class="org.kuali.kfs.module.endow.batch.IncomeDistributionForPooledFundStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="incomeDistributionForPooledFundTotalReportWriterService" />
+				<ref bean="incomeDistributionForPooledFundExceptionReportWriterService" />
+			</list>
+		</property>		
 		<property name="incomeDistributionForPooledFundService">
 			<ref bean="incomeDistributionForPooledFundService" />
 		</property>
-	</bean>
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
+	</bean>	
 	
 	<bean id="incomeDistributionForPooledFundService" class="org.kuali.kfs.module.endow.batch.service.impl.IncomeDistributionForPooledFundServiceImpl">
 		<property name="businessObjectService">
@@ -727,12 +749,40 @@
 		</property>	
 		<property name="pooledFundValueService">
     	 	<ref bean="pooledFundValueService" />
+		</property>		
+	    <property name="incomeDistributionForPooledFundExceptionReportWriterService">
+    	 	<ref bean="incomeDistributionForPooledFundExceptionReportWriterService" />
+		</property>
+		<property name="incomeDistributionForPooledFundTotalReportWriterService">
+    	 	<ref bean="incomeDistributionForPooledFundTotalReportWriterService" />
 		</property>						
 		<property name="incomeDistributionForPooledFundDao">
 			<ref bean="incomeDistributionForPooledFundDao" />
 		</property>			
 	</bean>
 
+	<bean id="incomeDistributionForPooledFundExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException-"/>
+        <property name="title" value="Income Distribution"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
+        	</map>
+        </property>
+	</bean>
+
+	<bean id="incomeDistributionForPooledFundTotalReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal-"/>
+        <property name="title" value="Income Distribution"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
+        	</map>
+        </property>
+	</bean>
+	
 	<bean id="incomeDistributionForPooledFundDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.IncomeDistributionForPooledFundDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>

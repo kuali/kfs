@@ -22,7 +22,7 @@ import javax.xml.ws.Service;
 
 
 @WebServiceClient(name = "institutionalUnitSoapService", 
-                  wsdlLocation = "http://test.kc.kuali.org/kc-dly30/remoting/institutionalUnitSoapService?wsdl",
+                  wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl",
                   targetNamespace = "KC") 
 public class InstitutionalUnitSoapService extends Service {
 
@@ -32,7 +32,7 @@ public class InstitutionalUnitSoapService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("http://test.kc.kuali.org/kc-dly30/remoting/institutionalUnitSoapService?wsdl");
+            url = new URL("http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl");
         } catch (MalformedURLException e) {
             System.err.println("Can not initialize the default wsdl from http://test.kc.kuali.org/kc-dly30/remoting/institutionalUnitSoapService?wsdl");
             // e.printStackTrace();

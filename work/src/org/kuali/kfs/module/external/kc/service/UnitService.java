@@ -18,7 +18,8 @@ package org.kuali.kfs.module.external.kc.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
+import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+
 
 
 public interface UnitService {

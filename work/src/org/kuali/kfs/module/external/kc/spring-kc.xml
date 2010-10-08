@@ -42,10 +42,10 @@
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">
-             <list>
-	            <value>org.kuali.kfs.integration.kc.KcUnit</value> 
-       			<value>org.kuali.kfs.integration.kc.BudgetCategory</value>
-             </list>
+             <map>
+	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="organizationCode"/>
+       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="budgetCategoryCode"/>
+             </map>
         </property>
  		<property name="dataDictionaryPackages">
 			<list>
@@ -113,7 +113,7 @@
     </bean>
 
 	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
-	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-dly30/remoting/institutionalUnitSoapService?wsdl"/>
+	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
 	</bean>
 	
 	<bean id="unitDTOLookupableHelperService"

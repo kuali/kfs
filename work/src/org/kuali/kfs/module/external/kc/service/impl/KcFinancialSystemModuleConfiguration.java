@@ -18,6 +18,8 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
@@ -29,7 +31,7 @@ import org.kuali.rice.kns.bo.ModuleConfiguration;
  */
 public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleConfiguration implements KcFinancialSystemModuleConfig {
     
-    protected List<Class> externalizableWebBusinessObjectImplementations;
+    protected Map<Class,String> externalizableWebBusinessObjectImplementations;
 
     /**
      * Constructs a FinancialSystemModuleConfiguration.java.
@@ -42,19 +44,20 @@ public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleC
     /**
      * @return the externalizableBusinessObjectImplementations
      */
-    public List<Class> getExternalizableWebBusinessObjectImplementations() {
+    public Map<Class,String> getExternalizableWebBusinessObjectImplementations() {
         if (this.externalizableBusinessObjectImplementations == null)
             return null;
-        return (List<Class>) Collections.unmodifiableList(this.externalizableWebBusinessObjectImplementations);
+        return (Map<Class,String>) Collections.unmodifiableMap(this.externalizableWebBusinessObjectImplementations);
     }
 
     /**
      * @param externalizableBusinessObjectImplementations the externalizableBusinessObjectImplementations to set
      */
     public void setExternalizableWebBusinessObjectImplementations(
-            List<Class> externalizableBusinessObjectImplementations) {
+          Map<Class, String> externalizableBusinessObjectImplementations) {
         if (externalizableBusinessObjectImplementations != null) {
-            for (Class implClass : externalizableBusinessObjectImplementations) {
+           Iterable<Class> impClasses =  externalizableBusinessObjectImplementations.keySet();
+              for (Class implClass : impClasses) {
                 int implModifiers = implClass.getModifiers();
                 if (! Modifier.isInterface(implModifiers)) {
                     throw new RuntimeException("Externalizable Web business object implementation class " +

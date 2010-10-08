@@ -16,9 +16,9 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
+import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitSoapService;

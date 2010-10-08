@@ -21,5 +21,5 @@ import java.util.Map;
 import org.kuali.rice.kns.service.ModuleService;
 
 public interface KcFinancialSystemModuleConfig {
-    public List<Class>  getExternalizableWebBusinessObjectImplementations();
+    public Map<Class, String>  getExternalizableWebBusinessObjectImplementations();
 }

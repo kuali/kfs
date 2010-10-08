@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
 import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -33,7 +34,8 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
-    private static Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();;
+    private static Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();
+    private static Map<Class, String> externalWebBusinessObjectPrimaryKeys = new HashMap<Class,String>();
 
     public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
         if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObject(businessObjectClass, fieldValues);
@@ -120,37 +122,49 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
         int classModifiers = externalizableBusinessObjectInterface.getModifiers();
        if (! externalizedWebBOs.containsKey(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
-        
+       List primaryKeys = new ArrayList();
         if (!Modifier.isInterface(classModifiers) && !Modifier.isAbstract(classModifiers)) {
             // the interface is really a non-abstract class
-            return listPrimaryKeyNamesForConcreteClass(externalizableBusinessObjectInterface);
-        }
+           Class[] intfaces = externalizableBusinessObjectInterface.getInterfaces();
+           for (Class iface : intfaces) {
+                   primaryKeys.addAll(listPrimaryKeyNamesForConcreteClass(iface));               
+           }
+           return primaryKeys;
+          }
         Class clazz = getExternalizableBusinessObjectImplementation(externalizableBusinessObjectInterface);
-        List primaryKeys = listPrimaryKeyNamesForConcreteClass(clazz);
+        primaryKeys.addAll(listPrimaryKeyNamesForConcreteClass(clazz));
         if(primaryKeys!=null)  return primaryKeys;
         return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
     }
 
     public List listPrimaryKeyNamesForConcreteClass(Class clazz){
-        List primaryKeys = new ArrayList();
+         List primaryKeys = new ArrayList();
+        if (externalWebBusinessObjectPrimaryKeys.containsKey(clazz)) {
+            primaryKeys.add(externalWebBusinessObjectPrimaryKeys.get(clazz));
+        }
          return primaryKeys;
     }
     
   
+    
+
     /**
      * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#setModuleConfiguration(org.kuali.rice.kns.bo.ModuleConfiguration)
      */
     @Override
     public void setModuleConfiguration(ModuleConfiguration moduleConfiguration) {   
           KcFinancialSystemModuleConfig kcModuleConfiguration = (KcFinancialSystemModuleConfig) moduleConfiguration;
-          List<Class> webos = kcModuleConfiguration.getExternalizableWebBusinessObjectImplementations();
           
+          Map<Class,String> externalWebBusinessObjects = kcModuleConfiguration.getExternalizableWebBusinessObjectImplementations();
+ 
+          Iterable<Class> webos = externalWebBusinessObjects.keySet();
           if (webos != null) {
               Map<Class,Class> ebos = moduleConfiguration.getExternalizableBusinessObjectImplementations();
               for (Class webo : webos) {
                   if (ebos.containsKey(webo)) {
                       externalizedWebBOs.put(webo, ebos.get(webo));
                       externalizedWebBOs.put(ebos.get(webo), ebos.get(webo));
+                      externalWebBusinessObjectPrimaryKeys.put(webo, externalWebBusinessObjects.get(webo));
                    }
               }
           }

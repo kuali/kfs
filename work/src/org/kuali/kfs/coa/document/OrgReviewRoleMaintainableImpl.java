@@ -791,10 +791,13 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME)){
             docTypeName = (String)fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
         }
-        if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) && fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
-           orrLHSI.parentAndChildrenHaveZeroOrgAndAccountReviewRoles(docTypeName)){
+        if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) &&
+           fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
+           orrLHSI.isValidDocumentTypeForOrgReview(docTypeName) == false){
+            
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);            
-            return new HashMap();           
+            return new HashMap();
+            
         }else{
             return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
         }

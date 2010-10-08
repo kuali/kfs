@@ -445,29 +445,74 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         } else{
             if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName))
                 roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
-            else if(parentAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
+            else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
                 throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
             }
         }
 
         return roleToConsider;
     }
-    public boolean parentAndChildrenHaveZeroOrgAndAccountReviewRoles(String parentDocumentTypeName){     
+    
+    public boolean isValidDocumentTypeForOrgReview(String documentTypeName){
+
+        boolean isValid = true;
+        
+        if(StringUtils.isEmpty(documentTypeName)){
+            return false;        
+        }
+
+        String closestParentDocumentTypeName = getClosestOrgReviewRoleParentDocumentTypeName(documentTypeName);
+        boolean hasOrganizationHierarchy = hasOrganizationHierarchy(documentTypeName);
+        boolean hasAccountingOrganizationHierarchy = hasAccountingOrganizationHierarchy(documentTypeName);
+    
+        if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)){
+            //valid
+        }else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
+          //valid
+        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+          //valid
+        } else{
+            if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)){
+              //valid
+            }else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+    
+    public boolean currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(String currentDocumentTypeName){     
         boolean hasZeroQualifyingNodes = true;
         Object hasZeroNodesCache  = null;
-        hasZeroNodesCache = getCacheAdministrator().getFromCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + parentDocumentTypeName);        
+        
+        //check cache
+        hasZeroNodesCache = getCacheAdministrator().getFromCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName);        
         if( ObjectUtils.isNotNull(hasZeroNodesCache)){
             return ((Boolean)hasZeroNodesCache).booleanValue();
         }
-        DocumentTypeDTO parentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(parentDocumentTypeName);
-        if(hasOrganizationHierarchy(parentDocumentTypeName) || hasAccountingOrganizationHierarchy(parentDocumentTypeName) )                        
-            return false;        
-        List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(parentDocType.getDocTypeId());
-        for(DocumentType docType : docTypes){
-            hasZeroQualifyingNodes &= parentAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
-            if(hasZeroQualifyingNodes == false) break;
+
+        //check current doc type for qualifying nodes
+        if(hasOrganizationHierarchy(currentDocumentTypeName) || hasAccountingOrganizationHierarchy(currentDocumentTypeName) ){                       
+            hasZeroQualifyingNodes = false;        
         }
-        getCacheAdministrator().putInCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + parentDocumentTypeName, new Boolean(hasZeroQualifyingNodes), ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP);            
+        
+        //if still has no qualifying nodes, check current nodes children
+        if(hasZeroQualifyingNodes){
+            DocumentTypeDTO currentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(currentDocumentTypeName);
+            List<DocumentType> docTypes = SpringContext.getBean(DocumentTypeService.class).getChildDocumentTypes(currentDocType.getDocTypeId());
+            
+            for(DocumentType docType : docTypes){
+                hasZeroQualifyingNodes &= currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(docType.getName());
+                if(hasZeroQualifyingNodes == false) break;
+            }
+        }
+        
+        //add to cache if there are qualifying nodes
+        if(hasZeroQualifyingNodes == false){
+            getCacheAdministrator().putInCache(ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_PREFIX + currentDocumentTypeName, new Boolean(hasZeroQualifyingNodes), ORG_ACCT_REVIEW_ROLE_DOC_TYPE_CACHE_GROUP);
+        }
+        
         return hasZeroQualifyingNodes;
     }
     

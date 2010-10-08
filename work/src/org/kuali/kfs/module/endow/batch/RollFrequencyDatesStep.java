@@ -15,21 +15,28 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class RollFrequencyDatesStep extends AbstractStep {
+public class RollFrequencyDatesStep extends AbstractWrappedBatchStep {
 
     private RollFrequencyDatesService rollFrequencyDatesService;
+    protected String batchFileDirectoryName;
 
     /**
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        // TODO Auto-generated method stub
-        return rollFrequencyDatesService.updateFrequencyDate();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = rollFrequencyDatesService.updateFrequencyDate();
+
+                return success;
+            }
+        };
     }
     
     /**
@@ -40,4 +47,11 @@ public class RollFrequencyDatesStep extends AbstractStep {
         this.rollFrequencyDatesService = rollFrequencyDatesService;
     }
     
+    /**
+     * Sets the batchFileDirectoryName.
+     * @param batchFileDirectoryName
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
+    }
 }

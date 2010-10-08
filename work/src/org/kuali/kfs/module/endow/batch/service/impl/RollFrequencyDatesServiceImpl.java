@@ -21,13 +21,18 @@ import java.util.List;
 import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,14 +52,16 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected TicklerDao ticklerDao;
     protected RecurringCashTransferDao recurringCashTransferDao;
     
+    protected ReportWriterService rollFrequencyDatesReportWriterService;
+    
     /**
      * Updates some date fields based on the frequency for the activity 
      * @return true if the fields are updated successfully; false otherwise
      */
     public boolean updateFrequencyDate() {
         
-        LOG.info("Begin roll frequncy dates ..."); 
-                
+        LOG.info("Begin the batch Roll Frequncy Dates ...");
+        
         // update Security Income Next Pay Dates
         updateSecurityIncomeNextPayDates();
                        
@@ -66,6 +73,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         // update Next Process Dates
         updateProcessDates();
+        
+        LOG.info("The batch Roll Frequncy Dates was finished.");
         
         return true;
     }
@@ -88,6 +97,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        generateReport("END_SEC_T", counter, true);
         LOG.info("Total Security Income Next Pay Dates updated: " + counter); 
     }
     
@@ -109,6 +119,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        generateReport("END_TKLR_T", counter, false);
         LOG.info("Total Tickler Next Due Dates updated: " + counter);
     }
     
@@ -131,6 +142,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        generateReport("END_FEE_MTHD_T", counter, false);
         LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated: " + counter);
     }
     
@@ -153,9 +165,26 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 }
             }
         }
+        generateReport("END_REC_CSH_XFR_T", counter, false);
         LOG.info("Total Next Process Dates and Last Process Dates updated: " + counter);
     }
 
+    protected <T extends EndowmentSecurityDetailsDocumentBase >void generateReport(String tableName, int counter, boolean isFirstReport) {
+        
+        try {
+            if (isFirstReport) {
+                rollFrequencyDatesReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Number of Records Updated");
+                rollFrequencyDatesReportWriterService.writeNewLines(1);
+                isFirstReport = false;
+            }
+            rollFrequencyDatesReportWriterService.writeFormattedMessageLine(tableName + ": %s", counter);
+            
+        } catch (Exception e) {
+            LOG.error("Failed to generate the statistic report: " + e.getMessage());
+            rollFrequencyDatesReportWriterService.writeFormattedMessageLine("Failed to generate the statistic report: " + e.getMessage());
+        }
+    }
+    
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
@@ -205,5 +234,12 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         this.recurringCashTransferDao = recurringCashTransferDao;
     }
 
+    /**
+     * Sets the rollFrequencyDatesReportWriterService attribute value.
+     * @param rollFrequencyDatesReportWriterService The rollFrequencyDatesReportWriterService to set.
+     */
+    public void setRollFrequencyDatesReportWriterService(ReportWriterService rollFrequencyDatesReportWriterService) {
+        this.rollFrequencyDatesReportWriterService = rollFrequencyDatesReportWriterService;
+    }
     
 }

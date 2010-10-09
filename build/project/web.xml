@@ -62,7 +62,10 @@
 	<listener>
 		<listener-class>org.kuali.kfs.sys.context.WebApplicationInitListener</listener-class>
 	</listener>
-
+	<listener>
+    	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+  	</listener>
+  
     <!-- SERVLET DEFINITIONS -->
 
 	<servlet>
@@ -94,6 +97,10 @@
 		<servlet-name>heartbeat</servlet-name>
 		<servlet-class>org.kuali.kfs.sys.web.servlet.KualiHeartbeatServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>batchFileUpload</servlet-name>
+		<servlet-class>org.kuali.kfs.sys.web.servlet.BatchFileUploadServlet</servlet-class>
+	</servlet>
 
 	<!-- Embedded KEW Servlets -->
 	<servlet>
@@ -119,6 +126,10 @@
 
     <!-- SERVLET MAPPINGS -->
 
+	<servlet-mapping>
+		<servlet-name>batchFileUpload</servlet-name>
+		<url-pattern>/batchFileUpload</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>

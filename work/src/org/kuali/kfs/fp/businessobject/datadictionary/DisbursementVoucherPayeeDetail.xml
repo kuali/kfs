@@ -102,11 +102,15 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="disbVchrPayeePersonName"/>
     <property name="label" value="Payee Name"/>
     <property name="maxLength" value="45"/>
     <property name="required" value="true"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean"/>
 

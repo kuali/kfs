@@ -237,96 +237,57 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="LedgerBalance-month1Amount" parent="LedgerBalance-month1Amount-parentBean"/>
-
-  <bean id="LedgerBalance-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month1Amount"/>
-    <property name="label" value="July"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  
+  <bean id="LedgerBalance-month1Amount-parentBean" abstract="true" parent="Balance-month1Amount"/>
+  
   <bean id="LedgerBalance-month2Amount" parent="LedgerBalance-month2Amount-parentBean"/>
+  
+  <bean id="LedgerBalance-month2Amount-parentBean" abstract="true" parent="Balance-month2Amount"/>
 
-  <bean id="LedgerBalance-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month2Amount"/>
-    <property name="label" value="August"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="LedgerBalance-month3Amount" parent="LedgerBalance-month3Amount-parentBean"/>
-
-  <bean id="LedgerBalance-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month3Amount"/>
-    <property name="label" value="September"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  
+  <bean id="LedgerBalance-month3Amount-parentBean" abstract="true" parent="Balance-month3Amount"/>
+  
   <bean id="LedgerBalance-month4Amount" parent="LedgerBalance-month4Amount-parentBean"/>
+  
+  <bean id="LedgerBalance-month4Amount-parentBean" abstract="true" parent="Balance-month4Amount"/>
 
-  <bean id="LedgerBalance-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month4Amount"/>
-    <property name="label" value="October"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="LedgerBalance-month5Amount" parent="LedgerBalance-month5Amount-parentBean"/>
+  
+  <bean id="LedgerBalance-month5Amount-parentBean" abstract="true" parent="Balance-month5Amount"/>
 
-  <bean id="LedgerBalance-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month5Amount"/>
-    <property name="label" value="November"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="LedgerBalance-month6Amount" parent="LedgerBalance-month6Amount-parentBean"/>
+  
+  <bean id="LedgerBalance-month6Amount-parentBean" abstract="true" parent="Balance-month6Amount"/>
 
-  <bean id="LedgerBalance-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month6Amount"/>
-    <property name="label" value="December"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="LedgerBalance-month7Amount" parent="LedgerBalance-month7Amount-parentBean"/>
-
-  <bean id="LedgerBalance-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month7Amount"/>
-    <property name="label" value="January"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  
+  <bean id="LedgerBalance-month7Amount-parentBean" abstract="true" parent="Balance-month7Amount"/>
+  
   <bean id="LedgerBalance-month8Amount" parent="LedgerBalance-month8Amount-parentBean"/>
+  
+  <bean id="LedgerBalance-month8Amount-parentBean" abstract="true" parent="Balance-month8Amount"/>
 
-  <bean id="LedgerBalance-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month8Amount"/>
-    <property name="label" value="February"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="LedgerBalance-month9Amount" parent="LedgerBalance-month9Amount-parentBean"/>
 
-  <bean id="LedgerBalance-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month9Amount"/>
-    <property name="label" value="March"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="LedgerBalance-month9Amount-parentBean" abstract="true" parent="Balance-month9Amount"/>
+
   <bean id="LedgerBalance-month10Amount" parent="LedgerBalance-month10Amount-parentBean"/>
 
-  <bean id="LedgerBalance-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month10Amount"/>
-    <property name="label" value="April"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="LedgerBalance-month10Amount-parentBean" abstract="true" parent="Balance-month10Amount"/>
+
   <bean id="LedgerBalance-month11Amount" parent="LedgerBalance-month11Amount-parentBean"/>
 
-  <bean id="LedgerBalance-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month11Amount"/>
-    <property name="label" value="May"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="LedgerBalance-month11Amount-parentBean" abstract="true" parent="Balance-month11Amount"/>
+
   <bean id="LedgerBalance-month12Amount" parent="LedgerBalance-month12Amount-parentBean"/>
 
-  <bean id="LedgerBalance-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month12Amount"/>
-    <property name="label" value="June"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="LedgerBalance-month12Amount-parentBean" abstract="true" parent="Balance-month12Amount"/>
+
   <bean id="LedgerBalance-month13Amount" parent="LedgerBalance-month13Amount-parentBean"/>
 
-  <bean id="LedgerBalance-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month13Amount"/>
-    <property name="label" value="Year End"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  </bean>
+  <bean id="LedgerBalance-month13Amount-parentBean" abstract="true" parent="Balance-month13Amount"/>
+
   <bean id="LedgerBalance-transactionDateTimeStamp" parent="LedgerBalance-transactionDateTimeStamp-parentBean"/>
 
   <bean id="LedgerBalance-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">

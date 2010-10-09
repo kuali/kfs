@@ -162,7 +162,9 @@ public class BatchFileUploadServlet extends HttpServlet {
                 List<String> batchFileDirectories = ((FinancialSystemModuleConfiguration) moduleConfiguration).getBatchFileDirectories();
                 for (String batchFileDirectoryName : batchFileDirectories) {
                     String directory = new File(batchFileDirectoryName).getAbsolutePath();
-                    dirs.add(directory);
+                    if ( new File( directory, "originEntry" ).isDirectory() ) {
+                        dirs.add( new File( directory, "originEntry" ).getAbsolutePath() );
+                    }
                 }
             }
         }

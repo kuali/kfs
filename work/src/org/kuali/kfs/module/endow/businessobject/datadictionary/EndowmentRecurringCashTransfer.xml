@@ -16,10 +16,8 @@
 -->
 
   <bean id="EndowmentRecurringCashTransfer" parent="EndowmentRecurringCashTransfer-parentBean"/>
-  
   <bean id="EndowmentRecurringCashTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer"/>
-<!--     <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>  -->
     <property name="inquiryDefinition" ref="EndowmentRecurringCashTransfer-inquiryDefinition"/>
     <property name="lookupDefinition" ref="EndowmentRecurringCashTransfer-lookupDefinition"/>
     
@@ -39,16 +37,12 @@
         <ref bean="EndowmentRecurringCashTransfer-active"/> 
         <ref bean="EndowmentRecurringCashTransfer-targetKemidNextSeqNumber"/>
         <ref bean="EndowmentRecurringCashTransfer-targetGlNextSeqNumber"/>
-        
-<!--   
-        <ref bean="Asset-assetPayments.documentNumber"/>
-        EndowmentRecurringCashTransferKEMIDTarget
--->
       </list>
     </property>
   </bean>
   
 <!-- Attribute Definitions -->
+
   <bean id="EndowmentRecurringCashTransfer-transferNumber" parent="EndowmentRecurringCashTransfer-transferNumber-parentBean"/>
   <bean id="EndowmentRecurringCashTransfer-transferNumber-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="transferNumber"/>
@@ -104,7 +98,6 @@
     <property name="control" >
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.IncomePrincipalIndicatorValuesFinder" p:includeKeyInLabel="false" />
     </property>
-    
   </bean>  
 
   <bean id="EndowmentRecurringCashTransfer-frequencyCode" parent="EndowmentRecurringCashTransfer-frequencyCode-parentBean"/>
@@ -161,34 +154,11 @@
     </property>
   </bean>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 <!-- Business Object Lookup Definition -->
-
 
   <bean id="EndowmentRecurringCashTransfer-lookupDefinition" parent="EndowmentRecurringCashTransfer-lookupDefinition-parentBean"/>
   <bean id="EndowmentRecurringCashTransfer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Recurring Cash Transfer Lookup"/>
-<!--     <property name="lookupableID" value="   "/>  -->
-    
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">
@@ -218,19 +188,6 @@
       </list>
     </property>
   </bean>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   <!-- Business Object Inquiry Definition -->
 

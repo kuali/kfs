@@ -16,7 +16,6 @@
 -->
 
   <bean id="EndowmentRecurringCashTransferKEMIDTarget" parent="EndowmentRecurringCashTransferKEMIDTarget-parentBean"/>
-  
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget"/>
     <property name="objectLabel" value="Endowment Recurring Cash Transfer"/>
@@ -40,7 +39,6 @@
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-transferNumber-parentBean" abstract="true" parent="EndowmentRecurringCashTransfer-transferNumber">
   </bean>  
   
-  <!--  Question to Philipi or Poonam - Auto Assigned by the system -->
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-targetSequenceNumber" parent="EndowmentRecurringCashTransferKEMIDTarget-targetSequenceNumber-parentBean"/>
   <bean id="EndowmentRecurringCashTransferKEMIDTarget-targetSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="targetSequenceNumber"/>
@@ -100,11 +98,6 @@
     <property name="name" value="targetPercent" />
     <property name="label" value="Target Percent" />
     <property name="maxLength" value="6" />
-    <!-- 
-	<property name="validationPattern">
-      <bean parent="FixedPointValidationPattern" p:precision="3" p:scale="2" p:allowNegative="true"/>
-    </property>
-     -->
     <property name="control"> <bean parent="TextControlDefinition" p:size="6"/> </property>
   </bean>
   

@@ -42,8 +42,7 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
         if (collectionName.equals(KEMID_TARGET)){
             int kemidIndex = endowmentRecurringCashTransfer.getKemidTarget().size();
             
-            //String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET + "[" + kemidIndex + "]";
-            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.kemidTarget";
+            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.ADD_PREFIX + "." + KEMID_TARGET;
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget = (EndowmentRecurringCashTransferKEMIDTarget) newCollectionLines.get(collectionName);
             // check rules
@@ -59,7 +58,7 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
                 super.addNewLineToCollection(collectionName);
             }
         } else {
-            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.glTarget";
+            String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.ADD_PREFIX + "." + GL_TARGET;
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             
             EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget = (EndowmentRecurringCashTransferGLTarget) newCollectionLines.get(collectionName);

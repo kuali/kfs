@@ -61,7 +61,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         
         success &= super.processCustomSaveDocumentBusinessRules(document);
 
-        // general rules
+        // source rules
         success &= checkTargetExistence(endowmentRecurringCashTransfer);
 
         if (ObjectUtils.isNotNull(endowmentRecurringCashTransfer.getTransactionType())){
@@ -72,7 +72,6 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String kemid = endowmentRecurringCashTransfer.getSourceKemid();
         String etranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
         String ipIndicator = endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal();
-        // endowmentRecurringCashTransfer.refreshReferenceObject("etranCodeObj");
         success &= checkSourceEtranType(endowmentRecurringCashTransfer.getEtranCodeObj());
         
         success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator);
@@ -224,7 +223,6 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
             Date processDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
             processDate.setDate(processDate.getDate()+1);
             endowmentRecurringCashTransfer.setNextProcessDate(processDate);
-            
         }
     }
 

@@ -16,7 +16,6 @@
 -->
 
   <bean id="EndowmentRecurringCashTransferGLTarget" parent="EndowmentRecurringCashTransferGLTarget-parentBean"/>
-  
   <bean id="EndowmentRecurringCashTransferGLTarget-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget"/>
     <property name="objectLabel" value="Endowment Recurring Cash Transfer"/>
@@ -119,11 +118,6 @@
     <property name="name" value="targetPercent" />
     <property name="label" value="Target Percent" />
     <property name="maxLength" value="6" />
-    <!-- 
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern" p:precision="3" p:scale="2" p:allowNegative="true"/>
-    </property>
-     -->
     <property name="control"> <bean parent="TextControlDefinition" p:size="6"/> </property>
   </bean>
 

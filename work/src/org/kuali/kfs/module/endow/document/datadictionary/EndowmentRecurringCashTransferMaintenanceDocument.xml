@@ -52,11 +52,8 @@
     </property>    
 
     <property name="documentTypeName" value="RecurringCashTransferMaintenanceDocument" />
-<!--  <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.endow.document.validation.impl.  " /> -->     
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.EndowmentRecurringCashTransferTransactionRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-<!-- ???   <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.  " /> -->
-     
     <property name="workflowAttributes">
     	<ref bean="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes" />
     </property>    
@@ -146,10 +143,5 @@
   
   <!-- workflow attributes -->
   <bean id="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes" parent="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes-parentBean" />
-	
-  <bean id="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
-  </bean>
-  
-  
-  
+  <bean id="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" />    	
  </beans>

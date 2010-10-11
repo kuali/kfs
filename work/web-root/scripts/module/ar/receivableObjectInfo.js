@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+var receivableChartCodeSuffix = ".paymentChartOfAccountsCode";
 var receivableAccountNumberSuffix = ".paymentAccountNumber";
 var receivableSubAccountNumberSuffix = ".paymentSubAccountNumber";
 var receivableSubAccountNameSuffix = ".paymentSubAccount.subAccountName";
-var receivableChartCodeSuffix = ".paymentChartOfAccountsCode";
 var receivableObjectCodeSuffix = ".paymentFinancialObjectCode";
 var receivableSubObjectCodeSuffix = ".paymentFinancialSubObjectCode";
 var receivableSubObjectCodeNameSuffix = ".paymentSubObjectCode.financialSubObjectCodeName";
-
 
 function loadReceivableAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );

@@ -25,6 +25,34 @@ var subObjectCodeSuffix = ".financialSubObjectCode";
 var subObjectCodeNameSuffix = ".subObjectCode.financialSubObjectCodeName";
 var universityFiscalYearSuffix =".universityFiscalYear";
 
+/**
+ * Get chart code field value for the given chart code field name. 
+ * This function takes care of the case when chart code is readOnly, thus not one of the input fields, and thus
+ * can't be retrieved using getElementValue. It also filters out any URL links associated with the chart code.
+ * @param coaCodeFieldName the given chart code field name.
+ * @return the chart code field value
+ */
+function getChartCode(coaCodeFieldName) {
+	// retrieve from input elements first
+	var coaCode = document.getElementById(coaCodeFieldName);
+	//alert('getElementById coaCode = ' + coaCode);
+	
+	// if that returns null, it means chart code is readOnly and we need to retrieve from html elements	
+	if (coaCode == null) {
+		// when readOnly, chart code is rendered with an id ending in ".div" 
+		coaCode = DWRUtil.getValue(coaCodeFieldName + '.div');
+		//alert('DWR getValue coaCode = ' + coaCode);
+		
+		// after accounting line is added chart code is rendered with a URL link, need to strip that off
+		var index = coaCode.indexOf('</a>');
+		if (index > 0) {			
+			coaCode = coaCode.substring(index-2,index);
+			//alert('strip URL coaCode = ' + coaCode);
+		}
+	}
+	
+	return coaCode;
+}
 
 function loadChartInfo(coaCodeFieldName, coaNameFieldName ) {
     var coaCode = DWRUtil.getValue( coaCodeFieldName );
@@ -67,28 +95,6 @@ function setReportsToChartCode() {
 		};
 		ChartService.getByPrimaryId( coaCode, dwrReply );
 	}			
-}
-
-function getChartCode(coaCodeFieldName) {
-	// retrieve from input elements first
-	var coaCode = document.getElementById(coaCodeFieldName);
-	//alert('getElementById coaCode = ' + coaCode);
-	
-	// if that returns null, it means chart code is readOnly and we need to retrieve from html elements	
-	if (coaCode == null) {
-		// when readOnly, chart code is rendered with an id ending in ".div" 
-		coaCode = DWRUtil.getValue(coaCodeFieldName + '.div');
-		//alert('DWR getValue coaCode = ' + coaCode);
-		
-		// after accounting line is added chart code is rendered with a URL link, need to strip that off
-		var index = coaCode.indexOf('</a>');
-		if (index > 0) {			
-			coaCode = coaCode.substring(index-2,index);
-			//alert('strip URL coaCode = ' + coaCode);
-		}
-	}
-	
-	return coaCode;
 }
 
 function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {

@@ -95,7 +95,7 @@
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-name" parent="BudgetConstructionIntendedIncumbent-name-parentBean"/>
 
-  <bean id="BudgetConstructionIntendedIncumbent-name-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="BudgetConstructionIntendedIncumbent-name-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="name"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Person Name"/>

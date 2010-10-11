@@ -73,7 +73,7 @@
   </bean>
   <bean id="SubContractor-subcontractorName" parent="SubContractor-subcontractorName-parentBean"/>
 
-  <bean id="SubContractor-subcontractorName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="SubContractor-subcontractorName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="subcontractorName"/>
     <property name="label" value="Subcontractor Name"/>
     <property name="shortLabel" value="Name"/>

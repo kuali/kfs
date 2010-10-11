@@ -611,7 +611,7 @@
   
   <bean id="BulkReceivingDocument-preparerPersonName" parent="BulkReceivingDocument-preparerPersonName-parentBean"/>
 
-  <bean id="BulkReceivingDocument-preparerPersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="BulkReceivingDocument-preparerPersonName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="preparerPersonName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Requisition Preparer"/>

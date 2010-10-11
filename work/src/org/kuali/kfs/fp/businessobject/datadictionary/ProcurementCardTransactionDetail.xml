@@ -246,7 +246,7 @@
   </bean>
   <bean id="ProcurementCardTransactionDetail-transactionUnitContactName" parent="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean"/>
 
-  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="transactionUnitContactName"/>
     <property name="label" value="Transaction Unit Contact Name"/>
     <property name="shortLabel" value="Name"/>

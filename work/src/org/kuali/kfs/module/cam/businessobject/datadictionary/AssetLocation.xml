@@ -91,7 +91,7 @@
   </bean>
   
   <bean id="AssetLocation-assetLocationContactName" parent="AssetLocation-assetLocationContactName-parentBean"/>
-  <bean id="AssetLocation-assetLocationContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="AssetLocation-assetLocationContactName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="assetLocationContactName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location Contact Name"/>

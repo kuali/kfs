@@ -93,7 +93,7 @@
   </bean>
   
   <bean id="AssetRepairHistory-repairContactName" parent="AssetRepairHistory-repairContactName-parentBean"/>
-  <bean id="AssetRepairHistory-repairContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="AssetRepairHistory-repairContactName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="repairContactName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Repair Contact Name"/>

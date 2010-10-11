@@ -196,7 +196,7 @@
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="disbursementVoucherPayeeAccountName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Acct in the Name of"/>

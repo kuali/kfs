@@ -292,7 +292,7 @@
   </bean>
   <bean id="Award-agencyAnalystName" parent="Award-agencyAnalystName-parentBean"/>
 
-  <bean id="Award-agencyAnalystName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="Award-agencyAnalystName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="agencyAnalystName"/>
     <property name="label" value="Agency Analyst Name"/>
     <property name="shortLabel" value="Name"/>

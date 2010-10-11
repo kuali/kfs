@@ -244,7 +244,7 @@
   </bean>
   
   <bean id="AssetComponent-componentWarrantyContactName" parent="AssetComponent-componentWarrantyContactName-parentBean"/>
-  <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="componentWarrantyContactName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Component Warranty Contact Name"/>

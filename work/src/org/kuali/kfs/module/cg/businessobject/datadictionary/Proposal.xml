@@ -365,7 +365,7 @@
   </bean>
   <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean"/>
 
-  <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="proposalFellowName"/>
     <property name="label" value="Fellow Name"/>
     <property name="shortLabel" value="Fellow"/>

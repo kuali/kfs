@@ -156,7 +156,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="disbVchrSpecialHandlingPersonName"/>
     <property name="label" value="Special Handling Name"/>
     <property name="shortLabel" value="Special Handling Nm"/>

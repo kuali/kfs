@@ -88,7 +88,7 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderAlternateName" parent="ProcurementCardHolder-cardHolderAlternateName-parentBean"/>
 
-  <bean id="ProcurementCardHolder-cardHolderAlternateName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="ProcurementCardHolder-cardHolderAlternateName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="cardHolderAlternateName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Card Holder Alternate Name"/>
@@ -136,7 +136,7 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderName" parent="ProcurementCardHolder-cardHolderName-parentBean"/>
 
-  <bean id="ProcurementCardHolder-cardHolderName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="ProcurementCardHolder-cardHolderName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="cardHolderName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Card Holder Name"/>

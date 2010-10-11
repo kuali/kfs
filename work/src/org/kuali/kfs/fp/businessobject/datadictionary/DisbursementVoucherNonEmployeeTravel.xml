@@ -59,7 +59,7 @@
 
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean"/>
 
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="disbVchrNonEmpTravelerName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Name"/>

@@ -1190,6 +1190,9 @@
 		 <property name="noteService">
 			<ref bean="noteService" />
 		</property>	
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 		
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
@@ -1218,7 +1221,7 @@
         <property name="title" value="BATCH PROCESS FEE TRANSACTIONS TOTALS PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsTotalProcessedReportHeader"/>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedReportHeader" value="processFeeTransactionsTotalProcessedReportHeader"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine" value="feeProcessingTotalsProcessedDetailTotalLine"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine" value="feeProcessingTotalsProcessedSubTotalLine"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine" value="feeProcessingTotalsProcessedGrandTotalLine"/>
@@ -1232,7 +1235,7 @@
         <property name="title" value="BATCH PROCESS FEE WAIVED AND ACCRUED FEES REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="processFeeTransactionsWaivedAndAccruedFeesReportHeader"/>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader" value="processFeeTransactionsWaivedAndAccruedFeesReportHeader"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine" value="feeProcessingWaivedAndAccruedDetailTotalLine"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine" value="feeProcessingWaivedAndAccruedSubTotalLine"/>
 				<entry key="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine" value="feeProcessingWaivedAndAccruedGrandTotalLine"/>
@@ -1732,7 +1735,7 @@
 	</bean>
 	
 	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportHeader" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="columnHeading1" value="Fee Method"/>
@@ -1781,7 +1784,7 @@
 	</bean>
 	
 	<bean id="processFeeTransactionsTotalProcessedReportHeader" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="columnHeading1" value="Fee Method"/>

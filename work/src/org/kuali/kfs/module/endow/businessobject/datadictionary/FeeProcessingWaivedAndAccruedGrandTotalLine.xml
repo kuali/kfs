@@ -34,13 +34,13 @@
 
   <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-total-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="total"/>
-  	<property name="maxLength" value="25"/>
+  	<property name="maxLength" value="30"/>
   </bean>  
   <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-kemid" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-kemid-parentBean"/>
   
   <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-kemid-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
   	<property name="name" value="kemid"/>
-  	<property name="maxLength" value="25"/>
+  	<property name="maxLength" value="20"/>
   </bean>
   <bean id="FeeProcessingWaivedAndAccruedGrandTotalLine-totalAccruedFees" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalAccruedFees-parentBean"/>
 

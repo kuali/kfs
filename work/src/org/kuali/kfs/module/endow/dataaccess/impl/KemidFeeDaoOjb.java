@@ -71,6 +71,8 @@ public class KemidFeeDaoOjb extends PlatformAwareDaoBaseJdbc implements KemidFee
           return false;
         }
         
+        LOG.info("systemParametersForUpdateWaiverFeeAmounts() ended.");
+        
         return systemParameterExists;
     }
     

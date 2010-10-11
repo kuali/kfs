@@ -583,14 +583,16 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         criteria.put(EndowPropertyConstants.KEMID, kemid);
         KEMIDCurrentAvailableBalance theKEMIDCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KEMIDCurrentAvailableBalance.class, criteria);
 
-        if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)) {
-            if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailablePrincipalCash()))) {
-                GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+        if (ObjectUtils.isNotNull(theKEMIDCurrentAvailableBalance)) {
+            if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)) {
+                if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailablePrincipalCash()))) {
+                    GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+                }
             }
-        }
-        else {
-            if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailableTotalCash()))) {
-                GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+            else {
+                if (amount.isGreaterThan(new KualiDecimal(theKEMIDCurrentAvailableBalance.getAvailableTotalCash()))) {
+                    GlobalVariables.getMessageMap().putWarning(prefix + EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE, EndowKeyConstants.EndowmentTransactionDocumentConstants.WARNING_NO_SUFFICIENT_FUNDS);
+                }
             }
         }
     }

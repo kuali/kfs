@@ -17,10 +17,14 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
@@ -28,9 +32,13 @@ import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine;
+
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
@@ -55,10 +63,14 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,14 +93,15 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected KualiRuleService kualiRuleService;
     protected NoteService noteService;
     protected PersonService personService;
+    protected KualiConfigurationService configService;
     
     protected ReportWriterService processFeeTransactionsExceptionReportsWriterService;
     protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
     protected ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
     
     private EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
-    private EndowmentExceptionReportHeader processFeeTransactionsTotalProcessedReportHeader;
-    private EndowmentExceptionReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader;    
+    private FeeProcessingTotalsProcessedReportHeader processFeeTransactionsTotalProcessedReportHeader;
+    private FeeProcessingWaivedAndAccruedReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader;    
     
     private EndowmentExceptionReportHeader processFeeTransactionsRowValues;
     private EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
@@ -133,8 +146,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     public ProcessFeeTransactionsServiceImpl() {
         //report writer headers
         processFeeTransactionsExceptionReportHeader = new EndowmentExceptionReportHeader();
-        processFeeTransactionsTotalProcessedReportHeader = new EndowmentExceptionReportHeader();
-        processFeeTransactionsWaivedAndAccruedFeesReportHeader = new EndowmentExceptionReportHeader();
+        processFeeTransactionsTotalProcessedReportHeader = new FeeProcessingTotalsProcessedReportHeader();
+        processFeeTransactionsWaivedAndAccruedFeesReportHeader = new FeeProcessingWaivedAndAccruedReportHeader();
         
         processFeeTransactionsRowValues = new EndowmentExceptionReportHeader();
         processFeeTransactionsExceptionRowReason = new EndowmentExceptionReportHeader();  
@@ -194,6 +207,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             return false;
         }
         
+        LOG.info("updateKemidFeeWaivedFeeYearToDateToZero() ended."); 
         return updated;
     }
     
@@ -218,34 +232,39 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Processes update Fee Transactions
      */
     protected boolean processUpdateFeeTransactions() {
+        LOG.info("processUpdateFeeTransactions() started"); 
+        
         boolean success = true;
         
         java.util.Date currentDate = kemService.getCurrentDate();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
         for (FeeMethod feeMethod : feeMethods) {
+            String feeTypeCode = feeMethod.getFeeTypeCode();
+            
            //1. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to T (Transactions)
-            if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS)) {
+            if (feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS)) {
                 processTransactionArchivesCountForTransactionsFeeType(feeMethod);
             }
             
             //2. IF the END_FEE_MTHD_T:  FEE_TYP_CD is equal to B (Balance)
-            if (feeMethod.getFeeTypeCode().equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES)) {
+            if (feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES)) {
                 processBalanceFeeType(feeMethod);
             }
             
-            performCalculationsForKemId(feeMethod);
-            
-            success &= generateCashDecreaseDocument(feeMethod, kemService.getMaxNumberOfTransactionLinesPerDocument());
+            if (feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS) ||
+                feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES)) {    
+                performCalculationsForKemId(feeMethod);
+                success &= generateCashDecreaseDocument(feeMethod, kemService.getMaxNumberOfTransactionLinesPerDocument());
+            }
         }
         
         if (feeMethods.size() > 0) {
             // write out the grand totals line for Totals processed report...
             writeTotalsProcessedGrandTotalsLine();
         }
-        else {
-            //write message that there are no fee method records to process.
-        }
+        
+        LOG.info("processUpdateFeeTransactions() ended."); 
         
         return success;
     }
@@ -254,6 +273,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Generates the fee waived and fee accrued report
      */
     protected boolean generateWaivedAndAccruedReport() {
+        LOG.info("generateWaivedAndAccruedReport() started"); 
+        
         boolean success = true;
         KualiDecimal accruedFeeGrandTotal = new KualiDecimal("0");
         KualiDecimal waivedFeeGrandTotal = new KualiDecimal("0");
@@ -279,25 +300,27 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                 feeProcessingWaivedAndAccruedDetailTotalLine.setTotalWaivedFees(kemidFee.getTotalWaivedFees());
 
                 processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedDetailTotalLine);
-                processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
                 
-                accruedFeeSubTotal.add(kemidFee.getTotalAccruedFees());
-                waivedFeeSubTotal.add(kemidFee.getTotalWaivedFees());
+                accruedFeeSubTotal = accruedFeeSubTotal.add(kemidFee.getTotalAccruedFees());
+                waivedFeeSubTotal = waivedFeeSubTotal.add(kemidFee.getTotalWaivedFees());
             }
             
             feeProcessingWaivedAndAccruedSubTotalLine.setTotalAccruedFees(accruedFeeSubTotal);
             feeProcessingWaivedAndAccruedSubTotalLine.setTotalWaivedFees(waivedFeeSubTotal);
             
-            processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedSubTotalLine);
-            processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
-            
-            accruedFeeGrandTotal.add(accruedFeeSubTotal);
-            waivedFeeGrandTotal.add(waivedFeeSubTotal);
+            if (kemidFeeRecords.size() > 0) {
+                processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedSubTotalLine);
+                processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeNewLines(1);
+            }
+            accruedFeeGrandTotal = accruedFeeGrandTotal.add(accruedFeeSubTotal);
+            waivedFeeGrandTotal = waivedFeeGrandTotal.add(waivedFeeSubTotal);
         }
         
         feeProcessingWaivedAndAccruedGrandTotalLine.setTotalAccruedFees(accruedFeeGrandTotal);
         feeProcessingWaivedAndAccruedGrandTotalLine.setTotalWaivedFees(waivedFeeGrandTotal);
         processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedGrandTotalLine);
+        
+        LOG.info("generateWaivedAndAccruedReport() ended."); 
         
         return success;
     }
@@ -346,14 +369,16 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      *         total holding market value for all selected records.
      */
     protected void processBalanceFeeType(FeeMethod feeMethod) {
+        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
+
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_COUNT)) {
             //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || 
-                feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) { 
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || 
+                feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) { 
                 totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod);
             }
             
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
                 totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingUnits(feeMethod);
             }
             
@@ -363,12 +388,13 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         //if FEE_RATE_DEFINITION_CODE_FOR_COUNT = "V"
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_VALUE)) {
             //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
-                feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
+            
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
+                feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
                 totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);
             }
             
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
                 totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingMarketValue(feeMethod);
             }
             
@@ -381,6 +407,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param feeMethod 
      */
     protected void performCalculationsForKemId(FeeMethod feeMethod) {
+        LOG.info("performCalculationsForKemId() started"); 
+        
         Collection<KemidFee> kemidFeeRecords = new ArrayList();
         
         kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
@@ -399,6 +427,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                 }
             }
         }
+        
+        LOG.info("performCalculationsForKemId() ended."); 
     }
     
     /**
@@ -412,17 +442,20 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param feeMethod
      */
     protected void performCalculationsAgainstTotalAmountCalculated(FeeMethod feeMethod) {
-        if (totalAmountCalculated.compareTo(feeMethod.getFirstFeeBreakpoint().bigDecimalValue()) <= 0) {
-            feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getFirstFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
+        BigDecimal firstFeeBreakpoint = feeMethod.getFirstFeeBreakpoint().bigDecimalValue();
+        BigDecimal secondFeeBreakpoint = feeMethod.getSecondFeeBreakpoint().bigDecimalValue();
+        
+        if (totalAmountCalculated.compareTo(firstFeeBreakpoint) <= 0) {
+            feeToBeCharged = feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getFirstFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
         }
         
-        if (totalAmountCalculated.compareTo(feeMethod.getFirstFeeBreakpoint().bigDecimalValue()) > 0 &&
-            totalAmountCalculated.compareTo(feeMethod.getSecondFeeBreakpoint().bigDecimalValue()) <= 0){
-            feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getSecondFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
+        if (totalAmountCalculated.compareTo(firstFeeBreakpoint) > 0 &&
+            totalAmountCalculated.compareTo(secondFeeBreakpoint) <= 0){
+            feeToBeCharged = feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getSecondFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
         }
         
-        if (totalAmountCalculated.compareTo(feeMethod.getSecondFeeBreakpoint().bigDecimalValue()) > 0){
-            feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getThirdFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
+        if (totalAmountCalculated.compareTo(secondFeeBreakpoint) > 0){
+            feeToBeCharged = feeToBeCharged.add(KEMCalculationRoundingHelper.multiply(totalAmountCalculated, feeMethod.getThirdFeeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE));
         }
     }
     
@@ -505,24 +538,32 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param feeMethod, kemidFee
      */
     protected boolean generateCashDecreaseDocument(FeeMethod feeMethod, int maxNumberOfTransacationLines) {
-        int lineNumber = 1;
+        LOG.info("generateCashDecreaseDocument() entered.");  
+        
+        String feeMethodCode = feeMethod.getCode();
+        int lineNumber = 0;
+        
+        Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethodCode);
+        
+        if (kemidFeeRecords.size() <= 0) {
+            return true;
+        }
         
         // initialize CashDecreaseDocument...
         CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) createNewCashDecreaseDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
         if (ObjectUtils.isNull(cashDecreaseDocument)) {
-            writeExceptionReportLine(feeMethod.getCode(), null, "Reason: Unable to create a new CashDecreaseDocument.");
+            writeExceptionReportLine(feeMethodCode, null, "Reason: Unable to create a new CashDecreaseDocument.");
             return false;
         }
         
         //sets document description and source type code and subtype code
         setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
         
-        Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
         for (KemidFee kemidFee : kemidFeeRecords) {
             if (lineNumber <= maxNumberOfTransacationLines) {
-                if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, lineNumber, maxNumberOfTransacationLines)) {
+                if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, ++lineNumber, maxNumberOfTransacationLines)) {
                     //write out the exception for this kemid but keep continuing....
-                    writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: Unable to add the transaction line to the document.");
+                  //  writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to add the transaction line to the document.");
                 }
             }
             else {
@@ -530,12 +571,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                 if (kualiRuleService.applyRules(new RouteDocumentEvent(cashDecreaseDocument))) {
                     if (submitDocumentForApprovalProcess(cashDecreaseDocument, feeMethod)) {
                         // write the detail line for eDoc level...
-                        writeTotalsProcessedDetailTotalsLine(cashDecreaseDocument.getDocumentNumber(), feeMethod.getCode(), lineNumber);
+                        writeTotalsProcessedDetailTotalsLine(cashDecreaseDocument.getDocumentNumber(), feeMethodCode, lineNumber);
                         
                         // initialize CashDecreaseDocument...
                         cashDecreaseDocument = (CashDecreaseDocument) createNewCashDecreaseDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
                         if (ObjectUtils.isNull(cashDecreaseDocument)) {
-                            writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: Unable to create a new CashDecreaseDocument.");
+                            writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to create a new CashDecreaseDocument.");
                             return false;
                         }
 
@@ -544,17 +585,35 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                     }
                     else {
                         //write out exception since can not submit the document....
-                        writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: Unable to submit or route the document.");
+                        writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to submit or route the document.");
                     }
                 }
                 else {
                     // document rules did not pass the validations.  so write exception report....
-                    writeExceptionReportLine(feeMethod.getCode(), kemidFee.getKemid(), "Reason: The document did not pass the rule validations.");
+                    writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: The document did not pass the rule validations during routing.");
                 }
             }
         }
         
-        writeTotalsProcessedSubTotalsLine(feeMethod.getCode());
+        //submit the document as all the transactional lines have been added..
+        if (kualiRuleService.applyRules(new RouteDocumentEvent(cashDecreaseDocument))) {
+            if (submitDocumentForApprovalProcess(cashDecreaseDocument, feeMethod)) {
+                // write the detail line for eDoc level...
+                writeTotalsProcessedDetailTotalsLine(cashDecreaseDocument.getDocumentNumber(), feeMethodCode, lineNumber);
+            }
+            else {
+                //write out exception since can not submit the document....
+                writeExceptionReportLine(feeMethodCode, null, "Reason: Unable to submit or route the document.");
+            }
+                
+        }
+        else {
+            // document rules did not pass the validations.  so write exception report....
+            writeExceptionReportLine(feeMethodCode, null, "Reason: The document did not pass the rule validations during routing.");
+        }
+        
+        writeTotalsProcessedSubTotalsLine(feeMethodCode);
+        LOG.info("generateCashDecreaseDocument() ended.");
         
         return true;
     }
@@ -567,12 +626,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         feeProcessingTotalsProcessedDetailTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotalEDoc.toString()));        
 
         processFeeTransactionsTotalProcessedReportsWriterService.writeTableRow(feeProcessingTotalsProcessedDetailTotalLine);
-        processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
+    //    processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
 
         // add the edoc subtotals to fee method subtotal...
         totalProcessedLinesGeneratedSubTotal += totalLinesGenerated;
-        totalProcessedIncomeAmountSubTotal.add(totalProcessedIncomeAmountSubTotalEDoc); 
-        totalProcessedPrincipalAmountSubTotal.add(totalProcessedPrincipalAmountSubTotalEDoc); 
+        totalProcessedIncomeAmountSubTotal = totalProcessedIncomeAmountSubTotal.add(totalProcessedIncomeAmountSubTotalEDoc); 
+        totalProcessedPrincipalAmountSubTotal = totalProcessedPrincipalAmountSubTotal.add(totalProcessedPrincipalAmountSubTotalEDoc); 
     }
     
     protected void writeTotalsProcessedSubTotalsLine(String feeMethodCode) {
@@ -584,8 +643,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         processFeeTransactionsTotalProcessedReportsWriterService.writeTableRow(feeProcessingTotalsProcessedSubTotalLine);
         processFeeTransactionsTotalProcessedReportsWriterService.writeNewLines(1);
         
-        totalProcessedIncomeAmountGrandTotal.add(totalProcessedIncomeAmountSubTotal);
-        totalProcessedPrincipalAmountGrandTotal.add(totalProcessedPrincipalAmountSubTotal); 
+        totalProcessedIncomeAmountGrandTotal = totalProcessedIncomeAmountGrandTotal.add(totalProcessedIncomeAmountSubTotal);
+        totalProcessedPrincipalAmountGrandTotal = totalProcessedPrincipalAmountGrandTotal.add(totalProcessedPrincipalAmountSubTotal); 
         totalProcessedLinesGeneratedGrandTotal += totalProcessedLinesGeneratedSubTotal;
     }
     
@@ -594,6 +653,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         feeProcessingTotalsProcessedGrandTotalLine.setLinesGenerated(totalProcessedLinesGeneratedGrandTotal);
         feeProcessingTotalsProcessedGrandTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountGrandTotal.toString()));
         feeProcessingTotalsProcessedGrandTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountGrandTotal.toString()));
+
+        processFeeTransactionsTotalProcessedReportsWriterService.writeTableRow(feeProcessingTotalsProcessedGrandTotalLine);
     }
     
     /**
@@ -617,6 +678,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @return true if successful in submitting or routing the document.
      */
     protected boolean submitDocumentForApprovalProcess(CashDecreaseDocument cashDecreaseDocument, FeeMethod feeMethod) {
+        LOG.info("submitDocumentForApprovalProcess() entered.");
+        
         boolean success = true;
         
         if (feeMethod.getFeePostPendingIndicator()) {
@@ -625,6 +688,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         else {
             success = routeCashDecreaseDocument(cashDecreaseDocument);
         }
+        
+        LOG.info("submitDocumentForApprovalProcess() ended.");
         
         return success;
     }
@@ -649,7 +714,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     
     /**
      * 
-     * IF the END_KEMID_FEE_T:  PCT_CHRG_FEE_TO_INC is equal to 100%, then Ggenerate the 
+     * IF the END_KEMID_FEE_T:  PCT_CHRG_FEE_TO_INC is equal to 100%, then generate the 
      * transaction line(s) for the eDoc
      * @param cashDecreaseDocument
      * @param feeMethod
@@ -662,8 +727,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         // logic as in 9.3.b
         if (kemidFee.getPercentOfFeeChargedToIncome().equals(new KualiDecimal("1"))) {
             EndowmentSourceTransactionLine endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.INCOME, feeToBeCharged);
-            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, lineNumber)) {
-                totalProcessedIncomeAmountSubTotalEDoc.add(feeToBeCharged);
+            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, lineNumber, feeMethod.getCode())) {
+                totalProcessedIncomeAmountSubTotalEDoc = totalProcessedIncomeAmountSubTotalEDoc.add(feeToBeCharged);
                 return true;
             }
             else {
@@ -675,8 +740,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         BigDecimal feeAmountForIncome = KEMCalculationRoundingHelper.multiply(feeToBeCharged, new BigDecimal(kemidFee.getPercentOfFeeChargedToIncome().toString()), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.INCOME, feeAmountForIncome);
 
-        if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber)) {
-            totalProcessedIncomeAmountSubTotalEDoc.add(feeAmountForIncome);
+        if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber, feeMethod.getCode())) {
+            totalProcessedIncomeAmountSubTotalEDoc = totalProcessedIncomeAmountSubTotalEDoc.add(feeAmountForIncome);
         }
         else {
             return false;
@@ -686,8 +751,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         if (lineNumber <= maxNumberOfTransacationLines) {
             endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, feeAmountForPrincipal);
-            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber)) {
-                totalProcessedPrincipalAmountSubTotalEDoc.add(feeAmountForPrincipal);
+            if (addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber, feeMethod.getCode())) {
+                totalProcessedPrincipalAmountSubTotalEDoc = totalProcessedPrincipalAmountSubTotalEDoc.add(feeAmountForPrincipal);
                 return true;                
             }
             else {
@@ -710,7 +775,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             
             lineNumber = 1;
             endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, feeAmountForPrincipal);
-            return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber);
+            return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber, feeMethod.getCode());
         }
     }
     
@@ -722,7 +787,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param lineNumber
      * @return true if the line passed the business rules and added successfully else false.
      */
-    protected boolean addTransactionLineToDocument(CashDecreaseDocument cashDecreaseDocument, EndowmentSourceTransactionLine endowmentSourceTransactionLine, int lineNumber) {
+    protected boolean addTransactionLineToDocument(CashDecreaseDocument cashDecreaseDocument, EndowmentSourceTransactionLine endowmentSourceTransactionLine, int lineNumber, String feeMethodCode) {
         boolean added = true;
         
         if (kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, cashDecreaseDocument, endowmentSourceTransactionLine))) {
@@ -730,11 +795,69 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             cashDecreaseDocument.setNextSourceLineNumber(lineNumber);
         }
         else {
-            LOG.info("CashDecreaseDocument Rules Failed.  Can not process this document");
+            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Kemid: " + endowmentSourceTransactionLine.getKemid());
+            
+            ++lineNumber;
+            
+            processFeeTransactionsRowValues.setColumnHeading1(feeMethodCode);
+            processFeeTransactionsRowValues.setColumnHeading2(endowmentSourceTransactionLine.getKemid());
+            processFeeTransactionsRowValues.setColumnHeading3(feeToBeCharged.toString());
+            processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsRowValues);
+            
+            List<String> errorMessages = extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                processFeeTransactionsExceptionReportsWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
+            }
+
+            processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
+            GlobalVariables.clear();
             return false;
         }
         
         return added;
+    }
+    
+    /**
+     * Extracts errors for error report writing.
+     * 
+     * @return a list of error messages
+     */
+    protected List<String> extractGlobalVariableErrors() {
+        List<String> result = new ArrayList<String>();
+
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+
+        Set<String> errorKeys = errorMap.keySet();
+        List<ErrorMessage> errorMessages = null;
+        Object[] messageParams;
+        String errorKeyString;
+        String errorString;
+
+        for (String errorProperty : errorKeys) {
+            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            for (ErrorMessage errorMessage : errorMessages) {
+                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                messageParams = errorMessage.getMessageParameters();
+
+                // MessageFormat.format only seems to replace one
+                // per pass, so I just keep beating on it until all are gone.
+                if (StringUtils.isBlank(errorKeyString)) {
+                    errorString = errorMessage.getErrorKey();
+                }
+                else {
+                    errorString = errorKeyString;
+                }
+                System.out.println(errorString);
+                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                    errorString = MessageFormat.format(errorString, messageParams);
+                }
+                result.add(errorString);
+            }
+        }
+
+        // clear the stuff out of global vars, as we need to reformat it and put it back
+        GlobalVariables.clear();
+        return result;
     }
     
     /**
@@ -800,10 +923,32 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected boolean routeCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
         boolean routed = true;
         
+        cashDecreaseDocument.setNoRouteIndicator(true);            
+        
         try {
             documentService.routeDocument(cashDecreaseDocument, "Submitted the document for routing.", null);
         }
         catch (WorkflowException wfe) {
+            try {
+                Note approveNote = noteService.createNote(new Note(), cashDecreaseDocument.getDocumentHeader());
+                approveNote.setNoteText("Submitted the document as a 'No Route'.");
+
+                Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
+                
+                noteService.save(approveNote);
+                
+                cashDecreaseDocument.addNote(approveNote);
+                
+                documentService.saveDocument(cashDecreaseDocument);
+            }
+            catch (WorkflowException wfesave) {
+                return false;
+            }
+            catch (Exception ex) {
+                return false;            
+            }
+            
             return false;
         }
         
@@ -962,7 +1107,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the processFeeTransactionsTotalProcessedReportHeader attribute. 
      * @return Returns the processFeeTransactionsTotalProcessedReportHeader.
      */
-    public EndowmentExceptionReportHeader getProcessFeeTransactionsTotalProcessedReportHeader() {
+    public FeeProcessingTotalsProcessedReportHeader getProcessFeeTransactionsTotalProcessedReportHeader() {
         return processFeeTransactionsTotalProcessedReportHeader;
     }
 
@@ -970,7 +1115,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Sets the processFeeTransactionsTotalProcessedReportHeader attribute value.
      * @param processFeeTransactionsTotalProcessedReportHeader The processFeeTransactionsTotalProcessedReportHeader to set.
      */
-    public void setProcessFeeTransactionsTotalProcessedReportHeader(EndowmentExceptionReportHeader processFeeTransactionsTotalProcessedReportHeader) {
+    public void setProcessFeeTransactionsTotalProcessedReportHeader(FeeProcessingTotalsProcessedReportHeader processFeeTransactionsTotalProcessedReportHeader) {
         this.processFeeTransactionsTotalProcessedReportHeader = processFeeTransactionsTotalProcessedReportHeader;
     }
 
@@ -978,7 +1123,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute. 
      * @return Returns the processFeeTransactionsWaivedAndAccruedFeesReportHeader.
      */
-    public EndowmentExceptionReportHeader getProcessFeeTransactionsWaivedAndAccruedFeesReportHeader() {
+    public FeeProcessingWaivedAndAccruedReportHeader getProcessFeeTransactionsWaivedAndAccruedFeesReportHeader() {
         return processFeeTransactionsWaivedAndAccruedFeesReportHeader;
     }
 
@@ -986,7 +1131,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Sets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute value.
      * @param processFeeTransactionsWaivedAndAccruedFeesReportHeader The processFeeTransactionsWaivedAndAccruedFeesReportHeader to set.
      */
-    public void setProcessFeeTransactionsWaivedAndAccruedFeesReportHeader(EndowmentExceptionReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader) {
+    public void setProcessFeeTransactionsWaivedAndAccruedFeesReportHeader(FeeProcessingWaivedAndAccruedReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader) {
         this.processFeeTransactionsWaivedAndAccruedFeesReportHeader = processFeeTransactionsWaivedAndAccruedFeesReportHeader;
     }
 
@@ -1254,5 +1399,22 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     public void setFeeProcessingTotalsProcessedGrandTotalLine(FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine) {
         this.feeProcessingTotalsProcessedGrandTotalLine = feeProcessingTotalsProcessedGrandTotalLine;
     }
+    
+    /**
+     * Gets the configService attribute. 
+     * @return Returns the configService.
+     */
+    protected KualiConfigurationService getConfigService() {
+        return configService;
+    }
+
+    /**
+     * Sets the configService.
+     * @param configService
+     */
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
+    }
+    
 }
 

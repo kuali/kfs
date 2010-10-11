@@ -132,6 +132,12 @@ public class BatchFileUploadServlet extends HttpServlet {
                 }
             }
             LOG.info("Copying to Directory: " + destPath);
+            
+            if ( !getBatchDirectories().contains(destPath) ) {
+                new File(tempDir, fileName).delete();
+                throw new RuntimeException( "Illegal Attempt to upload to an unauthorized path: '" + destPath + "'" );
+            }
+            
             BufferedInputStream bis = new BufferedInputStream( new FileInputStream( new File(tempDir, fileName) ) ); 
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(destPath, fileName)), 1024 * 1024);
             byte buf[] = new byte[10240];

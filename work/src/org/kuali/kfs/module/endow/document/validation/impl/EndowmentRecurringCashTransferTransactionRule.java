@@ -73,7 +73,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String etranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
         String ipIndicator = endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal();
         // endowmentRecurringCashTransfer.refreshReferenceObject("etranCodeObj");
-        success &= checkEtranType(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, endowmentRecurringCashTransfer.getEtranCodeObj());
+        success &= checkSourceEtranType(endowmentRecurringCashTransfer.getEtranCodeObj());
         
         success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator);
         
@@ -140,7 +140,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String etranCode = endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode();
         String ipIndicator = endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal();
 
-        success &= checkEtranType(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCodeObj());
+        success &= checkTargetEtranType(endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCodeObj());
         
         success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, kemid, etranCode, ipIndicator);
 
@@ -289,13 +289,30 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         return true;
     }
     
-    private static boolean checkEtranType(String property, EndowmentTransactionCode eTranCodeObject){
-        String eTranTypeCode = eTranCodeObject.getEndowmentTransactionTypeCode();
-        if (!eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE) && !eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE)){
-            GlobalVariables.getMessageMap().putError(property, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE);
+    private boolean checkSourceEtranType(EndowmentTransactionCode eTranCodeObject){
+        if (!checkEtranType(eTranCodeObject)){
+            putFieldError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE);
+            return false; 
         }
         return true;   
     }
+    
+    private static boolean checkTargetEtranType(EndowmentTransactionCode eTranCodeObject){
+        if (!checkEtranType(eTranCodeObject)){
+            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, EndowKeyConstants.EndowmentRecurringCashTransfer.ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE);
+            return false; 
+        }
+        return true;   
+    }
+    
+    private static boolean checkEtranType(EndowmentTransactionCode eTranCodeObject) {
+        String eTranTypeCode = eTranCodeObject.getEndowmentTransactionTypeCode();
+        if (!eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE) && !eTranTypeCode.equals(EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE)){
+            return false; 
+        }
+        return true;
+    }
+    
     
     private static boolean checkEtranCodeWithChart(String property, String kemid, String etranCode, String ipIndicator) {
         

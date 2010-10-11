@@ -86,14 +86,16 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         int counter = 0;
         List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
-        for (Security security : securityRecords) {
-            String frequencyCode = security.getIncomePayFrequency();           
-            if (frequencyCode != null && !frequencyCode.isEmpty()) {
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode);
-                if (nextDate != null) {
-                    security.setIncomeNextPayDate(nextDate);
-                    businessObjectService.save(security);
-                    counter++;
+        if (securityRecords != null) {
+            for (Security security : securityRecords) {
+                String frequencyCode = security.getIncomePayFrequency();           
+                if (frequencyCode != null && !frequencyCode.isEmpty()) {
+                    Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode);
+                    if (nextDate != null) {
+                        security.setIncomeNextPayDate(nextDate);
+                        businessObjectService.save(security);
+                        counter++;
+                    }
                 }
             }
         }
@@ -107,15 +109,17 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected void updateTicklerNextDueDates() {
         
         int counter = 0;
-        List<Tickler> TicklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
-        for (Tickler tickler : TicklerRecords) {
-            String frequencyCode = tickler.getFrequencyCode();           
-            if (frequencyCode != null && !frequencyCode.isEmpty()) {
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
-                if (nextDate != null) {
-                    tickler.setNextDueDate(nextDate);
-                    businessObjectService.save(tickler);
-                    counter++;
+        List<Tickler> ticklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
+        if (ticklerRecords != null) {
+            for (Tickler tickler : ticklerRecords) {
+                String frequencyCode = tickler.getFrequencyCode();           
+                if (frequencyCode != null && !frequencyCode.isEmpty()) {
+                    Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                    if (nextDate != null) {
+                        tickler.setNextDueDate(nextDate);
+                        businessObjectService.save(tickler);
+                        counter++;
+                    }
                 }
             }
         }
@@ -130,15 +134,17 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         int counter = 0;
         List<FeeMethod> feeMethodRecords = feeMethodDao.getFeeMethodWithNextPayDateEqualToCurrentDate();
-        for (FeeMethod feeMethod : feeMethodRecords) {                        
-            String frequencyCode = feeMethod.getFeeFrequencyCode();           
-            if (frequencyCode != null && !frequencyCode.isEmpty()) {                
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
-                if (nextDate != null) {
-                    feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
-                    feeMethod.setFeeNextProcessDate(nextDate);
-                    businessObjectService.save(feeMethod);
-                    counter++;
+        if (feeMethodRecords != null) {
+            for (FeeMethod feeMethod : feeMethodRecords) {                        
+                String frequencyCode = feeMethod.getFeeFrequencyCode();           
+                if (frequencyCode != null && !frequencyCode.isEmpty()) {                
+                    Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                    if (nextDate != null) {
+                        feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
+                        feeMethod.setFeeNextProcessDate(nextDate);
+                        businessObjectService.save(feeMethod);
+                        counter++;
+                    }
                 }
             }
         }
@@ -153,15 +159,17 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         int counter = 0;
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
-        for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
-            String frequencyCode = recurringCashTransfer.getFrequencyCode();           
-            if (frequencyCode != null && !frequencyCode.isEmpty()) {                
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
-                if (nextDate != null) {
-                    recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
-                    recurringCashTransfer.setNextProcessDate(nextDate);
-                    businessObjectService.save(recurringCashTransfer);
-                    counter++;
+        if (recurringCashTransferRecords != null) {
+            for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
+                String frequencyCode = recurringCashTransfer.getFrequencyCode();           
+                if (frequencyCode != null && !frequencyCode.isEmpty()) {                
+                    Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                    if (nextDate != null) {
+                        recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
+                        recurringCashTransfer.setNextProcessDate(nextDate);
+                        businessObjectService.save(recurringCashTransfer);
+                        counter++;
+                    }
                 }
             }
         }
@@ -169,10 +177,11 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         LOG.info("Total Next Process Dates and Last Process Dates updated: " + counter);
     }
 
-    protected <T extends EndowmentSecurityDetailsDocumentBase >void generateReport(String tableName, int counter, boolean isFirstReport) {
+    protected void generateReport(String tableName, int counter, boolean isFirstReport) {
         
         try {
             if (isFirstReport) {
+                // write the title
                 rollFrequencyDatesReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Number of Records Updated");
                 rollFrequencyDatesReportWriterService.writeNewLines(1);
             }

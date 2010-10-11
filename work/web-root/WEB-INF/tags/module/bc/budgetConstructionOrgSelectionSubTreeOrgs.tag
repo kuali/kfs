@@ -117,8 +117,8 @@
             <td colspan="4" valign="center" class="infoline" nowrap="nowrap">
                 <div align="center">
                     <html:image property="methodToCall.selectPushOrgLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorg.gif" title="Select Org Lev All" alt="Select Org Lev All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setmanagerlevel.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
-                    <html:image property="methodToCall.selectPushOrgMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setorgmanaglevel.gif" title="Select Org and Mgr Lev All" alt="Select Org and Mgr Lev All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setfiscofflevel.gif" title="Select Mgr Lev All" alt="Select Mgr Lev All" styleClass="tinybutton" />
+                    <html:image property="methodToCall.selectPushOrgMgrLevAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setfiscorgofflevel.gif" title="Select Org and Mgr Lev All" alt="Select Org and Mgr Lev All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushLevOneAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setlevelone.gif" title="Select Lev One All" alt="Select Lev One All" styleClass="tinybutton" />
                     <html:image property="methodToCall.selectPushLevZeroAll" src="${ConfigProperties.externalizable.images.url}tinybutton-setlevelzero.gif" title="Select Lev Zero All" alt="Select Lev Zero All" styleClass="tinybutton" />
                     <html:image property="methodToCall.clearAll" src="${ConfigProperties.externalizable.images.url}tinybutton-clearall.gif" title="Clear All" alt="Clear All" styleClass="tinybutton" />

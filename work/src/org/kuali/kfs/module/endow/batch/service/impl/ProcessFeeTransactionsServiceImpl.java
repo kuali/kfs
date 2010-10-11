@@ -610,7 +610,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * After the last transaction line allowed in the eDoc (based on the institutional parameter) or 
      * the last KEMID fee calculated for the fee method, IF the END_FEE_MTHD_T: FEE_POST_PEND_IND is 
-     * equal to Y submit the document as a blanket approved”No Route” document.
+     * equal to Y submit the document as a blanket approved 'No Route' document.
      * Otherwise, submit the document for routing and approval.
      * @param cashDecreaseDocument
      * @param feeMethod

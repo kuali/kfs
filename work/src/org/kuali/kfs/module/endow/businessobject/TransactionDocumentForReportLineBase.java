@@ -54,11 +54,27 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     }
     
     /**
+     * Sets the securityId attribute. 
+     * @param the securityId.
+     */
+    public void setSecurityId(String securityId) {
+        this.securityId = securityId;
+    }
+    
+    /**
      * Gets the incomeAmount attribute. 
      * @return Returns the incomeAmount.
      */
     public KualiDecimal getIncomeAmount() {
         return incomeAmount;
+    }
+    
+    /**
+     * Sets the incomeAmount attribute. 
+     * @param the incomeAmount.
+     */
+    public void setIncomeAmount(KualiDecimal incomeAmount) {
+        this.incomeAmount = incomeAmount;
     }
     
     /**
@@ -70,6 +86,14 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     }
     
     /**
+     * Sets the incomeUnits attribute. 
+     * @param the incomeUnits.
+     */
+    public void setIncomeUnits(KualiDecimal incomeUnits) {
+        this.incomeUnits = incomeUnits;
+    }
+    
+    /**
      * Gets the principalAmount attribute. 
      * @return Returns the principalAmount.
      */
@@ -78,44 +102,28 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     }
     
     /**
+     * Sets the principalAmount attribute. 
+     * @param the principalAmount.
+     */
+    public void setPrincipalAmount(KualiDecimal principalAmount) {
+        this.principalAmount = principalAmount;
+    }
+    
+    /**
      * Gets the principalUnits attribute. 
      * @return Returns the principalUnits.
      */
     public KualiDecimal getPrincipalUnits() {
         return principalUnits;
-    }
-          
+    }  
+
     /**
-     * Adds a income amount to the current income total
-     * @param incomeAmount the income amount to add to the income total
+     * Sets the principalUnits attribute. 
+     * @param the principalUnits.
      */
-    public void addIncomeAmount(KualiDecimal incomeAmount) {
-        this.incomeAmount = this.incomeAmount.add(incomeAmount);        
-    }
-    
-    /**
-     * Adds a income units to the current income units total
-     * @param incomeUnits the income units to add to the income units total
-     */
-    public void addIncomeUnits(KualiDecimal incomeAmount) {
-        this.incomeAmount = this.incomeAmount.add(incomeAmount);        
-    }
-    
-    /**
-     * Adds a principal amount to the current principal total
-     * @param principalAmount the principal amount to add to the principal total
-     */
-    public void addPrincipalAmount(KualiDecimal principalAmount) {
-        this.principalAmount = this.principalAmount.add(principalAmount);        
-    }
-    
-    /**
-     * Adds a principal units to the current principal units total
-     * @param principalUnits the principal units to add to the principal units total
-     */
-    public void addPrincipalUnits(KualiDecimal principalUnits) {
-        this.principalUnits = this.principalUnits.add(principalUnits);        
-    }
+    public void setPrincipalUnits(KualiDecimal principalUnits) {
+        this.principalUnits = principalUnits;
+    }   
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -124,6 +132,5 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     protected LinkedHashMap toStringMapper() {
         return new LinkedHashMap();
     }
-
 
 }

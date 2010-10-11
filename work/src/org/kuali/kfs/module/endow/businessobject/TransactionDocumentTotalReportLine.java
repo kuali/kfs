@@ -60,5 +60,23 @@ public class TransactionDocumentTotalReportLine extends TransactionDocumentForRe
         this.principalAmount = this.principalAmount.add(principalAmount); 
         this.totalNumberOfTransactionLines++;
     }
+    
+    
+    /**
+     * Adds a income units to the current income units total
+     * @param incomeUnits the income units to add to the income units total
+     */
+    public void addIncomeUnits(KualiDecimal incomeAmount) {
+        this.incomeAmount = this.incomeAmount.add(incomeAmount);        
+    }    
+   
+    /**
+     * Adds a principal units to the current principal units total
+     * @param principalUnits the principal units to add to the principal units total
+     */
+    public void addPrincipalUnits(KualiDecimal principalUnits) {
+        this.principalUnits = this.principalUnits.add(principalUnits);        
+    }
+
  
 }

@@ -23,6 +23,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -35,11 +36,22 @@ public class TransactionTypeValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList();
-        List<String> types = SpringContext.getBean(ParameterService.class).getParameterValues(EndowmentRecurringCashTransfer.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES);
+        // Create label and initialize with the first entry being blank.
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        keyValues.add(new KeyLabelPair("", ""));
+        
+        List<String> documentTypeNames = SpringContext.getBean(ParameterService.class).getParameterValues(EndowmentRecurringCashTransfer.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES);
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
 
-        for (String type : types) {
-            keyValues.add(new KeyLabelPair(type, type));
+        String label= null;
+        for (String documentTypeName : documentTypeNames) {
+            if(documentTypeService.findByName(documentTypeName)== null){
+                keyValues.add(new KeyLabelPair(documentTypeName, documentTypeName+" - Can't find it!"));
+            }
+            else{
+                label = documentTypeService.findByName(documentTypeName).getLabel();
+                keyValues.add(new KeyLabelPair(documentTypeName, documentTypeName+" - "+label));
+            }            
         }
 
         return keyValues;

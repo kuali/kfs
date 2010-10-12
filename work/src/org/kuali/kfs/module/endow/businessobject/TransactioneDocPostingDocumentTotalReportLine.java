@@ -142,5 +142,4 @@ public class TransactioneDocPostingDocumentTotalReportLine extends TransientBusi
         return new LinkedHashMap<Object, Object>();
     }
     
- 
 }

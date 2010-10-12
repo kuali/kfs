@@ -27,7 +27,6 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.EndowmenteDocPostingService;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
@@ -38,8 +37,6 @@ import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
-import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
-import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
@@ -50,6 +47,7 @@ import org.kuali.kfs.module.endow.document.service.PendingTransactionDocumentSer
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,6 +85,9 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         
         boolean success = true;
 
+        // Data structure used to keep track of stats.
+        Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats = new HashMap<String, List<TransactioneDocPostingDocumentTotalReportLine>>();
+        
         // First get all the pending entries.  These entries already represent
         // transaction documents that are awaiting to be processed.
         Collection<PendingTransactionDocumentEntry> pendingEntries = 
@@ -103,14 +104,14 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
             // Only want to process EndowmentTransactionLinesDocumentBase parent types.
             if (tranDoc instanceof EndowmentTransactionLinesDocumentBase) {
-                processTransactionLines((EndowmentTransactionLinesDocumentBase)tranDoc, pendingEntry, pendingEntry.getDocumentType());
+                processTransactionLines((EndowmentTransactionLinesDocumentBase)tranDoc, pendingEntry, pendingEntry.getDocumentType(), postingStats);
                 
                 // After the TRAN_DOC_T:TRAN_PSTD is set to 'Y', the pending entry should be
                 // removed from the DB.
                 businessObjectService.delete(pendingEntry);
             }
         }
-          
+        writeStatistics(postingStats); 
         LOG.info("Processed and processed all eDocs successfully."); 
         return success;
     }
@@ -123,7 +124,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     private void processTransactionLines(
             EndowmentTransactionLinesDocumentBase lineDoc,
             PendingTransactionDocumentEntry pendingEntry,
-            String documentType)
+            String documentType,
+            Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats)
     {       
         List<EndowmentTransactionLine> tranLines = new ArrayList<EndowmentTransactionLine>();
         tranLines.addAll(lineDoc.getSourceTransactionLines());
@@ -147,7 +149,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         // Step 6.
         lineDoc.setTransactionPosted(true);
         businessObjectService.save(lineDoc);
-        writeProcessedEntry(lineDoc, documentType, tranLines);
+        writeProcessedEntry(lineDoc, documentType, tranLines, postingStats);
     }
 
     /**
@@ -597,7 +599,12 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param documentType
      * @param tranLines
      */
-    private void writeProcessedEntry(EndowmentTransactionLinesDocumentBase lineDoc, String documentType, List<EndowmentTransactionLine> tranLines) {
+    private void writeProcessedEntry(
+            EndowmentTransactionLinesDocumentBase lineDoc, 
+            String documentType, 
+            List<EndowmentTransactionLine> tranLines,
+            Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats) {
+        
         TransactioneDocPostingDocumentTotalReportLine eDocTotalReportLine = new TransactioneDocPostingDocumentTotalReportLine();
     
         eDocTotalReportLine.setDocumentName(lineDoc.getDocumentNumber());
@@ -607,8 +614,9 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         eDocTotalReportLine.setTotalUnits(lineDoc.getTotalUnits());
         eDocTotalReportLine.setTotalHoldingCost(lineDoc.getTotalDollarAmount());
         
-        eDocPostingProcessedReportWriterService.writeTableRow(eDocTotalReportLine);        
+        eDocPostingProcessedReportWriterService.writeTableRow(eDocTotalReportLine);
         eDocPostingProcessedReportWriterService.writeNewLines(1);
+        updatePostingStats(postingStats, eDocTotalReportLine);
     }
     
     /**
@@ -632,6 +640,75 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         eDocPostingExceptionReportWriterService.writeNewLines(1);
     }
 
+    /**
+     * 
+     * Print the statistics.
+     *
+     * @param postingStats
+     */
+    private void writeStatistics(Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats) {
+        
+        KualiDecimal grandIncomeCash    = KualiDecimal.ZERO;
+        KualiDecimal grandPrincipleCash = KualiDecimal.ZERO;
+        KualiDecimal grandUnits         = KualiDecimal.ZERO;
+        KualiDecimal grandCost          = KualiDecimal.ZERO;
+        
+        for (Map.Entry<String, List<TransactioneDocPostingDocumentTotalReportLine>> entry : postingStats.entrySet()) {
+            
+            KualiDecimal incomeCash    = KualiDecimal.ZERO;
+            KualiDecimal principleCash = KualiDecimal.ZERO;
+            KualiDecimal units         = KualiDecimal.ZERO;
+            KualiDecimal cost          = KualiDecimal.ZERO;
+            
+            for (TransactioneDocPostingDocumentTotalReportLine reportLine : entry.getValue()) {
+                incomeCash    = incomeCash.add(reportLine.getTotalIncomeCash());
+                principleCash = principleCash.add(reportLine.getTotalPrincipleCash());
+                units         = units.add(reportLine.getTotalUnits());
+                cost          = cost.add(reportLine.getTotalHoldingCost());
+                
+                grandIncomeCash    = grandIncomeCash.add(incomeCash);
+                grandPrincipleCash = grandPrincipleCash.add(principleCash);
+                grandUnits         = grandUnits.add(units);
+                grandCost          = grandCost.add(cost);
+            }
+            
+            // Write the per document type statistics line.
+            eDocPostingProcessedReportWriterService.writeStatisticLine("Sub Total By Doc Name: %s", entry.getKey());
+            eDocPostingProcessedReportWriterService.writeStatisticLine("   Total Income:       %s", incomeCash.bigDecimalValue().toPlainString());
+            eDocPostingProcessedReportWriterService.writeStatisticLine("   Total Principle:    %s", principleCash.bigDecimalValue().toPlainString());
+            eDocPostingProcessedReportWriterService.writeStatisticLine("   Total Units:        %s", units.bigDecimalValue().toPlainString());
+            eDocPostingProcessedReportWriterService.writeStatisticLine("   Total Holding Cost: %s", cost.bigDecimalValue().toPlainString());
+            eDocPostingProcessedReportWriterService.writeStatisticLine("", "");
+        }
+        
+        // Write grand total statistics.
+        eDocPostingProcessedReportWriterService.writeStatisticLine("Grand Total Income Cash:    %s", grandIncomeCash.bigDecimalValue().toPlainString());
+        eDocPostingProcessedReportWriterService.writeStatisticLine("Grand Total Principle Cash: %s", grandPrincipleCash.bigDecimalValue().toPlainString());
+        eDocPostingProcessedReportWriterService.writeStatisticLine("Grand Total Units:          %s", grandUnits.bigDecimalValue().toPlainString());
+        eDocPostingProcessedReportWriterService.writeStatisticLine("Grand Total Holding Cost:   %s", grandCost.bigDecimalValue().toPlainString());
+    }
+    
+    /**
+     * 
+     * Adds processed report line to the statistics table.
+     *
+     * @param postingStats
+     * @param eDocTotalReportLine
+     */
+    private void updatePostingStats(
+            Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats, 
+            TransactioneDocPostingDocumentTotalReportLine eDocTotalReportLine) {
+        
+        // Get the table value by key (document name).  If the value is null, create it.
+        List<TransactioneDocPostingDocumentTotalReportLine> reportLine = postingStats.get(eDocTotalReportLine.getDocumentName());
+        if (reportLine == null) {
+            reportLine = new ArrayList<TransactioneDocPostingDocumentTotalReportLine>();
+        }
+        
+        // Update the table value.
+        reportLine.add(eDocTotalReportLine);
+    }
+    
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
@@ -710,8 +787,10 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 lotLongTermGainLoss  = lotLongTermGainLoss.add(taxLotLine.getLotLongTermGainLoss() == null?new BigDecimal(BigInteger.ZERO, 2):taxLotLine.getLotLongTermGainLoss());
                 lotShortTermGainLoss = lotShortTermGainLoss.add(taxLotLine.getLotShortTermGainLoss() == null?new BigDecimal(BigInteger.ZERO, 2):taxLotLine.getLotShortTermGainLoss());
             }
-            
-            lotUnitValue = (tranLine.getTransactionAmount().divide(tranLine.getTransactionUnits())).bigDecimalValue();
+            KualiDecimal transactionUnits = tranLine.getTransactionUnits();
+            if (transactionUnits.isPositive()) {
+                lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
+            }
         }
 
         /**

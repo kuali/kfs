@@ -68,7 +68,7 @@
   	<property name="maxLength" value="5"/>
   	<property name="required" value="true"/>
   	<property name="control">
-	  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TransactionTypeValuesFinder" p:includeKeyInLabel="false"/>
+	  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.EndowmentRecurringCashTransferDocumentTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>  
 

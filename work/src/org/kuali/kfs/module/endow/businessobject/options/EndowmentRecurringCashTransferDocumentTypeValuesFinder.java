@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
-public class TransactionTypeValuesFinder extends KeyValuesBase {
+public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()

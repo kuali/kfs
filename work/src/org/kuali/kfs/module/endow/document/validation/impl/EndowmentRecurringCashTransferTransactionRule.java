@@ -59,7 +59,7 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         boolean success = true;
         
         
-        success &= super.processCustomSaveDocumentBusinessRules(document);
+        success &= super.processCustomRouteDocumentBusinessRules(document);
 
         // source rules
         success &= checkTargetExistence(endowmentRecurringCashTransfer);

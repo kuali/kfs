@@ -260,7 +260,13 @@
         </property>
     </bean>
     
-    <bean id="endowmenteDocPostingStep" class="org.kuali.kfs.module.endow.batch.EndowmenteDocPostingStep" parent="step">
+    <bean id="endowmenteDocPostingStep" class="org.kuali.kfs.module.endow.batch.EndowmenteDocPostingStep" parent="wrappedStep">
+        <property name="wrappingBatchServices">
+            <list>
+                <ref bean="eDocPostingExceptionReportWriterService" />
+                <ref bean="eDocPostingProcessedReportWriterService" />
+            </list>
+        </property>
         <property name="endowmenteDocPostingService">
             <ref bean="endowmenteDocPostingService" />
         </property>
@@ -278,7 +284,35 @@
         </property>
         <property name="kemService">
             <ref bean="kemService" />
-        </property>         
+        </property>
+        <property name="eDocPostingExceptionReportWriterService">
+            <ref bean="eDocPostingExceptionReportWriterService" />
+        </property>
+        <property name="eDocPostingProcessedReportWriterService">
+            <ref bean="eDocPostingProcessedReportWriterService" />
+        </property>
+    </bean>
+    <bean id="eDocPostingExceptionReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="endowmenteDocPostingExceptionReport"/>
+        <property name="title" value="PROCESS eDOC POSTING JOB EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentExceptionReportLine" value="eDocPostingExceptionReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
+        <bean id="eDocPostingProcessedReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/endow"/>
+        <property name="fileNamePrefix" value="endowmenteDocPostingProcessedReport"/>
+        <property name="title" value="PROCESS eDOC POSTING JOB PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine" value="eDocPostingProcessedReportHeader"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
     </bean>
     
     <bean id="pendingTransactionDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.PendingTransactionDocumentServiceImpl">
@@ -913,7 +947,6 @@
         <property name="title" value="CREATE CASH SWEEP JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createCashSweepExceptionReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
@@ -925,7 +958,6 @@
         <property name="title" value="CREATE CASH SWEEP JOB PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createCashSweepProcessedReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
             </map>
         </property>
@@ -1002,7 +1034,6 @@
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="createAutomatedCashInvestmentExceptionReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
@@ -1014,7 +1045,6 @@
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" value="createAutomatedCashInvestmentProcessedReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
             </map>
         </property>
@@ -1878,36 +1908,32 @@
         </property>
         <property name="columnCount" value="8" />
     </bean>
-    <bean id="createAutomatedCashInvestmentExceptionReportHeader" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" />
+    <bean id="eDocPostingExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentExceptionReportLine" />
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
-                <entry key="columnHeading1" value="Document Type"/>
-                <entry key="columnHeading2" value="Security Id"/>
-                <entry key="columnHeading3" value="KEMID"/>
-                <entry key="columnHeading4" value="Income Amount"/>
-                <entry key="columnHeading5" value="Income Units"/>
-                <entry key="columnHeading6" value="Principle Amount"/>
-                <entry key="columnHeading7" value="Principle Units"/>
+                <entry key="documentNumber" value="Document Name"/>
+                <entry key="documentName" value="eDoc Number"/>
+                <entry key="lineType" value="Line Type"/>
+                <entry key="lineNumber" value="Line Number"/>
+                <entry key="reason" value="Reason"/>
             </map>
         </property>
-        <property name="columnCount" value="7" />
+        <property name="columnCount" value="5" />
     </bean>
-        <bean id="createAutomatedCashInvestmentProcessedReportHeader" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
+        <bean id="eDocPostingProcessedReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine" />
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
-                <entry key="columnHeading1" value="Document Type"/>
-                <entry key="columnHeading2" value="eDoc Number"/>
-                <entry key="columnHeading3" value="Security Id"/>
-                <entry key="columnHeading4" value="KEMID"/>
-                <entry key="columnHeading5" value="Income Amount"/>
-                <entry key="columnHeading6" value="Income Units"/>
-                <entry key="columnHeading7" value="Principle Amount"/>
-                <entry key="columnHeading8" value="Principle Units"/>
+                <entry key="documentNumber" value="Document Name"/>
+                <entry key="documentName" value="eDoc Number"/>
+                <entry key="totalIncomeCash" value="Total Income Cash"/>
+                <entry key="totalPrincipleCash" value="Total Principle Cash"/>
+                <entry key="totalUnits" value="Total Units"/>
+                <entry key="totalHoldingCost" value="Total Holding Cost"/>
             </map>
         </property>
-        <property name="columnCount" value="8" />
+        <property name="columnCount" value="6" />
     </bean>
     <bean id="accrualTransactionsExceptionReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />

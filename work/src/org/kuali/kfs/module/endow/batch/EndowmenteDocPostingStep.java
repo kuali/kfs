@@ -15,21 +15,24 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.endow.batch.service.EndowmenteDocPostingService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class EndowmenteDocPostingStep extends AbstractStep {
+public class EndowmenteDocPostingStep extends AbstractWrappedBatchStep {
 
     private EndowmenteDocPostingService endowmenteDocPostingService;
     
-    /**
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException 
-    {
-        return endowmenteDocPostingService.processDocumentPosting();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = endowmenteDocPostingService.processDocumentPosting();                
+                
+                return success;            
+            }
+        };
     }
 
     /**

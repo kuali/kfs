@@ -27,22 +27,27 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.EndowmenteDocPostingService;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
-import org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentExceptionReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.document.CorpusAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PendingTransactionDocumentService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -53,17 +58,33 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceUpdateServiceImpl.class);
     
+    private ReportWriterService eDocPostingExceptionReportWriterService;
+    private ReportWriterService eDocPostingProcessedReportWriterService;
     private PendingTransactionDocumentService pendingTransactionDocumentService;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private KEMService kemService;
     
     /**
+     * 
+     * Initialize the report document headers.
+     *
+     */
+    private void writeHeaders() {
+        eDocPostingExceptionReportWriterService.writeNewLines(1);
+        eDocPostingProcessedReportWriterService.writeNewLines(1);
+        eDocPostingExceptionReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentExceptionReportLine());
+        eDocPostingProcessedReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentTotalReportLine());
+    }
+    
+    /**
      * @see org.kuali.kfs.module.endow.batch.service.EDocProcessPostingService#processDocumentPosting()
      */
     public boolean processDocumentPosting()
     {
-        LOG.info("Begin processing and posting eDocs..."); 
+        LOG.info("Begin processing and posting eDocs...");
+        writeHeaders();
+        
         boolean success = true;
 
         // First get all the pending entries.  These entries already represent
@@ -82,7 +103,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
             // Only want to process EndowmentTransactionLinesDocumentBase parent types.
             if (tranDoc instanceof EndowmentTransactionLinesDocumentBase) {
-                processTransactionLines((EndowmentTransactionLinesDocumentBase)tranDoc, pendingEntry);
+                processTransactionLines((EndowmentTransactionLinesDocumentBase)tranDoc, pendingEntry, pendingEntry.getDocumentType());
                 
                 // After the TRAN_DOC_T:TRAN_PSTD is set to 'Y', the pending entry should be
                 // removed from the DB.
@@ -101,7 +122,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      */
     private void processTransactionLines(
             EndowmentTransactionLinesDocumentBase lineDoc,
-            PendingTransactionDocumentEntry pendingEntry)
+            PendingTransactionDocumentEntry pendingEntry,
+            String documentType)
     {       
         List<EndowmentTransactionLine> tranLines = new ArrayList<EndowmentTransactionLine>();
         tranLines.addAll(lineDoc.getSourceTransactionLines());
@@ -125,6 +147,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         // Step 6.
         lineDoc.setTransactionPosted(true);
         businessObjectService.save(lineDoc);
+        writeProcessedEntry(lineDoc, documentType, tranLines);
     }
 
     /**
@@ -559,12 +582,54 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         
         tranArchive.setSubTypeCode(lineDoc.getTransactionSubTypeCode());
         tranArchive.setSrcTypeCode(lineDoc.getTransactionSourceType().getCode());
-        
-        //TODO: Is this the correct description.
+
         tranArchive.setDescription(lineDoc.getDocumentHeader().getDocumentDescription());
         tranArchive.setPostedDate(kemService.getCurrentDate());
         
         return tranArchive;
+    }
+    
+    /**
+     * 
+     * Writes a line in the totals processed report document.
+     *
+     * @param lineDoc
+     * @param documentType
+     * @param tranLines
+     */
+    private void writeProcessedEntry(EndowmentTransactionLinesDocumentBase lineDoc, String documentType, List<EndowmentTransactionLine> tranLines) {
+        TransactioneDocPostingDocumentTotalReportLine eDocTotalReportLine = new TransactioneDocPostingDocumentTotalReportLine();
+    
+        eDocTotalReportLine.setDocumentName(lineDoc.getDocumentNumber());
+        eDocTotalReportLine.setDocumentNumber(lineDoc.getDocumentNumber());
+        eDocTotalReportLine.setTotalIncomeCash(lineDoc.getTargetPrincipalTotal().add(lineDoc.getSourcePrincipalTotal()));
+        eDocTotalReportLine.setTotalPrincipleCash(lineDoc.getTargetIncomeTotal().add(lineDoc.getSourceIncomeTotal()));
+        eDocTotalReportLine.setTotalUnits(lineDoc.getTotalUnits());
+        eDocTotalReportLine.setTotalHoldingCost(lineDoc.getTotalDollarAmount());
+        
+        eDocPostingProcessedReportWriterService.writeTableRow(eDocTotalReportLine);        
+        eDocPostingProcessedReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * Writes a line in the exception report document.
+     *
+     * @param lineDoc
+     * @param tranLine
+     * @param reason
+     */
+    private void writeExceptionReportEntry(EndowmentTransactionLinesDocumentBase lineDoc, EndowmentTransactionLine tranLine, String reason) {
+        TransactioneDocPostingDocumentExceptionReportLine eDocExceptionReportLine = new TransactioneDocPostingDocumentExceptionReportLine();
+        
+        eDocExceptionReportLine.setDocumentName(dataDictionaryService.getDocumentTypeNameByClass(lineDoc.getClass()));
+        eDocExceptionReportLine.setDocumentNumber(tranLine.getDocumentNumber());
+        eDocExceptionReportLine.setLineType(tranLine.getTransactionLineTypeCode());
+        eDocExceptionReportLine.setLineNumber(tranLine.getKemid());
+        eDocExceptionReportLine.setReason(reason);
+
+        eDocPostingExceptionReportWriterService.writeTableRow(eDocExceptionReportLine);
+        eDocPostingExceptionReportWriterService.writeNewLines(1);
     }
 
     /**
@@ -601,6 +666,22 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) 
     {
         this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    /**
+     * Sets the eDocPostingExceptionReportWriterService attribute value.
+     * @param eDocPostingExceptionReportWriterService The eDocPostingExceptionReportWriterService to set.
+     */
+    public void seteDocPostingExceptionReportWriterService(ReportWriterService eDocPostingExceptionReportWriterService) {
+        this.eDocPostingExceptionReportWriterService = eDocPostingExceptionReportWriterService;
+    }
+
+    /**
+     * Sets the eDocPostingProcessedReportWriterService attribute value.
+     * @param eDocPostingProcessedReportWriterService The eDocPostingProcessedReportWriterService to set.
+     */
+    public void seteDocPostingProcessedReportWriterService(ReportWriterService eDocPostingProcessedReportWriterService) {
+        this.eDocPostingProcessedReportWriterService = eDocPostingProcessedReportWriterService;
     }
 
     /**

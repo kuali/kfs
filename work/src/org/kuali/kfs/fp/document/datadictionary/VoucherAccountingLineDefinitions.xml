@@ -150,8 +150,7 @@
 					p:dynamicLabelProperty="objectType.name" />
 				<bean parent="AccountingLineView-field"
 					p:name="financialSubObjectCode"
-					p:webUILeaveFieldFunction="loadSubObjectInfo"
-					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+					p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" />
 				<bean parent="AccountingLineView-field"
 					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
 					p:dynamicLabelProperty="project.projectDescription" />

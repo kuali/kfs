@@ -118,8 +118,7 @@
 				</bean>
 				<bean parent="AccountingLineView-field"
 					p:name="financialSubObjectCode"
-					p:webUILeaveFieldFunction="loadSubObjectInfo"
-					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:useShortLabel="true" />
+					p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:useShortLabel="true"
 					p:dynamicLabelProperty="project.name" />

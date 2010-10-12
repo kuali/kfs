@@ -276,10 +276,8 @@ function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
 	}
 }
 
-function loadSubObjectInfo(subObjectCodeFieldName, subObjectNameFieldName, fiscalYear) {
+function loadSubObjectInfo(fiscalYear, subObjectCodeFieldName, subObjectNameFieldName) {
     var elPrefix = findElPrefix( subObjectCodeFieldName );
-    //TODO fix fiscalYear in KFSMI-6060
-	var fiscalYear = '2011';
     //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
     var coaCode = getChartCode( elPrefix + chartCodeSuffix);
     var accountCode = getElementValue( elPrefix + accountNumberSuffix );

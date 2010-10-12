@@ -703,6 +703,7 @@
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
 
+    <bean id="subObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.SubObjectCodeDynamicNameLabelGeneratorImpl" />
 
 	<bean id="systemOptionsFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.SystemOptionsFiscalYearMakerImpl" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" /> 

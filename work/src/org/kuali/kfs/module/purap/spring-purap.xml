@@ -635,6 +635,8 @@
 	</bean>
 	
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
+
+	<bean id="purapSubObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapSubObjectCodeDynamicNameLabelGeneratorImpl" />
 	
 	<bean id="b2bPOResponseFileType" class="org.kuali.kfs.module.purap.util.cxml.B2BPOResponseFileType">
 	    <property name="digestorRulesFileName">

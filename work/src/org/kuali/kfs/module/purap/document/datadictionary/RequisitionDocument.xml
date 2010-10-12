@@ -1038,7 +1038,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:dynamicNameLabelGeneratorBeanName="purapSubObjectCodeDynamicNameLabelGenerator" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:useShortLabel="true"/>
 				<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" p:useShortLabel="true"/>
 				<bean parent="AccountingLineView-field" p:name="organizationReferenceId" p:useShortLabel="true"/>
 			</list>

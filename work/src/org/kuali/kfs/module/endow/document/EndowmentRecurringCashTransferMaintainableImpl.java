@@ -50,7 +50,7 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
            
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             // check transaction type
-            success &= checkTransactionTypeAndSetSequenceNumber(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
+            success &= checkTransactionType(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
 
             // all rules are passed, then set sequenceNumber and add to collection
             if (success){
@@ -67,7 +67,7 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             
             // check transaction type
-            success &= checkTransactionTypeAndSetSequenceNumber(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
+            success &= checkTransactionType(endowmentRecurringCashTransfer.getTransactionType(), collectionName, endowmentRecurringCashTransfer);
             
             // all rules are passed, then set sequenceNumber and add to collection
             if (success){
@@ -77,7 +77,7 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
         }
     }
 
-    private boolean checkTransactionTypeAndSetSequenceNumber(String transactionType, String collectionName, EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
+    private boolean checkTransactionType(String transactionType, String collectionName, EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
         if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getTransactionType())){
             GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE);
             GlobalVariables.getMessageMap().putError(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE, KFSKeyConstants.ERROR_REQUIRED, EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TRANSACTION_TYPE);

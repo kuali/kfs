@@ -973,9 +973,12 @@
 			</list>
 		</property>
         <property name="dependencies">
-            <map><!--
+            <map>
+                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
                 <entry key="createAccrualTransactionsJob" value="hardDependency" />
-            --></map>
+                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
+                <entry key="processFeeTransactionsJob" value="hardDependency" />
+            </map>
         </property>
 	</bean>
 	<bean id="createAutomatedCashInvestmentTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep" parent="wrappedStep">

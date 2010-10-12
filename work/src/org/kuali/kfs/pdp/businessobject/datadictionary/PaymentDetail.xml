@@ -279,6 +279,7 @@
     <property name="validationPattern">
        <ref bean="NumericValidation" />
     </property>
+    <property name="formatterClass" value="org.kuali.kfs.pdp.businessobject.DisbursementNumberFormatter"/> 
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
     </property>
@@ -534,6 +535,7 @@
     <property name="validationPattern">
        <ref bean="NumericValidation" />
     </property>
+    <property name="formatterClass" value="org.kuali.kfs.pdp.businessobject.DisbursementNumberFormatter"/>   
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
     </property>

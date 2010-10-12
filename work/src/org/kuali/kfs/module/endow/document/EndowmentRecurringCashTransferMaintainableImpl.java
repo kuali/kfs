@@ -40,8 +40,6 @@ public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSys
         
         // apply rules
         if (collectionName.equals(KEMID_TARGET)){
-            int kemidIndex = endowmentRecurringCashTransfer.getKemidTarget().size();
-            
             String errorPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.ADD_PREFIX + "." + KEMID_TARGET;
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget = (EndowmentRecurringCashTransferKEMIDTarget) newCollectionLines.get(collectionName);

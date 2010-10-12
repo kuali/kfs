@@ -64,7 +64,7 @@
   <bean id="EndowmentRecurringCashTransfer-transactionType" parent="EndowmentRecurringCashTransfer-transactionType-parentBean"/>
   <bean id="EndowmentRecurringCashTransfer-transactionType-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="transactionType"/>
-    <property name="label" value="Transaction Type"/>
+    <property name="label" value="Transaction Document Type"/>
   	<property name="maxLength" value="5"/>
   	<property name="required" value="true"/>
   	<property name="control">

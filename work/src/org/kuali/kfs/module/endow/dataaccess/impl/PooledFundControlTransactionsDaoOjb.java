@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -32,72 +32,51 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb implements PooledFundControlTransactionsDao {
 
     protected KEMService kemService;
-    
-    /*
-     * Select all records in END_TRAN_ARCHV_T where
-     *  1. TRAN_TYP_CD is EAI, EAD, ECI, or ECD and
-     *  2. TRAN_PSTD_DT is equal to the current date and
-     *  3. END_TRAN_ARCHV_SEC_T:TRAN_SEC_ID is in END_POOL_FND_CTRL_T:POOL_SEC_ID  
+       
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao#getAllPooledFundControlTransaction()
      */
-
-    public List<PooledFundControl> getPooledFundControlTransactions(List<String> transactionTypeCodes) {
-        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = getTransactionArchiveSecurity(transactionTypeCodes);
+    public List<PooledFundControl> getAllPooledFundControlTransaction() {
         Criteria crit = new Criteria();
-        for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
-            Criteria c = new Criteria();
-            c.addEqualTo(EndowPropertyConstants.POOL_SECURITY_ID, transactionArchiveSecurity.getSecurityId());
-            crit.addOrCriteria(c);            
-        }
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TransactionArchiveSecurity.class, crit);
         return (List<PooledFundControl>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundControl.class, crit));        
     }
 
-    public List<TransactionArchiveSecurity> getTransactionArchiveSecurity(List<String> transactionTypeCodes) {
-
-        // get the list of TransactionArchive with the specified transaction type code
-        Criteria crit1 = new Criteria();
-        crit1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
-        if (transactionTypeCodes != null && !transactionTypeCodes.isEmpty()) {
-            crit1.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, transactionTypeCodes);
-        }
-        List<TransactionArchive> transactionArchiveRecords = (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchive.class, crit1));
-
-        // get the list of TransactionArchiveSecurity joined with TransactionArchive and PooledFundControl
-        Criteria subCrit = new Criteria();
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundControl.class, subCrit);
-        subQuery.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
-        Criteria crit2 = new Criteria();
-        crit2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, subQuery);
-        Criteria crit3 = new Criteria();
-        for (TransactionArchive transactionArchive : transactionArchiveRecords) {
-            Criteria c = new Criteria();
-            c.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, transactionArchive.getDocumentNumber());
-            c.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, transactionArchive.getLineNumber());
-            c.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, transactionArchive.getLineTypeCode());
-            crit3.addOrCriteria(c);
-        }
-        crit2.addAndCriteria(crit3);
-        crit2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID);
-
-//        ReportQueryByCriteria subQuery2 = QueryFactory.newReportQuery(TransactionArchiveSecurity.class, crit2);
-//        subQuery2.setAttributes(new String[] {EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, "sum(holdingCost)"});
-//        subQuery2.addGroupBy(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID);
-       
-        return (List<TransactionArchiveSecurity>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchiveSecurity.class, crit2));
-    }
-    
-    public List<TransactionArchive> getTransactionArchive(List<String> trnsactionTypeCodes) {
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao#getTransactionArchiveSecurityWithSecurityId(java.lang.String, java.util.List)
+     */
+    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames) {
+        // get the list of TransactionArchiveSecurity that has securityId
+        Criteria crit = new Criteria();
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, securityId);
+        List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = (List<TransactionArchiveSecurity>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchiveSecurity.class, crit));
         
-        Criteria subCri = new Criteria();
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundControl.class, subCri);
-        subQuery.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
+        // filter transactionArchiveSecurityRecords 
+        List<TransactionArchiveSecurity> fnalTransactionArchiveSecurityRecords = new ArrayList<TransactionArchiveSecurity>();
+        for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
+            if (existsTransactionArchiveSecurityWithDocNames(documentTypeNames, transactionArchiveSecurity)) {
+                fnalTransactionArchiveSecurityRecords.add(transactionArchiveSecurity);
+            }
+        }
+        
+        return fnalTransactionArchiveSecurityRecords;
+    }    
+
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao#getTransactionArchiveWithSecurityAndDocNames(java.lang.String, java.util.List)
+     */
+    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames) {
+        // get the list of TransactionArchiveSecurity that has securityId
         Criteria crit1 = new Criteria();
-        crit1.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, subQuery);
+        crit1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, securityId);
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = (List<TransactionArchiveSecurity>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchiveSecurity.class, crit1));
-                
+
+        // get the list of TransactionArchive matching TransactionArchiveSecurity
         Criteria crit2 = new Criteria();
         crit2.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
-        crit2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, trnsactionTypeCodes);
+        if (documentTypeNames != null && !documentTypeNames.isEmpty()) {
+            crit2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypeNames);
+        }
         Criteria crit3 = new Criteria();
         for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
             Criteria c = new Criteria();
@@ -109,9 +88,26 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
         crit2.addAndCriteria(crit3);
                
         return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchive.class, crit2));
-    }    
+    }  
     
-
+    /**
+     * Checks to see if the TransactionArchiveSecurity exists in TransactionArchive with the given condition 
+     * @param documentTypeNames
+     * @param transactionArchiveSecurity
+     * @return
+     */
+    protected boolean existsTransactionArchiveSecurityWithDocNames(List<String> documentTypeNames, TransactionArchiveSecurity transactionArchiveSecurity) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
+        if (documentTypeNames != null && !documentTypeNames.isEmpty()) {
+            crit.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypeNames);
+        }
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, transactionArchiveSecurity.getDocumentNumber());
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, transactionArchiveSecurity.getLineNumber());
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, transactionArchiveSecurity.getLineTypeCode());
+        
+        return getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(TransactionArchive.class, crit)) > 0 ? true : false;
+    }
     
     /**
      * Sets the kemService attribute value.

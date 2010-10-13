@@ -24,21 +24,24 @@ import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 public interface PooledFundControlTransactionsDao {
 
     /**
-     * Gets a list of TransactionArchive  
-     * @param  List<String> 
-     * @return List<TransactionArchive>
-     */    
-    public List<TransactionArchive> getTransactionArchive(List<String> trnsactionTypeCodes);
-    
-    /**
-     * Gets a list of TransactionArchiveSecurity  
-     * @return List<TransactionArchiveSecurity>
-     */ 
-    public List<TransactionArchiveSecurity> getTransactionArchiveSecurity(List<String> trnsactionTypeCodes);
-    
-    /**
-     * Gets a list of PooledFundControl
+     * Gets all pooled fund control transaction
      * @return List<PooledFundControl>
      */
-    List<PooledFundControl> getPooledFundControlTransactions(List<String> trnsactionTypeCodes);
+    public List<PooledFundControl> getAllPooledFundControlTransaction();
+    
+    /**
+     * Gets all transaction archive security with security id and document names
+     * @param securityId
+     * @param documentTypeNames
+     * @return
+     */
+    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames);
+    
+    /**
+     * Gets all transaction archive with security id and document names
+     * @param securityId
+     * @param documentTypeNames
+     * @return
+     */
+    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames);
 }

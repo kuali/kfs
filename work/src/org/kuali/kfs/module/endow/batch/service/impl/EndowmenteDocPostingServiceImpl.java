@@ -64,18 +64,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     private KEMService kemService;
     
     /**
-     * 
-     * Initialize the report document headers.
-     *
-     */
-    private void writeHeaders() {
-        eDocPostingExceptionReportWriterService.writeNewLines(1);
-        eDocPostingProcessedReportWriterService.writeNewLines(1);
-        eDocPostingExceptionReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentExceptionReportLine());
-        eDocPostingProcessedReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentTotalReportLine());
-    }
-    
-    /**
      * @see org.kuali.kfs.module.endow.batch.service.EDocProcessPostingService#processDocumentPosting()
      */
     public boolean processDocumentPosting()
@@ -135,7 +123,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
             if (!tranLine.isLinePosted()) {
                 // Step 2.
-                processTransactionArchives(lineDoc, tranLine, pendingEntry);
+                processTransactionArchives(lineDoc, tranLine, pendingEntry, documentType);
                 // Step 3.
                 processCashSubTypes(lineDoc, tranLine);
                 // Step 4.
@@ -220,7 +208,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     private void processTransactionArchives(
             EndowmentTransactionLinesDocumentBase lineDoc, 
             EndowmentTransactionLine tranLine, 
-            PendingTransactionDocumentEntry pendingEntry) 
+            PendingTransactionDocumentEntry pendingEntry,
+            String documentType) 
     {
         LOG.info("Entering \"processTransactionArchives\"");
         // END_TRAN_ARCHV_T
@@ -234,7 +223,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             businessObjectService.save(tranArchiveSecurity);
             
             // END_HLDG_TAX_LOT_T
-            updateOrCreateHoldingTaxLots(tranLine, tranSecurity);
+            updateOrCreateHoldingTaxLots(tranLine, tranSecurity, documentType);
         }
         LOG.info("Exiting \"processTransactionArchives\"");
     }
@@ -245,7 +234,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @param tranSecurity
      */
-    private void updateOrCreateHoldingTaxLots(EndowmentTransactionLine tranLine, EndowmentTransactionSecurity tranSecurity)
+    private void updateOrCreateHoldingTaxLots(EndowmentTransactionLine tranLine, EndowmentTransactionSecurity tranSecurity, String documentType)
     {
         if (!tranLine.getTaxLotLines().isEmpty()) {
             
@@ -278,16 +267,39 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 if (holdingTaxLot != null && !isNewLot) {
                     holdingTaxLot.setUnits(holdingTaxLot.getUnits().add(taxLotLine.getLotUnits()));
                     holdingTaxLot.setCost(holdingTaxLot.getCost().add(taxLotLine.getLotHoldingCost()));
+                    
+                    // For EAD, units and holding costs cannot be less than zero.
+                    if (documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)
+                        && (holdingTaxLot.getUnits().compareTo(BigDecimal.ZERO) == 0 || holdingTaxLot.getCost().compareTo(BigDecimal.ZERO) == 0)) {
+                            continue;
+                    }
+                    
+                    // For ELI, units cannot be less than zero and holding cost cannot be greater than 0.
+                    if (documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_INCREASE)
+                        && (holdingTaxLot.getUnits().compareTo(BigDecimal.ZERO) < 0 || holdingTaxLot.getCost().compareTo(BigDecimal.ZERO) > 0)) {
+                            continue;
+                    }
                 }
                 // One doesn't exists, so create a new one.
-                else {
+                else if (documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE) ||
+                        documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_INCREASE) ||
+                        documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER) ||
+                        documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CORPORATE_REORGANZATION)) {
+                    
                     holdingTaxLot = createHoldingTaxLot(kemid, securityId, regCode, piCode, taxLotLine.getLotUnits(), taxLotLine.getLotHoldingCost());
                     holdingTaxLot.setAcquiredDate(kemService.getCurrentDate());              
                     holdingTaxLot.setLotNumber(new KualiInteger(nextHoldingLotNumber));
                     
                     nextHoldingLotNumber++;
                 }
+                // One doesn't exist, and it doesn't fall under the document type criteria.
+                else {
+                    // Skip over it.
+                    continue;
+                }
                 
+                
+ 
                 holdingTaxLot.setLastTransactionDate(kemService.getCurrentDate());
                 
                 // Create a new HoldingTaxLotRebalance entry.
@@ -593,6 +605,18 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     
     /**
      * 
+     * Initialize the report document headers.
+     *
+     */
+    private void writeHeaders() {
+        eDocPostingExceptionReportWriterService.writeNewLines(1);
+        eDocPostingProcessedReportWriterService.writeNewLines(1);
+        eDocPostingExceptionReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentExceptionReportLine());
+        eDocPostingProcessedReportWriterService.writeTableHeader(new TransactioneDocPostingDocumentTotalReportLine());
+    }
+    
+    /**
+     * 
      * Writes a line in the totals processed report document.
      *
      * @param lineDoc
@@ -788,7 +812,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 lotShortTermGainLoss = lotShortTermGainLoss.add(taxLotLine.getLotShortTermGainLoss() == null?new BigDecimal(BigInteger.ZERO, 2):taxLotLine.getLotShortTermGainLoss());
             }
             KualiDecimal transactionUnits = tranLine.getTransactionUnits();
-            if (transactionUnits.isPositive()) {
+            if (transactionUnits != null && transactionUnits.isPositive()) {
                 lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
             }
         }

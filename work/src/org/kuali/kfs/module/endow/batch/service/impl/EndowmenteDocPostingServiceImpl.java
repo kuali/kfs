@@ -812,7 +812,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 lotShortTermGainLoss = lotShortTermGainLoss.add(taxLotLine.getLotShortTermGainLoss() == null?new BigDecimal(BigInteger.ZERO, 2):taxLotLine.getLotShortTermGainLoss());
             }
             KualiDecimal transactionUnits = tranLine.getTransactionUnits();
-            if (transactionUnits != null && transactionUnits.isPositive()) {
+            if (transactionUnits != null && !transactionUnits.isZero()) {
                 lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
             }
         }

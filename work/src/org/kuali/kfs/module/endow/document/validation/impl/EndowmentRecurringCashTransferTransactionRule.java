@@ -72,6 +72,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String kemid = endowmentRecurringCashTransfer.getSourceKemid();
         String etranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
         String ipIndicator = endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal();
+        // refresh Etran obj
+        endowmentRecurringCashTransfer.refreshReferenceObject(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_ETRAN_CODE_OBJ);
         success &= checkSourceEtranType(endowmentRecurringCashTransfer.getEtranCodeObj());
         
         success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator);
@@ -138,7 +140,9 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
         String kemid = endowmentRecurringCashTransferKEMIDTarget.getTargetKemid();
         String etranCode = endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode();
         String ipIndicator = endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal();
-
+        
+        // refresh Etran obj
+        endowmentRecurringCashTransferKEMIDTarget.refreshReferenceObject(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE_OBJ);
         success &= checkTargetEtranType(endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCodeObj());
         
         success &= checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE, kemid, etranCode, ipIndicator);

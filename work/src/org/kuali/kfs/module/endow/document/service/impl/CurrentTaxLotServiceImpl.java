@@ -27,12 +27,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
+import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
@@ -41,6 +43,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Implementation to provide services for CurrentTaxLotBalance business object.
@@ -50,7 +53,8 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected SecurityService securityService;
     protected KEMService kEMService;
     protected CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
-    private CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
+    protected CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
+    protected TransactionArchiveDao transactionArchiveDao;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getByPrimaryKey(java.lang.String, java.lang.String,
@@ -128,6 +132,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
             currentTaxLotBalances = businessObjectService.findMatching(CurrentTaxLotBalance.class, criteria);
         }
+        
         return currentTaxLotBalances;
     }
     
@@ -148,6 +153,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
             
             currentTaxLotBalances = businessObjectService.findMatching(CurrentTaxLotBalance.class, criteria);
         }
+        
         return currentTaxLotBalances;
     }
 
@@ -300,7 +306,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         BigDecimal nextFiscalyearInvestmentIncome = BigDecimal.ZERO;
 
         Security security = securityService.getByPrimaryKey(securityId);
-        nextFiscalyearInvestmentIncome = KEMCalculationRoundingHelper.multiply(security.getNextFiscalYearDistributionAmount(), holdingTaxLot.getUnits(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+        nextFiscalyearInvestmentIncome = KEMCalculationRoundingHelper.multiply(security.getNextFiscalYearDistributionAmount(), holdingTaxLot.getUnits(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
         return nextFiscalyearInvestmentIncome;
     }
@@ -315,9 +321,21 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected BigDecimal getRemainderOfFiscalYearEstimatedIncomeForBonds(Security security, HoldingTaxLot holdingTaxLot) {
         BigDecimal amount = BigDecimal.ZERO;
 
+        if (ObjectUtils.isNull(security.getIncomeRate()) || security.getIncomeRate().compareTo(BigDecimal.ZERO) == 0) {
+            return amount;
+        }
+        
         Date nextIncomeDueDate = security.getIncomeNextPayDate();
+        if (ObjectUtils.isNull(nextIncomeDueDate)) {
+            return amount;
+        }
+        
         Date fiscalYearEndDate = getFiscalYearEndDate();
 
+        if (ObjectUtils.isNull(nextIncomeDueDate)) {
+            return amount;            
+        }
+        
         // BONDS - rule 2.a
         if (nextIncomeDueDate.after(fiscalYearEndDate)) {
             return BigDecimal.ZERO;
@@ -326,11 +344,11 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         int numberOfMonthsRemaining = getNumberOfMonthsRemaining(fiscalYearEndDate, nextIncomeDueDate);
         // rule 2.b
         if (nextIncomeDueDate.before(fiscalYearEndDate) && numberOfMonthsRemaining < EndowConstants.NUMBER_OF_MONTHS_REMAINING) {
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
-            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(2), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(2), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         }
         else {
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         }
 
         return amount;
@@ -399,10 +417,17 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected BigDecimal getRemainderOfFiscalYearEstimatedIncomeForCash(Security security, HoldingTaxLot holdingTaxLot) {
         BigDecimal amount = BigDecimal.ZERO;
 
+        if (ObjectUtils.isNull(security.getIncomeRate()) || security.getIncomeRate().compareTo(BigDecimal.ZERO) == 0) {
+            return amount;
+        }
+        
         Date nextIncomeDueDate = security.getIncomeNextPayDate();
         Date fiscalYearEndDate = getFiscalYearEndDate();
-
         String incomePayFrequency = security.getIncomePayFrequency();
+
+        if (ObjectUtils.isNull(nextIncomeDueDate) || ObjectUtils.isNull(incomePayFrequency)) {
+            return amount;            
+        }
 
         // BONDS - rule 3.a
         if (nextIncomeDueDate.after(fiscalYearEndDate)) {
@@ -414,9 +439,9 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
             long daysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate);
 
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             amount = amount.multiply(BigDecimal.valueOf(daysToLastPayment));
-            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(EndowConstants.NUMBER_OF_DAYS_IN_YEAR), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(EndowConstants.NUMBER_OF_DAYS_IN_YEAR), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             amount = amount.add(holdingTaxLot.getCurrentAccrual());
         }
 
@@ -730,7 +755,15 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected BigDecimal getRemainderOfFiscalYearEstimatedIncomeForPooledFunds(Security security, HoldingTaxLot holdingTaxLot) {
         BigDecimal amount = BigDecimal.ZERO;
 
+        if (ObjectUtils.isNull(security.getIncomeNextPayDate()) || ObjectUtils.isNull(security.getFrequencyCode())) {
+            return amount;
+        }
+
         Date nextIncomeDueDate = security.getIncomeNextPayDate();
+        if (ObjectUtils.isNull(nextIncomeDueDate)) {
+            return amount;
+        }
+        
         Date fiscalYearEndDate = getFiscalYearEndDate();
 
         // BONDS - rule 4.a
@@ -741,15 +774,19 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         // rule 4.b
         if (nextIncomeDueDate.before(fiscalYearEndDate)) {
             String incomePayFrequency = security.getIncomePayFrequency();
+            if (ObjectUtils.isNull(incomePayFrequency)) {
+                return amount;
+            }
+            
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
 
             long paymentsRemaining = getTotalPaymentsRemaining(lastPaymentDate, fiscalYearEndDate, incomePayFrequency);
             
             long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
 
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             amount = amount.multiply(BigDecimal.valueOf(paymentsRemaining));
-            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(totalNumberOfPayments), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(totalNumberOfPayments), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             amount = amount.add(holdingTaxLot.getCurrentAccrual());
         }
 
@@ -911,10 +948,18 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     protected BigDecimal getRemainderOfFiscalYearEstimatedIncomeForStocks(Security security, HoldingTaxLot holdingTaxLot) {
         BigDecimal amount = BigDecimal.ZERO;
 
-        Date nextIncomeDueDate = security.getIncomeNextPayDate();
-        Date fiscalYearEndDate = getFiscalYearEndDate();
-
+        if (ObjectUtils.isNull(security.getIncomeRate()) || security.getIncomeRate().compareTo(BigDecimal.ZERO) == 0) {
+            return amount;
+        }
+        
         String incomePayFrequency = security.getIncomePayFrequency();
+        Date nextIncomeDueDate = security.getIncomeNextPayDate();
+        
+        if (ObjectUtils.isNull(incomePayFrequency) || ObjectUtils.isNull(nextIncomeDueDate)) {
+            return amount;
+        }
+                
+        Date fiscalYearEndDate = getFiscalYearEndDate();
 
         // BONDS - rule 4.a
         if (nextIncomeDueDate.after(fiscalYearEndDate)) {
@@ -935,27 +980,27 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
             long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
 
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
             if (quarterOfFiscalYear == 1) {
                 return amount;
             }
 
             if (quarterOfFiscalYear == 2) {
-                amount = KEMCalculationRoundingHelper.multiply(amount, BigDecimal.valueOf(3), EndowConstants.Scale.SECURITY_UNIT_VALUE);
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+                amount = KEMCalculationRoundingHelper.multiply(amount, BigDecimal.valueOf(3), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
                 return amount;
             }
 
             if (quarterOfFiscalYear == 3) {
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(2), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(2), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
                 return amount;
             }
 
             if (quarterOfFiscalYear == 4) {
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
                 return amount;
             }
@@ -996,6 +1041,55 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         return quarterOfFiscalYear;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getHoldingMarketValueSumForSecurity(java.lang.String)
+     */
+    public BigDecimal getHoldingMarketValueSumForSecurity(String securityId) {
+        BigDecimal sum = BigDecimal.ZERO;
+
+        List<CurrentTaxLotBalance> currentTaxLotBalances = (List<CurrentTaxLotBalance>) currentTaxLotBalanceDao.getAllCurrentTaxLotBalanceEntriesForSecurity(securityId);
+
+        if (currentTaxLotBalances != null) {
+            for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalances) {
+                if (currentTaxLotBalance.getHoldingMarketValue() != null) {
+                    sum = sum.add(currentTaxLotBalance.getHoldingMarketValue());
+                }
+            }
+        }
+        
+        return sum;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getHoldingMarketValue(HoldingTaxLot, String)
+     */
+    public BigDecimal getHoldingMarketValue(HoldingTaxLot holdingTaxLot, String securityId) {
+        BigDecimal holdingMarketValue = BigDecimal.ZERO;
+
+        Security security = securityService.getByPrimaryKey(securityId);
+
+        String classCodeType = security.getClassCode().getClassCodeType();
+
+        if (EndowConstants.ClassCodeTypes.ALTERNATIVE_INVESTMENT.equalsIgnoreCase(classCodeType)) {
+            BigDecimal totalCashActivity = transactionArchiveDao.getTransactionArchivesTotalCashActivity(holdingTaxLot.getKemid(), securityId);
+            return (security.getSecurityValueByMarket().subtract(totalCashActivity));
+        }
+        // calculations for BONDS
+        if (EndowConstants.ClassCodeTypes.BOND.equalsIgnoreCase(classCodeType)) {
+            holdingMarketValue = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getUnitValue(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            holdingMarketValue = KEMCalculationRoundingHelper.divide(holdingMarketValue, BigDecimal.valueOf(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            return holdingMarketValue;
+        }
+        
+        //other cases...
+        if (!EndowConstants.ClassCodeTypes.OTHER.equalsIgnoreCase(classCodeType)) {
+            holdingMarketValue = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getUnitValue(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            return holdingMarketValue;            
+        }
+        
+        return holdingMarketValue;
+    }
+    
     /**
      * Gets the businessObjectService.
      * 
@@ -1070,22 +1164,21 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         this.currentTaxLotBalanceDao = currentTaxLotBalanceDao;
     }
 
+    
     /**
-     * @see org.kuali.kfs.module.endow.document.service.CurrentTaxLotService#getHoldingMarketValueSumForSecurity(java.lang.String)
+     * Gets the transactionArchiveDao attribute. 
+     * @return Returns the transactionArchiveDao.
      */
-    public BigDecimal getHoldingMarketValueSumForSecurity(String securityId) {
-        BigDecimal sum = BigDecimal.ZERO;
-
-        List<CurrentTaxLotBalance> currentTaxLotBalances = (List<CurrentTaxLotBalance>) currentTaxLotBalanceDao.getAllCurrentTaxLotBalanceEntriesForSecurity(securityId);
-
-        if (currentTaxLotBalances != null) {
-            for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalances) {
-                if (currentTaxLotBalance.getHoldingMarketValue() != null) {
-                    sum = sum.add(currentTaxLotBalance.getHoldingMarketValue());
-                }
-            }
-        }
-        
-        return sum;
+    protected TransactionArchiveDao getTransactionArchiveDao() {
+        return transactionArchiveDao;
     }
+
+    /**
+     * Sets the transactionArchiveDao attribute value.
+     * @param transactionArchiveDao The transactionArchiveDao to set.
+     */
+    public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
+        this.transactionArchiveDao = transactionArchiveDao;
+    }
+
 }

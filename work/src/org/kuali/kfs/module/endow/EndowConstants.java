@@ -76,6 +76,11 @@ public class EndowConstants extends JSTLConstants {
     }
 
     // Frequency Codes
+    public static class FrequencyCodes {
+        public static final String SEMI_ANNUAL_FREQUENCY_CODE_FOR_NEXT_PROCESS_DUE_DATE = "IJME";
+        public static final String QUARTERLY_FREQUENCY_CODE_FOR_NEXT_PROCESS_DUE_DATE = "QJME"; 
+    }
+    
     public static class FrequencyTypes {
         public static final String DAILY = "D";
         public static final String WEEKLY = "W";

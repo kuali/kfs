@@ -24,6 +24,7 @@ import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +52,8 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
      * Current Tax Lot Balances 
      */
     public boolean updateCurrentTaxLotBalances() {
+        LOG.info("updateCurrentTaxLotBalances() - Processed all HoldingTaxLot records started."); 
+        
         boolean success = true;
         
         if (systemParametersForCurrentTaxLotBalanceUpdateStepJob()) {
@@ -63,17 +66,25 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
             //process the records in the list
             for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
                 CurrentTaxLotBalance currentTaxLotBalance = currentTaxLotService.copyHoldingTaxLotToCurrentTaxLotBalance(holdingTaxLot); 
+
+                String securityId = currentTaxLotBalance.getSecurityId();
+
+                if ( holdingTaxLot.getKemid().equals("099PLTF021")) {
+                    String kemid =  holdingTaxLot.getKemid();
+                }
                 
-                currentTaxLotBalance.setSecurityUnitVal(currentTaxLotService.getCurrentTaxLotBalanceSecurityUnitValue(currentTaxLotBalance.getSecurityId()));
-                currentTaxLotBalance.setAnnualEstimatedIncome(currentTaxLotService.getNextTwelveMonthsEstimatedValue(holdingTaxLot, currentTaxLotBalance.getSecurityId()));
-                currentTaxLotBalance.setRemainderOfFYEstimatedIncome(currentTaxLotService.getRemainderOfFiscalYearEstimatedIncome(holdingTaxLot, currentTaxLotBalance.getSecurityId()));
-                currentTaxLotBalance.setNextFYEstimatedIncome(currentTaxLotService.getNextFiscalYearInvestmentIncome(holdingTaxLot, currentTaxLotBalance.getSecurityId()));
+                currentTaxLotBalance.setHoldingMarketValue(currentTaxLotService.getHoldingMarketValue(holdingTaxLot, securityId));
+                currentTaxLotBalance.setSecurityUnitVal(currentTaxLotService.getCurrentTaxLotBalanceSecurityUnitValue(securityId));
+                currentTaxLotBalance.setAnnualEstimatedIncome(currentTaxLotService.getNextTwelveMonthsEstimatedValue(holdingTaxLot, securityId));
+                currentTaxLotBalance.setRemainderOfFYEstimatedIncome(currentTaxLotService.getRemainderOfFiscalYearEstimatedIncome(holdingTaxLot, securityId));
+                currentTaxLotBalance.setNextFYEstimatedIncome(currentTaxLotService.getNextFiscalYearInvestmentIncome(holdingTaxLot, securityId));
                 
                 saveCurrentTaxLotRecord(currentTaxLotBalance);
+                LOG.info("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());
             }
         }
         
-        LOG.info("Processed all HoldingTaxLot records.  Updated  Current Tax Lot Balances."); 
+        LOG.info("updateCurrentTaxLotBalances() - Updated  Current Tax Lot Balances."); 
         
         return success;
     }
@@ -83,15 +94,17 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
      * @result return true if the system parameter exists, else false
      */
     protected boolean systemParametersForCurrentTaxLotBalanceUpdateStepJob() {
-        LOG.info("systemParametersForCurrentTaxLotBalanceUpdateStepJob started.");
+        LOG.info("systemParametersForCurrentTaxLotBalanceUpdateStepJob() started.");
         
         boolean systemParameterExists = true;
         
         // check to make sure the system parameter has been setup...
-        if (!getParameterService().parameterExists(CurrentTaxLotBalanceUpdateStep.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH)) {
+        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH)) {
           LOG.warn("FISCAL_YEAR_END_DAY_AND_MONTH System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
+        
+        LOG.info("systemParametersForCurrentTaxLotBalanceUpdateStepJob() ended.");
         
         return systemParameterExists;
     }
@@ -101,8 +114,6 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
      * Method to clear all the records in the currentTaxLotBalance table
      */
     public void clearAllCurrentTaxLotRecords() {
-        LOG.info("Step1: Clearing all Current Tax Lot Balance records");
-        
         currentTaxLotService.clearAllCurrentTaxLotRecords();
     }
     

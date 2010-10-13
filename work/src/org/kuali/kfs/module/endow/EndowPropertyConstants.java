@@ -574,6 +574,8 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_KEMID = "kemid";
 
     // Transaction Archive/Security
+    public static final String TRANSACTION_ARCHIVE_KEM_ID = "kemid";
+    
     public static final String TRANSACTION_ARCHIVE_SECURITY_ID = "securityId";
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";

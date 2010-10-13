@@ -129,4 +129,13 @@ public interface CurrentTaxLotService {
      * @return currentBalances
      */
     public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalance();
+    
+    /**
+     * Gets the holding market value as follows:
+     * Class type code = B => MV = Units x Unit value / 100
+     * Class type code = A => Market Valuation (END_SEC_T: SEC_VAL_BY_MKT) minus the total cash activity 
+     *  (income and principal) since the last value date (END_SEC_T: SEC_VAL_DT)
+     * Class type code = O => Units x Unit value
+     */
+    public BigDecimal getHoldingMarketValue(HoldingTaxLot holdingTaxLot, String securityId);
 }

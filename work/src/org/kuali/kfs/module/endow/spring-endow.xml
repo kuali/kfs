@@ -367,6 +367,9 @@
 		<property name="calculateProcessDateUsingFrequencyCodeService">
 			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
 		</property>
+		<property name="transactionArchiveDao">
+			<ref bean="transactionArchiveDao" />
+		</property>
  	</bean>
  	
  	<bean id="createGainLossTransactionsJob" parent="scheduledJobDescriptor">

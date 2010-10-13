@@ -101,5 +101,11 @@ public interface TransactionArchiveDao {
      * @return Map with both income and principal cash amount of records matching the criteria
      */
     public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod);
-    
+
+    /**
+     * Gets total cash activity by adding income cash and principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * @param kemid, securityId
+     * @return totalCashActivity
+     */
+    public BigDecimal getTransactionArchivesTotalCashActivity(String kemid, String securityId);
 }

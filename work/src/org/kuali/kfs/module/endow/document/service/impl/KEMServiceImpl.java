@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
+import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.pdp.businessobject.Batch;
@@ -239,9 +240,14 @@ public class KEMServiceImpl implements KEMService {
         long totalNumberOfPayments = 0;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String totalPayments = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);
-
-        totalNumberOfPayments = Long.parseLong(totalPayments);
+        String totalPayments = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);
+        
+        try {
+            totalNumberOfPayments = Long.parseLong(totalPayments);
+        } catch (NumberFormatException nfe) {
+            log.info("Unable to convert the value of DISTRIBUTION_TIMES_PER_YEAR system parameter.");
+        }
+        
         return totalNumberOfPayments;
     }
 

@@ -290,7 +290,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.getTransactionArchivesCountByIncomeOrPrincipal(String)
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesCountByIncomeOrPrincipal(String)
      */
     public long getTransactionArchivesCountByIncomeOrPrincipal(String incomeOrPrincipalIndicator) {
         long totalTransactionArchives = 0;
@@ -305,7 +305,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.getTransactionArchivesCountByBothIncomeAndPrincipal()
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesCountByBothIncomeAndPrincipal()
      */
     public long getTransactionArchivesCountByBothIncomeAndPrincipal(FeeMethod feeMethod) {
         long totalTransactionArchives = 0;
@@ -342,6 +342,33 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         return totalTransactionArchives;
     }
     
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesTotalCashActivity(String)
+     */
+    public BigDecimal getTransactionArchivesTotalCashActivity(String kemid, String securityId) {
+        BigDecimal totalCashActivity = BigDecimal.ZERO;
+        
+        Collection<TransactionArchive> transactionArchives = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+
+        if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID)) {
+            kemid = kemid.toUpperCase();
+        }
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
+        
+        QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        transactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        for (TransactionArchive transactionArchive : transactionArchives) {
+            if (transactionArchive.getArchiveSecurity().getSecurityId().equals(securityId)) {
+                totalCashActivity = totalCashActivity.add(transactionArchive.getIncomeCashAmount());
+                totalCashActivity = totalCashActivity.add(transactionArchive.getPrincipalCashAmount());
+            }
+        }
+        
+        return totalCashActivity;
+    }
     
     /**
      * This method gets the businessObjectService.

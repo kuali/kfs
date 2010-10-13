@@ -17,12 +17,14 @@ package org.kuali.kfs.module.external.kc.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.UnitService;
+import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.HashMapElement;
+
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -57,8 +59,8 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
         List unitList = new ArrayList();
         try {
            UnitService unitService = SpringContext.getBean(UnitService.class);
-            unitList = unitService.lookupUnits((HashMap) parameters);
-            return unitList;
+           unitList = unitService.lookupUnits(parameters);
+           return unitList;
             /*
             UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
             if (unitList != null) {

@@ -44,6 +44,6 @@ public interface InstitutionalUnitService {
     @ResponseWrapper(localName = "lookupUnitsResponse", targetNamespace = "KC", className = "kc.LookupUnitsResponse")
     public java.util.List<UnitDTO> lookupUnits(
         @WebParam(name = "searchCriteria", targetNamespace = "")
-        HashMap searchCriteria
+        java.util.List<HashMapElement> searchCriteria
     );
 }

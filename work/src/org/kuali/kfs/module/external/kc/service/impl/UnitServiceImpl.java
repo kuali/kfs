@@ -20,6 +20,7 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
+import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitSoapService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -53,10 +54,19 @@ public class UnitServiceImpl implements UnitService {
     }
 
 
-    public List<UnitDTO> lookupUnits(Map searchCriteria) {
+    public List<UnitDTO> lookupUnits(Map <String,String>searchCriteria) {
+        java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
+        
+        for (String key : searchCriteria.keySet()) {
+            String val = searchCriteria.get(key);
+            HashMapElement hashMapElement = new HashMapElement();
+            hashMapElement.setKey(key);
+            hashMapElement.setValue(val); 
+            hashMapList.add(hashMapElement);
+        }
         InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
-        List lookupUnitsReturn  = port.lookupUnits( (HashMap) searchCriteria);
+        List lookupUnitsReturn  = port.lookupUnits( hashMapList);
         return lookupUnitsReturn;
     }
 

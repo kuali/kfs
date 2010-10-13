@@ -152,7 +152,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     }
                 }
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
-                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE);
+                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
                 if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
                     // report exception
                 } else {
@@ -209,7 +209,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 }
                 
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
-                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE);
+                boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
                 if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
                     // report exception
                 } else {

@@ -878,7 +878,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
         
         // REMOVE WHEN DONE TESTING!
-        boolean OVERRIDE = true;
+        boolean OVERRIDE = false;
         
         //
         // Get all the CashSweepModel BOs, and initialize a new list to contain

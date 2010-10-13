@@ -606,6 +606,7 @@ public class EndowPropertyConstants {
     // Endowment Recurring Cash Transfer
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_KEMID = "sourceKemid";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE = "sourceEtranCode";
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_ETRAN_CODE_OBJ = "etranCodeObj";
 
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE = "nextProcessDate";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE = "frequencyCode";
@@ -617,7 +618,6 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_USE_ETRAN_CODE = "targetUseEtranCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_INCOME_OR_PRINCIPAL_CODE = "targetIncomeOrPrincipal";
 
-
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_COA_CODE = "targetChartOfAccountsCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ACCOUNT_NUMBER = "targetAccountsNumber";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_OBJECT_CODE = "targetFinancialObjectCode";
@@ -626,9 +626,12 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_SUB_OBJECT_CODE = "targetFinancialSubObjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE = "targetProjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ORG_REF_ID = "targetOrgReferenceId";
-
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE_OBJ = "targetEtranCodeObj";
+    
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
+    
+    
 
     public static class ColumnNames {
 

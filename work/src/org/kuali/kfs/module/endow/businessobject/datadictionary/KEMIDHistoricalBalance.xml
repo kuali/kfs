@@ -59,7 +59,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-annualEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="annualEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Next 12 Months Estimated Income" />
     <property name="shortLabel" value="Estimated Income" />
     <property name="maxLength" value="21" />
@@ -79,7 +78,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-remainderOfFYEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="remainderOfFYEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Remainder of FY Estimated Income" />
     <property name="shortLabel" value="Remainder Income" />
     <property name="maxLength" value="21" />
@@ -99,7 +97,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-nextFYEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextFYEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Next FY Estimated Income" />
     <property name="shortLabel" value="Next Income" />
     <property name="maxLength" value="21" />
@@ -119,7 +116,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-incomeAtMarket-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="incomeAtMarket" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Income at Market" />
     <property name="shortLabel" value="Income at Market" />
     <property name="maxLength" value="21" />
@@ -139,7 +135,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-principalAtMarket-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="principalAtMarket" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Principal at Market" />
     <property name="shortLabel" value="Principal at Market" />
     <property name="maxLength" value="21" />
@@ -159,7 +154,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalBalance-totalMarketValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="totalMarketValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Total Market Value" />
     <property name="shortLabel" value="Total Market Value" />
     <property name="maxLength" value="21" />
@@ -261,7 +255,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.close" />              
+              p:attributeName="kemidObj.close"
+              p:defaultValue="N" />              
         <bean parent="FieldDefinition"
               p:attributeName="historyBalanceDateId" />                                     
       </list>

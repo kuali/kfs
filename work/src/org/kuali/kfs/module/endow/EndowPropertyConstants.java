@@ -122,7 +122,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_TYPE_CODE = "typeCode";
     public static final String KEMID_USER_ENTERED_MOD10 = "userEnteredKemidMod10";
     public static final String KEMID_DORMANT_IND = "dormantIndicator";
-    public static final String KEMID_CLOSED_IND = "closedIndicator";
+    public static final String KEMID_CLOSED_IND = "close";
     public static final String KEMID_CLOSED_TO_KEMID = "closedToKEMID";
     public static final String KEMID_CLOSE_CODE = "closeCode";
     public static final String KEMID_DISPOSITION_OF_FUNDS = "dispositionOfFunds";
@@ -346,19 +346,19 @@ public class EndowPropertyConstants {
     // KEMID Fee Transaction Type
     public static final String FEE_TRANSACTION_TYPE_CODE = "transactionTypeCode";
     public static final String FEE_TRANSACTION_INCLUDE = "include";
-    
+
     // KEMID Fee Rate Definition Code
     public static final String FEE_RATE_DEFINITION_CODE = "feeRateDefinitionCode";
 
     // KEMID Fee Endowment Transaction Code
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE = "endowmentTransactionCode";
     public static final String FEE_ENDOWMENT_TRANSACTION_INCLUDE = "include";
-    
+
     // KEMID Current Balance
     public static final String CURRENT_BAL_TOTAL_MARKET_VALUE = "totalMarketValue";
     public static final String CURRENT_BAL_PURPOSE_CD = "kemidObj.purposeCode";
     public static final String CURRENT_BAL_KEMID_BALANCE_DATE = "balanceDate";
-    public static final String CURRENT_BAL_CLOSED_INDICATOR = "kemidObj.closedIndicator";
+    public static final String CURRENT_BAL_CLOSED_INDICATOR = "kemidObj.close";
     public static final String CURRENT_BAL_KEMID_SHORT_TTL = "kemidObj.shortTitle";
 
     // KEMID Current Balance Detail
@@ -404,7 +404,7 @@ public class EndowPropertyConstants {
     public static final String CURRENT_TAX_LOT_KEMID_SHORT_TTL = "kemidObj.shortTitle";
     public static final String CURRENT_TAX_LOT_KEMID_PURPOSE_CD = "kemidObj.purposeCode";
     public static final String CURRENT_TAX_LOT_BALANCE_DATE = "balanceDate";
-    public static final String CURRENT_TAX_LOT_KEMID_CLOSED_IND = "kemidObj.closedIndicator";
+    public static final String CURRENT_TAX_LOT_KEMID_CLOSED_IND = "kemidObj.close";
     public static final String CURRENT_TAX_LOT_REP_GRP = "security.classCode.securityReportingGrp";
     public static final String CURRENT_TAX_LOT_REGIS_DESC = "registration.name";
     public static final String CURRENT_TAX_LOT_SEC_DESC = "security.description";
@@ -437,7 +437,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_HIST_BAL_DET_REMAINDER_FY_EST_INC = "remainderOfFYEstimatedIncome";
     public static final String KEMID_HIST_BAL_DET_NEXT_FT_EST_INC = "nextFYEstimatedIncome";
     public static final String KEMID_HIST_BAL_DET_KEMID_PURPOSE_DESC = "kemidObj.purpose.name";
-    public static final String KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR = "kemidObj.closedIndicator";
+    public static final String KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR = "kemidObj.close";
     public static final String KEMID_HIST_BAL_DET_KEMID_SHORT_TTL = "kemidObj.shortTitle";
 
     // KEMID Historical Reporting Group
@@ -464,10 +464,38 @@ public class EndowPropertyConstants {
     public static final String KEMID_HIST_REP_GRP_DESC = "reportingGroup.name";
     public static final String KEMID_HIST_REP_GRP_IP_IND_DESC = "incomePrincipalIndicator.name";
 
+    // KEMID Historical Tax Lot
+    public static final String KEMID_HIST_TAX_LOT_KEMID = "kemid";
+    public static final String KEMID_HIST_TAX_LOT_SECURITY_ID = "securityId";
+    public static final String KEMID_HIST_TAX_LOT_REGIS_CD = "registrationCode";
+    public static final String KEMID_HIST_TAX_LOT_LOT_NBR = "lotNumber";
+    public static final String KEMID_HIST_TAX_LOT_IP_IND = "incomePrincipalIndicator";
+    public static final String KEMID_HIST_TAX_LOT_IP_IND_DESC = "incomePrincipal.name";
+    public static final String KEMID_HIST_TAX_LOT_UNITS = "units";
+    public static final String KEMID_HIST_TAX_LOT_COST = "cost";
+    public static final String KEMID_HIST_TAX_LOT_HOLDING_MVAL = "holdingMarketValue";
+    public static final String KEMID_HIST_TAX_LOT_ACQUIRED_DATE = "acquiredDate";
+    public static final String KEMID_HIST_TAX_LOT_ANN_EST_INC = "annualEstimatedIncome";
+    public static final String KEMID_HIST_TAX_LOT_REMAINDER_OF_FY_EST_INC = "remainderOfFYEstimatedIncome";
+    public static final String KEMID_HIST_TAX_LOT_NEXT_FY_EST_INC = "nextFYEstimatedIncome";
+    public static final String KEMID_HIST_TAX_LOT_LAST_TRAN_DATE = "lastTransactionDate";
+    public static final String KEMID_HIST_TAX_LOT_CURRENT_ACCRUAL = "currentAccrual";
+    public static final String KEMID_HIST_TAX_LOT_PRIOR_ACCRUAL = "priorAccrual";
+    public static final String KEMID_HIST_TAX_LOT_FOREIGN_TAX_WITHHELD = "foreignTaxWithheld";
+    public static final String KEMID_HIST_TAX_LOT_KEMID_SHORT_TTL = "kemidObj.shortTitle";
+    public static final String KEMID_HIST_TAX_LOT_KEMID_PURPOSE_CD = "kemidObj.purposeCode";
+    public static final String KEMID_HIST_TAX_LOT_BALANCE_DATE = "balanceDate";
+    public static final String KEMID_HIST_TAX_LOT_KEMID_CLOSED_IND = "kemidObj.close";
+    public static final String KEMID_HIST_TAX_LOT_REP_GRP = "security.classCode.securityReportingGrp";
+    public static final String KEMID_HIST_TAX_LOT_REGIS_DESC = "registration.name";
+    public static final String KEMID_HIST_TAX_LOT_SEC_DESC = "security.description";
+    public static final String KEMID_HIST_TAX_LOT_PURPOSE_DESC = "kemidObj.purpose.name";
+    public static final String KEMID_HIST_TAX_LOT_INC_PRIN_DESC = "incomePrincipal.name";
+
     // KEMID fee method constants that are used in rule class
     public static final String FEE_CLASS_CODES_COLLECTION_NAME = "feeClassCodes";
     public static final String FEE_CLASS_CODE_INCLUDE = "include";
-    public static final String FEE_SECURITY_INCLUDE = "include";    
+    public static final String FEE_SECURITY_INCLUDE = "include";
     public static final String FEE_SECURITY_COLLECTION_NAME = "feeSecurity";
     public static final String FEE_TRANSACTION_TYPE_COLLECTION_NAME = "feeTransactions";
     public static final String FEE_ENDOWMENT_TRANSACTION_CODE_COLLECTION_NAME = "feeEndowmentTransactionCodes";
@@ -629,11 +657,10 @@ public class EndowPropertyConstants {
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_PROJECT_CODE = "targetProjectCode";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ORG_REF_ID = "targetOrgReferenceId";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_TARGET_ETRAN_CODE_OBJ = "targetEtranCodeObj";
-    
+
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
-    
-    
+
 
     public static class ColumnNames {
 

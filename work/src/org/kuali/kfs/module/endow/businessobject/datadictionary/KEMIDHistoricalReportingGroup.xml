@@ -66,7 +66,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-annualEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="annualEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Next 12 Months Estimated Income" />
     <property name="shortLabel" value="Estimated Income" />
     <property name="maxLength" value="21" />
@@ -86,7 +85,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-remainderOfFYEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="remainderOfFYEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Remainder of FY Estimated Income" />
     <property name="shortLabel" value="Remainder Income" />
     <property name="maxLength" value="21" />
@@ -106,7 +104,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-nextFYEstimatedIncome-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextFYEstimatedIncome" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Next FY Estimated Income" />
     <property name="shortLabel" value="Next Income" />
     <property name="maxLength" value="21" />
@@ -126,7 +123,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-units-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="units" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Units" />
     <property name="shortLabel" value="Units" />
     <property name="maxLength" value="21" />
@@ -146,7 +142,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-carryVal-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="carryVal" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Carry Value" />
     <property name="shortLabel" value="Carry Value" />
     <property name="maxLength" value="21" />
@@ -166,7 +161,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalReportingGroup-marketVal-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="marketVal" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Market Value" />
     <property name="shortLabel" value="Market Value" />
     <property name="maxLength" value="21" />

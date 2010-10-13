@@ -130,7 +130,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-units-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="units" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Holding Units" />
     <property name="shortLabel" value="Units" />
     <property name="maxLength" value="20" />
@@ -150,7 +149,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-cost-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cost" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Carry Value" />
     <property name="shortLabel" value="Carry Value" />
     <property name="maxLength" value="21" />
@@ -170,7 +168,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-marketValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="marketValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Market Value" />
     <property name="shortLabel" value="Market Value" />
     <property name="maxLength" value="21" />
@@ -213,7 +210,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-currentAccrual-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="currentAccrual" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Current Accrual" />
     <property name="shortLabel" value="Curr Accrual" />
     <property name="maxLength" value="21" />
@@ -233,7 +229,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-priorAccrual-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="priorAccrual" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Prior Accrual" />
     <property name="shortLabel" value="Prior Accrual" />
     <property name="maxLength" value="21" />
@@ -253,7 +248,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="HoldingTaxLot-foreignTaxWithheld-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="foreignTaxWithheld" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Foreign Tax Withheld" />
     <property name="shortLabel" value="Foreign Tax Withheld" />
     <property name="maxLength" value="21" />

@@ -58,6 +58,7 @@ public class KEMIDHistoricalBalanceDetailInquirable extends KfsInquirableImpl {
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
             params.put(KFSConstants.LOOKUP_READ_ONLY_FIELDS, EndowPropertyConstants.KEMID + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_CD + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_KEMID_SHORT_TTL + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_PURPOSE_DESC + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_DESC + "," + EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND_DESC);
+
             params.put(EndowPropertyConstants.KEMID, UrlFactory.encode(String.valueOf(historicalBalanceDetail.getKemid())));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, UrlFactory.encode(historicalBalanceDetail.getKemidObj().getPurposeCode()));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID, UrlFactory.encode(String.valueOf(historicalBalanceDetail.getHistoryBalanceDateId())));
@@ -67,7 +68,7 @@ public class KEMIDHistoricalBalanceDetailInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_KEMID_SHORT_TTL, historicalBalanceDetail.getKemidObj().getShortTitle());
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_PURPOSE_DESC, historicalBalanceDetail.getKemidObj().getPurpose().getName());
             params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_DESC, historicalBalanceDetail.getReportingGroup().getName());
-            params.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND_DESC, historicalBalanceDetail.getIpIndicator().getName());
+
             String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
 
             Map<String, String> fieldList = new HashMap<String, String>();
@@ -80,7 +81,7 @@ public class KEMIDHistoricalBalanceDetailInquirable extends KfsInquirableImpl {
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_KEMID_SHORT_TTL, historicalBalanceDetail.getKemidObj().getShortTitle());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_PURPOSE_DESC, historicalBalanceDetail.getKemidObj().getPurpose().getName());
             fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_DESC, historicalBalanceDetail.getReportingGroup().getName());
-            fieldList.put(EndowPropertyConstants.KEMID_HIST_REP_GRP_IP_IND_DESC, historicalBalanceDetail.getIpIndicator().getName());
+
 
             return getHyperLink(KEMIDHistoricalReportingGroup.class, fieldList, url);
         }

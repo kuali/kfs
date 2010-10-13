@@ -20,17 +20,23 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="attributes" >
       <list>
         <ref bean="KEMIDHistoricalTaxLot-kemid" />
+        <ref bean="KEMIDHistoricalTaxLot-kemidObj.shortTitle" />
+        <ref bean="KEMIDHistoricalTaxLot-kemidObj.purposeCode" />
+        <ref bean="KEMIDHistoricalTaxLot-kemidObj.purpose.name" />
+        <ref bean="KEMIDHistoricalTaxLot-security.classCode.securityReportingGrp" />
         <ref bean="KEMIDHistoricalTaxLot-securityId" />
+        <ref bean="KEMIDHistoricalTaxLot-security.description" />
         <ref bean="KEMIDHistoricalTaxLot-registrationCode" />
+        <ref bean="KEMIDHistoricalTaxLot-registration.name" />
         <ref bean="KEMIDHistoricalTaxLot-lotNumber" />
         <ref bean="KEMIDHistoricalTaxLot-incomePrincipalIndicator" />
         <ref bean="KEMIDHistoricalTaxLot-incomePrincipal.name" />
+        <ref bean="KEMIDHistoricalTaxLot-kemidObj.close" />
         <ref bean="KEMIDHistoricalTaxLot-units" />
         <ref bean="KEMIDHistoricalTaxLot-cost" />
         <ref bean="KEMIDHistoricalTaxLot-marketValue" />
         <ref bean="KEMIDHistoricalTaxLot-monthEndDateId" />
         <ref bean="KEMIDHistoricalTaxLot-acquiredDate" />
-        
         <ref bean="KEMIDHistoricalTaxLot-currentAccrual" />
         <ref bean="KEMIDHistoricalTaxLot-priorAccrual" />
         <ref bean="KEMIDHistoricalTaxLot-foreignTaxWithheld" />
@@ -51,6 +57,30 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="KEMIDHistoricalTaxLot-kemid-parentBean" abstract="true" parent="HoldingTaxLot-kemid">
     <property name="name" value="kemid" />
   </bean>
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.shortTitle" parent="KEMIDHistoricalTaxLot-kemidObj.shortTitle-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.shortTitle-parentBean" abstract="true" parent="KEMID-shortTitle">
+    <property name="name" value="kemidObj.shortTitle" />
+    <property name="label" value="Short Title" />
+  </bean> 
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.purposeCode" parent="KEMIDHistoricalTaxLot-kemidObj.purposeCode-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.purposeCode-parentBean" abstract="true" parent="KEMID-purposeCode">
+    <property name="name" value="kemidObj.purposeCode" />
+    <property name="label" value="Purpose" />
+  </bean> 
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.purpose.name" parent="KEMIDHistoricalTaxLot-kemidObj.purpose.name-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.purpose.name-parentBean" abstract="true" parent="KEMID-purpose.name">
+    <property name="name" value="kemidObj.purpose.name" />
+    <property name="label" value="Purpose Description" />
+  </bean> 
+  <bean id="KEMIDHistoricalTaxLot-security.classCode.securityReportingGrp" parent="KEMIDHistoricalTaxLot-security.classCode.securityReportingGrp-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-security.classCode.securityReportingGrp-parentBean" abstract="true" parent="Security-classCode.securityReportingGrp">
+    <property name="name" value="security.classCode.securityReportingGrp" />
+    <property name="label" value="Reporting Group" />
+  </bean> 
   <bean id="KEMIDHistoricalTaxLot-securityId" parent="KEMIDHistoricalTaxLot-securityId-parentBean" />
 
   <bean id="KEMIDHistoricalTaxLot-securityId-parentBean" abstract="true" parent="HoldingTaxLot-securityId">
@@ -60,6 +90,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalTaxLot-registrationCode-parentBean" abstract="true" parent="HoldingTaxLot-registrationCode">
     <property name="name" value="registrationCode" />
+  </bean>
+  <bean id="KEMIDHistoricalTaxLot-registration.name" parent="KEMIDHistoricalTaxLot-registration.name-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-registration.name-parentBean" abstract="true" parent="RegistrationCode-name">
+    <property name="name" value="registration.name" />
+    <property name="label" value="Registration Description" />
+  </bean>
+  <bean id="KEMIDHistoricalTaxLot-security.description" parent="KEMIDHistoricalTaxLot-security.description-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-security.description-parentBean" abstract="true" parent="Security-description">
+    <property name="name" value="security.description" />
+    <property name="label" value="Security Description" />
   </bean>
   <bean id="KEMIDHistoricalTaxLot-lotNumber" parent="KEMIDHistoricalTaxLot-lotNumber-parentBean" />
 
@@ -75,7 +117,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalTaxLot-incomePrincipal.name-parentBean" abstract="true" parent="HoldingTaxLot-incomePrincipal.name">
     <property name="name" value="incomePrincipal.name" />
+    <property name="label" value="Income or Principal Description" />
   </bean> 
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.close" parent="KEMIDHistoricalTaxLot-kemidObj.close-parentBean" />
+
+  <bean id="KEMIDHistoricalTaxLot-kemidObj.close-parentBean" abstract="true" parent="KEMID-close">
+    <property name="name" value="kemidObj.close" />
+    <property name="label" value="Closed Indicator" />
+  </bean> 
+  
   <bean id="KEMIDHistoricalTaxLot-units" parent="KEMIDHistoricalTaxLot-units-parentBean" />
 
   <bean id="KEMIDHistoricalTaxLot-units-parentBean" abstract="true" parent="HoldingTaxLot-units">
@@ -90,7 +140,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDHistoricalTaxLot-marketValue-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="marketValue" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Market Value" />
     <property name="shortLabel" value="Market Value" />
     <property name="maxLength" value="21" />
@@ -295,9 +344,31 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="securityId" />
+              p:attributeName="kemid" />
         <bean parent="FieldDefinition"
-              p:attributeName="monthEndDateId" />                        
+              p:attributeName="kemidObj.shortTitle" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="kemidObj.purposeCode" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="kemidObj.purpose.name" />              
+        <bean parent="FieldDefinition"
+              p:attributeName="security.classCode.securityReportingGrp" />               
+        <bean parent="FieldDefinition"
+              p:attributeName="incomePrincipalIndicator" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="incomePrincipal.name" />                  
+        <bean parent="FieldDefinition"
+              p:attributeName="kemidObj.close" />  
+        <bean parent="FieldDefinition"
+              p:attributeName="securityId" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="security.description" />               
+        <bean parent="FieldDefinition"
+              p:attributeName="registrationCode" />    
+        <bean parent="FieldDefinition"
+              p:attributeName="registration.name" />                         
+        <bean parent="FieldDefinition"
+              p:attributeName="monthEndDateId" />                    
       </list>
     </property>
     <property name="resultFields" >
@@ -322,8 +393,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="currentAccrual" />
         <bean parent="FieldDefinition"
               p:attributeName="priorAccrual" />
-        <bean parent="FieldDefinition"
-              p:attributeName="foreignTaxWithheld" />
         <bean parent="FieldDefinition"
               p:attributeName="lastTransactionDate" />                                                                                                                                                                               
       </list>

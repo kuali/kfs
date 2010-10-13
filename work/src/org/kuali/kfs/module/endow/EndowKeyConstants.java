@@ -178,9 +178,9 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE = "error.document.transactionLine.kemid.notran.code";
         public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO = "error.document.transactionLine.amount.greaterthan.zero";
         public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_EQUAL_ZERO = "error.document.transactionLine.amount.greaterthanEqual.zero";        
-        public static final String ERROR_TRANSACTION_LINE_AMOUNT_LESS_THAN_ZERO = "error.document.transactionLine.amount.lessthen.zero";
-        public static final String ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterthen.zero";
-        public static final String ERROR_TRANSACTION_UNITS_LESS_THAN_ZERO = "error.document.transactionLine.units.lessthen.zero";
+        public static final String ERROR_TRANSACTION_LINE_AMOUNT_LESS_THAN_ZERO = "error.document.transactionLine.amount.lessthan.zero";
+        public static final String ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterthan.zero";
+        public static final String ERROR_TRANSACTION_UNITS_LESS_THAN_ZERO = "error.document.transactionLine.units.lessthan.zero";
         public static final String ERROR_TRANSACTION_AMOUNT_UNITS_EQUAL = "error.document.transactionLine.units.amount.equal";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_REQUIRED = "error.document.transactionLine.etran.required";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_BLANK = "error.document.transactionLine.etran.blank";

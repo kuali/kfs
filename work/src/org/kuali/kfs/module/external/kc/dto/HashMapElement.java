@@ -1,5 +1,5 @@
 
-package org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl;
+package org.kuali.kfs.module.external.kc.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -18,9 +18,9 @@ import javax.xml.namespace.QName;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
+import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
-import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitSoapService;
 import org.kuali.kfs.sys.KFSConstants;

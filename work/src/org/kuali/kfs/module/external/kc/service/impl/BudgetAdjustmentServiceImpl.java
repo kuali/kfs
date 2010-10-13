@@ -17,60 +17,38 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.impl.ChartServiceImpl;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentAction;
-import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
-import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.dto.KcObjectCode;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
-import org.kuali.kfs.module.external.kc.service.UnitService;
-import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.TransactionalDocumentBase;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -374,9 +352,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      * @see org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService#lookupObjectCodes(java.util.HashMap)
      */
 
-    public List<KcObjectCode> lookupObjectCodes(HashMap<String, Object> searchCriteria) {
+    public List<KcObjectCode> lookupObjectCodes(java.util.List<HashMapElement> searchCriteria) {
+        HashMap <String, String> hashMap = new HashMap();
+        for (HashMapElement hashMapElement: searchCriteria) {
+            hashMap.put(hashMapElement.getKey(), hashMapElement.getValue());
+        }
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        List <ObjectCode> objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, searchCriteria));
+        List <ObjectCode> objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, hashMap));
         List <KcObjectCode> kcObjectCodeList = new ArrayList();
         for (ObjectCode objectCode : objCodeList) {
             kcObjectCodeList.add( createKcObjectCode(objectCode));

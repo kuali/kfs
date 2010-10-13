@@ -25,6 +25,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.dto.KcObjectCode;
 
 @WebService(name = KcConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
@@ -40,6 +41,6 @@ public interface BudgetAdjustmentService {
             @WebParam(name="chartOfAccountsCode") String chartOfAccountsCode,
             @WebParam(name="financialObjectCode") String financialObjectCode);
   
-    public List<KcObjectCode> lookupObjectCodes( @WebParam(name="searchCriteria") HashMap<String, Object> searchCriteria);
+    public List<KcObjectCode> lookupObjectCodes( @WebParam(name="searchCriteria") java.util.List <HashMapElement> searchCriteria);
      
 }

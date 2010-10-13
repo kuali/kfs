@@ -3,55 +3,6 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
 
-<changeSet id="5407" author="Travis" failOnError='true' dbms="mysql" >
-<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
-    <column name="preq_id" type="DECIMAL(9,0)"/>
-</addColumn>
-</changeSet>
-
-<changeSet id="5407a" author="Travis" failOnError='true' dbms="oracle">
-<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
-    <column name="preq_id" type="NUMBER(9,0)"/>
-</addColumn>
-</changeSet>
-
-<changeSet id="5425" author="Jerry" failOnError='true'>
-<comment>Ingest BudgetConsructionBeginningBalanceDocument.xml workflow doc type into kuldba</comment>
-</changeSet>
-
-<changeSet id="5426" author="Jerry" failOnError='true'>
-<insert tableName="KRNS_PARM_T">
-<column name="NMSPC_CD" value="KFS-PURAP"/>
-<column name="PARM_DTL_TYP_CD" value="Document"/>
-<column name="PARM_NM" value="TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET"/>
-<column name="OBJ_ID" value="sys_guid"/>
-<column name="VER_NBR" valueNumeric="1"/>
-<column name="PARM_TYP_CD" value="CONFG"/>
-<column name="TXT" value="7070"/>
-<column name="PARM_DESC_TXT" value="the object code to be used for the trade in item accounts if the object code subtype of the account is one of the given set of Capital Asset subtypes"/>
-<column name="CONS_CD" value="A"/>
-<column name="APPL_NMSPC_CD" value="KUALI"/>
-</insert>
-<insert tableName="KRNS_PARM_T">
-<column name="NMSPC_CD" value="KFS-PURAP"/>
-<column name="PARM_DTL_TYP_CD" value="Document"/>
-<column name="PARM_NM" value="TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET"/>
-<column name="OBJ_ID" value="sys_guid"/>
-<column name="VER_NBR" valueNumeric="1"/>
-<column name="PARM_TYP_CD" value="CONFG"/>
-<column name="TXT" value="7099"/>
-<column name="PARM_DESC_TXT" value="the object code to be used for the trade in item accounts if the object code subtype of the account is Capital Lease"/>
-<column name="CONS_CD" value="A"/>
-<column name="APPL_NMSPC_CD" value="KUALI"/>
-</insert>
-  <modifySql dbms='mysql'>
-      <replace replace='sys_guid' with='uuid()' />
-    </modifySql>
-    <modifySql dbms='oracle'>
-      <replace replace='sys_guid' with='sys_guid()' />
-    </modifySql>   
-</changeSet>
-
 <changeSet id="5439" author="David" failOnError='true' context="kuldba">
 <comment>Tax test</comment>
 <update tableName="AR_ORG_OPTION_T">

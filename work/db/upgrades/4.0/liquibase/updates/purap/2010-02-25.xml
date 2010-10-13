@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+
+<changeSet id="5407" author="Travis" failOnError='true' dbms="mysql" >
+<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
+    <column name="preq_id" type="DECIMAL(9,0)"/>
+</addColumn>
+</changeSet>
+
+<changeSet id="5407a" author="Travis" failOnError='true' dbms="oracle">
+<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
+    <column name="preq_id" type="NUMBER(9,0)"/>
+</addColumn>
+</changeSet>
+</databaseChangeLog>

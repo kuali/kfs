@@ -197,7 +197,7 @@
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-		  <property name="defaultOpen" value="false"/>            
+<!-- 	  <property name="defaultOpen" value="false"/>     -->       
           <property name="title" value="Recurring Cash Transfer Source Information"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -217,7 +217,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Recurring Cash Transfer KEMID Target Information"/>
-		  <property name="defaultOpen" value="false"/>          
+		  <!-- <property name="defaultOpen" value="false"/> -->         
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
@@ -244,7 +244,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Recurring Cash Transfer GL Target Information"/>
-		  <property name="defaultOpen" value="false"/>          
+		  <!-- <property name="defaultOpen" value="false"/>-->          
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>

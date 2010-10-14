@@ -197,9 +197,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.close" />              
+              p:attributeName="kemidObj.close"
+              p:defaultValue="N"
+              p:hidden="true" />              
         <bean parent="FieldDefinition"
-              p:attributeName="balanceDate" />                                     
+              p:attributeName="balanceDate"
+              p:readOnly="true" />                                     
       </list>
     </property>
     <property name="resultFields" >
@@ -215,9 +218,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="availablePrincipalCash" />
         <bean parent="FieldDefinition"
-              p:attributeName="availableTotalCash" />                                          
-        <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.close" />                                                                 
+              p:attributeName="availableTotalCash" />     
       </list>
     </property>
   </bean>

@@ -1048,19 +1048,17 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * else return false.
      */
     protected boolean checkIncomeStreamAccountRule() {
-
-        boolean result = true;
         // KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
-        String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
-        String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
-        if (StringUtils.containsIgnoreCase(fundGroupCode, incomeStreamRequiringFundGroupCode)) {
+        if ( ObjectUtils.isNotNull(newAccount.getSubFundGroup()) && StringUtils.isNotBlank(newAccount.getSubFundGroup().getFundGroupCode())) {
             if (ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, newAccount.getAccountNumber());
-                result = false;
+                String incomeStreamRequiringFundGroupCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS);
+                if (StringUtils.containsIgnoreCase(newAccount.getSubFundGroup().getFundGroupCode(), incomeStreamRequiringFundGroupCode)) {
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, newAccount.getAccountNumber());
+                    return false;
+                }
             }
         }
-
-        return result;
+        return true;
     }
     
     /**
